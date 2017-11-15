@@ -7,12 +7,20 @@
 #include "pe_hdrs_helper.h"
 #include "module_helper.h"
 
-// Map raw PE into virtual memory of local process:
-bool sections_raw_to_virtual(const BYTE* payload, SIZE_T destBufferSize, BYTE* destAddress);
+/**
+Converts a raw PE supplied in a buffer to a virtual format.
+If the executable flag is true (default), the PE file is loaded into executable memory.
+Does not apply relocations. Does not load imports.
+Automatically allocates buffer of the needed size (the size is returned in outputSize). The buffer can be freed by the function free_pe_module.
+*/
+BYTE* pe_raw_to_virtual(const BYTE* rawPeBuffer, size_t rawPeSize, OUT size_t &outputSize, bool executable=true);
 
-// Converts raw image to virtual. Does not apply relocations.
-BYTE* pe_raw_to_virtual(const BYTE* payload, size_t in_size, OUT size_t &out_size, bool executable=true);
-
-// Maps PE into memory (raw to virtual). Does not apply relocations. 
+/**
+Reads PE from the given file into memory and maps it into vitual format.
+(Automatic raw to virtual conversion).
+If the executable flag is true (default), the PE file is loaded into executable memory.
+Does not apply relocations. Does not load imports.
+Automatically allocates buffer of the needed size (the size is returned in outputSize). The buffer can be freed by the function free_pe_module.
+*/
 BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable=true);
 

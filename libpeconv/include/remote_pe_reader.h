@@ -20,7 +20,7 @@ BYTE* get_remote_pe_section(HANDLE processHandle, BYTE *moduleBase, size_t modul
 void free_remote_pe_section(BYTE *section_buffer);
 
 /**
-Reads PE file from the remote process into a buffer. It expects the module base and size to be given.
+Reads PE file from the remote process into the supplied buffer. It expects the module base and size to be given.
 */
 size_t read_remote_pe(const HANDLE processHandle, BYTE *moduleBase, const size_t moduleSize, OUT BYTE* buffer, const size_t bufferSize);
 
