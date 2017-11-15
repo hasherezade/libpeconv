@@ -3,11 +3,11 @@ project ( peconv )
 
 # modules:
 set ( M_PECONV_LIB "libpeconv" )
-set ( M_PECONV_DEMO "demo" )
+set ( M_PECONV_TEST "test" )
 
 # modules paths:
 set ( PECONV_DIR "${CMAKE_SOURCE_DIR}/${M_PECONV_LIB}" CACHE PATH "PEConvLib main path" )
-set ( DEMO_DIR "${CMAKE_SOURCE_DIR}/${M_PECONV_DEMO}" CACHE PATH "Demo main path" )
+set ( TEST_DIR "${CMAKE_SOURCE_DIR}/${M_PECONV_TEST}" CACHE PATH "Test main path" )
 
 # Add sub-directories
 #
@@ -17,8 +17,8 @@ get_property ( PECONV_LOCATION TARGET libpeconv PROPERTY LOCATION)
 set ( PECONV_LIB ${PECONV_LOCATION} CACHE FILE "PEConvLib library path" )
 
 # executables
-add_subdirectory ( demo )
+add_subdirectory ( test )
 
 # dependencies
-add_dependencies ( demo libpeconv )
+add_dependencies ( test libpeconv )
 
