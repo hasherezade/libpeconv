@@ -14,6 +14,7 @@ set (srcs
 	src/relocate.cpp
 	src/util.cpp
 	src/module_helper.cpp
+	src/remote_pe_reader.cpp
 )
 
 set (hdrs
@@ -24,6 +25,7 @@ set (hdrs
 	include/util.h
 	include/pe_hdrs_helper.h
 	include/module_helper.h
+	include/remote_pe_reader.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )

@@ -4,3 +4,4 @@
 #include "include/pe_raw_to_virtual.h"
 #include "include/pe_virtual_to_raw.h"
 #include "include/relocate.h"
+#include "include/remote_pe_reader.h"

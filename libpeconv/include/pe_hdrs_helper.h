@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include "util.h"
 
+#define MAX_HEADER_SIZE 0x1000
+
 bool is64bit(const BYTE *pe_buffer);
 
 BYTE* get_nt_hrds(const BYTE *pe_buffer);
