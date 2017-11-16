@@ -55,7 +55,7 @@ bool update_remote_entry_point(PROCESS_INFORMATION &pi, CONTEXT &context, ULONGL
 #if defined(_WIN64)
     context.Rcx = entry_point_va;
 #else
-    context.Eax = entry_point_va;
+    context.Eax = static_cast<DWORD>(entry_point_va);
 #endif
     if (SetThreadContext(pi.hThread, &context)) {
         return true;
@@ -166,6 +166,25 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi)
     return true;
 }
 
+bool is_bitness_compatibile(BYTE* loaded_pe)
+{
+    WORD arch = get_pe_architecture(loaded_pe);
+#ifndef _WIN64
+    if (arch == IMAGE_FILE_MACHINE_AMD64) {
+        printf("Incompatibile payload architecture!\n");
+        printf("Only 32 bit payloads can be injected from 32bit loader!\n");
+        return false;
+    }
+#else
+    if (arch == IMAGE_FILE_MACHINE_I386) {
+        printf("Incompatibile payload architecture!\n");
+        printf("Injecting 32 bit payload from 64 bit loader is possible, but currently not implemented!\n");
+        return false;
+    }
+#endif
+    return true;
+}
+
 bool run_pe(char *payloadPath, char *targetPath)
 {
     //1. Load the payload:
@@ -174,6 +193,12 @@ bool run_pe(char *payloadPath, char *targetPath)
     BYTE* loaded_pe = load_pe_module(payloadPath, payloadImageSize, false);
     if (!loaded_pe) {
         printf("Loading failed!\n");
+        return false;
+    }
+
+    //Check payload archtecture
+    if (!is_bitness_compatibile(loaded_pe)) {
+        free_pe_module(loaded_pe, payloadImageSize);
         return false;
     }
 

@@ -15,4 +15,6 @@ ULONGLONG get_remote_peb_addr(const CONTEXT &context);
 
 bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &pi, CONTEXT &context);
 
+bool is_bitness_compatibile(BYTE* loaded_pe);
+
 bool run_pe(char *payloadPath, char *targetPath);
