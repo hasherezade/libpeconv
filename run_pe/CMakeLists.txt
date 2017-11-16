@@ -10,11 +10,11 @@ include_directories ( ${PECONV_DIR} )
 
 set (srcs
 	main.cpp
-	file_helper.cpp
+	run_pe.cpp
 )
 
 set (hdrs
-	file_helper.h
+	run_pe.h
 )
 
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} )

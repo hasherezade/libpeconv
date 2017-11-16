@@ -16,26 +16,38 @@ BYTE* get_nt_hrds(const BYTE *pe_buffer)
 	return (BYTE*)inh;
 }
 
-IMAGE_NT_HEADERS32* get_nt_hrds32(BYTE *pe_buffer)
+IMAGE_NT_HEADERS32* get_nt_hrds32(BYTE *payload)
 {
-	BYTE *ptr = get_nt_hrds(pe_buffer);
+	if (payload == NULL) return NULL;
+
+	BYTE *ptr = get_nt_hrds(payload);
 	if (ptr == NULL) return NULL;
 
-	IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32*)(ptr);
-	if (inh->FileHeader.Machine == IMAGE_FILE_MACHINE_I386) {
-		return inh;
+	bool is64b = is64bit(payload);
+	BYTE* payload_nt_hdr = get_nt_hrds(payload);
+	if (payload_nt_hdr == NULL) {
+		return false;
+	}
+	if (!is64b) {
+		return (IMAGE_NT_HEADERS32*)payload_nt_hdr;
 	}
 	return NULL;
 }
 
-IMAGE_NT_HEADERS64* get_nt_hrds64(const BYTE *pe_buffer)
+IMAGE_NT_HEADERS64* get_nt_hrds64(const BYTE *payload)
 {
-	BYTE *ptr = get_nt_hrds(pe_buffer);
+	if (payload == NULL) return NULL;
+
+	BYTE *ptr = get_nt_hrds(payload);
 	if (ptr == NULL) return NULL;
 
-	IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32*)(ptr);
-	if (inh->FileHeader.Machine == IMAGE_FILE_MACHINE_AMD64) {
-		return (IMAGE_NT_HEADERS64*)(ptr);
+	bool is64b = is64bit(payload);
+	BYTE* payload_nt_hdr = get_nt_hrds(payload);
+	if (payload_nt_hdr == NULL) {
+		return false;
+	}
+	if (is64b) {
+		return (IMAGE_NT_HEADERS64*)payload_nt_hdr;
 	}
 	return NULL;
 }
@@ -234,4 +246,23 @@ bool is_module_dll(const BYTE* payload)
 	}
 	DWORD flag = fileHdr->Characteristics & 0x2000;
 	return (flag != 0);
+}
+
+bool set_subsystem(BYTE* payload, WORD subsystem)
+{
+	if (payload == NULL) return false;
+
+	bool is64b = is64bit(payload);
+	BYTE* payload_nt_hdr = get_nt_hrds(payload);
+	if (payload_nt_hdr == NULL) {
+		return false;
+	}
+	if (is64b) {
+		IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+		payload_nt_hdr64->OptionalHeader.Subsystem = subsystem;
+	} else {
+		IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+		payload_nt_hdr32->OptionalHeader.Subsystem = subsystem;
+	}
+    return true;
 }
