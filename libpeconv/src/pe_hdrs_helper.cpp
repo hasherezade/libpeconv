@@ -268,3 +268,21 @@ bool set_subsystem(BYTE* payload, WORD subsystem)
 	}
     return true;
 }
+
+WORD get_subsystem(const BYTE* payload)
+{
+	if (payload == NULL) return false;
+
+	bool is64b = is64bit(payload);
+	BYTE* payload_nt_hdr = get_nt_hrds(payload);
+	if (payload_nt_hdr == NULL) {
+		return false;
+	}
+	if (is64b) {
+		IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+		return payload_nt_hdr64->OptionalHeader.Subsystem;
+	} else {
+		IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+		return payload_nt_hdr32->OptionalHeader.Subsystem;
+	}
+}

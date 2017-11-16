@@ -30,3 +30,5 @@ PIMAGE_SECTION_HEADER get_section_hdr(const BYTE* buffer, const size_t buffer_si
 bool is_module_dll(const BYTE* payload);
 
 bool set_subsystem(BYTE* payload, WORD subsystem);
+
+WORD get_subsystem(const BYTE* payload);
