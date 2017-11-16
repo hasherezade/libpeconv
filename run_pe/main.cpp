@@ -10,18 +10,6 @@ bool get_calc_path(LPSTR lpOutPath, DWORD szOutPath)
     return true;
 }
 
-bool is_compatible_payload(BYTE* loaded_pe)
-{
-    //TODO: finish it:
-#if defined(_WIN64)
-     if (is64bit(loaded_pe)) return true;
-     return false;
-#else
-     if (is64bit(loaded_pe)) return false;
-     return true;
-#endif
-}
-
 int main(int argc, char *argv[])
 {
     char* version = "0.1";
