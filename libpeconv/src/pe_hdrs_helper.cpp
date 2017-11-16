@@ -2,18 +2,22 @@
 
 BYTE* get_nt_hrds(const BYTE *pe_buffer)
 {
-	if (pe_buffer == NULL) return NULL;
+    if (pe_buffer == NULL) return NULL;
 
-	IMAGE_DOS_HEADER *idh = (IMAGE_DOS_HEADER*)pe_buffer;
-	if (idh->e_magic != IMAGE_DOS_SIGNATURE) {
-		return NULL;
-	}
-	const LONG kMaxOffset = 1024;
-	LONG pe_offset = idh->e_lfanew;
+    IMAGE_DOS_HEADER *idh = (IMAGE_DOS_HEADER*)pe_buffer;
+    if (idh->e_magic != IMAGE_DOS_SIGNATURE) {
+        return NULL;
+    }
+    const LONG kMaxOffset = 1024;
+    LONG pe_offset = idh->e_lfanew;
+
 	if (pe_offset > kMaxOffset) return NULL;
-	IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32 *)((BYTE*)pe_buffer + pe_offset);
-	if (inh->Signature != IMAGE_NT_SIGNATURE) return NULL;
-	return (BYTE*)inh;
+
+    IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32 *)(pe_buffer + pe_offset);
+    if (inh->Signature != IMAGE_NT_SIGNATURE) {
+        return NULL;
+    }
+    return (BYTE*)inh;
 }
 
 IMAGE_NT_HEADERS32* get_nt_hrds32(BYTE *payload)
@@ -24,12 +28,8 @@ IMAGE_NT_HEADERS32* get_nt_hrds32(BYTE *payload)
 	if (ptr == NULL) return NULL;
 
 	bool is64b = is64bit(payload);
-	BYTE* payload_nt_hdr = get_nt_hrds(payload);
-	if (payload_nt_hdr == NULL) {
-		return false;
-	}
 	if (!is64b) {
-		return (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+		return (IMAGE_NT_HEADERS32*)ptr;
 	}
 	return NULL;
 }
@@ -42,23 +42,25 @@ IMAGE_NT_HEADERS64* get_nt_hrds64(const BYTE *payload)
 	if (ptr == NULL) return NULL;
 
 	bool is64b = is64bit(payload);
-	BYTE* payload_nt_hdr = get_nt_hrds(payload);
-	if (payload_nt_hdr == NULL) {
-		return false;
-	}
 	if (is64b) {
-		return (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+		return (IMAGE_NT_HEADERS64*)ptr;
 	}
 	return NULL;
 }
 
+WORD get_pe_architecture(const BYTE *pe_buffer)
+{
+    void *ptr = get_nt_hrds(pe_buffer);
+    if (ptr == NULL) return 0;
+
+    IMAGE_NT_HEADERS32 *inh = static_cast<IMAGE_NT_HEADERS32*>(ptr);
+    return inh->FileHeader.Machine;
+}
+
 bool is64bit(const BYTE *pe_buffer)
 {
-	BYTE *ptr = get_nt_hrds(pe_buffer);
-	if (ptr == NULL) return false;
-
-	IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32*)(ptr);
-	if (inh->FileHeader.Machine == IMAGE_FILE_MACHINE_AMD64) {
+    WORD arch = get_pe_architecture(pe_buffer);
+	if (arch == IMAGE_FILE_MACHINE_AMD64) {
 		return true;
 	}
 	return false;

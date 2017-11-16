@@ -5,6 +5,8 @@
 
 #define MAX_HEADER_SIZE 0x1000
 
+WORD get_pe_architecture(const BYTE *pe_buffer);
+
 bool is64bit(const BYTE *pe_buffer);
 
 BYTE* get_nt_hrds(const BYTE *pe_buffer);
