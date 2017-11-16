@@ -93,6 +93,25 @@ ULONGLONG get_image_base(const BYTE *pe_buffer)
 	return img_base;
 }
 
+DWORD get_entry_point_rva(const BYTE *pe_buffer)
+{
+	bool is64b = is64bit(pe_buffer);
+	//update image base in the written content:
+	BYTE* payload_nt_hdr = get_nt_hrds(pe_buffer);
+	if (payload_nt_hdr == NULL) {
+		return 0;
+	}
+	DWORD img_base = 0;
+	if (is64b) {
+		IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+        img_base = payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint;
+	} else {
+		IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+		img_base = static_cast<ULONGLONG>(payload_nt_hdr32->OptionalHeader.AddressOfEntryPoint);
+	}
+	return img_base;
+}
+
 DWORD get_hdrs_size(const BYTE *pe_buffer)
 {
 	bool is64b = is64bit(pe_buffer);
