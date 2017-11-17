@@ -3,8 +3,6 @@
 #include <Windows.h>
 #include <stdio.h>
 
-#include "ntddk.h"
-
 // Wrapper for the fuction: CreateProcessA. Creates a suspended process
 bool create_suspended_process(IN LPSTR path, OUT PROCESS_INFORMATION &pi);
 
