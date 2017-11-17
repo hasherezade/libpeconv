@@ -39,7 +39,7 @@ bool read_remote_mem(HANDLE hProcess, ULONGLONG remote_addr, OUT void* buffer, c
     return true;
 }
 
-bool update_remote_entry_point(PROCESS_INFORMATION &pi, ULONGLONG entry_point_va, bool is32bit)
+BOOL update_remote_entry_point(PROCESS_INFORMATION &pi, ULONGLONG entry_point_va, bool is32bit)
 {
 #ifdef _DEBUG
     printf("Writing new EP: %x\n", entry_point_va);
@@ -52,26 +52,26 @@ bool update_remote_entry_point(PROCESS_INFORMATION &pi, ULONGLONG entry_point_va
         context.ContextFlags = CONTEXT_INTEGER;
         if (!Wow64GetThreadContext(pi.hThread, &context)) {
             printf("Wow64 cannot get context!\n");
-            return false;
+            return FALSE;
         }
         // set new Entry Point in the context:
         context.Eax = static_cast<DWORD>(entry_point_va);
 
         // set the changed context back to the target:
-        return static_cast<bool>(Wow64SetThreadContext(pi.hThread, &context));
+        return Wow64SetThreadContext(pi.hThread, &context);
     }
 #endif
     CONTEXT context = { 0 };
     context.ContextFlags = CONTEXT_INTEGER;
     if (!GetThreadContext(pi.hThread, &context)) {
-        return false;
+        return FALSE;
     }
 #if defined(_WIN64)
     context.Rcx = entry_point_va;
 #else
     context.Eax = static_cast<DWORD>(entry_point_va);
 #endif
-    return static_cast<bool>(SetThreadContext(pi.hThread, &context));
+    return SetThreadContext(pi.hThread, &context);
 }
 
 ULONGLONG get_remote_peb_addr(PROCESS_INFORMATION &pi, bool is32bit)
