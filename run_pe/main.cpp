@@ -3,21 +3,12 @@
 
 #include "run_pe.h"
 
-bool get_calc_path(LPSTR lpOutPath, DWORD szOutPath)
-{
-    ExpandEnvironmentStringsA("%SystemRoot%\\system32\\calc.exe", lpOutPath, szOutPath);
-    printf("%s\n", lpOutPath );
-    return true;
-}
-
 int main(int argc, char *argv[])
 {
     char* version = "0.1";
     char* payload_path = NULL;
 
-    char calc_path[MAX_PATH] = { 0 };
-    get_calc_path(calc_path, MAX_PATH);
-    char *target_path = calc_path;
+    char *target_path = NULL;
 
     ULONGLONG loadBase = 0;
     if (argc < 2) {
@@ -31,7 +22,7 @@ int main(int argc, char *argv[])
     if (argc > 2) {
         target_path = argv[2];
     }
-    printf("Target: %s\n", target_path );
+
     printf("Payload: %s\n", payload_path );
     run_pe(payload_path, target_path);
 

