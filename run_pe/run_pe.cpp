@@ -134,11 +134,16 @@ bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &
     }
     PEB* remote_peb = (PEB*) remote_peb_addr;
     LPVOID remote_img_base = &(remote_peb->ImageBaseAddress);
+    if (g_is32bit_payload) {
+        remote_img_base = LPVOID(remote_peb_addr + 8);
+    }
+    // &(remote_peb->ImageBaseAddress);
+
 #ifdef _DEBUG
     printf("Remote PEB: %p\n", remote_peb);
 #endif
     SIZE_T written = 0;
-    const size_t img_base_size = sizeof(PVOID);
+    const size_t img_base_size = g_is32bit_payload ? sizeof(DWORD) : sizeof (ULONGLONG);
 #ifdef _DEBUG
     printf("ImageBaseSize: %d\n", img_base_size);
 #endif
