@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    char* version = "0.1";
+    char* version = "0.1.5";
     char* payload_path = NULL;
 
     char *target_path = NULL;
