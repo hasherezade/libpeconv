@@ -44,33 +44,39 @@ BOOL update_remote_entry_point(PROCESS_INFORMATION &pi, ULONGLONG entry_point_va
 #ifdef _DEBUG
     printf("Writing new EP: %x\n", entry_point_va);
 #endif
-
 #if defined(_WIN64)
     if (is32bit) {
-        //get initial context of the target:
+        // The target is a 32 bit executable while the loader is 64bit,
+        // so, in order to access the target we must use Wow64 versions of the functions:
+
+        // 1. Get initial context of the target:
         WOW64_CONTEXT context = { 0 };
+        memset(&context, 0, sizeof(WOW64_CONTEXT));
         context.ContextFlags = CONTEXT_INTEGER;
         if (!Wow64GetThreadContext(pi.hThread, &context)) {
-            printf("Wow64 cannot get context!\n");
             return FALSE;
         }
-        // set new Entry Point in the context:
+        // 2. Set the new Entry Point in the context:
         context.Eax = static_cast<DWORD>(entry_point_va);
 
-        // set the changed context back to the target:
+        // 3. Set the changed context into the target:
         return Wow64SetThreadContext(pi.hThread, &context);
     }
 #endif
+    // 1. Get initial context of the target:
     CONTEXT context = { 0 };
+    memset(&context, 0, sizeof(CONTEXT));
     context.ContextFlags = CONTEXT_INTEGER;
     if (!GetThreadContext(pi.hThread, &context)) {
         return FALSE;
     }
+    // 2. Set the new Entry Point in the context:
 #if defined(_WIN64)
     context.Rcx = entry_point_va;
 #else
     context.Eax = static_cast<DWORD>(entry_point_va);
 #endif
+    // 3. Set the changed context into the target:
     return SetThreadContext(pi.hThread, &context);
 }
 
