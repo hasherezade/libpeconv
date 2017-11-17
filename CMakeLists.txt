@@ -3,7 +3,7 @@ project ( peconv )
 
 # modules:
 set ( M_PECONV_LIB "libpeconv" )
-set ( M_PECONV_TEST "test" )
+set ( M_PECONV_TEST "tests" )
 set ( M_PE_UNMAPPER "pe_unmapper" )
 set ( M_RUN_PE "run_pe" )
 
@@ -21,11 +21,11 @@ get_property ( PECONV_LOCATION TARGET libpeconv PROPERTY LOCATION)
 set ( PECONV_LIB ${PECONV_LOCATION} CACHE FILE "PEConvLib library path" )
 
 # executables
-add_subdirectory ( test )
+add_subdirectory ( tests )
 add_subdirectory ( pe_unmapper )
 add_subdirectory ( run_pe )
 
 # dependencies
-add_dependencies ( test libpeconv )
+add_dependencies ( tests libpeconv )
 add_dependencies ( pe_unmapper libpeconv )
 add_dependencies ( run_pe libpeconv )
