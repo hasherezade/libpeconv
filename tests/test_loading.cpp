@@ -47,5 +47,8 @@ int tests::load_self()
         printf("Unloaded!\n");
     }
     free_file(file_content, read_size);
+    if (res) {
+        printf("Unmapped module is the same as original!\n");
+    }
     return res;
 }
