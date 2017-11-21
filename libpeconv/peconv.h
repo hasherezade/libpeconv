@@ -5,3 +5,5 @@
 #include "include/pe_virtual_to_raw.h"
 #include "include/relocate.h"
 #include "include/remote_pe_reader.h"
+#include "include/load_imports.h"
+

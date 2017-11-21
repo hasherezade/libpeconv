@@ -15,6 +15,7 @@ set (srcs
 	src/util.cpp
 	src/module_helper.cpp
 	src/remote_pe_reader.cpp
+	src/load_imports.cpp
 )
 
 set (hdrs
@@ -26,6 +27,7 @@ set (hdrs
 	include/pe_hdrs_helper.h
 	include/module_helper.h
 	include/remote_pe_reader.h
+	include/load_imports.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )
