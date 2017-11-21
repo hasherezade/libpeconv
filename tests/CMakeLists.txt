@@ -11,10 +11,12 @@ include_directories ( ${PECONV_DIR} )
 set (srcs
 	main.cpp
 	file_helper.cpp
+	test_loading.cpp
 )
 
 set (hdrs
 	file_helper.h
+	test_loading.h
 )
 
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} )
