@@ -40,16 +40,14 @@ int main(int argc, char *argv[])
     printf("Unmapped size: %d\n", raw_size);
     size_t smaller_size = raw_size < read_size ? raw_size : read_size;
     int res = memcmp(unmapped, file_content, smaller_size);
-    if (res == 0) {
-        printf("[+] Test passed - the unmapped module is the same as the original!\n");
-    }
-    system("pause");
     if (loaded_pe) {
         free_pe_module(loaded_pe, v_size);
         free_pe_module(unmapped, raw_size);
         printf("Unloaded!\n");
     }
     free_file(file_content, read_size);
-    system("pause");
+    if (res == 0) {
+        printf("[+] Test passed - the unmapped module is the same as the original!\n");
+    }
     return res;
 }
