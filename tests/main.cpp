@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
     print_banner();
     if (argc < 2) {
         printf("Supply the test id!\n");
-            system("pause");
         return 0;
     }
     
@@ -35,6 +34,5 @@ int main(int argc, char *argv[])
     if (res == 0) {
         printf("[+] Test passed!\n");
     }
-    system("pause");
     return res;
 }
