@@ -113,8 +113,9 @@ bool load_imports(PVOID modulePtr)
     IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;
     bool isAllFilled = true;
     DWORD parsedSize = 0;
-
+#ifdef _DEBUG
     printf("---IMP---\n");
+#endif
     while (parsedSize < maxSize) {
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR) modulePtr);
         parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
@@ -122,10 +123,13 @@ bool load_imports(PVOID modulePtr)
         if (lib_desc->OriginalFirstThunk == NULL && lib_desc->FirstThunk == NULL) {
             break;
         }
-
+#ifdef _DEBUG
         printf("Imported Lib: %x : %x : %x\n", lib_desc->FirstThunk, lib_desc->OriginalFirstThunk, lib_desc->Name);
+#endif
         LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
+#ifdef _DEBUG
         printf("name: %s\n", lib_name);
+#endif
         /*
         //TODO: implement checking the library name against the defined whitelist
 
@@ -139,17 +143,23 @@ bool load_imports(PVOID modulePtr)
         DWORD thunk_addr = lib_desc->OriginalFirstThunk;
         if (thunk_addr == NULL) thunk_addr = lib_desc->FirstThunk;
         if (is64) {
+#ifdef _DEBUG
             printf("64 bit import\n");
+#endif
             solve_imported_funcs_b64(lib_name, call_via, thunk_addr, modulePtr);
         }
         else {
+#ifdef _DEBUG
             printf("32 bit import\n");
+#endif
             solve_imported_funcs_b32(lib_name, call_via, thunk_addr, modulePtr);
         }        
     }
     if (isAllFilled == false) {
         printf("WARNING: Some libraries are not filled!\nFor this method to work, EXE cannot have other imports than kernel32.dll or user32.dll!\n");
     }
+#ifdef _DEBUG
     printf("---------\n");
+#endif
     return isAllFilled;
 }
