@@ -266,7 +266,7 @@ bool run_pe(char *payloadPath, char *targetPath)
     bool is_created = create_suspended_process(targetPath, pi);
     if (!is_created) {
         printf("Creating target process failed!\n");
-        free_pe_module(loaded_pe, payloadImageSize);
+        free_pe_buffer(loaded_pe, payloadImageSize);
         return false;
     }
     
@@ -274,7 +274,7 @@ bool run_pe(char *payloadPath, char *targetPath)
     bool isOk = _run_pe(loaded_pe, payloadImageSize, pi, is32bit_payload);
 
     //4. Cleanup:
-    free_pe_module(loaded_pe, payloadImageSize);
+    free_pe_buffer(loaded_pe, payloadImageSize);
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
     //---

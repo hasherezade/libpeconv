@@ -99,7 +99,7 @@ BYTE* pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out_size, b
 
     //first we will prepare the payload image in the local memory, so that it will be easier to edit it, apply relocations etc.
     //when it will be ready, we will copy it into the space reserved in the target process
-    BYTE* localCopyAddress = (BYTE*) VirtualAlloc(NULL, payloadImageSize, MEM_COMMIT | MEM_RESERVE, protect);
+    BYTE* localCopyAddress = (BYTE*) alloc_pe_buffer(payloadImageSize, protect);
     if (localCopyAddress == NULL) {
         printf("Could not allocate memory in the current process\n");
         return NULL;

@@ -83,13 +83,12 @@ BYTE* pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_
 {
 	BYTE* in_buf = payload;
 	if (rebuffer) {
-		in_buf = (BYTE*) VirtualAlloc(NULL, in_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+		in_buf = (BYTE*) alloc_pe_buffer(in_size, PAGE_READWRITE);
         if (in_buf == NULL) return NULL;
 		memcpy(in_buf, payload, in_size);
 	}
 
-    BYTE* out_buf = (BYTE*) VirtualAlloc(NULL, in_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-
+    BYTE* out_buf = (BYTE*) alloc_pe_buffer(in_size, PAGE_READWRITE);
     ULONGLONG oldBase = get_image_base(in_buf);
 	bool isOk = true;
     // from the loadBase go back to the original base

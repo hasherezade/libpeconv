@@ -38,7 +38,7 @@ bool remap_pe_file(IN const char* filename, IN const char* out_filename, ULONGLO
     }
 
     VirtualFree(in_buf, size, MEM_RELEASE);
-    free_pe_module(out_buf, raw_size);
+    free_pe_buffer(out_buf, raw_size);
 
     return isOk;
 }

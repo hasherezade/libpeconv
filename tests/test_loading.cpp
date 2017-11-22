@@ -42,8 +42,8 @@ int tests::load_self()
     size_t smaller_size = raw_size < read_size ? raw_size : read_size;
     int res = memcmp(unmapped, file_content, smaller_size);
     if (loaded_pe) {
-        free_pe_module(loaded_pe, v_size);
-        free_pe_module(unmapped, raw_size);
+        free_pe_buffer(loaded_pe, v_size);
+        free_pe_buffer(unmapped, raw_size);
         printf("Unloaded!\n");
     }
     free_file(file_content, read_size);
