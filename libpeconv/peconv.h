@@ -6,4 +6,6 @@
 #include "include/relocate.h"
 #include "include/remote_pe_reader.h"
 #include "include/load_imports.h"
+#include "include/pe_loader.h"
+
 

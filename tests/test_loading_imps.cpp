@@ -27,21 +27,8 @@ int tests::deploy_self()
     size_t v_size = 0;
     printf("Module: %s\n", my_path);
     // Load the current executable from the file with the help of libpeconv:
-    BYTE* loaded_pe = load_pe_module(my_path, v_size);
-    if (!loaded_pe) {
-        printf("Loading failed!\n");
-        return -1;
-    }
-    bool is_ok = relocate_module(loaded_pe, v_size, (ULONGLONG)loaded_pe);
-    if (!is_ok) {
-        printf("Could not relocate the module!\n");
-    }
-    printf("Loaded at: %p\n", loaded_pe);
 
-    if (!load_imports(loaded_pe)) {
-        printf("[-] Loading imports failed!");
-    }
-
+    BYTE* loaded_pe = (BYTE*) load_pe_executable(my_path);
     ULONGLONG ep = get_entry_point_rva(loaded_pe) + (ULONGLONG) loaded_pe;
     LPVOID ep_ptr = (LPVOID) ep;
 
