@@ -3,6 +3,27 @@
 #include "relocate.h"
 #include "load_imports.h"
 
+BYTE* load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate)
+{
+    ULONGLONG desired_base = NULL;
+    if (relocate && !has_relocations(dllRawData)) {
+        desired_base = get_image_base(dllRawData);
+    }
+
+    BYTE *mappedDLL = pe_raw_to_virtual(dllRawData, r_size, v_size, executable, desired_base);
+    if (mappedDLL) {
+        if (relocate && !relocate_module(mappedDLL, v_size, (ULONGLONG)mappedDLL)) {
+            printf("Could not relocate the module!");
+            free_pe_buffer(mappedDLL, v_size);
+            mappedDLL = NULL;
+        }
+    } else {
+        printf("Could not allocate memory at the desired base!\n");
+    }
+    UnmapViewOfFile(dllRawData);
+    return mappedDLL;
+}
+
 BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable, bool relocate)
 {
     HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
@@ -26,25 +47,34 @@ BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable, bool r
         return NULL;
     }
 
-    ULONGLONG desired_base = NULL;
-    if (relocate && !has_relocations(dllRawData)) {
-        desired_base = get_image_base(dllRawData);
-    }
+    BYTE *mappedDLL = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
 
-    BYTE *mappedDLL = pe_raw_to_virtual(dllRawData, r_size, v_size, executable, desired_base);
-    if (mappedDLL) {
-        if (relocate && !relocate_module(mappedDLL, v_size, (ULONGLONG)mappedDLL)) {
-            printf("Could not relocate the module!");
-            free_pe_buffer(mappedDLL, v_size);
-            mappedDLL = NULL;
-        }
-    } else {
-        printf("Could not allocate memory at the desired base!\n");
-    }
-    UnmapViewOfFile(dllRawData);
     CloseHandle(mapping);
     CloseHandle(file);
+
     return mappedDLL;
+}
+
+LPVOID load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size)
+{
+#if _DEBUG
+    printf("Module: %s\n", my_path);
+#endif
+    // Load the current executable from the file with the help of libpeconv:
+    BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true);
+    if (!loaded_pe) {
+        printf("Loading failed!\n");
+        return NULL;
+    }
+#if _DEBUG
+    printf("Loaded at: %p\n", loaded_pe);
+#endif
+    if (!load_imports(loaded_pe)) {
+        printf("[-] Loading imports failed!");
+        free_pe_buffer(loaded_pe, v_size);
+        return NULL;
+    }
+    return loaded_pe;
 }
 
 LPVOID load_pe_executable(char *my_path, OUT size_t &v_size)
@@ -68,3 +98,4 @@ LPVOID load_pe_executable(char *my_path, OUT size_t &v_size)
     }
     return loaded_pe;
 }
+
