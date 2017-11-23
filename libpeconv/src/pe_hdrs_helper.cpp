@@ -286,3 +286,12 @@ WORD get_subsystem(const BYTE* payload)
 		return payload_nt_hdr32->OptionalHeader.Subsystem;
 	}
 }
+
+bool has_relocations(BYTE *pe_buffer)
+{
+	IMAGE_DATA_DIRECTORY* relocDir = get_pe_directory(pe_buffer, IMAGE_DIRECTORY_ENTRY_BASERELOC);
+	if (relocDir == NULL) {
+		return false;
+	}
+	return true;
+}

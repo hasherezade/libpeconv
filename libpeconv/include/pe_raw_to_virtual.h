@@ -12,15 +12,6 @@ Converts a raw PE supplied in a buffer to a virtual format.
 If the executable flag is true (default), the PE file is loaded into executable memory.
 Does not apply relocations. Does not load imports.
 Automatically allocates buffer of the needed size (the size is returned in outputSize). The buffer can be freed by the function free_pe_module.
+If the desired_base is defined (NULL by default), it enforces allocation at the particular base.
 */
-BYTE* pe_raw_to_virtual(const BYTE* rawPeBuffer, size_t rawPeSize, OUT size_t &outputSize, bool executable=true);
-
-/**
-Reads PE from the given file into memory and maps it into vitual format.
-(Automatic raw to virtual conversion).
-If the executable flag is true (default), the PE file is loaded into executable memory.
-Does not apply relocations. Does not load imports.
-Automatically allocates buffer of the needed size (the size is returned in outputSize). The buffer can be freed by the function free_pe_module.
-*/
-BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable=true);
-
+BYTE* pe_raw_to_virtual(const BYTE* rawPeBuffer, size_t rawPeSize, OUT size_t &outputSize, bool executable=true, ULONGLONG desired_base=NULL);

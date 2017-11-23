@@ -36,8 +36,6 @@ bool sections_raw_to_virtual(const BYTE* payload, SIZE_T destBufferSize, BYTE* d
     memcpy(destAddress, payload, hdrsSize);
 
     //copy all the sections, one by one:
-    //printf("Coping sections:\n");
-
     SIZE_T raw_end = 0;
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
         PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONGLONG)secptr + (IMAGE_SIZEOF_SECTION_HEADER * i));
@@ -68,7 +66,7 @@ bool sections_raw_to_virtual(const BYTE* payload, SIZE_T destBufferSize, BYTE* d
     return true;
 }
 
-BYTE* pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out_size, bool executable)
+BYTE* pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out_size, bool executable, ULONGLONG desired_base)
 {
     //check payload:
     BYTE* nt_hdr = get_nt_hrds(payload);
@@ -99,7 +97,7 @@ BYTE* pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out_size, b
 
     //first we will prepare the payload image in the local memory, so that it will be easier to edit it, apply relocations etc.
     //when it will be ready, we will copy it into the space reserved in the target process
-    BYTE* localCopyAddress = (BYTE*) alloc_pe_buffer(payloadImageSize, protect);
+    BYTE* localCopyAddress = alloc_pe_buffer(payloadImageSize, protect, desired_base);
     if (localCopyAddress == NULL) {
         printf("Could not allocate memory in the current process\n");
         return NULL;
@@ -111,27 +109,4 @@ BYTE* pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out_size, b
     }
     out_size = payloadImageSize;
     return localCopyAddress;
-}
-
-BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable)
-{
-    HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-    if(file == INVALID_HANDLE_VALUE) {
-        return NULL;
-    }
-    HANDLE mapping  = CreateFileMapping(file, 0, PAGE_READONLY, 0, 0, 0);
-    if (!mapping) {
-        CloseHandle(file);
-        return NULL;
-    }
-    BYTE *mappedDLL = NULL;
-    BYTE *dllRawData = (BYTE*) MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0);
-    if (dllRawData != NULL) {
-        size_t r_size = GetFileSize(file, 0);
-        mappedDLL = pe_raw_to_virtual(dllRawData, r_size, v_size, executable);
-        UnmapViewOfFile(dllRawData);
-    }
-    CloseHandle(mapping);
-    CloseHandle(file);
-    return mappedDLL;
 }

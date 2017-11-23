@@ -32,3 +32,5 @@ bool is_module_dll(const BYTE* payload);
 bool set_subsystem(BYTE* payload, WORD subsystem);
 
 WORD get_subsystem(const BYTE* payload);
+
+bool has_relocations(BYTE *pe_buffer);

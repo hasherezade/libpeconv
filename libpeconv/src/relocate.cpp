@@ -3,14 +3,11 @@
 #define RELOC_32BIT_FIELD 3
 #define RELOC_64BIT_FIELD 0xA
 
-bool has_relocations(BYTE *pe_buffer)
-{
-	IMAGE_DATA_DIRECTORY* relocDir = get_pe_directory(pe_buffer, IMAGE_DIRECTORY_ENTRY_BASERELOC);
-	if (relocDir == NULL) {
-		return false;
-	}
-	return true;
-}
+typedef struct _BASE_RELOCATION_ENTRY {
+    WORD Offset : 12;
+    WORD Type : 4;
+} BASE_RELOCATION_ENTRY;
+
 
 bool apply_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD page, ULONGLONG oldBase, ULONGLONG newBase, PVOID modulePtr, SIZE_T moduleSize, bool is64bit)
 {
@@ -112,10 +109,7 @@ bool relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULON
 		return true;
 	}
 #ifdef _DEBUG
-	printf("Could not relocate, changing the image base instead...\n");
+	printf("Could not relocate the module!\n");
 #endif
-	if (update_image_base(modulePtr, (ULONGLONG)newBase)) {
-		return true;
-	}
 	return false;
 }

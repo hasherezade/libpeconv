@@ -3,8 +3,10 @@
 #include <windows.h>
 #include <stdio.h>
 
-#include "pe_virtual_to_raw.h"
 #include "util.h"
+#include "module_helper.h"
+#include "pe_hdrs_helper.h"
+#include "pe_virtual_to_raw.h"
 #include "relocate.h"
 
 bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destAddress, OUT SIZE_T *raw_size_ptr)
@@ -93,8 +95,12 @@ BYTE* pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_
 	bool isOk = true;
     // from the loadBase go back to the original base
 	if (!relocate_module(in_buf, in_size, oldBase, loadBase)) {
-		printf("[!] Failed relocating the module!\n");
-		isOk = false;
+        //Failed relocating the module! Changing image base instead...
+        if (!update_image_base(in_buf, (ULONGLONG)loadBase)) {
+		    isOk = false;
+        } else {
+            printf("[!] Failed relocating the module!\n");
+        }
 	}
 	SIZE_T raw_size = 0;
 	if (isOk) {

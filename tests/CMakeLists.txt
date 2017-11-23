@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8)
 project (tests)
 
-#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 
 message (STATUS "parser_dir='${PECONV_DIR}'")
 message (STATUS "parser_lib='${PECONV_LIB}'")

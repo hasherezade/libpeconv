@@ -10,15 +10,12 @@ int tests::load_self()
     size_t v_size = 0;
     printf("Module: %s\n", my_path);
     // Load the current executable from the file with the help of libpeconv:
-    BYTE* loaded_pe = load_pe_module(my_path, v_size);
+    BYTE* loaded_pe = load_pe_module(my_path, v_size, true, true);
     if (!loaded_pe) {
         printf("Loading failed!\n");
         return -1;
     }
-    bool is_ok = relocate_module(loaded_pe, v_size, (ULONGLONG)loaded_pe);
-    if (!is_ok) {
-        printf("Could not relocate the module!\n");
-    }
+
     printf("Loaded at: %p\n", loaded_pe);
    
     // Now try to unmap the loaded image using libpeconv:
@@ -47,8 +44,8 @@ int tests::load_self()
         printf("Unloaded!\n");
     }
     free_file(file_content, read_size);
-    if (res) {
-        printf("Unmapped module is the same as original!\n");
+    if (res != 0) {
+        printf("Unmapped module is NOT the same as the original!\n");
     }
     return res;
 }
