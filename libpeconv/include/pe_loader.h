@@ -11,4 +11,7 @@ Automatically allocates buffer of the needed size (the size is returned in outpu
 */
 BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable, bool relocate);
 
-LPVOID load_pe_executable(char *my_path);
+/**
+Loads full PE in a way in which it can be directly executed: remaps to virual format, applies relocations, loads imports.
+*/
+LPVOID load_pe_executable(char *filename, OUT size_t &v_size);

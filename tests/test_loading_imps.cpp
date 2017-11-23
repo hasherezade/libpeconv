@@ -27,8 +27,7 @@ int tests::deploy_self()
     size_t v_size = 0;
     printf("Module: %s\n", my_path);
     // Load the current executable from the file with the help of libpeconv:
-
-    BYTE* loaded_pe = (BYTE*) load_pe_executable(my_path);
+    BYTE* loaded_pe = (BYTE*) load_pe_executable(my_path, v_size);
     ULONGLONG ep = get_entry_point_rva(loaded_pe) + (ULONGLONG) loaded_pe;
     LPVOID ep_ptr = (LPVOID) ep;
 

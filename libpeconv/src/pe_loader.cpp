@@ -7,11 +7,13 @@ BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable, bool r
 {
     HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if(file == INVALID_HANDLE_VALUE) {
+        printf("Cannot open the file!\n");
         return NULL;
     }
     size_t r_size = GetFileSize(file, 0);
     HANDLE mapping  = CreateFileMapping(file, 0, PAGE_READONLY, 0, 0, 0);
     if (!mapping) {
+        printf("Cannot map the file!\n");
         CloseHandle(file);
         return NULL;
     }
@@ -45,10 +47,8 @@ BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable, bool r
     return mappedDLL;
 }
 
-
-LPVOID load_pe_executable(char *my_path)
+LPVOID load_pe_executable(char *my_path, OUT size_t &v_size)
 {
-    size_t v_size = 0;
 #if _DEBUG
     printf("Module: %s\n", my_path);
 #endif
