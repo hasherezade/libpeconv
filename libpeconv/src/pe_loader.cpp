@@ -57,9 +57,6 @@ BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable, bool r
 
 LPVOID load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size)
 {
-#if _DEBUG
-    printf("Module: %s\n", my_path);
-#endif
     // Load the current executable from the file with the help of libpeconv:
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true);
     if (!loaded_pe) {
