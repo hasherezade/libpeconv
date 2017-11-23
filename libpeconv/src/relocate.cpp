@@ -20,7 +20,7 @@ bool apply_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD pa
 			break;
 		}
 		if (type != RELOC_32BIT_FIELD && type != RELOC_64BIT_FIELD) {
-			printf("Not supported relocations format at %d: %d\n", (int) i, (int) type);
+			printf("[-] Not supported relocations format at %d: %d\n", (int) i, (int) type);
 			return false;
 		}
 		DWORD reloc_field = page + offset;
@@ -47,7 +47,9 @@ bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, UL
 {
 	IMAGE_DATA_DIRECTORY* relocDir = get_pe_directory((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
 	if (relocDir == NULL) {
-		printf("[-] Cannot relocate - application has no relocation table!\n");
+#ifdef _DEBUG
+		printf("[!] WARNING: no relocation table found!\n");
+#endif
 		return false;
 	}
 	if (!validate_ptr(modulePtr, moduleSize, relocDir, sizeof(IMAGE_DATA_DIRECTORY))) {

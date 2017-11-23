@@ -97,9 +97,12 @@ BYTE* pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_
 	if (!relocate_module(in_buf, in_size, oldBase, loadBase)) {
         //Failed relocating the module! Changing image base instead...
         if (!update_image_base(in_buf, (ULONGLONG)loadBase)) {
+		    printf("[-] Failed relocating the module!\n");
 		    isOk = false;
         } else {
-            printf("[!] Failed relocating the module!\n");
+#ifdef _DEBUG
+		    printf("[!] WARNING: The module could not be relocated, so the ImageBase has been changed instead!\n");
+#endif
         }
 	}
 	SIZE_T raw_size = 0;
