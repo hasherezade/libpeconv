@@ -6,9 +6,15 @@ bool write_handle(LPCSTR lib_name, ULONGLONG call_via, LPSTR func_name, LPVOID m
 {
     size_t field_size = (is64) ? sizeof(ULONGLONG) : sizeof(DWORD);
     HMODULE hBase = LoadLibraryA(lib_name);
-    if (hBase == NULL) return false;
-
+    if (hBase == NULL) {
+        printf("Could not load the library!\n");
+        return false;
+    }
     FARPROC hProc = GetProcAddress(hBase, func_name);
+    if (hProc == NULL) {
+        printf("Could not load the function!\n");
+        return false;
+    }
     LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
     memcpy(call_via_ptr, &hProc, field_size);
 #ifdef _DEBUG
@@ -19,6 +25,7 @@ bool write_handle(LPCSTR lib_name, ULONGLONG call_via, LPSTR func_name, LPVOID m
 
 bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, LPVOID modulePtr)
 {
+    const bool is64 = false;
     do {
         LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
         if (call_via_ptr == NULL) break;
@@ -34,15 +41,24 @@ bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
         }
         //those two values are supposed to be the same before the file have imports filled
         //so, if they are different it means the handle is already filled
-        if (*thunk_val == *call_via_val) {
-            IMAGE_THUNK_DATA32* desc = (IMAGE_THUNK_DATA32*) thunk_ptr;
-            if (desc->u1.Function == NULL) break;
+        if (*thunk_val != *call_via_val) {
+            call_via += sizeof(DWORD);
+            thunk_addr += sizeof(DWORD);
+            //skip
+        }
+        IMAGE_THUNK_DATA32* desc = (IMAGE_THUNK_DATA32*) thunk_ptr;
+        if (desc->u1.Function == NULL) break;
 
-            PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
-            if (desc->u1.Ordinal & IMAGE_ORDINAL_FLAG32) {
-                printf("Imports by ordinals are not supported!\n");
+        PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
+        if (desc->u1.Ordinal & IMAGE_ORDINAL_FLAG32) {
+            DWORD raw_ordinal = desc->u1.Ordinal & (~IMAGE_ORDINAL_FLAG32);
+#ifdef _DEBUG
+            printf("raw ordinal: %x\n", raw_ordinal);
+#endif
+            if (!write_handle(lib_name, call_via,  MAKEINTRESOURCE(raw_ordinal), modulePtr, false)) {
                 return false;
             }
+        } else {
             LPSTR func_name = by_name->Name;
 #ifdef _DEBUG
             printf("name: %s\n", func_name);
@@ -60,6 +76,7 @@ bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
 
 bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, LPVOID modulePtr)
 {
+    const bool is64 = true;
     do {
         LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
         if (call_via_ptr == NULL) break;
@@ -75,20 +92,30 @@ bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
         }
         //those two values are supposed to be the same before the file have imports filled
         //so, if they are different it means the handle is already filled
-        if (*thunk_val == *call_via_val) {
-            IMAGE_THUNK_DATA64* desc = (IMAGE_THUNK_DATA64*) thunk_ptr;
-            if (desc->u1.Function == NULL) break;
 
-            PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
-            if (desc->u1.Ordinal & IMAGE_ORDINAL_FLAG64) {
-                printf("Imports by ordinals are not supported!\n");
+        if (*thunk_val != *call_via_val) {
+            call_via += sizeof(ULONGLONG);
+            thunk_addr += sizeof(ULONGLONG);
+            //skip
+        }
+        IMAGE_THUNK_DATA64* desc = (IMAGE_THUNK_DATA64*) thunk_ptr;
+        if (desc->u1.Function == NULL) break;
+
+        PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
+        if (desc->u1.Ordinal & IMAGE_ORDINAL_FLAG64) {
+            ULONGLONG raw_ordinal = desc->u1.Ordinal & (~IMAGE_ORDINAL_FLAG64);
+#ifdef _DEBUG
+            printf("raw ordinal: %llx\n", raw_ordinal);
+#endif
+            if (!write_handle(lib_name, call_via,  MAKEINTRESOURCE(raw_ordinal), modulePtr, is64)) {
                 return false;
             }
+        } else {
             LPSTR func_name = by_name->Name;
 #ifdef _DEBUG
             printf("name: %s\n", func_name);
 #endif
-            if (!write_handle(lib_name, call_via, func_name, modulePtr, true)) {
+            if (!write_handle(lib_name, call_via, func_name, modulePtr, is64)) {
                 printf("Could not load the handle!\n");
                 return false;
             }
