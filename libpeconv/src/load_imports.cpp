@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 
+using namespace peconv;
+
 bool write_handle(LPCSTR lib_name, ULONGLONG call_via, LPSTR func_name, LPVOID modulePtr, bool is64)
 {
     size_t field_size = (is64) ? sizeof(ULONGLONG) : sizeof(DWORD);

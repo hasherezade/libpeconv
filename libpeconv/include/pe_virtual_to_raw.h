@@ -2,6 +2,9 @@
 
 #include <windows.h>
 
+#include "module_helper.h"
+
+namespace peconv {
 /**
 Maps virtual image of PE to into raw.
 If rebuffer is set (default), the input buffer is rebuffered and the original buffer is not modified. 
@@ -10,3 +13,4 @@ Automatically allocates buffer of the needed size (the size is returned in outpu
 */
 BYTE* pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_t &outputSize, bool rebuffer=true);
 
+};//namespace peconv

@@ -1,6 +1,6 @@
 #include "util.h"
 
-bool validate_ptr(const LPVOID buffer_bgn, SIZE_T buffer_size, const LPVOID field_bgn, SIZE_T field_size)
+bool peconv::validate_ptr(const LPVOID buffer_bgn, SIZE_T buffer_size, const LPVOID field_bgn, SIZE_T field_size)
 {
     ULONGLONG start = (ULONGLONG)buffer_bgn;
     ULONGLONG end = start + buffer_size;

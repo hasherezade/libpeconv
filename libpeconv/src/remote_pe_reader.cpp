@@ -2,7 +2,9 @@
 
 #include <stdio.h>
 
-bool read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, size_t mod_size, OUT BYTE* buffer, const size_t buffer_size)
+using namespace peconv;
+
+bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, size_t mod_size, OUT BYTE* buffer, const size_t buffer_size)
 {
     SIZE_T read_size = 0;
     const SIZE_T step_size = 0x100;
@@ -30,7 +32,7 @@ bool read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, size_t mod_si
     return false;
 }
 
-BYTE* get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, size_t mod_size, const size_t section_num, OUT size_t &section_size)
+BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, size_t mod_size, const size_t section_num, OUT size_t &section_size)
 {
     BYTE header_buffer[MAX_HEADER_SIZE] = { 0 };
     SIZE_T read_size = 0;
@@ -55,12 +57,12 @@ BYTE* get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, size_t mod_s
     return module_code;
 }
 
-void free_remote_pe_section(BYTE *section_buffer)
+void peconv::free_remote_pe_section(BYTE *section_buffer)
 {
 	free(section_buffer);
 }
 
-size_t read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
+size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
 {
     if (buffer == NULL || bufferSize < mod_size) {
         printf("[-] Invalid output buffer\n");
@@ -100,7 +102,7 @@ size_t read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t
     return read_size;
 }
 
-bool dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE *start_addr, size_t mod_size, bool unmap)
+bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE *start_addr, size_t mod_size, bool unmap)
 {
     BYTE* buffer = (BYTE*) VirtualAlloc(NULL, mod_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     size_t read_size = 0;

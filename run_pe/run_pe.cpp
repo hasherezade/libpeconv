@@ -2,6 +2,8 @@
 
 #include "peconv.h"
 
+using namespace peconv;
+
 bool create_suspended_process(IN LPSTR path, OUT PROCESS_INFORMATION &pi)
 {
     STARTUPINFO si;

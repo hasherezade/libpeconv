@@ -1,13 +1,15 @@
 #pragma once
 
-#include <windows.h>
 #include <stdio.h>
 
-#include "util.h"
-#include "module_helper.h"
-#include "pe_hdrs_helper.h"
 #include "pe_virtual_to_raw.h"
+
+#include "util.h"
+#include "pe_hdrs_helper.h"
+
 #include "relocate.h"
+
+using namespace peconv;
 
 bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destAddress, OUT SIZE_T *raw_size_ptr)
 {
@@ -81,7 +83,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
     return true;
 }
 
-BYTE* pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_t &out_size, bool rebuffer)
+BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_t &out_size, bool rebuffer)
 {
 	BYTE* in_buf = payload;
 	if (rebuffer) {

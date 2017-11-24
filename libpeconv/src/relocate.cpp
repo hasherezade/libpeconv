@@ -1,5 +1,10 @@
 #include "relocate.h"
 
+#include "pe_hdrs_helper.h"
+#include <stdio.h>
+
+using namespace peconv;
+
 #define RELOC_32BIT_FIELD 3
 #define RELOC_64BIT_FIELD 0xA
 
@@ -89,7 +94,7 @@ bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, UL
 	return (parsedSize != 0);
 }
 
-bool relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
+bool peconv::relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
 {
     if (modulePtr == NULL) {
         return false;
