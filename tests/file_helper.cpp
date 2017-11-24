@@ -41,5 +41,5 @@ BYTE* load_file(char *filename, OUT size_t &r_size)
 
 void free_file(BYTE* buffer, size_t buffer_size)
 {
-    VirtualFree(buffer, buffer_size, MEM_RELEASE);
+    VirtualFree(buffer, buffer_size, MEM_DECOMMIT);
 }
