@@ -24,11 +24,11 @@ BYTE* load_pe_module(char *filename, OUT size_t &v_size, bool executable, bool r
 /**
 Loads full PE from the raw buffer in a way in which it can be directly executed: remaps to virual format, applies relocations, loads imports.
 */
-LPVOID load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size);
+BYTE* load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size);
 
 /**
 Loads full PE from file in a way in which it can be directly executed: remaps to virual format, applies relocations, loads imports.
 */
-LPVOID load_pe_executable(char *filename, OUT size_t &v_size);
+BYTE* load_pe_executable(char *filename, OUT size_t &v_size);
 
 };// namespace peconv
