@@ -1,6 +1,7 @@
-#include "relocate.h"
+#include "peconv/relocate.h"
 
-#include "pe_hdrs_helper.h"
+#include "peconv/pe_hdrs_helper.h"
+
 #include <stdio.h>
 
 using namespace peconv;

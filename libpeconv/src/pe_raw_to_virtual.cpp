@@ -1,7 +1,7 @@
-#include "pe_raw_to_virtual.h"
+#include "peconv/pe_raw_to_virtual.h"
 
-#include "util.h"
-#include "pe_hdrs_helper.h"
+#include "peconv/util.h"
+#include "peconv/pe_hdrs_helper.h"
 
 using namespace peconv;
 

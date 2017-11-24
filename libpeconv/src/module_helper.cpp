@@ -1,4 +1,4 @@
-#include "module_helper.h"
+#include "peconv/module_helper.h"
 
 BYTE* peconv::alloc_pe_buffer(size_t buffer_size, DWORD protect, ULONGLONG desired_base)
 {

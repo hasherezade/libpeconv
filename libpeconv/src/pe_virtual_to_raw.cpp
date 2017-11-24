@@ -2,12 +2,12 @@
 
 #include <stdio.h>
 
-#include "pe_virtual_to_raw.h"
+#include "peconv/pe_virtual_to_raw.h"
 
-#include "util.h"
-#include "pe_hdrs_helper.h"
+#include "peconv/util.h"
+#include "peconv/pe_hdrs_helper.h"
 
-#include "relocate.h"
+#include "peconv/relocate.h"
 
 using namespace peconv;
 

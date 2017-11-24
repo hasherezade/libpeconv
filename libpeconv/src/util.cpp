@@ -1,4 +1,4 @@
-#include "util.h"
+#include "peconv/util.h"
 
 bool peconv::validate_ptr(const LPVOID buffer_bgn, SIZE_T buffer_size, const LPVOID field_bgn, SIZE_T field_size)
 {

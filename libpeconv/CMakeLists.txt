@@ -20,16 +20,16 @@ set (srcs
 )
 
 set (hdrs
-	peconv.h
-	include/pe_raw_to_virtual.h
-	include/pe_virtual_to_raw.h
-	include/relocate.h
-	include/util.h
-	include/pe_hdrs_helper.h
-	include/module_helper.h
-	include/remote_pe_reader.h
-	include/load_imports.h
-	include/pe_loader.h
+	include/peconv.h
+	include/peconv/pe_raw_to_virtual.h
+	include/peconv/pe_virtual_to_raw.h
+	include/peconv/relocate.h
+	include/peconv/util.h
+	include/peconv/pe_hdrs_helper.h
+	include/peconv/module_helper.h
+	include/peconv/remote_pe_reader.h
+	include/peconv/load_imports.h
+	include/peconv/pe_loader.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )
