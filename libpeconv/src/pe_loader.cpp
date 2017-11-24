@@ -82,7 +82,19 @@ BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size)
 #if _DEBUG
     printf("Module: %s\n", my_path);
 #endif
-    // Load the current executable from the file with the help of libpeconv:
-    return load_pe_module(my_path, v_size, true, true);
+    BYTE* loaded_pe = load_pe_module(my_path, v_size, true, true);
+    if (!loaded_pe) {
+         printf("Loading failed!\n");
+        return NULL;
+    }
+#if _DEBUG
+    printf("Loaded at: %p\n", loaded_pe);
+#endif
+    if (!load_imports(loaded_pe)) {
+        printf("[-] Loading imports failed!");
+        free_pe_buffer(loaded_pe, v_size);
+        return NULL;
+    }
+    return loaded_pe;
 }
 
