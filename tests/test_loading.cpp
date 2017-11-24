@@ -1,7 +1,10 @@
 #include <stdio.h>
-#include <Windows.h>
 
 #include "test_loading.h"
+
+#include "peconv.h"
+using namespace peconv;
+
 
 int tests::load_self()
 {

@@ -1,6 +1,8 @@
-#include "load_imports.h"
+#include "peconv/load_imports.h"
 
 #include <stdio.h>
+
+using namespace peconv;
 
 bool write_handle(LPCSTR lib_name, ULONGLONG call_via, LPSTR func_name, LPVOID modulePtr, bool is64)
 {

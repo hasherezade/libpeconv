@@ -3,6 +3,8 @@
 
 #include "test_loading_imps.h"
 
+using namespace peconv;
+
 int tests::deploy_self()
 {
     char marker_path[] = "peconv_test_marker";

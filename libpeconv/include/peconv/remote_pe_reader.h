@@ -5,6 +5,8 @@
 #include "pe_hdrs_helper.h"
 #include "pe_virtual_to_raw.h"
 
+namespace peconv {
+
 /**
 Reads a PE header of the remote module within the given process. Requires a valid output buffer to be supplied (buffer).
 */
@@ -29,3 +31,5 @@ Dumps PE file from the remote process into a file. It expects the module base an
 If 'unmap' is set to true, it automatically unmaps the file.
 */
 bool dump_remote_pe(const char *outputFilePath, const HANDLE processHandle, BYTE *moduleBase, size_t moduleSize, bool unmap=true);
+
+}; //namespace peconv

@@ -1,5 +1,9 @@
-#include "pe_raw_to_virtual.h"
-//#include "relocate.h"
+#include "peconv/pe_raw_to_virtual.h"
+
+#include "peconv/util.h"
+#include "peconv/pe_hdrs_helper.h"
+
+using namespace peconv;
 
 // Map raw PE into virtual memory of local process:
 bool sections_raw_to_virtual(const BYTE* payload, SIZE_T destBufferSize, BYTE* destAddress)
@@ -66,7 +70,7 @@ bool sections_raw_to_virtual(const BYTE* payload, SIZE_T destBufferSize, BYTE* d
     return true;
 }
 
-BYTE* pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out_size, bool executable, ULONGLONG desired_base)
+BYTE* peconv::pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out_size, bool executable, ULONGLONG desired_base)
 {
     //check payload:
     BYTE* nt_hdr = get_nt_hrds(payload);

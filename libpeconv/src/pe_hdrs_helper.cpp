@@ -1,6 +1,8 @@
-#include "pe_hdrs_helper.h"
+#include "peconv/pe_hdrs_helper.h"
 
-BYTE* get_nt_hrds(const BYTE *pe_buffer)
+using namespace peconv;
+
+BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer)
 {
     if (pe_buffer == NULL) return NULL;
 
@@ -20,7 +22,7 @@ BYTE* get_nt_hrds(const BYTE *pe_buffer)
     return (BYTE*)inh;
 }
 
-IMAGE_NT_HEADERS32* get_nt_hrds32(BYTE *payload)
+IMAGE_NT_HEADERS32* peconv::get_nt_hrds32(const BYTE *payload)
 {
 	if (payload == NULL) return NULL;
 
@@ -34,7 +36,7 @@ IMAGE_NT_HEADERS32* get_nt_hrds32(BYTE *payload)
 	return NULL;
 }
 
-IMAGE_NT_HEADERS64* get_nt_hrds64(const BYTE *payload)
+IMAGE_NT_HEADERS64* peconv::get_nt_hrds64(const BYTE *payload)
 {
 	if (payload == NULL) return NULL;
 
@@ -48,7 +50,7 @@ IMAGE_NT_HEADERS64* get_nt_hrds64(const BYTE *payload)
 	return NULL;
 }
 
-WORD get_pe_architecture(const BYTE *pe_buffer)
+WORD peconv::get_pe_architecture(const BYTE *pe_buffer)
 {
     void *ptr = get_nt_hrds(pe_buffer);
     if (ptr == NULL) return 0;
@@ -57,7 +59,7 @@ WORD get_pe_architecture(const BYTE *pe_buffer)
     return inh->FileHeader.Machine;
 }
 
-bool is64bit(const BYTE *pe_buffer)
+bool peconv::is64bit(const BYTE *pe_buffer)
 {
     WORD arch = get_pe_architecture(pe_buffer);
 	if (arch == IMAGE_FILE_MACHINE_AMD64) {
@@ -66,7 +68,7 @@ bool is64bit(const BYTE *pe_buffer)
 	return false;
 }
 
-IMAGE_DATA_DIRECTORY* get_pe_directory(const BYTE *pe_buffer, DWORD dir_id)
+IMAGE_DATA_DIRECTORY* peconv::get_pe_directory(const BYTE *pe_buffer, DWORD dir_id)
 {
 	if (dir_id >= IMAGE_NUMBEROF_DIRECTORY_ENTRIES) return NULL;
 
@@ -88,7 +90,7 @@ IMAGE_DATA_DIRECTORY* get_pe_directory(const BYTE *pe_buffer, DWORD dir_id)
 	return peDir;
 }
 
-ULONGLONG get_image_base(const BYTE *pe_buffer)
+ULONGLONG peconv::get_image_base(const BYTE *pe_buffer)
 {
 	bool is64b = is64bit(pe_buffer);
 	//update image base in the written content:
@@ -107,7 +109,7 @@ ULONGLONG get_image_base(const BYTE *pe_buffer)
 	return img_base;
 }
 
-DWORD get_entry_point_rva(const BYTE *pe_buffer)
+DWORD peconv::get_entry_point_rva(const BYTE *pe_buffer)
 {
 	bool is64b = is64bit(pe_buffer);
 	//update image base in the written content:
@@ -126,7 +128,7 @@ DWORD get_entry_point_rva(const BYTE *pe_buffer)
 	return img_base;
 }
 
-DWORD get_hdrs_size(const BYTE *pe_buffer)
+DWORD peconv::get_hdrs_size(const BYTE *pe_buffer)
 {
 	bool is64b = is64bit(pe_buffer);
 	//update image base in the written content:
@@ -145,7 +147,7 @@ DWORD get_hdrs_size(const BYTE *pe_buffer)
 	return hdrs_size;
 }
 
-bool update_image_base(BYTE* payload, ULONGLONG destImageBase)
+bool peconv::update_image_base(BYTE* payload, ULONGLONG destImageBase)
 {
     bool is64b = is64bit(payload);
     //update image base in the written content:
@@ -164,7 +166,7 @@ bool update_image_base(BYTE* payload, ULONGLONG destImageBase)
     return true;
 }
 
-size_t get_sections_count(const BYTE* payload, const size_t buffer_size)
+size_t peconv::get_sections_count(const BYTE* payload, const size_t buffer_size)
 {
 	if (payload == NULL) return 0;
 
@@ -191,7 +193,7 @@ size_t get_sections_count(const BYTE* payload, const size_t buffer_size)
 	return fileHdr->NumberOfSections;
 }
 
-PIMAGE_SECTION_HEADER get_section_hdr(const BYTE* payload, const size_t buffer_size, size_t section_num)
+PIMAGE_SECTION_HEADER peconv::get_section_hdr(const BYTE* payload, const size_t buffer_size, size_t section_num)
 {
 	if (payload == NULL) return NULL;
 
@@ -229,7 +231,7 @@ PIMAGE_SECTION_HEADER get_section_hdr(const BYTE* payload, const size_t buffer_s
 	return next_sec;
 }
 
-bool is_module_dll(const BYTE* payload)
+bool peconv::is_module_dll(const BYTE* payload)
 {
 	if (payload == NULL) return false;
 
@@ -250,7 +252,7 @@ bool is_module_dll(const BYTE* payload)
 	return (flag != 0);
 }
 
-bool set_subsystem(BYTE* payload, WORD subsystem)
+bool peconv::set_subsystem(BYTE* payload, WORD subsystem)
 {
 	if (payload == NULL) return false;
 
@@ -269,7 +271,7 @@ bool set_subsystem(BYTE* payload, WORD subsystem)
     return true;
 }
 
-WORD get_subsystem(const BYTE* payload)
+WORD peconv::get_subsystem(const BYTE* payload)
 {
 	if (payload == NULL) return false;
 
@@ -287,7 +289,7 @@ WORD get_subsystem(const BYTE* payload)
 	}
 }
 
-bool has_relocations(BYTE *pe_buffer)
+bool peconv::has_relocations(BYTE *pe_buffer)
 {
 	IMAGE_DATA_DIRECTORY* relocDir = get_pe_directory(pe_buffer, IMAGE_DIRECTORY_ENTRY_BASERELOC);
 	if (relocDir == NULL) {

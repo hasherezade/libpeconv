@@ -2,6 +2,7 @@
 
 #include "pe_raw_to_virtual.h"
 
+namespace peconv {
 /**
 Reads PE from the given buffer into memory and maps it into vitual format.
 (Automatic raw to virtual conversion).
@@ -29,3 +30,5 @@ LPVOID load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size);
 Loads full PE from file in a way in which it can be directly executed: remaps to virual format, applies relocations, loads imports.
 */
 LPVOID load_pe_executable(char *filename, OUT size_t &v_size);
+
+};// namespace peconv

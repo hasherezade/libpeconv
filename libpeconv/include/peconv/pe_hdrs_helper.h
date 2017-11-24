@@ -3,7 +3,9 @@
 #include <Windows.h>
 #include "util.h"
 
-#define MAX_HEADER_SIZE 0x1000
+namespace peconv {
+
+const ULONGLONG MAX_HEADER_SIZE = 0x1000;
 
 WORD get_pe_architecture(const BYTE *pe_buffer);
 
@@ -34,3 +36,5 @@ bool set_subsystem(BYTE* payload, WORD subsystem);
 WORD get_subsystem(const BYTE* payload);
 
 bool has_relocations(BYTE *pe_buffer);
+
+}; // namespace peconv

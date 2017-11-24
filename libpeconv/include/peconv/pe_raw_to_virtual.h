@@ -3,9 +3,9 @@
 #include <windows.h>
 #include <stdio.h>
 
-#include "util.h"
-#include "pe_hdrs_helper.h"
 #include "module_helper.h"
+
+namespace peconv {
 
 /**
 Converts a raw PE supplied in a buffer to a virtual format.
@@ -15,3 +15,5 @@ Automatically allocates buffer of the needed size (the size is returned in outpu
 If the desired_base is defined (NULL by default), it enforces allocation at the particular base.
 */
 BYTE* pe_raw_to_virtual(const BYTE* rawPeBuffer, size_t rawPeSize, OUT size_t &outputSize, bool executable=true, ULONGLONG desired_base=NULL);
+
+}; // namespace peconv
