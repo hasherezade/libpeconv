@@ -11,17 +11,26 @@ include_directories ( ${PECONV_DIR}/include )
 set (srcs
 	main.cpp
 	file_helper.cpp
+	resource_helper.cpp
 	test_loading.cpp
 	test_loading_imps.cpp
+	test_crackme_f4_3.cpp
 )
 
 set (hdrs
 	file_helper.h
+	resource_helper.h
 	test_loading.h
 	test_loading_imps.h
+	test_crackme_f4_3.h
+	resource.h
 )
 
-add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} )
+set (rsrc
+    resource.rc
+)
+
+add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} ${rsrc} )
 target_link_libraries ( ${PROJECT_NAME} ${PECONV_LIB} )
 add_dependencies( ${PROJECT_NAME} libpeconv)
 
@@ -37,3 +46,7 @@ set_tests_properties (TestLoadSelf PROPERTIES PASS_REGULAR_EXPRESSION "Test pass
 # 2) load the image of the current process from the disk and deploy it:
 add_test (TestDeploySelf tests 2)
 set_tests_properties (TestDeploySelf PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+
+# 3) Deploys a brutforcer for FlareOn4 Crackme 3
+add_test (TestCrackmeF4_3 tests 3)
+set_tests_properties (TestCrackmeF4_3 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")

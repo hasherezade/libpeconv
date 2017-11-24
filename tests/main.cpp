@@ -2,12 +2,14 @@
 
 #include "test_loading.h"
 #include "test_loading_imps.h"
+#include "test_crackme_f4_3.h"
 
 int make_test(int test_id)
 {
     switch (test_id) {
         case 1:  return tests::load_self();
         case 2: return tests::deploy_self();
+        case 3: return tests::deploy_crackme_f4_3();
     }
     return -1;
 }
