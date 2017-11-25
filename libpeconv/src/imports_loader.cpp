@@ -4,30 +4,36 @@
 
 using namespace peconv;
 
-bool write_handle(LPCSTR lib_name, ULONGLONG call_via, LPSTR func_name, LPVOID modulePtr, bool is64)
+bool peconv::write_handle(BYTE* modulePtr, ULONGLONG call_via, 
+                          HMODULE libBasePtr, LPSTR func_name, 
+                          t_get_proc_address get_proc_addr)
 {
-    size_t field_size = (is64) ? sizeof(ULONGLONG) : sizeof(DWORD);
-    HMODULE hBase = LoadLibraryA(lib_name);
-    if (hBase == NULL) {
-        printf("Could not load the library!\n");
-        return false;
-    }
-    FARPROC hProc = GetProcAddress(hBase, func_name);
+    const size_t field_size = peconv::is64bit(modulePtr) 
+        ? sizeof(ULONGLONG) 
+        : sizeof(DWORD);
+
+    FARPROC hProc = get_proc_addr(libBasePtr, func_name);
     if (hProc == NULL) {
         printf("Could not load the function!\n");
         return false;
     }
     LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
     memcpy(call_via_ptr, &hProc, field_size);
+
 #ifdef _DEBUG
     printf("proc addr: %p -> %p\n", hProc, call_via_ptr);
 #endif
     return true;
 }
 
-bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, LPVOID modulePtr)
+bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_load_library load_lib,  t_get_proc_address get_proc_addr)
 {
-    const bool is64 = false;
+    const bool allow_overwrite = false;
+    HMODULE libBasePtr = load_lib(lib_name);
+    if (libBasePtr == NULL) {
+        printf("Could not load the library!\n");
+        return false;
+    }
     do {
         LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
         if (call_via_ptr == NULL) break;
@@ -46,7 +52,7 @@ bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
         if (*thunk_val != *call_via_val) {
             call_via += sizeof(DWORD);
             thunk_addr += sizeof(DWORD);
-            //skip
+            continue; //skip
         }
         IMAGE_THUNK_DATA32* desc = (IMAGE_THUNK_DATA32*) thunk_ptr;
         if (desc->u1.Function == NULL) break;
@@ -57,7 +63,8 @@ bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
 #ifdef _DEBUG
             printf("raw ordinal: %x\n", raw_ordinal);
 #endif
-            if (!write_handle(lib_name, call_via,  MAKEINTRESOURCE(raw_ordinal), modulePtr, false)) {
+            
+            if (!write_handle(modulePtr, call_via, libBasePtr, MAKEINTRESOURCE(raw_ordinal), get_proc_addr)) {
                 return false;
             }
         } else {
@@ -65,7 +72,7 @@ bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
 #ifdef _DEBUG
             printf("name: %s\n", func_name);
 #endif
-            if (!write_handle(lib_name, call_via, func_name, modulePtr, false)) {
+            if (!write_handle(modulePtr, call_via, libBasePtr, func_name, get_proc_addr)) {
                 printf("Could not load the handle!\n");
                 return false;
             }
@@ -76,9 +83,16 @@ bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
     return true;
 }
 
-bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, LPVOID modulePtr)
+bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_load_library load_lib,  t_get_proc_address get_proc_addr)
 {
-    const bool is64 = true;
+    const bool allow_overwrite = false;
+
+    HMODULE libBasePtr = load_lib(lib_name);
+    if (libBasePtr == NULL) {
+        printf("Could not load the library!\n");
+        return false;
+    }
+    
     do {
         LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
         if (call_via_ptr == NULL) break;
@@ -95,10 +109,10 @@ bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
         //those two values are supposed to be the same before the file have imports filled
         //so, if they are different it means the handle is already filled
 
-        if (*thunk_val != *call_via_val) {
+        if (!allow_overwrite && (*thunk_val != *call_via_val)) {
             call_via += sizeof(ULONGLONG);
             thunk_addr += sizeof(ULONGLONG);
-            //skip
+            continue; //skip
         }
         IMAGE_THUNK_DATA64* desc = (IMAGE_THUNK_DATA64*) thunk_ptr;
         if (desc->u1.Function == NULL) break;
@@ -109,7 +123,7 @@ bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
 #ifdef _DEBUG
             printf("raw ordinal: %llx\n", raw_ordinal);
 #endif
-            if (!write_handle(lib_name, call_via,  MAKEINTRESOURCE(raw_ordinal), modulePtr, is64)) {
+            if (!write_handle(modulePtr, ULONGLONG(call_via), libBasePtr, MAKEINTRESOURCE(raw_ordinal), get_proc_addr)) {
                 return false;
             }
         } else {
@@ -117,7 +131,7 @@ bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
 #ifdef _DEBUG
             printf("name: %s\n", func_name);
 #endif
-            if (!write_handle(lib_name, call_via, func_name, modulePtr, is64)) {
+            if (!write_handle(modulePtr, call_via, libBasePtr, func_name, get_proc_addr)) {
                 printf("Could not load the handle!\n");
                 return false;
             }
@@ -128,11 +142,8 @@ bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
     return true;
 }
 
-//fills handles of mapped pe file
-bool peconv::load_imports(PVOID modulePtr)
+bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_callback, t_load_library load_lib, t_get_proc_address get_proc_addr)
 {
-    bool is64 = is64bit((BYTE*)modulePtr);
-
     IMAGE_DATA_DIRECTORY *importsDir = get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
 
@@ -159,30 +170,15 @@ bool peconv::load_imports(PVOID modulePtr)
 #ifdef _DEBUG
         printf("name: %s\n", lib_name);
 #endif
-        /*
-        //TODO: implement checking the library name against the defined whitelist
-
-        if (!is_supported(lib_name)) {
-            isAllFilled = false;
-            //skip libraries that cannot be filled
-            continue;
-        }*/
 
         DWORD call_via = lib_desc->FirstThunk;
         DWORD thunk_addr = lib_desc->OriginalFirstThunk;
         if (thunk_addr == NULL) thunk_addr = lib_desc->FirstThunk;
-        if (is64) {
-#ifdef _DEBUG
-            printf("64 bit import\n");
-#endif
-            solve_imported_funcs_b64(lib_name, call_via, thunk_addr, modulePtr);
+
+        bool all_solved = import_found_callback(lib_name, call_via, thunk_addr, modulePtr, LoadLibraryA, GetProcAddress);
+        if (!all_solved) {
+            isAllFilled = false;
         }
-        else {
-#ifdef _DEBUG
-            printf("32 bit import\n");
-#endif
-            solve_imported_funcs_b32(lib_name, call_via, thunk_addr, modulePtr);
-        }        
     }
     if (isAllFilled == false) {
         printf("WARNING: Some libraries are not filled!\nFor this method to work, EXE cannot have other imports than kernel32.dll or user32.dll!\n");
@@ -191,4 +187,23 @@ bool peconv::load_imports(PVOID modulePtr)
     printf("---------\n");
 #endif
     return isAllFilled;
+}
+
+//fills handles of mapped pe file
+bool peconv::load_imports(BYTE* modulePtr, t_load_library load_lib,  t_get_proc_address get_proc_addr)
+{
+    bool is64 = is64bit((BYTE*)modulePtr);
+    bool isAllFilled = false;
+    if (is64) {
+        isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b64, load_lib, get_proc_addr);
+    } else {
+        isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b32, load_lib, get_proc_addr);
+    }
+    return isAllFilled;
+}
+
+
+bool peconv::load_imports(BYTE* modulePtr)
+{
+    return load_imports(modulePtr, LoadLibraryA,  GetProcAddress);
 }
