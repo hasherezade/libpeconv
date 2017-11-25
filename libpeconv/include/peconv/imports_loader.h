@@ -19,7 +19,8 @@ namespace peconv {
         t_get_proc_address get_proc_addr
         );
 
-    bool write_handle(BYTE* modulePtr, ULONGLONG call_via, HMODULE libBasePtr, LPSTR func_name, t_get_proc_address get_proc_addr);
+    template <typename T>
+        bool write_handle(BYTE* modulePtr, T call_via, HMODULE libBasePtr, LPSTR func_name, t_get_proc_address get_proc_addr);
 
     bool imports_walker(BYTE* modulePtr, t_on_import_found callback, t_load_library load_lib,  t_get_proc_address get_proc_addr);
 
