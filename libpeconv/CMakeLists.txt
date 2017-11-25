@@ -17,6 +17,7 @@ set (srcs
 	src/remote_pe_reader.cpp
 	src/load_imports.cpp
 	src/pe_loader.cpp
+	src/exports_lookup.cpp
 )
 
 set (hdrs
@@ -30,6 +31,7 @@ set (hdrs
 	include/peconv/remote_pe_reader.h
 	include/peconv/load_imports.h
 	include/peconv/pe_loader.h
+	include/peconv/exports_lookup.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )

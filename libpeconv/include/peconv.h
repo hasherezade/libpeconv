@@ -8,5 +8,7 @@
 #include "peconv/remote_pe_reader.h"
 #include "peconv/load_imports.h"
 #include "peconv/pe_loader.h"
+#include "peconv/exports_lookup.h"
+
 
 
