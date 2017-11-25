@@ -47,6 +47,9 @@ set_tests_properties (TestLoadSelf PROPERTIES PASS_REGULAR_EXPRESSION "Test pass
 add_test (TestDeploySelf tests 2)
 set_tests_properties (TestDeploySelf PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 
-# 3) Deploys a brutforcer for FlareOn4 Crackme 3
-add_test (TestCrackmeF4_3 tests 3)
-set_tests_properties (TestCrackmeF4_3 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+#only for 32bit:
+if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+	# 3) Deploys a brutforcer for FlareOn4 Crackme 3
+	add_test (TestCrackmeF4_3 tests 3)
+	set_tests_properties (TestCrackmeF4_3 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+endif()
