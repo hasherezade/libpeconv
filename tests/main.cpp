@@ -10,7 +10,7 @@ int make_test(int test_id)
         case 1:  return tests::load_self();
         case 2: return tests::deploy_self();
         case 3: return tests::brutforce_crackme_f4_3();
-        case 4: return tests::deploy_self_ex(peconv::resolve_with_exports);
+        case 4: return tests::deploy_self_ex(peconv::export_based_resolver);
     }
     return -1;
 }

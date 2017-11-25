@@ -11,6 +11,6 @@ namespace peconv {
     FARPROC get_exported_func(PVOID modulePtr, LPSTR wanted_name);
 
     //function_resolver:
-    FARPROC resolve_with_exports(LPSTR lib_name, LPSTR func_name);
+    FARPROC export_based_resolver(LPSTR lib_name, LPSTR func_name);
 
 }; //namespace peconv
