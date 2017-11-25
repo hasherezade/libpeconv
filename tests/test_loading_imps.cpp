@@ -3,15 +3,13 @@
 
 #include "test_loading_imps.h"
 
-using namespace peconv;
-
-int tests::deploy_self()
+int tests::deploy_self_ex(peconv::t_function_resolver func_resolver)
 {
     char marker_path[] = "peconv_test_marker";
     DWORD current_pid = GetCurrentProcessId();
 
     printf("My PID: %d\n", current_pid);
-    printf("My ptr: %p\n", &deploy_self);
+    printf("My ptr: %p\n", &deploy_self_ex);
 
     char my_env[MAX_PATH] = { 0 };
     if (GetEnvironmentVariableA(marker_path, my_env, MAX_PATH)) {
@@ -29,8 +27,8 @@ int tests::deploy_self()
     size_t v_size = 0;
     printf("Module: %s\n", my_path);
     // Load the current executable from the file with the help of libpeconv:
-    BYTE* loaded_pe = load_pe_executable(my_path, v_size);
-    ULONGLONG ep = get_entry_point_rva(loaded_pe) + (ULONGLONG) loaded_pe;
+    BYTE* loaded_pe = peconv::load_pe_executable(my_path, v_size, func_resolver);
+    ULONGLONG ep = peconv::get_entry_point_rva(loaded_pe) + (ULONGLONG) loaded_pe;
     LPVOID ep_ptr = (LPVOID) ep;
 
     // Deploy itself!
@@ -47,4 +45,9 @@ int tests::deploy_self()
     printf("Calling the Entry Point of the loaded module:\n");
     int ret_val = loaded_pe_entry();
     return ret_val;
+}
+
+int tests::deploy_self()
+{
+    return tests::deploy_self_ex(peconv::default_func_resolver);
 }

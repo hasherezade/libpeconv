@@ -155,6 +155,7 @@ FARPROC peconv::resolve_with_exports(LPSTR lib_name, LPSTR func_name)
         std::cerr << "Could not load the library!" << std::endl;
         return NULL;
     }
+
     FARPROC hProc = get_exported_func(libBasePtr, func_name);
 
     if (hProc == NULL) {
@@ -169,5 +170,11 @@ FARPROC peconv::resolve_with_exports(LPSTR lib_name, LPSTR func_name)
             std::cerr << "[-] Loading function from " << lib_name << " failed!" << std::endl;
         }
     }
+#ifdef _DEBUG
+    FARPROC defaultProc = peconv::default_func_resolver(lib_name, func_name);
+    if (hProc != defaultProc) {
+        std::cerr << "[-] Loaded proc is not matching the default one!" << std::endl;
+    }
+#endif
     return hProc;
 }

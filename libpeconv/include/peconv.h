@@ -9,6 +9,8 @@
 #include "peconv/imports_loader.h"
 #include "peconv/pe_loader.h"
 #include "peconv/exports_lookup.h"
+#include "peconv/function_resolver.h"
+
 
 
 

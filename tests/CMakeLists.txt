@@ -53,3 +53,8 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 4)
 	add_test (TestCrackmeF4_3 tests 3)
 	set_tests_properties (TestCrackmeF4_3 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 endif()
+
+# 4) load the image of the current process from the disk and deploy it. Imports are resolved by exports lookup (custom recolver).
+add_test (TestDeploySelfExpResolver tests 4)
+set_tests_properties (TestDeploySelfExpResolver PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+set_tests_properties (TestDeploySelfExpResolver PROPERTIES FAIL_REGULAR_EXPRESSION "Loaded proc is not matching the default one!")
