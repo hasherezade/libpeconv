@@ -79,7 +79,8 @@ int tests::brutforce_crackme_f4_3()
     return 0;
 }
 
-int tests::deploy_crackme_f4_3()
+//For now this is for manual tests only:
+int tests::deploy_crackme_f4_3(peconv::t_function_resolver func_resolver)
 {
 #ifdef _WIN64
     printf("Compile the loader as 32bit!\n");
@@ -94,7 +95,7 @@ int tests::deploy_crackme_f4_3()
         if (!raw_crackme) {
             return -1;
         }
-        loaded_pe = peconv::load_pe_executable(raw_crackme, raw_size, v_size);
+        loaded_pe = peconv::load_pe_executable(raw_crackme, raw_size, v_size, func_resolver);
         if (!loaded_pe) {
             free_resource_data(raw_crackme, raw_size);
             return -1;
