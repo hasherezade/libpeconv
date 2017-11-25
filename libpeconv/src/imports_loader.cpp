@@ -53,7 +53,7 @@ bool solve_imported_funcs(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, BYT
 
         //those two values are supposed to be the same before the file have imports filled
         //so, if they are different it means the handle is already filled
-        if (*thunk_val != *call_via_val) {
+        if (!allow_overwrite && (*thunk_val != *call_via_val)) {
             index++;
             continue; //skip
         }
