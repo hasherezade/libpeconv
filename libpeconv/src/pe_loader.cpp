@@ -84,7 +84,7 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
     return load_pe_executable(dllRawData, r_size,v_size, peconv::default_func_resolver);
 }
 
-BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size)
+BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size, t_function_resolver import_resolver)
 {
 #if _DEBUG
     printf("Module: %s\n", my_path);
@@ -97,7 +97,7 @@ BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size)
 #if _DEBUG
     printf("Loaded at: %p\n", loaded_pe);
 #endif
-    if (!load_imports(loaded_pe, peconv::default_func_resolver)) {
+    if (!load_imports(loaded_pe, import_resolver)) {
         printf("[-] Loading imports failed!");
         free_pe_buffer(loaded_pe, v_size);
         return NULL;
@@ -105,3 +105,7 @@ BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size)
     return loaded_pe;
 }
 
+BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size)
+{
+    return load_pe_executable(my_path, v_size, peconv::default_func_resolver);
+}
