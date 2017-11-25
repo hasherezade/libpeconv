@@ -18,7 +18,7 @@ build:
   verbosity: detailed
 
 configuration:
-  - Release
+  - Debug
 
 build_script:
   - mkdir build32
@@ -34,8 +34,8 @@ build_script:
 
 test_script:
   - cd build32
-  - ctest
+  - ctest -V
   - cd ..
   - cd build64
-  - ctest
+  - ctest -V
   

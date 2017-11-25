@@ -6,7 +6,11 @@
 #include "peconv/pe_virtual_to_raw.h"
 #include "peconv/relocate.h"
 #include "peconv/remote_pe_reader.h"
-#include "peconv/load_imports.h"
+#include "peconv/imports_loader.h"
 #include "peconv/pe_loader.h"
+#include "peconv/exports_lookup.h"
+#include "peconv/function_resolver.h"
+
+
 
 
