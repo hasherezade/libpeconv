@@ -4,33 +4,25 @@
 
 using namespace peconv;
 
-template <typename T>
-bool peconv::write_handle(BYTE* modulePtr, T call_via, 
-                          HMODULE libBasePtr, LPSTR func_name, 
-                          t_get_proc_address get_proc_addr)
+FARPROC peconv::default_func_resolver(LPSTR lib_name, LPSTR func_name)
 {
-    FARPROC hProc = get_proc_addr(libBasePtr, func_name);
+    HMODULE libBasePtr = LoadLibraryA(lib_name);
+    if (libBasePtr == NULL) {
+        printf("Could not load the library!\n");
+        return NULL;
+    }
+    FARPROC hProc = GetProcAddress(libBasePtr, func_name);
     if (hProc == NULL) {
         printf("Could not load the function!\n");
-        return false;
+        return NULL;
     }
-    const size_t field_size = sizeof(call_via);
-    memcpy((void*)call_via, &hProc, field_size);
-#ifdef _DEBUG
-    printf("proc addr: %p -> %p\n", hProc, call_via);
-#endif
-    return true;
+    return hProc;
 }
 
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
-bool solve_imported_funcs(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, T_FIELD ordinal_flag, t_load_library load_lib, t_get_proc_address get_proc_addr)
+bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, T_FIELD ordinal_flag, t_function_resolver func_resolver)
 {
     const bool allow_overwrite = false;
-    HMODULE libBasePtr = load_lib(lib_name);
-    if (libBasePtr == NULL) {
-        printf("Could not load the library!\n");
-        return false;
-    }
 
     T_FIELD *thunks = (T_FIELD*)((ULONGLONG)modulePtr + thunk_addr);
     T_FIELD *callers = (T_FIELD*)((ULONGLONG)modulePtr + call_via);
@@ -62,40 +54,43 @@ bool solve_imported_funcs(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, BYT
 
         PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
 
+        FARPROC hProc = NULL;
         if (desc->u1.Ordinal & ordinal_flag) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
 #ifdef _DEBUG
             printf("raw ordinal: %x\n", raw_ordinal);
 #endif
-            if (!write_handle(modulePtr, &callers[index], libBasePtr, MAKEINTRESOURCEA(raw_ordinal), get_proc_addr)) {
-                return false;
-            }
+            hProc = func_resolver(lib_name, MAKEINTRESOURCEA(raw_ordinal));
+
         } else {
             LPSTR func_name = by_name->Name;
 #ifdef _DEBUG
             printf("name: %s\n", func_name);
 #endif
-            if (!write_handle(modulePtr, &callers[index], libBasePtr, func_name, get_proc_addr)) {
-                printf("Could not load the handle!\n");
-                return false;
-            }
+            hProc = func_resolver(lib_name, func_name);
         }
+        if (hProc != NULL) {
+            callers[index] = (T_FIELD) hProc;
+        } else {
+            printf("Could not resolve the function!\n");
+        }
+
         index++;
     } while (true);
     return true;
 }
 
-bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_load_library load_lib,  t_get_proc_address get_proc_addr)
+bool solve_imported_funcs_b64(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_function_resolver func_resolver)
 {
-    return solve_imported_funcs<ULONGLONG,IMAGE_THUNK_DATA64>(lib_name, call_via, thunk_addr, modulePtr, IMAGE_ORDINAL_FLAG64, load_lib,  get_proc_addr);
+    return solve_imported_funcs<ULONGLONG,IMAGE_THUNK_DATA64>(lib_name, call_via, thunk_addr, modulePtr, IMAGE_ORDINAL_FLAG64, func_resolver);
 }
 
-bool solve_imported_funcs_b32(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_load_library load_lib,  t_get_proc_address get_proc_addr)
+bool solve_imported_funcs_b32(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_function_resolver func_resolver)
 {
-    return solve_imported_funcs<DWORD,IMAGE_THUNK_DATA32>(lib_name, call_via, thunk_addr, modulePtr, IMAGE_ORDINAL_FLAG32, load_lib,  get_proc_addr);
+    return solve_imported_funcs<DWORD,IMAGE_THUNK_DATA32>(lib_name, call_via, thunk_addr, modulePtr, IMAGE_ORDINAL_FLAG32, func_resolver);
 }
 
-bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_callback, t_load_library load_lib, t_get_proc_address get_proc_addr)
+bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_callback, t_function_resolver func_resolver)
 {
     IMAGE_DATA_DIRECTORY *importsDir = get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
@@ -128,7 +123,7 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
         DWORD thunk_addr = lib_desc->OriginalFirstThunk;
         if (thunk_addr == NULL) thunk_addr = lib_desc->FirstThunk;
 
-        bool all_solved = import_found_callback(lib_name, call_via, thunk_addr, modulePtr, LoadLibraryA, GetProcAddress);
+        bool all_solved = import_found_callback(lib_name, call_via, thunk_addr, modulePtr, func_resolver);
         if (!all_solved) {
             isAllFilled = false;
         }
@@ -140,7 +135,7 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
 }
 
 //fills handles of mapped pe file
-bool peconv::load_imports(BYTE* modulePtr, t_load_library load_lib,  t_get_proc_address get_proc_addr)
+bool peconv::load_imports(BYTE* modulePtr, t_function_resolver func_resolver)
 {
    
     bool is64 = is64bit((BYTE*)modulePtr);
@@ -148,9 +143,9 @@ bool peconv::load_imports(BYTE* modulePtr, t_load_library load_lib,  t_get_proc_
     bool isAllFilled = false;
     if (is64) {
         
-        isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b64, load_lib, get_proc_addr);
+        isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b64, func_resolver);
     } else {
-        isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b32, load_lib, get_proc_addr);
+        isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b32, func_resolver);
     }
     return isAllFilled;
 }
@@ -158,5 +153,5 @@ bool peconv::load_imports(BYTE* modulePtr, t_load_library load_lib,  t_get_proc_
 
 bool peconv::load_imports(BYTE* modulePtr)
 {
-    return load_imports(modulePtr, LoadLibraryA,  GetProcAddress);
+    return load_imports(modulePtr, peconv::default_func_resolver);
 }
