@@ -4,21 +4,6 @@
 
 using namespace peconv;
 
-FARPROC peconv::default_func_resolver(LPSTR lib_name, LPSTR func_name)
-{
-    HMODULE libBasePtr = LoadLibraryA(lib_name);
-    if (libBasePtr == NULL) {
-        printf("Could not load the library!\n");
-        return NULL;
-    }
-    FARPROC hProc = GetProcAddress(libBasePtr, func_name);
-    if (hProc == NULL) {
-        printf("Could not load the function!\n");
-        return NULL;
-    }
-    return hProc;
-}
-
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
 bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, T_FIELD ordinal_flag, t_function_resolver func_resolver)
 {

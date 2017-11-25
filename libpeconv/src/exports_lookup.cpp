@@ -60,13 +60,25 @@ size_t forwarder_name_len(BYTE* fPtr)
     return 0;
 }
 
+bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPSTR func_name)
+{
+    ULONGLONG base = exp->Base;
+    ULONGLONG count = exp->NumberOfFunctions;
+    ULONGLONG name_ptr_val = (ULONGLONG)func_name;
+    if (name_ptr_val >= base && name_ptr_val <= count) {
+        return true;
+    }
+    return false;
+}
+
 //WARNING: this is an unfinished version - resolves only functions imported by names.
 // Doesn't work for the forwarded functions.
-PVOID peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
+FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
 {
     IMAGE_DATA_DIRECTORY *exportsDir = peconv::get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);
 
     if (exportsDir == NULL) {
+        std::cerr << "Function not found!" << std::endl;
         return NULL;
     }
     DWORD expAddr = exportsDir->VirtualAddress;
@@ -79,6 +91,15 @@ PVOID peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
     DWORD funcNamesListRVA = exp->AddressOfNames;
     DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
 
+    if (is_ordinal(exp, wanted_name)) {
+        std::cerr << "[!] Getting exports by ordinals not implemented yet!" << std::endl;
+        return NULL;
+    }
+    if (IsBadReadPtr(wanted_name, 1)) {
+        std::cerr << "[-] Invalid pointer to the name" << std::endl;
+        return NULL;
+    }
+
     //go through names:
     for (SIZE_T i = 0; i < namesCount; i++) {
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
@@ -87,17 +108,41 @@ PVOID peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
        
         LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
         BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); //pointer to the function
-
+        
         if (!is_wanted_func(name, wanted_name)) {
             continue; //this is not the function we are looking for
         }
         if (forwarder_name_len(fPtr) > 1) {
-            std::cerr << "Forwarded function: cannot be resolved!" << std::endl;
+            std::cerr << "[!] Forwarded function: ["<< name << " -> "<< fPtr << "] cannot be resolved!" << std::endl;
             return NULL; // this function is forwarded, cannot be resolved
         }
-        return fPtr; //return the pointer to the found function
+        return (FARPROC) fPtr; //return the pointer to the found function
     }
     //function not found
     std::cerr << "Function not found!" << std::endl;
     return NULL;
+}
+
+FARPROC peconv::resolve_with_exports(LPSTR lib_name, LPSTR func_name)
+{
+    HMODULE libBasePtr = LoadLibraryA(lib_name);
+    if (libBasePtr == NULL) {
+        std::cerr << "Could not load the library!" << std::endl;
+        return NULL;
+    }
+    FARPROC hProc = get_exported_func(libBasePtr, func_name);
+
+    if (hProc == NULL) {
+        if (!IsBadReadPtr(func_name, 1)) {
+            std::cerr << "[!] Cound not get the function: "<< func_name <<" from exports!" << std::endl;
+        } else {
+            std::cerr << "[!] Cound not get the function: "<< (DWORD)func_name <<" from exports!" << std::endl;
+        }
+        std::cerr << "[!] Falling back to the default resolver..." <<std::endl;
+        hProc = peconv::default_func_resolver(lib_name, func_name);
+        if (hProc == NULL) {
+            std::cerr << "[-] Loading function from " << lib_name << " failed!" << std::endl;
+        }
+    }
+    return hProc;
 }

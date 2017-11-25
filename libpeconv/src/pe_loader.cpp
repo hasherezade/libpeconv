@@ -3,6 +3,8 @@
 #include "peconv/relocate.h"
 #include "peconv/imports_loader.h"
 #include "peconv/module_helper.h"
+#include "peconv/function_resolver.h"
+#include "peconv/exports_lookup.h"
 
 using namespace peconv;
 
@@ -58,7 +60,7 @@ BYTE* peconv::load_pe_module(char *filename, OUT size_t &v_size, bool executable
     return mappedDLL;
 }
 
-BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size)
+BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver import_resolver)
 {
     // Load the current executable from the file with the help of libpeconv:
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true);
@@ -69,12 +71,17 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
 #if _DEBUG
     printf("Loaded at: %p\n", loaded_pe);
 #endif
-    if (!load_imports(loaded_pe)) {
+    if (!load_imports(loaded_pe, import_resolver)) {
         printf("[-] Loading imports failed!");
         free_pe_buffer(loaded_pe, v_size);
         return NULL;
     }
     return loaded_pe;
+}
+
+BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size)
+{
+    return load_pe_executable(dllRawData, r_size,v_size, peconv::default_func_resolver);
 }
 
 BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size)
@@ -90,7 +97,7 @@ BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size)
 #if _DEBUG
     printf("Loaded at: %p\n", loaded_pe);
 #endif
-    if (!load_imports(loaded_pe)) {
+    if (!load_imports(loaded_pe, peconv::default_func_resolver)) {
         printf("[-] Loading imports failed!");
         free_pe_buffer(loaded_pe, v_size);
         return NULL;
