@@ -129,7 +129,7 @@ bool solve_imported_funcs_b64(LPCSTR lib_name, DWORD call_via, DWORD thunk_addr,
 }
 
 //fills handles of mapped pe file
-bool load_imports(PVOID modulePtr)
+bool peconv::load_imports(PVOID modulePtr)
 {
     bool is64 = is64bit((BYTE*)modulePtr);
 
