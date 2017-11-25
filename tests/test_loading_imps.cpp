@@ -38,7 +38,7 @@ int tests::deploy_self()
     int (*loaded_pe_entry)(void);
     loaded_pe_entry = (int (*)(void)) ep_ptr;
 
-    itoa(current_pid, my_env, 10);
+    _itoa_s(current_pid, my_env, 10);
     if (SetEnvironmentVariableA(marker_path, my_env)) {
         printf ("Env marker set!\n");
     }

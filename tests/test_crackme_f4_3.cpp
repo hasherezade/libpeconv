@@ -41,7 +41,7 @@ namespace test3 {
 
 //---
 
-int tests::deploy_crackme_f4_3()
+int tests::brutforce_crackme_f4_3()
 {
 #ifdef _WIN64
     printf("Compile the loader as 32bit!\n");
@@ -75,6 +75,53 @@ int tests::deploy_crackme_f4_3()
     if (found == 0xa2) {
         res = 0;
     }
+    peconv::free_pe_buffer(loaded_pe, v_size);
+    return 0;
+}
+
+int tests::deploy_crackme_f4_3()
+{
+#ifdef _WIN64
+    printf("Compile the loader as 32bit!\n");
+    return 0;
+#endif
+    BYTE* loaded_pe = NULL;
+    size_t v_size = 0;
+
+    { //scope1
+        size_t raw_size = 0;
+        BYTE *raw_crackme = load_resource_data(raw_size, CRACKME_F4_3_32);
+        if (!raw_crackme) {
+            return -1;
+        }
+        loaded_pe = peconv::load_pe_executable(raw_crackme, raw_size, v_size);
+        if (!loaded_pe) {
+            free_resource_data(raw_crackme, raw_size);
+            return -1;
+        }
+        free_resource_data(raw_crackme, raw_size);
+    }//!scope1
+
+    test3::g_Buffer = (BYTE*) (0x107C + (ULONGLONG) loaded_pe);
+
+    ULONGLONG func_offset = 0x11e6 + (ULONGLONG) loaded_pe;
+    test3::calc_checksum =  ( WORD (*) (BYTE *, size_t ) ) func_offset;
+
+    BYTE found = test3::brutforce();
+    printf("Found: %x\n", found);
+    int res = -1;
+    if (found != 0xa2) {
+        peconv::free_pe_buffer(loaded_pe, v_size);
+        return -1;
+    }
+    ULONGLONG ep_va = peconv::get_entry_point_rva(loaded_pe) + (ULONGLONG) loaded_pe;
+    printf("Press any key to go to function's entry point\n");
+    system("pause");
+    //make pointer to the entry function:
+    int (*loaded_pe_entry)(void) = (int (*)(void)) ep_va;
+    res = loaded_pe_entry();
+    printf("Finished: %d\n", res);
+
     peconv::free_pe_buffer(loaded_pe, v_size);
     return 0;
 }
