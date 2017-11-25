@@ -71,6 +71,29 @@ bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPSTR func_name)
     return false;
 }
 
+FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wanted_ordinal)
+{
+    SIZE_T functCount = exp->NumberOfFunctions;
+	DWORD funcsListRVA = exp->AddressOfFunctions;
+	DWORD ordBase = exp->Base;
+
+    //go through names:
+    for (SIZE_T i = 0; i < functCount; i++) {
+		DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
+        BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); //pointer to the function
+		DWORD ordinal = ordBase + i;
+        if (ordinal == wanted_ordinal) {
+            if (forwarder_name_len(fPtr) > 1) {
+                std::cerr << "[!] Forwarded function: ["<< wanted_ordinal << " -> "<< fPtr << "] cannot be resolved!" << std::endl;
+                return NULL; // this function is forwarded, cannot be resolved
+            }
+            return (FARPROC) fPtr; //return the pointer to the found function
+        }
+    }
+    return NULL;
+}
+
+
 //WARNING: this is an unfinished version - resolves only functions imported by names.
 // Doesn't work for the forwarded functions.
 FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
@@ -92,8 +115,10 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
     DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
 
     if (is_ordinal(exp, wanted_name)) {
-        std::cerr << "[!] Getting exports by ordinals not implemented yet!" << std::endl;
-        return NULL;
+#ifdef _DEBUG
+        std::cerr << "[*] Getting function by ordinal" << std::endl;
+#endif
+        return get_export_by_ord(modulePtr, exp, (DWORD)wanted_name);
     }
     if (IsBadReadPtr(wanted_name, 1)) {
         std::cerr << "[-] Invalid pointer to the name" << std::endl;
