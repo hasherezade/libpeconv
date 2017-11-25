@@ -133,9 +133,6 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
             isAllFilled = false;
         }
     }
-    if (isAllFilled == false) {
-        printf("WARNING: Some libraries are not filled!\nFor this method to work, EXE cannot have other imports than kernel32.dll or user32.dll!\n");
-    }
 #ifdef _DEBUG
     printf("---------\n");
 #endif
