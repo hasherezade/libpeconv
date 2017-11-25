@@ -63,9 +63,9 @@ size_t forwarder_name_len(BYTE* fPtr)
 bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPSTR func_name)
 {
     ULONGLONG base = exp->Base;
-    ULONGLONG count = exp->NumberOfFunctions;
+    ULONGLONG max_ord = base + exp->NumberOfFunctions;
     ULONGLONG name_ptr_val = (ULONGLONG)func_name;
-    if (name_ptr_val >= base && name_ptr_val <= count) {
+    if (name_ptr_val >= base && name_ptr_val < max_ord) {
         return true;
     }
     return false;
