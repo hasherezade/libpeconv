@@ -15,7 +15,7 @@ set (srcs
 	src/util.cpp
 	src/module_helper.cpp
 	src/remote_pe_reader.cpp
-	src/load_imports.cpp
+	src/imports_loader.cpp
 	src/pe_loader.cpp
 	src/exports_lookup.cpp
 )
@@ -29,7 +29,7 @@ set (hdrs
 	include/peconv/pe_hdrs_helper.h
 	include/peconv/module_helper.h
 	include/peconv/remote_pe_reader.h
-	include/peconv/load_imports.h
+	include/peconv/imports_loader.h
 	include/peconv/pe_loader.h
 	include/peconv/exports_lookup.h
 )

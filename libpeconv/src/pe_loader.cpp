@@ -1,7 +1,7 @@
 #include "peconv/pe_loader.h"
 
 #include "peconv/relocate.h"
-#include "peconv/load_imports.h"
+#include "peconv/imports_loader.h"
 #include "peconv/module_helper.h"
 
 using namespace peconv;

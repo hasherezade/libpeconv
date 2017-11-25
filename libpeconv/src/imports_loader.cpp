@@ -1,4 +1,4 @@
-#include "peconv/load_imports.h"
+#include "peconv/imports_loader.h"
 
 #include <stdio.h>
 
