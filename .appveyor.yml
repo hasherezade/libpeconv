@@ -34,8 +34,8 @@ build_script:
 
 test_script:
   - cd build32
-  - ctest -V
+  - ctest
   - cd ..
   - cd build64
-  - ctest -V
+  - ctest
   
