@@ -7,7 +7,7 @@ using namespace peconv;
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
 bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, T_FIELD ordinal_flag, t_function_resolver func_resolver)
 {
-    const bool allow_overwrite = false;
+    const bool allow_overwrite = true;
 
     T_FIELD *thunks = (T_FIELD*)((ULONGLONG)modulePtr + thunk_addr);
     T_FIELD *callers = (T_FIELD*)((ULONGLONG)modulePtr + call_via);
