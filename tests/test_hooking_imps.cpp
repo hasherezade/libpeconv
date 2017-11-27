@@ -29,32 +29,6 @@ int _stdcall my_MessageBoxW(
     return 1338;
 }
 
-class hooking_func_resolver : peconv::default_func_resolver {
-public:
-
-    void add_hook(std::string name, FARPROC function ) 
-    {
-        hooks_map[name] = function;
-    }
-
-    FARPROC resolve_func(LPSTR lib_name, LPSTR func_name)
-    {
-        //the name may be ordinal rather than string, so check if it is a valid pointer:
-        if (!IsBadReadPtr(func_name, 1)) {
-            std::map<std::string, FARPROC>::iterator itr = hooks_map.find(func_name);
-            if (itr != hooks_map.end()) {
-                FARPROC hook = itr->second;
-                std::cout << ">>>>>>Replacing: " << func_name << " by: " << hook << std::endl;
-                return hook;
-            }
-        }
-        return peconv::default_func_resolver::resolve_func(lib_name, func_name);
-    }
-
-private:
-    std::map<std::string, FARPROC> hooks_map;
-};
-
 int tests::hook_testcase(char *path)
 {
     if (path == NULL) {
@@ -65,7 +39,7 @@ int tests::hook_testcase(char *path)
     size_t v_size = 0;
 
 
-    hooking_func_resolver my_res;
+    peconv::hooking_func_resolver my_res;
     my_res.add_hook("MessageBoxA", (FARPROC) &my_MessageBoxA);
     my_res.add_hook("MessageBoxW", (FARPROC) &my_MessageBoxW);
     BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
