@@ -43,3 +43,14 @@ void free_file(BYTE* buffer, size_t buffer_size)
 {
     VirtualFree(buffer, buffer_size, MEM_DECOMMIT);
 }
+
+bool dump_to_file(char *out_path, BYTE* buffer, size_t buf_size)
+{
+    FILE *f1 = fopen(out_path, "wb");
+    if (!f1) {
+        return false;
+    }
+    fwrite(buffer, 1, buf_size, f1);
+    fclose(f1);
+    return true;
+}
