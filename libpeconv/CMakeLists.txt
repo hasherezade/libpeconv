@@ -19,6 +19,7 @@ set (srcs
 	src/pe_loader.cpp
 	src/exports_lookup.cpp
 	src/function_resolver.cpp
+	src/hooks.cpp
 )
 
 set (hdrs
@@ -34,6 +35,7 @@ set (hdrs
 	include/peconv/pe_loader.h
 	include/peconv/exports_lookup.h
 	include/peconv/function_resolver.h
+	include/peconv/hooks.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )

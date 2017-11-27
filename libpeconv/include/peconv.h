@@ -10,6 +10,7 @@
 #include "peconv/pe_loader.h"
 #include "peconv/exports_lookup.h"
 #include "peconv/function_resolver.h"
+#include "peconv/hooks.h"
 
 
 
