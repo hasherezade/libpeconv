@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-FARPROC peconv::default_func_resolver(LPSTR lib_name, LPSTR func_name)
+FARPROC peconv::default_func_resolver::resolve_func(LPSTR lib_name, LPSTR func_name)
 {
     HMODULE libBasePtr = LoadLibraryA(lib_name);
     if (libBasePtr == NULL) {

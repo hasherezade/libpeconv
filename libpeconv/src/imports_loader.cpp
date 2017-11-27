@@ -5,8 +5,10 @@
 using namespace peconv;
 
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
-bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, T_FIELD ordinal_flag, t_function_resolver func_resolver)
+bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, T_FIELD ordinal_flag, t_function_resolver* func_resolver)
 {
+    if (func_resolver == NULL) return false;
+
     const bool allow_overwrite = true;
 
     T_FIELD *thunks = (T_FIELD*)((ULONGLONG)modulePtr + thunk_addr);
@@ -45,14 +47,14 @@ bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE
 #ifdef _DEBUG
             printf("raw ordinal: %x\n", raw_ordinal);
 #endif
-            hProc = func_resolver(lib_name, MAKEINTRESOURCEA(raw_ordinal));
+            hProc = func_resolver->resolve_func(lib_name, MAKEINTRESOURCEA(raw_ordinal));
 
         } else {
             LPSTR func_name = by_name->Name;
 #ifdef _DEBUG
             printf("name: %s\n", func_name);
 #endif
-            hProc = func_resolver(lib_name, func_name);
+            hProc = func_resolver->resolve_func(lib_name, func_name);
         }
         if (hProc != NULL) {
             callers[index] = (T_FIELD) hProc;
@@ -65,17 +67,17 @@ bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE
     return true;
 }
 
-bool solve_imported_funcs_b64(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_function_resolver func_resolver)
+bool solve_imported_funcs_b64(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_function_resolver* func_resolver)
 {
     return solve_imported_funcs<ULONGLONG,IMAGE_THUNK_DATA64>(lib_name, call_via, thunk_addr, modulePtr, IMAGE_ORDINAL_FLAG64, func_resolver);
 }
 
-bool solve_imported_funcs_b32(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_function_resolver func_resolver)
+bool solve_imported_funcs_b32(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_function_resolver* func_resolver)
 {
     return solve_imported_funcs<DWORD,IMAGE_THUNK_DATA32>(lib_name, call_via, thunk_addr, modulePtr, IMAGE_ORDINAL_FLAG32, func_resolver);
 }
 
-bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_callback, t_function_resolver func_resolver)
+bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_callback, t_function_resolver* func_resolver)
 {
     IMAGE_DATA_DIRECTORY *importsDir = get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
@@ -120,9 +122,12 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
 }
 
 //fills handles of mapped pe file
-bool peconv::load_imports(BYTE* modulePtr, t_function_resolver func_resolver)
+bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
 {
-   
+    default_func_resolver default_res;
+    if (func_resolver == NULL) {
+        func_resolver = (t_function_resolver*) &default_res;
+    }
     bool is64 = is64bit((BYTE*)modulePtr);
 
     bool isAllFilled = false;
@@ -133,10 +138,4 @@ bool peconv::load_imports(BYTE* modulePtr, t_function_resolver func_resolver)
         isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b32, func_resolver);
     }
     return isAllFilled;
-}
-
-
-bool peconv::load_imports(BYTE* modulePtr)
-{
-    return load_imports(modulePtr, peconv::default_func_resolver);
 }

@@ -1,8 +1,11 @@
 #include "test_hooking_imps.h"
 
 #include "peconv.h"
+using namespace peconv;
 
 #include <iostream>
+#include <string>
+#include <map>
 
 int _stdcall my_MessageBoxA(
     _In_opt_ HWND hWnd,
@@ -26,21 +29,31 @@ int _stdcall my_MessageBoxW(
     return 1338;
 }
 
-FARPROC my_func_resolver(LPSTR lib_name, LPSTR func_name)
-{
-    //the name may be ordinal rather than string, so check if it is a valid pointer:
-    if (!IsBadReadPtr(func_name, 1)) {
-        if (strcmp("MessageBoxA", func_name) == 0) {
-            printf(">>>>>>Replacing MessageBoxA!\n");
-            return (FARPROC) &my_MessageBoxA;
-        }
-        if (strcmp("MessageBoxW", func_name) == 0) {
-            printf(">>>>>>Replacing MessageBoxW!\n");
-            return (FARPROC) &my_MessageBoxW;
-        }
+class hooking_func_resolver : peconv::default_func_resolver {
+public:
+
+    void add_hook(std::string name, FARPROC function ) 
+    {
+        hooks_map[name] = function;
     }
-    return peconv::default_func_resolver(lib_name, func_name);
-}
+
+    FARPROC resolve_func(LPSTR lib_name, LPSTR func_name)
+    {
+        //the name may be ordinal rather than string, so check if it is a valid pointer:
+        if (!IsBadReadPtr(func_name, 1)) {
+            std::map<std::string, FARPROC>::iterator itr = hooks_map.find(func_name);
+            if (itr != hooks_map.end()) {
+                FARPROC hook = itr->second;
+                std::cout << ">>>>>>Replacing: " << func_name << " by: " << hook << std::endl;
+                return hook;
+            }
+        }
+        return peconv::default_func_resolver::resolve_func(lib_name, func_name);
+    }
+
+private:
+    std::map<std::string, FARPROC> hooks_map;
+};
 
 int tests::hook_testcase(char *path)
 {
@@ -50,7 +63,13 @@ int tests::hook_testcase(char *path)
     }
     std::cout << "Trying to load: " << path << std::endl;
     size_t v_size = 0;
-    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, my_func_resolver);
+
+
+    hooking_func_resolver my_res;
+    my_res.add_hook("MessageBoxA", (FARPROC) &my_MessageBoxA);
+    my_res.add_hook("MessageBoxW", (FARPROC) &my_MessageBoxW);
+    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
+
     if (!loaded_pe) {
         return -1;
     }
