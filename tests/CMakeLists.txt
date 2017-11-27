@@ -15,6 +15,7 @@ set (srcs
 	test_loading.cpp
 	test_loading_imps.cpp
 	test_crackme_f4_3.cpp
+	test_hooking_imps.cpp
 )
 
 set (hdrs
@@ -23,6 +24,7 @@ set (hdrs
 	test_loading.h
 	test_loading_imps.h
 	test_crackme_f4_3.h
+	test_hooking_imps.h
 	resource.h
 )
 
@@ -32,7 +34,10 @@ set (rsrc
 
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} ${rsrc} )
 target_link_libraries ( ${PROJECT_NAME} ${PECONV_LIB} )
-add_dependencies( ${PROJECT_NAME} libpeconv)
+add_dependencies( ${PROJECT_NAME} libpeconv test_case1)
+
+#demos:
+add_subdirectory ( test_case1 )
 
 enable_testing()
 
