@@ -36,7 +36,7 @@ add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} ${rsrc} )
 target_link_libraries ( ${PROJECT_NAME} ${PECONV_LIB} )
 add_dependencies( ${PROJECT_NAME} libpeconv test_case1)
 
-#demos:
+#add the application that will be used for tests:
 add_subdirectory ( test_case1 )
 
 enable_testing()
@@ -63,3 +63,7 @@ endif()
 add_test (TestDeploySelfExpResolver tests 4)
 set_tests_properties (TestDeploySelfExpResolver PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 set_tests_properties (TestDeploySelfExpResolver PROPERTIES FAIL_REGULAR_EXPRESSION "Loaded proc is not matching the default one!")
+
+# 5) test hooking a test_case1 application
+add_test (TestHookMessageBox tests 5 "C://tests//test_case1.exe")
+set_tests_properties (TestHookMessageBox PROPERTIES PASS_REGULAR_EXPRESSION "Hooking test passed")
