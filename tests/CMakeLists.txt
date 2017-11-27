@@ -16,6 +16,7 @@ set (srcs
 	test_loading_imps.cpp
 	test_crackme_f4_3.cpp
 	test_hooking_imps.cpp
+	test_crackme_f4_6.cpp
 )
 
 set (hdrs
@@ -25,6 +26,7 @@ set (hdrs
 	test_loading_imps.h
 	test_crackme_f4_3.h
 	test_hooking_imps.h
+	test_crackme_f4_6.h
 	resource.h
 )
 

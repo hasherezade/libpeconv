@@ -4,6 +4,7 @@
 #include "test_loading_imps.h"
 #include "test_crackme_f4_3.h"
 #include "test_hooking_imps.h"
+#include "test_crackme_f4_6.h"
 
 int make_test(int test_id, char *test_arg)
 {
@@ -19,6 +20,7 @@ int make_test(int test_id, char *test_arg)
             return res;
             }
         case 5: return tests::hook_testcase(test_arg);
+        case 6: return tests::decode_crackme_f4_6();
     }
     return -1;
 }
