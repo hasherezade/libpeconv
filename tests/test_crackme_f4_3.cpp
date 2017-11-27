@@ -80,7 +80,7 @@ int tests::brutforce_crackme_f4_3()
 }
 
 //For now this is for manual tests only:
-int tests::deploy_crackme_f4_3(peconv::t_function_resolver func_resolver)
+int tests::deploy_crackme_f4_3(peconv::t_function_resolver* func_resolver)
 {
 #ifdef _WIN64
     printf("Compile the loader as 32bit!\n");

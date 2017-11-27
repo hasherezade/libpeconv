@@ -1,6 +1,7 @@
 #include "test_hooking_imps.h"
 
 #include "peconv.h"
+using namespace peconv;
 
 #include <iostream>
 
@@ -26,21 +27,25 @@ int _stdcall my_MessageBoxW(
     return 1338;
 }
 
-FARPROC my_func_resolver(LPSTR lib_name, LPSTR func_name)
-{
-    //the name may be ordinal rather than string, so check if it is a valid pointer:
-    if (!IsBadReadPtr(func_name, 1)) {
-        if (strcmp("MessageBoxA", func_name) == 0) {
-            printf(">>>>>>Replacing MessageBoxA!\n");
-            return (FARPROC) &my_MessageBoxA;
+class my_func_resolver : peconv::default_func_resolver {
+public:
+    FARPROC resolve_func(LPSTR lib_name, LPSTR func_name) {
+        //the name may be ordinal rather than string, so check if it is a valid pointer:
+        if (!IsBadReadPtr(func_name, 1)) {
+            if (strcmp("MessageBoxA", func_name) == 0) {
+                printf(">>>>>>Replacing MessageBoxA!\n");
+                return (FARPROC) &my_MessageBoxA;
+            }
+            if (strcmp("MessageBoxW", func_name) == 0) {
+                printf(">>>>>>Replacing MessageBoxW!\n");
+                return (FARPROC) &my_MessageBoxW;
+            }
         }
-        if (strcmp("MessageBoxW", func_name) == 0) {
-            printf(">>>>>>Replacing MessageBoxW!\n");
-            return (FARPROC) &my_MessageBoxW;
-        }
+        return peconv::default_func_resolver::resolve_func(lib_name, func_name);
     }
-    return peconv::default_func_resolver(lib_name, func_name);
-}
+};
+
+
 
 int tests::hook_testcase(char *path)
 {
@@ -50,7 +55,9 @@ int tests::hook_testcase(char *path)
     }
     std::cout << "Trying to load: " << path << std::endl;
     size_t v_size = 0;
-    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, my_func_resolver);
+    my_func_resolver *my_res = new my_func_resolver();
+    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*)my_res);
+    delete my_res;
     if (!loaded_pe) {
         return -1;
     }

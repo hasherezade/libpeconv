@@ -148,7 +148,7 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
     return NULL;
 }
 
-FARPROC peconv::export_based_resolver(LPSTR lib_name, LPSTR func_name)
+FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_name)
 {
     HMODULE libBasePtr = LoadLibraryA(lib_name);
     if (libBasePtr == NULL) {
@@ -165,13 +165,13 @@ FARPROC peconv::export_based_resolver(LPSTR lib_name, LPSTR func_name)
             std::cerr << "[!] Cound not get the function: "<< (DWORD)func_name <<" from exports!" << std::endl;
         }
         std::cerr << "[!] Falling back to the default resolver..." <<std::endl;
-        hProc = peconv::default_func_resolver(lib_name, func_name);
+        hProc = default_func_resolver::resolve_func(lib_name, func_name);
         if (hProc == NULL) {
             std::cerr << "[-] Loading function from " << lib_name << " failed!" << std::endl;
         }
     }
 #ifdef _DEBUG
-    FARPROC defaultProc = peconv::default_func_resolver(lib_name, func_name);
+    FARPROC defaultProc = default_func_resolver::resolve_func(lib_name, func_name);
     if (hProc != defaultProc) {
         std::cerr << "[-] Loaded proc is not matching the default one!" << std::endl;
     }

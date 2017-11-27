@@ -60,7 +60,7 @@ BYTE* peconv::load_pe_module(char *filename, OUT size_t &v_size, bool executable
     return mappedDLL;
 }
 
-BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver import_resolver)
+BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver)
 {
     // Load the current executable from the file with the help of libpeconv:
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true);
@@ -79,12 +79,8 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
     return loaded_pe;
 }
 
-BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size)
-{
-    return load_pe_executable(dllRawData, r_size,v_size, peconv::default_func_resolver);
-}
 
-BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size, t_function_resolver import_resolver)
+BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size, t_function_resolver* import_resolver)
 {
 #if _DEBUG
     printf("Module: %s\n", my_path);
@@ -103,9 +99,4 @@ BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size, t_function_r
         return NULL;
     }
     return loaded_pe;
-}
-
-BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size)
-{
-    return load_pe_executable(my_path, v_size, peconv::default_func_resolver);
 }

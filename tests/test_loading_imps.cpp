@@ -3,7 +3,7 @@
 
 #include "test_loading_imps.h"
 
-int tests::deploy_self_ex(peconv::t_function_resolver func_resolver)
+int tests::deploy_self_ex(peconv::t_function_resolver* func_resolver)
 {
     char marker_path[] = "peconv_test_marker";
     DWORD current_pid = GetCurrentProcessId();
@@ -49,5 +49,5 @@ int tests::deploy_self_ex(peconv::t_function_resolver func_resolver)
 
 int tests::deploy_self()
 {
-    return tests::deploy_self_ex(peconv::default_func_resolver);
+    return tests::deploy_self_ex(NULL);
 }
