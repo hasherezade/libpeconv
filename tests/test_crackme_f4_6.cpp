@@ -3,12 +3,7 @@
 #include "peconv.h"
 #include "file_helper.h"
 
-#include "peconv.h"
-using namespace peconv;
-
 #include <iostream>
-#include <string>
-#include <map>
 
 DWORD (_fastcall *imported_func_1)(ULONGLONG a1) = NULL;
 
@@ -47,7 +42,7 @@ int tests::decode_crackme_f4_6()
 	char *path = default_path;
 
 	size_t v_size = 0;
-	peconv:hooking_func_resolver my_res;
+	peconv::hooking_func_resolver my_res;
 	my_res.add_hook("GetSystemTime", (FARPROC) &my_GetSystemTime);
 	BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
 	if (!loaded_pe) {
@@ -60,8 +55,8 @@ int tests::decode_crackme_f4_6()
 	ULONGLONG srand_offset = 0x7900 + (ULONGLONG) loaded_pe;
 	ULONGLONG rand_offset = 0x78D4 + (ULONGLONG) loaded_pe;
 
-	redirect_to_local64((void*)srand_offset, ULONGLONG(&my_srand));
-	redirect_to_local64((void*)rand_offset, ULONGLONG(&my_rand));
+	peconv::redirect_to_local64((void*)srand_offset, ULONGLONG(&my_srand));
+	peconv::redirect_to_local64((void*)rand_offset, ULONGLONG(&my_rand));
 
 	imported_func_1 = (DWORD (_fastcall *)(ULONGLONG)) (modifying_func_offset); 
 	printf("Calling the main func:\n");
