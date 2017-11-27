@@ -45,8 +45,6 @@ public:
     }
 };
 
-
-
 int tests::hook_testcase(char *path)
 {
     if (path == NULL) {
@@ -55,9 +53,10 @@ int tests::hook_testcase(char *path)
     }
     std::cout << "Trying to load: " << path << std::endl;
     size_t v_size = 0;
-    my_func_resolver *my_res = new my_func_resolver();
-    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*)my_res);
-    delete my_res;
+
+    my_func_resolver my_res;
+    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
+
     if (!loaded_pe) {
         return -1;
     }
