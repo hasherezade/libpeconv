@@ -35,10 +35,10 @@ build_script:
 test_script:
   - mkdir "C:\tests"
   - cd build32
-  - cp "tests\test_case1\Debug\test_case1.exe" "C:\test_case1.exe"
+  - cp "tests\test_case1\Debug\test_case1.exe" "C:\tests\test_case1.exe"
   - ctest -V
   - cd ..
   - cd build64
-  - cp "tests\test_case1\Debug\test_case1.exe" "C:\test_case1.exe"
+  - cp "tests\test_case1\Debug\test_case1.exe" "C:\tests\test_case1.exe"
   - ctest -V
   
