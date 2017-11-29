@@ -7,30 +7,33 @@ using namespace peconv;
 #include <string>
 #include <map>
 
-int _stdcall my_MessageBoxA(
-    _In_opt_ HWND hWnd,
-    _In_opt_ LPCSTR lpText,
-    _In_opt_ LPCSTR lpCaption,
-    _In_ UINT uType)
-{
-    std::cout << "TITLE: [" << lpCaption << "]" << std::endl;
-    std::cout << "MESSAGE: [" << lpText << "]" <<std::endl;
-    return 1337;
-}
+namespace test5 {
+    int _stdcall my_MessageBoxA(
+        _In_opt_ HWND hWnd,
+        _In_opt_ LPCSTR lpText,
+        _In_opt_ LPCSTR lpCaption,
+        _In_ UINT uType)
+    {
+        std::cout << "TITLE: [" << lpCaption << "]" << std::endl;
+        std::cout << "MESSAGE: [" << lpText << "]" <<std::endl;
+        return 1337;
+    }
 
-int _stdcall my_MessageBoxW(
-    _In_opt_ HWND hWnd,
-    _In_opt_ LPCWSTR lpText,
-    _In_opt_ LPCWSTR lpCaption,
-    _In_ UINT uType)
-{
-    std::wcout << L"TITLE: [" << lpCaption << L"]" << std::endl;
-    std::wcout << L"MESSAGE: [" << lpText << L"]" <<std::endl;
-    return 1338;
-}
+    int _stdcall my_MessageBoxW(
+        _In_opt_ HWND hWnd,
+        _In_opt_ LPCWSTR lpText,
+        _In_opt_ LPCWSTR lpCaption,
+        _In_ UINT uType)
+    {
+        std::wcout << L"TITLE: [" << lpCaption << L"]" << std::endl;
+        std::wcout << L"MESSAGE: [" << lpText << L"]" <<std::endl;
+        return 1338;
+    }
+};
 
 int tests::hook_testcase(char *path)
 {
+
     if (path == NULL) {
         std::cerr << "Supply the path to the app" << std::endl;
         return -1;
@@ -40,8 +43,8 @@ int tests::hook_testcase(char *path)
 
 
     peconv::hooking_func_resolver my_res;
-    my_res.add_hook("MessageBoxA", (FARPROC) &my_MessageBoxA);
-    my_res.add_hook("MessageBoxW", (FARPROC) &my_MessageBoxW);
+    my_res.add_hook("MessageBoxA", (FARPROC) &test5::my_MessageBoxA);
+    my_res.add_hook("MessageBoxW", (FARPROC) &test5::my_MessageBoxW);
     BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
 
     if (!loaded_pe) {
