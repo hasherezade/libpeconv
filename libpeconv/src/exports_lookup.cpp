@@ -93,9 +93,35 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
     return NULL;
 }
 
+size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &names_list)
+{
+    IMAGE_DATA_DIRECTORY *exportsDir = peconv::get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);
 
-//WARNING: this is an unfinished version - resolves only functions imported by names.
-// Doesn't work for the forwarded functions.
+    if (exportsDir == NULL) {
+        std::cerr << "Function not found!" << std::endl;
+        return 0;
+    }
+    DWORD expAddr = exportsDir->VirtualAddress;
+    if (expAddr == 0) return 0;
+
+    IMAGE_EXPORT_DIRECTORY* exp = (IMAGE_EXPORT_DIRECTORY*)(expAddr + (ULONG_PTR) modulePtr);
+    SIZE_T namesCount = exp->NumberOfNames;
+    DWORD funcNamesListRVA = exp->AddressOfNames;
+
+    //go through names:
+    SIZE_T i = 0;
+    for (i = 0; i < namesCount; i++) {
+        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
+       
+        LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
+        if (IsBadReadPtr(name, 1)) break; // this shoudld not happen. maybe the PE file is corrupt?
+
+        names_list.push_back(name);
+    }
+    return i;
+}
+
+//WARNING: doesn't work for the forwarded functions.
 FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
 {
     IMAGE_DATA_DIRECTORY *exportsDir = peconv::get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);

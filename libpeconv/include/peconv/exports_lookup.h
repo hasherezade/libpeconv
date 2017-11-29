@@ -3,12 +3,15 @@
 
 #include "pe_hdrs_helper.h"
 #include "function_resolver.h"
+#include <string>
+#include <vector>
 
 namespace peconv {
 
-    //WARNING: this is an unfinished version - resolves only functions imported by names.
-    // Doesn't work for the forwarded functions.
+    //WARNING: doesn't work for the forwarded functions.
     FARPROC get_exported_func(PVOID modulePtr, LPSTR wanted_name);
+
+    size_t get_exported_names(PVOID modulePtr, std::vector<std::string> &names_list);
 
     //function_resolver:
     class export_based_resolver : default_func_resolver {
