@@ -9,7 +9,9 @@ FARPROC peconv::hooking_func_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
         std::map<std::string, FARPROC>::iterator itr = hooks_map.find(func_name);
         if (itr != hooks_map.end()) {
             FARPROC hook = itr->second;
+#ifdef _DEBUG
             std::cout << ">>>>>>Replacing: " << func_name << " by: " << hook << std::endl;
+#endif
             return hook;
         }
     }
