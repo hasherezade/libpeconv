@@ -45,23 +45,20 @@ namespace test6 {
         return 1337;
     }
 
-    char load_next_char()
+    bool load_next_char(const char *path)
     {
 #ifndef _WIN64
         printf("Compile the loader as 64bit!\n");
         system("pause");
       return 0;
 #endif
-        char default_path[] = "C:\\FlareOn2017\\payload.dll";
-        char *path = default_path;
-
         size_t v_size = 0;
         peconv::hooking_func_resolver my_res;
         my_res.add_hook("GetSystemTime", (FARPROC) &test6::my_GetSystemTime);
         my_res.add_hook("MessageBoxA", (FARPROC) &test6::my_MessageBoxA);
         BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
         if (!loaded_pe) {
-          return -1;
+          return false;
         }
 
         ULONGLONG modifying_func_offset = 0x5d30 + (ULONGLONG) loaded_pe;
@@ -92,14 +89,21 @@ namespace test6 {
             test6::display_chunk(0, 0, const_cast<char*>(got_name));
         }
         peconv::free_pe_buffer(loaded_pe, v_size);
+        return true;
     }
 }; //namespace test6
 
 //For now this is for manual tests only:
-int tests::decode_crackme_f4_6()
+int tests::decode_crackme_f4_6(char *path)
 {
+    char default_path[] = "C:\\FlareOn2017\\payload.dll";
+    if (!path) {
+        path = default_path;
+    }
     for (int i = 0; i < 26; i++) {
-        test6::load_next_char();
+        if (!test6::load_next_char(path)) {
+            return -1;
+        }
     }
     printf("\n");
     return 0;

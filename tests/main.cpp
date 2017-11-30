@@ -20,7 +20,7 @@ int make_test(int test_id, char *test_arg)
             return res;
             }
         case 5: return tests::hook_testcase(test_arg);
-        case 6: return tests::decode_crackme_f4_6();
+        case 6: return tests::decode_crackme_f4_6(test_arg);
     }
     return -1;
 }
