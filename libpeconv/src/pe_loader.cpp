@@ -29,7 +29,7 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
     return mappedDLL;
 }
 
-BYTE* peconv::load_pe_module(char *filename, OUT size_t &v_size, bool executable, bool relocate)
+BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool executable, bool relocate)
 {
     HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if(file == INVALID_HANDLE_VALUE) {
@@ -80,7 +80,7 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
 }
 
 
-BYTE* peconv::load_pe_executable(char *my_path, OUT size_t &v_size, t_function_resolver* import_resolver)
+BYTE* peconv::load_pe_executable(const char *my_path, OUT size_t &v_size, t_function_resolver* import_resolver)
 {
 #if _DEBUG
     printf("Module: %s\n", my_path);
