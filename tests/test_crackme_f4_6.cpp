@@ -10,13 +10,16 @@ namespace test6 {
     DWORD (_fastcall *imported_func_1)(ULONGLONG a1) = NULL;
     DWORD (*display_chunk)(int, int, LPSTR a1) = NULL;
 
+    const size_t g_flagLen = 26;
+    char g_flagBuf[g_flagLen + 1] = { 0 };
+
     VOID
     WINAPI
     my_GetSystemTime(
         _Out_ LPSYSTEMTIME lpSystemTime
         )
     {
-        static DWORD next_val = 11;
+        static DWORD next_val = 0;
         GetSystemTime(lpSystemTime);
         lpSystemTime->wMonth = next_val;
         next_val++;
@@ -40,9 +43,10 @@ namespace test6 {
         _In_ UINT uType)
     {
         BYTE key_part = 0;
-        sscanf(lpText,"%*s = %x;",&key_part);
-        printf("%c", key_part);
-        return 1337;
+        int key_id = 0;
+        sscanf(lpText,"key[%d] = %x;", &key_id, &key_part);
+        g_flagBuf[key_id % g_flagLen] = key_part;
+        return 0;
     }
 
     bool load_next_char(const char *path)
@@ -100,11 +104,15 @@ int tests::decode_crackme_f4_6(char *path)
     if (!path) {
         path = default_path;
     }
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < test6::g_flagLen; i++) {
         if (!test6::load_next_char(path)) {
             return -1;
         }
     }
-    printf("\n");
+    printf("%s\n", test6::g_flagBuf);
+    if (strcmp(test6::g_flagBuf, "wuuut-exp0rts@flare-on.com") != 0) {
+        printf("Invalid flag!\n");
+        return -1;
+    }
     return 0;
 }
