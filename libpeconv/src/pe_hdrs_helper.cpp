@@ -310,7 +310,7 @@ IMAGE_TYPE_DIRECTORY* peconv::get_type_directory(HMODULE modulePtr, DWORD dir_id
     return (IMAGE_TYPE_DIRECTORY*)(dir_addr + (ULONG_PTR) modulePtr);
 }
 
-IMAGE_EXPORT_DIRECTORY* peconv::get_image_export_dir(HMODULE modulePtr)
+IMAGE_EXPORT_DIRECTORY* peconv::get_export_directory(HMODULE modulePtr)
 {
     return get_type_directory<IMAGE_EXPORT_DIRECTORY>(modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);
 }

@@ -7,9 +7,7 @@ size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr,
                                 std::map<ULONGLONG, DWORD> &va_to_ord
                                 )
 {
-    size_t forwarded_ctr = 0;
-
-    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_image_export_dir((HMODULE) modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
     if (exp == NULL) return NULL;
 
     SIZE_T functCount = exp->NumberOfFunctions;
@@ -22,7 +20,7 @@ size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr,
 		DWORD ordinal = ordBase + i;
         va_to_ord[(ULONGLONG)funcRVA] = ordinal;
     }
-    return functCount - forwarded_ctr;
+    return functCount;
 }
 
 size_t ExportsMapper::resolve_forwarders(const ULONGLONG va, ExportedFunc &currFunc)
@@ -43,14 +41,14 @@ size_t ExportsMapper::resolve_forwarders(const ULONGLONG va, ExportedFunc &currF
     return resolved;
 }
 
-size_t ExportsMapper::addToLookupTables(std::string moduleName, HMODULE modulePtr)
+size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr)
 {
-    IMAGE_EXPORT_DIRECTORY* exp = get_image_export_dir(modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
     if (exp == NULL) {
         return 0;
     }
     std::map<ULONGLONG, DWORD> va_to_ord;
-    size_t ord = make_ord_lookup_tables(modulePtr, va_to_ord);
+    size_t functCount = make_ord_lookup_tables(modulePtr, va_to_ord);
 
     std::string dllName = getDllName(moduleName);
     size_t forwarded_ctr = 0;
@@ -101,5 +99,5 @@ size_t ExportsMapper::addToLookupTables(std::string moduleName, HMODULE modulePt
             resolve_forwarders(va, currFunc);
         }
     }
-    return forwarded_ctr;
+    return functCount - forwarded_ctr;
 }

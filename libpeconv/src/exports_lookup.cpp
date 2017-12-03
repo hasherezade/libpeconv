@@ -95,7 +95,7 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
 
 size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &names_list)
 {
-    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_image_export_dir((HMODULE) modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
     if (exp == 0) return 0;
 
     SIZE_T namesCount = exp->NumberOfNames;
@@ -117,7 +117,7 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
 //WARNING: doesn't work for the forwarded functions.
 FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
 {
-    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_image_export_dir((HMODULE) modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
     if (exp == NULL) return NULL;
 
     SIZE_T namesCount = exp->NumberOfNames;
@@ -193,7 +193,7 @@ FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
 
 LPSTR peconv::read_dll_name(HMODULE modulePtr)
 {
-    IMAGE_EXPORT_DIRECTORY* exp = get_image_export_dir(modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
     if (exp == NULL) {
         return NULL;
     }

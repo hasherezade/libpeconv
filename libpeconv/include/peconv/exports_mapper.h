@@ -15,18 +15,30 @@ namespace peconv {
     class ExportsMapper {
 
     public:
-        size_t addToLookupTables(std::string moduleName, HMODULE modulePtr);
 
-        const ExportedFunc* getFuncAt(ULONGLONG va)
+        // Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
+        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr);
+
+        //which DLL exports the function of given address?
+        const std::set<ExportedFunc>* find_exports_by_va(ULONGLONG va)
         {
             std::map<ULONGLONG, std::set<ExportedFunc>>::iterator itr = va_to_func.find(va);
             if (itr != va_to_func.end()) {
                 std::set<ExportedFunc> &fSet = itr->second;
-                std::set<ExportedFunc>::iterator fItr = fSet.begin();
-                const ExportedFunc* func = &(*fItr);
-                return func;
+                return &fSet;
             }
             return NULL;
+        }
+
+        //which DLL exports the function of given address? give the first entry
+        const ExportedFunc* find_export_by_va(ULONGLONG va)
+        {
+            const std::set<ExportedFunc>* exp_set = find_exports_by_va(va);
+            if (exp_set == NULL) return NULL;
+
+            std::set<ExportedFunc>::iterator fItr = exp_set->begin();
+            const ExportedFunc* func = &(*fItr);
+            return func;
         }
 
     private:

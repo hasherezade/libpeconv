@@ -22,7 +22,7 @@ IMAGE_DATA_DIRECTORY* get_directory_entry(const BYTE* pe_buffer, DWORD dir_id);
 template <typename IMAGE_TYPE_DIRECTORY>
 IMAGE_TYPE_DIRECTORY* get_type_directory(HMODULE modulePtr, DWORD dir_id);
 
-IMAGE_EXPORT_DIRECTORY* get_image_export_dir(HMODULE modulePtr);
+IMAGE_EXPORT_DIRECTORY* get_export_directory(HMODULE modulePtr);
 
 ULONGLONG get_image_base(const BYTE *pe_buffer);
 
