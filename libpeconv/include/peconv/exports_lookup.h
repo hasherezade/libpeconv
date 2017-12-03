@@ -3,8 +3,11 @@
 
 #include "pe_hdrs_helper.h"
 #include "function_resolver.h"
+#include "exports_mapper.h"
+
 #include <string>
 #include <vector>
+#include <map>
 
 namespace peconv {
 
@@ -18,5 +21,8 @@ namespace peconv {
         public:
         virtual FARPROC resolve_func(LPSTR lib_name, LPSTR func_name);
     };
+
+    //read the DLL name from the exports table:
+    LPSTR read_dll_name(HMODULE modulePtr);
 
 }; //namespace peconv

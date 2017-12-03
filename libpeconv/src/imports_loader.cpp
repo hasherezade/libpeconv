@@ -79,7 +79,7 @@ bool solve_imported_funcs_b32(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, 
 
 bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_callback, t_function_resolver* func_resolver)
 {
-    IMAGE_DATA_DIRECTORY *importsDir = get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
 
     DWORD maxSize = importsDir->Size;

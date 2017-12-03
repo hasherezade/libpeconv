@@ -95,16 +95,9 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
 
 size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &names_list)
 {
-    IMAGE_DATA_DIRECTORY *exportsDir = peconv::get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);
+    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
+    if (exp == 0) return 0;
 
-    if (exportsDir == NULL) {
-        std::cerr << "Function not found!" << std::endl;
-        return 0;
-    }
-    DWORD expAddr = exportsDir->VirtualAddress;
-    if (expAddr == 0) return 0;
-
-    IMAGE_EXPORT_DIRECTORY* exp = (IMAGE_EXPORT_DIRECTORY*)(expAddr + (ULONG_PTR) modulePtr);
     SIZE_T namesCount = exp->NumberOfNames;
     DWORD funcNamesListRVA = exp->AddressOfNames;
 
@@ -124,16 +117,9 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
 //WARNING: doesn't work for the forwarded functions.
 FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
 {
-    IMAGE_DATA_DIRECTORY *exportsDir = peconv::get_pe_directory((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);
+    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
+    if (exp == NULL) return NULL;
 
-    if (exportsDir == NULL) {
-        std::cerr << "Function not found!" << std::endl;
-        return NULL;
-    }
-    DWORD expAddr = exportsDir->VirtualAddress;
-    if (expAddr == 0) return NULL;
-
-    IMAGE_EXPORT_DIRECTORY* exp = (IMAGE_EXPORT_DIRECTORY*)(expAddr + (ULONG_PTR) modulePtr);
     SIZE_T namesCount = exp->NumberOfNames;
 
     DWORD funcsListRVA = exp->AddressOfFunctions;
@@ -203,4 +189,21 @@ FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
     }
 #endif
     return hProc;
+}
+
+LPSTR peconv::read_dll_name(HMODULE modulePtr)
+{
+    IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
+    if (exp == NULL) {
+        return NULL;
+    }
+    LPSTR module_name = (char*)((ULONGLONG)modulePtr + exp->Name);
+    if (IsBadReadPtr(module_name, 1)) {
+        return NULL;
+    }
+    size_t len = peconv::forwarderNameLen((BYTE*) module_name);
+    if (len > 1) {
+        return module_name;
+    }
+    return NULL;
 }

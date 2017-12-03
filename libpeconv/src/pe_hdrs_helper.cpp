@@ -68,7 +68,7 @@ bool peconv::is64bit(const BYTE *pe_buffer)
 	return false;
 }
 
-IMAGE_DATA_DIRECTORY* peconv::get_pe_directory(const BYTE *pe_buffer, DWORD dir_id)
+IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(const BYTE *pe_buffer, DWORD dir_id)
 {
 	if (dir_id >= IMAGE_NUMBEROF_DIRECTORY_ENTRIES) return NULL;
 
@@ -291,9 +291,26 @@ WORD peconv::get_subsystem(const BYTE* payload)
 
 bool peconv::has_relocations(BYTE *pe_buffer)
 {
-	IMAGE_DATA_DIRECTORY* relocDir = get_pe_directory(pe_buffer, IMAGE_DIRECTORY_ENTRY_BASERELOC);
+	IMAGE_DATA_DIRECTORY* relocDir = get_directory_entry(pe_buffer, IMAGE_DIRECTORY_ENTRY_BASERELOC);
 	if (relocDir == NULL) {
 		return false;
 	}
 	return true;
+}
+
+template <typename IMAGE_TYPE_DIRECTORY>
+IMAGE_TYPE_DIRECTORY* peconv::get_type_directory(HMODULE modulePtr, DWORD dir_id)
+{
+    IMAGE_DATA_DIRECTORY *my_dir = peconv::get_directory_entry((const BYTE*) modulePtr, dir_id);
+    if (my_dir == NULL) return NULL;
+
+    DWORD dir_addr = my_dir->VirtualAddress;
+    if (dir_addr == 0) return NULL;
+
+    return (IMAGE_TYPE_DIRECTORY*)(dir_addr + (ULONG_PTR) modulePtr);
+}
+
+IMAGE_EXPORT_DIRECTORY* peconv::get_export_directory(HMODULE modulePtr)
+{
+    return get_type_directory<IMAGE_EXPORT_DIRECTORY>(modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);
 }
