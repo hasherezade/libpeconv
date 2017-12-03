@@ -51,7 +51,7 @@ bool apply_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD pa
 
 bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
 {
-	IMAGE_DATA_DIRECTORY* relocDir = get_pe_directory((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
+	IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
 	if (relocDir == NULL) {
 #ifdef _DEBUG
 		printf("[!] WARNING: no relocation table found!\n");

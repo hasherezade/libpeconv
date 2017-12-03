@@ -17,7 +17,12 @@ IMAGE_NT_HEADERS64* get_nt_hrds64(const BYTE *pe_buffer);
 
 DWORD get_hdrs_size(const BYTE *pe_buffer);
 
-IMAGE_DATA_DIRECTORY* get_pe_directory(const BYTE* pe_buffer, DWORD dir_id);
+IMAGE_DATA_DIRECTORY* get_directory_entry(const BYTE* pe_buffer, DWORD dir_id);
+
+template <typename IMAGE_TYPE_DIRECTORY>
+IMAGE_TYPE_DIRECTORY* get_type_directory(HMODULE modulePtr, DWORD dir_id);
+
+IMAGE_EXPORT_DIRECTORY* get_image_export_dir(HMODULE modulePtr);
 
 ULONGLONG get_image_base(const BYTE *pe_buffer);
 
