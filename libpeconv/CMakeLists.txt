@@ -20,6 +20,7 @@ set (srcs
 	src/exports_lookup.cpp
 	src/function_resolver.cpp
 	src/hooks.cpp
+	src/process_explorer.cpp
 )
 
 set (hdrs
@@ -36,6 +37,7 @@ set (hdrs
 	include/peconv/exports_lookup.h
 	include/peconv/function_resolver.h
 	include/peconv/hooks.h
+	include/peconv/process_explorer.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )

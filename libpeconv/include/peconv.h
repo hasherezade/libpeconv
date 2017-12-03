@@ -11,7 +11,7 @@
 #include "peconv/exports_lookup.h"
 #include "peconv/function_resolver.h"
 #include "peconv/hooks.h"
-
+#include "peconv/process_explorer.h"
 
 
 
