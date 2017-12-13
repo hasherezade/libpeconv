@@ -4,20 +4,20 @@
 using namespace peconv;
 
 size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr, 
-                                std::map<ULONGLONG, DWORD> &va_to_ord
-                                )
+                                             std::map<ULONGLONG, DWORD> &va_to_ord
+                                             )
 {
     IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
     if (exp == NULL) return NULL;
 
     SIZE_T functCount = exp->NumberOfFunctions;
-	DWORD funcsListRVA = exp->AddressOfFunctions;
-	DWORD ordBase = exp->Base;
+    DWORD funcsListRVA = exp->AddressOfFunctions;
+    DWORD ordBase = exp->Base;
 
     //go through names:
-    for (SIZE_T i = 0; i < functCount; i++) {
-		DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
-		DWORD ordinal = ordBase + i;
+    for (DWORD i = 0; i < functCount; i++) {
+        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
+        DWORD ordinal = ordBase + i;
         va_to_ord[(ULONGLONG)funcRVA] = ordinal;
     }
     return functCount;

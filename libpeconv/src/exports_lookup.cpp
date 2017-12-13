@@ -78,10 +78,10 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
 	DWORD ordBase = exp->Base;
 
     //go through names:
-    for (SIZE_T i = 0; i < functCount; i++) {
-		DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
+    for (DWORD i = 0; i < functCount; i++) {
+        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); //pointer to the function
-		DWORD ordinal = ordBase + i;
+        DWORD ordinal = ordBase + i;
         if (ordinal == wanted_ordinal) {
             if (forwarder_name_len(fPtr) > 1) {
                 std::cerr << "[!] Forwarded function: ["<< wanted_ordinal << " -> "<< fPtr << "] cannot be resolved!" << std::endl;
