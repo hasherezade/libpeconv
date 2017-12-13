@@ -13,37 +13,35 @@ namespace test6 {
     const size_t g_flagLen = 26;
     char g_flagBuf[g_flagLen + 1] = { 0 };
 
-    VOID
+    int
     WINAPI
-    my_GetSystemTime(
-        _Out_ LPSYSTEMTIME lpSystemTime
-        )
-    {
-        static DWORD next_val = 0;
-        GetSystemTime(lpSystemTime);
-        lpSystemTime->wMonth = next_val;
-        next_val++;
-    }
-
-    int _stdcall my_MessageBoxA(
+    my_MessageBoxA(
         _In_opt_ HWND hWnd,
         _In_opt_ LPCSTR lpText,
         _In_opt_ LPCSTR lpCaption,
         _In_ UINT uType)
     {
-        BYTE key_part = 0;
-        int key_id = 0;
-        printf("%s\n", lpText);
-        sscanf(lpText,"key[%d] = %x;", &key_id, &key_part);
-        g_flagBuf[key_id % g_flagLen] = key_part;
+        static int key_id = 0;
+        std::string str = lpText;
+
+        std::size_t pos = str.find("0x");
+        std::string str3 = str.substr(pos);
+        unsigned char key_part = std::stoul(str3, nullptr, 16);
+
+        g_flagBuf[(key_id++) % g_flagLen] = key_part;
         return 0;
+    }
+
+    int my_index()
+    {
+        static int index = 0;
+        return (index++) % g_flagLen;
     }
 
     bool load_next_char(const char *path)
     {
         size_t v_size = 0;
         peconv::hooking_func_resolver my_res;
-        my_res.add_hook("GetSystemTime", (FARPROC) &test6::my_GetSystemTime);
         my_res.add_hook("MessageBoxA", (FARPROC) &test6::my_MessageBoxA);
         BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
         if (!loaded_pe) {
@@ -54,11 +52,13 @@ namespace test6 {
         ULONGLONG modifying_func_offset = 0x5d30 + (ULONGLONG) loaded_pe;
 
         //hook local func:
-        ULONGLONG srand_offset = 0x7900 + (ULONGLONG) loaded_pe;
-        ULONGLONG rand_offset = 0x78D4 + (ULONGLONG) loaded_pe;
+        ULONGLONG srand_offset = (ULONGLONG)loaded_pe + 0x7900;
+        ULONGLONG rand_offset = (ULONGLONG)loaded_pe + 0x78D4;
+        ULONGLONG calc_index_offset = (ULONGLONG)loaded_pe + 0x4710;
 
         peconv::redirect_to_local64((void*)srand_offset, ULONGLONG(&srand));
         peconv::redirect_to_local64((void*)rand_offset, ULONGLONG(&rand));
+        peconv::redirect_to_local64((void*)calc_index_offset, (ULONGLONG)&my_index);
 
         test6::imported_func_1 = (DWORD (_fastcall *)(ULONGLONG)) (modifying_func_offset); 
 #ifdef _DEBUG
