@@ -71,8 +71,8 @@ add_test (TestHookMessageBox tests 5 "C://tests//test_case1.exe")
 set_tests_properties (TestHookMessageBox PROPERTIES PASS_REGULAR_EXPRESSION "Hooking test passed")
 
 #only for 64bit:
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-	# 6) Solve FlareOn2017 Challenge6
-	add_test (TestCrackmeF4_6 tests 6)
-	set_tests_properties (TestCrackmeF4_6 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
-endif()
+#if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+#	# 6) Solve FlareOn2017 Challenge6
+#	add_test (TestCrackmeF4_6 tests 6)
+#	set_tests_properties (TestCrackmeF4_6 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+#endif()
