@@ -25,17 +25,6 @@ namespace test6 {
         next_val++;
     }
 
-    void __cdecl my_srand(unsigned int seed)
-    {
-        return srand(seed);
-    }
-
-    int __cdecl my_rand()
-    {
-        int rval = rand();
-        return rval;
-    }
-
     int _stdcall my_MessageBoxA(
         _In_opt_ HWND hWnd,
         _In_opt_ LPCSTR lpText,
@@ -71,8 +60,8 @@ namespace test6 {
         ULONGLONG srand_offset = 0x7900 + (ULONGLONG) loaded_pe;
         ULONGLONG rand_offset = 0x78D4 + (ULONGLONG) loaded_pe;
 
-        peconv::redirect_to_local64((void*)srand_offset, ULONGLONG(&test6::my_srand));
-        peconv::redirect_to_local64((void*)rand_offset, ULONGLONG(&test6::my_rand));
+        peconv::redirect_to_local64((void*)srand_offset, ULONGLONG(&srand));
+        peconv::redirect_to_local64((void*)rand_offset, ULONGLONG(&rand));
 
         test6::imported_func_1 = (DWORD (_fastcall *)(ULONGLONG)) (modifying_func_offset); 
 #ifdef _DEBUG
@@ -100,7 +89,11 @@ namespace test6 {
 //For now this is for manual tests only:
 int tests::decode_crackme_f4_6(char *path)
 {
-    char default_path[] = "C:\\FlareOn2017\\payload.dll";
+#ifndef _WIN64
+    printf("Compile the loader as 64bit!\n");
+    return 0;
+#endif
+    char default_path[] = "C:\\tests\\payload.dll";
     if (!path) {
         path = default_path;
     }

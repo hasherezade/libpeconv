@@ -40,5 +40,6 @@ test_script:
   - cd ..
   - cd build64
   - cp "tests\test_case1\Debug\test_case1.exe" "C:\tests\test_case1.exe"
+  - cp "tests\test_case2\payload.dll" "C:\tests\payload.dll"
   - ctest -V
   
