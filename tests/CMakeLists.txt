@@ -73,6 +73,6 @@ set_tests_properties (TestHookMessageBox PROPERTIES PASS_REGULAR_EXPRESSION "Hoo
 #only for 64bit:
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	# 6) Solve FlareOn2017 Challenge6
-	add_test (TestCrackmeF4_6 tests 6)
+	add_test (TestCrackmeF4_6 tests 6 "C://tests//payload.dll")
 	set_tests_properties (TestCrackmeF4_6 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 endif()

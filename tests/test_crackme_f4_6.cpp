@@ -13,22 +13,16 @@ namespace test6 {
     const size_t g_flagLen = 26;
     char g_flagBuf[g_flagLen + 1] = { 0 };
 
-    int
-    WINAPI
-    my_MessageBoxA(
+    int WINAPI my_MessageBoxA(
         _In_opt_ HWND hWnd,
         _In_opt_ LPCSTR lpText,
         _In_opt_ LPCSTR lpCaption,
         _In_ UINT uType)
     {
-        static int key_id = 0;
-        std::string str = lpText;
-
-        std::size_t pos = str.find("0x");
-        std::string str3 = str.substr(pos);
-        unsigned char key_part = std::stoul(str3, nullptr, 16);
-
-        g_flagBuf[(key_id++) % g_flagLen] = key_part;
+        int key_part = 0;
+        int key_id = 0;
+        sscanf(lpText,"key[%d] = %x;", &key_id, &key_part);
+        g_flagBuf[key_id] = key_part;
         return 0;
     }
 
@@ -76,7 +70,9 @@ namespace test6 {
             const char *got_name = names_set[0].c_str();
             FARPROC exp1 = peconv::get_exported_func(loaded_pe, const_cast<char*>(got_name));
             test6::display_chunk = (DWORD (*)(int, int, LPSTR) ) exp1;
+#ifdef _DEBUG
             printf("Calling exported function at: %p\n", exp1);
+#endif
             test6::display_chunk(0, 0, const_cast<char*>(got_name));
         }
         peconv::free_pe_buffer(loaded_pe, v_size);
@@ -91,12 +87,11 @@ int tests::decode_crackme_f4_6(char *path)
     printf("Compile the loader as 64bit!\n");
     return 0;
 #endif
-    char default_path[] = "C:\\tests\\payload.dll";
+    char default_path[] = "payload.dll";
     if (!path) {
         path = default_path;
     }
     for (int i = 0; i < test6::g_flagLen; i++) {
-        printf("Trying to load chunk: %d\n", i);
         if (!test6::load_next_char(path)) {
             printf("Cannot load next char...\n");
             return -1;
