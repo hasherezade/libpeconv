@@ -59,7 +59,7 @@ int tests::test_ntdll(char *path)
 #else
     memcpy(base_addr, messageBox64bit_sc, sizeof(messageBox64bit_sc));
 #endif
-	void (*shellc)(void) = (void (*)(void))base_addr;
+    void (*shellc)(void) = (void (*)(void))base_addr;
     shellc();
 
     return 0;
