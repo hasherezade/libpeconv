@@ -20,7 +20,7 @@ NTSTATUS (NTAPI *ntdll_ZwAllocateVirtualMemory)(
 //For now this is for manual tests only:
 int tests::test_ntdll(char *path)
 {
-	CHAR ntdllPath[MAX_PATH];
+    CHAR ntdllPath[MAX_PATH];
     ExpandEnvironmentStrings("%SystemRoot%\\system32\\ntdll.dll", ntdllPath, MAX_PATH);
 
     size_t v_size = 0;
@@ -28,7 +28,7 @@ int tests::test_ntdll(char *path)
     if (!ntdll_module) {
         return -1;
     }
-	bool is64 = peconv::is64bit(ntdll_module);
+    bool is64 = peconv::is64bit(ntdll_module);
     std::cout << "NTDLL loaded" << is64 << std::endl;
     FARPROC n_offset = peconv::get_exported_func(ntdll_module, "tolower");
     if (n_offset == NULL) {
