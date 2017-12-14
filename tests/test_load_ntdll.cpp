@@ -46,13 +46,13 @@ int tests::test_ntdll(char *path)
     PVOID base_addr = 0;
     SIZE_T buffer_size = 0x200;
     ntdll_ZwAllocateVirtualMemory = (NTSTATUS (NTAPI *)(HANDLE, PVOID *, ULONG_PTR, PSIZE_T, ULONG, ULONG)) n_offset;
-	NTSTATUS status = ntdll_ZwAllocateVirtualMemory(
-		GetCurrentProcess(), &base_addr, 0, &buffer_size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE
-		);
+    NTSTATUS status = ntdll_ZwAllocateVirtualMemory(
+        GetCurrentProcess(), &base_addr, 0, &buffer_size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE
+    );
 
-	if (status != S_OK) {
-		return -1;
-	}
+    if (status != S_OK) {
+        return -1;
+    }
     printf("allocated: %p\n", base_addr);
 #ifndef _WIN64
     memcpy(base_addr, messageBox32bit_sc, sizeof(messageBox32bit_sc));
