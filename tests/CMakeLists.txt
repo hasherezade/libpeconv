@@ -17,6 +17,7 @@ set (srcs
 	test_crackme_f4_3.cpp
 	test_hooking_imps.cpp
 	test_crackme_f4_6.cpp
+	test_load_ntdll.cpp
 )
 
 set (hdrs
@@ -27,7 +28,9 @@ set (hdrs
 	test_crackme_f4_3.h
 	test_hooking_imps.h
 	test_crackme_f4_6.h
+	test_load_ntdll.h
 	resource.h
+	shellcodes.h
 )
 
 set (rsrc

@@ -5,7 +5,6 @@
 #include "peconv.h"
 using namespace peconv;
 
-
 int tests::load_self()
 {
     char my_path[MAX_PATH] = { 0 };
