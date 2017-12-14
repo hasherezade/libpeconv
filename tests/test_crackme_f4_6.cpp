@@ -80,7 +80,6 @@ namespace test6 {
     }
 }; //namespace test6
 
-//For now this is for manual tests only:
 int tests::decode_crackme_f4_6(char *path)
 {
 #ifndef _WIN64
