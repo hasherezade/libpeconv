@@ -56,7 +56,9 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
         LPVOID section_mapped = (BYTE*) payload + next_sec->VirtualAddress;
         LPVOID section_raw_ptr = destAddress + next_sec->PointerToRawData;
         SIZE_T sec_size = next_sec->SizeOfRawData;
-        raw_end = next_sec->SizeOfRawData + next_sec->PointerToRawData;
+
+        size_t new_end = sec_size + next_sec->PointerToRawData;
+        if (new_end > raw_end) raw_end = new_end;
 
         if (next_sec->VirtualAddress + sec_size > payload_size) {
             printf("[!] Virtual section size is out ouf bounds: %lx\n", sec_size);
