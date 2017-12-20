@@ -13,7 +13,7 @@ BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer)
     const LONG kMaxOffset = 1024;
     LONG pe_offset = idh->e_lfanew;
 
-	if (pe_offset > kMaxOffset) return NULL;
+    if (pe_offset > kMaxOffset) return NULL;
 
     IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32 *)(pe_buffer + pe_offset);
     if (inh->Signature != IMAGE_NT_SIGNATURE) {
@@ -50,6 +50,22 @@ IMAGE_NT_HEADERS64* peconv::get_nt_hrds64(const BYTE *payload)
 	return NULL;
 }
 
+size_t peconv::get_image_size(const BYTE *payload)
+{
+	if (get_nt_hrds(payload) == NULL) {
+		return 0;
+	}
+	DWORD image_size = 0;
+	if (is64bit(payload)) {
+		IMAGE_NT_HEADERS64* nt64 = get_nt_hrds64(payload);
+		image_size = nt64->OptionalHeader.SizeOfImage;
+	} else {
+		IMAGE_NT_HEADERS32* nt32 = get_nt_hrds32(payload);
+		image_size = nt32->OptionalHeader.SizeOfImage;
+	}
+	return image_size;
+}
+
 WORD peconv::get_pe_architecture(const BYTE *pe_buffer)
 {
     void *ptr = get_nt_hrds(pe_buffer);
@@ -61,7 +77,7 @@ WORD peconv::get_pe_architecture(const BYTE *pe_buffer)
 
 bool peconv::is64bit(const BYTE *pe_buffer)
 {
-    WORD arch = get_pe_architecture(pe_buffer);
+	WORD arch = get_pe_architecture(pe_buffer);
 	if (arch == IMAGE_FILE_MACHINE_AMD64) {
 		return true;
 	}
@@ -120,7 +136,7 @@ DWORD peconv::get_entry_point_rva(const BYTE *pe_buffer)
 	DWORD img_base = 0;
 	if (is64b) {
 		IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
-        img_base = payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint;
+		img_base = payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint;
 	} else {
 		IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
 		img_base = static_cast<ULONGLONG>(payload_nt_hdr32->OptionalHeader.AddressOfEntryPoint);
@@ -268,7 +284,7 @@ bool peconv::set_subsystem(BYTE* payload, WORD subsystem)
 		IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
 		payload_nt_hdr32->OptionalHeader.Subsystem = subsystem;
 	}
-    return true;
+	return true;
 }
 
 WORD peconv::get_subsystem(const BYTE* payload)
