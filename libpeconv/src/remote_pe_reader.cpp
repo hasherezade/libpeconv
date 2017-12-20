@@ -73,12 +73,14 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
         std::cerr << "[-] Invalid output buffer: too small size!" << std::endl;
         return 0;
     }
-    SIZE_T read_size = 0;
+    
     PBYTE hdr_buffer = buffer;
     if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
         std::cerr << "[-] Failed to read the module header" << std::endl;
         return 0;
     }
+
+    size_t read_size = MAX_HEADER_SIZE;
     //if not possible to read full module at once, try to read it section by section:
     size_t sections_count = get_sections_count(hdr_buffer, MAX_HEADER_SIZE);
 #ifdef _DEBUG
@@ -100,7 +102,9 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
         if (!ReadProcessMemory(processHandle, start_addr + sec_va, buffer + sec_va, sec_size, &read_sec_size)) {
 			std::cerr << "[-] Failed to read the module section:: " << i  << std::endl;
         }
-        read_size = sec_va + read_sec_size;
+        // update the end of the read area:
+        size_t new_end = sec_va + read_sec_size;
+        if (new_end > read_size) read_size = new_end;
     }
 #ifdef _DEBUG
 	std::cout << "Total read size: " << read_size << std::endl;
