@@ -4,7 +4,7 @@
 
 using namespace peconv;
 
-bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, size_t mod_size, OUT BYTE* buffer, const size_t buffer_size)
+bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size)
 {
     SIZE_T read_size = 0;
     const SIZE_T step_size = 0x100;
@@ -32,12 +32,12 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, size_
     return false;
 }
 
-BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, size_t mod_size, const size_t section_num, OUT size_t &section_size)
+BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, const size_t section_num, OUT size_t &section_size)
 {
     BYTE header_buffer[MAX_HEADER_SIZE] = { 0 };
     SIZE_T read_size = 0;
 
-    if (!read_remote_pe_header(processHandle, start_addr, mod_size, header_buffer, MAX_HEADER_SIZE)) {
+    if (!read_remote_pe_header(processHandle, start_addr, header_buffer, MAX_HEADER_SIZE)) {
         return NULL;
     }
     PIMAGE_SECTION_HEADER section_hdr = get_section_hdr(header_buffer, MAX_HEADER_SIZE, section_num);
@@ -75,7 +75,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
     printf("[!] Warning: failed to read full module at once: %d\n", GetLastError());
     printf("[*] Trying to read the module section by section...\n");
     BYTE hdr_buffer[MAX_HEADER_SIZE] = { 0 };
-    if (!read_remote_pe_header(processHandle, start_addr, mod_size, hdr_buffer, MAX_HEADER_SIZE)) {
+    if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
         printf("[-] Failed to read the module header\n");
         return 0;
     }
@@ -102,8 +102,21 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
     return read_size;
 }
 
-bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE *start_addr, size_t mod_size, bool unmap)
+DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr)
 {
+    BYTE hdr_buffer[MAX_HEADER_SIZE] = { 0 };
+    if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
+        return 0;
+    }
+	return peconv::get_image_size(hdr_buffer);
+}
+
+bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE *start_addr, bool unmap)
+{
+    DWORD mod_size = get_remote_image_size(processHandle, start_addr);
+    if (mod_size == 0) {
+        return false;
+    }
     BYTE* buffer = (BYTE*) VirtualAlloc(NULL, mod_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     size_t read_size = 0;
 
