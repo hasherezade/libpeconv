@@ -1,7 +1,8 @@
 #include "peconv/remote_pe_reader.h"
 
-#include <stdio.h>
+#include <iostream>
 
+#include <stdio.h>
 using namespace peconv;
 
 bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size)
@@ -19,11 +20,11 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
             continue;
         }
         if (get_nt_hrds(buffer) == NULL) {
-            printf("[-] Cannot get the module header!\n");
+			std::cerr << "[-] Cannot get the module header!" << std::endl;
             return false;
         }
         if (read_size < get_hdrs_size(buffer)) {
-            printf("[-] Read size: %#x is smaller that the headers size: %#x\n", read_size, get_hdrs_size(buffer));
+            std::cerr << "[-] Read size: " << read_size << " is smaller that the headers size:" << get_hdrs_size(buffer) << std::endl;
             return false;
         }
         //reading succeeded and the header passed the checks:
@@ -62,43 +63,48 @@ void peconv::free_remote_pe_section(BYTE *section_buffer)
 	free(section_buffer);
 }
 
-size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
+size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT PBYTE buffer, const size_t bufferSize)
 {
-    if (buffer == NULL || bufferSize < mod_size) {
-        printf("[-] Invalid output buffer\n");
+    if (buffer == nullptr) {
+        std::cerr << "[-] Invalid output buffer: NULL pointer" << std::endl;
+        return 0;
+    }
+	if (bufferSize < mod_size || bufferSize < MAX_HEADER_SIZE ) {
+        std::cerr << "[-] Invalid output buffer: too small size!" << std::endl;
         return 0;
     }
     SIZE_T read_size = 0;
-    if (ReadProcessMemory(processHandle, start_addr, buffer, mod_size, &read_size)) {
-        return read_size;
-    }
-    printf("[!] Warning: failed to read full module at once: %d\n", GetLastError());
-    printf("[*] Trying to read the module section by section...\n");
-    BYTE hdr_buffer[MAX_HEADER_SIZE] = { 0 };
+    PBYTE hdr_buffer = buffer;
     if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
-        printf("[-] Failed to read the module header\n");
+        std::cerr << "[-] Failed to read the module header" << std::endl;
         return 0;
     }
     //if not possible to read full module at once, try to read it section by section:
     size_t sections_count = get_sections_count(hdr_buffer, MAX_HEADER_SIZE);
+#ifdef _DEBUG
+	std::cout << "Sections: " << sections_count  << std::endl;
+#endif
     for (size_t i = 0; i < sections_count; i++) {
         SIZE_T read_sec_size = 0;
         PIMAGE_SECTION_HEADER hdr = get_section_hdr(hdr_buffer, MAX_HEADER_SIZE, i);
         if (!hdr) {
-            printf("[-] Failed to read the header of section: %d\n", i);
+            std::cerr << "[-] Failed to read the header of section: " << i  << std::endl;
             break;
         }
 		const DWORD sec_va = hdr->VirtualAddress;
         const DWORD sec_size = hdr->SizeOfRawData;
         if (sec_va + sec_size > bufferSize) {
-            printf("[-] No more space in the buffer!\n");
+            std::cerr << "[-] No more space in the buffer!" << std::endl;
             break;
         }
         if (!ReadProcessMemory(processHandle, start_addr + sec_va, buffer + sec_va, sec_size, &read_sec_size)) {
-            printf("[-] Failed to read the module section: %d\n", i);
+			std::cerr << "[-] Failed to read the module section:: " << i  << std::endl;
         }
         read_size = sec_va + read_sec_size;
     }
+#ifdef _DEBUG
+	std::cout << "Total read size: " << read_size << std::endl;
+#endif
     return read_size;
 }
 
@@ -114,14 +120,21 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
 bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE *start_addr, bool unmap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
+#ifdef _DEBUG
+	std::cout << "Module Size: " << mod_size  << std::endl;
+#endif
     if (mod_size == 0) {
         return false;
     }
     BYTE* buffer = (BYTE*) VirtualAlloc(NULL, mod_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+	if (buffer == nullptr) {
+		std::cerr << "Failed allocating buffer. Error: " << GetLastError() << std::endl;
+		return false;
+	}
     size_t read_size = 0;
 
     if ((read_size = read_remote_pe(processHandle, start_addr, mod_size, buffer, mod_size)) == 0) {
-        printf("[-] Failed reading module. Error: %d\n", GetLastError());
+        std::cerr << "[-] Failed reading module. Error: " << GetLastError() << std::endl;
         VirtualFree(buffer, mod_size, MEM_FREE);
         buffer = NULL;
         return false;
