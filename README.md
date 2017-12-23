@@ -7,4 +7,4 @@ A small library for mapping and unmapping PE files.<br/>
 
 Read more:
 -
-https://hshrzd.wordpress.com/?s=libpeconv
+https://hshrzd.wordpress.com/tag/libpeconv/
