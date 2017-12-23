@@ -82,7 +82,7 @@ BYTE* peconv::pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out
     DWORD payloadImageSize = 0;
     ULONGLONG entryPoint = 0;
 
-	bool is64 = is64bit(payload);
+    bool is64 = is64bit(payload);
     if (is64) {
         IMAGE_NT_HEADERS64* payload_nt_hdr = (IMAGE_NT_HEADERS64*)nt_hdr;
         oldImageBase = payload_nt_hdr->OptionalHeader.ImageBase;

@@ -10,7 +10,7 @@ size_t peconv::enum_modules_in_process(std::map<ULONGLONG, MODULEENTRY32> &modul
     HANDLE hProcessSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, process_id);
     MODULEENTRY32 module_entry = { 0 };
     module_entry.dwSize = sizeof(module_entry);
-	
+
     if (!Module32First(hProcessSnapShot, &module_entry)) {
         std::cerr << "[ERROR] Fetching modules failed!" << std::endl;
         return 0;

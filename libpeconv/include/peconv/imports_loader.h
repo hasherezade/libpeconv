@@ -18,6 +18,4 @@ namespace peconv {
     //fills handles of the mapped pe file using custom functions as LoadLibraryA and GetProcAddress
     bool load_imports(BYTE* modulePtr, t_function_resolver* func_resolver=NULL);
 
-
 }; // namespace peconv
-

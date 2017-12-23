@@ -20,7 +20,7 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
             continue;
         }
         if (get_nt_hrds(buffer) == NULL) {
-			std::cerr << "[-] Cannot get the module header!" << std::endl;
+            std::cerr << "[-] Cannot get the module header!" << std::endl;
             return false;
         }
         if (read_size < get_hdrs_size(buffer)) {
@@ -60,7 +60,7 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
 
 void peconv::free_remote_pe_section(BYTE *section_buffer)
 {
-	free(section_buffer);
+    free(section_buffer);
 }
 
 size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT PBYTE buffer, const size_t bufferSize)
@@ -69,7 +69,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
         std::cerr << "[-] Invalid output buffer: NULL pointer" << std::endl;
         return 0;
     }
-	if (bufferSize < mod_size || bufferSize < MAX_HEADER_SIZE ) {
+    if (bufferSize < mod_size || bufferSize < MAX_HEADER_SIZE ) {
         std::cerr << "[-] Invalid output buffer: too small size!" << std::endl;
         return 0;
     }
@@ -93,14 +93,14 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             std::cerr << "[-] Failed to read the header of section: " << i  << std::endl;
             break;
         }
-		const DWORD sec_va = hdr->VirtualAddress;
+        const DWORD sec_va = hdr->VirtualAddress;
         const DWORD sec_size = hdr->SizeOfRawData;
         if (sec_va + sec_size > bufferSize) {
             std::cerr << "[-] No more space in the buffer!" << std::endl;
             break;
         }
         if (!ReadProcessMemory(processHandle, start_addr + sec_va, buffer + sec_va, sec_size, &read_sec_size)) {
-			std::cerr << "[-] Failed to read the module section:: " << i  << std::endl;
+        std::cerr << "[-] Failed to read the module section:: " << i  << std::endl;
         }
         // update the end of the read area:
         size_t new_end = sec_va + read_sec_size;
@@ -118,7 +118,7 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
     if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
         return 0;
     }
-	return peconv::get_image_size(hdr_buffer);
+    return peconv::get_image_size(hdr_buffer);
 }
 
 bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE *start_addr, bool unmap)
@@ -131,10 +131,10 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
         return false;
     }
     BYTE* buffer = (BYTE*) VirtualAlloc(NULL, mod_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-	if (buffer == nullptr) {
-		std::cerr << "Failed allocating buffer. Error: " << GetLastError() << std::endl;
-		return false;
-	}
+    if (buffer == nullptr) {
+        std::cerr << "Failed allocating buffer. Error: " << GetLastError() << std::endl;
+        return false;
+    }
     size_t read_size = 0;
 
     if ((read_size = read_remote_pe(processHandle, start_addr, mod_size, buffer, mod_size)) == 0) {

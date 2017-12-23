@@ -87,42 +87,42 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 
 BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_t &out_size, bool rebuffer)
 {
-	BYTE* in_buf = payload;
-	if (rebuffer) {
-		in_buf = (BYTE*) alloc_pe_buffer(in_size, PAGE_READWRITE);
+    BYTE* in_buf = payload;
+    if (rebuffer) {
+        in_buf = (BYTE*) alloc_pe_buffer(in_size, PAGE_READWRITE);
         if (in_buf == NULL) return NULL;
-		memcpy(in_buf, payload, in_size);
-	}
+        memcpy(in_buf, payload, in_size);
+    }
 
     BYTE* out_buf = (BYTE*) alloc_pe_buffer(in_size, PAGE_READWRITE);
     ULONGLONG oldBase = get_image_base(in_buf);
-	bool isOk = true;
+    bool isOk = true;
     // from the loadBase go back to the original base
-	if (!relocate_module(in_buf, in_size, oldBase, loadBase)) {
+    if (!relocate_module(in_buf, in_size, oldBase, loadBase)) {
         //Failed relocating the module! Changing image base instead...
         if (!update_image_base(in_buf, (ULONGLONG)loadBase)) {
-		    printf("[-] Failed relocating the module!\n");
-		    isOk = false;
+            printf("[-] Failed relocating the module!\n");
+            isOk = false;
         } else {
 #ifdef _DEBUG
 		    printf("[!] WARNING: The module could not be relocated, so the ImageBase has been changed instead!\n");
 #endif
         }
-	}
-	SIZE_T raw_size = 0;
-	if (isOk) {
-		if (!sections_virtual_to_raw(in_buf, in_size, out_buf, &raw_size)) {
-			isOk = false;
-		}
-	}
-	if (rebuffer && in_buf != NULL) {
-		VirtualFree(in_buf, in_size, MEM_FREE);
-		in_buf = NULL;
-	}
-	if (!isOk) {
-		VirtualFree(out_buf, in_size, MEM_FREE);
-		out_buf = NULL;
-	}
-	out_size = raw_size;
-	return out_buf;
+    }
+    SIZE_T raw_size = 0;
+    if (isOk) {
+        if (!sections_virtual_to_raw(in_buf, in_size, out_buf, &raw_size)) {
+            isOk = false;
+        }
+    }
+    if (rebuffer && in_buf != NULL) {
+        VirtualFree(out_buf, in_size, MEM_FREE);
+        in_buf = NULL;
+    }
+    if (!isOk) {
+        VirtualFree(out_buf, in_size, MEM_FREE);
+        out_buf = NULL;
+    }
+    out_size = raw_size;
+    return out_buf;
 }
