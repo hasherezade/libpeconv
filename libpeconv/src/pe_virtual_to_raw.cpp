@@ -116,11 +116,11 @@ BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBas
         }
     }
     if (rebuffer && in_buf != NULL) {
-        VirtualFree(out_buf, in_size, MEM_FREE);
+        free_pe_buffer(in_buf, in_size);
         in_buf = NULL;
     }
     if (!isOk) {
-        VirtualFree(out_buf, in_size, MEM_FREE);
+        free_pe_buffer(out_buf, in_size);
         out_buf = NULL;
     }
     out_size = raw_size;
