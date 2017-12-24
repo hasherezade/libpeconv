@@ -251,40 +251,40 @@ bool peconv::is_module_dll(const BYTE* payload)
 {
     if (payload == NULL) return false;
 
-	bool is64b = is64bit(payload);
-	BYTE* payload_nt_hdr = get_nt_hrds(payload);
-	if (payload_nt_hdr == NULL) {
-		return false;
-	}
-	IMAGE_FILE_HEADER *fileHdr = NULL;
-	if (is64b) {
-		IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
-		fileHdr = &(payload_nt_hdr64->FileHeader);
-	} else {
-		IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
-		fileHdr = &(payload_nt_hdr32->FileHeader);
-	}
-	DWORD flag = fileHdr->Characteristics & 0x2000;
-	return (flag != 0);
+    bool is64b = is64bit(payload);
+    BYTE* payload_nt_hdr = get_nt_hrds(payload);
+    if (payload_nt_hdr == NULL) {
+        return false;
+    }
+    IMAGE_FILE_HEADER *fileHdr = NULL;
+    if (is64b) {
+        IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+        fileHdr = &(payload_nt_hdr64->FileHeader);
+    } else {
+        IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+        fileHdr = &(payload_nt_hdr32->FileHeader);
+    }
+    DWORD flag = fileHdr->Characteristics & 0x2000;
+    return (flag != 0);
 }
 
 bool peconv::set_subsystem(BYTE* payload, WORD subsystem)
 {
-	if (payload == NULL) return false;
+    if (payload == NULL) return false;
 
-	bool is64b = is64bit(payload);
-	BYTE* payload_nt_hdr = get_nt_hrds(payload);
-	if (payload_nt_hdr == NULL) {
-		return false;
-	}
-	if (is64b) {
-		IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
-		payload_nt_hdr64->OptionalHeader.Subsystem = subsystem;
-	} else {
-		IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
-		payload_nt_hdr32->OptionalHeader.Subsystem = subsystem;
-	}
-	return true;
+    bool is64b = is64bit(payload);
+    BYTE* payload_nt_hdr = get_nt_hrds(payload);
+    if (payload_nt_hdr == NULL) {
+        return false;
+    }
+    if (is64b) {
+        IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+        payload_nt_hdr64->OptionalHeader.Subsystem = subsystem;
+    } else {
+        IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+        payload_nt_hdr32->OptionalHeader.Subsystem = subsystem;
+    }
+    return true;
 }
 
 WORD peconv::get_subsystem(const BYTE* payload)
