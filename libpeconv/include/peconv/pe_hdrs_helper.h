@@ -7,7 +7,7 @@ namespace peconv {
 
 const ULONGLONG MAX_HEADER_SIZE = 0x1000;
 
-size_t get_image_size(const BYTE *payload);
+DWORD get_image_size(const BYTE *payload);
 
 WORD get_pe_architecture(const BYTE *pe_buffer);
 

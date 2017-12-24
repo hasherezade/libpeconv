@@ -50,7 +50,7 @@ IMAGE_NT_HEADERS64* peconv::get_nt_hrds64(const BYTE *payload)
     return NULL;
 }
 
-size_t peconv::get_image_size(const BYTE *payload)
+DWORD peconv::get_image_size(const BYTE *payload)
 {
     if (get_nt_hrds(payload) == NULL) {
         return 0;
