@@ -1,8 +1,8 @@
 #include "peconv/remote_pe_reader.h"
 
 #include <iostream>
+#include <fstream>
 
-#include <stdio.h>
 using namespace peconv;
 
 bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size)
@@ -84,7 +84,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
     //if not possible to read full module at once, try to read it section by section:
     size_t sections_count = get_sections_count(hdr_buffer, MAX_HEADER_SIZE);
 #ifdef _DEBUG
-	std::cout << "Sections: " << sections_count  << std::endl;
+    std::cout << "Sections: " << sections_count  << std::endl;
 #endif
     for (size_t i = 0; i < sections_count; i++) {
         SIZE_T read_sec_size = 0;
@@ -107,7 +107,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
         if (new_end > read_size) read_size = new_end;
     }
 #ifdef _DEBUG
-	std::cout << "Total read size: " << read_size << std::endl;
+    std::cout << "Total read size: " << read_size << std::endl;
 #endif
     return read_size;
 }
@@ -125,12 +125,13 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
 #ifdef _DEBUG
-	std::cout << "Module Size: " << mod_size  << std::endl;
+    std::cout << "Module Size: " << mod_size  << std::endl;
 #endif
     if (mod_size == 0) {
         return false;
     }
-    BYTE* buffer = (BYTE*) VirtualAlloc(NULL, mod_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    
+    BYTE* buffer = peconv::alloc_pe_buffer(mod_size, PAGE_READWRITE);
     if (buffer == nullptr) {
         std::cerr << "Failed allocating buffer. Error: " << GetLastError() << std::endl;
         return false;
@@ -139,7 +140,7 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
 
     if ((read_size = read_remote_pe(processHandle, start_addr, mod_size, buffer, mod_size)) == 0) {
         std::cerr << "[-] Failed reading module. Error: " << GetLastError() << std::endl;
-        VirtualFree(buffer, mod_size, MEM_FREE);
+        peconv::free_pe_buffer(buffer, mod_size);
         buffer = NULL;
         return false;
     }
@@ -155,17 +156,21 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
             dump_size = out_size;
         }
     }
-    FILE *f1 = fopen(out_path, "wb");
-    if (f1) {
-        fwrite(dump_data, 1, dump_size, f1);
-        fclose(f1);
-        printf("Module dumped to: %s\n", out_path);
-        f1 = NULL;
+    bool is_dumped = false;
+    std::ofstream file_dump;
+    file_dump.open(out_path, std::ios_base::binary);
+    if (file_dump.is_open()) {
+        file_dump.write((const char*) dump_data, dump_size);
+        file_dump.close();
+        is_dumped = true;
+    } else {
+        std::cerr << "Failed to open file for writing!" << std::endl;
     }
-    VirtualFree(buffer, mod_size, MEM_FREE);
+    
+    peconv::free_pe_buffer(buffer, mod_size);
     buffer = NULL;
     if (unmapped_module) {
-        VirtualFree(unmapped_module, mod_size, MEM_FREE);
+        peconv::free_pe_buffer(unmapped_module, mod_size);
     }
-    return true;
+    return is_dumped;
 }
