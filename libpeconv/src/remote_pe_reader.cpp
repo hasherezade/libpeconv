@@ -1,7 +1,8 @@
 #include "peconv/remote_pe_reader.h"
 
 #include <iostream>
-#include <fstream>
+
+#include "peconv/util.h"
 
 using namespace peconv;
 
@@ -121,7 +122,7 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
     return peconv::get_image_size(hdr_buffer);
 }
 
-bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE *start_addr, bool unmap)
+bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PBYTE start_addr, bool unmap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
 #ifdef _DEBUG
@@ -156,17 +157,7 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
             dump_size = out_size;
         }
     }
-    bool is_dumped = false;
-    std::ofstream file_dump;
-    file_dump.open(out_path, std::ios_base::binary);
-    if (file_dump.is_open()) {
-        file_dump.write((const char*) dump_data, dump_size);
-        file_dump.close();
-        is_dumped = true;
-    } else {
-        std::cerr << "Failed to open file for writing!" << std::endl;
-    }
-    
+    bool is_dumped = dump_to_file(out_path, dump_data, dump_size);
     peconv::free_pe_buffer(buffer, mod_size);
     buffer = NULL;
     if (unmapped_module) {
