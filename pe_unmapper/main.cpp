@@ -8,30 +8,18 @@ bool remap_pe_file(IN const char* filename, IN const char* out_filename, ULONGLO
     if (filename == NULL || out_filename == NULL) return false;
     //Read input module:
     printf("filename: %s\n", filename);
-    FILE *f = fopen(filename, "rb");
-    if (!f) {
-        printf("Cannot open file!\n");
-        return false;
-    }
 
-    fseek(f, 0, SEEK_END);
-    size_t size = ftell(f);
-    printf("size = %#llx = %lld\n", static_cast<ULONGLONG>(size), static_cast<ULONGLONG>(size));
-    BYTE* in_buf = (BYTE*) VirtualAlloc(NULL, size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-
-    fseek(f, 0, SEEK_SET);
-    fread(in_buf, 1, size, f);
-    fclose(f);
-    f = NULL;
+    size_t size = 0;
+    BYTE* in_buf = peconv::read_from_file(filename, size);
 
     BYTE* out_buf = NULL;
     
     size_t out_size = 0;
     if (mode_v_to_r) {
-        printf("Virtual to raw:\n");
+        printf("MODE: Virtual -> Raw\n");
         out_buf = peconv::pe_virtual_to_raw(in_buf, size, loadBase, out_size, false);
     } else {
-        printf("Raw to virtual:\n");
+        printf("MODE: Raw -> Virtual\n");
         out_buf = peconv::load_pe_module(in_buf, size, out_size, false, false);
         if (out_buf) {
            ULONGLONG base = peconv::get_image_base(out_buf);
@@ -41,28 +29,21 @@ bool remap_pe_file(IN const char* filename, IN const char* out_filename, ULONGLO
         }
     }
     if (!out_buf) {
-         VirtualFree(in_buf, size, MEM_RELEASE);
-         return false;
+        peconv::free_pe_buffer(in_buf, size);
+        return false;
     }
     // Write output
-    bool isOk = false;
-    f = fopen(out_filename, "wb");
-    if (f) {
-        fwrite(out_buf, 1, out_size, f);
-        fclose(f);
-        isOk = true;
-    }
+    bool isOk = peconv::dump_to_file(out_filename,out_buf,out_size);
 
-    VirtualFree(in_buf, size, MEM_RELEASE);
-    free_pe_buffer(out_buf, out_size);
+    peconv::free_pe_buffer(in_buf, size);
+    peconv::free_pe_buffer(out_buf, out_size);
 
     return isOk;
 }
 
-
 int main(int argc, char *argv[])
 {
-    char* version = "0.3";
+    char* version = "0.3.1";
     char*  filename = NULL;
     char* out_filename = "out.exe";
     const char mode_switch[] = "-v";
