@@ -1,13 +1,10 @@
-#pragma once
-
-#include <stdio.h>
-
 #include "peconv/pe_virtual_to_raw.h"
 
 #include "peconv/util.h"
 #include "peconv/pe_hdrs_helper.h"
-
 #include "peconv/relocate.h"
+
+#include <iostream>
 
 using namespace peconv;
 
@@ -19,7 +16,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 
     BYTE* payload_nt_hdr = get_nt_hrds(payload);
     if (payload_nt_hdr == NULL) {
-        printf("Invalid payload: %p\n", payload);
+        std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
     }
 
@@ -45,7 +42,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 
     //copy all the sections, one by one:
 #ifdef _DEBUG
-    printf("Coping sections:\n");
+    std::cout << "Coping sections:" << std::endl;
 #endif
     SIZE_T raw_end = 0;
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
@@ -61,20 +58,20 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
         if (new_end > raw_end) raw_end = new_end;
 
         if (next_sec->VirtualAddress + sec_size > payload_size) {
-            printf("[!] Virtual section size is out ouf bounds: %lx\n", sec_size);
+            std::cerr << "[!] Virtual section size is out ouf bounds: " << std::hex << sec_size << std::endl;
             sec_size = SIZE_T(payload_size - next_sec->VirtualAddress);
-            printf("[!] Truncated to maximal size: %lx\n", sec_size);
+            std::cerr << "[!] Truncated to maximal size: " << std::hex <<  sec_size << std::endl;
         }
         if (next_sec->VirtualAddress > payload_size && sec_size != 0) {
-            printf("[-] VirtualAddress of section is out ouf bounds: %lx\n", static_cast<SIZE_T>(next_sec->VirtualAddress));
+            std::cerr << "[-] VirtualAddress of section is out ouf bounds: " << std::hex << next_sec->VirtualAddress << std::endl;
             return false;
         }
         if (next_sec->PointerToRawData + sec_size > payload_size) {
-            printf("[-] Raw section size is out ouf bounds: %lx\n", sec_size);
+            std::cerr << "[-] Raw section size is out ouf bounds: " << std::hex << sec_size << std::endl;
             return false;
         }
 #ifdef _DEBUG
-        printf("[+] %s to: %p\n", next_sec->Name, section_raw_ptr);
+        std::cout << "[+] " << next_sec->Name  << " to: "  << std::hex <<  section_raw_ptr << std::endl;
 #endif
         memcpy(section_raw_ptr, section_mapped, sec_size);
     }
@@ -101,11 +98,11 @@ BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBas
     if (!relocate_module(in_buf, in_size, oldBase, loadBase)) {
         //Failed relocating the module! Changing image base instead...
         if (!update_image_base(in_buf, (ULONGLONG)loadBase)) {
-            printf("[-] Failed relocating the module!\n");
+            std::cerr << "[-] Failed relocating the module!" << std::endl;
             isOk = false;
         } else {
 #ifdef _DEBUG
-		    printf("[!] WARNING: The module could not be relocated, so the ImageBase has been changed instead!\n");
+            std::cerr << "[!] WARNING: The module could not be relocated, so the ImageBase has been changed instead!" << std::endl;
 #endif
         }
     }

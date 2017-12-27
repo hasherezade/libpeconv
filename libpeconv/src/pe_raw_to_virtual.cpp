@@ -3,6 +3,8 @@
 #include "peconv/util.h"
 #include "peconv/pe_hdrs_helper.h"
 
+#include <iostream>
+
 using namespace peconv;
 
 // Map raw PE into virtual memory of local process:
@@ -14,7 +16,7 @@ bool sections_raw_to_virtual(const BYTE* payload, SIZE_T destBufferSize, BYTE* d
 
     BYTE* payload_nt_hdr = get_nt_hrds(payload);
     if (payload_nt_hdr == NULL) {
-        printf("Invalid payload: %p\n", payload);
+        std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
     }
 
@@ -52,19 +54,18 @@ bool sections_raw_to_virtual(const BYTE* payload, SIZE_T destBufferSize, BYTE* d
         raw_end = next_sec->SizeOfRawData + next_sec->PointerToRawData;
         
         if (next_sec->VirtualAddress + sec_size > destBufferSize) {
-            printf("[!] Virtual section size is out ouf bounds: %lx\n", static_cast<long>(sec_size));
+            std::cerr << "[!] Virtual section size is out ouf bounds: " << std::hex << sec_size << std::endl;
             sec_size = SIZE_T(destBufferSize - next_sec->VirtualAddress);
-            printf("[!] Truncated to maximal size: %lx\n", static_cast<long>(sec_size));
+            std::cerr << "[!] Truncated to maximal size: " << std::hex << sec_size << std::endl;
         }
         if (next_sec->VirtualAddress >= destBufferSize && sec_size != 0) {
-            printf("[-] VirtualAddress of section is out ouf bounds: %lx\n", static_cast<long>(next_sec->VirtualAddress));
+            std::cerr << "[-] VirtualAddress of section is out ouf bounds: " << std::hex << next_sec->VirtualAddress << std::endl;
             return false;
         }
         if (next_sec->PointerToRawData + sec_size > destBufferSize) {
-            printf("[-] Raw section size is out ouf bounds: %lx\n", static_cast<long>(sec_size));
+            std::cerr << "[-] Raw section size is out ouf bounds: " << std::hex << sec_size << std::endl;
             return false;
         }
-        //printf("[+] %s to: %p\n", next_sec->Name, section_raw_ptr);
         memcpy(section_mapped, section_raw_ptr, sec_size);
     }
     return true;
@@ -75,7 +76,7 @@ BYTE* peconv::pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out
     //check payload:
     BYTE* nt_hdr = get_nt_hrds(payload);
     if (nt_hdr == NULL) {
-        printf("Invalid payload: %p\n", payload);
+        std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
     }
     ULONGLONG oldImageBase = 0;
@@ -103,12 +104,12 @@ BYTE* peconv::pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out
     //when it will be ready, we will copy it into the space reserved in the target process
     BYTE* localCopyAddress = alloc_pe_buffer(payloadImageSize, protect, desired_base);
     if (localCopyAddress == NULL) {
-        printf("Could not allocate memory in the current process\n");
+        std::cerr << "Could not allocate memory in the current process" << std::endl;
         return NULL;
     }
     //printf("Allocated local memory: %p size: %x\n", localCopyAddress, payloadImageSize);
     if (!sections_raw_to_virtual(payload, payloadImageSize, (BYTE*)localCopyAddress)) {
-        printf("Could not copy PE file\n");
+        std::cerr <<  "Could not copy PE file" << std::endl;
         return NULL;
     }
     out_size = payloadImageSize;
