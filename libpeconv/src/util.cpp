@@ -45,8 +45,8 @@ PBYTE peconv::read_from_file(const char *in_path, size_t &read_size)
         std::cerr << "Cannot open the file for reading!" << std::endl;
         return nullptr;
     }
-    size_t r_size = (size_t) GetFileSize(file, 0);
-    PBYTE buffer = peconv::alloc_pe_buffer(r_size, PAGE_READWRITE);
+    DWORD r_size = GetFileSize(file, 0);
+    PBYTE buffer = peconv::alloc_pe_buffer((size_t) r_size, PAGE_READWRITE);
     if (buffer == nullptr) {
         //Allocation has failed!
         return nullptr;
