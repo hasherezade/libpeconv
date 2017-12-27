@@ -1,6 +1,6 @@
 #include "peconv/imports_loader.h"
 
-#include <stdio.h>
+#include <iostream>
 
 using namespace peconv;
 
@@ -45,21 +45,23 @@ bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE
         if (desc->u1.Ordinal & ordinal_flag) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
 #ifdef _DEBUG
-            printf("raw ordinal: %x\n", raw_ordinal);
+            std::cout << "raw ordinal: " << std::hex << raw_ordinal << std::endl;
 #endif
             hProc = func_resolver->resolve_func(lib_name, MAKEINTRESOURCEA(raw_ordinal));
 
         } else {
             LPSTR func_name = by_name->Name;
 #ifdef _DEBUG
-            printf("name: %s\n", func_name);
+            std::cout << "name: " << func_name << std::endl;
 #endif
             hProc = func_resolver->resolve_func(lib_name, func_name);
         }
         if (hProc != NULL) {
             callers[index] = (T_FIELD) hProc;
         } else {
-            printf("Could not resolve the function!\n");
+#ifdef _DEBUG
+            std::cerr << "Could not resolve the function!" << std::endl;
+#endif
         }
 
         index++;
@@ -89,7 +91,7 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
     bool isAllFilled = true;
     DWORD parsedSize = 0;
 #ifdef _DEBUG
-    printf("---IMP---\n");
+    std::cout << "---IMP---" << std::endl;
 #endif
     while (parsedSize < maxSize) {
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR) modulePtr);
@@ -99,11 +101,11 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
             break;
         }
 #ifdef _DEBUG
-        printf("Imported Lib: %x : %x : %x\n", lib_desc->FirstThunk, lib_desc->OriginalFirstThunk, lib_desc->Name);
+        std::cout <<"Imported Lib: " << std::hex << lib_desc->FirstThunk << " : " << std::hex << lib_desc->OriginalFirstThunk << " : " << lib_desc->Name << std::endl;
 #endif
         LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
 #ifdef _DEBUG
-        printf("name: %s\n", lib_name);
+        std::cout <<"name: " << lib_name << std::endl;
 #endif
 
         DWORD call_via = lib_desc->FirstThunk;
