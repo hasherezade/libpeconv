@@ -130,7 +130,7 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
 #ifdef _DEBUG
         std::cerr << "[*] Getting function by ordinal" << std::endl;
 #endif
-        return get_export_by_ord(modulePtr, exp, (DWORD)wanted_name);
+        return get_export_by_ord(modulePtr, exp, reinterpret_cast<DWORD>(wanted_name));
     }
     if (IsBadReadPtr(wanted_name, 1)) {
         std::cerr << "[-] Invalid pointer to the name" << std::endl;
@@ -174,7 +174,7 @@ FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
         if (!IsBadReadPtr(func_name, 1)) {
             std::cerr << "[!] Cound not get the function: "<< func_name <<" from exports!" << std::endl;
         } else {
-            std::cerr << "[!] Cound not get the function: "<< (DWORD)func_name <<" from exports!" << std::endl;
+            std::cerr << "[!] Cound not get the function: "<< reinterpret_cast<DWORD>(func_name) <<" from exports!" << std::endl;
         }
         std::cerr << "[!] Falling back to the default resolver..." <<std::endl;
         hProc = default_func_resolver::resolve_func(lib_name, func_name);

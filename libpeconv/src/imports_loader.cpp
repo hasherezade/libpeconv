@@ -57,7 +57,7 @@ bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE
             hProc = func_resolver->resolve_func(lib_name, func_name);
         }
         if (hProc != NULL) {
-            callers[index] = (T_FIELD) hProc;
+            callers[index] = reinterpret_cast<T_FIELD>(hProc);
         } else {
 #ifdef _DEBUG
             std::cerr << "Could not resolve the function!" << std::endl;
