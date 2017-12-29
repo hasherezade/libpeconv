@@ -8,20 +8,6 @@
 
 using namespace peconv;
 
-struct FuncNameLengthCompare
-{
-    bool operator() (const ExportedFunc &p_lhs, const ExportedFunc &p_rhs)
-    {
-        const size_t lhsLength = p_lhs.funcName.length();
-        const size_t rhsLength = p_rhs.funcName.length();
-
-        if (lhsLength == rhsLength) {
-            return (p_lhs.funcName.compare(p_rhs.funcName) != 0);
-        }
-        return (lhsLength < rhsLength); // compares with the length
-    }
-};
-
 LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
 {
     const char* namec = name.c_str();
@@ -40,7 +26,7 @@ LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
 bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
                       IMAGE_IMPORT_DESCRIPTOR* lib_desc,
                       LPVOID call_via_ptr,
-                      std::map<ULONGLONG, std::set<ExportedFunc, FuncNameLengthCompare>> &addr_to_func
+                      std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
                       )
 {
     if (call_via_ptr == NULL || modulePtr == NULL || lib_desc == NULL) {
@@ -55,7 +41,7 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
     bool is_name_saved = false;
 
     DWORD lastOrdinal = 0; //store also ordinal of the matching function
-    std::set<ExportedFunc, FuncNameLengthCompare>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
+    std::set<ExportedFunc>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
 
     for (funcname_itr = addr_to_func[searchedAddr].begin(); 
         funcname_itr != addr_to_func[searchedAddr].end(); 
@@ -101,7 +87,7 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
 }
 
 bool fillImportNames32(IMAGE_IMPORT_DESCRIPTOR* lib_desc, LPVOID modulePtr, size_t moduleSize,
-        std::map<ULONGLONG, std::set<ExportedFunc, FuncNameLengthCompare>> &addr_to_func)
+        std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func)
 {
     if (lib_desc == NULL) return false;
 
@@ -131,7 +117,7 @@ bool fillImportNames32(IMAGE_IMPORT_DESCRIPTOR* lib_desc, LPVOID modulePtr, size
         }
 
         ULONGLONG searchedAddr = ULONGLONG(*call_via_val);
-        std::set<ExportedFunc, FuncNameLengthCompare>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
+        std::set<ExportedFunc>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
 
         if (addr_to_func[searchedAddr].begin() == addr_to_func[searchedAddr].end()) {
             std::cout << "[-] Function not found: [" << std::hex << searchedAddr << "] " << std::endl;
@@ -255,7 +241,7 @@ std::string findDllName(std::set<ULONGLONG> &addresses, std::map<ULONGLONG, std:
 size_t mapAddressesToFunctions(std::set<ULONGLONG> &addresses, 
                                std::string coveringDll, 
                                std::map<ULONGLONG, std::set<ExportedFunc>> &va_to_func, 
-                               OUT std::map<ULONGLONG, std::set<ExportedFunc, FuncNameLengthCompare>> &addr_to_func
+                               OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
                                )
 {
     size_t coveredCount = 0;
@@ -354,7 +340,7 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
 #ifdef _DEBUG
         std::cout << lib_name << std::endl;
 #endif
-        OUT std::map<ULONGLONG, std::set<ExportedFunc, FuncNameLengthCompare>> addr_to_func;
+        OUT std::map<ULONGLONG, std::set<ExportedFunc>> addr_to_func;
         size_t coveredCount = mapAddressesToFunctions(addresses, lib_name, va_to_func, addr_to_func); 
         if (coveredCount < addresses.size()) {
             std::cerr << "[-] Not all addresses are covered! covered: " << coveredCount << " total: " << addresses.size() << std::endl;
