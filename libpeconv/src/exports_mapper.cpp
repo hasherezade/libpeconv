@@ -1,7 +1,17 @@
 #include "peconv/exports_mapper.h"
 #include <algorithm>
+#include <iostream>
 
 using namespace peconv;
+
+ULONGLONG rebase_va(ULONGLONG va, PVOID modulePtr, ULONGLONG moduleBase)
+{
+    if ((ULONGLONG) modulePtr == moduleBase) {
+        return va;
+    }
+    ULONGLONG rva =  va - (ULONGLONG) modulePtr;
+    return rva + moduleBase;
+}
 
 size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr, 
                                              std::map<ULONGLONG, DWORD> &va_to_ord
@@ -18,7 +28,8 @@ size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr,
     for (DWORD i = 0; i < functCount; i++) {
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         DWORD ordinal = ordBase + i;
-        va_to_ord[(ULONGLONG)funcRVA] = ordinal;
+        ULONGLONG va = (ULONGLONG)funcRVA;
+        va_to_ord[va] = ordinal;
     }
     return functCount;
 }
@@ -41,7 +52,7 @@ size_t ExportsMapper::resolve_forwarders(const ULONGLONG va, ExportedFunc &currF
     return resolved;
 }
 
-size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr)
+size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
 {
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
     if (exp == NULL) {
@@ -51,6 +62,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr)
     size_t functCount = make_ord_lookup_tables(modulePtr, va_to_ord);
 
     std::string dllName = getDllName(moduleName);
+
     size_t forwarded_ctr = 0;
 
     SIZE_T namesCount = exp->NumberOfNames;
@@ -67,6 +79,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr)
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
+        //ULONGLONG funcVA = rebase_va((ULONGLONG)funcRVA, modulePtr, moduleBase);
         DWORD funcOrd = va_to_ord[(ULONGLONG)funcRVA];
        
         LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
@@ -91,7 +104,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr)
             continue;
         } else {
             //not forwarded, simple case:
-            ULONGLONG va = (ULONGLONG) modulePtr + (*funcRVA);
+            ULONGLONG va = (ULONGLONG) moduleBase + (*funcRVA);
             va_to_func[va].insert(currFunc);
             func_to_va[currFunc] = va;
 

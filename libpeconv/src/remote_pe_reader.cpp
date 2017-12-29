@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "peconv/util.h"
+#include "peconv/fix_imports.h"
 
 using namespace peconv;
 
@@ -122,7 +123,7 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
     return peconv::get_image_size(hdr_buffer);
 }
 
-bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PBYTE start_addr, bool unmap)
+bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PBYTE start_addr, bool unmap, peconv::ExportsMapper* exportsMap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
 #ifdef _DEBUG
@@ -145,9 +146,16 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
         buffer = NULL;
         return false;
     }
+
+    
+    if (exportsMap != nullptr) {
+        if (!peconv::fix_imports(buffer, mod_size, *exportsMap)) {
+            std::cerr << "Unable to fix imports!" << std::endl;
+        }
+    }
+
     BYTE* dump_data = buffer;
     size_t dump_size = mod_size;
-
     size_t out_size = 0;
     BYTE* unmapped_module = NULL;
     if (unmap) {

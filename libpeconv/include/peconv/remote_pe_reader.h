@@ -4,6 +4,7 @@
 
 #include "pe_hdrs_helper.h"
 #include "pe_virtual_to_raw.h"
+#include "exports_mapper.h"
 
 namespace peconv {
 
@@ -29,8 +30,14 @@ size_t read_remote_pe(const HANDLE processHandle, BYTE *moduleBase, const size_t
 /**
 Dumps PE file from the remote process into a file. It expects the module base and size to be given.
 If 'unmap' is set to true, it automatically unmaps the file.
+If ExportsMapper is supplied, it will try to recover destroyed import table basing on the known imports.
 */
-bool dump_remote_pe(const char *outputFilePath, const HANDLE processHandle, BYTE *moduleBase, bool unmap=true);
+bool dump_remote_pe(IN const char *outputFilePath, 
+                    IN const HANDLE processHandle, 
+                    IN BYTE *moduleBase, 
+                    IN OPTIONAL bool unmap=true, 
+                    IN OPTIONAL peconv::ExportsMapper* exportsMap = nullptr
+                    );
 
 DWORD get_remote_image_size(const HANDLE processHandle, BYTE *start_addr);
 

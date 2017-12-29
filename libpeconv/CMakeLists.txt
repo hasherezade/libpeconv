@@ -16,6 +16,7 @@ set (srcs
 	src/module_helper.cpp
 	src/remote_pe_reader.cpp
 	src/imports_loader.cpp
+	src/fix_imports.cpp
 	src/pe_loader.cpp
 	src/exports_lookup.cpp
 	src/function_resolver.cpp
@@ -35,6 +36,7 @@ set (hdrs
 	include/peconv/module_helper.h
 	include/peconv/remote_pe_reader.h
 	include/peconv/imports_loader.h
+	include/peconv/fix_imports.h
 	include/peconv/pe_loader.h
 	include/peconv/exports_lookup.h
 	include/peconv/function_resolver.h
