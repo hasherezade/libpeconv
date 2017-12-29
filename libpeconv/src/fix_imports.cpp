@@ -86,18 +86,21 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
     return is_name_saved;
 }
 
-bool fillImportNames32(IMAGE_IMPORT_DESCRIPTOR* lib_desc, LPVOID modulePtr, size_t moduleSize,
-        std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func)
+template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
+bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
+                     LPVOID modulePtr, size_t moduleSize, 
+                     const FIELD_T ordinal_flag,
+                     std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func)
 {
     if (lib_desc == NULL) return false;
 
-    DWORD call_via = lib_desc->FirstThunk;
+    FIELD_T call_via = lib_desc->FirstThunk;
     if (call_via == NULL) return false;
 
     size_t processed_imps = 0;
     size_t recovered_imps = 0;
 
-    DWORD thunk_addr = lib_desc->OriginalFirstThunk;
+    FIELD_T thunk_addr = lib_desc->OriginalFirstThunk;
     if (thunk_addr == NULL) {
         thunk_addr = call_via;
     }
@@ -109,8 +112,8 @@ bool fillImportNames32(IMAGE_IMPORT_DESCRIPTOR* lib_desc, LPVOID modulePtr, size
         LPVOID thunk_ptr = (LPVOID)((ULONGLONG)modulePtr + thunk_addr);
         if (thunk_ptr == NULL) break;
 
-        DWORD *thunk_val = (DWORD*)thunk_ptr;
-        DWORD *call_via_val = (DWORD*)call_via_ptr;
+        FIELD_T *thunk_val = (FIELD_T*)thunk_ptr;
+        FIELD_T *call_via_val = (FIELD_T*)call_via_ptr;
         if (*call_via_val == 0) {
             //nothing to fill, probably the last record
             break;
@@ -121,8 +124,8 @@ bool fillImportNames32(IMAGE_IMPORT_DESCRIPTOR* lib_desc, LPVOID modulePtr, size
 
         if (addr_to_func[searchedAddr].begin() == addr_to_func[searchedAddr].end()) {
             std::cout << "[-] Function not found: [" << std::hex << searchedAddr << "] " << std::endl;
-            call_via += sizeof(DWORD);
-            thunk_addr += sizeof(DWORD);
+            call_via += sizeof(FIELD_T);
+            thunk_addr += sizeof(FIELD_T);
             continue;
         }
 
@@ -132,20 +135,20 @@ bool fillImportNames32(IMAGE_IMPORT_DESCRIPTOR* lib_desc, LPVOID modulePtr, size
 #endif
         bool is_name_saved = false;
 
-        IMAGE_THUNK_DATA32* desc = (IMAGE_THUNK_DATA32*) thunk_ptr;
+        IMAGE_THUNK_DATA_T* desc = (IMAGE_THUNK_DATA_T*) thunk_ptr;
         if (desc->u1.Function == NULL) {
             break;
         }
 
         PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
-        if (desc->u1.Ordinal & IMAGE_ORDINAL_FLAG32) {
+        if (desc->u1.Ordinal & ordinal_flag) {
             std::cout << "Imports by ordinals are not supported!\n";
-            call_via += sizeof(DWORD);
-            thunk_addr += sizeof(DWORD);
+            call_via += sizeof(FIELD_T);
+            thunk_addr += sizeof(FIELD_T);
             continue;
         }
 
-        DWORD lastOrdinal = 0;
+        FIELD_T lastOrdinal = 0;
         LPSTR func_name_ptr = by_name->Name;
         bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
         // try to save the found name under the pointer:
@@ -160,8 +163,8 @@ bool fillImportNames32(IMAGE_IMPORT_DESCRIPTOR* lib_desc, LPVOID modulePtr, size
             is_name_saved = findNameInBinaryAndFill(modulePtr, moduleSize, lib_desc, call_via_ptr, addr_to_func);
         }
 
-        call_via += sizeof(DWORD);
-        thunk_addr += sizeof(DWORD);
+        call_via += sizeof(FIELD_T);
+        thunk_addr += sizeof(FIELD_T);
         processed_imps++;
         if (is_name_saved) recovered_imps++;
 
@@ -170,7 +173,8 @@ bool fillImportNames32(IMAGE_IMPORT_DESCRIPTOR* lib_desc, LPVOID modulePtr, size
     return (recovered_imps == processed_imps);
 }
 
-size_t findAddressesToFill32(DWORD call_via, DWORD thunk_addr, LPVOID modulePtr, OUT std::set<ULONGLONG> &addresses)
+template <typename FIELD_T>
+size_t findAddressesToFill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePtr, OUT std::set<ULONGLONG> &addresses)
 {
     size_t addrCounter = 0;
     do {
@@ -180,8 +184,8 @@ size_t findAddressesToFill32(DWORD call_via, DWORD thunk_addr, LPVOID modulePtr,
         LPVOID thunk_ptr = (LPVOID)((ULONGLONG)modulePtr + thunk_addr);
         if (thunk_ptr == NULL) break;
 
-        DWORD *thunk_val = (DWORD*)thunk_ptr;
-        DWORD *call_via_val = (DWORD*)call_via_ptr;
+        FIELD_T *thunk_val = reinterpret_cast<FIELD_T*>(thunk_ptr);
+        FIELD_T *call_via_val = reinterpret_cast<FIELD_T*>(call_via_ptr);
         if (*call_via_val == 0) {
             //nothing to fill, probably the last record
             break;
@@ -190,8 +194,8 @@ size_t findAddressesToFill32(DWORD call_via, DWORD thunk_addr, LPVOID modulePtr,
         addresses.insert(searchedAddr);
         addrCounter++;
         //---
-        call_via += sizeof(DWORD);
-        thunk_addr += sizeof(DWORD);
+        call_via += sizeof(FIELD_T);
+        thunk_addr += sizeof(FIELD_T);
     } while (true);
 
     return addrCounter;
@@ -312,10 +316,9 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         DWORD thunk_addr = lib_desc->OriginalFirstThunk; // warning: it can be NULL!
         std::set<ULONGLONG> addresses;
         if (!is64) {
-            findAddressesToFill32(call_via, thunk_addr, modulePtr, addresses);
+            findAddressesToFill<DWORD>(call_via, thunk_addr, modulePtr, addresses);
         } else {
-            printf("[-] Support for 64 bit PE is not implemented yet!\n");
-            return false;
+            findAddressesToFill<ULONGLONG>(call_via, thunk_addr, modulePtr, addresses);
         }
         if (lib_name.length() == 0) {
             std::cerr << "Erased DLL name\n";
@@ -349,13 +352,15 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
             std::cout << "All covered!" << std::endl;
 #endif
         }
+        bool is_filled = false;
         if (!is64) {
-            if (!fillImportNames32(lib_desc, modulePtr, moduleSize, addr_to_func)) {
-                printf("[-] Could not fill some import names!\n");
-                return false;
-            }
+            is_filled = fillImportNames<DWORD, IMAGE_THUNK_DATA32>(lib_desc, modulePtr, moduleSize, IMAGE_ORDINAL_FLAG32, addr_to_func);
         } else {
-            printf("[-] PE 64-bit is not supported!\n");
+            is_filled = fillImportNames<ULONGLONG, IMAGE_THUNK_DATA64>(lib_desc, modulePtr, moduleSize, IMAGE_ORDINAL_FLAG64, addr_to_func);
+        }
+        if (!is_filled) {
+            printf("[-] Could not fill some import names!\n");
+            return false;
         }
     }
 #ifdef _DEBUG
