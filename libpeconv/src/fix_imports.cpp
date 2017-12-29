@@ -1,4 +1,6 @@
 #include "peconv/fix_imports.h"
+
+#include <iterator>
 #include <algorithm>
 #include <iostream>
 
