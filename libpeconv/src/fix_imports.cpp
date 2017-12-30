@@ -23,16 +23,18 @@ LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
     return NULL;
 }
 
+template <typename FIELD_T>
 bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
                       IMAGE_IMPORT_DESCRIPTOR* lib_desc,
                       LPVOID call_via_ptr,
+                      const FIELD_T ordinal_flag,
                       std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
                       )
 {
     if (call_via_ptr == NULL || modulePtr == NULL || lib_desc == NULL) {
         return false; //malformed input
     }
-    DWORD *call_via_val = (DWORD*)call_via_ptr;
+    FIELD_T *call_via_val = (FIELD_T*)call_via_ptr;
     if (*call_via_val == 0) {
         //nothing to fill, probably the last record
         return false;
@@ -40,7 +42,7 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
     ULONGLONG searchedAddr = ULONGLONG(*call_via_val);
     bool is_name_saved = false;
 
-    DWORD lastOrdinal = 0; //store also ordinal of the matching function
+    FIELD_T lastOrdinal = 0; //store also ordinal of the matching function
     std::set<ExportedFunc>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
 
     for (funcname_itr = addr_to_func[searchedAddr].begin(); 
@@ -57,7 +59,8 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
             //TODO: maybe it is imported by ordinal?
             continue;
         }
-        const DWORD offset = static_cast<DWORD>((ULONGLONG)found_ptr - (ULONGLONG)modulePtr);
+        
+        const FIELD_T offset = static_cast<FIELD_T>((ULONGLONG)found_ptr - (ULONGLONG)modulePtr);
 #ifdef _DEBUG
         //if it is not the first name from the list, inform about it:
         if (funcname_itr != addr_to_func[searchedAddr].begin()) {
@@ -65,9 +68,9 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
         }
         printf("[+] Found the name at: %llx\n", static_cast<ULONGLONG>(offset));
 #endif
-        const DWORD name_offset = offset - sizeof(WORD);
+        const FIELD_T name_offset = offset - sizeof(WORD); // substract the size of Hint
         //TODO: validate more...
-        memcpy((BYTE*)call_via_ptr, &name_offset, sizeof(DWORD));
+        memcpy((BYTE*)call_via_ptr, &name_offset, sizeof(FIELD_T));
 #ifdef _DEBUG
         std::cout << "[+] Wrote found to offset: " << std::hex << call_via_ptr << std::endl;
 #endif
@@ -78,8 +81,8 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
     if (is_name_saved == false) {
         if (lastOrdinal != 0) {
             std::cout << "[+] Filling ordinal: " << lastOrdinal << std::endl;
-            DWORD ord_thunk = lastOrdinal | IMAGE_ORDINAL_FLAG32;
-            memcpy(call_via_ptr, &ord_thunk, sizeof(DWORD)); 
+            FIELD_T ord_thunk = lastOrdinal | ordinal_flag;
+            memcpy(call_via_ptr, &ord_thunk, sizeof(FIELD_T)); 
             is_name_saved = true;
         }
     }
@@ -142,7 +145,7 @@ bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
 
         PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
         if (desc->u1.Ordinal & ordinal_flag) {
-            std::cout << "Imports by ordinals are not supported!\n";
+            // import by ordinal: already filled
             call_via += sizeof(FIELD_T);
             thunk_addr += sizeof(FIELD_T);
             continue;
@@ -160,7 +163,7 @@ bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
             is_name_saved = true;
         } else {
             // try to find the offset to the name in the module:
-            is_name_saved = findNameInBinaryAndFill(modulePtr, moduleSize, lib_desc, call_via_ptr, addr_to_func);
+            is_name_saved = findNameInBinaryAndFill<FIELD_T>(modulePtr, moduleSize, lib_desc, call_via_ptr, ordinal_flag, addr_to_func);
         }
 
         call_via += sizeof(FIELD_T);
