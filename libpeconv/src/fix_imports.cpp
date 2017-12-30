@@ -60,17 +60,17 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
             continue;
         }
         
-        const FIELD_T offset = static_cast<FIELD_T>((ULONGLONG)found_ptr - (ULONGLONG)modulePtr);
+        const ULONGLONG name_offset = (ULONGLONG)found_ptr - (ULONGLONG)modulePtr;
 #ifdef _DEBUG
         //if it is not the first name from the list, inform about it:
         if (funcname_itr != addr_to_func[searchedAddr].begin()) {
             std::cout << ">[*][" << std::hex << searchedAddr << "] " << found_func.funcName << std::endl;
         }
-        printf("[+] Found the name at: %llx\n", static_cast<ULONGLONG>(offset));
+        std::cout <<"[+] Found the name at: " << std::hex << name_offset << std::endl;
 #endif
-        const FIELD_T name_offset = offset - sizeof(WORD); // substract the size of Hint
+        PIMAGE_IMPORT_BY_NAME imp_field = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(name_offset - sizeof(WORD)); // substract the size of Hint
         //TODO: validate more...
-        memcpy((BYTE*)call_via_ptr, &name_offset, sizeof(FIELD_T));
+        memcpy(call_via_ptr, &imp_field, sizeof(FIELD_T));
 #ifdef _DEBUG
         std::cout << "[+] Wrote found to offset: " << std::hex << call_via_ptr << std::endl;
 #endif
@@ -204,6 +204,7 @@ size_t findAddressesToFill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePt
     return addrCounter;
 }
 
+//find the name of the DLL that can cover all the addresses of imported functions
 std::string findDllName(std::set<ULONGLONG> &addresses, std::map<ULONGLONG, std::set<ExportedFunc>> &va_to_func)
 {
     std::set<std::string> dllNames;
@@ -213,30 +214,33 @@ std::string findDllName(std::set<ULONGLONG> &addresses, std::map<ULONGLONG, std:
     for (addrItr = addresses.begin(); addrItr != addresses.end(); addrItr++) {
         ULONGLONG searchedAddr = *addrItr;
         //---
+        //find all the DLLs exporting this particular function (can be forwarded etc):
         std::map<ULONGLONG, std::set<ExportedFunc>>::iterator fItr1 = va_to_func.find(searchedAddr);
         
-        if (fItr1 != va_to_func.end()) {
-            std::set<std::string> currDllNames;
-
-            for (std::set<ExportedFunc>::iterator strItr = fItr1->second.begin(); 
-                strItr != fItr1->second.end(); 
-                strItr++)
-            {
-                std::string imp_dll_name = strItr->libName;
-                currDllNames.insert(imp_dll_name);
-            }
-
-            //printf("> %s\n", strItr->c_str());
-            if (!isFresh) {
-                std::set<std::string> resultSet;
-                std::set_intersection(dllNames.begin(), dllNames.end(),
-                    currDllNames.begin(), currDllNames.end(),
-                    std::inserter(resultSet, resultSet.begin()));
-                dllNames = resultSet;
-            } else {
-                dllNames = currDllNames;
-            }
+        if (fItr1 == va_to_func.end()) {
+            std::cerr << "Cannot find any DLL exporting: " << std::hex << searchedAddr << std::endl;
+            return "";
         }
+        std::set<std::string> currDllNames;
+        for (std::set<ExportedFunc>::iterator strItr = fItr1->second.begin(); 
+            strItr != fItr1->second.end(); 
+            strItr++)
+        {
+            std::string imp_dll_name = strItr->libName;
+            currDllNames.insert(imp_dll_name);
+        }
+        if (isFresh) {
+            //if no other function was processed before, set the current DLL set as the total set
+            dllNames = currDllNames;
+            isFresh = false;
+            continue;
+        }
+        // find the intersection between the total set and the current set
+        std::set<std::string> resultSet;
+        std::set_intersection(dllNames.begin(), dllNames.end(),
+        currDllNames.begin(), currDllNames.end(),
+        std::inserter(resultSet, resultSet.begin()));
+        dllNames = resultSet;
         //---
     }
     if (dllNames.size() > 0) {
@@ -277,6 +281,33 @@ size_t mapAddressesToFunctions(std::set<ULONGLONG> &addresses,
         }
     }
     return coveredCount;
+}
+
+bool recoverErasedDllName(PVOID modulePtr, size_t moduleSize, 
+                          IMAGE_IMPORT_DESCRIPTOR* lib_desc, 
+                          std::set<ULONGLONG> addresses, 
+                          peconv::ExportsMapper& exportsMap
+                          )
+{
+    std::map<ULONGLONG, std::set<ExportedFunc>> &va_to_func = exportsMap.va_to_func;
+    std::cerr << "Erased DLL name\n";
+    std::string lib_name = findDllName(addresses, va_to_func);
+    if (lib_name.length() == 0) {
+        std::cout << "Cannot find a DLL name" << std::endl;
+        return false;
+    }
+    std::string found_name = lib_name + ".dll"; //TODO: it not always have to be have extension DLL!
+#ifdef _DEBUG
+    std::cout << "Found name:" << found_name << std::endl;
+#endif
+    LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+
+    if (!validate_ptr(modulePtr, moduleSize, name_ptr, found_name.length())) {
+        std::cerr << "[-] Invalid pointer to the name!\n";
+        return false;
+    }
+    memcpy(name_ptr, found_name.c_str(), found_name.length());
+    return true;
 }
 
 bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap)
@@ -324,21 +355,14 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
             findAddressesToFill<ULONGLONG>(call_via, thunk_addr, modulePtr, addresses);
         }
         if (lib_name.length() == 0) {
-            std::cerr << "Erased DLL name\n";
-            lib_name = findDllName(addresses, va_to_func);
-            if (lib_name.length() != 0) {
-                std::string found_name = lib_name + ".dll";
-                name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-                if (!validate_ptr(modulePtr, moduleSize, name_ptr, found_name.length())) {
-                    std::cerr << "[-] Invalid pointer to the name!\n";
-                    return false;
-                }
-                memcpy(name_ptr, found_name.c_str(), found_name.length());
+            if (recoverErasedDllName(modulePtr, moduleSize, lib_desc, addresses, exportsMap)) {
+                lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name); //read it again
+            } else {
+                std::cerr << "Failed to recover the erased DLL name\n";
             }
-        } else {
-            lib_name = getDllName(lib_name);
         }
-        
+        lib_name = getDllName(lib_name);
+
         if (lib_name.length() == 0) {
             std::cerr <<"[ERROR] Cannot find DLL!\n";
             return false;
