@@ -7,13 +7,15 @@
 
 namespace peconv {
 
-    size_t forwarderNameLen(BYTE* fPtr); 
+    // check if the pointer redirects to a forwarder. if so, return the length
+    size_t forwarder_name_len(BYTE* fPtr); 
 
-    std::string getDllName(const std::string& str);
+    // get the DLL name without the extension
+    std::string get_dll_name(const std::string& str);
 
-    std::string getFuncName(const std::string& str);
+    std::string get_func_name(const std::string& str);
 
-    std::string formatDllFunc(const std::string& str);
+    std::string format_dll_func(const std::string& str);
 
     class ExportedFunc
     {

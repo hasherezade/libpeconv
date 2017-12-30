@@ -41,25 +41,6 @@ bool is_wanted_func(LPSTR curr_name, LPSTR wanted_name)
     return true;
 }
 
-size_t forwarder_name_len(BYTE* fPtr)
-{
-    size_t len = 0;
-    while ((*fPtr >= 'a' && *fPtr <= 'z')
-            || (*fPtr >= 'A' && *fPtr <= 'Z')
-            || (*fPtr >= '0' && *fPtr <= '9')
-            || (*fPtr == '.')
-            || (*fPtr == '_') 
-            || (*fPtr == '-'))
-    {
-        len++;
-        fPtr++;
-    }
-    if (*fPtr == '\0') {
-        return len;
-    }
-    return 0;
-}
-
 bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPSTR func_name)
 {
     ULONGLONG base = exp->Base;
@@ -74,8 +55,8 @@ bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPSTR func_name)
 FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wanted_ordinal)
 {
     SIZE_T functCount = exp->NumberOfFunctions;
-	DWORD funcsListRVA = exp->AddressOfFunctions;
-	DWORD ordBase = exp->Base;
+    DWORD funcsListRVA = exp->AddressOfFunctions;
+    DWORD ordBase = exp->Base;
 
     //go through names:
     for (DWORD i = 0; i < functCount; i++) {
@@ -83,7 +64,7 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
         BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); //pointer to the function
         DWORD ordinal = ordBase + i;
         if (ordinal == wanted_ordinal) {
-            if (forwarder_name_len(fPtr) > 1) {
+            if (peconv::forwarder_name_len(fPtr) > 1) {
                 std::cerr << "[!] Forwarded function: ["<< wanted_ordinal << " -> "<< fPtr << "] cannot be resolved!" << std::endl;
                 return NULL; // this function is forwarded, cannot be resolved
             }
@@ -201,7 +182,7 @@ LPSTR peconv::read_dll_name(HMODULE modulePtr)
     if (IsBadReadPtr(module_name, 1)) {
         return NULL;
     }
-    size_t len = peconv::forwarderNameLen((BYTE*) module_name);
+    size_t len = peconv::forwarder_name_len((BYTE*) module_name);
     if (len > 1) {
         return module_name;
     }

@@ -13,7 +13,7 @@ char easytolower(char in)
     return in;
 }
 
-std::string peconv::getDllName(const std::string& str)
+std::string peconv::get_dll_name(const std::string& str)
 {
     std::size_t len = str.length();
     std::size_t found = str.find_last_of("/\\");
@@ -25,8 +25,9 @@ std::string peconv::getDllName(const std::string& str)
     return name;
 }
 
-size_t peconv::forwarderNameLen(BYTE* fPtr)
+size_t peconv::forwarder_name_len(BYTE* fPtr)
 {
+    bool has_dot = false;
     size_t len = 0;
     while ((*fPtr >= 'a' && *fPtr <= 'z')
             || (*fPtr >= 'A' && *fPtr <= 'Z')
@@ -35,16 +36,20 @@ size_t peconv::forwarderNameLen(BYTE* fPtr)
             || (*fPtr == '_') 
             || (*fPtr == '-'))
     {
+        if (*fPtr == '.') has_dot = true;
         len++;
         fPtr++;
     }
     if (*fPtr == '\0') {
+        if (!has_dot) {
+            return 0; //this is not a valid forwarder
+        }
         return len;
     }
     return 0;
 }
 
-std::string peconv::getFuncName(const std::string& str)
+std::string peconv::get_func_name(const std::string& str)
 {
     std::size_t len = str.length();
     std::size_t ext = str.find_last_of(".");
@@ -54,10 +59,10 @@ std::string peconv::getFuncName(const std::string& str)
     return name;
 }
 
-std::string peconv::formatDllFunc(const std::string& str)
+std::string peconv::format_dll_func(const std::string& str)
 {
-    std::string dllName = getDllName(str);
-    std::string funcName = getFuncName(str);
+    std::string dllName = get_dll_name(str);
+    std::string funcName = get_func_name(str);
     if (dllName.length() == 0 || funcName.length() == 0) {
         return "";
     }
@@ -90,8 +95,8 @@ ExportedFunc::ExportedFunc(const ExportedFunc& other)
 
 ExportedFunc::ExportedFunc(const std::string &forwarderName)
 {
-    this->funcName = getFuncName(forwarderName);
-    this->libName = getDllName(forwarderName);
+    this->funcName = get_func_name(forwarderName);
+    this->libName = get_dll_name(forwarderName);
     this->isByOrdinal = false;
 }
 

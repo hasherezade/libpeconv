@@ -227,6 +227,7 @@ std::string findDllName(std::set<ULONGLONG> &addresses, std::map<ULONGLONG, std:
             strItr++)
         {
             std::string imp_dll_name = strItr->libName;
+            //std::cout << imp_dll_name << std::endl;
             currDllNames.insert(imp_dll_name);
         }
         if (isFresh) {
@@ -238,14 +239,17 @@ std::string findDllName(std::set<ULONGLONG> &addresses, std::map<ULONGLONG, std:
         // find the intersection between the total set and the current set
         std::set<std::string> resultSet;
         std::set_intersection(dllNames.begin(), dllNames.end(),
-        currDllNames.begin(), currDllNames.end(),
-        std::inserter(resultSet, resultSet.begin()));
+            currDllNames.begin(), currDllNames.end(),
+            std::inserter(resultSet, resultSet.begin())
+        );
+        //std::cout << "ResultSet size: " << resultSet.size() << std::endl;
         dllNames = resultSet;
         //---
     }
     if (dllNames.size() > 0) {
         return *(dllNames.begin());
     }
+//    std::cerr << "The list of covering DLLs is empty..." << std::endl;
     return "";
 }
 
@@ -290,13 +294,15 @@ bool recoverErasedDllName(PVOID modulePtr, size_t moduleSize,
                           )
 {
     std::map<ULONGLONG, std::set<ExportedFunc>> &va_to_func = exportsMap.va_to_func;
+#ifdef _DEBUG
     std::cerr << "Erased DLL name\n";
+#endif
     std::string lib_name = findDllName(addresses, va_to_func);
     if (lib_name.length() == 0) {
         std::cout << "Cannot find a DLL name" << std::endl;
         return false;
     }
-    std::string found_name = lib_name + ".dll"; //TODO: it not always have to be have extension DLL!
+    std::string found_name = lib_name + ".dll"; //TODO: it not always has to have extension DLL!
 #ifdef _DEBUG
     std::cout << "Found name:" << found_name << std::endl;
 #endif
@@ -361,7 +367,7 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
                 std::cerr << "Failed to recover the erased DLL name\n";
             }
         }
-        lib_name = getDllName(lib_name);
+        lib_name = get_dll_name(lib_name);
 
         if (lib_name.length() == 0) {
             std::cerr <<"[ERROR] Cannot find DLL!\n";

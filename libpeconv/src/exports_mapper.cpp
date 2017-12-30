@@ -61,7 +61,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     std::map<ULONGLONG, DWORD> va_to_ord;
     size_t functCount = make_ord_lookup_tables(modulePtr, va_to_ord);
 
-    std::string dllName = getDllName(moduleName);
+    std::string dllName = get_dll_name(moduleName);
 
     size_t forwarded_ctr = 0;
 
@@ -86,8 +86,8 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         ExportedFunc currFunc(dllName, name, funcOrd);
 
         BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA);
-        if (forwarderNameLen(fPtr) > 1) {
-            std::string forwardedFunc = formatDllFunc((char*)fPtr);
+        if (peconv::forwarder_name_len(fPtr) > 1) {
+            std::string forwardedFunc = format_dll_func((char*)fPtr);
             if (forwardedFunc.length() == 0) {
                 continue;
             }
