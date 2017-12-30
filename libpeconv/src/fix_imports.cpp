@@ -205,7 +205,7 @@ size_t findAddressesToFill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePt
 }
 
 //find the name of the DLL that can cover all the addresses of imported functions
-std::string findDllName(std::set<ULONGLONG> &addresses, std::map<ULONGLONG, std::set<ExportedFunc>> &va_to_func)
+std::string findCoveringDll(std::set<ULONGLONG> &addresses, peconv::ExportsMapper& exportsMap)
 {
     std::set<std::string> dllNames;
     bool isFresh = true;
@@ -214,22 +214,22 @@ std::string findDllName(std::set<ULONGLONG> &addresses, std::map<ULONGLONG, std:
     for (addrItr = addresses.begin(); addrItr != addresses.end(); addrItr++) {
         ULONGLONG searchedAddr = *addrItr;
         //---
-        //find all the DLLs exporting this particular function (can be forwarded etc):
-        std::map<ULONGLONG, std::set<ExportedFunc>>::iterator fItr1 = va_to_func.find(searchedAddr);
-        
-        if (fItr1 == va_to_func.end()) {
+        // Find all the DLLs exporting this particular function (can be forwarded etc)
+        //1. Get all the functions from all accessible DLLs that correspond to this address:
+        const std::set<ExportedFunc>* exports_for_va = exportsMap.find_exports_by_va(searchedAddr);
+        if (exports_for_va == nullptr) {
             std::cerr << "Cannot find any DLL exporting: " << std::hex << searchedAddr << std::endl;
             return "";
         }
+        //2. Iterate through their DLL names and add them to a set:
         std::set<std::string> currDllNames;
-        for (std::set<ExportedFunc>::iterator strItr = fItr1->second.begin(); 
-            strItr != fItr1->second.end(); 
+        for (std::set<ExportedFunc>::iterator strItr = exports_for_va->begin(); 
+            strItr != exports_for_va->end(); 
             strItr++)
         {
-            std::string imp_dll_name = strItr->libName;
-            //std::cout << imp_dll_name << std::endl;
-            currDllNames.insert(imp_dll_name);
+            currDllNames.insert(strItr->libName);
         }
+        //3. Which of those DLLs covers also previous functions from this series?
         if (isFresh) {
             //if no other function was processed before, set the current DLL set as the total set
             dllNames = currDllNames;
@@ -244,18 +244,21 @@ std::string findDllName(std::set<ULONGLONG> &addresses, std::map<ULONGLONG, std:
         );
         //std::cout << "ResultSet size: " << resultSet.size() << std::endl;
         dllNames = resultSet;
+        if (dllNames.size() == 0) {
+            std::cout << "Suspicious address: " << searchedAddr << " - may be injected to IAT from a different DLL" << std::endl;
+            break; // once the intersection is empty, it makes no sense to check any further
+        }
         //---
     }
     if (dllNames.size() > 0) {
         return *(dllNames.begin());
     }
-//    std::cerr << "The list of covering DLLs is empty..." << std::endl;
     return "";
 }
 
 size_t mapAddressesToFunctions(std::set<ULONGLONG> &addresses, 
-                               std::string coveringDll, 
-                               std::map<ULONGLONG, std::set<ExportedFunc>> &va_to_func, 
+                               std::string coveringDll,
+                               peconv::ExportsMapper& exportsMap,
                                OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
                                )
 {
@@ -265,23 +268,26 @@ size_t mapAddressesToFunctions(std::set<ULONGLONG> &addresses,
 
         ULONGLONG searchedAddr = *addrItr;
         //---
-        std::map<ULONGLONG, std::set<ExportedFunc>>::iterator fItr1 = va_to_func.find(searchedAddr);
-        
-        if (fItr1 != va_to_func.end()) {
-            std::set<std::string> currDllNames;
 
-            for (std::set<ExportedFunc>::iterator strItr = fItr1->second.begin(); 
-                strItr != fItr1->second.end(); 
-                strItr++)
-            {
-                ExportedFunc func = *strItr;
-                std::string dll_name = strItr->libName;
-                if (dll_name == coveringDll) {
-                    //std::string funcName = strItr->funcName;
-                    addr_to_func[searchedAddr].insert(func);
-                    coveredCount++;
-                }
+        const std::set<ExportedFunc>* exports_for_va = exportsMap.find_exports_by_va(searchedAddr);
+        if (exports_for_va == nullptr) {
+            std::cerr << "Cannot find any DLL exporting: " << std::hex << searchedAddr << std::endl;
+            return 0;
+        }
+
+        std::set<std::string> currDllNames;
+
+        for (std::set<ExportedFunc>::iterator strItr = exports_for_va->begin(); 
+            strItr != exports_for_va->end(); 
+            strItr++)
+        {
+            std::string dll_name = strItr->libName;
+            if (dll_name != coveringDll) {
+                continue;
             }
+            ExportedFunc func = *strItr;
+            addr_to_func[searchedAddr].insert(func);
+            coveredCount++;
         }
     }
     return coveredCount;
@@ -289,20 +295,13 @@ size_t mapAddressesToFunctions(std::set<ULONGLONG> &addresses,
 
 bool recoverErasedDllName(PVOID modulePtr, size_t moduleSize, 
                           IMAGE_IMPORT_DESCRIPTOR* lib_desc, 
-                          std::set<ULONGLONG> addresses, 
-                          peconv::ExportsMapper& exportsMap
+                          std::string found_name
                           )
 {
-    std::map<ULONGLONG, std::set<ExportedFunc>> &va_to_func = exportsMap.va_to_func;
-#ifdef _DEBUG
-    std::cerr << "Erased DLL name\n";
-#endif
-    std::string lib_name = findDllName(addresses, va_to_func);
-    if (lib_name.length() == 0) {
-        std::cout << "Cannot find a DLL name" << std::endl;
-        return false;
+    if (found_name.find_last_of(".")  >= found_name.length()) {
+        //if no extension found, append extension DLL
+        found_name += ".dll"; //TODO: it not always has to have extension DLL!
     }
-    std::string found_name = lib_name + ".dll"; //TODO: it not always has to have extension DLL!
 #ifdef _DEBUG
     std::cout << "Found name:" << found_name << std::endl;
 #endif
@@ -318,8 +317,7 @@ bool recoverErasedDllName(PVOID modulePtr, size_t moduleSize,
 
 bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap)
 {
-    std::map<ULONGLONG, std::set<ExportedFunc>> &va_to_func = exportsMap.va_to_func;
-    bool is64 = is64bit((BYTE*)modulePtr);
+    bool is64 = peconv::is64bit((BYTE*)modulePtr);
 
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
@@ -360,15 +358,23 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         } else {
             findAddressesToFill<ULONGLONG>(call_via, thunk_addr, modulePtr, addresses);
         }
+        std::string found_name = findCoveringDll(addresses, exportsMap);
+        if (found_name.length() == 0) {
+            std::cerr << "Cannot find a covering DLL" << std::endl;
+            return false;
+        }
+#ifdef _DEBUG
+        std::cout << "[+] Found DLL name: " << found_name << std::endl;
+#endif
         if (lib_name.length() == 0) {
-            if (recoverErasedDllName(modulePtr, moduleSize, lib_desc, addresses, exportsMap)) {
+            if (recoverErasedDllName(modulePtr, moduleSize, lib_desc, found_name)) {
                 lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name); //read it again
             } else {
                 std::cerr << "Failed to recover the erased DLL name\n";
             }
         }
-        lib_name = get_dll_name(lib_name);
 
+        lib_name = get_dll_name(lib_name);
         if (lib_name.length() == 0) {
             std::cerr <<"[ERROR] Cannot find DLL!\n";
             return false;
@@ -377,7 +383,7 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         std::cout << lib_name << std::endl;
 #endif
         OUT std::map<ULONGLONG, std::set<ExportedFunc>> addr_to_func;
-        size_t coveredCount = mapAddressesToFunctions(addresses, lib_name, va_to_func, addr_to_func); 
+        size_t coveredCount = mapAddressesToFunctions(addresses, lib_name, exportsMap, addr_to_func); 
         if (coveredCount < addresses.size()) {
             std::cerr << "[-] Not all addresses are covered! covered: " << coveredCount << " total: " << addresses.size() << std::endl;
         } else {

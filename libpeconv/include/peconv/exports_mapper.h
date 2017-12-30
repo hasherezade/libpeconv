@@ -47,13 +47,12 @@ namespace peconv {
             return func;
         }
 
-        std::map<ULONGLONG, std::set<ExportedFunc>> va_to_func;
-
     private:
         size_t resolve_forwarders(const ULONGLONG va, ExportedFunc &currFunc);
         size_t make_ord_lookup_tables(PVOID modulePtr, std::map<ULONGLONG, DWORD> &va_to_ord);
 
     protected:
+        std::map<ULONGLONG, std::set<ExportedFunc>> va_to_func;
         std::map<ExportedFunc, std::set<ExportedFunc>> forwarders_lookup;
         std::map<ExportedFunc, ULONGLONG> func_to_va;
     };
