@@ -54,6 +54,8 @@ size_t ExportsMapper::resolve_forwarders(const ULONGLONG va, ExportedFunc &currF
 
 bool ExportsMapper::add_forwarded(PBYTE fPtr, ExportedFunc &currFunc)
 {
+    if (fPtr == nullptr) return false;
+
     if (peconv::forwarder_name_len(fPtr) < 1) {
         return false; //not forwarded
     }
@@ -69,6 +71,29 @@ bool ExportsMapper::add_forwarded(PBYTE fPtr, ExportedFunc &currFunc)
         ULONGLONG va = func_to_va[forwarder];
         va_to_func[va].insert(currFunc);
         func_to_va[currFunc] = va;
+    }
+    return true;
+}
+
+DWORD get_ordinal(ULONGLONG funcRVA, std::map<ULONGLONG, DWORD> &va_to_ord)
+{
+    std::map<ULONGLONG, DWORD>::iterator ord_itr = va_to_ord.find(funcRVA);
+    if (ord_itr == va_to_ord.end()) {
+        //ordinal not found
+        return -1;
+    }
+    DWORD ordinal = ord_itr->second;
+    va_to_ord.erase(ord_itr);
+    return ordinal;
+}
+
+bool ExportsMapper::add_to_maps(ULONGLONG va, ExportedFunc &currFunc)
+{
+    va_to_func[va].insert(currFunc);
+    func_to_va[currFunc] = va;
+    if (currFunc.funcName.length() > 0) {
+        //resolve forwarders of this function (if any):
+        resolve_forwarders(va, currFunc);
     }
     return true;
 }
@@ -101,7 +126,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
         //ULONGLONG funcVA = rebase_va((ULONGLONG)funcRVA, modulePtr, moduleBase);
-        DWORD funcOrd = va_to_ord[(ULONGLONG)funcRVA];
+        DWORD funcOrd = get_ordinal(reinterpret_cast<ULONGLONG>(funcRVA), va_to_ord);
        
         LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
         ExportedFunc currFunc(dllName, name, funcOrd);
@@ -109,15 +134,25 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA);
         if (add_forwarded(fPtr, currFunc)) {
             forwarded_ctr++;
-            continue;
         } else {
             //not forwarded, simple case:
             ULONGLONG va = (ULONGLONG) moduleBase + (*funcRVA);
-            va_to_func[va].insert(currFunc);
-            func_to_va[currFunc] = va;
+            add_to_maps(va,currFunc);
+        }
+    }
 
-            //resolve forwarders of this function (if any):
-            resolve_forwarders(va, currFunc);
+    //go through unnamed functions exported by ordinals:
+    std::map<ULONGLONG, DWORD>::iterator ord_itr = va_to_ord.begin();
+    for (;ord_itr != va_to_ord.end(); ord_itr++) {
+
+        DWORD funcOrd = ord_itr->second;
+        ULONGLONG va = ord_itr->first;
+
+        ExportedFunc currFunc(dllName, funcOrd);
+        if (add_forwarded((PBYTE)va, currFunc)) {
+            forwarded_ctr++;
+        } else {
+            add_to_maps(va, currFunc);
         }
     }
     return functCount - forwarded_ctr;
