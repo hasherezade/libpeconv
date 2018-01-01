@@ -14,7 +14,7 @@ bool peconv::validate_ptr(const LPVOID buffer_bgn, SIZE_T buffer_size, const LPV
     if ((ULONGLONG)field_bgn < start) {
         return false;
     }
-    if (field_end >= end) {
+    if (field_end > end) {
         return false;
     }
     return true;
