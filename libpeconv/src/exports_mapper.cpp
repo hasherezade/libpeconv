@@ -52,6 +52,27 @@ size_t ExportsMapper::resolve_forwarders(const ULONGLONG va, ExportedFunc &currF
     return resolved;
 }
 
+bool ExportsMapper::add_forwarded(PBYTE fPtr, ExportedFunc &currFunc)
+{
+    if (peconv::forwarder_name_len(fPtr) < 1) {
+        return false; //not forwarded
+    }
+    std::string forwardedFunc = format_dll_func((char*)fPtr);
+    if (forwardedFunc.length() == 0) {
+        return false; //not forwarded
+    }
+
+    ExportedFunc forwarder(forwardedFunc);
+    forwarders_lookup[forwarder].insert(currFunc);
+
+    if (func_to_va[forwarder] != 0) {
+        ULONGLONG va = func_to_va[forwarder];
+        va_to_func[va].insert(currFunc);
+        func_to_va[currFunc] = va;
+    }
+    return true;
+}
+
 size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
 {
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
@@ -86,20 +107,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         ExportedFunc currFunc(dllName, name, funcOrd);
 
         BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA);
-        if (peconv::forwarder_name_len(fPtr) > 1) {
-            std::string forwardedFunc = format_dll_func((char*)fPtr);
-            if (forwardedFunc.length() == 0) {
-                continue;
-            }
-
-            ExportedFunc forwarder(forwardedFunc);
-            forwarders_lookup[forwarder].insert(currFunc);
-
-            if (func_to_va[forwarder] != 0) {
-                ULONGLONG va = func_to_va[forwarder];
-                va_to_func[va].insert(currFunc);
-                func_to_va[currFunc] = va;
-            }
+        if (add_forwarded(fPtr, currFunc)) {
             forwarded_ctr++;
             continue;
         } else {
