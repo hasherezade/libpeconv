@@ -49,9 +49,10 @@ namespace peconv {
 
     private:
         bool add_forwarded(PBYTE fPtr, ExportedFunc &currFunc);
+        bool add_to_maps(ULONGLONG va, ExportedFunc &currFunc);
 
         size_t resolve_forwarders(const ULONGLONG va, ExportedFunc &currFunc);
-        size_t make_ord_lookup_tables(PVOID modulePtr, std::map<ULONGLONG, DWORD> &va_to_ord);
+        size_t make_ord_lookup_tables(PVOID modulePtr, std::map<PDWORD, DWORD> &va_to_ord);
 
     protected:
         std::map<ULONGLONG, std::set<ExportedFunc>> va_to_func;

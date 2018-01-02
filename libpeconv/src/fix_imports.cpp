@@ -126,7 +126,7 @@ bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         std::set<ExportedFunc>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
 
         if (addr_to_func[searchedAddr].begin() == addr_to_func[searchedAddr].end()) {
-            std::cout << "[-] Function not found: [" << std::hex << searchedAddr << "] " << std::endl;
+            std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
             call_via += sizeof(FIELD_T);
             thunk_addr += sizeof(FIELD_T);
             continue;
@@ -243,11 +243,21 @@ std::string findCoveringDll(std::set<ULONGLONG> &addresses, peconv::ExportsMappe
             std::inserter(resultSet, resultSet.begin())
         );
         //std::cout << "ResultSet size: " << resultSet.size() << std::endl;
-        dllNames = resultSet;
-        if (dllNames.size() == 0) {
-            std::cout << "Suspicious address: " << searchedAddr << " - may be injected to IAT from a different DLL" << std::endl;
-            break; // once the intersection is empty, it makes no sense to check any further
+        
+        if (resultSet.size() == 0) {
+#ifdef _DEBUG
+            std::cerr << "Suspicious address: " << std::hex << searchedAddr << " not found in the currently processed DLL"  << std::endl;
+            std::string prev_lib = *(dllNames.begin());
+            std::cerr << "Not found in: " << prev_lib << std::endl;
+
+            std::string curr_lib = *(currDllNames.begin());
+            std::cerr << "Found in: " << curr_lib << std::endl;
+#endif
+            //reinitializate the set and keep going...
+            dllNames = currDllNames;
+            continue;
         }
+        dllNames = resultSet;
         //---
     }
     if (dllNames.size() > 0) {
@@ -289,6 +299,11 @@ size_t mapAddressesToFunctions(std::set<ULONGLONG> &addresses,
             addr_to_func[searchedAddr].insert(func);
             coveredCount++;
         }
+        if (addr_to_func.find(searchedAddr) == addr_to_func.end()) {
+            const ExportedFunc* func = exportsMap.find_export_by_va(searchedAddr);
+            std::cout << "[WARNING] A function: " << func->toString() << " may be injected from a malicious DLL" << std::endl;
+        }
+            //                
     }
     return coveredCount;
 }
@@ -398,7 +413,7 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
             is_filled = fillImportNames<ULONGLONG, IMAGE_THUNK_DATA64>(lib_desc, modulePtr, moduleSize, IMAGE_ORDINAL_FLAG64, addr_to_func);
         }
         if (!is_filled) {
-            printf("[-] Could not fill some import names!\n");
+            std::cerr << "[-] Could not fill some import names!" << std::endl;
             return false;
         }
     }
