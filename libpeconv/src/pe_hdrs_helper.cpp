@@ -139,7 +139,7 @@ DWORD peconv::get_entry_point_rva(const BYTE *pe_buffer)
         value = payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint;
     } else {
         IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
-        value = static_cast<ULONGLONG>(payload_nt_hdr32->OptionalHeader.AddressOfEntryPoint);
+        value = payload_nt_hdr32->OptionalHeader.AddressOfEntryPoint;
     }
     return value;
 }
