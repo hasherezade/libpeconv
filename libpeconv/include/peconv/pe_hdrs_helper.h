@@ -32,6 +32,7 @@ ULONGLONG get_image_base(const BYTE *pe_buffer);
 bool update_image_base(BYTE* payload, ULONGLONG destImageBase);
 
 DWORD get_entry_point_rva(const BYTE *pe_buffer);
+bool update_entry_point_rva(BYTE *pe_buffer, DWORD ep);
 
 size_t get_sections_count(const BYTE* buffer, const size_t buffer_size);
 PIMAGE_SECTION_HEADER get_section_hdr(const BYTE* buffer, const size_t buffer_size, size_t section_num);

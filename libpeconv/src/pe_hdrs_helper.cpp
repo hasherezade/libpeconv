@@ -133,15 +133,33 @@ DWORD peconv::get_entry_point_rva(const BYTE *pe_buffer)
     if (payload_nt_hdr == NULL) {
         return 0;
     }
-    DWORD img_base = 0;
+    DWORD value = 0;
     if (is64b) {
         IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
-        img_base = payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint;
+        value = payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint;
     } else {
         IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
-        img_base = static_cast<ULONGLONG>(payload_nt_hdr32->OptionalHeader.AddressOfEntryPoint);
+        value = static_cast<ULONGLONG>(payload_nt_hdr32->OptionalHeader.AddressOfEntryPoint);
     }
-    return img_base;
+    return value;
+}
+
+bool peconv::update_entry_point_rva(BYTE *pe_buffer, DWORD value)
+{
+    bool is64b = is64bit(pe_buffer);
+    //update image base in the written content:
+    BYTE* payload_nt_hdr = get_nt_hrds(pe_buffer);
+    if (payload_nt_hdr == NULL) {
+        return false;
+    }
+    if (is64b) {
+        IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+        payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint = value;
+    } else {
+        IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+        payload_nt_hdr32->OptionalHeader.AddressOfEntryPoint = value;
+    }
+    return true;
 }
 
 DWORD peconv::get_hdrs_size(const BYTE *pe_buffer)
