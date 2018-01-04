@@ -150,7 +150,8 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
     
     if (exportsMap != nullptr) {
         if (!peconv::fix_imports(buffer, mod_size, *exportsMap)) {
-            std::cerr << "Unable to fix imports!" << std::endl;
+            DWORD pid = GetProcessId(processHandle);
+            std::cerr << "[" << std::dec << pid << "] Unable to fix imports!" << std::endl;
         }
     }
 
