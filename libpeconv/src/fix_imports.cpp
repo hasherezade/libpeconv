@@ -357,6 +357,10 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         if (lib_desc->OriginalFirstThunk == NULL && lib_desc->FirstThunk == NULL) {
             break;
         }
+        if (lib_desc->TimeDateStamp == (-1)) {
+            std::cerr << "[!] This is a bound import. Bound imports are not supported\n";
+            continue;
+        }
 #ifdef _DEBUG
         printf("Imported Lib: %x : %x : %x\n", lib_desc->FirstThunk, lib_desc->OriginalFirstThunk, lib_desc->Name);
 #endif
