@@ -326,7 +326,7 @@ bool recoverErasedDllName(PVOID modulePtr, size_t moduleSize,
         std::cerr << "[-] Invalid pointer to the name!\n";
         return false;
     }
-    memcpy(name_ptr, found_name.c_str(), found_name.length());
+    memcpy(name_ptr, found_name.c_str(), found_name.length() + 1); // with terminating zero
     return true;
 }
 
