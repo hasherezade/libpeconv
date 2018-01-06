@@ -335,8 +335,9 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
     bool is64 = peconv::is64bit((BYTE*)modulePtr);
 
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
-    if (importsDir == NULL) return false;
-
+    if (importsDir == NULL) {
+        return true; // done! no imports -> nothing to fix
+    }
     DWORD maxSize = importsDir->Size;
     DWORD impAddr = importsDir->VirtualAddress;
 
