@@ -10,14 +10,19 @@ using namespace peconv;
 
 BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate)
 {
+    // by default, allow to load the PE at any base:
     ULONGLONG desired_base = NULL;
+    // if relocating is required, but the PE has no relocation table...
     if (relocate && !has_relocations(dllRawData)) {
+        // ...enforce loading the PE image to at its default base (so that it will need no relocations)
         desired_base = get_image_base(dllRawData);
     }
-
+    // load a virtual image of the PE file at the desired_base address (random if desired_base is NULL):
     BYTE *mappedDLL = pe_raw_to_virtual(dllRawData, r_size, v_size, executable, desired_base);
     if (mappedDLL) {
+        //if the image was loaded at its default base, relocate_module will return always true (because relocating is already done)
         if (relocate && !relocate_module(mappedDLL, v_size, (ULONGLONG)mappedDLL)) {
+            // relocating was required, but it failed - thus, the full PE image is useless
             printf("Could not relocate the module!");
             free_pe_buffer(mappedDLL, v_size);
             mappedDLL = NULL;
