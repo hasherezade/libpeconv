@@ -14,7 +14,7 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
     ULONGLONG desired_base = NULL;
     // if relocating is required, but the PE has no relocation table...
     if (relocate && !has_relocations(dllRawData)) {
-        // ...enforce loading the PE image to at its default base (so that it will need no relocations)
+        // ...enforce loading the PE image at its default base (so that it will need no relocations)
         desired_base = get_image_base(dllRawData);
     }
     // load a virtual image of the PE file at the desired_base address (random if desired_base is NULL):
