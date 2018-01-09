@@ -16,11 +16,10 @@ bool read_remote_pe_header(HANDLE processHandle, BYTE *moduleBase, OUT BYTE* buf
 /**
 Reads a PE section with a given number (sectionNum) from the remote module within the given process. 
 It returns a buffer containing a copy of the section. 
-The buffer of appropriate size is automatically allocated. After use, it should be freed by the function free_remote_module_section.
+The buffer of appropriate size is automatically allocated. After use, it should be freed by the function free_pe_section.
 The size of the buffer is writen into sectionSize.
 */
 BYTE* get_remote_pe_section(HANDLE processHandle, BYTE *moduleBase, const size_t sectionNum, OUT size_t &sectionSize);
-void free_remote_pe_section(BYTE *section_buffer);
 
 /**
 Reads PE file from the remote process into the supplied buffer. It expects the module base and size to be given.

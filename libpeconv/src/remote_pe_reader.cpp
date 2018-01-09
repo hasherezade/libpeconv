@@ -47,22 +47,17 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
     if (section_hdr == NULL || section_hdr->SizeOfRawData == 0) {
         return NULL;
     }
-    BYTE *module_code = (BYTE*) calloc(section_hdr->SizeOfRawData, sizeof(BYTE));
+    BYTE *module_code = peconv::alloc_pe_section(section_hdr->SizeOfRawData);
     if (module_code == NULL) {
         return NULL;
     }
     ReadProcessMemory(processHandle, start_addr + section_hdr->VirtualAddress, module_code, section_hdr->SizeOfRawData, &read_size);
     if (read_size != section_hdr->SizeOfRawData) {
-        free(module_code);
+        peconv::free_pe_section(module_code);
         return NULL;
     }
     section_size = read_size;
     return module_code;
-}
-
-void peconv::free_remote_pe_section(BYTE *section_buffer)
-{
-    free(section_buffer);
 }
 
 size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT PBYTE buffer, const size_t bufferSize)
