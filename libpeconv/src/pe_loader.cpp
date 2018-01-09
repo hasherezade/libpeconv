@@ -30,7 +30,6 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
     } else {
         printf("Could not allocate memory at the desired base!\n");
     }
-    UnmapViewOfFile(dllRawData);
     return mappedDLL;
 }
 
@@ -58,7 +57,7 @@ BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool exec
     }
 
     BYTE *mappedDLL = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
-
+    UnmapViewOfFile(mapping);
     CloseHandle(mapping);
     CloseHandle(file);
 
