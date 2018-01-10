@@ -23,7 +23,7 @@ peconv::ALIGNED_BUF peconv::alloc_aligned(size_t buffer_size, DWORD protect, ULO
 bool peconv::free_aligned(peconv::ALIGNED_BUF buffer, size_t buffer_size)
 {
     if (buffer == NULL) return true;
-    if (!VirtualFree(buffer, buffer_size, MEM_DECOMMIT)) {
+    if (!VirtualFree(buffer, 0, MEM_RELEASE)) {
         std::cerr << "Releasing failed" << std::endl;
         return false;
     }
