@@ -332,12 +332,11 @@ bool recoverErasedDllName(PVOID modulePtr, size_t moduleSize,
 
 bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap)
 {
-    bool is64 = peconv::is64bit((BYTE*)modulePtr);
-
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) {
         return true; // done! no imports -> nothing to fix
     }
+    bool is64 = peconv::is64bit((BYTE*)modulePtr);
     DWORD maxSize = importsDir->Size;
     DWORD impAddr = importsDir->VirtualAddress;
 

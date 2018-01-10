@@ -101,31 +101,41 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     if (exp == NULL) {
         return 0;
     }
-    std::map<PDWORD, DWORD> va_to_ord;
-    size_t functCount = make_ord_lookup_tables(modulePtr, va_to_ord);
-
-    std::string dllName = get_dll_name(moduleName);
+    size_t module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(modulePtr));
 
     size_t forwarded_ctr = 0;
-
-    SIZE_T namesCount = exp->NumberOfNames;
-    char* module_name = (char*)((ULONGLONG)modulePtr + exp->Name);
-
-    std::map<DWORD, char*> rva_to_name;
 
     DWORD funcsListRVA = exp->AddressOfFunctions;
     DWORD funcNamesListRVA = exp->AddressOfNames;
     DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
 
+    if (!peconv::validate_ptr(modulePtr, module_size, funcsListRVA + modulePtr, sizeof(DWORD))) return 0;
+    if (!peconv::validate_ptr(modulePtr, module_size, funcNamesListRVA + modulePtr, sizeof(DWORD))) return 0;
+    if (!peconv::validate_ptr(modulePtr, module_size, namesOrdsListRVA + modulePtr, sizeof(DWORD))) return 0;
+
+    char* module_name = (char*)((ULONGLONG)modulePtr + exp->Name);
+    if (!peconv::validate_ptr(modulePtr, module_size, module_name, sizeof(char))) return 0;
+
+    std::string dllName = get_dll_name(moduleName);
+
+    std::map<PDWORD, DWORD> va_to_ord;
+     size_t functCount = make_ord_lookup_tables(modulePtr, va_to_ord);
+
+     std::map<DWORD, char*> rva_to_name;
     //go through names:
+     
+     SIZE_T namesCount = exp->NumberOfNames;
+
     for (SIZE_T i = 0; i < namesCount; i++) {
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
+
         DWORD funcOrd = get_ordinal(funcRVA, va_to_ord);
 
         DWORD callRVA = *funcRVA;
         LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
+        if (!peconv::validate_ptr(modulePtr, module_size, name, sizeof(char))) return 0;
         ExportedFunc currFunc(dllName, name, funcOrd);
 
         BYTE* fPtr = (BYTE*) modulePtr + callRVA;
