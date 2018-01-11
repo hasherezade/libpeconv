@@ -156,7 +156,7 @@ bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
         // try to save the found name under the pointer:
         if (is_nameptr_valid == true) {
-            memcpy(func_name_ptr, found_name.c_str(), found_name.length());
+            memcpy(func_name_ptr, found_name.c_str(), found_name.length() + 1); // with the ending '\0'
 #ifdef _DEBUG
             printf("[+] Saved\n");
 #endif
