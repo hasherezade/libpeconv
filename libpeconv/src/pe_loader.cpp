@@ -6,6 +6,8 @@
 #include "peconv/function_resolver.h"
 #include "peconv/exports_lookup.h"
 
+#include <iostream>
+
 using namespace peconv;
 
 BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate)
@@ -48,15 +50,19 @@ BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool exec
         return NULL;
     }
     
-    BYTE *dllRawData = (BYTE*) MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0);
+    BYTE *dllRawData = (BYTE*) MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, r_size);
     
     if (dllRawData == NULL) {
         CloseHandle(mapping);
         CloseHandle(file);
         return NULL;
     }
-
-    BYTE *mappedDLL = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
+    BYTE *mappedDLL = nullptr;
+    if (!IsBadReadPtr(dllRawData,r_size)) {
+        mappedDLL = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
+    } else {
+        std::cerr << "[-] oops, mapping of " << filename << " is invalid!" << std::endl;
+    }
     UnmapViewOfFile(mapping);
     CloseHandle(mapping);
     CloseHandle(file);
