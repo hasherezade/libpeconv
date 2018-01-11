@@ -14,6 +14,9 @@ namespace peconv {
     std::string get_dll_name(const std::string& str);
 
     std::string get_func_name(const std::string& str);
+    std::string ordinal_to_string(DWORD func_ordinal);
+    bool is_ordinal_string(const std::string& str);
+    DWORD ordinal_string_to_val(const std::string& str);
 
     std::string format_dll_func(const std::string& str);
 

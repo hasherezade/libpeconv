@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 
 using namespace peconv;
 
@@ -33,7 +34,8 @@ size_t peconv::forwarder_name_len(BYTE* fPtr)
             || (*fPtr >= 'A' && *fPtr <= 'Z')
             || (*fPtr >= '0' && *fPtr <= '9')
             || (*fPtr == '.')
-            || (*fPtr == '_') 
+            || (*fPtr == '_')
+            || (*fPtr == '#') 
             || (*fPtr == '-'))
     {
         if (*fPtr == '.') has_dot = true;
@@ -57,6 +59,27 @@ std::string peconv::get_func_name(const std::string& str)
 
     std::string name = str.substr(ext+1, len - (ext+1));
     return name;
+}
+
+std::string peconv::ordinal_to_string(DWORD func_ordinal)
+{
+    std::stringstream stream;
+    stream << "#";
+    stream << std::dec << func_ordinal;
+    return stream.str();
+}
+
+bool peconv::is_ordinal_string(const std::string& func_name_str)
+{
+    if (func_name_str.length() < 2) return false;
+    return (func_name_str[0] == '#');
+}
+
+DWORD peconv::ordinal_string_to_val(const std::string& func_name_str)
+{
+    if (!is_ordinal_string) return 0;
+    const char* func_name = func_name_str.c_str();
+    return atoi(func_name + 1);
 }
 
 std::string peconv::format_dll_func(const std::string& str)
@@ -95,9 +118,27 @@ ExportedFunc::ExportedFunc(const ExportedFunc& other)
 
 ExportedFunc::ExportedFunc(const std::string &forwarderName)
 {
-    this->funcName = get_func_name(forwarderName);
     this->libName = get_dll_name(forwarderName);
-    this->isByOrdinal = false;
+    std::string func_name_str =  get_func_name(forwarderName);
+    if (func_name_str.length() < 2) {
+        this->funcOrdinal = -1;
+        this->funcName = "";
+        this->isByOrdinal = false;
+        std::cerr << "Invalid forwarder" << std::endl;
+        return;
+    }
+    if (is_ordinal_string(func_name_str)) {
+        // it is an ordinal in a string form, i.e.: "COMBASE.#110"
+        this->funcOrdinal = peconv::ordinal_string_to_val(func_name_str);
+        this->isByOrdinal = true;
+        this->funcName = "";
+        //std::cout << "[O] Adding forwarded func: " << forwarderName << " parsed: " << this->toString() << std::endl;
+    } else {
+        this->funcName = func_name_str;
+        this->isByOrdinal = false;
+        this->funcOrdinal = 0;
+        //std::cout << "[N] Adding forwarded func:" << this->toString() << std::endl;
+    }
 }
 
 std::string ExportedFunc::formatName(std::string name)
@@ -118,8 +159,6 @@ std::string ExportedFunc::toString() const
         stream << this->funcName;
         stream << " ";
     }
-    stream << "<";
-    stream << std::hex << this->funcOrdinal;
-    stream << ">";
+    stream << ordinal_to_string(this->funcOrdinal);
     return stream.str();
 }
