@@ -301,9 +301,8 @@ size_t mapAddressesToFunctions(std::set<ULONGLONG> &addresses,
         }
         if (addr_to_func.find(searchedAddr) == addr_to_func.end()) {
             const ExportedFunc* func = exportsMap.find_export_by_va(searchedAddr);
-            std::cout << "[WARNING] A function: " << func->toString() << " may be injected from a malicious DLL" << std::endl;
+            std::cerr << "[WARNING] A function: " << func->toString() << " not found in the covering DLL: " << coveringDll << std::endl;
         }
-            //                
     }
     return coveredCount;
 }
