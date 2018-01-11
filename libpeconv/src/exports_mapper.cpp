@@ -95,6 +95,27 @@ bool ExportsMapper::add_to_maps(ULONGLONG va, ExportedFunc &currFunc)
     return true;
 }
 
+bool is_valid_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const size_t module_size)
+{
+    if (exp == nullptr) return false;
+
+    DWORD funcsListRVA = exp->AddressOfFunctions;
+    DWORD funcNamesListRVA = exp->AddressOfNames;
+    DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
+
+    DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + sizeof(DWORD));
+    WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + sizeof(WORD));
+    DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
+
+    if ((!peconv::validate_ptr(modulePtr, module_size, nameRVA, sizeof(DWORD)))
+        || (!peconv::validate_ptr(modulePtr, module_size, nameIndex, sizeof(WORD)))
+        || (!peconv::validate_ptr(modulePtr, module_size, funcRVA, sizeof(DWORD))))
+    {
+        return false;
+    }
+    return true;
+}
+
 size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
 {
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
@@ -102,29 +123,23 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         return 0;
     }
     size_t module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(modulePtr));
-
-    size_t forwarded_ctr = 0;
-
-    DWORD funcsListRVA = exp->AddressOfFunctions;
-    DWORD funcNamesListRVA = exp->AddressOfNames;
-    DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
-
-    if (!peconv::validate_ptr(modulePtr, module_size, funcsListRVA + modulePtr, sizeof(DWORD))) return 0;
-    if (!peconv::validate_ptr(modulePtr, module_size, funcNamesListRVA + modulePtr, sizeof(DWORD))) return 0;
-    if (!peconv::validate_ptr(modulePtr, module_size, namesOrdsListRVA + modulePtr, sizeof(DWORD))) return 0;
-
-    char* module_name = (char*)((ULONGLONG)modulePtr + exp->Name);
-    if (!peconv::validate_ptr(modulePtr, module_size, module_name, sizeof(char))) return 0;
+    if (!is_valid_table(exp, modulePtr, module_size)) {
+        return 0;
+    }
 
     std::string dllName = get_dll_name(moduleName);
 
     std::map<PDWORD, DWORD> va_to_ord;
-     size_t functCount = make_ord_lookup_tables(modulePtr, va_to_ord);
-
-     std::map<DWORD, char*> rva_to_name;
+    size_t functCount = make_ord_lookup_tables(modulePtr, va_to_ord);
+    std::map<DWORD, char*> rva_to_name;
     //go through names:
-     
-     SIZE_T namesCount = exp->NumberOfNames;
+    
+    size_t forwarded_ctr = 0;
+    SIZE_T namesCount = exp->NumberOfNames;
+
+    DWORD funcsListRVA = exp->AddressOfFunctions;
+    DWORD funcNamesListRVA = exp->AddressOfNames;
+    DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
 
     for (SIZE_T i = 0; i < namesCount; i++) {
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
