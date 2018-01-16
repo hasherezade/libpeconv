@@ -22,7 +22,6 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
             continue;
         }
         if (get_nt_hrds(buffer) == NULL) {
-            std::cerr << "[-] Cannot get the module header!" << std::endl;
             return false;
         }
         if (read_size < get_hdrs_size(buffer)) {
