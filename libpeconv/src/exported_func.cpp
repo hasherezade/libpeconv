@@ -77,7 +77,7 @@ bool peconv::is_ordinal_string(const std::string& func_name_str)
 
 DWORD peconv::ordinal_string_to_val(const std::string& func_name_str)
 {
-    if (!is_ordinal_string) return 0;
+    if (!is_ordinal_string(func_name_str)) return 0;
     const char* func_name = func_name_str.c_str();
     return atoi(func_name + 1);
 }
