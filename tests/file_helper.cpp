@@ -1,5 +1,7 @@
 #include "file_helper.h"
 
+#include "peconv.h"
+
 BYTE* load_file(char *filename, OUT size_t &r_size)
 {
     HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
@@ -27,7 +29,7 @@ BYTE* load_file(char *filename, OUT size_t &r_size)
         return NULL;
     }
     r_size = GetFileSize(file, 0);
-    BYTE* localCopyAddress = (BYTE*) VirtualAlloc(NULL, r_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    BYTE* localCopyAddress = peconv::alloc_aligned(r_size, PAGE_READWRITE);
     if (localCopyAddress == NULL) {
         printf("Could not allocate memory in the current process\n");
         return NULL;
@@ -41,16 +43,10 @@ BYTE* load_file(char *filename, OUT size_t &r_size)
 
 void free_file(BYTE* buffer, size_t buffer_size)
 {
-    VirtualFree(buffer, buffer_size, MEM_DECOMMIT);
+    peconv::free_aligned(buffer, buffer_size);
 }
 
 bool dump_to_file(char *out_path, BYTE* buffer, size_t buf_size)
 {
-    FILE *f1 = fopen(out_path, "wb");
-    if (!f1) {
-        return false;
-    }
-    fwrite(buffer, 1, buf_size, f1);
-    fclose(f1);
-    return true;
+    return peconv::dump_to_file(out_path, buffer, buf_size);
 }
