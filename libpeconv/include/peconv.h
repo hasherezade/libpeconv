@@ -1,6 +1,6 @@
 #pragma once
 
-#include "peconv/module_helper.h"
+#include "peconv/buffer_util.h"
 #include "peconv/util.h"
 #include "peconv/pe_hdrs_helper.h"
 #include "peconv/pe_raw_to_virtual.h"

@@ -12,7 +12,7 @@ set (srcs
 	src/pe_raw_to_virtual.cpp
 	src/pe_virtual_to_raw.cpp
 	src/relocate.cpp
-	src/module_helper.cpp
+	src/buffer_util.cpp
 	src/remote_pe_reader.cpp
 	src/imports_loader.cpp
 	src/fix_imports.cpp
@@ -34,7 +34,7 @@ set (hdrs
 	include/peconv/relocate.h
 	include/peconv/util.h
 	include/peconv/pe_hdrs_helper.h
-	include/peconv/module_helper.h
+	include/peconv/buffer_util.h
 	include/peconv/remote_pe_reader.h
 	include/peconv/imports_loader.h
 	include/peconv/fix_imports.h

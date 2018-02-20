@@ -1,5 +1,5 @@
 #include "peconv/file_util.h"
-#include "peconv/module_helper.h"
+#include "peconv/buffer_util.h"
 
 #include <fstream>
 #ifdef _DEBUG

@@ -2,7 +2,7 @@
 
 #include "peconv/relocate.h"
 #include "peconv/imports_loader.h"
-#include "peconv/module_helper.h"
+#include "peconv/buffer_util.h"
 #include "peconv/function_resolver.h"
 #include "peconv/exports_lookup.h"
 

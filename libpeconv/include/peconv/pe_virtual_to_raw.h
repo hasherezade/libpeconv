@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-#include "module_helper.h"
+#include "buffer_util.h"
 
 namespace peconv {
 /**
