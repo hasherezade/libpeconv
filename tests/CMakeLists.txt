@@ -10,8 +10,6 @@ include_directories ( ${PECONV_DIR}/include )
 
 set (srcs
 	main.cpp
-	file_helper.cpp
-	resource_helper.cpp
 	test_loading.cpp
 	test_loading_imps.cpp
 	test_crackme_f4_3.cpp
@@ -21,8 +19,6 @@ set (srcs
 )
 
 set (hdrs
-	file_helper.h
-	resource_helper.h
 	test_loading.h
 	test_loading_imps.h
 	test_crackme_f4_3.h

@@ -3,7 +3,6 @@
 
 #include "test_crackme_f4_3.h"
 
-#include "resource_helper.h"
 #include "resource.h"
 
 #include "peconv.h"
@@ -52,16 +51,16 @@ int tests::brutforce_crackme_f4_3()
 
     { //scope1
         size_t raw_size = 0;
-        BYTE *raw_crackme = load_resource_data(raw_size, CRACKME_F4_3_32);
+        BYTE *raw_crackme = peconv::load_resource_data(raw_size, CRACKME_F4_3_32);
         if (!raw_crackme) {
             return -1;
         }
         loaded_pe = peconv::load_pe_module(raw_crackme, raw_size, v_size, true, false);
         if (!loaded_pe) {
-            free_resource_data(raw_crackme, raw_size);
+            peconv::free_resource_data(raw_crackme);
             return -1;
         }
-        free_resource_data(raw_crackme, raw_size);
+        peconv::free_resource_data(raw_crackme);
     }//!scope1
 
     test3::g_Buffer = (BYTE*) (0x107C + (ULONGLONG) loaded_pe);
@@ -91,16 +90,16 @@ int tests::deploy_crackme_f4_3(peconv::t_function_resolver* func_resolver)
 
     { //scope1
         size_t raw_size = 0;
-        BYTE *raw_crackme = load_resource_data(raw_size, CRACKME_F4_3_32);
+        BYTE *raw_crackme = peconv::load_resource_data(raw_size, CRACKME_F4_3_32);
         if (!raw_crackme) {
             return -1;
         }
         loaded_pe = peconv::load_pe_executable(raw_crackme, raw_size, v_size, func_resolver);
         if (!loaded_pe) {
-            free_resource_data(raw_crackme, raw_size);
+            peconv::free_resource_data(raw_crackme);
             return -1;
         }
-        free_resource_data(raw_crackme, raw_size);
+        peconv::free_resource_data(raw_crackme);
     }//!scope1
 
     test3::g_Buffer = (BYTE*) (0x107C + (ULONGLONG) loaded_pe);
