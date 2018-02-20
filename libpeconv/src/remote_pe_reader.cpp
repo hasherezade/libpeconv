@@ -133,7 +133,7 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
         return false;
     }
     size_t read_size = 0;
-
+    //read the module that it mapped in the remote process:
     if ((read_size = read_remote_pe(processHandle, start_addr, mod_size, buffer, mod_size)) == 0) {
         std::cerr << "[-] Failed reading module. Error: " << GetLastError() << std::endl;
         peconv::free_pe_buffer(buffer, mod_size);
@@ -141,7 +141,7 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
         return false;
     }
 
-    
+    // if the exportsMap is supplied, attempt to recover the (destroyed) import table:
     if (exportsMap != nullptr) {
         if (!peconv::fix_imports(buffer, mod_size, *exportsMap)) {
             DWORD pid = GetProcessId(processHandle);
@@ -153,13 +153,16 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
     size_t dump_size = mod_size;
     size_t out_size = 0;
     BYTE* unmapped_module = NULL;
+
     if (unmap) {
-        unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size);
+         // unmap the PE file (convert from the Virtual Format into Raw Format)
+        unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
         if (unmapped_module != NULL) {
             dump_data = unmapped_module;
             dump_size = out_size;
         }
     }
+    // save the read module into a file
     bool is_dumped = dump_to_file(out_path, dump_data, dump_size);
     peconv::free_pe_buffer(buffer, mod_size);
     buffer = NULL;
