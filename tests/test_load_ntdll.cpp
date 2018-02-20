@@ -1,7 +1,6 @@
 #include "test_load_ntdll.h"
 
 #include "peconv.h"
-#include "file_helper.h"
 
 #include <iostream>
 #include "shellcodes.h"

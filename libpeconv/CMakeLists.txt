@@ -12,7 +12,6 @@ set (srcs
 	src/pe_raw_to_virtual.cpp
 	src/pe_virtual_to_raw.cpp
 	src/relocate.cpp
-	src/util.cpp
 	src/module_helper.cpp
 	src/remote_pe_reader.cpp
 	src/imports_loader.cpp
@@ -24,6 +23,8 @@ set (srcs
 	src/process_explorer.cpp
 	src/exported_func.cpp
 	src/exports_mapper.cpp
+	src/file_util.cpp
+	src/resource_util.cpp
 )
 
 set (hdrs
@@ -44,6 +45,8 @@ set (hdrs
 	include/peconv/process_explorer.h
 	include/peconv/exported_func.h
 	include/peconv/exports_mapper.h
+	include/peconv/file_util.h
+	include/peconv/resource_util.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )

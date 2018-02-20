@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include "util.h"
+#include "module_helper.h"
 
 namespace peconv {
 

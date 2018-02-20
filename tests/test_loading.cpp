@@ -45,7 +45,7 @@ int tests::load_self()
         free_pe_buffer(unmapped, raw_size);
         printf("Unloaded!\n");
     }
-    free_file(file_content, read_size);
+    free_file(file_content);
     if (res != 0) {
         printf("Unmapped module is NOT the same as the original!\n");
     }
