@@ -9,6 +9,8 @@ using namespace peconv;
 
 bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size)
 {
+    if (buffer == nullptr) return false;
+
     SIZE_T read_size = 0;
     const SIZE_T step_size = 0x100;
     SIZE_T to_read_size = buffer_size;
@@ -95,8 +97,9 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             std::cerr << "[-] No more space in the buffer!" << std::endl;
             break;
         }
-        if (!ReadProcessMemory(processHandle, start_addr + sec_va, buffer + sec_va, sec_size, &read_sec_size)) {
-        std::cerr << "[-] Failed to read the module section:: " << i  << std::endl;
+        
+        if (sec_size > 0 && !ReadProcessMemory(processHandle, start_addr + sec_va, buffer + sec_va, sec_size, &read_sec_size)) {
+            std::cerr << "[-] Failed to read the module section: " << i  << std::endl;
         }
         // update the end of the read area:
         size_t new_end = sec_va + read_sec_size;

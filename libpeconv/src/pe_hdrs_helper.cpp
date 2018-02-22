@@ -7,6 +7,9 @@ BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer)
     if (pe_buffer == NULL) return NULL;
 
     IMAGE_DOS_HEADER *idh = (IMAGE_DOS_HEADER*)pe_buffer;
+    if (IsBadReadPtr(idh, sizeof(IMAGE_DOS_HEADER))) {
+        return NULL;
+    }
     if (idh->e_magic != IMAGE_DOS_SIGNATURE) {
         return NULL;
     }
@@ -16,6 +19,9 @@ BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer)
     if (pe_offset > kMaxOffset) return NULL;
 
     IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32 *)(pe_buffer + pe_offset);
+    if (IsBadReadPtr(inh, sizeof(IMAGE_NT_HEADERS32))) {
+        return NULL;
+    }
     if (inh->Signature != IMAGE_NT_SIGNATURE) {
         return NULL;
     }
