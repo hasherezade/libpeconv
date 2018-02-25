@@ -63,7 +63,7 @@ BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool exec
     } else {
         std::cerr << "[-] oops, mapping of " << filename << " is invalid!" << std::endl;
     }
-    UnmapViewOfFile(mapping);
+    UnmapViewOfFile(dllRawData);
     CloseHandle(mapping);
     CloseHandle(file);
 
