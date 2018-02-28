@@ -243,12 +243,12 @@ bool run_pe(char *payloadPath, char *targetPath)
     }
 
     // Get the payload's architecture and check if it is compatibile with the loader:
-    const WORD payload_arch = get_pe_architecture(loaded_pe);
-    if (payload_arch != IMAGE_FILE_MACHINE_I386 && payload_arch != IMAGE_FILE_MACHINE_AMD64) {
+    const WORD payload_arch = get_nt_hdr_architecture(loaded_pe);
+    if (payload_arch != IMAGE_NT_OPTIONAL_HDR32_MAGIC && payload_arch != IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
         printf("Not supported paylad architecture!\n");
         return false;
     }
-    const bool is32bit_payload = payload_arch == IMAGE_FILE_MACHINE_I386;
+    const bool is32bit_payload = !peconv::is64bit(loaded_pe);
 #ifndef _WIN64
     if (!is32bit_payload) {
         printf("Incompatibile payload architecture!\n");
