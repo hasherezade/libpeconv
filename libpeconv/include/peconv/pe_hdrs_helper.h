@@ -9,7 +9,7 @@ const ULONGLONG MAX_HEADER_SIZE = 0x1000;
 
 DWORD get_image_size(const BYTE *payload);
 
-WORD get_pe_architecture(const BYTE *pe_buffer);
+WORD get_nt_hdr_architecture(const BYTE *pe_buffer);
 
 bool is64bit(const BYTE *pe_buffer);
 

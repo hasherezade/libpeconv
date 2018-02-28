@@ -72,19 +72,22 @@ DWORD peconv::get_image_size(const BYTE *payload)
     return image_size;
 }
 
-WORD peconv::get_pe_architecture(const BYTE *pe_buffer)
+WORD peconv::get_nt_hdr_architecture(const BYTE *pe_buffer)
 {
     void *ptr = get_nt_hrds(pe_buffer);
     if (ptr == NULL) return 0;
 
     IMAGE_NT_HEADERS32 *inh = static_cast<IMAGE_NT_HEADERS32*>(ptr);
-    return inh->FileHeader.Machine;
+    if (IsBadReadPtr(inh, sizeof(IMAGE_NT_HEADERS32))) {
+        return 0;
+    }
+    return inh->OptionalHeader.Magic;
 }
 
 bool peconv::is64bit(const BYTE *pe_buffer)
 {
-    WORD arch = get_pe_architecture(pe_buffer);
-    if (arch == IMAGE_FILE_MACHINE_AMD64) {
+    WORD arch = get_nt_hdr_architecture(pe_buffer);
+    if (arch == IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
         return true;
     }
     return false;
