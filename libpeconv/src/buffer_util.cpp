@@ -36,6 +36,7 @@ peconv::UNALIGNED_BUF peconv::alloc_unaligned(size_t buf_size)
 
 void peconv::free_unaligned(peconv::UNALIGNED_BUF section_buffer)
 {
+    if (section_buffer == nullptr) return;
     free(section_buffer);
 }
 
@@ -51,7 +52,7 @@ peconv::ALIGNED_BUF peconv::alloc_aligned(size_t buffer_size, DWORD protect, ULO
 
 bool peconv::free_aligned(peconv::ALIGNED_BUF buffer, size_t buffer_size)
 {
-    if (buffer == NULL) return true;
+    if (buffer == nullptr) return true;
     if (!VirtualFree(buffer, 0, MEM_RELEASE)) {
 #ifdef _DEBUG
         std::cerr << "Releasing failed" << std::endl;
