@@ -35,6 +35,24 @@ namespace peconv {
         std::set<ULONGLONG> &addresses;
         peconv::ExportsMapper& exportsMap;
     };
+    
+    class ImportsUneraser
+    {
+    public:
+        ImportsUneraser(PVOID _modulePtr, size_t _moduleSize)
+            : modulePtr(_modulePtr), moduleSize(_moduleSize)
+        {
+            is64 = peconv::is64bit((BYTE*)modulePtr);
+        }
+
+        bool uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &coveredDll);
+        bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc,  ImportedDllCoverage &dllCoverage);
+
+    protected:
+        PVOID modulePtr;
+        size_t moduleSize;
+        bool is64;
+    };
 
     bool fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap);
 }

@@ -284,9 +284,9 @@ bool ImportedDllCoverage::findCoveringDll()
         return false;
     }
     this->dllName = found_name;
-#ifdef _DEBUG
+//#ifdef _DEBUG
     std::cout << "[+] Found DLL name: " << found_name << std::endl;
-#endif
+//#endif
     return true;
 }
 
@@ -372,6 +372,50 @@ bool recoverErasedDllName(PVOID modulePtr, size_t moduleSize,
     return true;
 }
 
+bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage)
+{
+    bool is_lib_erased = false;
+    bool is_lib_name_corrupt = false;
+
+    LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+    if (!validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
+        std::cerr << "[-] Invalid pointer to the name!\n";
+        is_lib_name_corrupt = true;
+    }
+    std::string lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+    if (lib_name.length() == 0) {
+        is_lib_erased = true;
+    }
+
+    if (is_lib_erased) {
+        if (recoverErasedDllName(modulePtr, moduleSize, lib_desc, dllCoverage.dllName)) {
+            return true;
+        }
+        std::cerr << "Failed to recover the erased DLL name\n";
+        return false;
+    }
+    if (is_lib_name_corrupt) {
+        return false; //TODOD: cover this case
+    }
+    return true;
+}
+
+bool ImportsUneraser::uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage)
+{
+    //everything mapped, now recover it:
+    bool is_filled = false;
+    if (!is64) {
+        is_filled = fillImportNames<DWORD, IMAGE_THUNK_DATA32>(lib_desc, modulePtr, moduleSize, IMAGE_ORDINAL_FLAG32, dllCoverage.addrToFunc);
+    } else {
+        is_filled = fillImportNames<ULONGLONG, IMAGE_THUNK_DATA64>(lib_desc, modulePtr, moduleSize, IMAGE_ORDINAL_FLAG64, dllCoverage.addrToFunc);
+    }
+    if (!is_filled) {
+        std::cerr << "[-] Could not fill some import names!" << std::endl;
+        return false;
+    }
+    return is_filled;
+}
+
 bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap)
 {
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
@@ -387,6 +431,9 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
 #ifdef _DEBUG
     printf("---IMP---\n");
 #endif
+
+    ImportsUneraser impUneraser(modulePtr, moduleSize);
+
     while (parsedSize < maxSize) {
 
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR) modulePtr);
@@ -406,11 +453,13 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         printf("Imported Lib: %x : %x : %x\n", lib_desc->FirstThunk, lib_desc->OriginalFirstThunk, lib_desc->Name);
 #endif
         LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-        if (!validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
-            std::cerr << "[-] Invalid pointer to the name!\n";
-            return false;
+        std::string lib_name = "";
+        if (validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
+            lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+            //std::cerr << "[-] Invalid pointer to the name!\n";
+            //return false;
         }
-        std::string lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+
         DWORD call_via = lib_desc->FirstThunk;
         DWORD thunk_addr = lib_desc->OriginalFirstThunk; // warning: it can be NULL!
         std::set<ULONGLONG> addresses;
@@ -424,19 +473,15 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
             return false;
         }
 
-        if (lib_name.length() == 0) {
-            if (recoverErasedDllName(modulePtr, moduleSize, lib_desc, dllCoverage.dllName)) {
-                lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name); //read it again
-            } else {
-                std::cerr << "Failed to recover the erased DLL name\n";
-            }
-        }
+        bool is_lib_erased = false;
 
         lib_name = get_dll_name(lib_name);
+
         if (lib_name.length() == 0) {
-            std::cerr <<"[ERROR] Cannot find DLL!\n";
-            return false;
+            is_lib_erased = true;
+            lib_name = dllCoverage.dllName;
         }
+
 #ifdef _DEBUG
         std::cout << lib_name << std::endl;
 #endif
@@ -445,16 +490,11 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
             continue;
         }
 
-        bool is_filled = false;
-        if (!is64) {
-            is_filled = fillImportNames<DWORD, IMAGE_THUNK_DATA32>(lib_desc, modulePtr, moduleSize, IMAGE_ORDINAL_FLAG32, dllCoverage.addrToFunc);
-        } else {
-            is_filled = fillImportNames<ULONGLONG, IMAGE_THUNK_DATA64>(lib_desc, modulePtr, moduleSize, IMAGE_ORDINAL_FLAG64, dllCoverage.addrToFunc);
-        }
-        if (!is_filled) {
-            std::cerr << "[-] Could not fill some import names!" << std::endl;
+        //everything mapped, now recover it:
+        if (!impUneraser.uneraseDllImports(lib_desc, dllCoverage)) {
             return false;
         }
+        impUneraser.uneraseDllName(lib_desc, dllCoverage);
     }
 #ifdef _DEBUG
     std::cout << "---------" << std::endl;
