@@ -53,9 +53,9 @@ namespace peconv {
             return cmp < 0;
         }
 
-        std::string ExportedFunc::toString() const;
+        std::string toString() const;
 
-        bool isValid()
+        bool isValid() const
         {
             return (funcName != "" || funcOrdinal != -1);
         }

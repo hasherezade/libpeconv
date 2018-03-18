@@ -63,7 +63,7 @@ bool findNameInBinaryAndFill(LPVOID modulePtr, size_t moduleSize,
 #ifdef _DEBUG
         //if it is not the first name from the list, inform about it:
         if (funcname_itr != addr_to_func[searchedAddr].begin()) {
-            std::cout << ">[*][" << std::hex << searchedAddr << "] " << found_func.funcName << std::endl;
+            std::cout << ">[*][" << std::hex << searchedAddr << "] " << found_func.toString() << std::endl;
         }
         std::cout <<"[+] Found the name at: " << std::hex << name_offset << std::endl;
 #endif
@@ -131,9 +131,8 @@ bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
             continue;
         }
 
-        std::string found_name = funcname_itr->funcName;
 #ifdef _DEBUG
-        std::cout << "[*][" << std::hex << searchedAddr << "] " << found_name << std::endl;
+        std::cout << "[*][" << std::hex << searchedAddr << "] " << funcname_itr->toString() << std::endl;
 #endif
         bool is_name_saved = false;
 
@@ -142,7 +141,7 @@ bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
             break;
         }
 
-        PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
+        
         if (desc->u1.Ordinal & ordinal_flag) {
             // import by ordinal: already filled
             call_via += sizeof(FIELD_T);
@@ -150,21 +149,33 @@ bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
             continue;
         }
 
-        FIELD_T lastOrdinal = 0;
-        LPSTR func_name_ptr = by_name->Name;
-        bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
-        // try to save the found name under the pointer:
-        if (is_nameptr_valid == true) {
-            memcpy(func_name_ptr, found_name.c_str(), found_name.length() + 1); // with the ending '\0'
-#ifdef _DEBUG
-            printf("[+] Saved\n");
-#endif
+        if (funcname_itr->isByOrdinal) {
+            std::cout << "This function is exported by ordinal: " << funcname_itr->toString() << std::endl;
+            FIELD_T ordinal = funcname_itr->funcOrdinal | ordinal_flag;
+            FIELD_T* by_ord = (FIELD_T*) &desc->u1.Ordinal;
+            *by_ord = ordinal;
             is_name_saved = true;
-        } else {
-            // try to find the offset to the name in the module:
-            is_name_saved = findNameInBinaryAndFill<FIELD_T>(modulePtr, moduleSize, lib_desc, call_via_ptr, ordinal_flag, addr_to_func);
+#ifdef _DEBUG
+            std::cout << "[+] Saved ordinal" << std::endl;
+#endif
         }
-
+        else {
+            PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
+            LPSTR func_name_ptr = by_name->Name;
+            std::string found_name = funcname_itr->funcName;
+            bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
+            // try to save the found name under the pointer:
+            if (is_nameptr_valid == true) {
+                memcpy(func_name_ptr, found_name.c_str(), found_name.length() + 1); // with the ending '\0'
+#ifdef _DEBUG
+                std::cout << "[+] Saved name" << std::endl;
+#endif
+                is_name_saved = true;
+            } else {
+                // try to find the offset to the name in the module:
+                is_name_saved = findNameInBinaryAndFill<FIELD_T>(modulePtr, moduleSize, lib_desc, call_via_ptr, ordinal_flag, addr_to_func);
+            }
+        }
         call_via += sizeof(FIELD_T);
         thunk_addr += sizeof(FIELD_T);
         processed_imps++;
