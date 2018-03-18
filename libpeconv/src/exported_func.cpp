@@ -124,7 +124,9 @@ ExportedFunc::ExportedFunc(const std::string &forwarderName)
         this->funcOrdinal = -1;
         this->funcName = "";
         this->isByOrdinal = false;
-        std::cerr << "Invalid forwarder" << std::endl;
+#ifdef _DEBUG
+        std::cerr << "Invalid function data" << std::endl;
+#endif
         return;
     }
     if (is_ordinal_string(func_name_str)) {

@@ -65,6 +65,12 @@ bool ExportsMapper::add_forwarded(PBYTE fPtr, ExportedFunc &currFunc)
     }
 
     ExportedFunc forwarder(forwardedFunc);
+    if (!forwarder.isValid()) {
+#ifdef _DEBUG
+        std::cerr << "Skipped invalid forwarder" << std::endl;
+#endif
+        return false;
+    }
     forwarders_lookup[forwarder].insert(currFunc);
 
     if (func_to_va[forwarder] != 0) {

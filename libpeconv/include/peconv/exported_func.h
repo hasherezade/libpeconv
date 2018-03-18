@@ -54,6 +54,11 @@ namespace peconv {
         }
 
         std::string ExportedFunc::toString() const;
+
+        bool isValid()
+        {
+            return (funcName != "" || funcOrdinal != -1);
+        }
     };
 
 }; //namespace peconv
