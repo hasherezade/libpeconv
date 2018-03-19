@@ -20,7 +20,7 @@ LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
 }
 
 
-bool ImportsUneraser::recoverErasedDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string found_name)
+bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string found_name)
 {
     if (found_name.find_last_of(".")  >= found_name.length()) {
         //if no extension found, append extension DLL
@@ -30,40 +30,35 @@ bool ImportsUneraser::recoverErasedDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, st
     std::cout << "Found name:" << found_name << std::endl;
 #endif
     LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-
-    if (!validate_ptr(modulePtr, moduleSize, name_ptr, found_name.length())) {
-        return false; //invalid pointer, cannot save
+    size_t full_name_len = found_name.length() + 1; // with terminating zero
+    if (!validate_ptr(modulePtr, moduleSize, name_ptr, full_name_len)) {
+        //corner case: allow to save the name at the very end of the buffer, without the terminating zero
+        full_name_len--;
+        if (!validate_ptr(modulePtr, moduleSize, name_ptr, full_name_len)) {
+            return false; //invalid pointer, cannot save
+        }
     }
-    memcpy(name_ptr, found_name.c_str(), found_name.length() + 1); // with terminating zero
+    memcpy(name_ptr, found_name.c_str(), full_name_len);
     return true;
 }
 
 bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage)
 {
-    bool is_lib_erased = false;
-    bool is_lib_name_corrupt = false;
-
     LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-    if (!validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
-        std::cerr << "[-] Invalid pointer to the name!\n";
-        is_lib_name_corrupt = true;
-    }
-    std::string lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-    if (lib_name.length() == 0) {
-        is_lib_erased = true;
-    }
-
-    if (is_lib_erased) {
-        if (recoverErasedDllName(lib_desc, dllCoverage.dllName)) {
+    if (validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
+        std::string lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+        if (lib_name.length() != 0) {
+            //no need to recover, the name was not erased
             return true;
         }
-        std::cerr << "Failed to recover the erased DLL name\n";
-        return false;
+        if (writeFoundDllName(lib_desc, dllCoverage.dllName)) {
+            return true; // written the found name
+        }
+    } else {
+        std::cerr << "The address of the DLL name is invalid" << std::endl;
     }
-    if (is_lib_name_corrupt) {
-        return false; //TODOD: cover this case
-    }
-    return true;
+    //TODO: if the address is invalid, find some other slot to save the name
+    return false;
 }
 
 template <typename FIELD_T>
@@ -119,14 +114,14 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         is_name_saved = true;
         break;
     }
-    //name not found or could not be saved - filling the ordinal instead:
-    if (is_name_saved == false) {
-        if (lastOrdinal != 0) {
-            std::cout << "[+] Filling ordinal: " << lastOrdinal << std::endl;
-            FIELD_T ord_thunk = lastOrdinal | ordinal_flag;
-            memcpy(call_via_ptr, &ord_thunk, sizeof(FIELD_T)); 
-            is_name_saved = true;
-        }
+    //name not found or could not be saved - fill the ordinal instead:
+    if (!is_name_saved && lastOrdinal != 0) {
+#ifdef _DEBUG
+        std::cout << "[+] Filling ordinal: " << lastOrdinal << std::endl;
+#endif
+        FIELD_T ord_thunk = lastOrdinal | ordinal_flag;
+        memcpy(call_via_ptr, &ord_thunk, sizeof(FIELD_T)); 
+        is_name_saved = true;
     }
     return is_name_saved;
 }
@@ -135,7 +130,6 @@ template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
 bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T ordinal_flag, const ExportedFunc &foundFunc)
 {
     if (foundFunc.isByOrdinal) {
-        std::cout << "This function is exported by ordinal: " << foundFunc.toString() << std::endl;
         FIELD_T ordinal = foundFunc.funcOrdinal | ordinal_flag;
         FIELD_T* by_ord = (FIELD_T*) &desc->u1.Ordinal;
         *by_ord = ordinal;

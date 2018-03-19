@@ -24,7 +24,7 @@ namespace peconv {
         bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage);
 
     protected:
-        bool recoverErasedDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string found_name);
+        bool writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string found_name);
 
         template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
         bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,

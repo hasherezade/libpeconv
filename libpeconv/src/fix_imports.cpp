@@ -1,15 +1,13 @@
 #include "peconv/fix_imports.h"
+#include "peconv/imports_uneraser.h"
 
 #include <iostream>
 #include <algorithm>
 
-#include "peconv/imports_uneraser.h"
-
-
 using namespace peconv;
 
 template <typename FIELD_T>
-size_t findAddressesToFill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePtr, OUT std::set<ULONGLONG> &addresses)
+size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePtr, OUT std::set<ULONGLONG> &addresses)
 {
     size_t addrCounter = 0;
     do {
@@ -106,9 +104,9 @@ bool ImportedDllCoverage::findCoveringDll()
         return false;
     }
     this->dllName = found_name;
-//#ifdef _DEBUG
+#ifdef _DEBUG
     std::cout << "[+] Found DLL name: " << found_name << std::endl;
-//#endif
+#endif
     return true;
 }
 
@@ -215,9 +213,9 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         DWORD thunk_addr = lib_desc->OriginalFirstThunk; // warning: it can be NULL!
         std::set<ULONGLONG> addresses;
         if (!is64) {
-            findAddressesToFill<DWORD>(call_via, thunk_addr, modulePtr, addresses);
+            find_addresses_to_fill<DWORD>(call_via, thunk_addr, modulePtr, addresses);
         } else {
-            findAddressesToFill<ULONGLONG>(call_via, thunk_addr, modulePtr, addresses);
+            find_addresses_to_fill<ULONGLONG>(call_via, thunk_addr, modulePtr, addresses);
         }
         ImportedDllCoverage dllCoverage(addresses, exportsMap);
         if (!dllCoverage.findCoveringDll()) {
