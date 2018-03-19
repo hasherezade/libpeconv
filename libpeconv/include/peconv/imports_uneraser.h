@@ -15,7 +15,7 @@ namespace peconv {
     {
     public:
         ImportsUneraser(PVOID _modulePtr, size_t _moduleSize)
-            : modulePtr(_modulePtr), moduleSize(_moduleSize)
+            : modulePtr((PBYTE)_modulePtr), moduleSize(_moduleSize)
         {
             is64 = peconv::is64bit((BYTE*)modulePtr);
         }
@@ -24,6 +24,8 @@ namespace peconv {
         bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage);
 
     protected:
+        PBYTE findCave(DWORD minimal_size);
+
         bool writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string found_name);
 
         template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
@@ -42,7 +44,7 @@ namespace peconv {
         template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
         bool writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T ordinal_flag, const ExportedFunc &foundFunc);
 
-        PVOID modulePtr;
+        PBYTE modulePtr;
         size_t moduleSize;
         bool is64;
     };
