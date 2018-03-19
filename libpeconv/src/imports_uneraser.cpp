@@ -44,20 +44,20 @@ bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::
 
 bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage)
 {
-    LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-    if (validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
-        std::string lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-        if (lib_name.length() != 0) {
-            //no need to recover, the name was not erased
-            return true;
-        }
-        if (writeFoundDllName(lib_desc, dllCoverage.dllName)) {
-            return true; // written the found name
-        }
-    } else {
-        std::cerr << "The address of the DLL name is invalid" << std::endl;
+    LPSTR name_ptr = nullptr;
+    if (lib_desc->Name != 0) {
+        name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
     }
+    
     //TODO: if the address is invalid, find some other slot to save the name
+
+    if (name_ptr == nullptr || !validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
+        std::cerr << "Cannot save the DLL name: " << dllCoverage.dllName << std::endl;
+        return false;
+    }
+    if (writeFoundDllName(lib_desc, dllCoverage.dllName)) {
+        return true; // written the found name
+    }
     return false;
 }
 
