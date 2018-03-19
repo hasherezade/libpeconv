@@ -25,6 +25,7 @@ set (srcs
 	src/exports_mapper.cpp
 	src/file_util.cpp
 	src/resource_util.cpp
+	src/imports_uneraser.cpp
 )
 
 set (hdrs
@@ -47,6 +48,7 @@ set (hdrs
 	include/peconv/exports_mapper.h
 	include/peconv/file_util.h
 	include/peconv/resource_util.h
+	include/peconv/imports_uneraser.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )

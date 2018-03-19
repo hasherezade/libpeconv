@@ -154,6 +154,10 @@ std::string ExportedFunc::formatName(std::string name)
 
 std::string ExportedFunc::toString() const
 {
+    if (!isValid()) {
+        return "[Invalid func]";
+    
+    }
     std::stringstream stream;
     stream << this->libName;
     stream << ".";
