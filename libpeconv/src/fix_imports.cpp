@@ -154,6 +154,9 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
 
 bool ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
 {
+    if (this->addrToFunc.size() > 0) {
+        this->addrToFunc.clear();
+    }
     size_t coveredCount = map_addresses_to_functions(this->addresses, dll, this->exportsMap, this->addrToFunc); 
     if (coveredCount < addresses.size()) {
         std::cerr << "[-] Not all addresses are covered! covered: " << coveredCount << " total: " << addresses.size() << std::endl;
@@ -201,12 +204,13 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
 #ifdef _DEBUG
         printf("Imported Lib: %x : %x : %x\n", lib_desc->FirstThunk, lib_desc->OriginalFirstThunk, lib_desc->Name);
 #endif
-        LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+        
         std::string lib_name = "";
-        if (validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
-            lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-            //std::cerr << "[-] Invalid pointer to the name!\n";
-            //return false;
+        if (lib_desc->Name != 0) {
+            LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+            if (validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
+                lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+            }
         }
 
         DWORD call_via = lib_desc->FirstThunk;
@@ -223,7 +227,6 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         }
 
         bool is_lib_erased = false;
-
         lib_name = get_dll_name(lib_name);
 
         if (lib_name.length() == 0) {
@@ -243,7 +246,9 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         if (!impUneraser.uneraseDllImports(lib_desc, dllCoverage)) {
             return false;
         }
-        impUneraser.uneraseDllName(lib_desc, dllCoverage);
+        if (is_lib_erased) {
+            impUneraser.uneraseDllName(lib_desc, dllCoverage);
+        }
     }
 #ifdef _DEBUG
     std::cout << "---------" << std::endl;
