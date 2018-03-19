@@ -131,6 +131,34 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
     return is_name_saved;
 }
 
+template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
+bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T ordinal_flag, const ExportedFunc &foundFunc)
+{
+    if (foundFunc.isByOrdinal) {
+        std::cout << "This function is exported by ordinal: " << foundFunc.toString() << std::endl;
+        FIELD_T ordinal = foundFunc.funcOrdinal | ordinal_flag;
+        FIELD_T* by_ord = (FIELD_T*) &desc->u1.Ordinal;
+        *by_ord = ordinal;
+#ifdef _DEBUG
+        std::cout << "[+] Saved ordinal" << std::endl;
+#endif
+        return true;
+    }
+
+    PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
+    LPSTR func_name_ptr = by_name->Name;
+    std::string found_name = foundFunc.funcName;
+    bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
+    // try to save the found name under the pointer:
+    if (is_nameptr_valid == true) {
+        memcpy(func_name_ptr, found_name.c_str(), found_name.length() + 1); // with the ending '\0'
+#ifdef _DEBUG
+        std::cout << "[+] Saved name" << std::endl;
+#endif
+        return true;
+    }
+    return false;
+}
 
 template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
 bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
@@ -164,6 +192,11 @@ bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
             break;
         }
 
+        IMAGE_THUNK_DATA_T* desc = (IMAGE_THUNK_DATA_T*) thunk_ptr;
+        if (desc->u1.Function == NULL) {
+            break;
+        }
+
         ULONGLONG searchedAddr = ULONGLONG(*call_via_val);
         std::set<ExportedFunc>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
 
@@ -177,47 +210,9 @@ bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
 #ifdef _DEBUG
         std::cout << "[*][" << std::hex << searchedAddr << "] " << funcname_itr->toString() << std::endl;
 #endif
-        bool is_name_saved = false;
-
-        IMAGE_THUNK_DATA_T* desc = (IMAGE_THUNK_DATA_T*) thunk_ptr;
-        if (desc->u1.Function == NULL) {
-            break;
-        }
-
-        
-        if (desc->u1.Ordinal & ordinal_flag) {
-            // import by ordinal: already filled
-            call_via += sizeof(FIELD_T);
-            thunk_addr += sizeof(FIELD_T);
-            continue;
-        }
-
-        if (funcname_itr->isByOrdinal) {
-            std::cout << "This function is exported by ordinal: " << funcname_itr->toString() << std::endl;
-            FIELD_T ordinal = funcname_itr->funcOrdinal | ordinal_flag;
-            FIELD_T* by_ord = (FIELD_T*) &desc->u1.Ordinal;
-            *by_ord = ordinal;
-            is_name_saved = true;
-#ifdef _DEBUG
-            std::cout << "[+] Saved ordinal" << std::endl;
-#endif
-        }
-        else {
-            PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
-            LPSTR func_name_ptr = by_name->Name;
-            std::string found_name = funcname_itr->funcName;
-            bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
-            // try to save the found name under the pointer:
-            if (is_nameptr_valid == true) {
-                memcpy(func_name_ptr, found_name.c_str(), found_name.length() + 1); // with the ending '\0'
-#ifdef _DEBUG
-                std::cout << "[+] Saved name" << std::endl;
-#endif
-                is_name_saved = true;
-            } else {
-                // try to find the offset to the name in the module:
-                is_name_saved = findNameInBinaryAndFill<FIELD_T>(lib_desc, call_via_ptr, ordinal_flag, addr_to_func);
-            }
+        bool is_name_saved = writeFoundFunction<FIELD_T, IMAGE_THUNK_DATA_T>(desc, ordinal_flag, *funcname_itr);
+        if (!is_name_saved) {
+            is_name_saved = findNameInBinaryAndFill<FIELD_T>(lib_desc, call_via_ptr, ordinal_flag, addr_to_func);
         }
         call_via += sizeof(FIELD_T);
         thunk_addr += sizeof(FIELD_T);

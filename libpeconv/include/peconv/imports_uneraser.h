@@ -39,6 +39,9 @@ namespace peconv {
                       std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
                       );
 
+        template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
+        bool writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T ordinal_flag, const ExportedFunc &foundFunc);
+
         PVOID modulePtr;
         size_t moduleSize;
         bool is64;
