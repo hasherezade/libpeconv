@@ -13,7 +13,7 @@ ULONGLONG rebase_va(ULONGLONG va, ULONGLONG currBase, ULONGLONG targetBase)
     return rva + targetBase;
 }
 
-size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr, 
+size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr, size_t moduleSize,
                                              std::map<PDWORD, DWORD> &va_to_ord
                                              )
 {
@@ -27,7 +27,9 @@ size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr,
     //go through names:
     for (DWORD i = 0; i < functCount; i++) {
         DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
-
+        if (!peconv::validate_ptr(modulePtr, moduleSize, recordRVA, sizeof(DWORD))) {
+            break;
+        }
         DWORD ordinal = ordBase + i;
         va_to_ord[recordRVA] = ordinal;
     }
@@ -132,11 +134,11 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     if (!is_valid_table(exp, modulePtr, module_size)) {
         return 0;
     }
-
     std::string dllName = get_dll_name(moduleName);
 
     std::map<PDWORD, DWORD> va_to_ord;
-    size_t functCount = make_ord_lookup_tables(modulePtr, va_to_ord);
+    size_t functCount = make_ord_lookup_tables(modulePtr, module_size, va_to_ord);
+
     std::map<DWORD, char*> rva_to_name;
     //go through names:
     
@@ -146,6 +148,8 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     DWORD funcsListRVA = exp->AddressOfFunctions;
     DWORD funcNamesListRVA = exp->AddressOfNames;
     DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
+
+    size_t mapped_ctr = 0;
 
     for (SIZE_T i = 0; i < namesCount; i++) {
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
@@ -160,15 +164,18 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         ExportedFunc currFunc(dllName, name, funcOrd);
 
         BYTE* fPtr = (BYTE*) modulePtr + callRVA;
+        ULONGLONG callVa = rebase_va((ULONGLONG) fPtr, (ULONGLONG)modulePtr, moduleBase);
+        if (!peconv::validate_ptr((BYTE*) moduleBase, module_size, (BYTE*)callVa, sizeof(ULONGLONG))) {
+            break;
+        }
         if (add_forwarded(fPtr, currFunc)) {
             forwarded_ctr++;
         } else {
             //not forwarded, simple case:
-            ULONGLONG callVa = rebase_va((ULONGLONG) fPtr, (ULONGLONG)modulePtr, moduleBase);
             add_to_maps(callVa, currFunc);
+            mapped_ctr++;
         }
     }
-
     //go through unnamed functions exported by ordinals:
     std::map<PDWORD, DWORD>::iterator ord_itr = va_to_ord.begin();
     for (;ord_itr != va_to_ord.end(); ord_itr++) {
@@ -179,13 +186,20 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         DWORD callRVA = *funcRVA;
 
         PBYTE fPtr = (PBYTE) modulePtr + callRVA;
+        ULONGLONG callVa = rebase_va((ULONGLONG) fPtr, (ULONGLONG)modulePtr, moduleBase);
+        if (!peconv::validate_ptr((BYTE*) moduleBase, module_size, (BYTE*)callVa, sizeof(ULONGLONG))) {
+            break;
+        }
         if (add_forwarded(fPtr, currFunc)) {
             forwarded_ctr++;
         } else {
-            ULONGLONG callVa = rebase_va((ULONGLONG) fPtr, (ULONGLONG)modulePtr, moduleBase);
             //std::cout << std::hex << callVa << " : " << currFunc.toString() << std::endl;
             add_to_maps(callVa, currFunc);
+            mapped_ctr++;
         }
     }
-    return functCount - forwarded_ctr;
+#ifdef _DEBUG
+    std::cout << "Finished exports parsing, mapped: "<< mapped_ctr << " forwarded: " << forwarded_ctr  << std::endl;
+#endif
+    return mapped_ctr;
 }
