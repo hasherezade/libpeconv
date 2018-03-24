@@ -357,3 +357,24 @@ IMAGE_EXPORT_DIRECTORY* peconv::get_export_directory(HMODULE modulePtr)
 {
     return get_type_directory<IMAGE_EXPORT_DIRECTORY>(modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);
 }
+
+IMAGE_COR20_HEADER* peconv::get_dotnet_hdr(PBYTE module, size_t module_size, IMAGE_DATA_DIRECTORY* dotNetDir)
+{
+    DWORD rva = dotNetDir->VirtualAddress;
+    DWORD hdr_size = dotNetDir->Size;
+    if (!peconv::validate_ptr(module, module_size, module + rva, hdr_size)) {
+        return nullptr;
+    }
+    IMAGE_COR20_HEADER *dnet_hdr = (IMAGE_COR20_HEADER*)(module + rva);
+    if (!peconv::validate_ptr(module, module_size, module + dnet_hdr->MetaData.VirtualAddress, dnet_hdr->MetaData.Size)) {
+        return nullptr;
+    }
+    DWORD* signature_ptr = (DWORD*)(module + dnet_hdr->MetaData.VirtualAddress);
+    const DWORD dotNetSign = 0x424A5342;
+    if (*signature_ptr != dotNetSign) {
+        //invalid header
+        return nullptr;
+    }
+    return dnet_hdr;
+}
+
