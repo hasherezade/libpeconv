@@ -17,10 +17,10 @@ size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modul
         LPVOID thunk_ptr = (LPVOID)((ULONGLONG)modulePtr + thunk_addr);
         if (thunk_ptr == nullptr) break;
 
-        if (!validate_ptr(modulePtr, moduleSize, thunk_ptr, sizeof(FIELD_T)) {
+        if (!validate_ptr(modulePtr, moduleSize, thunk_ptr, sizeof(FIELD_T))) {
             break;
         }
-        if (!validate_ptr(modulePtr, moduleSize, call_via_ptr, sizeof(FIELD_T)) {
+        if (!validate_ptr(modulePtr, moduleSize, call_via_ptr, sizeof(FIELD_T))) {
             break;
         }
         FIELD_T *thunk_val = reinterpret_cast<FIELD_T*>(thunk_ptr);
