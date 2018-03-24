@@ -103,7 +103,7 @@ bool ExportsMapper::add_to_maps(ULONGLONG va, ExportedFunc &currFunc)
     return true;
 }
 
-bool is_valid_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const size_t module_size)
+bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const size_t module_size)
 {
     if (exp == nullptr) return false;
 
@@ -131,7 +131,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         return 0;
     }
     size_t module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(modulePtr));
-    if (!is_valid_table(exp, modulePtr, module_size)) {
+    if (!is_valid_export_table(exp, modulePtr, module_size)) {
         return 0;
     }
     std::string dllName = get_dll_name(moduleName);
