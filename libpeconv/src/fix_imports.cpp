@@ -190,8 +190,6 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
     printf("---IMP---\n");
 #endif
 
-    ImportsUneraser impUneraser(modulePtr, moduleSize);
-
     while (parsedSize < maxSize) {
 
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR) modulePtr);
@@ -204,7 +202,9 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
             break;
         }
         if (lib_desc->TimeDateStamp == (-1)) {
-            std::cerr << "[!] This is a bound import. Bound imports are not supported\n";
+#ifdef _DEBUG
+            std::cout << "[!] This is a bound import. Bound imports are not supported" << std::endl;
+#endif
             continue;
         }
 #ifdef _DEBUG
@@ -249,6 +249,7 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         }
 
         //everything mapped, now recover it:
+        ImportsUneraser impUneraser(modulePtr, moduleSize);
         if (!impUneraser.uneraseDllImports(lib_desc, dllCoverage)) {
             return false;
         }
