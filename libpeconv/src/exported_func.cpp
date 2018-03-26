@@ -7,13 +7,6 @@
 
 using namespace peconv;
 
-char easytolower(char in)
-{
-    if (in<='Z' && in>='A')
-    return in-('Z'-'z');
-    return in;
-}
-
 std::string peconv::get_dll_name(const std::string& str)
 {
     std::size_t len = str.length();
@@ -22,7 +15,7 @@ std::string peconv::get_dll_name(const std::string& str)
     if (ext >= len) return "";
 
     std::string name = str.substr(found+1, ext - (found+1));
-    std::transform(name.begin(), name.end(), name.begin(), easytolower);
+    std::transform(name.begin(), name.end(), name.begin(), tolower);
     return name;
 }
 
@@ -89,7 +82,7 @@ std::string peconv::format_dll_func(const std::string& str)
     if (dllName.length() == 0 || funcName.length() == 0) {
         return "";
     }
-    std::transform(dllName.begin(), dllName.end(), dllName.begin(), easytolower);
+    std::transform(dllName.begin(), dllName.end(), dllName.begin(), tolower);
     return dllName + "." + funcName;
 }
 
@@ -148,7 +141,7 @@ std::string ExportedFunc::formatName(std::string name)
     if (name.length() == 0 || name.length() == 0) {
         return "";
     }
-    std::transform(name.begin(), name.end(), name.begin(), easytolower);
+    std::transform(name.begin(), name.end(), name.begin(), tolower);
     return name;
 }
 
@@ -156,7 +149,6 @@ std::string ExportedFunc::toString() const
 {
     if (!isValid()) {
         return "[Invalid func]";
-    
     }
     std::stringstream stream;
     stream << this->libName;
