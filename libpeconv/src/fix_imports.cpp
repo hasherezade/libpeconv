@@ -152,7 +152,9 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
         }
         if (addr_to_func.find(searchedAddr) == addr_to_func.end()) {
             const ExportedFunc* func = exportsMap.find_export_by_va(searchedAddr);
+#ifdef _DEBUG
             std::cerr << "[WARNING] A function: " << func->toString() << " not found in the covering DLL: " << coveringDll << std::endl;
+#endif
         }
     }
     return coveredCount;

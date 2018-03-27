@@ -72,7 +72,6 @@ BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool exec
 
 BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver)
 {
-    // Load the current executable from the file with the help of libpeconv:
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true);
     if (!loaded_pe) {
         printf("Loading failed!\n");
