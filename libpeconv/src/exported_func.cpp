@@ -160,3 +160,14 @@ std::string ExportedFunc::toString() const
     stream << ordinal_to_string(this->funcOrdinal);
     return stream.str();
 }
+
+std::string ExportedFunc::nameToString() const
+{
+    if (!isValid()) {
+        return "";
+    }
+    if (this->isByOrdinal) {
+        return ordinal_to_string(this->funcOrdinal);
+    }
+    return this->funcName;
+}

@@ -53,7 +53,11 @@ namespace peconv {
             return cmp < 0;
         }
 
+        // full info about the function: library, name, ordinal
         std::string toString() const;
+
+        // short info: only function name or ordinal (if the name is missing)
+        std::string nameToString() const;
 
         bool isValid() const
         {
