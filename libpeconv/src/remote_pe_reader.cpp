@@ -158,6 +158,10 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
     BYTE* unmapped_module = NULL;
 
     if (unmap) {
+        //if the image base in headers is invalid, set the current base and prevent from relocating PE:
+        if (peconv::get_image_base(buffer) == 0) {
+            peconv::update_image_base(buffer, (ULONGLONG)start_addr);
+        }
          // unmap the PE file (convert from the Virtual Format into Raw Format)
         unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
         if (unmapped_module != NULL) {
