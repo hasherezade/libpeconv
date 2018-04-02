@@ -21,6 +21,7 @@ std::string peconv::get_dll_name(const std::string& str)
 
 size_t peconv::forwarder_name_len(BYTE* fPtr)
 {
+    // names can be also mangled, i.e. MSVCRT.??0__non_rtti_object@std@@QAE@ABV01@@Z
     bool has_dot = false;
     size_t len = 0;
     while ((*fPtr >= 'a' && *fPtr <= 'z')
@@ -29,6 +30,8 @@ size_t peconv::forwarder_name_len(BYTE* fPtr)
             || (*fPtr == '.')
             || (*fPtr == '_')
             || (*fPtr == '#') 
+            || (*fPtr == '@')
+            || (*fPtr == '?')
             || (*fPtr == '-'))
     {
         if (*fPtr == '.') has_dot = true;
