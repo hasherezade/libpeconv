@@ -19,27 +19,27 @@ build:
 
 configuration:
   - Debug
-
+  
+environment:
+  matrix:
+    - env_arch: "x64"
+    - env_arch: "x86"
+  
 build_script:
-  - mkdir build32
-  - cd build32
-  - cmake .. -G "Visual Studio 14 2015"
-  - cmake --build .
-  - cd ..
-  - mkdir build64
-  - cd build64
-  - cmake .. -G "Visual Studio 14 2015 Win64"
+  - mkdir build
+  - cd build
+  - if [%env_arch%]==[x64] (
+      cmake .. -A x64 )
+  - if [%env_arch%]==[x86] (
+      cmake .. )
   - cmake --build .
   - cd ..
 
 test_script:
   - mkdir "C:\tests"
-  - cd build32
+  - cd build
   - cp "tests\test_case1\Debug\test_case1.exe" "C:\tests\test_case1.exe"
-  - ctest -V
-  - cd ..
-  - cd build64
-  - cp "tests\test_case1\Debug\test_case1.exe" "C:\tests\test_case1.exe"
-  - cp "..\tests\test_case2\payload.dll" "C:\tests\payload.dll"
+  - if [%env_arch%]==[x64] (
+      cp "..\tests\test_case2\payload.dll" "C:\tests\payload.dll" )
   - ctest -V
   
