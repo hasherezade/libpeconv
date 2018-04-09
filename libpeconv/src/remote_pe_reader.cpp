@@ -23,11 +23,21 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
             to_read_size -= step_size;
             continue;
         }
-        if (get_nt_hrds(buffer) == NULL) {
+        BYTE *nt_ptr = get_nt_hrds(buffer);
+        if (nt_ptr == nullptr) {
             return false;
         }
-        if (read_size < get_hdrs_size(buffer)) {
-            std::cerr << "[-] Read size: " << read_size << " is smaller that the headers size:" << get_hdrs_size(buffer) << std::endl;
+        const size_t nt_offset = nt_ptr - buffer;
+        const size_t nt_size = peconv::is64bit(buffer) ? sizeof(IMAGE_NT_HEADERS64) : sizeof(IMAGE_NT_HEADERS32);
+        const size_t min_size = nt_offset + nt_size;
+
+        if (read_size < min_size) {
+            std::cerr << "[-] [" << std::dec << GetProcessId(processHandle) 
+                << " ][" << std::hex << (ULONGLONG) start_addr 
+                << "] Read size: " << std::hex << read_size 
+                << " is smaller that the minimal size:" << get_hdrs_size(buffer) 
+                << std::endl;
+
             return false;
         }
         //reading succeeded and the header passed the checks:
@@ -77,13 +87,17 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
         std::cerr << "[-] Failed to read the module header" << std::endl;
         return 0;
     }
-
-    size_t read_size = MAX_HEADER_SIZE;
+    if (!is_valid_sections_hdr(hdr_buffer, MAX_HEADER_SIZE)) {
+        std::cerr << "[-] Sections headers are invalid or atypically aligned" << std::endl;
+        return 0;
+    }
     //if not possible to read full module at once, try to read it section by section:
     size_t sections_count = get_sections_count(hdr_buffer, MAX_HEADER_SIZE);
 #ifdef _DEBUG
     std::cout << "Sections: " << sections_count  << std::endl;
 #endif
+    size_t read_size = MAX_HEADER_SIZE;
+
     for (size_t i = 0; i < sections_count; i++) {
         SIZE_T read_sec_size = 0;
         PIMAGE_SECTION_HEADER hdr = get_section_hdr(hdr_buffer, MAX_HEADER_SIZE, i);
@@ -140,7 +154,7 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
     if ((read_size = read_remote_pe(processHandle, start_addr, mod_size, buffer, mod_size)) == 0) {
         std::cerr << "[-] Failed reading module. Error: " << GetLastError() << std::endl;
         peconv::free_pe_buffer(buffer, mod_size);
-        buffer = NULL;
+        buffer = nullptr;
         return false;
     }
 
@@ -155,7 +169,7 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
     BYTE* dump_data = buffer;
     size_t dump_size = mod_size;
     size_t out_size = 0;
-    BYTE* unmapped_module = NULL;
+    BYTE* unmapped_module = nullptr;
 
     if (unmap) {
         //if the image base in headers is invalid, set the current base and prevent from relocating PE:
