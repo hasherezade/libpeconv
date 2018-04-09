@@ -293,6 +293,22 @@ size_t peconv::get_sections_count(const BYTE* payload, const size_t buffer_size)
     return fileHdr->NumberOfSections;
 }
 
+bool peconv::is_valid_sections_hdr(BYTE* buffer, const size_t buffer_size)
+{
+    size_t sec_count = peconv::get_sections_count(buffer, buffer_size);
+    if (sec_count == 0) {
+        //no sections found - a valid PE should have at least one section
+        return false;
+    }
+    PIMAGE_SECTION_HEADER last_hdr = get_section_hdr(buffer, buffer_size, sec_count - 1);
+    if (!last_hdr) {
+        //could not fetch the last section
+        return false;
+    }
+    return true;
+}
+
+
 PIMAGE_SECTION_HEADER peconv::get_section_hdr(const BYTE* payload, const size_t buffer_size, size_t section_num)
 {
     if (!payload) return nullptr;

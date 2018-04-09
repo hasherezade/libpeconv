@@ -38,6 +38,10 @@ DWORD get_entry_point_rva(const BYTE *pe_buffer);
 bool update_entry_point_rva(BYTE *pe_buffer, DWORD ep);
 
 size_t get_sections_count(const BYTE* buffer, const size_t buffer_size);
+
+//Checks if the section headers are reachable. It does not validate sections alignment.
+bool is_valid_sections_hdr(BYTE* buffer, const size_t buffer_size);
+
 PIMAGE_SECTION_HEADER get_section_hdr(const BYTE* buffer, const size_t buffer_size, size_t section_num);
 
 bool is_module_dll(const BYTE* payload);
