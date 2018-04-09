@@ -23,11 +23,21 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
             to_read_size -= step_size;
             continue;
         }
-        if (get_nt_hrds(buffer) == NULL) {
+        BYTE *nt_ptr = get_nt_hrds(buffer);
+        if (nt_ptr == nullptr) {
             return false;
         }
-        if (read_size < get_hdrs_size(buffer)) {
-            std::cerr << "[-] Read size: " << read_size << " is smaller that the headers size:" << get_hdrs_size(buffer) << std::endl;
+        const size_t nt_offset = nt_ptr - buffer;
+        const size_t nt_size = peconv::is64bit(buffer) ? sizeof(IMAGE_NT_HEADERS64) : sizeof(IMAGE_NT_HEADERS32);
+        const size_t min_size = nt_offset + nt_size;
+
+        if (read_size < min_size) {
+            std::cerr << "[-] [" << std::dec << GetProcessId(processHandle) 
+                << " ][" << std::hex << (ULONGLONG) start_addr 
+                << "] Read size: " << std::hex << read_size 
+                << " is smaller that the minimal size:" << get_hdrs_size(buffer) 
+                << std::endl;
+
             return false;
         }
         //reading succeeded and the header passed the checks:
