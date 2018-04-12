@@ -177,7 +177,7 @@ bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T
     }
 
     PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
-    LPSTR func_name_ptr = by_name->Name;
+    LPSTR func_name_ptr = reinterpret_cast<LPSTR>(by_name->Name);
     std::string found_name = foundFunc.funcName;
     bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
     // try to save the found name under the pointer:

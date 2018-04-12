@@ -50,7 +50,7 @@ bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE
             hProc = func_resolver->resolve_func(lib_name, MAKEINTRESOURCEA(raw_ordinal));
 
         } else {
-            LPSTR func_name = by_name->Name;
+            LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
 #ifdef _DEBUG
             std::cout << "name: " << func_name << std::endl;
 #endif
