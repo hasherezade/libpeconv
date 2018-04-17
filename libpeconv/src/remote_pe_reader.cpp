@@ -18,9 +18,11 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
     SIZE_T read_size = 0;
     SIZE_T to_read_size = buffer_size;
 
+    DWORD last_error = 0;
     while (to_read_size >= step_size) {
         BOOL is_ok = ReadProcessMemory(processHandle, start_addr, buffer, to_read_size, &read_size);
         if (!is_ok) {
+            last_error = GetLastError();
 #ifdef _DEBUG
             std::cout << "Could not read full, Error: " << std::hex << GetLastError() << std::endl;
 #endif
@@ -28,11 +30,11 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
             to_read_size -= step_size;
             continue;
         }
-#ifdef _DEBUG
         if (to_read_size < buffer_size) {
-            std::cout << "Read size: " << std::hex << to_read_size << " vs requested size: " << std::hex << buffer_size << std::endl;
+            std::cerr << "[WARNING] Read size: " << std::hex << to_read_size 
+                << " is smaller than the requested size: " << std::hex << buffer_size 
+                << ". Last Error: " << last_error << std::endl;
         }
-#endif
         return static_cast<size_t>(to_read_size);
     }
     return 0;
@@ -40,48 +42,31 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
 
 bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size)
 {
-    //TODO: refactor using read_remote_memory
-    if (buffer == nullptr) return false;
-
-    SIZE_T read_size = 0;
-    const SIZE_T step_size = 0x100;
-    SIZE_T to_read_size = buffer_size;
-
-    memset(buffer, 0, buffer_size);
-    while (to_read_size >= step_size) {
-        BOOL is_ok = ReadProcessMemory(processHandle, start_addr, buffer, to_read_size, &read_size);
-        if (!is_ok) {
-#ifdef _DEBUG
-            std::cerr << "[WARNING] Failed to read remote buffer of size: " << std::hex << to_read_size << " Error: " << std::hex << GetLastError();
-#endif
-            //try to read less
-            to_read_size -= step_size;
-            continue;
-        }
-        BYTE *nt_ptr = get_nt_hrds(buffer);
-        if (nt_ptr == nullptr) {
-            return false;
-        }
-        const size_t nt_offset = nt_ptr - buffer;
-        const size_t nt_size = peconv::is64bit(buffer) ? sizeof(IMAGE_NT_HEADERS64) : sizeof(IMAGE_NT_HEADERS32);
-        const size_t min_size = nt_offset + nt_size;
-
-        if (read_size < min_size) {
-            std::cerr << "[-] [" << std::dec << GetProcessId(processHandle) 
-                << " ][" << std::hex << (ULONGLONG) start_addr 
-                << "] Read size: " << std::hex << read_size 
-                << " is smaller that the minimal size:" << get_hdrs_size(buffer) 
-                << std::endl;
-
-            return false;
-        }
-        //reading succeeded and the header passed the checks:
-        return true;
+    if (buffer == nullptr) {
+        return false;
     }
-#ifdef _DEBUG
-    std::cerr << "[ERROR] Could not read the minimal size." << std::endl;
-#endif
-    return false;
+    SIZE_T read_size = read_remote_memory(processHandle, start_addr, buffer, buffer_size);
+    if (read_size == 0) {
+        return false;
+    }
+    BYTE *nt_ptr = get_nt_hrds(buffer);
+    if (nt_ptr == nullptr) {
+        return false;
+    }
+    const size_t nt_offset = nt_ptr - buffer;
+    const size_t nt_size = peconv::is64bit(buffer) ? sizeof(IMAGE_NT_HEADERS64) : sizeof(IMAGE_NT_HEADERS32);
+    const size_t min_size = nt_offset + nt_size;
+
+    if (read_size < min_size) {
+        std::cerr << "[-] [" << std::dec << GetProcessId(processHandle) 
+            << " ][" << std::hex << (ULONGLONG) start_addr 
+            << "] Read size: " << std::hex << read_size 
+            << " is smaller that the minimal size:" << get_hdrs_size(buffer) 
+            << std::endl;
+        return false;
+    }
+    //reading succeeded and the header passed the checks:
+    return true;
 }
 
 BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, const size_t section_num, OUT size_t &section_size)
@@ -137,7 +122,6 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
     size_t read_size = MAX_HEADER_SIZE;
 
     for (size_t i = 0; i < sections_count; i++) {
-        SIZE_T read_sec_size = 0;
         PIMAGE_SECTION_HEADER hdr = get_section_hdr(hdr_buffer, MAX_HEADER_SIZE, i);
         if (!hdr) {
             std::cerr << "[-] Failed to read the header of section: " << i  << std::endl;
@@ -150,11 +134,11 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             break;
         }
         
-        if (sec_size > 0 && !ReadProcessMemory(processHandle, start_addr + sec_va, buffer + sec_va, sec_size, &read_sec_size)) {
+        if (sec_size > 0 && !read_remote_memory(processHandle, start_addr + sec_va, buffer + sec_va, sec_size)) {
             std::cerr << "[-] Failed to read the module section: " << i  << std::endl;
         }
         // update the end of the read area:
-        size_t new_end = sec_va + read_sec_size;
+        size_t new_end = sec_va + sec_size;
         if (new_end > read_size) read_size = new_end;
     }
 #ifdef _DEBUG
