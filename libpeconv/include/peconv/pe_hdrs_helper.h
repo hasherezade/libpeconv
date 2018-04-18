@@ -13,7 +13,9 @@ WORD get_nt_hdr_architecture(const BYTE *pe_buffer);
 
 bool is64bit(const BYTE *pe_buffer);
 
-BYTE* get_nt_hrds(const BYTE *pe_buffer);
+//if buffer_size=0 means size unknown
+BYTE* get_nt_hrds(const BYTE *pe_buffer, size_t buffer_size=0);
+
 IMAGE_NT_HEADERS32* get_nt_hrds32(const BYTE *pe_buffer);
 IMAGE_NT_HEADERS64* get_nt_hrds64(const BYTE *pe_buffer);
 

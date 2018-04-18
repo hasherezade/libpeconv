@@ -2,11 +2,16 @@
 
 using namespace peconv;
 
-BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer)
+BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer, size_t buffer_size)
 {
     if (pe_buffer == NULL) return NULL;
 
     IMAGE_DOS_HEADER *idh = (IMAGE_DOS_HEADER*)pe_buffer;
+    if (buffer_size != 0) {
+        if (!peconv::validate_ptr((LPVOID)pe_buffer, buffer_size, (LPVOID)idh, sizeof(IMAGE_DOS_HEADER))) {
+            return NULL;
+        }
+    }
     if (IsBadReadPtr(idh, sizeof(IMAGE_DOS_HEADER))) {
         return NULL;
     }
@@ -19,6 +24,11 @@ BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer)
     if (pe_offset > kMaxOffset) return NULL;
 
     IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32 *)(pe_buffer + pe_offset);
+    if (buffer_size != 0) {
+        if (!peconv::validate_ptr((LPVOID)pe_buffer, buffer_size, (LPVOID)inh, sizeof(IMAGE_NT_HEADERS32))) {
+            return NULL;
+        }
+    }
     if (IsBadReadPtr(inh, sizeof(IMAGE_NT_HEADERS32))) {
         return NULL;
     }
