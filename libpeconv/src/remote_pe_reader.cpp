@@ -23,9 +23,6 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
         BOOL is_ok = ReadProcessMemory(processHandle, start_addr, buffer, to_read_size, &read_size);
         if (!is_ok) {
             last_error = GetLastError();
-#ifdef _DEBUG
-            std::cout << "Could not read full, Error: " << std::hex << GetLastError() << std::endl;
-#endif
             //try to read less
             to_read_size -= step_size;
             continue;
