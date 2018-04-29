@@ -20,7 +20,6 @@ set (srcs
 	src/exports_lookup.cpp
 	src/function_resolver.cpp
 	src/hooks.cpp
-	src/process_explorer.cpp
 	src/exported_func.cpp
 	src/exports_mapper.cpp
 	src/file_util.cpp
@@ -43,7 +42,6 @@ set (hdrs
 	include/peconv/exports_lookup.h
 	include/peconv/function_resolver.h
 	include/peconv/hooks.h
-	include/peconv/process_explorer.h
 	include/peconv/exported_func.h
 	include/peconv/exports_mapper.h
 	include/peconv/file_util.h
