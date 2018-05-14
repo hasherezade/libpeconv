@@ -38,3 +38,24 @@ void peconv::redirect_to_local32(void *ptr, DWORD new_offset)
     memcpy(hook_32 + 1, &new_offset, sizeof(DWORD));
     memcpy(ptr, hook_32, sizeof(hook_32));
 }
+
+inline int get_jmp_delta(ULONGLONG currVA, int instrLen, ULONGLONG destVA)
+{
+    int diff = destVA - (currVA + instrLen);
+    return diff;
+}
+
+bool peconv::replace_target(BYTE *patch_ptr, ULONGLONG dest_addr)
+{
+    typedef enum {
+        OP_JMP = 0xE9,
+        OP_CALL_DWORD = 0xE8
+    } t_opcode;
+
+    if (patch_ptr[0] == OP_JMP || patch_ptr[0] == OP_CALL_DWORD) {
+        DWORD delta = get_jmp_delta(ULONGLONG(patch_ptr), 5, dest_addr);
+        memcpy(patch_ptr + 1, &delta, sizeof(DWORD));
+        return true;
+    }
+    return false;
+}

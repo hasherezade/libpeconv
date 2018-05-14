@@ -30,4 +30,7 @@ namespace peconv {
 
     void redirect_to_local32(void *ptr, DWORD new_offset);
 
+    //replaces a target address of JMP or CALL <DWORD>
+    bool replace_target(BYTE *ptr, ULONGLONG dest_addr);
+
 };//namespace peconv
