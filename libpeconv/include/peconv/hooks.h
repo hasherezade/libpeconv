@@ -25,12 +25,13 @@ namespace peconv {
         std::map<std::string, FARPROC> hooks_map;
     };
 
-    //for installing inline hooks:
-    void redirect_to_local64(void *ptr, ULONGLONG new_offset);
+    // Installs inline hook at the given ptr. Returns the number of bytes overwriten. 64 bit version.
+    size_t redirect_to_local64(void *ptr, ULONGLONG new_offset);
 
-    void redirect_to_local32(void *ptr, DWORD new_offset);
+    // Installs inline hook at the given ptr. Returns the number of bytes overwriten. 32 bit version.
+    size_t redirect_to_local32(void *ptr, DWORD new_offset);
 
-    //replaces a target address of JMP or CALL <DWORD>
+    // Replaces a target address of JMP <DWORD> or CALL <DWORD>
     bool replace_target(BYTE *ptr, ULONGLONG dest_addr);
 
 };//namespace peconv
