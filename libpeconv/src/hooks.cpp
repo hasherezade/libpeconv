@@ -25,7 +25,7 @@ size_t peconv::redirect_to_local64(void *ptr, ULONGLONG new_offset)
     BYTE hook_64[] = {
         0x48, 0xB8, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xEE, 0xFF, //movabs rax,FFEE998877665544 
         0xFF, 0xE0 //jmp rax
-    }; 
+    };
     const size_t hook64_size = sizeof(hook_64);
     memcpy(hook_64 + 2, &new_offset, sizeof(ULONGLONG));
     memcpy(ptr, hook_64, hook64_size);
@@ -52,6 +52,24 @@ inline long long int get_jmp_delta(ULONGLONG currVA, int instrLen, ULONGLONG des
     return diff;
 }
 
+inline bool is_valid_delta(long long int delta)
+{
+    DWORD first_dw = delta >> sizeof(DWORD) * 8;
+    if (first_dw == 0) {
+        return true;
+    }
+    const DWORD max_dword = DWORD(-1);
+    if (first_dw != max_dword) {
+        return false;
+    }
+    DWORD delta_dw = DWORD(delta);
+    if (delta_dw & 0x80000000) {
+        return true;
+    }
+    //invalid, sign bit is missing
+    return false;
+}
+
 bool peconv::replace_target(BYTE *patch_ptr, ULONGLONG dest_addr)
 {
     typedef enum {
@@ -61,8 +79,10 @@ bool peconv::replace_target(BYTE *patch_ptr, ULONGLONG dest_addr)
 
     if (patch_ptr[0] == OP_JMP || patch_ptr[0] == OP_CALL_DWORD) {
         ULONGLONG delta = get_jmp_delta(ULONGLONG(patch_ptr), 5, dest_addr);
-        const DWORD dword_max = DWORD(-1);
-        if (delta > dword_max) {
+        if (!is_valid_delta(delta)) {
+#ifdef _DEBUG
+            std::cout << "Cannot replace the target: too big delta: " << std::hex << delta << std::endl;
+#endif
             //too big delta, cannot be saved in a DWORD
             return false;
         }
