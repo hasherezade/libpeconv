@@ -46,9 +46,9 @@ size_t peconv::redirect_to_local32(void *ptr, DWORD new_offset)
     return hook32_size;
 }
 
-inline int get_jmp_delta(ULONGLONG currVA, int instrLen, ULONGLONG destVA)
+inline long long int get_jmp_delta(ULONGLONG currVA, int instrLen, ULONGLONG destVA)
 {
-    int diff = destVA - (currVA + instrLen);
+    long long int diff = destVA - (currVA + instrLen);
     return diff;
 }
 
@@ -60,8 +60,14 @@ bool peconv::replace_target(BYTE *patch_ptr, ULONGLONG dest_addr)
     } t_opcode;
 
     if (patch_ptr[0] == OP_JMP || patch_ptr[0] == OP_CALL_DWORD) {
-        DWORD delta = get_jmp_delta(ULONGLONG(patch_ptr), 5, dest_addr);
-        memcpy(patch_ptr + 1, &delta, sizeof(DWORD));
+        ULONGLONG delta = get_jmp_delta(ULONGLONG(patch_ptr), 5, dest_addr);
+        const DWORD dword_max = DWORD(-1);
+        if (delta > dword_max) {
+            //too big delta, cannot be saved in a DWORD
+            return false;
+        }
+        DWORD delta_dw = DWORD(delta);
+        memcpy(patch_ptr + 1, &delta_dw, sizeof(DWORD));
         return true;
     }
     return false;
