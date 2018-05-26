@@ -39,6 +39,8 @@ test_script:
   - mkdir "C:\tests"
   - cd build
   - cp "tests\test_case1\Debug\test_case1.exe" "C:\tests\test_case1.exe"
+  - cp "..\tests\test_case3\bin\test_case3_32.exe" "C:\tests\test_case3_32.exe"
+  - cp "..\tests\test_case3\bin\test_case3_64.exe" "C:\tests\test_case3_64.exe"
   - if [%env_arch%]==[x64] (
       cp "..\tests\test_case2\payload.dll" "C:\tests\payload.dll" )
   - ctest -V

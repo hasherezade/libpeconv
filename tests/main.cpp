@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <Windows.h>
 
 #include "test_loading.h"
 #include "test_loading_imps.h"
@@ -6,6 +7,7 @@
 #include "test_hooking_imps.h"
 #include "test_crackme_f4_6.h"
 #include "test_load_ntdll.h"
+#include "test_replacing_func.h"
 
 int make_test(int test_id, char *test_arg)
 {
@@ -23,6 +25,7 @@ int make_test(int test_id, char *test_arg)
         case 5: return tests::hook_testcase(test_arg);
         case 6: return tests::decode_crackme_f4_6(test_arg);
         case 7: return tests::test_ntdll(NULL);
+        case 8: return tests::replace_func_testcase(test_arg);
     }
     return -1;
 }

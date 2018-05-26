@@ -16,6 +16,7 @@ set (srcs
 	test_hooking_imps.cpp
 	test_crackme_f4_6.cpp
 	test_load_ntdll.cpp
+	test_replacing_func.cpp
 )
 
 set (hdrs
@@ -25,6 +26,7 @@ set (hdrs
 	test_hooking_imps.h
 	test_crackme_f4_6.h
 	test_load_ntdll.h
+	test_replacing_func.h
 	resource.h
 	shellcodes.h
 )
@@ -35,10 +37,11 @@ set (rsrc
 
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} ${rsrc} )
 target_link_libraries ( ${PROJECT_NAME} ${PECONV_LIB} )
-add_dependencies( ${PROJECT_NAME} libpeconv test_case1)
+add_dependencies( ${PROJECT_NAME} libpeconv test_case1 test_case3 )
 
 #add the application that will be used for tests:
 add_subdirectory ( test_case1 )
+add_subdirectory ( test_case3 )
 
 enable_testing()
 
@@ -74,4 +77,15 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	# 6) Solve FlareOn2017 Challenge6
 	add_test (TestCrackmeF4_6 tests 6 "C://tests//payload.dll")
 	set_tests_properties (TestCrackmeF4_6 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+endif()
+
+# 8) Test replacing and redirecting functions
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	add_test (TestReplaceFunc64 tests 8 "C://tests//test_case3_64.exe")
+	set_tests_properties (TestReplaceFunc64 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
+	set_tests_properties (TestDeploySelfExpResolver PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+else()
+	add_test (TestReplaceFunc32 tests 8 "C://tests//test_case3_32.exe")
+	set_tests_properties (TestReplaceFunc32 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
+	set_tests_properties (TestDeploySelfExpResolver PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 endif()
