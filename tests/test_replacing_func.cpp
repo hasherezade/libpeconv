@@ -98,7 +98,7 @@ int tests::replace_func_testcase(char *path)
 #else
     //in case of 64bit binary we cannot replace the target, so we redirect the function to local
     ULONGLONG checksum_offset = (ULONGLONG)loaded_pe + 0x2B10;
-    peconv::redirect_to_local64((BYTE*)checksum_offset, (ULONGLONG)&calc_checksum);
+    peconv::redirect_to_local64((BYTE*)checksum_offset, (ULONGLONG)&test8::my_calc_checksum64);
 #endif
     ULONGLONG ep_exp_offset = (ULONGLONG) loaded_pe + peconv::get_entry_point_rva(loaded_pe);
     void (_cdecl *ep_func)() = (void (_cdecl *)()) (ep_exp_offset);
