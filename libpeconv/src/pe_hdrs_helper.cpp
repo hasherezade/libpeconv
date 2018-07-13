@@ -318,7 +318,6 @@ bool peconv::is_valid_sections_hdr(BYTE* buffer, const size_t buffer_size)
     return true;
 }
 
-
 PIMAGE_SECTION_HEADER peconv::get_section_hdr(const BYTE* payload, const size_t buffer_size, size_t section_num)
 {
     if (!payload) return nullptr;
@@ -468,11 +467,9 @@ DWORD peconv::get_sec_alignment(PBYTE modulePtr, bool is_raw)
 {
     DWORD alignment = 0;
     if (peconv::is64bit(modulePtr)) {
-        alignment = _get_sec_alignment<IMAGE_NT_HEADERS64>(modulePtr, true);
-    }
-    else {
-        alignment = _get_sec_alignment<IMAGE_NT_HEADERS32>(modulePtr, true);
+        alignment = _get_sec_alignment<IMAGE_NT_HEADERS64>(modulePtr, is_raw);
+    } else {
+        alignment = _get_sec_alignment<IMAGE_NT_HEADERS32>(modulePtr, is_raw);
     }
     return alignment;
 }
-
