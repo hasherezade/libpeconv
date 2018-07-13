@@ -9,6 +9,7 @@
 
 #include <iterator>
 #include "fix_imports.h"
+#include "cave.h"
 
 namespace peconv {
     class ImportsUneraser
@@ -24,7 +25,6 @@ namespace peconv {
         bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage);
 
     protected:
-        PBYTE findCave(DWORD minimal_size);
 
         bool writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string found_name);
 

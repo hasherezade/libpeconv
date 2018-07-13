@@ -41,39 +41,6 @@ bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::
     return true;
 }
 
-PBYTE ImportsUneraser::findCave(DWORD minimal_size)
-{
-    size_t sec_count = peconv::get_sections_count(modulePtr, moduleSize);
-    if (sec_count == 0) return nullptr;
-
-    size_t last_sec = sec_count - 1;
-    PIMAGE_SECTION_HEADER section_hdr = peconv::get_section_hdr(modulePtr, moduleSize, last_sec);
-    if (section_hdr == nullptr) return nullptr;
-    if (!(section_hdr->Characteristics & IMAGE_SCN_MEM_READ)) return nullptr;
-
-    DWORD raw_size = section_hdr->SizeOfRawData;
-    DWORD virtual_size = (DWORD) moduleSize - section_hdr->VirtualAddress;
-
-    if (raw_size >= virtual_size) return nullptr;
-
-    DWORD cave_size = virtual_size - raw_size;
-    if (cave_size < minimal_size) {
-#ifdef _DEBUG
-        std::cout << "Cave is too small" << std::endl;
-#endif
-        return nullptr;
-    }
-    PBYTE cave_ptr = modulePtr + section_hdr->VirtualAddress + section_hdr->SizeOfRawData;
-    if (!validate_ptr(modulePtr, moduleSize, cave_ptr, minimal_size)) {
-#ifdef _DEBUG
-        std::cout << "Invalid cave pointer" << std::endl;
-#endif
-        return nullptr;
-    }
-    section_hdr->SizeOfRawData += minimal_size; //book this cave
-    return cave_ptr;
-}
-
 bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage)
 {
     LPSTR name_ptr = nullptr;
@@ -83,7 +50,7 @@ bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, Imported
     if (name_ptr == nullptr || !validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
         //try to get the cave:
         DWORD cave_size = DWORD(dllCoverage.dllName.length() + 4 + 1 + 5); //extension + ending null + padding
-        PBYTE ptr = findCave(cave_size);
+        PBYTE ptr = find_ending_cave(modulePtr, moduleSize, cave_size);
         if (ptr == nullptr) {
             std::cerr << "Cannot save the DLL name: " << dllCoverage.dllName << std::endl;
             return false;
