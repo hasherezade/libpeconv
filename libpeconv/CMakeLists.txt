@@ -25,7 +25,7 @@ set (srcs
 	src/file_util.cpp
 	src/resource_util.cpp
 	src/imports_uneraser.cpp
-	src/cave.cpp
+	src/caves.cpp
 )
 
 set (hdrs
@@ -48,7 +48,7 @@ set (hdrs
 	include/peconv/file_util.h
 	include/peconv/resource_util.h
 	include/peconv/imports_uneraser.h
-	include/peconv/cave.h
+	include/peconv/caves.h
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )
