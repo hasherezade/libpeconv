@@ -9,6 +9,6 @@ namespace peconv {
     */
     PBYTE find_ending_cave(BYTE* module_ptr, size_t module_size, DWORD cave_size, DWORD cave_charact=IMAGE_SCN_MEM_READ);
 
-    PBYTE find_section_cave(BYTE* modulePtr, size_t moduleSize, DWORD minimal_size, DWORD req_charact = IMAGE_SCN_MEM_READ);
+    PBYTE find_section_cave(BYTE* modulePtr, size_t moduleSize, DWORD cave_size, DWORD req_charact = IMAGE_SCN_MEM_READ);
 
 };//namespace peconv

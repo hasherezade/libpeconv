@@ -68,7 +68,7 @@ PBYTE peconv::find_section_cave(BYTE* modulePtr, size_t moduleSize, DWORD minima
             continue;
         }
         DWORD sec_start = section_hdr->PointerToRawData;
-        DWORD sec_end =  + section_hdr->SizeOfRawData;
+        DWORD sec_end = sec_start + section_hdr->SizeOfRawData;
 #ifdef _DEBUG
         std::cout << "section: " << std::hex << sec_start << " : " << sec_end << std::endl;
 #endif
