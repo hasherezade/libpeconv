@@ -132,7 +132,7 @@ PBYTE peconv::find_padding_cave(BYTE* modulePtr, size_t moduleSize, const size_t
             found = true;
         }
         //if the section is code, check also code padding:
-        if (section_hdr->Characteristics == IMAGE_SCN_MEM_EXECUTE) {
+        if (section_hdr->Characteristics & IMAGE_SCN_MEM_EXECUTE) {
             if (_check_bytes(cave_ptr, minimal_size, 0xCC)) {
                 found = true;
             }
