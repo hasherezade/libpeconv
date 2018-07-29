@@ -231,7 +231,7 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         }
         ImportedDllCoverage dllCoverage(addresses, exportsMap);
         if (!dllCoverage.findCoveringDll()) {
-            return false;
+            continue;
         }
 
         bool is_lib_erased = false;
