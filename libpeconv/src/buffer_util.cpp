@@ -39,7 +39,6 @@ peconv::UNALIGNED_BUF peconv::alloc_unaligned(size_t buf_size)
 
 void peconv::free_unaligned(peconv::UNALIGNED_BUF section_buffer)
 {
-    if (section_buffer == nullptr) return;
     free(section_buffer);
 }
 
