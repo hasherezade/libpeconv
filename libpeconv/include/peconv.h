@@ -14,3 +14,4 @@
 #include "peconv/hooks.h"
 #include "peconv/exports_mapper.h"
 #include "peconv/caves.h"
+#include "peconv/fix_imports.h"
