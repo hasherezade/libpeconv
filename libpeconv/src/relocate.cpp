@@ -20,9 +20,12 @@ bool apply_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD pa
     BASE_RELOCATION_ENTRY* entry = block;
     SIZE_T i = 0;
     for (i = 0; i < entriesNum; i++) {
+        if (!validate_ptr(modulePtr, moduleSize, entry, sizeof(BASE_RELOCATION_ENTRY))) {
+            break;
+        }
         DWORD offset = entry->Offset;
         DWORD type = entry->Type;
-        if (entry == NULL || type == 0) {
+        if (type == 0) {
             break;
         }
         if (type != RELOC_32BIT_FIELD && type != RELOC_64BIT_FIELD) {
