@@ -57,7 +57,7 @@ bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, UL
         printf("[!] WARNING: no relocation table found!\n");
 #endif
         return false;
-	}
+    }
     if (!validate_ptr(modulePtr, moduleSize, relocDir, sizeof(IMAGE_DATA_DIRECTORY))) {
         return false;
     }
@@ -119,5 +119,5 @@ bool peconv::relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBa
 #ifdef _DEBUG
     printf("Could not relocate the module!\n");
 #endif
-	return false;
+    return false;
 }
