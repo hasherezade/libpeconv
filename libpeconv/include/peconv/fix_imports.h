@@ -34,15 +34,27 @@ namespace peconv {
         // Checks if all the addresses can be covered by one DLL. If yes, this dll will be saved into: dllName.
         bool findCoveringDll();
 
-        // Map the addresses to functions from the given DLL. Return true if all functions are covered. Results are saved into: addrToFunc.
-        // before each execution, the content of addrToFunc is erased
-        bool mapAddressesToFunctions(std::string dll);
+        // Maps the addresses from the set to functions from the given DLL. 
+        // The used DLL name is saved into mappedDllName. Results are saved into: addrToFunc. 
+        // Addresses that could not be covered by the given DLL are saved into notFound.
+        // Before each execution, the content of involved variables is erased.
+        // Returns a number of covered functions.
+        size_t mapAddressesToFunctions(std::string dll);
+
+       // //returns the status: true if all the addresses are mapped to functions' names, false if not
+        bool isMappingComplete() { return (addresses.size() == addrToFunc.size()) ? true : false; }
 
         std::map<ULONGLONG, std::set<ExportedFunc>> addrToFunc;
-        std::string dllName;
+        std::set<ULONGLONG> notFound; //addresses not found in the mappedDll
+
+        std::string dllName; //covering DLL
 
     protected:
+        // a name of the  DLL that was used for mapping. In a normal scenario it will be the same as coveringDLL, but may be set different.
+        std::string mappedDllName;
+
         std::set<ULONGLONG> &addresses;
         peconv::ExportsMapper& exportsMap;
+        
     };
 }

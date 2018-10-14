@@ -117,9 +117,10 @@ bool ImportedDllCoverage::findCoveringDll()
 }
 
 size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses, 
-                               std::string coveringDll,
+                               std::string chosenDll,
                                peconv::ExportsMapper& exportsMap,
-                               OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
+                               OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
+                               OUT std::set<ULONGLONG> &not_found
                                )
 {
     size_t coveredCount = 0;
@@ -130,10 +131,11 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
 
         const std::set<ExportedFunc>* exports_for_va = exportsMap.find_exports_by_va(searchedAddr);
         if (exports_for_va == nullptr) {
+            not_found.insert(searchedAddr);
 #ifdef _DEBUG
             std::cerr << "Cannot find any DLL exporting: " << std::hex << searchedAddr << std::endl;
 #endif
-            return 0;
+            continue;
         }
 
         std::set<std::string> currDllNames;
@@ -143,7 +145,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
             strItr++)
         {
             std::string dll_name = strItr->libName;
-            if (dll_name != coveringDll) {
+            if (dll_name != chosenDll) {
                 continue;
             }
             ExportedFunc func = *strItr;
@@ -152,6 +154,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
         }
         if (addr_to_func.find(searchedAddr) == addr_to_func.end()) {
             const ExportedFunc* func = exportsMap.find_export_by_va(searchedAddr);
+            not_found.insert(searchedAddr);
 #ifdef _DEBUG
             std::cerr << "[WARNING] A function: " << func->toString() << " not found in the covering DLL: " << coveringDll << std::endl;
 #endif
@@ -160,20 +163,24 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
     return coveredCount;
 }
 
-bool ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
+size_t ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
 {
+    //reset all stored info:
+    this->mappedDllName = dll;
     if (this->addrToFunc.size() > 0) {
         this->addrToFunc.clear();
     }
-    size_t coveredCount = map_addresses_to_functions(this->addresses, dll, this->exportsMap, this->addrToFunc); 
-    if (coveredCount < addresses.size()) {
-        std::cerr << "[-] Not all addresses are covered! covered: " << coveredCount << " total: " << addresses.size() << std::endl;
-        return false;
-    }
+    this->notFound.clear();
+
+    size_t coveredCount = map_addresses_to_functions(this->addresses, dll, this->exportsMap, this->addrToFunc, this->notFound); 
+    if (notFound.size()) {
+        std::cerr << "[-] Not all addresses are covered! Not found: " << std::dec << notFound.size() << std::endl;
+    } else {
 #ifdef _DEBUG
-    std::cout << "All covered!" << std::endl;
+        std::cout << "All covered!" << std::endl;
 #endif
-    return true;
+    }
+    return coveredCount;
 }
 
 bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap)
@@ -230,26 +237,29 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
             find_addresses_to_fill<ULONGLONG>(call_via, thunk_addr, modulePtr, moduleSize, addresses);
         }
         ImportedDllCoverage dllCoverage(addresses, exportsMap);
-        if (!dllCoverage.findCoveringDll()) {
-            continue;
-        }
-
+        bool is_all_covered = dllCoverage.findCoveringDll();
         bool is_lib_erased = false;
-        lib_name = get_dll_name(lib_name);
+
+        lib_name = get_dll_name(lib_name); //without extension
 
         if (lib_name.length() == 0) {
             is_lib_erased = true;
-            lib_name = dllCoverage.dllName;
+            if (is_all_covered) {
+                // set a name of the covering DLL:
+                lib_name = dllCoverage.dllName;
+            }
         }
-
+        if (lib_name.length() == 0) {
+            //could not find a relevant DLL
+            continue;
+        }
 #ifdef _DEBUG
         std::cout << lib_name << std::endl;
 #endif
         if (!dllCoverage.mapAddressesToFunctions(lib_name)) {
-            // could not cover all the functions in this DLL
+            // cannot find any functions imported from this DLL
             continue;
         }
-
         //everything mapped, now recover it:
         ImportsUneraser impUneraser(modulePtr, moduleSize);
         if (!impUneraser.uneraseDllImports(lib_desc, dllCoverage)) {
