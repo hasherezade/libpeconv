@@ -44,12 +44,13 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 #ifdef _DEBUG
     std::cout << "Coping sections:" << std::endl;
 #endif
-    SIZE_T raw_end = 0;
+    SIZE_T raw_end = hdrsSize;
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
         PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONGLONG)secptr + (IMAGE_SIZEOF_SECTION_HEADER * i));
         if (!validate_ptr(payload, payload_size, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) {
            return false;
         }
+        
         LPVOID section_mapped = (BYTE*) payload + next_sec->VirtualAddress;
         LPVOID section_raw_ptr = destAddress + next_sec->PointerToRawData;
         SIZE_T sec_size = next_sec->SizeOfRawData;
@@ -73,6 +74,11 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 #ifdef _DEBUG
         std::cout << "[+] " << next_sec->Name  << " to: "  << std::hex <<  section_raw_ptr << std::endl;
 #endif
+        //coping the section would cause overwriting headers
+        if (next_sec->PointerToRawData < hdrsSize && sec_size > 0) {
+            std::cerr << "[-] Invalid aligmnent of section. Raw address: " << std::hex << next_sec->PointerToRawData << std::endl;
+            return false;
+        }
         memcpy(section_raw_ptr, section_mapped, sec_size);
     }
     if (raw_end > payload_size) raw_end = payload_size;
