@@ -74,10 +74,10 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
         return NULL;
     }
     PIMAGE_SECTION_HEADER section_hdr = get_section_hdr(header_buffer, MAX_HEADER_SIZE, section_num);
-    if (section_hdr == NULL || section_hdr->SizeOfRawData == 0) {
+    if (section_hdr == NULL || section_hdr->Misc.VirtualSize == 0) {
         return NULL;
     }
-    size_t buffer_size = section_hdr->SizeOfRawData;
+    size_t buffer_size = section_hdr->Misc.VirtualSize;
     BYTE *module_code = peconv::alloc_pe_section(buffer_size);
     if (module_code == NULL) {
         return NULL;
