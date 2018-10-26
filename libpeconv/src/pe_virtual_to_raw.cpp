@@ -120,7 +120,61 @@ BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBas
     if (!isOk) {
         free_pe_buffer(out_buf, in_size);
         out_buf = NULL;
+        raw_size = 0;
     }
     out_size = raw_size;
+    return out_buf;
+}
+
+BYTE* peconv::pe_realign_raw_to_virtual(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_t &out_size, bool rebuffer)
+{
+    BYTE* in_buf = payload;
+    if (rebuffer) {
+        in_buf = (BYTE*)alloc_pe_buffer(in_size, PAGE_READWRITE);
+        if (!in_buf) return nullptr;
+        memcpy(in_buf, payload, in_size);
+    }
+    BYTE* out_buf = (BYTE*)alloc_pe_buffer(in_size, PAGE_READWRITE);
+    out_size = in_size;
+
+    ULONGLONG oldBase = get_image_base(in_buf);
+    bool isOk = true;
+    // from the loadBase go back to the original base
+    if (!relocate_module(in_buf, in_size, oldBase, loadBase)) {
+        //Failed relocating the module! Changing image base instead...
+        if (!update_image_base(in_buf, (ULONGLONG)loadBase)) {
+            std::cerr << "[-] Failed relocating the module!" << std::endl;
+            isOk = false;
+        } else {
+#ifdef _DEBUG
+            std::cerr << "[!] WARNING: The module could not be relocated, so the ImageBase has been changed instead!" << std::endl;
+#endif
+        }
+    }
+    //---
+    //set raw alignment the same as virtual
+    DWORD v_alignment = peconv::get_sec_alignment(payload, false);
+    if (!peconv::set_sec_alignment(payload, true, v_alignment)) {
+        isOk = false;
+    }
+    //set Raw pointers and sizes of the sections same as Virtual
+    size_t sections_count = peconv::get_sections_count(payload, in_size);
+    for (size_t i = 0; i < sections_count; i++) {
+        PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(payload, in_size, i);
+        if (!sec) break;
+        sec->SizeOfRawData = sec->Misc.VirtualSize;
+        sec->PointerToRawData = sec->VirtualAddress;
+    }
+
+    //!---
+    if (rebuffer && in_buf != NULL) {
+        free_pe_buffer(in_buf, in_size);
+        in_buf = NULL;
+    }
+    if (!isOk) {
+        free_pe_buffer(out_buf, in_size);
+        out_buf = NULL;
+        out_size = 0;
+    }
     return out_buf;
 }

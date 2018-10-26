@@ -453,23 +453,39 @@ IMAGE_COR20_HEADER* peconv::get_dotnet_hdr(PBYTE module, size_t module_size, IMA
 }
 
 template <typename IMAGE_NT_HEADERS_T>
-DWORD _get_sec_alignment(PBYTE modulePtr, bool is_raw)
+DWORD* _get_sec_alignment_ptr(PBYTE modulePtr, bool is_raw)
 {
     IMAGE_NT_HEADERS_T* hdrs = reinterpret_cast<IMAGE_NT_HEADERS_T*>(peconv::get_nt_hrds(modulePtr));
-    if (!hdrs) return 0;
+    if (!hdrs) return nullptr;
     if (is_raw) {
-        return hdrs->OptionalHeader.FileAlignment;
+        return &hdrs->OptionalHeader.FileAlignment;
     }
-    return hdrs->OptionalHeader.SectionAlignment;
+    return &hdrs->OptionalHeader.SectionAlignment;
 }
 
 DWORD peconv::get_sec_alignment(PBYTE modulePtr, bool is_raw)
 {
-    DWORD alignment = 0;
+    DWORD* alignment = 0;
     if (peconv::is64bit(modulePtr)) {
-        alignment = _get_sec_alignment<IMAGE_NT_HEADERS64>(modulePtr, is_raw);
+        alignment = _get_sec_alignment_ptr<IMAGE_NT_HEADERS64>(modulePtr, is_raw);
     } else {
-        alignment = _get_sec_alignment<IMAGE_NT_HEADERS32>(modulePtr, is_raw);
+        alignment = _get_sec_alignment_ptr<IMAGE_NT_HEADERS32>(modulePtr, is_raw);
     }
-    return alignment;
+    if (!alignment) return 0;
+    return *alignment;
+}
+
+bool peconv::set_sec_alignment(PBYTE modulePtr, bool is_raw, DWORD new_alignment)
+{
+    DWORD* alignment = 0;
+    if (peconv::is64bit(modulePtr)) {
+        alignment = _get_sec_alignment_ptr<IMAGE_NT_HEADERS64>(modulePtr, is_raw);
+    }
+    else {
+        alignment = _get_sec_alignment_ptr<IMAGE_NT_HEADERS32>(modulePtr, is_raw);
+    }
+    if (!alignment) return false;
+
+    *alignment = new_alignment;
+    return true;
 }

@@ -58,4 +58,6 @@ IMAGE_COR20_HEADER* get_dotnet_hdr(PBYTE module, size_t module_size, IMAGE_DATA_
 
 DWORD get_sec_alignment(PBYTE modulePtr, bool is_raw);
 
+bool set_sec_alignment(PBYTE modulePtr, bool is_raw, DWORD new_alignment);
+
 }; // namespace peconv
