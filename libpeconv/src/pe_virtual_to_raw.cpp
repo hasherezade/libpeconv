@@ -74,11 +74,6 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 #ifdef _DEBUG
         std::cout << "[+] " << next_sec->Name  << " to: "  << std::hex <<  section_raw_ptr << std::endl;
 #endif
-        //coping the section would cause overwriting headers
-        if (next_sec->PointerToRawData < hdrsSize && sec_size > 0) {
-            std::cerr << "[-] Invalid aligmnent of section. Raw address: " << std::hex << next_sec->PointerToRawData << std::endl;
-            return false;
-        }
         memcpy(section_raw_ptr, section_mapped, sec_size);
     }
     if (raw_end > payload_size) raw_end = payload_size;
