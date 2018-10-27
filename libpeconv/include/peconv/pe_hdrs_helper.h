@@ -56,6 +56,8 @@ bool has_relocations(BYTE *pe_buffer);
 
 IMAGE_COR20_HEADER* get_dotnet_hdr(PBYTE module, size_t module_size, IMAGE_DATA_DIRECTORY* dotNetDir);
 
-DWORD get_sec_alignment(PBYTE modulePtr, bool is_raw);
+DWORD get_sec_alignment(const PBYTE modulePtr, bool is_raw);
+
+bool set_sec_alignment(PBYTE modulePtr, bool is_raw, DWORD new_alignment);
 
 }; // namespace peconv
