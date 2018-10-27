@@ -453,7 +453,7 @@ IMAGE_COR20_HEADER* peconv::get_dotnet_hdr(PBYTE module, size_t module_size, IMA
 }
 
 template <typename IMAGE_NT_HEADERS_T>
-DWORD* _get_sec_alignment_ptr(PBYTE modulePtr, bool is_raw)
+DWORD* _get_sec_alignment_ptr(const PBYTE modulePtr, bool is_raw)
 {
     IMAGE_NT_HEADERS_T* hdrs = reinterpret_cast<IMAGE_NT_HEADERS_T*>(peconv::get_nt_hrds(modulePtr));
     if (!hdrs) return nullptr;
@@ -463,7 +463,7 @@ DWORD* _get_sec_alignment_ptr(PBYTE modulePtr, bool is_raw)
     return &hdrs->OptionalHeader.SectionAlignment;
 }
 
-DWORD peconv::get_sec_alignment(PBYTE modulePtr, bool is_raw)
+DWORD peconv::get_sec_alignment(const PBYTE modulePtr, bool is_raw)
 {
     DWORD* alignment = 0;
     if (peconv::is64bit(modulePtr)) {
