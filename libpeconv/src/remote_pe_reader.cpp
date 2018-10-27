@@ -19,13 +19,18 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
     SIZE_T to_read_size = buffer_size;
 
     DWORD last_error = 0;
-    while (to_read_size >= step_size) {
+    while (to_read_size > 0) {
         BOOL is_ok = ReadProcessMemory(processHandle, start_addr, buffer, to_read_size, &read_size);
         if (!is_ok) {
             last_error = GetLastError();
-            //try to read less
-            to_read_size -= step_size;
-            continue;
+
+            if (to_read_size < step_size) {
+                break;
+            } else {
+                //try to read less
+                to_read_size -= step_size;
+                continue;
+            }
         }
         if (to_read_size < buffer_size) {
             std::cerr << "[WARNING] Read size: " << std::hex << to_read_size 
