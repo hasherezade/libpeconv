@@ -8,6 +8,12 @@
 
 namespace peconv {
 
+    typedef enum {
+        PE_DUMP_VIRTUAL = 0, // dump as it is in the memory (virtual)
+        PE_DUMP_UNMAPPED, // convert to the raw format: using raw sections' headers
+        PE_DUMP_REALIGNED //convert to the raw format: by realigning raw sections' headers to be the same as virtual (useful if the PE was unpacked in memory)
+    } t_pe_dump_mode;
+
     /**
     Wrapper over ReadProcessMemory. If reading full buffer_size was not possible, it will keep trying to read smaller chunk,
     decreasing requested size by step_size in each iteration. Returns how many bytes were successfuly read.
@@ -34,15 +40,15 @@ namespace peconv {
     size_t read_remote_pe(const HANDLE processHandle, BYTE *moduleBase, const size_t moduleSize, OUT BYTE* buffer, const size_t bufferSize);
 
     /**
-    Dumps PE file from the remote process into a file. It expects the module base and size to be given.
-    If 'unmap' is set to true, it automatically unmaps the file.
-    If ExportsMapper is supplied, it will try to recover destroyed import table basing on the known imports.
+    Dumps PE from the remote process into a file. It expects the module base and size to be given.
+    dump_mode: specifies in which format the PE should be dumped. Default: PE_DUMP_UNMAPPED
+    exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
     */
-    bool dump_remote_pe(IN const char *outputFilePath, 
-                        IN const HANDLE processHandle, 
-                        IN BYTE *moduleBase, 
-                        IN OPTIONAL bool unmap=true, 
-                        IN OPTIONAL peconv::ExportsMapper* exportsMap = nullptr
+    bool dump_remote_pe(const char *outputFilePath, 
+                        const HANDLE processHandle, 
+                        BYTE *moduleBase, 
+                        const t_pe_dump_mode dump_mode = PE_DUMP_UNMAPPED,
+                        peconv::ExportsMapper* exportsMap = nullptr
                         );
 
     DWORD get_remote_image_size(const HANDLE processHandle, BYTE *start_addr);

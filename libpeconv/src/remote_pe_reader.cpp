@@ -91,7 +91,7 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
     return module_code;
 }
 
-size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT PBYTE buffer, const size_t bufferSize)
+size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
 {
     if (buffer == nullptr) {
         std::cerr << "[-] Invalid output buffer: NULL pointer" << std::endl;
@@ -125,17 +125,17 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             break;
         }
         const DWORD sec_va = hdr->VirtualAddress;
-        const DWORD sec_size = hdr->SizeOfRawData;
-        if (sec_va + sec_size > bufferSize) {
+        const DWORD sec_vsize = hdr->Misc.VirtualSize; //TODO: round up to the Virtual Alignment
+        if (sec_va + sec_vsize > bufferSize) {
             std::cerr << "[-] No more space in the buffer!" << std::endl;
             break;
         }
         
-        if (sec_size > 0 && !read_remote_memory(processHandle, start_addr + sec_va, buffer + sec_va, sec_size)) {
+        if (sec_vsize > 0 && !read_remote_memory(processHandle, start_addr + sec_va, buffer + sec_va, sec_vsize)) {
             std::cerr << "[-] Failed to read the module section: " << i  << std::endl;
         }
         // update the end of the read area:
-        size_t new_end = sec_va + sec_size;
+        size_t new_end = sec_va + sec_vsize;
         if (new_end > read_size) read_size = new_end;
     }
 #ifdef _DEBUG
@@ -153,7 +153,7 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
     return peconv::get_image_size(hdr_buffer);
 }
 
-bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PBYTE start_addr, bool unmap, peconv::ExportsMapper* exportsMap)
+bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE* start_addr, const t_pe_dump_mode dump_mode, peconv::ExportsMapper* exportsMap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
 #ifdef _DEBUG
@@ -190,22 +190,29 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, PB
     size_t out_size = 0;
     BYTE* unmapped_module = nullptr;
 
-    if (unmap) {
+    if (dump_mode == peconv::PE_DUMP_UNMAPPED || dump_mode == peconv::PE_DUMP_REALIGNED) {
         //if the image base in headers is invalid, set the current base and prevent from relocating PE:
         if (peconv::get_image_base(buffer) == 0) {
             peconv::update_image_base(buffer, (ULONGLONG)start_addr);
         }
+        if (dump_mode == peconv::PE_DUMP_UNMAPPED) {
+            unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
+        }
+        else if (dump_mode == peconv::PE_DUMP_REALIGNED) {
+            unmapped_module = peconv::pe_realign_raw_to_virtual(buffer, mod_size, (ULONGLONG)start_addr, out_size);
+        }
          // unmap the PE file (convert from the Virtual Format into Raw Format)
-        unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
-        if (unmapped_module != NULL) {
+        if (unmapped_module) {
             dump_data = unmapped_module;
             dump_size = out_size;
         }
     }
     // save the read module into a file
     bool is_dumped = dump_to_file(out_path, dump_data, dump_size);
+
     peconv::free_pe_buffer(buffer, mod_size);
-    buffer = NULL;
+    buffer = nullptr;
+
     if (unmapped_module) {
         peconv::free_pe_buffer(unmapped_module, mod_size);
     }
