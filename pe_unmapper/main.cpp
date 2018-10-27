@@ -32,12 +32,12 @@ bool remap_pe_file(t_unmapper_params &params)
 {
     if (params.in_file.length() == 0 || params.out_file.length() == 0) return false;
     //Read input module:
-    std::cout << "filename: " << params.in_file << std::endl;
+    std::cout << "filename: " << params.in_file << "\n";
 
     size_t in_size = 0;
     BYTE* in_buf = peconv::read_from_file(params.in_file.c_str(), in_size);
 
-    BYTE* out_buf = NULL;
+    BYTE* out_buf = nullptr;
     size_t out_size = 0;
 
     if (params.mode_r_to_v) {
@@ -61,12 +61,15 @@ bool remap_pe_file(t_unmapper_params &params)
         }
     }
     if (!out_buf) {
+        std::cerr << "Failed to convert!\n";
         peconv::free_pe_buffer(in_buf, in_size);
         return false;
     }
     // Write output
-    bool isOk = peconv::dump_to_file(params.out_file.c_str(),out_buf,out_size);
-
+    bool isOk = peconv::dump_to_file(params.out_file.c_str(), out_buf, out_size);
+    if (!isOk) {
+        std::cerr << "Failed to save file: " << params.out_file << "\n";
+    }
     peconv::free_pe_buffer(in_buf, in_size);
     peconv::free_pe_buffer(out_buf, out_size);
 
@@ -105,7 +108,7 @@ int main(int argc, char *argv[])
         print_help();
         std::cout << "---" << std::endl;
         system("pause");
-        return -1;
+        return 0;
     }
 
     for (int i = 1; i < argc; i++) {
@@ -131,9 +134,8 @@ int main(int argc, char *argv[])
     }
 
     if (remap_pe_file(params)) {
-        std::cout << "Saved output to: " << params.out_file << "\n";
-    } else {
-        std::cout << "Failed!\n";
+        std::cout << "Saved output to: " << params.out_file << std::endl;
+        return 0;
     }
-    return 0;
+    return -1;
 }
