@@ -128,15 +128,11 @@ BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBas
 
 BYTE* peconv::pe_realign_raw_to_virtual(const PBYTE payload, size_t in_size, ULONGLONG loadBase, size_t &out_size)
 {
-    const bool rebuffer = true;
-    BYTE* out_buf = nullptr;
-    if (rebuffer) {
-        out_buf = (BYTE*)alloc_pe_buffer(in_size, PAGE_READWRITE);
-        if (!out_buf) return nullptr;
+    BYTE* out_buf = (BYTE*)alloc_pe_buffer(in_size, PAGE_READWRITE);
+    if (!out_buf) return nullptr;
 
-        memcpy(out_buf, payload, in_size);
-        out_size = in_size;
-    }
+    memcpy(out_buf, payload, in_size);
+    out_size = in_size;
 
     ULONGLONG oldBase = get_image_base(out_buf);
     bool isOk = true;
@@ -156,7 +152,6 @@ BYTE* peconv::pe_realign_raw_to_virtual(const PBYTE payload, size_t in_size, ULO
     //set raw alignment the same as virtual
     DWORD v_alignment = peconv::get_sec_alignment(payload, false);
     if (!peconv::set_sec_alignment(out_buf, true, v_alignment)) {
-        std::cerr << "[-] Could not chan section alignment!" << std::endl;
         isOk = false;
     }
     //set Raw pointers and sizes of the sections same as Virtual
@@ -169,7 +164,7 @@ BYTE* peconv::pe_realign_raw_to_virtual(const PBYTE payload, size_t in_size, ULO
         sec->PointerToRawData = sec->VirtualAddress;
     }
     //!---
-    if (rebuffer && !isOk) {
+    if (!isOk) {
         free_pe_buffer(out_buf, in_size);
         out_buf = nullptr;
         out_size = 0;
