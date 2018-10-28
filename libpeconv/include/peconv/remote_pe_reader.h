@@ -54,8 +54,6 @@ namespace peconv {
 
     DWORD get_remote_image_size(const HANDLE processHandle, BYTE *start_addr);
 
-    DWORD get_virtual_sec_size(const BYTE *pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr);
-
     //check if the PE in the memory is in raw format
     bool is_pe_raw(const BYTE* pe_buffer, size_t pe_size);
 

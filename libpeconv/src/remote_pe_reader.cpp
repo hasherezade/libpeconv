@@ -96,14 +96,6 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
     return module_code;
 }
 
-DWORD peconv::get_virtual_sec_size(const BYTE* pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr)
-{
-    if (!pe_hdr || !sec_hdr) {
-        return 0;
-    }
-    return sec_hdr->Misc.VirtualSize;
-}
-
 size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
 {
     if (buffer == nullptr) {
@@ -138,7 +130,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             break;
         }
         const DWORD sec_va = hdr->VirtualAddress;
-        const DWORD sec_vsize = get_virtual_sec_size(hdr_buffer, hdr);
+        const DWORD sec_vsize = get_virtual_sec_size(hdr_buffer, hdr, true);
         if (sec_va + sec_vsize > bufferSize) {
             std::cerr << "[-] No more space in the buffer!" << std::endl;
             break;
@@ -253,22 +245,27 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
 
 bool peconv::is_pe_raw(const BYTE* pe_buffer, size_t pe_size)
 {
+    const size_t v_align = peconv::get_sec_alignment((PBYTE)pe_buffer, false);
+
     //walk through sections and check their sizes
     size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
     if (sections_count == 0) return false;
+    for (size_t i = 0; i < sections_count; i++) {
+        PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
+        if (sec->PointerToRawData == 0 || sec->SizeOfRawData == 0) {
+            continue; // check next
+        }
+        if (sec->PointerToRawData >= v_align) continue;
 
-    PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, 0);
-    if (sec->PointerToRawData >= sec->VirtualAddress) return false;
-
-    size_t diff = sec->VirtualAddress - sec->PointerToRawData;
-
-    BYTE* sec_raw_ptr = (BYTE*)((ULONGLONG)pe_buffer + sec->PointerToRawData);
-    if (!peconv::validate_ptr((const LPVOID)pe_buffer, pe_size, sec_raw_ptr, diff)) {
-        return false;
-    }
-    if (!is_padding(sec_raw_ptr, diff, 0)) {
-        //this is not padding: non-zero content detected
-        return true;
+        size_t diff = v_align - sec->PointerToRawData;
+        BYTE* sec_raw_ptr = (BYTE*)((ULONGLONG)pe_buffer + sec->PointerToRawData);
+        if (!peconv::validate_ptr((const LPVOID)pe_buffer, pe_size, sec_raw_ptr, diff)) {
+            return false;
+        }
+        if (!is_padding(sec_raw_ptr, diff, 0)) {
+            //this is not padding: non-zero content detected
+            return true;
+        }
     }
     return false;
 }
@@ -291,7 +288,7 @@ bool peconv::is_section_expanded(const BYTE* pe_buffer, size_t pe_size, PIMAGE_S
 {
     if (!sec) return false;
 
-    size_t sec_vsize = peconv::get_virtual_sec_size(pe_buffer, sec);
+    size_t sec_vsize = peconv::get_virtual_sec_size(pe_buffer, sec, true);
     size_t sec_rsize = sec->SizeOfRawData;
 
     if (sec_rsize >= sec_vsize) return false;

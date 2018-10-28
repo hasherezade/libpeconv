@@ -160,6 +160,7 @@ BYTE* peconv::pe_realign_raw_to_virtual(const PBYTE payload, size_t in_size, ULO
         PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(out_buf, in_size, i);
         if (!sec) break;
 
+        sec->Misc.VirtualSize = peconv::get_virtual_sec_size(out_buf, sec, true);
         sec->SizeOfRawData = sec->Misc.VirtualSize;
         sec->PointerToRawData = sec->VirtualAddress;
     }

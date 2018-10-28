@@ -489,3 +489,28 @@ bool peconv::set_sec_alignment(PBYTE modulePtr, bool is_raw, DWORD new_alignment
     *alignment = new_alignment;
     return true;
 }
+
+DWORD peconv::get_virtual_sec_size(const BYTE* pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr, bool rounded)
+{
+    if (!pe_hdr || !sec_hdr) {
+        return 0;
+    }
+    if (!rounded) {
+        return sec_hdr->Misc.VirtualSize;;
+    }
+    //TODO: calculate real size, round up to Virtual Alignment
+    DWORD alignment = peconv::get_sec_alignment((const PBYTE)pe_hdr, false);
+    DWORD vsize = sec_hdr->Misc.VirtualSize;
+
+    DWORD units = vsize / alignment;
+    if ((vsize % alignment) > 0) units++;
+
+    vsize = units * alignment;
+
+    DWORD image_size = peconv::get_image_size(pe_hdr);
+    //if it is bigger than the image size, use the size from the headers
+    if ((sec_hdr->VirtualAddress + vsize) > image_size) {
+        vsize = sec_hdr->Misc.VirtualSize;
+    }
+    return vsize;
+}

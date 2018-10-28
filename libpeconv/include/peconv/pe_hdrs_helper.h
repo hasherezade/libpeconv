@@ -60,4 +60,6 @@ DWORD get_sec_alignment(const PBYTE modulePtr, bool is_raw);
 
 bool set_sec_alignment(PBYTE modulePtr, bool is_raw, DWORD new_alignment);
 
+DWORD get_virtual_sec_size(const BYTE* pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr, bool rounded);
+
 }; // namespace peconv
