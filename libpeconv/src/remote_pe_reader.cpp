@@ -96,12 +96,11 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
     return module_code;
 }
 
-DWORD peconv::get_virtual_sec_size(const BYTE *pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr)
+DWORD peconv::get_virtual_sec_size(const BYTE* pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr)
 {
     if (!pe_hdr || !sec_hdr) {
         return 0;
     }
-    //TODO: calculate real size, round up to Virtual Alignment
     return sec_hdr->Misc.VirtualSize;
 }
 
@@ -170,19 +169,16 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
 t_pe_dump_mode _detect_mode(BYTE* buffer, size_t mod_size)
 {
     t_pe_dump_mode dump_mode = peconv::PE_DUMP_UNMAPPED;
+    if (peconv::is_pe_raw(buffer, mod_size)) {
+        std::cout << "Mode set: Virtual (no unmap)" << std::endl;
+        return peconv::PE_DUMP_VIRTUAL;
+    }
     if (peconv::is_pe_expanded(buffer, mod_size)) {
-        dump_mode = peconv::PE_DUMP_REALIGNED;
-#ifdef _DEBUG
         std::cout << "Mode set: Realigned" << std::endl;
-#endif
+        return peconv::PE_DUMP_REALIGNED;
     }
-    else {
-        dump_mode = peconv::PE_DUMP_UNMAPPED;
-#ifdef _DEBUG
-        std::cout << "Mode set: Unmapped" << std::endl;
-#endif
-    }
-    return dump_mode;
+    std::cout << "Mode set: Unmapped" << std::endl;
+    return peconv::PE_DUMP_UNMAPPED;
 }
 
 bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE* start_addr, t_pe_dump_mode dump_mode, peconv::ExportsMapper* exportsMap)
@@ -253,6 +249,28 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
         peconv::free_pe_buffer(unmapped_module, mod_size);
     }
     return is_dumped;
+}
+
+bool peconv::is_pe_raw(const BYTE* pe_buffer, size_t pe_size)
+{
+    //walk through sections and check their sizes
+    size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
+    if (sections_count == 0) return false;
+
+    PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, 0);
+    if (sec->PointerToRawData >= sec->VirtualAddress) return false;
+
+    size_t diff = sec->VirtualAddress - sec->PointerToRawData;
+
+    BYTE* sec_raw_ptr = (BYTE*)((ULONGLONG)pe_buffer + sec->PointerToRawData);
+    if (!peconv::validate_ptr((const LPVOID)pe_buffer, pe_size, sec_raw_ptr, diff)) {
+        return false;
+    }
+    if (!is_padding(sec_raw_ptr, diff, 0)) {
+        //this is not padding: non-zero content detected
+        return true;
+    }
+    return false;
 }
 
 bool peconv::is_pe_expanded(const BYTE* pe_buffer, size_t pe_size)
