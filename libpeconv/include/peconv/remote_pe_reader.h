@@ -11,7 +11,8 @@ namespace peconv {
     typedef enum {
         PE_DUMP_VIRTUAL = 0, // dump as it is in the memory (virtual)
         PE_DUMP_UNMAPPED, // convert to the raw format: using raw sections' headers
-        PE_DUMP_REALIGNED //convert to the raw format: by realigning raw sections' headers to be the same as virtual (useful if the PE was unpacked in memory)
+        PE_DUMP_REALIGNED, //convert to the raw format: by realigning raw sections' headers to be the same as virtual (useful if the PE was unpacked in memory)
+        PE_DUMP_AUTO // autodetect which dump mode is the most suitable for the given input
     } t_pe_dump_mode;
 
     /**
@@ -47,10 +48,18 @@ namespace peconv {
     bool dump_remote_pe(const char *outputFilePath, 
                         const HANDLE processHandle, 
                         BYTE *moduleBase, 
-                        const t_pe_dump_mode dump_mode = PE_DUMP_UNMAPPED,
+                        t_pe_dump_mode dump_mode = PE_DUMP_UNMAPPED,
                         peconv::ExportsMapper* exportsMap = nullptr
                         );
 
     DWORD get_remote_image_size(const HANDLE processHandle, BYTE *start_addr);
+
+    DWORD get_virtual_sec_size(const BYTE *pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr);
+
+    //checks if the PE has sections that were unpacked in the memory
+    bool is_pe_expanded(const BYTE* pe_buffer, size_t pe_size);
+
+    //checks if the given section was unpacked in the memory
+    bool is_section_expanded(const BYTE* pe_buffer, size_t pe_size, PIMAGE_SECTION_HEADER sec);
 
 }; //namespace peconv

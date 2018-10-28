@@ -26,6 +26,7 @@ set (srcs
 	src/resource_util.cpp
 	src/imports_uneraser.cpp
 	src/caves.cpp
+	src/util.cpp
 )
 
 set (hdrs

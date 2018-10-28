@@ -96,6 +96,15 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
     return module_code;
 }
 
+DWORD peconv::get_virtual_sec_size(const BYTE *pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr)
+{
+    if (!pe_hdr || !sec_hdr) {
+        return 0;
+    }
+    //TODO: calculate real size, round up to Virtual Alignment
+    return sec_hdr->Misc.VirtualSize;
+}
+
 size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
 {
     if (buffer == nullptr) {
@@ -130,7 +139,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             break;
         }
         const DWORD sec_va = hdr->VirtualAddress;
-        const DWORD sec_vsize = hdr->Misc.VirtualSize; //TODO: round up to the Virtual Alignment
+        const DWORD sec_vsize = get_virtual_sec_size(hdr_buffer, hdr);
         if (sec_va + sec_vsize > bufferSize) {
             std::cerr << "[-] No more space in the buffer!" << std::endl;
             break;
@@ -158,7 +167,25 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
     return peconv::get_image_size(hdr_buffer);
 }
 
-bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE* start_addr, const t_pe_dump_mode dump_mode, peconv::ExportsMapper* exportsMap)
+t_pe_dump_mode _detect_mode(BYTE* buffer, size_t mod_size)
+{
+    t_pe_dump_mode dump_mode = peconv::PE_DUMP_UNMAPPED;
+    if (peconv::is_pe_expanded(buffer, mod_size)) {
+        dump_mode = peconv::PE_DUMP_REALIGNED;
+#ifdef _DEBUG
+        std::cout << "Mode set: Realigned" << std::endl;
+#endif
+    }
+    else {
+        dump_mode = peconv::PE_DUMP_UNMAPPED;
+#ifdef _DEBUG
+        std::cout << "Mode set: Unmapped" << std::endl;
+#endif
+    }
+    return dump_mode;
+}
+
+bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE* start_addr, t_pe_dump_mode dump_mode, peconv::ExportsMapper* exportsMap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
 #ifdef _DEBUG
@@ -188,6 +215,10 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
             DWORD pid = GetProcessId(processHandle);
             std::cerr << "[" << std::dec << pid << "] Unable to fix imports!" << std::endl;
         }
+    }
+
+    if (dump_mode == PE_DUMP_AUTO) {
+        dump_mode = _detect_mode(buffer, mod_size);
     }
 
     BYTE* dump_data = buffer;
@@ -223,3 +254,39 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
     }
     return is_dumped;
 }
+
+bool peconv::is_pe_expanded(const BYTE* pe_buffer, size_t pe_size)
+{
+    //walk through sections and check their sizes
+    size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
+    for (size_t i = 0; i < sections_count; i++) {
+        PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
+        //scan only executable sections
+        if ((sec->Characteristics & IMAGE_SCN_MEM_EXECUTE) != 0) {
+            if (is_section_expanded(pe_buffer, pe_size, sec)) return true;
+        }
+    }
+    return false;
+}
+
+bool peconv::is_section_expanded(const BYTE* pe_buffer, size_t pe_size, PIMAGE_SECTION_HEADER sec)
+{
+    if (!sec) return false;
+
+    size_t sec_vsize = peconv::get_virtual_sec_size(pe_buffer, sec);
+    size_t sec_rsize = sec->SizeOfRawData;
+
+    if (sec_rsize >= sec_vsize) return false;
+    size_t diff = sec_vsize - sec_rsize;
+
+    BYTE* sec_raw_end_ptr = (BYTE*)((ULONGLONG)pe_buffer + sec->VirtualAddress + sec_rsize);
+    if (!peconv::validate_ptr((const LPVOID)pe_buffer, pe_size, sec_raw_end_ptr, diff)) {
+        return false;
+    }
+    if (!is_padding(sec_raw_end_ptr, diff, 0)) {
+        //this is not padding: non-zero content detected
+        return true;
+    }
+    return false;
+}
+

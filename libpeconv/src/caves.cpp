@@ -1,5 +1,6 @@
 #include "peconv\caves.h"
 #include "peconv\pe_hdrs_helper.h"
+#include "peconv\util.h"
 
 using namespace peconv;
 
@@ -90,16 +91,6 @@ PBYTE peconv::find_alignment_cave(BYTE* modulePtr, size_t moduleSize, const DWOR
     return nullptr;
 }
 
-inline bool _check_bytes(BYTE *cave_ptr, size_t cave_size, BYTE padding)
-{
-    for (size_t i = 0; i < cave_size; i++) {
-        if (cave_ptr[i] != padding) {
-            return false;
-        }
-    }
-    return true;
-}
-
 PBYTE peconv::find_padding_cave(BYTE* modulePtr, size_t moduleSize, const size_t minimal_size, const DWORD req_charact)
 {
     size_t sec_count = peconv::get_sections_count(modulePtr, moduleSize);
@@ -128,12 +119,12 @@ PBYTE peconv::find_padding_cave(BYTE* modulePtr, size_t moduleSize, const size_t
             continue;
         }
         bool found = false;
-        if (_check_bytes(cave_ptr, minimal_size, 0)) {
+        if (is_padding(cave_ptr, minimal_size, 0)) {
             found = true;
         }
         //if the section is code, check also code padding:
         if (section_hdr->Characteristics & IMAGE_SCN_MEM_EXECUTE) {
-            if (_check_bytes(cave_ptr, minimal_size, 0xCC)) {
+            if (is_padding(cave_ptr, minimal_size, 0xCC)) {
                 found = true;
             }
         }
