@@ -12,7 +12,8 @@ namespace peconv {
         PE_DUMP_AUTO = 0,// autodetect which dump mode is the most suitable for the given input
         PE_DUMP_VIRTUAL, // dump as it is in the memory (virtual)
         PE_DUMP_UNMAPPED, // convert to the raw format: using raw sections' headers
-        PE_DUMP_REALIGNED //convert to the raw format: by realigning raw sections' headers to be the same as virtual (useful if the PE was unpacked in memory)
+        PE_DUMP_REALIGNED, //convert to the raw format: by realigning raw sections' headers to be the same as virtual (useful if the PE was unpacked in memory)
+        PE_DUMP_MODES_COUNT
     } t_pe_dump_mode;
 
     /**
