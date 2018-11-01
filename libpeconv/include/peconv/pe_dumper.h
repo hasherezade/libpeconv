@@ -13,10 +13,9 @@ namespace peconv {
         PE_DUMP_MODES_COUNT
     } t_pe_dump_mode;
 
-
     /**
     Dumps PE from the fiven buffer into a file. It expects the module base and size to be given.
-    dump_mode: specifies in which format the PE should be dumped. Default: PE_DUMP_UNMAPPED
+    dump_mode: specifies in which format the PE should be dumped. Default: PE_DUMP_AUTO
     exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
     */
     bool dump_pe(const char *outputFilePath,
