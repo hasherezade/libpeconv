@@ -107,21 +107,32 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
         return 0;
     }
     
+    //first try to read the continuous memory area:
+    size_t read_size = read_remote_memory(processHandle, start_addr, buffer, mod_size);
+    if (read_size == mod_size) {
+        //ok, read full at once:
+        return mod_size;
+    }
+    
+    //if not possible to read full module at once, try to read it section by section:
+
     PBYTE hdr_buffer = buffer;
-    if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
-        std::cerr << "[-] Failed to read the module header" << std::endl;
-        return 0;
+    if (read_size < MAX_HEADER_SIZE) {
+        //try to read headers:
+        if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
+            std::cerr << "[-] Failed to read the module header" << std::endl;
+            return 0;
+        }
     }
     if (!is_valid_sections_hdr(hdr_buffer, MAX_HEADER_SIZE)) {
         std::cerr << "[-] Sections headers are invalid or atypically aligned" << std::endl;
         return 0;
     }
-    //if not possible to read full module at once, try to read it section by section:
     size_t sections_count = get_sections_count(hdr_buffer, MAX_HEADER_SIZE);
 #ifdef _DEBUG
     std::cout << "Sections: " << sections_count  << std::endl;
 #endif
-    size_t read_size = MAX_HEADER_SIZE;
+    read_size = MAX_HEADER_SIZE;
 
     for (size_t i = 0; i < sections_count; i++) {
         PIMAGE_SECTION_HEADER hdr = get_section_hdr(hdr_buffer, MAX_HEADER_SIZE, i);
@@ -173,6 +184,52 @@ t_pe_dump_mode _detect_mode(BYTE* buffer, size_t mod_size)
     return peconv::PE_DUMP_UNMAPPED;
 }
 
+bool peconv::dump_pe(const char *out_path,
+    BYTE *buffer, size_t mod_size,
+    ULONGLONG start_addr,
+    t_pe_dump_mode dump_mode,
+    peconv::ExportsMapper* exportsMap
+)
+{
+    // if the exportsMap is supplied, attempt to recover the (destroyed) import table:
+    if (exportsMap != nullptr) {
+        if (!peconv::fix_imports(buffer, mod_size, *exportsMap)) {
+            std::cerr << "Unable to fix imports!" << std::endl;
+        }
+    }
+    if (dump_mode == PE_DUMP_AUTO) {
+        dump_mode = _detect_mode(buffer, mod_size);
+    }
+
+    BYTE* dump_data = buffer;
+    size_t dump_size = mod_size;
+    size_t out_size = 0;
+    BYTE* unmapped_module = nullptr;
+
+    if (dump_mode == peconv::PE_DUMP_UNMAPPED || dump_mode == peconv::PE_DUMP_REALIGNED) {
+        //if the image base in headers is invalid, set the current base and prevent from relocating PE:
+        if (peconv::get_image_base(buffer) == 0) {
+            peconv::update_image_base(buffer, (ULONGLONG)start_addr);
+        }
+        if (dump_mode == peconv::PE_DUMP_UNMAPPED) {
+            unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
+        }
+        else if (dump_mode == peconv::PE_DUMP_REALIGNED) {
+            unmapped_module = peconv::pe_realign_raw_to_virtual(buffer, mod_size, (ULONGLONG)start_addr, out_size);
+        }
+        // unmap the PE file (convert from the Virtual Format into Raw Format)
+        if (unmapped_module) {
+            dump_data = unmapped_module;
+            dump_size = out_size;
+        }
+    }
+    // save the read module into a file
+    bool is_dumped = dump_to_file(out_path, dump_data, dump_size);
+
+    peconv::free_pe_buffer(unmapped_module, mod_size);
+    return is_dumped;
+}
+
 bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE* start_addr, t_pe_dump_mode dump_mode, peconv::ExportsMapper* exportsMap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
@@ -197,49 +254,13 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
         return false;
     }
 
-    // if the exportsMap is supplied, attempt to recover the (destroyed) import table:
-    if (exportsMap != nullptr) {
-        if (!peconv::fix_imports(buffer, mod_size, *exportsMap)) {
-            DWORD pid = GetProcessId(processHandle);
-            std::cerr << "[" << std::dec << pid << "] Unable to fix imports!" << std::endl;
-        }
-    }
-
-    if (dump_mode == PE_DUMP_AUTO) {
-        dump_mode = _detect_mode(buffer, mod_size);
-    }
-
-    BYTE* dump_data = buffer;
-    size_t dump_size = mod_size;
-    size_t out_size = 0;
-    BYTE* unmapped_module = nullptr;
-
-    if (dump_mode == peconv::PE_DUMP_UNMAPPED || dump_mode == peconv::PE_DUMP_REALIGNED) {
-        //if the image base in headers is invalid, set the current base and prevent from relocating PE:
-        if (peconv::get_image_base(buffer) == 0) {
-            peconv::update_image_base(buffer, (ULONGLONG)start_addr);
-        }
-        if (dump_mode == peconv::PE_DUMP_UNMAPPED) {
-            unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
-        }
-        else if (dump_mode == peconv::PE_DUMP_REALIGNED) {
-            unmapped_module = peconv::pe_realign_raw_to_virtual(buffer, mod_size, (ULONGLONG)start_addr, out_size);
-        }
-         // unmap the PE file (convert from the Virtual Format into Raw Format)
-        if (unmapped_module) {
-            dump_data = unmapped_module;
-            dump_size = out_size;
-        }
-    }
-    // save the read module into a file
-    bool is_dumped = dump_to_file(out_path, dump_data, dump_size);
+    bool is_dumped = peconv::dump_pe(out_path,
+        buffer, mod_size,
+        reinterpret_cast<ULONGLONG>(start_addr),
+        dump_mode, exportsMap);
 
     peconv::free_pe_buffer(buffer, mod_size);
     buffer = nullptr;
-
-    if (unmapped_module) {
-        peconv::free_pe_buffer(unmapped_module, mod_size);
-    }
     return is_dumped;
 }
 

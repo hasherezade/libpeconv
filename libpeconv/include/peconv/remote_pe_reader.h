@@ -42,6 +42,18 @@ namespace peconv {
     size_t read_remote_pe(const HANDLE processHandle, BYTE *moduleBase, const size_t moduleSize, OUT BYTE* buffer, const size_t bufferSize);
 
     /**
+    Dumps PE from the fiven buffer into a file. It expects the module base and size to be given.
+    dump_mode: specifies in which format the PE should be dumped. Default: PE_DUMP_UNMAPPED
+    exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
+    */
+    bool dump_pe(const char *outputFilePath,
+        BYTE *pe_buffer, size_t pe_size,
+        ULONGLONG moduleBase,
+        t_pe_dump_mode dump_mode = PE_DUMP_UNMAPPED,
+        peconv::ExportsMapper* exportsMap = nullptr
+    );
+
+    /**
     Dumps PE from the remote process into a file. It expects the module base and size to be given.
     dump_mode: specifies in which format the PE should be dumped. Default: PE_DUMP_UNMAPPED
     exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
