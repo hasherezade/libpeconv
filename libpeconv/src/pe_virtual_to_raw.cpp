@@ -126,7 +126,7 @@ BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBas
     return out_buf;
 }
 
-BYTE* peconv::pe_realign_raw_to_virtual(const PBYTE payload, size_t in_size, ULONGLONG loadBase, size_t &out_size)
+BYTE* peconv::pe_realign_raw_to_virtual(const BYTE* payload, size_t in_size, ULONGLONG loadBase, size_t &out_size)
 {
     BYTE* out_buf = (BYTE*)alloc_pe_buffer(in_size, PAGE_READWRITE);
     if (!out_buf) return nullptr;
@@ -150,7 +150,7 @@ BYTE* peconv::pe_realign_raw_to_virtual(const PBYTE payload, size_t in_size, ULO
     }
     //---
     //set raw alignment the same as virtual
-    DWORD v_alignment = peconv::get_sec_alignment(payload, false);
+    DWORD v_alignment = peconv::get_sec_alignment((const PBYTE)payload, false);
     if (!peconv::set_sec_alignment(out_buf, true, v_alignment)) {
         isOk = false;
     }
