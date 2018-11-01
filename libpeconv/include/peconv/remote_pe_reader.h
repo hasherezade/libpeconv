@@ -5,16 +5,9 @@
 #include "pe_hdrs_helper.h"
 #include "pe_virtual_to_raw.h"
 #include "exports_mapper.h"
+#include "pe_dumper.h"
 
 namespace peconv {
-
-    typedef enum {
-        PE_DUMP_AUTO = 0,// autodetect which dump mode is the most suitable for the given input
-        PE_DUMP_VIRTUAL, // dump as it is in the memory (virtual)
-        PE_DUMP_UNMAPPED, // convert to the raw format: using raw sections' headers
-        PE_DUMP_REALIGNED, //convert to the raw format: by realigning raw sections' headers to be the same as virtual (useful if the PE was unpacked in memory)
-        PE_DUMP_MODES_COUNT
-    } t_pe_dump_mode;
 
     /**
     Wrapper over ReadProcessMemory. If reading full buffer_size was not possible, it will keep trying to read smaller chunk,
@@ -41,17 +34,6 @@ namespace peconv {
     */
     size_t read_remote_pe(const HANDLE processHandle, BYTE *moduleBase, const size_t moduleSize, OUT BYTE* buffer, const size_t bufferSize);
 
-    /**
-    Dumps PE from the fiven buffer into a file. It expects the module base and size to be given.
-    dump_mode: specifies in which format the PE should be dumped. Default: PE_DUMP_UNMAPPED
-    exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
-    */
-    bool dump_pe(const char *outputFilePath,
-        BYTE *pe_buffer, size_t pe_size,
-        ULONGLONG moduleBase,
-        t_pe_dump_mode dump_mode = PE_DUMP_UNMAPPED,
-        peconv::ExportsMapper* exportsMap = nullptr
-    );
 
     /**
     Dumps PE from the remote process into a file. It expects the module base and size to be given.
@@ -66,14 +48,5 @@ namespace peconv {
                         );
 
     DWORD get_remote_image_size(const HANDLE processHandle, BYTE *start_addr);
-
-    //check if the PE in the memory is in raw format
-    bool is_pe_raw(const BYTE* pe_buffer, size_t pe_size);
-
-    //checks if the PE has sections that were unpacked in the memory
-    bool is_pe_expanded(const BYTE* pe_buffer, size_t pe_size);
-
-    //checks if the given section was unpacked in the memory
-    bool is_section_expanded(const BYTE* pe_buffer, size_t pe_size, PIMAGE_SECTION_HEADER sec);
 
 }; //namespace peconv
