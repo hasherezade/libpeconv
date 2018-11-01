@@ -43,7 +43,7 @@ namespace peconv {
     bool dump_remote_pe(const char *outputFilePath, 
                         const HANDLE processHandle, 
                         BYTE *moduleBase, 
-                        t_pe_dump_mode dump_mode = PE_DUMP_UNMAPPED,
+                        t_pe_dump_mode dump_mode = PE_DUMP_AUTO,
                         peconv::ExportsMapper* exportsMap = nullptr
                         );
 

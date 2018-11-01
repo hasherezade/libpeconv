@@ -8,8 +8,8 @@ namespace peconv {
     typedef enum {
         PE_DUMP_AUTO = 0,// autodetect which dump mode is the most suitable for the given input
         PE_DUMP_VIRTUAL, // dump as it is in the memory (virtual)
-        PE_DUMP_UNMAPPED, // convert to the raw format: using raw sections' headers
-        PE_DUMP_REALIGNED, //convert to the raw format: by realigning raw sections' headers to be the same as virtual (useful if the PE was unpacked in memory)
+        PE_DUMP_UNMAP, // convert to the raw format: using raw sections' headers
+        PE_DUMP_REALIGN, //convert to the raw format: by realigning raw sections' headers to be the same as virtual (useful if the PE was unpacked in memory)
         PE_DUMP_MODES_COUNT
     } t_pe_dump_mode;
 
@@ -22,7 +22,7 @@ namespace peconv {
     bool dump_pe(const char *outputFilePath,
         BYTE *pe_buffer, size_t pe_size,
         ULONGLONG moduleBase,
-        t_pe_dump_mode dump_mode = PE_DUMP_UNMAPPED,
+        t_pe_dump_mode dump_mode = PE_DUMP_AUTO,
         peconv::ExportsMapper* exportsMap = nullptr
     );
 

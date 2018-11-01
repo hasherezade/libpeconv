@@ -12,17 +12,17 @@ using namespace peconv;
 
 t_pe_dump_mode _detect_mode(BYTE* buffer, size_t mod_size)
 {
-    t_pe_dump_mode dump_mode = peconv::PE_DUMP_UNMAPPED;
+    t_pe_dump_mode dump_mode = peconv::PE_DUMP_UNMAP;
     if (peconv::is_pe_raw(buffer, mod_size)) {
         std::cout << "Mode set: Virtual (no unmap)" << std::endl;
         return peconv::PE_DUMP_VIRTUAL;
     }
     if (peconv::is_pe_expanded(buffer, mod_size)) {
         std::cout << "Mode set: Realigned" << std::endl;
-        return peconv::PE_DUMP_REALIGNED;
+        return peconv::PE_DUMP_REALIGN;
     }
     std::cout << "Mode set: Unmapped" << std::endl;
-    return peconv::PE_DUMP_UNMAPPED;
+    return peconv::PE_DUMP_UNMAP;
 }
 
 bool peconv::dump_pe(const char *out_path,
@@ -47,15 +47,15 @@ bool peconv::dump_pe(const char *out_path,
     size_t out_size = 0;
     BYTE* unmapped_module = nullptr;
 
-    if (dump_mode == peconv::PE_DUMP_UNMAPPED || dump_mode == peconv::PE_DUMP_REALIGNED) {
+    if (dump_mode == peconv::PE_DUMP_UNMAP || dump_mode == peconv::PE_DUMP_REALIGN) {
         //if the image base in headers is invalid, set the current base and prevent from relocating PE:
         if (peconv::get_image_base(buffer) == 0) {
             peconv::update_image_base(buffer, (ULONGLONG)start_addr);
         }
-        if (dump_mode == peconv::PE_DUMP_UNMAPPED) {
+        if (dump_mode == peconv::PE_DUMP_UNMAP) {
             unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
         }
-        else if (dump_mode == peconv::PE_DUMP_REALIGNED) {
+        else if (dump_mode == peconv::PE_DUMP_REALIGN) {
             unmapped_module = peconv::pe_realign_raw_to_virtual(buffer, mod_size, (ULONGLONG)start_addr, out_size);
         }
         // unmap the PE file (convert from the Virtual Format into Raw Format)
