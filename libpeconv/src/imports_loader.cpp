@@ -164,7 +164,7 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
             break;
         }
         LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
-        if (!peconv::validate_ptr(modulePtr, moduleSize, lib_name, 1)) return false;
+        if (!peconv::validate_ptr(modulePtr, moduleSize, lib_name, sizeof(char))) return false;
 
         DWORD call_via = lib_desc->FirstThunk;
         DWORD thunk_addr = lib_desc->OriginalFirstThunk;
