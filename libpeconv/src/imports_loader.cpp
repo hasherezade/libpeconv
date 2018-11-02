@@ -141,3 +141,42 @@ bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
     }
     return isAllFilled;
 }
+
+bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
+{
+    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+    if (importsDir == NULL) return false;
+
+    DWORD maxSize = importsDir->Size;
+    DWORD impAddr = importsDir->VirtualAddress;
+
+    IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;
+    bool isAllFilled = true;
+    DWORD parsedSize = 0;
+
+    size_t valid_records = 0;
+
+    while (parsedSize < maxSize) {
+        lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR)modulePtr);
+        parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
+
+        if (lib_desc->OriginalFirstThunk == NULL && lib_desc->FirstThunk == NULL) {
+            break;
+        }
+        LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
+        if (!peconv::validate_ptr(modulePtr, moduleSize, lib_name, sizeof(char))) return false;
+
+        DWORD call_via = lib_desc->FirstThunk;
+        DWORD thunk_addr = lib_desc->OriginalFirstThunk;
+        if (thunk_addr == NULL) thunk_addr = lib_desc->FirstThunk;
+
+        DWORD *thunks = (DWORD*)((ULONGLONG)modulePtr + thunk_addr);
+        if (!peconv::validate_ptr(modulePtr, moduleSize, thunks, sizeof(DWORD))) return false;
+
+        DWORD *callers = (DWORD*)((ULONGLONG)modulePtr + call_via);
+        if (!peconv::validate_ptr(modulePtr, moduleSize, callers, sizeof(DWORD))) return false;
+        valid_records++;
+    }
+
+    return (valid_records > 0);
+}
