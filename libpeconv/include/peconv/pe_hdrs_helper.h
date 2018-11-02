@@ -62,4 +62,7 @@ bool set_sec_alignment(PBYTE modulePtr, bool is_raw, DWORD new_alignment);
 
 DWORD get_virtual_sec_size(const BYTE* pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr, bool rounded);
 
+//calculate full PE size (raw or virtual) using information from sections' headers. WARNING: it drops overlay.
+DWORD calc_pe_size(const PBYTE buffer, size_t buffer_size, bool is_raw);
+
 }; // namespace peconv
