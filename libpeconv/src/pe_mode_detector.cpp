@@ -40,6 +40,9 @@ bool is_virtual_padding(const BYTE* pe_buffer, size_t pe_size)
         if (is_padding(sec1_end_ptr, diff, 0)) {
             is_valid_padding = true;
         }
+        else {
+            return false;
+        }
     }
     return is_valid_padding;
 }
