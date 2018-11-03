@@ -142,6 +142,24 @@ bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
     return isAllFilled;
 }
 
+// A valid name must contain printable characters. Empty name is also acceptable (may have been erased)
+bool is_valid_name(const PBYTE modulePtr, size_t moduleSize, LPSTR lib_name)
+{
+    while (true) {
+        if (!peconv::validate_ptr(modulePtr, moduleSize, lib_name, sizeof(char))) {
+            return false;
+        }
+        char next_char = *lib_name;
+        if (next_char == '\0') break;
+
+        if (next_char <= 0x20 || next_char >= 0x7E) {
+            return false;
+        }
+        lib_name++;
+    }
+    return true;
+}
+
 bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
 {
     IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
@@ -158,13 +176,16 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
 
     while (parsedSize < maxSize) {
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR)modulePtr);
+        if (!peconv::validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
+            return false;
+        }
         parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
 
         if (lib_desc->OriginalFirstThunk == NULL && lib_desc->FirstThunk == NULL) {
             break;
         }
         LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
-        if (!peconv::validate_ptr(modulePtr, moduleSize, lib_name, sizeof(char))) return false;
+        if (!is_valid_name(modulePtr, moduleSize, lib_name)) return false;
 
         DWORD call_via = lib_desc->FirstThunk;
         DWORD thunk_addr = lib_desc->OriginalFirstThunk;
@@ -175,6 +196,7 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
 
         DWORD *callers = (DWORD*)((ULONGLONG)modulePtr + call_via);
         if (!peconv::validate_ptr(modulePtr, moduleSize, callers, sizeof(DWORD))) return false;
+
         valid_records++;
     }
 
