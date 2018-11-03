@@ -124,3 +124,35 @@ bool peconv::relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBa
 #endif
     return false;
 }
+
+bool peconv::has_valid_relocation_table(const PBYTE modulePtr, size_t moduleSize)
+{
+    IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
+    if (!relocDir || !validate_ptr(modulePtr, moduleSize, relocDir, sizeof(IMAGE_DATA_DIRECTORY))) {
+        return false;
+    }
+    const DWORD maxSize = relocDir->Size;
+    const DWORD relocAddr = relocDir->VirtualAddress;
+
+    DWORD parsedSize = 0;
+    while (parsedSize < maxSize) {
+        IMAGE_BASE_RELOCATION* reloc = (IMAGE_BASE_RELOCATION*)(relocAddr + parsedSize + (ULONG_PTR)modulePtr);
+        if (!validate_ptr(modulePtr, moduleSize, reloc, sizeof(IMAGE_BASE_RELOCATION))) {
+            return false;
+        }
+        parsedSize += reloc->SizeOfBlock;
+
+        if (reloc->VirtualAddress == NULL || reloc->SizeOfBlock == 0) {
+            break;
+        }
+
+        size_t entriesNum = (reloc->SizeOfBlock - 2 * sizeof(DWORD)) / sizeof(WORD);
+        DWORD page = reloc->VirtualAddress;
+
+        BASE_RELOCATION_ENTRY* block = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)reloc + sizeof(DWORD) + sizeof(DWORD));
+        if (!validate_ptr(modulePtr, moduleSize, block, sizeof(BASE_RELOCATION_ENTRY))) {
+            return false;
+        }
+    }
+    return (parsedSize != 0);
+}

@@ -10,4 +10,6 @@ namespace peconv {
 */
 bool relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase=NULL);
 
+bool has_valid_relocation_table(const PBYTE modulePtr, size_t moduleSize);
+
 };//namespace peconv
