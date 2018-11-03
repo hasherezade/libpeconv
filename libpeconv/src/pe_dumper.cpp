@@ -10,7 +10,7 @@
 
 using namespace peconv;
 
-t_pe_dump_mode _detect_mode(BYTE* buffer, size_t mod_size)
+t_pe_dump_mode peconv::detect_dump_mode(const BYTE * buffer, size_t mod_size)
 {
     t_pe_dump_mode dump_mode = peconv::PE_DUMP_UNMAP;
     if (peconv::is_pe_raw(buffer, mod_size)) {
@@ -18,16 +18,16 @@ t_pe_dump_mode _detect_mode(BYTE* buffer, size_t mod_size)
         return peconv::PE_DUMP_VIRTUAL;
     }
     if (peconv::is_pe_expanded(buffer, mod_size)) {
-        std::cout << "Mode set: Realigned" << std::endl;
+        std::cout << "Mode set: Realign" << std::endl;
         return peconv::PE_DUMP_REALIGN;
     }
-    std::cout << "Mode set: Unmapped" << std::endl;
+    std::cout << "Mode set: Unmap" << std::endl;
     return peconv::PE_DUMP_UNMAP;
 }
 
 bool peconv::dump_pe(const char *out_path,
     BYTE *buffer, size_t mod_size,
-    ULONGLONG start_addr,
+    const ULONGLONG start_addr,
     t_pe_dump_mode dump_mode,
     peconv::ExportsMapper* exportsMap
 )
@@ -39,7 +39,7 @@ bool peconv::dump_pe(const char *out_path,
         }
     }
     if (dump_mode == PE_DUMP_AUTO) {
-        dump_mode = _detect_mode(buffer, mod_size);
+        dump_mode = detect_dump_mode(buffer, mod_size);
     }
 
     BYTE* dump_data = buffer;
