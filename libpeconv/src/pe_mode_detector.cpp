@@ -1,9 +1,10 @@
 #include "peconv/pe_mode_detector.h"
 #include "peconv/util.h"
 #include "peconv/imports_loader.h"
+#include "peconv/relocate.h"
 
 #ifdef _DEBUG
-    #include <iostream>
+#include <iostream>
 #endif
 
 // Check if gaps between sections are typical for Virtual Alignment.
@@ -84,6 +85,12 @@ bool peconv::is_pe_raw(const BYTE* pe_buffer, size_t pe_size)
     if (peconv::has_valid_import_table((const PBYTE)pe_buffer, pe_size)) {
 #ifdef _DEBUG
         std::cout << "Valid Import Table found" << std::endl;
+#endif
+        v_score++;
+    }
+    if (peconv::has_valid_relocation_table((const PBYTE)pe_buffer, pe_size)) {
+#ifdef _DEBUG
+        std::cout << "Valid Relocations Table found" << std::endl;
 #endif
         v_score++;
     }
