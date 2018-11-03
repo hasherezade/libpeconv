@@ -169,7 +169,7 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
     return peconv::get_image_size(hdr_buffer);
 }
 
-bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE* start_addr, t_pe_dump_mode dump_mode, peconv::ExportsMapper* exportsMap)
+bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE* start_addr, t_pe_dump_mode &dump_mode, peconv::ExportsMapper* exportsMap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
 #ifdef _DEBUG
@@ -181,7 +181,7 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
     
     BYTE* buffer = peconv::alloc_pe_buffer(mod_size, PAGE_READWRITE);
     if (buffer == nullptr) {
-        std::cerr << "Failed allocating buffer. Error: " << GetLastError() << std::endl;
+        std::cerr << "[-] Failed allocating buffer. Error: " << GetLastError() << std::endl;
         return false;
     }
     size_t read_size = 0;
@@ -193,7 +193,7 @@ bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BY
         return false;
     }
 
-    bool is_dumped = peconv::dump_pe(out_path,
+    const bool is_dumped = peconv::dump_pe(out_path,
         buffer, mod_size,
         reinterpret_cast<ULONGLONG>(start_addr),
         dump_mode, exportsMap);

@@ -14,28 +14,25 @@ t_pe_dump_mode peconv::detect_dump_mode(const BYTE * buffer, size_t mod_size)
 {
     t_pe_dump_mode dump_mode = peconv::PE_DUMP_UNMAP;
     if (peconv::is_pe_raw(buffer, mod_size)) {
-        std::cout << "Mode set: Virtual (no unmap)" << std::endl;
         return peconv::PE_DUMP_VIRTUAL;
     }
     if (peconv::is_pe_expanded(buffer, mod_size)) {
-        std::cout << "Mode set: Realign" << std::endl;
         return peconv::PE_DUMP_REALIGN;
     }
-    std::cout << "Mode set: Unmap" << std::endl;
     return peconv::PE_DUMP_UNMAP;
 }
 
 bool peconv::dump_pe(const char *out_path,
     BYTE *buffer, size_t mod_size,
     const ULONGLONG start_addr,
-    t_pe_dump_mode dump_mode,
+    t_pe_dump_mode &dump_mode,
     peconv::ExportsMapper* exportsMap
 )
 {
     // if the exportsMap is supplied, attempt to recover the (destroyed) import table:
     if (exportsMap != nullptr) {
         if (!peconv::fix_imports(buffer, mod_size, *exportsMap)) {
-            std::cerr << "Unable to fix imports!" << std::endl;
+            std::cerr << "[-] Unable to fix imports!" << std::endl;
         }
     }
     if (dump_mode == PE_DUMP_AUTO) {
@@ -65,7 +62,7 @@ bool peconv::dump_pe(const char *out_path,
         }
     }
     // save the read module into a file
-    bool is_dumped = dump_to_file(out_path, dump_data, dump_size);
+    const bool is_dumped = dump_to_file(out_path, dump_data, dump_size);
 
     peconv::free_pe_buffer(unmapped_module, mod_size);
     return is_dumped;
