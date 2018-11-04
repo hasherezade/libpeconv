@@ -35,7 +35,7 @@ bool peconv::dump_pe(const char *out_path,
             std::cerr << "[-] Unable to fix imports!" << std::endl;
         }
     }
-    if (dump_mode == PE_DUMP_AUTO) {
+    if (dump_mode == PE_DUMP_AUTO || dump_mode >= PE_DUMP_MODES_COUNT) {
         dump_mode = detect_dump_mode(buffer, mod_size);
     }
 
