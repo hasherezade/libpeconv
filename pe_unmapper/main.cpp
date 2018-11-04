@@ -118,13 +118,13 @@ int main(int argc, char *argv[])
         else if (!strcmp(argv[i], PARAM_REALIGN_RAW)) {
             params.realign_raw = true;
         }
-        else if (!strcmp(argv[i], PARAM_OUT_FILE) && i < argc) {
+        else if (!strcmp(argv[i], PARAM_OUT_FILE) && (i + 1) < argc) {
             params.out_file = argv[i + 1];
         }
-        else if (!strcmp(argv[i], PARAM_IN_FILE) && i < argc) {
+        else if (!strcmp(argv[i], PARAM_IN_FILE) && (i + 1) < argc) {
             params.in_file = argv[i + 1];
         }
-        else if (!strcmp(argv[i], PARAM_BASE) && i < argc) {
+        else if (!strcmp(argv[i], PARAM_BASE) && (i + 1) < argc) {
             ULONGLONG loadBase = 0;
             if (sscanf(argv[i + 1], "%llX", &loadBase) == 0) {
                 sscanf(argv[i + 1], "%#llX", &loadBase);
