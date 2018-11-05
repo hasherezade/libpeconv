@@ -13,21 +13,21 @@ namespace peconv {
     Automatically allocates buffer of the needed size (the size is returned in outputSize). The buffer can be freed by the function free_pe_module.
     */
     BYTE* pe_virtual_to_raw(
-        _In_reads_bytes_(in_size) BYTE* payload, 
-        _In_ size_t in_size,
-        _In_ ULONGLONG loadBase,
-        _Out_ size_t &outputSize,
-        _In_opt_ bool rebuffer=true
+        IN BYTE* payload,
+        IN size_t in_size,
+        IN ULONGLONG loadBase,
+        OUT size_t &outputSize,
+        IN OPTIONAL bool rebuffer=true
     );
 
     /*
     Modifies raw alignment of the PE to be the same as virtual alignment.
     */
     BYTE* pe_realign_raw_to_virtual(
-        _In_reads_bytes_(in_size) const BYTE* payload, 
-        _In_ size_t in_size,
-        _In_ ULONGLONG loadBase,
-        _Out_ size_t &outputSize
+        IN const BYTE* payload,
+        IN size_t in_size,
+        IN ULONGLONG loadBase,
+        OUT size_t &outputSize
     );
 
 };//namespace peconv
