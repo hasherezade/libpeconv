@@ -41,10 +41,10 @@ namespace peconv {
     exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
     */
     bool dump_remote_pe(const char *outputFilePath, 
-                        _In_ const HANDLE processHandle, 
-                        _In_ BYTE *moduleBase, 
-                        _Inout_ t_pe_dump_mode &dump_mode,
-                        _In_opt_ peconv::ExportsMapper* exportsMap = nullptr
+                        IN const HANDLE processHandle, 
+                        IN BYTE *moduleBase, 
+                        IN OUT t_pe_dump_mode &dump_mode,
+                        IN OPTIONAL peconv::ExportsMapper* exportsMap = nullptr
                         );
 
     DWORD get_remote_image_size(const HANDLE processHandle, BYTE *start_addr);
