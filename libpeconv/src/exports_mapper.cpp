@@ -111,18 +111,21 @@ bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const
     DWORD funcNamesListRVA = exp->AddressOfNames;
     DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
 
-    DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + sizeof(DWORD));
-    WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + sizeof(WORD));
-    DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
-
+    DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*)modulePtr + sizeof(DWORD));
+    WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*)modulePtr + sizeof(WORD));
     if ((!peconv::validate_ptr(modulePtr, module_size, nameRVA, sizeof(DWORD)))
-        || (!peconv::validate_ptr(modulePtr, module_size, nameIndex, sizeof(WORD)))
-        || (!peconv::validate_ptr(modulePtr, module_size, funcRVA, sizeof(DWORD))))
+        || (!peconv::validate_ptr(modulePtr, module_size, nameIndex, sizeof(WORD))))
+    {
+        return false;
+    }
+    DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + (*nameIndex) * sizeof(DWORD));
+    if (!peconv::validate_ptr(modulePtr, module_size, funcRVA, sizeof(DWORD)))
     {
         return false;
     }
     return true;
 }
+
 
 size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
 {
