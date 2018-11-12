@@ -19,7 +19,7 @@ peconv::ALIGNED_BUF peconv::load_resource_data(OUT size_t &out_size, int res_id,
     if (hInstance == nullptr) {
         hInstance = GetModuleHandleA(NULL);
     }
-    HRSRC res = FindResourceA(hInstance, MAKEINTRESOURCE(res_id), res_type);
+    HRSRC res = FindResourceA(hInstance, MAKEINTRESOURCEA(res_id), res_type);
     if (!res) {
 #ifdef _DEBUG
         std::cerr << "Cannot find resource" << std::endl;
