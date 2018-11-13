@@ -67,10 +67,11 @@ bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, Imported
 
 template <typename FIELD_T>
 bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
-                      LPVOID call_via_ptr,
-                      const FIELD_T ordinal_flag,
-                      std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
-                      )
+    LPVOID call_via_ptr,
+    LPVOID thunk_ptr,
+    const FIELD_T ordinal_flag,
+    std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
+)
 {
     if (call_via_ptr == NULL || modulePtr == NULL || lib_desc == NULL) {
         return false; //malformed input
@@ -111,7 +112,7 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
 #endif
         PIMAGE_IMPORT_BY_NAME imp_field = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(name_offset - sizeof(WORD)); // substract the size of Hint
         //TODO: validate more...
-        memcpy(call_via_ptr, &imp_field, sizeof(FIELD_T));
+        memcpy(thunk_ptr, &imp_field, sizeof(FIELD_T));
 #ifdef _DEBUG
         std::cout << "[+] Wrote found to offset: " << std::hex << call_via_ptr << std::endl;
 #endif
@@ -124,7 +125,7 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         std::cout << "[+] Filling ordinal: " << lastOrdinal << std::endl;
 #endif
         FIELD_T ord_thunk = lastOrdinal | ordinal_flag;
-        memcpy(call_via_ptr, &ord_thunk, sizeof(FIELD_T)); 
+        memcpy(thunk_ptr, &ord_thunk, sizeof(FIELD_T)); 
         is_name_saved = true;
     }
     return is_name_saved;
@@ -210,7 +211,7 @@ bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
 #endif
         bool is_name_saved = writeFoundFunction<FIELD_T, IMAGE_THUNK_DATA_T>(desc, ordinal_flag, *funcname_itr);
         if (!is_name_saved) {
-            is_name_saved = findNameInBinaryAndFill<FIELD_T>(lib_desc, call_via_ptr, ordinal_flag, addr_to_func);
+            is_name_saved = findNameInBinaryAndFill<FIELD_T>(lib_desc, call_via_ptr, thunk_ptr, ordinal_flag, addr_to_func);
         }
         call_via += sizeof(FIELD_T);
         thunk_addr += sizeof(FIELD_T);

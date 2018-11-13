@@ -185,6 +185,7 @@ size_t ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
 
 bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap)
 {
+    bool skip_bound = false; // skip boud imports?
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) {
         return true; // done! no imports -> nothing to fix
@@ -210,10 +211,8 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         if (lib_desc->OriginalFirstThunk == NULL && lib_desc->FirstThunk == NULL) {
             break;
         }
-        if (lib_desc->TimeDateStamp == (-1)) {
-#ifdef _DEBUG
-            std::cout << "[!] This is a bound import. Bound imports are not supported" << std::endl;
-#endif
+        const bool is_bound = (lib_desc->TimeDateStamp == (-1));
+        if (is_bound && skip_bound) {
             continue;
         }
 #ifdef _DEBUG
