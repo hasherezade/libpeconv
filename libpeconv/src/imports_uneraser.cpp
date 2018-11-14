@@ -76,6 +76,11 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
     if (call_via_ptr == NULL || modulePtr == NULL || lib_desc == NULL) {
         return false; //malformed input
     }
+    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+    if (!importsDir) return false;
+
+    const DWORD impAddr = importsDir->VirtualAddress; //start of the import table
+
     FIELD_T *call_via_val = (FIELD_T*)call_via_ptr;
     if (*call_via_val == 0) {
         //nothing to fill, probably the last record
@@ -94,7 +99,7 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         const ExportedFunc &found_func = *funcname_itr;
         lastOrdinal = found_func.funcOrdinal;
 
-        const char* names_start = ((const char*) modulePtr + lib_desc->Name);
+        const char* names_start = ((const char*) modulePtr + impAddr);
         BYTE* found_ptr = (BYTE*) search_name(found_func.funcName, names_start, moduleSize - (names_start - (const char*)modulePtr));
         if (!found_ptr) {
             //name not found in the binary
