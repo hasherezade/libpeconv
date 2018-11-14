@@ -37,7 +37,7 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
 
 BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool executable, bool relocate)
 {
-    HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE file = CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if(file == INVALID_HANDLE_VALUE) {
         printf("Cannot open the file!\n");
         return NULL;
