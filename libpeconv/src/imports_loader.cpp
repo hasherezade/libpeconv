@@ -5,18 +5,19 @@
 using namespace peconv;
 
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
-bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, T_FIELD ordinal_flag, t_function_resolver* func_resolver)
+bool solve_imported_funcs(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, T_FIELD ordinal_flag, t_function_resolver* func_resolver)
 {
-    if (func_resolver == NULL) return false;
-
+    if (!func_resolver) {
+        //no resolver given, nothing to do...
+        return false;
+    }
+    // do you want to overwrite functions that are already filled?
     const bool allow_overwrite = true;
 
     T_FIELD *thunks = (T_FIELD*)((ULONGLONG)modulePtr + thunk_addr);
     T_FIELD *callers = (T_FIELD*)((ULONGLONG)modulePtr + call_via);
 
-    size_t index = 0;
-
-    do {
+    for (size_t index = 0; true ; index++) {
         LPVOID call_via_ptr = &callers[index];
         if (call_via_ptr == NULL) break;
 
@@ -29,11 +30,9 @@ bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE
             //nothing to fill, probably the last record
             return true;
         }
-
         //those two values are supposed to be the same before the file have imports filled
         //so, if they are different it means the handle is already filled
         if (!allow_overwrite && (*thunk_val != *call_via_val)) {
-            index++;
             continue; //skip
         }
         T_IMAGE_THUNK_DATA* desc = (T_IMAGE_THUNK_DATA*) thunk_ptr;
@@ -41,7 +40,7 @@ bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE
 
         PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
 
-        FARPROC hProc = NULL;
+        FARPROC hProc = nullptr;
         if (desc->u1.Ordinal & ordinal_flag) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
 #ifdef _DEBUG
@@ -56,27 +55,26 @@ bool solve_imported_funcs(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE
 #endif
             hProc = func_resolver->resolve_func(lib_name, func_name);
         }
-        if (hProc != NULL) {
-            callers[index] = reinterpret_cast<T_FIELD>(hProc);
-        } else {
+        if (!hProc) {
 #ifdef _DEBUG
             std::cerr << "Could not resolve the function!" << std::endl;
 #endif
+            continue;
         }
-
-        index++;
-    } while (true);
+        //fill the address:
+        callers[index] = reinterpret_cast<T_FIELD>(hProc);
+    }
     return true;
 }
 
-bool solve_imported_funcs_b64(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_function_resolver* func_resolver)
+bool solve_imported_funcs_b64(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, t_function_resolver* func_resolver)
 {
-    return solve_imported_funcs<ULONGLONG,IMAGE_THUNK_DATA64>(lib_name, call_via, thunk_addr, modulePtr, IMAGE_ORDINAL_FLAG64, func_resolver);
+    return solve_imported_funcs<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, lib_name, call_via, thunk_addr, IMAGE_ORDINAL_FLAG64, func_resolver);
 }
 
-bool solve_imported_funcs_b32(LPSTR lib_name, DWORD call_via, DWORD thunk_addr, BYTE* modulePtr, t_function_resolver* func_resolver)
+bool solve_imported_funcs_b32(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, t_function_resolver* func_resolver)
 {
-    return solve_imported_funcs<DWORD,IMAGE_THUNK_DATA32>(lib_name, call_via, thunk_addr, modulePtr, IMAGE_ORDINAL_FLAG32, func_resolver);
+    return solve_imported_funcs<DWORD,IMAGE_THUNK_DATA32>(modulePtr, lib_name, call_via, thunk_addr, IMAGE_ORDINAL_FLAG32, func_resolver);
 }
 
 bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_callback, t_function_resolver* func_resolver)
@@ -112,7 +110,7 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
         DWORD thunk_addr = lib_desc->OriginalFirstThunk;
         if (thunk_addr == NULL) thunk_addr = lib_desc->FirstThunk;
 
-        bool all_solved = import_found_callback(lib_name, call_via, thunk_addr, modulePtr, func_resolver);
+        bool all_solved = import_found_callback(modulePtr, lib_name, call_via, thunk_addr, func_resolver);
         if (!all_solved) {
             isAllFilled = false;
         }
@@ -143,7 +141,7 @@ bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
 }
 
 // A valid name must contain printable characters. Empty name is also acceptable (may have been erased)
-bool is_valid_name(const PBYTE modulePtr, size_t moduleSize, LPSTR lib_name)
+bool peconv::is_valid_import_name(const PBYTE modulePtr, const size_t moduleSize, LPSTR lib_name)
 {
     while (true) {
         if (!peconv::validate_ptr(modulePtr, moduleSize, lib_name, sizeof(char))) {
@@ -165,8 +163,8 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
     IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
 
-    DWORD maxSize = importsDir->Size;
-    DWORD impAddr = importsDir->VirtualAddress;
+    const DWORD maxSize = importsDir->Size;
+    const DWORD impAddr = importsDir->VirtualAddress;
 
     IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;
     bool isAllFilled = true;
@@ -185,7 +183,7 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
             break;
         }
         LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
-        if (!is_valid_name(modulePtr, moduleSize, lib_name)) return false;
+        if (!is_valid_import_name(modulePtr, moduleSize, lib_name)) return false;
 
         DWORD call_via = lib_desc->FirstThunk;
         DWORD thunk_addr = lib_desc->OriginalFirstThunk;
