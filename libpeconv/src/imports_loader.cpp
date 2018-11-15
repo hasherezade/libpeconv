@@ -11,6 +11,7 @@ bool solve_imported_funcs(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD
         //no resolver given, nothing to do...
         return false;
     }
+    const size_t module_size = peconv::get_image_size(modulePtr);
     // do you want to overwrite functions that are already filled?
     const bool allow_overwrite = true;
 
@@ -18,28 +19,33 @@ bool solve_imported_funcs(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD
     T_FIELD *callers = (T_FIELD*)((ULONGLONG)modulePtr + call_via);
 
     for (size_t index = 0; true ; index++) {
-        LPVOID call_via_ptr = &callers[index];
-        if (call_via_ptr == NULL) break;
-
-        LPVOID thunk_ptr = &thunks[index];
-        if (thunk_ptr == NULL) break;
-
-        T_FIELD *thunk_val = (T_FIELD*)thunk_ptr;
-        T_FIELD *call_via_val = (T_FIELD*)call_via_ptr;
-        if (*call_via_val == 0) {
+        if (!validate_ptr(modulePtr, module_size, &callers[index], sizeof(T_FIELD))) {
+            break;
+        }
+        if (!validate_ptr(modulePtr, module_size, &thunks[index], sizeof(T_FIELD))) {
+            break;
+        }
+        if (callers[index] == 0) {
             //nothing to fill, probably the last record
             return true;
         }
         //those two values are supposed to be the same before the file have imports filled
         //so, if they are different it means the handle is already filled
-        if (!allow_overwrite && (*thunk_val != *call_via_val)) {
+        if (!allow_overwrite && (thunks[index] != callers[index])) {
             continue; //skip
         }
-        T_IMAGE_THUNK_DATA* desc = (T_IMAGE_THUNK_DATA*) thunk_ptr;
-        if (desc->u1.Function == NULL) break;
-
+        LPVOID thunk_ptr = &thunks[index];
+        T_IMAGE_THUNK_DATA* desc = reinterpret_cast<T_IMAGE_THUNK_DATA*>(thunk_ptr);
+        if (!validate_ptr(modulePtr, module_size, desc, sizeof(T_IMAGE_THUNK_DATA))) {
+            break;
+        }
+        if (desc->u1.Function == NULL) {
+            break;
+        }
         PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
-
+        if (!validate_ptr(modulePtr, module_size, by_name, sizeof(IMAGE_IMPORT_BY_NAME))) {
+            break;
+        }
         FARPROC hProc = nullptr;
         if (desc->u1.Ordinal & ordinal_flag) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
@@ -82,6 +88,7 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
     IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
 
+    const size_t module_size = peconv::get_image_size(modulePtr);
     DWORD maxSize = importsDir->Size;
     DWORD impAddr = importsDir->VirtualAddress;
 
@@ -93,6 +100,9 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
 #endif
     while (parsedSize < maxSize) {
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR) modulePtr);
+        if (!validate_ptr(modulePtr, module_size, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
+            break;
+        }
         parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
 
         if (lib_desc->OriginalFirstThunk == NULL && lib_desc->FirstThunk == NULL) {
@@ -102,6 +112,9 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
         std::cout <<"Imported Lib: " << std::hex << lib_desc->FirstThunk << " : " << std::hex << lib_desc->OriginalFirstThunk << " : " << lib_desc->Name << std::endl;
 #endif
         LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
+        if (!validate_ptr(modulePtr, module_size, lib_name, sizeof(char))) {
+            break;
+        }
 #ifdef _DEBUG
         std::cout <<"name: " << lib_name << std::endl;
 #endif
