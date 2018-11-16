@@ -3,8 +3,11 @@
 #include <Windows.h>
 #include "buffer_util.h"
 
+#ifndef PAGE_SIZE
+#define PAGE_SIZE 0x1000
+#endif
+
 namespace peconv {
-    const ULONGLONG PAGE_SIZE = 0x1000;
     const ULONGLONG MAX_HEADER_SIZE = PAGE_SIZE;
 
     // Fetch image size from headers.
@@ -30,7 +33,7 @@ namespace peconv {
     IMAGE_NT_HEADERS64* get_nt_hrds64(IN const BYTE *pe_buffer);
 
     // Fetches optional header of the PE. Validates pointers against buffer size.
-    LPVOID get_optional_hdr(IN const BYTE* payload, const size_t buffer_size);
+    LPVOID get_optional_hdr(IN const BYTE* payload, IN const size_t buffer_size);
 
     // Fetches file header of the PE. Validates pointers against buffer size.
     const IMAGE_FILE_HEADER* get_file_hdr(

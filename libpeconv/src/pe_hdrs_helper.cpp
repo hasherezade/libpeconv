@@ -2,7 +2,7 @@
 
 using namespace peconv;
 
-BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer, size_t buffer_size)
+BYTE* peconv::get_nt_hrds(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_size)
 {
     if (!pe_buffer) return nullptr;
 
@@ -38,7 +38,7 @@ BYTE* peconv::get_nt_hrds(const BYTE *pe_buffer, size_t buffer_size)
     return (BYTE*)inh;
 }
 
-IMAGE_NT_HEADERS32* peconv::get_nt_hrds32(const BYTE *payload)
+IMAGE_NT_HEADERS32* peconv::get_nt_hrds32(IN const BYTE *payload)
 {
     if (!payload) return nullptr;
 
@@ -51,7 +51,7 @@ IMAGE_NT_HEADERS32* peconv::get_nt_hrds32(const BYTE *payload)
     return nullptr;
 }
 
-IMAGE_NT_HEADERS64* peconv::get_nt_hrds64(const BYTE *payload)
+IMAGE_NT_HEADERS64* peconv::get_nt_hrds64(IN const BYTE *payload)
 {
     if (payload == nullptr) return nullptr;
 
@@ -64,7 +64,7 @@ IMAGE_NT_HEADERS64* peconv::get_nt_hrds64(const BYTE *payload)
     return nullptr;
 }
 
-DWORD peconv::get_image_size(const BYTE *payload)
+DWORD peconv::get_image_size(IN const BYTE *payload)
 {
     if (!get_nt_hrds(payload)) {
         return 0;
@@ -80,7 +80,7 @@ DWORD peconv::get_image_size(const BYTE *payload)
     return image_size;
 }
 
-WORD peconv::get_nt_hdr_architecture(const BYTE *pe_buffer)
+WORD peconv::get_nt_hdr_architecture(IN const BYTE *pe_buffer)
 {
     void *ptr = get_nt_hrds(pe_buffer);
     if (!ptr) return 0;
@@ -92,7 +92,7 @@ WORD peconv::get_nt_hdr_architecture(const BYTE *pe_buffer)
     return inh->OptionalHeader.Magic;
 }
 
-bool peconv::is64bit(const BYTE *pe_buffer)
+bool peconv::is64bit(IN const BYTE *pe_buffer)
 {
     WORD arch = get_nt_hdr_architecture(pe_buffer);
     if (arch == IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
@@ -101,7 +101,7 @@ bool peconv::is64bit(const BYTE *pe_buffer)
     return false;
 }
 
-IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(const BYTE *pe_buffer, DWORD dir_id)
+IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(IN const BYTE *pe_buffer, IN DWORD dir_id)
 {
     if (dir_id >= IMAGE_NUMBEROF_DIRECTORY_ENTRIES) return nullptr;
 
@@ -123,7 +123,7 @@ IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(const BYTE *pe_buffer, DWORD d
     return peDir;
 }
 
-ULONGLONG peconv::get_image_base(const BYTE *pe_buffer)
+ULONGLONG peconv::get_image_base(IN const BYTE *pe_buffer)
 {
     bool is64b = is64bit(pe_buffer);
     //update image base in the written content:
@@ -142,7 +142,7 @@ ULONGLONG peconv::get_image_base(const BYTE *pe_buffer)
     return img_base;
 }
 
-DWORD peconv::get_entry_point_rva(const BYTE *pe_buffer)
+DWORD peconv::get_entry_point_rva(IN const BYTE *pe_buffer)
 {
     bool is64b = is64bit(pe_buffer);
     //update image base in the written content:
@@ -161,7 +161,7 @@ DWORD peconv::get_entry_point_rva(const BYTE *pe_buffer)
     return value;
 }
 
-bool peconv::update_entry_point_rva(BYTE *pe_buffer, DWORD value)
+bool peconv::update_entry_point_rva(IN OUT BYTE *pe_buffer, IN DWORD value)
 {
     bool is64b = is64bit(pe_buffer);
     //update image base in the written content:
@@ -179,7 +179,7 @@ bool peconv::update_entry_point_rva(BYTE *pe_buffer, DWORD value)
     return true;
 }
 
-DWORD peconv::get_hdrs_size(const BYTE *pe_buffer)
+DWORD peconv::get_hdrs_size(IN const BYTE *pe_buffer)
 {
     bool is64b = is64bit(pe_buffer);
     BYTE* payload_nt_hdr = get_nt_hrds(pe_buffer);
@@ -197,7 +197,7 @@ DWORD peconv::get_hdrs_size(const BYTE *pe_buffer)
     return hdrs_size;
 }
 
-bool peconv::update_image_base(BYTE* payload, ULONGLONG destImageBase)
+bool peconv::update_image_base(IN OUT BYTE* payload, IN ULONGLONG destImageBase)
 {
     bool is64b = is64bit(payload);
     BYTE* payload_nt_hdr = get_nt_hrds(payload);
@@ -216,7 +216,7 @@ bool peconv::update_image_base(BYTE* payload, ULONGLONG destImageBase)
 }
 
 template <typename IMAGE_NT_HEADERS_T>
-inline const IMAGE_FILE_HEADER* fetch_file_hdr(const BYTE* payload, const size_t buffer_size, const IMAGE_NT_HEADERS_T *payload_nt_hdr)
+inline const IMAGE_FILE_HEADER* fetch_file_hdr(IN const BYTE* payload, IN const size_t buffer_size, IN const IMAGE_NT_HEADERS_T *payload_nt_hdr)
 {
     if (!payload || !payload_nt_hdr) return nullptr;
 
@@ -228,7 +228,7 @@ inline const IMAGE_FILE_HEADER* fetch_file_hdr(const BYTE* payload, const size_t
     return fileHdr;
 }
 
-const IMAGE_FILE_HEADER* peconv::get_file_hdr(const BYTE* payload, const size_t buffer_size)
+const IMAGE_FILE_HEADER* peconv::get_file_hdr(IN const BYTE* payload, IN const size_t buffer_size)
 {
     if (!payload) return nullptr;
 
@@ -243,7 +243,7 @@ const IMAGE_FILE_HEADER* peconv::get_file_hdr(const BYTE* payload, const size_t 
 }
 
 template <typename IMAGE_NT_HEADERS_T>
-inline const LPVOID fetch_opt_hdr(const BYTE* payload, const size_t buffer_size, const IMAGE_NT_HEADERS_T *payload_nt_hdr)
+inline const LPVOID fetch_opt_hdr(IN const BYTE* payload, IN const size_t buffer_size, IN const IMAGE_NT_HEADERS_T *payload_nt_hdr)
 {
     if (!payload) return nullptr;
 
@@ -259,7 +259,7 @@ inline const LPVOID fetch_opt_hdr(const BYTE* payload, const size_t buffer_size,
     return opt_hdr;
 }
 
-LPVOID peconv::get_optional_hdr(const BYTE* payload, const size_t buffer_size)
+LPVOID peconv::get_optional_hdr(IN const BYTE* payload, IN const size_t buffer_size)
 {
     if (!payload) return nullptr;
 
@@ -275,7 +275,7 @@ LPVOID peconv::get_optional_hdr(const BYTE* payload, const size_t buffer_size)
 }
 
 template <typename IMAGE_NT_HEADERS_T>
-inline LPVOID fetch_section_hdrs_ptr(const BYTE* payload, const size_t buffer_size, const IMAGE_NT_HEADERS_T *payload_nt_hdr)
+inline LPVOID fetch_section_hdrs_ptr(IN const BYTE* payload, IN const size_t buffer_size, IN const IMAGE_NT_HEADERS_T *payload_nt_hdr)
 {
     const IMAGE_FILE_HEADER *fileHdr = fetch_file_hdr<IMAGE_NT_HEADERS_T>(payload, buffer_size, payload_nt_hdr);
     if (!fileHdr) {
@@ -290,7 +290,7 @@ inline LPVOID fetch_section_hdrs_ptr(const BYTE* payload, const size_t buffer_si
     return (LPVOID)(opt_hdr + opt_size);
 }
 
-size_t peconv::get_sections_count(const BYTE* payload, const size_t buffer_size)
+size_t peconv::get_sections_count(IN const BYTE* payload, IN const size_t buffer_size)
 {
     const IMAGE_FILE_HEADER* fileHdr = get_file_hdr(payload, buffer_size);
     if (!fileHdr) {
@@ -299,7 +299,7 @@ size_t peconv::get_sections_count(const BYTE* payload, const size_t buffer_size)
     return fileHdr->NumberOfSections;
 }
 
-bool peconv::is_valid_sections_hdr(const BYTE* buffer, const size_t buffer_size)
+bool peconv::is_valid_sections_hdr(IN const BYTE* buffer, IN const size_t buffer_size)
 {
     size_t sec_count = peconv::get_sections_count(buffer, buffer_size);
     if (sec_count == 0) {
@@ -314,7 +314,7 @@ bool peconv::is_valid_sections_hdr(const BYTE* buffer, const size_t buffer_size)
     return true;
 }
 
-PIMAGE_SECTION_HEADER peconv::get_section_hdr(const BYTE* payload, const size_t buffer_size, size_t section_num)
+PIMAGE_SECTION_HEADER peconv::get_section_hdr(IN const BYTE* payload, IN const size_t buffer_size, IN size_t section_num)
 {
     if (!payload) return nullptr;
 
@@ -345,7 +345,7 @@ PIMAGE_SECTION_HEADER peconv::get_section_hdr(const BYTE* payload, const size_t 
     return next_sec;
 }
 
-bool peconv::is_module_dll(const BYTE* payload)
+bool peconv::is_module_dll(IN const BYTE* payload)
 {
     if (!payload) return false;
 
@@ -366,7 +366,7 @@ bool peconv::is_module_dll(const BYTE* payload)
     return (flag != 0);
 }
 
-bool peconv::set_subsystem(BYTE* payload, WORD subsystem)
+bool peconv::set_subsystem(IN OUT BYTE* payload, IN WORD subsystem)
 {
     if (!payload) return false;
 
@@ -385,7 +385,7 @@ bool peconv::set_subsystem(BYTE* payload, WORD subsystem)
     return true;
 }
 
-WORD peconv::get_subsystem(const BYTE* payload)
+WORD peconv::get_subsystem(IN const BYTE* payload)
 {
     if (!payload) return 0;
 
@@ -403,7 +403,7 @@ WORD peconv::get_subsystem(const BYTE* payload)
     }
 }
 
-bool peconv::has_relocations(const BYTE *pe_buffer)
+bool peconv::has_relocations(IN const BYTE *pe_buffer)
 {
     IMAGE_DATA_DIRECTORY* relocDir = get_directory_entry(pe_buffer, IMAGE_DIRECTORY_ENTRY_BASERELOC);
     if (!relocDir) {
@@ -413,7 +413,7 @@ bool peconv::has_relocations(const BYTE *pe_buffer)
 }
 
 template <typename IMAGE_TYPE_DIRECTORY>
-IMAGE_TYPE_DIRECTORY* peconv::get_type_directory(HMODULE modulePtr, DWORD dir_id)
+IMAGE_TYPE_DIRECTORY* peconv::get_type_directory(IN HMODULE modulePtr, IN DWORD dir_id)
 {
     IMAGE_DATA_DIRECTORY *my_dir = peconv::get_directory_entry((const BYTE*) modulePtr, dir_id);
     if (!my_dir) return nullptr;
@@ -424,13 +424,13 @@ IMAGE_TYPE_DIRECTORY* peconv::get_type_directory(HMODULE modulePtr, DWORD dir_id
     return (IMAGE_TYPE_DIRECTORY*)(dir_addr + (ULONG_PTR) modulePtr);
 }
 
-IMAGE_EXPORT_DIRECTORY* peconv::get_export_directory(HMODULE modulePtr)
+IMAGE_EXPORT_DIRECTORY* peconv::get_export_directory(IN HMODULE modulePtr)
 {
     return get_type_directory<IMAGE_EXPORT_DIRECTORY>(modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);
 }
 
 
-IMAGE_COR20_HEADER * peconv::get_dotnet_hdr(const PBYTE module, size_t const module_size, const IMAGE_DATA_DIRECTORY * dotNetDir)
+IMAGE_COR20_HEADER * peconv::get_dotnet_hdr(IN const PBYTE module, IN size_t const module_size, IN const IMAGE_DATA_DIRECTORY * dotNetDir)
 {
     DWORD rva = dotNetDir->VirtualAddress;
     DWORD hdr_size = dotNetDir->Size;
@@ -461,7 +461,7 @@ DWORD* _get_sec_alignment_ptr(const PBYTE modulePtr, bool is_raw)
     return &hdrs->OptionalHeader.SectionAlignment;
 }
 
-DWORD peconv::get_sec_alignment(const PBYTE modulePtr, bool is_raw)
+DWORD peconv::get_sec_alignment(IN const PBYTE modulePtr, IN bool is_raw)
 {
     DWORD* alignment = 0;
     if (peconv::is64bit(modulePtr)) {
@@ -473,7 +473,7 @@ DWORD peconv::get_sec_alignment(const PBYTE modulePtr, bool is_raw)
     return *alignment;
 }
 
-bool peconv::set_sec_alignment(PBYTE modulePtr, bool is_raw, DWORD new_alignment)
+bool peconv::set_sec_alignment(IN OUT PBYTE modulePtr, IN bool is_raw, IN DWORD new_alignment)
 {
     DWORD* alignment = 0;
     if (peconv::is64bit(modulePtr)) {
@@ -488,7 +488,7 @@ bool peconv::set_sec_alignment(PBYTE modulePtr, bool is_raw, DWORD new_alignment
     return true;
 }
 
-DWORD peconv::get_virtual_sec_size(const BYTE* pe_hdr, const PIMAGE_SECTION_HEADER sec_hdr, bool rounded)
+DWORD peconv::get_virtual_sec_size(IN const BYTE* pe_hdr, IN const PIMAGE_SECTION_HEADER sec_hdr, IN bool rounded)
 {
     if (!pe_hdr || !sec_hdr) {
         return 0;
@@ -513,7 +513,7 @@ DWORD peconv::get_virtual_sec_size(const BYTE* pe_hdr, const PIMAGE_SECTION_HEAD
     return vsize;
 }
 
-DWORD peconv::calc_pe_size(const PBYTE pe_buffer, size_t pe_size, bool is_raw)
+DWORD peconv::calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)
 {
     SIZE_T module_end = peconv::get_hdrs_size(pe_buffer);
     size_t count = peconv::get_sections_count(pe_buffer, pe_size);
