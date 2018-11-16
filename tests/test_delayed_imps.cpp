@@ -45,7 +45,7 @@ int tests::replace_delayed_imps(char *path)
 
     peconv::hooking_func_resolver my_res;
     my_res.add_hook("MessageBoxA", (FARPROC)&test9::my_MessageBoxA);
-    my_res.add_hook("MessageBoxA", (FARPROC)&test9::my_MessageBoxW);
+    my_res.add_hook("MessageBoxW", (FARPROC)&test9::my_MessageBoxW);
     BYTE* loaded_pe = peconv::load_pe_executable(path, v_size);
     if (!loaded_pe) {
         return -1;
