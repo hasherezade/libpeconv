@@ -42,6 +42,7 @@ add_dependencies( ${PROJECT_NAME} libpeconv test_case1 test_case3 )
 #add the application that will be used for tests:
 add_subdirectory ( test_case1 )
 add_subdirectory ( test_case3 )
+add_subdirectory ( test_case4 )
 
 enable_testing()
 
