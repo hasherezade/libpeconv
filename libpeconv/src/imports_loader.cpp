@@ -137,11 +137,20 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
 //fills handles of mapped pe file
 bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
 {
+    bool is64 = is64bit((BYTE*)modulePtr);
+    bool is_loader64 = false;
+#ifdef _WIN64
+    is_loader64 = true;
+#endif
+    if (is64 != is_loader64) {
+        std::cerr << "[ERROR] Loader/Payload bitness mismatch.\n";
+        return false;
+    }
+
     default_func_resolver default_res;
     if (func_resolver == NULL) {
-        func_resolver = (t_function_resolver*) &default_res;
+        func_resolver = (t_function_resolver*)&default_res;
     }
-    bool is64 = is64bit((BYTE*)modulePtr);
 
     bool isAllFilled = false;
     if (is64) {

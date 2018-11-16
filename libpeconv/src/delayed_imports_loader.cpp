@@ -1,9 +1,7 @@
 #include "peconv/delayed_imports_loader.h"
 #include "peconv/imports_loader.h"
 
-#ifdef _DEBUG
 #include <iostream>
-#endif
 
 /*
 typedef struct _IMAGE_DELAYLOAD_DESCRIPTOR {
@@ -125,9 +123,17 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
 
 bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_function_resolver* func_resolver)
 {
-    const size_t module_size = peconv::get_image_size(modulePtr);
     const bool is_64bit = peconv::is64bit(modulePtr);
+    bool is_loader64 = false;
+#ifdef _WIN64
+    is_loader64 = true;
+#endif
+    if (is_64bit != is_loader64) {
+        std::cerr << "[ERROR] Loader/Payload bitness mismatch.\n";
+        return false;
+    }
 
+    const size_t module_size = peconv::get_image_size(modulePtr);
     default_func_resolver default_res;
     if (!func_resolver) {
         func_resolver = (t_function_resolver*)&default_res;
