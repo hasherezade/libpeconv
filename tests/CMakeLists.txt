@@ -94,6 +94,6 @@ else()
 endif()
 
 # 9) test replacing Delay-Load Imports
-add_test (TestDelayedImps tests 8 "C://tests//test_case4.exe")
+add_test (TestDelayedImps tests 9 "C://tests//test_case4.exe")
 set_tests_properties (TestDelayedImps PROPERTIES PASS_REGULAR_EXPRESSION "Hooking test passed")
 set_tests_properties (TestDelayedImps PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
