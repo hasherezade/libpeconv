@@ -56,8 +56,12 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
     peconv::t_function_resolver* func_resolver
 )
 {
-    ULONGLONG iat_addr = desc->ImportAddressTableRVA - img_base;
-    ULONGLONG thunk_addr = desc->ImportNameTableRVA - img_base;
+    ULONGLONG iat_addr = desc->ImportAddressTableRVA;
+    
+    if (iat_addr > img_base) iat_addr -= img_base; // it may be either RVA or VA
+
+    ULONGLONG thunk_addr = desc->ImportNameTableRVA;
+    if (thunk_addr > img_base) thunk_addr -= img_base; // it may be either RVA or VA
 
     T_FIELD* record_va = (T_FIELD*)((ULONGLONG)modulePtr + iat_addr);
     T_IMAGE_THUNK_DATA* thunk_va = (T_IMAGE_THUNK_DATA*)((ULONGLONG)modulePtr + thunk_addr);
@@ -72,9 +76,7 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
 
         T_FIELD iat_va = *record_va;
         ULONGLONG iat_rva = (ULONGLONG)iat_va;
-        if (iat_va > img_base) {
-            iat_rva -= img_base;
-        }
+        if (iat_va > img_base) iat_rva -= img_base; // it may be either RVA or VA
 #ifdef _DEBUG
         std::cout << std::hex << iat_rva << " : ";
 #endif
