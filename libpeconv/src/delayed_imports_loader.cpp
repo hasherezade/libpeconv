@@ -1,7 +1,9 @@
 #include "peconv/delayed_imports_loader.h"
 #include "peconv/imports_loader.h"
 
+#ifdef _DEBUG
 #include <iostream>
+#endif
 
 /*
 typedef struct _IMAGE_DELAYLOAD_DESCRIPTOR {
@@ -73,16 +75,19 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
         if (iat_va > img_base) {
             iat_rva -= img_base;
         }
+#ifdef _DEBUG
         std::cout << std::hex << iat_rva << " : ";
+#endif
         T_FIELD* iat_record_ptr = (T_FIELD*)((ULONGLONG)modulePtr + iat_rva);
         if (!peconv::validate_ptr(modulePtr, moduleSize, iat_record_ptr, sizeof(T_FIELD))) {
-            std::cout << "Ptr validation failed!\n";
             return false;
         }
         FARPROC hProc = nullptr;
         if (thunk_va->u1.Ordinal & ordinal_flag) {
             T_FIELD raw_ordinal = thunk_va->u1.Ordinal & (~ordinal_flag);
+#ifdef _DEBUG
             std::cout << std::hex << "ord: " << raw_ordinal << " ";
+#endif
             hProc = func_resolver->resolve_func(lib_name, MAKEINTRESOURCEA(raw_ordinal));
         }
         else {
@@ -95,16 +100,22 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
             if (!peconv::is_valid_import_name(modulePtr, moduleSize, func_name)) {
                 continue;
             }
+#ifdef _DEBUG
             std::cout << func_name << " ";
+#endif
             hProc = func_resolver->resolve_func(lib_name, func_name);
         }
         if (hProc) {
             //rather than loading it via proxy function, we just overwrite the thunk like normal IAT:
             *record_va = (T_FIELD) hProc;
+#ifdef _DEBUG
             std::cout << "[OK]\n";
+#endif
         }
         else {
+#ifdef _DEBUG
             std::cout << "[NOPE]\n";
+#endif
         }
     }
     return true;
@@ -122,16 +133,16 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
     size_t table_size = 0;
     IMAGE_DELAYLOAD_DESCRIPTOR *first_desc = get_delayed_imps(modulePtr, module_size, table_size);
     if (!first_desc) {
-        std::cout << "Failed\n";
         return false;
     }
+#ifdef _DEBUG
     std::cout << "OK, table_size = " << table_size << std::endl;
+#endif
     size_t max_count = table_size / sizeof(IMAGE_DELAYLOAD_DESCRIPTOR);
     for (size_t i = 0; i < max_count; i++) {
         IMAGE_DELAYLOAD_DESCRIPTOR *desc = &first_desc[i];
         if (!validate_ptr(modulePtr, module_size, desc, sizeof(IMAGE_DELAYLOAD_DESCRIPTOR))) break;
         if (desc->DllNameRVA == NULL) {
-            std::cout << "No name: " << std::hex << (ULONGLONG) desc->DllNameRVA;
             break;
         }
         ULONGLONG dll_name_rva = desc->DllNameRVA;
@@ -140,7 +151,9 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
         }
         char* dll_name = (char*)((ULONGLONG) modulePtr + dll_name_rva);
         if (!validate_ptr(modulePtr, module_size, dll_name, sizeof(char))) continue;
+#ifdef _DEBUG
         std::cout << dll_name << std::endl;
+#endif
         if (is_64bit) {
             parse_delayed_desc<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver);
         }
