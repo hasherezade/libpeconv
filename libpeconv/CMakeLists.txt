@@ -16,6 +16,7 @@ set (srcs
 	src/buffer_util.cpp
 	src/remote_pe_reader.cpp
 	src/imports_loader.cpp
+	src/delayed_imports_loader.cpp
 	src/fix_imports.cpp
 	src/pe_loader.cpp
 	src/pe_dumper.cpp
@@ -42,6 +43,7 @@ set (hdrs
 	include/peconv/buffer_util.h
 	include/peconv/remote_pe_reader.h
 	include/peconv/imports_loader.h
+	include/peconv/delayed_imports_loader.h
 	include/peconv/fix_imports.h
 	include/peconv/pe_loader.h
 	include/peconv/pe_dumper.h

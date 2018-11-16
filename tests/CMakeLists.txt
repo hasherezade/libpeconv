@@ -17,6 +17,7 @@ set (srcs
 	test_crackme_f4_6.cpp
 	test_load_ntdll.cpp
 	test_replacing_func.cpp
+	test_delayed_imps.cpp
 )
 
 set (hdrs
@@ -27,6 +28,7 @@ set (hdrs
 	test_crackme_f4_6.h
 	test_load_ntdll.h
 	test_replacing_func.h
+	test_delayed_imps.h
 	resource.h
 	shellcodes.h
 )
@@ -42,6 +44,7 @@ add_dependencies( ${PROJECT_NAME} libpeconv test_case1 test_case3 )
 #add the application that will be used for tests:
 add_subdirectory ( test_case1 )
 add_subdirectory ( test_case3 )
+add_subdirectory ( test_case4 )
 
 enable_testing()
 
@@ -89,3 +92,8 @@ else()
 	set_tests_properties (TestReplaceFunc32 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
 	set_tests_properties (TestDeploySelfExpResolver PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 endif()
+
+# 9) test replacing Delay-Load Imports
+add_test (TestDelayedImps tests 8 "C://tests//test_case4.exe")
+set_tests_properties (TestDelayedImps PROPERTIES PASS_REGULAR_EXPRESSION "Hooking test passed")
+set_tests_properties (TestDelayedImps PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
