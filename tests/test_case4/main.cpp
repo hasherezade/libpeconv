@@ -24,6 +24,6 @@ int main()
             return MessageBoxW(NULL, L"Hooking test passed", L"Test Case 1", MB_OK);
         }
     }
-    printf("Test Case 1 finished\n");
+    printf("Test Case 4 finished\n");
     return 0;
 }
