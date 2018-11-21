@@ -5,13 +5,19 @@
 using namespace peconv;
 
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
-bool solve_imported_funcs(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, T_FIELD ordinal_flag, t_function_resolver* func_resolver)
+bool solve_imported_funcs_tpl(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, t_function_resolver* func_resolver)
 {
     if (!func_resolver) {
         //no resolver given, nothing to do...
         return false;
     }
+    const T_FIELD ordinal_flag = sizeof(T_FIELD) == sizeof(IMAGE_ORDINAL_FLAG64) ? IMAGE_ORDINAL_FLAG64 : IMAGE_ORDINAL_FLAG32;
     const size_t module_size = peconv::get_image_size(modulePtr);
+
+    if (!peconv::is_valid_import_name(modulePtr, module_size, lib_name)) {
+        //invalid name
+        return false;
+    }
     // do you want to overwrite functions that are already filled?
     const bool allow_overwrite = true;
 
@@ -73,57 +79,49 @@ bool solve_imported_funcs(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD
     return true;
 }
 
-bool solve_imported_funcs_b64(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, t_function_resolver* func_resolver)
+bool peconv::solve_imported_funcs(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR* lib_desc, t_function_resolver* func_resolver)
 {
-    return solve_imported_funcs<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, lib_name, call_via, thunk_addr, IMAGE_ORDINAL_FLAG64, func_resolver);
+    LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
+    DWORD call_via = lib_desc->FirstThunk;
+    DWORD thunk_addr = lib_desc->OriginalFirstThunk;
+    if (thunk_addr == NULL) {
+        thunk_addr = lib_desc->FirstThunk;
+    }
+    const bool is64 = is64bit((BYTE*)modulePtr);
+    if (is64) {
+        return solve_imported_funcs_tpl<ULONGLONG, IMAGE_THUNK_DATA64>(modulePtr, lib_name, call_via, thunk_addr, func_resolver);
+    }
+    return solve_imported_funcs_tpl<DWORD, IMAGE_THUNK_DATA32>(modulePtr, lib_name, call_via, thunk_addr, func_resolver);
 }
 
-bool solve_imported_funcs_b32(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, t_function_resolver* func_resolver)
+bool peconv::imports_dll_walker(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR *first_desc, t_on_imports_found import_found_callback, t_function_resolver* func_resolver)
 {
-    return solve_imported_funcs<DWORD,IMAGE_THUNK_DATA32>(modulePtr, lib_name, call_via, thunk_addr, IMAGE_ORDINAL_FLAG32, func_resolver);
-}
-
-bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_callback, t_function_resolver* func_resolver)
-{
-    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
-    if (importsDir == NULL) return false;
-
+    const bool is64 = is64bit((BYTE*)modulePtr);
     const size_t module_size = peconv::get_image_size(modulePtr);
-    DWORD maxSize = importsDir->Size;
-    DWORD impAddr = importsDir->VirtualAddress;
 
-    IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;
     bool isAllFilled = true;
-    DWORD parsedSize = 0;
 #ifdef _DEBUG
     std::cout << "---IMP---" << std::endl;
 #endif
-    while (parsedSize < maxSize) {
-        lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR) modulePtr);
+    
+    IMAGE_IMPORT_DESCRIPTOR* lib_desc = nullptr;
+    for (size_t i = 0; true; i++) {
+        lib_desc = &first_desc[i];
         if (!validate_ptr(modulePtr, module_size, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
             break;
         }
-        parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
-
         if (lib_desc->OriginalFirstThunk == NULL && lib_desc->FirstThunk == NULL) {
             break;
+        }
+        LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
+        if (!peconv::is_valid_import_name(modulePtr, module_size, lib_name)) {
+            //invalid name
+            return false;
         }
 #ifdef _DEBUG
         std::cout <<"Imported Lib: " << std::hex << lib_desc->FirstThunk << " : " << std::hex << lib_desc->OriginalFirstThunk << " : " << lib_desc->Name << std::endl;
 #endif
-        LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
-        if (!validate_ptr(modulePtr, module_size, lib_name, sizeof(char))) {
-            break;
-        }
-#ifdef _DEBUG
-        std::cout <<"name: " << lib_name << std::endl;
-#endif
-
-        DWORD call_via = lib_desc->FirstThunk;
-        DWORD thunk_addr = lib_desc->OriginalFirstThunk;
-        if (thunk_addr == NULL) thunk_addr = lib_desc->FirstThunk;
-
-        bool all_solved = import_found_callback(modulePtr, lib_name, call_via, thunk_addr, func_resolver);
+        bool all_solved = (*import_found_callback)(modulePtr, lib_desc, func_resolver);
         if (!all_solved) {
             isAllFilled = false;
         }
@@ -134,7 +132,21 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_import_found import_found_call
     return isAllFilled;
 }
 
-//fills handles of mapped pe file
+bool peconv::imports_walker(BYTE* modulePtr, t_on_imports_found on_functions, t_function_resolver* func_resolver)
+{
+    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+    if (!importsDir) {
+        return false;
+    }
+    const DWORD maxSize = importsDir->Size;
+    const DWORD impAddr = importsDir->VirtualAddress;
+    if (maxSize < sizeof(IMAGE_IMPORT_DESCRIPTOR)) {
+        return false;
+    }
+    IMAGE_IMPORT_DESCRIPTOR *first_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + (ULONG_PTR)modulePtr);
+    return imports_dll_walker(modulePtr, first_desc, on_functions, func_resolver);
+}
+
 bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
 {
     bool is64 = is64bit((BYTE*)modulePtr);
@@ -146,20 +158,11 @@ bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
         std::cerr << "[ERROR] Loader/Payload bitness mismatch.\n";
         return false;
     }
-
     default_func_resolver default_res;
-    if (func_resolver == NULL) {
+    if (!func_resolver) {
         func_resolver = (t_function_resolver*)&default_res;
     }
-
-    bool isAllFilled = false;
-    if (is64) {
-        
-        isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b64, func_resolver);
-    } else {
-        isAllFilled = peconv::imports_walker(modulePtr, solve_imported_funcs_b32, func_resolver);
-    }
-    return isAllFilled;
+    return imports_walker(modulePtr, solve_imported_funcs, func_resolver);
 }
 
 // A valid name must contain printable characters. Empty name is also acceptable (may have been erased)
