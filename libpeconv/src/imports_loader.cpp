@@ -14,10 +14,6 @@ bool solve_imported_funcs_tpl(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, D
     const T_FIELD ordinal_flag = sizeof(T_FIELD) == sizeof(IMAGE_ORDINAL_FLAG64) ? IMAGE_ORDINAL_FLAG64 : IMAGE_ORDINAL_FLAG32;
     const size_t module_size = peconv::get_image_size(modulePtr);
 
-    if (!peconv::is_valid_import_name(modulePtr, module_size, lib_name)) {
-        //invalid name
-        return false;
-    }
     // do you want to overwrite functions that are already filled?
     const bool allow_overwrite = true;
 
