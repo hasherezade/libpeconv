@@ -13,13 +13,7 @@ namespace peconv {
         IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         t_function_resolver* func_resolver
     );
-
-    //t_on_imports_found: a callback function that fills the found imports using the given t_function_resolver
-    bool solve_imported_funcs(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR* lib_desc, t_function_resolver* func_resolver);
-
-    //Walk through the table of imported DLLs (starting from the given descriptor) and execute the callback each time when the new record was found
-    bool imports_dll_walker(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR *first_desc, t_on_imports_found import_found_callback, t_function_resolver* func_resolver);
-
+    
     //Walk through the table of imported DLLs (using the Import Table from Data Directory) and execute the callback each time when the new record was found
     bool imports_walker(BYTE* modulePtr, t_on_imports_found on_functions_callback, t_function_resolver* func_resolver);
 

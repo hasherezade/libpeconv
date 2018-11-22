@@ -75,7 +75,8 @@ bool solve_imported_funcs_tpl(BYTE* modulePtr, LPSTR lib_name, DWORD call_via, D
     return true;
 }
 
-bool peconv::solve_imported_funcs(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR* lib_desc, t_function_resolver* func_resolver)
+//t_on_imports_found: a callback function that fills the found imports using the given t_function_resolver
+bool solve_imported_funcs(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR* lib_desc, t_function_resolver* func_resolver)
 {
     LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
     DWORD call_via = lib_desc->FirstThunk;
@@ -90,7 +91,8 @@ bool peconv::solve_imported_funcs(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR* lib_
     return solve_imported_funcs_tpl<DWORD, IMAGE_THUNK_DATA32>(modulePtr, lib_name, call_via, thunk_addr, func_resolver);
 }
 
-bool peconv::imports_dll_walker(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR *first_desc, t_on_imports_found import_found_callback, t_function_resolver* func_resolver)
+//Walk through the table of imported DLLs (starting from the given descriptor) and execute the callback each time when the new record was found
+bool imports_dll_walker(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR *first_desc, t_on_imports_found import_found_callback, t_function_resolver* func_resolver)
 {
     const bool is64 = is64bit((BYTE*)modulePtr);
     const size_t module_size = peconv::get_image_size(modulePtr);
