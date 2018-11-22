@@ -117,7 +117,7 @@ bool peconv::imports_dll_walker(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR *first_
 #ifdef _DEBUG
         std::cout <<"Imported Lib: " << std::hex << lib_desc->FirstThunk << " : " << std::hex << lib_desc->OriginalFirstThunk << " : " << lib_desc->Name << std::endl;
 #endif
-        bool all_solved = (*import_found_callback)(modulePtr, lib_desc, func_resolver);
+        bool all_solved = import_found_callback(modulePtr, lib_desc, func_resolver);
         if (!all_solved) {
             isAllFilled = false;
         }
