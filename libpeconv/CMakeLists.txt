@@ -25,6 +25,7 @@ set (srcs
 	src/hooks.cpp
 	src/exported_func.cpp
 	src/exports_mapper.cpp
+	src/resource_parser.cpp
 	src/file_util.cpp
 	src/resource_util.cpp
 	src/imports_uneraser.cpp
@@ -52,6 +53,7 @@ set (hdrs
 	include/peconv/hooks.h
 	include/peconv/exported_func.h
 	include/peconv/exports_mapper.h
+	include/peconv/resource_parser.h
 	include/peconv/file_util.h
 	include/peconv/resource_util.h
 	include/peconv/imports_uneraser.h
