@@ -21,14 +21,14 @@ bool parse_resource_entry(BYTE* modulePtr, const size_t moduleSize,
 #ifdef _DEBUG
         std::cout << "Entry is NOT a directory\n";
 #endif
-        DWORD offset = entry->OffsetToData;
+        DWORD offset = entry->OffsetToData;
 #ifdef _DEBUG
         std::cout << "Offset: " << offset << std::endl;
 #endif
         IMAGE_RESOURCE_DATA_ENTRY *data_entry = (IMAGE_RESOURCE_DATA_ENTRY*)(offset + (ULONGLONG)upper_dir);
         if (!peconv::validate_ptr(modulePtr, moduleSize, data_entry, sizeof(IMAGE_RESOURCE_DATA_ENTRY))) {
             return false;
-        }
+        }
 #ifdef _DEBUG
         std::cout << "Data Offset: " << data_entry->OffsetToData << " : " << data_entry->Size << std::endl;
 #endif
@@ -46,7 +46,7 @@ bool parse_resource_entry(BYTE* modulePtr, const size_t moduleSize,
     DWORD offset = entry->OffsetToDirectory;
 #ifdef _DEBUG
     std::cout << "Offset: " << offset << std::endl;
-#endif
+#endif
     IMAGE_RESOURCE_DIRECTORY *next_dir = (IMAGE_RESOURCE_DIRECTORY*)(offset + (ULONGLONG)upper_dir);
     if (!peconv::validate_ptr(modulePtr, moduleSize, next_dir, sizeof(IMAGE_RESOURCE_DIRECTORY))) {
         return false;
@@ -72,7 +72,8 @@ bool parse_resource_dir(BYTE* modulePtr, const size_t moduleSize,
         }
         parse_resource_entry(modulePtr, moduleSize, root_dir, upper_dir, entry, on_entry);
     }
-    return true;}
+    return true;
+}
 
 bool peconv::parse_resources(BYTE* modulePtr, t_on_res_entry_found on_entry)
 {
