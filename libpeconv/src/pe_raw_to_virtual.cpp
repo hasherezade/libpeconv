@@ -77,7 +77,7 @@ BYTE* peconv::pe_raw_to_virtual(const BYTE* payload, size_t in_size, size_t &out
     BYTE* nt_hdr = get_nt_hrds(payload);
     if (nt_hdr == NULL) {
         std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
-        return false;
+        return nullptr;
     }
     ULONGLONG oldImageBase = 0;
     DWORD payloadImageSize = 0;
