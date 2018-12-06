@@ -45,8 +45,11 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
     SIZE_T raw_end = 0;
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
         PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONGLONG)secptr + (IMAGE_SIZEOF_SECTION_HEADER * i));
-        if (!validate_ptr((const LPVOID) payload, destBufferSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) {
+        if (!validate_ptr((const LPVOID)payload, destBufferSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) {
             return false;
+        }
+        if (next_sec->PointerToRawData == 0 || next_sec->SizeOfRawData == 0) {
+            continue; //skipping empty
         }
         LPVOID section_mapped = destBuffer + next_sec->VirtualAddress;
         LPVOID section_raw_ptr = (BYTE*)payload +  next_sec->PointerToRawData;
