@@ -110,7 +110,7 @@ PBYTE peconv::find_padding_cave(BYTE* modulePtr, size_t moduleSize, const size_t
         std::cout << "section: " << std::hex << sec_start << " : " << sec_end << std::endl;
 #endif
         //offset from the end of the section:
-        DWORD cave_offset = section_hdr->SizeOfRawData - minimal_size;
+        size_t cave_offset = section_hdr->SizeOfRawData - minimal_size;
         PBYTE cave_ptr = modulePtr + sec_start + cave_offset;
         if (!validate_ptr(modulePtr, moduleSize, cave_ptr, minimal_size)) {
 #ifdef _DEBUG
