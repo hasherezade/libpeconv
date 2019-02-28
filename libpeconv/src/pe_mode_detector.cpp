@@ -20,6 +20,7 @@ bool is_virtual_padding(const BYTE* pe_buffer, size_t pe_size)
     for (size_t i = 1; i < sections_count; i += 2) {
         PIMAGE_SECTION_HEADER sec1 = peconv::get_section_hdr(pe_buffer, pe_size, i-1);
         PIMAGE_SECTION_HEADER sec2 = peconv::get_section_hdr(pe_buffer, pe_size, i);
+        if (!sec1 || !sec2) continue; //skip if fetching any of the sections failed
 
         if (sec1->SizeOfRawData == 0) continue; //skip empty sections
 
@@ -62,7 +63,7 @@ bool is_hdr_virtual_align(const BYTE* pe_buffer, size_t pe_size)
     if (sections_count == 0) return false;
     for (size_t i = 0; i < sections_count; i++) {
         PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
-        if (sec->PointerToRawData == 0 || sec->SizeOfRawData == 0) {
+        if (!sec || sec->PointerToRawData == 0 || sec->SizeOfRawData == 0) {
             continue; // check next
         }
         if (sec->PointerToRawData >= v_align) continue;
