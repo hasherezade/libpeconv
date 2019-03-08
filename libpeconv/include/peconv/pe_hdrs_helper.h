@@ -44,8 +44,8 @@ namespace peconv {
     //Fetch the size of headers (from Optional Header).
     DWORD get_hdrs_size(IN const BYTE *pe_buffer);
 
-    //get Data Directory entry of the given number. If the entry is not filled, it returns null pointer.
-    IMAGE_DATA_DIRECTORY* get_directory_entry(IN const BYTE* pe_buffer, IN DWORD dir_id);
+    //get Data Directory entry of the given number. If the entry is not filled and allow_empty is not set, it returns null pointer.
+    IMAGE_DATA_DIRECTORY* get_directory_entry(IN const BYTE* pe_buffer, IN DWORD dir_id, IN bool allow_empty = false);
 
     // Get pointer to the Data Directory content of the given number. Automatically case to the chosen type.
     template <typename IMAGE_TYPE_DIRECTORY>

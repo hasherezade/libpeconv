@@ -101,7 +101,7 @@ bool peconv::is64bit(IN const BYTE *pe_buffer)
     return false;
 }
 
-IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(IN const BYTE *pe_buffer, IN DWORD dir_id)
+IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(IN const BYTE *pe_buffer, IN DWORD dir_id, IN bool allow_empty)
 {
     if (dir_id >= IMAGE_NUMBEROF_DIRECTORY_ENTRIES) return nullptr;
 
@@ -117,7 +117,7 @@ IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(IN const BYTE *pe_buffer, IN D
         IMAGE_NT_HEADERS32* nt_headers64 = (IMAGE_NT_HEADERS32*)nt_headers;
         peDir = &(nt_headers64->OptionalHeader.DataDirectory[dir_id]);
     }
-    if (peDir->VirtualAddress == NULL) {
+    if (!allow_empty && peDir->VirtualAddress == NULL) {
         return nullptr;
     }
     return peDir;
