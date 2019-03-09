@@ -7,14 +7,39 @@
 
 using namespace peconv;
 
+bool peconv::fetch_region_info(HANDLE processHandle, BYTE* moduleBase, MEMORY_BASIC_INFORMATION &page_info)
+{
+    memset(&page_info, 0, sizeof(MEMORY_BASIC_INFORMATION));
+    SIZE_T out = VirtualQueryEx(processHandle, (LPCVOID)moduleBase, &page_info, sizeof(page_info));
+    if (out != sizeof(page_info)) {
+        return false;
+    }
+    return true;
+}
+
+size_t peconv::fetch_region_size(HANDLE processHandle, BYTE* moduleBase)
+{
+    MEMORY_BASIC_INFORMATION page_info = { 0 };
+    if (!peconv::fetch_region_info(processHandle, moduleBase, page_info)) {
+        return 0;
+    }
+    if (page_info.Type == 0) {
+        return false; //invalid type, skip it
+    }
+    if ((BYTE*)page_info.BaseAddress > moduleBase) {
+        return 0; //should never happen
+    }
+    size_t offset = moduleBase - (BYTE*)page_info.BaseAddress;
+    size_t area_size = page_info.RegionSize - offset;
+    return area_size;
+}
+
 size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
     if (buffer == nullptr) {
         return 0;
     }
-
     memset(buffer, 0, buffer_size);
-
     SIZE_T read_size = 0;
     SIZE_T to_read_size = buffer_size;
 
@@ -48,6 +73,43 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
     std::cerr << "[WARNING] Cannot read memory. Last Error : " << last_error << std::endl;
 #endif
     return 0;
+}
+
+size_t read_remote_region(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
+{
+    if (buffer == nullptr) {
+        return 0;
+    }
+    MEMORY_BASIC_INFORMATION page_info = { 0 };
+    size_t region_size = peconv::fetch_region_size(processHandle, start_addr);
+    if (region_size == 0) return false;
+
+    if (region_size >= buffer_size) {
+        return peconv::read_remote_memory(processHandle, start_addr, buffer, buffer_size, step_size);
+    }
+    return peconv::read_remote_memory(processHandle, start_addr, buffer, region_size, step_size);
+}
+
+size_t peconv::read_remote_area(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
+{
+    if (!buffer || !start_addr) {
+        return 0;
+    }
+    memset(buffer, 0, buffer_size);
+
+    size_t read = 0;
+    for (read = 0; read < buffer_size; ) {
+        size_t read_chunk = read_remote_region(processHandle, start_addr + read, buffer + read, buffer_size - read, step_size);
+        if (read_chunk == 0) {
+            size_t region_size = peconv::fetch_region_size(processHandle, start_addr);
+            if (region_size == 0) break;
+            //skip the region that could not be read:
+            read += region_size;
+            continue;
+        }
+        read += read_chunk;
+    }
+    return read;
 }
 
 bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size)

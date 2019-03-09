@@ -9,13 +9,26 @@
 
 namespace peconv {
 
+    bool fetch_region_info(HANDLE processHandle, BYTE* start_addr, MEMORY_BASIC_INFORMATION &page_info);
+
+    size_t fetch_region_size(HANDLE processHandle, BYTE* start_addr);
+
     /**
-    Wrapper over ReadProcessMemory. If reading full buffer_size was not possible, it will keep trying to read smaller chunk,
+    Wrapper over ReadProcessMemory. Requires a handle with privilege PROCESS_VM_READ.
+    If reading full buffer_size was not possible, it will keep trying to read smaller chunk,
     decreasing requested size by step_size in each iteration. Returns how many bytes were successfuly read.
-    It is a workaround for errors such as FAULTY_HARDWARE_CORRUPTED_PAGE.
+    It is a workaround for errors such as FAULTY_HARDWARE_CORRUPTED_PAGE. 
     */
     size_t read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size = 0x100);
 
+    /**
+    Reads the full memory area of a given size within a given process, skipping inaccessible pages.
+    Requires a handle with privilege PROCESS_QUERY_INFORMATION.
+    step_size is passed to the underlying read_remote_memory.
+    */
+    size_t read_remote_area(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size = 0x100);
+
+    //size_t read_remote_area(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size);
     /**
     Reads a PE header of the remote module within the given process. Requires a valid output buffer to be supplied (buffer).
     */
