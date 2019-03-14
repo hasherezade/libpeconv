@@ -39,7 +39,7 @@ bool is_virtual_padding(const BYTE* pe_buffer, size_t pe_size)
             //std::cout << "Invalid pointer to the section\n";
             return false;
         }
-        if (is_padding(sec1_end_ptr, diff, 0)) {
+        if (peconv::is_padding(sec1_end_ptr, diff, 0)) {
             is_valid_padding = true;
         }
         else {
@@ -73,14 +73,14 @@ bool is_hdr_virtual_align(const BYTE* pe_buffer, size_t pe_size)
         if (!peconv::validate_ptr((const LPVOID)pe_buffer, pe_size, sec_raw_ptr, diff)) {
             return false;
         }
-        if (is_padding(sec_raw_ptr, diff, 0)) {
+        if (peconv::is_padding(sec_raw_ptr, diff, 0)) {
             return true;
         }
     }
     return false;
 }
 
-bool peconv::is_pe_raw(const BYTE* pe_buffer, size_t pe_size)
+bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
 {
     size_t v_score = 0;
     if (peconv::has_valid_import_table((const PBYTE)pe_buffer, pe_size)) {
@@ -114,7 +114,7 @@ bool peconv::is_pe_raw(const BYTE* pe_buffer, size_t pe_size)
 }
 
 // checks if any of the executable sections has been expanded in the memory
-bool peconv::is_pe_expanded(const BYTE* pe_buffer, size_t pe_size)
+bool peconv::is_pe_expanded(IN const BYTE* pe_buffer, IN size_t pe_size)
 {
     //walk through sections and check their sizes
     size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
@@ -129,7 +129,7 @@ bool peconv::is_pe_expanded(const BYTE* pe_buffer, size_t pe_size)
 }
 
 // checks if the section's content in memory is bigger than in the raw format
-bool peconv::is_section_expanded(const BYTE* pe_buffer, size_t pe_size, const PIMAGE_SECTION_HEADER sec)
+bool peconv::is_section_expanded(IN const BYTE* pe_buffer, IN size_t pe_size, const PIMAGE_SECTION_HEADER sec)
 {
     if (!sec) return false;
 
