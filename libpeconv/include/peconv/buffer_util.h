@@ -6,9 +6,9 @@ namespace peconv {
 
     //validates pointers,  checks if the particular field is inside the given buffer
     bool validate_ptr(
-        IN const LPVOID buffer_bgn, 
+        IN const void* buffer_bgn, 
         IN SIZE_T buffer_size,
-        IN const LPVOID field_bgn,
+        IN const void* field_bgn,
         IN SIZE_T field_size
     );
 
