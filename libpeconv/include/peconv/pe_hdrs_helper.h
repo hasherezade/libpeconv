@@ -91,16 +91,16 @@ namespace peconv {
     bool has_relocations(IN const BYTE *pe_buffer);
 
     IMAGE_COR20_HEADER* get_dotnet_hdr(
-        IN const PBYTE pe_buffer,
+        IN const BYTE* pe_buffer,
         IN size_t const buffer_size,
         IN const IMAGE_DATA_DIRECTORY* dotNetDir
     );
 
     // Fetch section aligmenent from headers. Depending on the flag, it fetches either Raw Alignment or Virtual Alignment.
-    DWORD get_sec_alignment(IN const PBYTE modulePtr, IN bool is_raw);
+    DWORD get_sec_alignment(IN const BYTE* modulePtr, IN bool is_raw);
 
     // Change section aligmenent in headers. Depending on the flag, it sets either Raw Alignment or Virtual Alignment.
-    bool set_sec_alignment(IN OUT PBYTE pe_buffer, IN bool is_raw, IN DWORD new_alignment);
+    bool set_sec_alignment(IN OUT BYTE* pe_buffer, IN bool is_raw, IN DWORD new_alignment);
 
     // Get size of virtual section from the headers (optionaly rounds it up to the Virtual Alignment)
     DWORD get_virtual_sec_size(

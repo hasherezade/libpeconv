@@ -430,7 +430,7 @@ IMAGE_EXPORT_DIRECTORY* peconv::get_export_directory(IN HMODULE modulePtr)
 }
 
 
-IMAGE_COR20_HEADER * peconv::get_dotnet_hdr(IN const PBYTE module, IN size_t const module_size, IN const IMAGE_DATA_DIRECTORY * dotNetDir)
+IMAGE_COR20_HEADER * peconv::get_dotnet_hdr(IN const BYTE* module, IN size_t const module_size, IN const IMAGE_DATA_DIRECTORY * dotNetDir)
 {
     DWORD rva = dotNetDir->VirtualAddress;
     DWORD hdr_size = dotNetDir->Size;
@@ -451,7 +451,7 @@ IMAGE_COR20_HEADER * peconv::get_dotnet_hdr(IN const PBYTE module, IN size_t con
 }
 
 template <typename IMAGE_NT_HEADERS_T>
-DWORD* _get_sec_alignment_ptr(const PBYTE modulePtr, bool is_raw)
+DWORD* _get_sec_alignment_ptr(const BYTE* modulePtr, bool is_raw)
 {
     IMAGE_NT_HEADERS_T* hdrs = reinterpret_cast<IMAGE_NT_HEADERS_T*>(peconv::get_nt_hrds(modulePtr));
     if (!hdrs) return nullptr;
@@ -461,7 +461,7 @@ DWORD* _get_sec_alignment_ptr(const PBYTE modulePtr, bool is_raw)
     return &hdrs->OptionalHeader.SectionAlignment;
 }
 
-DWORD peconv::get_sec_alignment(IN const PBYTE modulePtr, IN bool is_raw)
+DWORD peconv::get_sec_alignment(IN const BYTE* modulePtr, IN bool is_raw)
 {
     DWORD* alignment = 0;
     if (peconv::is64bit(modulePtr)) {
@@ -473,7 +473,7 @@ DWORD peconv::get_sec_alignment(IN const PBYTE modulePtr, IN bool is_raw)
     return *alignment;
 }
 
-bool peconv::set_sec_alignment(IN OUT PBYTE modulePtr, IN bool is_raw, IN DWORD new_alignment)
+bool peconv::set_sec_alignment(IN OUT BYTE* modulePtr, IN bool is_raw, IN DWORD new_alignment)
 {
     DWORD* alignment = 0;
     if (peconv::is64bit(modulePtr)) {
