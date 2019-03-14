@@ -531,3 +531,73 @@ DWORD peconv::calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool 
     }
     return module_end;
 }
+
+bool peconv::is_valid_sectons_header(IN const BYTE* payload, IN const SIZE_T payload_size)
+{
+    if (payload == NULL) return false;
+
+    bool is64b = is64bit(payload);
+
+    BYTE* payload_nt_hdr = get_nt_hrds(payload);
+    if (payload_nt_hdr == NULL) {
+        return false;
+    }
+
+    IMAGE_FILE_HEADER *fileHdr = NULL;
+    DWORD hdrsSize = 0;
+    LPVOID secptr = NULL;
+    if (is64b) {
+        IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+        fileHdr = &(payload_nt_hdr64->FileHeader);
+        hdrsSize = payload_nt_hdr64->OptionalHeader.SizeOfHeaders;
+        secptr = (LPVOID)((ULONGLONG)&(payload_nt_hdr64->OptionalHeader) + fileHdr->SizeOfOptionalHeader);
+    }
+    else {
+        IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+        fileHdr = &(payload_nt_hdr32->FileHeader);
+        hdrsSize = payload_nt_hdr32->OptionalHeader.SizeOfHeaders;
+        secptr = (LPVOID)((ULONGLONG)&(payload_nt_hdr32->OptionalHeader) + fileHdr->SizeOfOptionalHeader);
+    }
+    if (!validate_ptr(payload, payload_size, (const LPVOID)payload, hdrsSize)) {
+        return false;
+    }
+
+    const DWORD raw_align = peconv::get_sec_alignment(payload, true);
+    const DWORD virtual_align = peconv::get_sec_alignment(payload, false);
+
+    SIZE_T raw_end = hdrsSize;
+    for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
+        PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONGLONG)secptr + (IMAGE_SIZEOF_SECTION_HEADER * i));
+        if (!validate_ptr(payload, payload_size, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) {
+            return false;
+        }
+
+        const BYTE* section_mapped = payload + next_sec->VirtualAddress;
+        const BYTE* section_raw_ptr = payload + next_sec->PointerToRawData;
+        SIZE_T r_sec_size = next_sec->SizeOfRawData;
+        if (r_sec_size == 0) continue;
+
+        SIZE_T v_sec_size = next_sec->Misc.VirtualSize;
+        if (v_sec_size == 0) continue;
+
+        if (next_sec->PointerToRawData == 0 || next_sec->VirtualAddress == 0) {
+            //if cannot be 0 if the size is not 0
+            return false;
+        }
+        if (next_sec->PointerToRawData % raw_align != 0) {
+            return false; //misaligned
+        }
+        if (next_sec->VirtualAddress % virtual_align != 0) {
+            return false; //misaligned
+        }
+        //validate virtual pointer:
+        if (!peconv::validate_ptr(payload, payload_size, (const LPVOID)section_mapped, r_sec_size)) {
+            return false;
+        }
+        //validate raw pointer:
+        if (!peconv::validate_ptr(payload, payload_size, (const LPVOID)section_raw_ptr, r_sec_size)) {
+            return false;
+        }
+    }
+    return true;
+}

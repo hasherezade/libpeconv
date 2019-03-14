@@ -116,4 +116,6 @@ namespace peconv {
         IN bool is_raw
     );
 
+    bool is_valid_sectons_header(IN const BYTE* payload, IN const SIZE_T payload_size);
+
 }; // namespace peconv
