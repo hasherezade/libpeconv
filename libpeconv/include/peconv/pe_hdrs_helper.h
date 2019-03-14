@@ -73,7 +73,7 @@ namespace peconv {
     );
 
     //Checks if the section headers are reachable. It does not validate sections alignment.
-    bool is_valid_sections_hdr(IN const BYTE* buffer, IN const size_t buffer_size);
+    bool is_valid_sections_hdr_offset(IN const BYTE* buffer, IN const size_t buffer_size);
 
     // Gets pointer to the section header of the given number.
     PIMAGE_SECTION_HEADER get_section_hdr(

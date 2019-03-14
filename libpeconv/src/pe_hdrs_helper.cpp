@@ -299,7 +299,7 @@ size_t peconv::get_sections_count(IN const BYTE* payload, IN const size_t buffer
     return fileHdr->NumberOfSections;
 }
 
-bool peconv::is_valid_sections_hdr(IN const BYTE* buffer, IN const size_t buffer_size)
+bool peconv::is_valid_sections_hdr_offset(IN const BYTE* buffer, IN const size_t buffer_size)
 {
     size_t sec_count = peconv::get_sections_count(buffer, buffer_size);
     if (sec_count == 0) {

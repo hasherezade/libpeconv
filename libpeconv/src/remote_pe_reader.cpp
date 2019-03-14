@@ -194,7 +194,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             return 0;
         }
     }
-    if (!is_valid_sections_hdr(hdr_buffer, MAX_HEADER_SIZE)) {
+    if (!is_valid_sections_hdr_offset(hdr_buffer, MAX_HEADER_SIZE)) {
         std::cerr << "[-] Sections headers are invalid or atypically aligned" << std::endl;
         return 0;
     }
