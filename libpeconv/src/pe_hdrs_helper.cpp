@@ -590,13 +590,13 @@ bool peconv::is_valid_sectons_header(IN const BYTE* payload, IN const SIZE_T pay
         if (next_sec->VirtualAddress % virtual_align != 0) {
             return false; //misaligned
         }
-        //validate virtual pointer:
-        if (!peconv::validate_ptr(payload, payload_size, (const LPVOID)section_mapped, r_sec_size)) {
-            return false;
+        //check only if raw_align is non-zero
+        if (raw_align && next_sec->PointerToRawData % raw_align != 0) {
+            return false; //misaligned
         }
-        //validate raw pointer:
-        if (!peconv::validate_ptr(payload, payload_size, (const LPVOID)section_raw_ptr, r_sec_size)) {
-            return false;
+        //check only if virtual align is correct
+        if (virtual_align && next_sec->VirtualAddress % virtual_align != 0) {
+            return false; //misaligned
         }
     }
     return true;
