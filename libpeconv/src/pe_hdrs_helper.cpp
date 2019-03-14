@@ -584,12 +584,6 @@ bool peconv::is_valid_sectons_header(IN const BYTE* payload, IN const SIZE_T pay
             //if cannot be 0 if the size is not 0
             return false;
         }
-        if (next_sec->PointerToRawData % raw_align != 0) {
-            return false; //misaligned
-        }
-        if (next_sec->VirtualAddress % virtual_align != 0) {
-            return false; //misaligned
-        }
         //check only if raw_align is non-zero
         if (raw_align && next_sec->PointerToRawData % raw_align != 0) {
             return false; //misaligned
