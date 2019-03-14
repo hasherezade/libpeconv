@@ -532,64 +532,43 @@ DWORD peconv::calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool 
     return module_end;
 }
 
-bool peconv::is_valid_sectons_header(IN const BYTE* payload, IN const SIZE_T payload_size)
+bool peconv::is_valid_sectons_alignment(IN const BYTE* payload, IN const SIZE_T payload_size, IN bool is_raw)
 {
     if (payload == NULL) return false;
 
-    bool is64b = is64bit(payload);
-
-    BYTE* payload_nt_hdr = get_nt_hrds(payload);
-    if (payload_nt_hdr == NULL) {
+    const DWORD my_align = peconv::get_sec_alignment(payload, is_raw);
+    if (my_align == 0) {
+#ifdef _DEBUG
+        std::cout << "Section alignment cannot be 0\n";
+#endif
         return false;
     }
-
-    IMAGE_FILE_HEADER *fileHdr = NULL;
-    DWORD hdrsSize = 0;
-    LPVOID secptr = NULL;
-    if (is64b) {
-        IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
-        fileHdr = &(payload_nt_hdr64->FileHeader);
-        hdrsSize = payload_nt_hdr64->OptionalHeader.SizeOfHeaders;
-        secptr = (LPVOID)((ULONGLONG)&(payload_nt_hdr64->OptionalHeader) + fileHdr->SizeOfOptionalHeader);
-    }
-    else {
-        IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
-        fileHdr = &(payload_nt_hdr32->FileHeader);
-        hdrsSize = payload_nt_hdr32->OptionalHeader.SizeOfHeaders;
-        secptr = (LPVOID)((ULONGLONG)&(payload_nt_hdr32->OptionalHeader) + fileHdr->SizeOfOptionalHeader);
-    }
-    if (!validate_ptr(payload, payload_size, (const LPVOID)payload, hdrsSize)) {
+    size_t sections_count = peconv::get_sections_count(payload, payload_size);
+    if (sections_count == 0) {
+        //no sections
         return false;
     }
+    for (WORD i = 0; i < sections_count; i++) {
+        PIMAGE_SECTION_HEADER next_sec = peconv::get_section_hdr(payload, payload_size, i);
 
-    const DWORD raw_align = peconv::get_sec_alignment(payload, true);
-    const DWORD virtual_align = peconv::get_sec_alignment(payload, false);
+        const DWORD next_sec_addr = is_raw ? (next_sec->PointerToRawData) : (next_sec->VirtualAddress);
+        const BYTE* section_ptr = payload + next_sec_addr;
 
-    SIZE_T raw_end = hdrsSize;
-    for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
-        PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONGLONG)secptr + (IMAGE_SIZEOF_SECTION_HEADER * i));
-        if (!validate_ptr(payload, payload_size, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) {
-            return false;
+        SIZE_T sec_size = is_raw ? next_sec->SizeOfRawData : next_sec->Misc.VirtualSize;
+        if (sec_size == 0) continue;
+        if (next_sec->Misc.VirtualSize == 0) {
+            continue; // if the VirtualSize == 0 the section will not be mapped anyways
         }
-
-        const BYTE* section_mapped = payload + next_sec->VirtualAddress;
-        const BYTE* section_raw_ptr = payload + next_sec->PointerToRawData;
-        SIZE_T r_sec_size = next_sec->SizeOfRawData;
-        if (r_sec_size == 0) continue;
-
-        SIZE_T v_sec_size = next_sec->Misc.VirtualSize;
-        if (v_sec_size == 0) continue;
-
-        if (next_sec->PointerToRawData == 0 || next_sec->VirtualAddress == 0) {
+        if (next_sec_addr == 0) {
             //if cannot be 0 if the size is not 0
             return false;
         }
+
         //check only if raw_align is non-zero
-        if (raw_align && next_sec->PointerToRawData % raw_align != 0) {
-            return false; //misaligned
-        }
-        //check only if virtual align is correct
-        if (virtual_align && next_sec->VirtualAddress % virtual_align != 0) {
+        if (my_align && next_sec_addr % my_align != 0) {
+#ifdef _DEBUG
+            std::cout << "Section is misaligned\n";
+#endif
             return false; //misaligned
         }
     }
