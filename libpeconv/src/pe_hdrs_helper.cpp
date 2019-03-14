@@ -2,6 +2,10 @@
 
 using namespace peconv;
 
+#ifdef _DEBUG
+#include <iostream>
+#endif
+
 BYTE* peconv::get_nt_hrds(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_size)
 {
     if (!pe_buffer) return nullptr;
