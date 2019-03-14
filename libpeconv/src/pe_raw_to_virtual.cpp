@@ -74,6 +74,11 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
             std::cerr << "[-] Section " << i << ":  out ouf bounds, skipping... " << std::endl;
             continue;
         }
+        // validate destination:
+        if (!peconv::validate_ptr(destBuffer, destBufferSize, section_mapped, sec_size)) {
+            std::cerr << "[-] Section " << i << ":  out ouf bounds, skipping... " << std::endl;
+            continue;
+        }
         memcpy(section_mapped, section_raw_ptr, sec_size);
     }
     return true;
