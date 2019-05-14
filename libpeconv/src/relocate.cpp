@@ -79,7 +79,7 @@ bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, UL
         }
         parsedSize += reloc->SizeOfBlock;
 
-        if (reloc->VirtualAddress == NULL || reloc->SizeOfBlock == 0) {
+        if (reloc->SizeOfBlock == 0) {
             break;
         }
 
