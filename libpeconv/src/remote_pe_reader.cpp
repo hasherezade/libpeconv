@@ -34,6 +34,18 @@ size_t peconv::fetch_region_size(HANDLE processHandle, BYTE* moduleBase)
     return area_size;
 }
 
+ULONGLONG peconv::fetch_alloc_base(HANDLE processHandle, BYTE* moduleBase)
+{
+    MEMORY_BASIC_INFORMATION page_info = { 0 };
+    if (!peconv::fetch_region_info(processHandle, moduleBase, page_info)) {
+        return 0;
+    }
+    if (page_info.Type == 0) {
+        return 0; //invalid type, skip it
+    }
+    return (ULONGLONG) page_info.AllocationBase;
+}
+
 size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
     if (buffer == nullptr) {

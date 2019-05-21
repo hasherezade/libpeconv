@@ -13,6 +13,8 @@ namespace peconv {
 
     size_t fetch_region_size(HANDLE processHandle, BYTE* start_addr);
 
+    ULONGLONG fetch_alloc_base(HANDLE processHandle, BYTE* start_addr);
+
     /**
     Wrapper over ReadProcessMemory. Requires a handle with privilege PROCESS_VM_READ.
     If reading full buffer_size was not possible, it will keep trying to read smaller chunk,
