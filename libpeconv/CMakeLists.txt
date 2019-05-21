@@ -29,6 +29,7 @@ set (srcs
 	src/file_util.cpp
 	src/resource_util.cpp
 	src/imports_uneraser.cpp
+	src/load_config_util.cpp
 	src/caves.cpp
 	src/util.cpp
 )
@@ -57,6 +58,8 @@ set (hdrs
 	include/peconv/file_util.h
 	include/peconv/resource_util.h
 	include/peconv/imports_uneraser.h
+	include/peconv/load_config_util.h
+	include/peconv/load_config_defs.h
 	include/peconv/caves.h
 )
 
