@@ -47,7 +47,7 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
     while (to_read_size > 0) {
         BOOL is_ok = ReadProcessMemory(processHandle, start_addr, buffer, to_read_size, &read_size);
         if (!is_ok) {
-            if (last_error != 0 && read_size == 0) {
+            if (read_size == 0 && (last_error != 0 && last_error != ERROR_PARTIAL_COPY)) {
                 break; // no progress, break
             }
             last_error = GetLastError();
