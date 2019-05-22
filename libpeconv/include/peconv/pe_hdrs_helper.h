@@ -82,7 +82,11 @@ namespace peconv {
         IN size_t section_num
     );
 
+    WORD get_file_characteristics(IN const BYTE* payload);
+
     bool is_module_dll(IN const BYTE* payload);
+
+    WORD get_dll_characteristics(IN const BYTE* payload);
 
     bool set_subsystem(IN OUT BYTE* payload, IN WORD subsystem);
 

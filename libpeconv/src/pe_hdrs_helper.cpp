@@ -349,25 +349,53 @@ PIMAGE_SECTION_HEADER peconv::get_section_hdr(IN const BYTE* payload, IN const s
     return next_sec;
 }
 
-bool peconv::is_module_dll(IN const BYTE* payload)
+WORD peconv::get_file_characteristics(IN const BYTE* payload)
 {
-    if (!payload) return false;
+    if (!payload) return 0;
 
     bool is64b = is64bit(payload);
     BYTE* payload_nt_hdr = get_nt_hrds(payload);
     if (!payload_nt_hdr) {
-        return false;
+        return 0;
     }
     IMAGE_FILE_HEADER *fileHdr = nullptr;
     if (is64b) {
         IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
         fileHdr = &(payload_nt_hdr64->FileHeader);
-    } else {
+    }
+    else {
         IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
         fileHdr = &(payload_nt_hdr32->FileHeader);
     }
-    DWORD flag = fileHdr->Characteristics & 0x2000;
-    return (flag != 0);
+    return fileHdr->Characteristics;
+}
+
+bool peconv::is_module_dll(IN const BYTE* payload)
+{
+    if (!payload) return false;
+    WORD charact = get_file_characteristics(payload);
+    return ((charact & IMAGE_FILE_DLL) != 0);
+}
+
+WORD peconv::get_dll_characteristics(IN const BYTE* payload)
+{
+    if (!payload) return 0;
+
+    bool is64b = is64bit(payload);
+    BYTE* payload_nt_hdr = get_nt_hrds(payload);
+    if (!payload_nt_hdr) {
+        return 0;
+    }
+    WORD charact = 0;
+    if (is64b) {
+        IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
+        charact = payload_nt_hdr64->OptionalHeader.DllCharacteristics;
+    }
+    else {
+        IMAGE_NT_HEADERS32* payload_nt_hdr32 = (IMAGE_NT_HEADERS32*)payload_nt_hdr;
+        charact = payload_nt_hdr32->OptionalHeader.DllCharacteristics;
+    }
+    return charact;
 }
 
 bool peconv::set_subsystem(IN OUT BYTE* payload, IN WORD subsystem)
