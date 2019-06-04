@@ -123,7 +123,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
                                OUT std::set<ULONGLONG> &not_found
                                )
 {
-    size_t coveredCount = 0;
+    std::set<ULONGLONG> coveredAddresses;
     std::set<ULONGLONG>::iterator addrItr;
     for (addrItr = addresses.begin(); addrItr != addresses.end(); addrItr++) {
 
@@ -150,7 +150,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
             }
             ExportedFunc func = *strItr;
             addr_to_func[searchedAddr].insert(func);
-            coveredCount++;
+            coveredAddresses.insert(searchedAddr);
         }
         if (addr_to_func.find(searchedAddr) == addr_to_func.end()) {
             const ExportedFunc* func = exportsMap.find_export_by_va(searchedAddr);
@@ -160,7 +160,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
 #endif
         }
     }
-    return coveredCount;
+    return coveredAddresses.size();
 }
 
 size_t ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
