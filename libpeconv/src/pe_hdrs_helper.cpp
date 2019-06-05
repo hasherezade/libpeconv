@@ -84,6 +84,22 @@ DWORD peconv::get_image_size(IN const BYTE *payload)
     return image_size;
 }
 
+bool peconv::update_image_size(IN OUT BYTE* payload, IN DWORD image_size)
+{
+    if (!get_nt_hrds(payload)) {
+        return false;
+    }
+    if (is64bit(payload)) {
+        IMAGE_NT_HEADERS64* nt64 = get_nt_hrds64(payload);
+        nt64->OptionalHeader.SizeOfImage = image_size;
+    }
+    else {
+        IMAGE_NT_HEADERS32* nt32 = get_nt_hrds32(payload);
+        nt32->OptionalHeader.SizeOfImage = image_size;
+    }
+    return true;
+}
+
 WORD peconv::get_nt_hdr_architecture(IN const BYTE *pe_buffer)
 {
     void *ptr = get_nt_hrds(pe_buffer);

@@ -13,6 +13,9 @@ namespace peconv {
     // Fetch image size from headers.
     DWORD get_image_size(IN const BYTE *payload);
 
+    // Change the Image Base in Optional Header to the given one.
+    bool update_image_size(IN OUT BYTE* payload, IN DWORD destImageBase);
+
     // Fetch architecture from the NT headers. Checks for bad pointers. 
     WORD get_nt_hdr_architecture(IN const BYTE *pe_buffer);
 
@@ -57,7 +60,7 @@ namespace peconv {
     // Fetch Image Base from Optional Header.
     ULONGLONG get_image_base(IN const BYTE *pe_buffer);
 
-    // Change the Image Base IN OPTIONALional Header to the given one.
+    // Change the Image Base in Optional Header to the given one.
     bool update_image_base(IN OUT BYTE* payload, IN ULONGLONG destImageBase);
 
     // Get RVA of the Entry Point from the Optional Header.
