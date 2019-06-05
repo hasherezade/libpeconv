@@ -116,6 +116,9 @@ namespace peconv {
         IN bool rounded //if set, it rounds it up to the Virtual Alignment
     );
 
+    //get the last section (in a raw or virtual alignment)
+    PIMAGE_SECTION_HEADER get_last_section(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw);
+
     // Calculate full PE size (raw or virtual) using information from sections' headers. WARNING: it drops an overlay.
     DWORD calc_pe_size(
         IN const PBYTE pe_buffer,

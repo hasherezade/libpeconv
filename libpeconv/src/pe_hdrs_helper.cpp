@@ -561,15 +561,36 @@ DWORD peconv::get_virtual_sec_size(IN const BYTE* pe_hdr, IN const PIMAGE_SECTIO
     return vsize;
 }
 
+PIMAGE_SECTION_HEADER peconv::get_last_section(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)
+{
+    SIZE_T module_end = peconv::get_hdrs_size(pe_buffer);
+    const size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
+    if (sections_count == 0) {
+        return nullptr;
+    }
+    PIMAGE_SECTION_HEADER last_sec = nullptr;
+    //walk through sections
+    for (size_t i = 0; i < sections_count; i++) {
+        PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
+        if (!sec) break;
+
+        size_t new_end = is_raw ? (sec->PointerToRawData + sec->SizeOfRawData) : (sec->VirtualAddress + sec->Misc.VirtualSize);
+        if (new_end > module_end) {
+            module_end = new_end;
+            last_sec = sec;
+        }
+    }
+    return last_sec;
+}
+
 DWORD peconv::calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)
 {
     SIZE_T module_end = peconv::get_hdrs_size(pe_buffer);
-    size_t count = peconv::get_sections_count(pe_buffer, pe_size);
-    if (count == 0) {
+    const size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
+    if (sections_count == 0) {
         return module_end;
     }
     //walk through sections
-    size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
     for (size_t i = 0; i < sections_count; i++) {
         PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
         if (!sec) break;
