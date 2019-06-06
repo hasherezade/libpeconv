@@ -11,15 +11,16 @@ bool peconv::validate_ptr(IN const void* buffer_bgn, IN SIZE_T buffer_size, IN c
     if (buffer_bgn == nullptr || field_bgn == nullptr) {
         return false;
     }
-    ULONGLONG start = (ULONGLONG)buffer_bgn;
-    ULONGLONG end = start + buffer_size;
+    BYTE* _start = (BYTE*)buffer_bgn;
+    BYTE* _end = _start + buffer_size;
 
-    ULONGLONG field_end = (ULONGLONG)field_bgn + field_size;
+    BYTE* _field_start = (BYTE*)field_bgn;
+    BYTE* _field_end = (BYTE*)field_bgn + field_size;
 
-    if ((ULONGLONG)field_bgn < start) {
+    if (_field_start < _start) {
         return false;
     }
-    if (field_end > end) {
+    if (_field_end > _end) {
         return false;
     }
     return true;

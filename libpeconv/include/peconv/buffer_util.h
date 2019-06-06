@@ -4,7 +4,7 @@
 
 namespace peconv {
 
-    //validates pointers,  checks if the particular field is inside the given buffer
+    // Validates pointers, checks if the particular field is inside the given buffer. Sizes must be given in bytes.
     bool validate_ptr(
         IN const void* buffer_bgn, 
         IN SIZE_T buffer_size,
