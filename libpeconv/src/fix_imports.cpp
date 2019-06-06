@@ -7,7 +7,7 @@
 using namespace peconv;
 
 template <typename FIELD_T>
-size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePtr, size_t moduleSize, OUT std::set<ULONGLONG> &addresses)
+size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePtr, size_t moduleSize, IN peconv::ExportsMapper& exportsMap, OUT std::set<ULONGLONG> &addresses)
 {
     size_t addrCounter = 0;
     do {
@@ -29,9 +29,12 @@ size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modul
             //nothing to fill, probably the last record
             break;
         }
+       
         ULONGLONG searchedAddr = ULONGLONG(*call_via_val);
-        addresses.insert(searchedAddr);
-        addrCounter++;
+        if (exportsMap.find_export_by_va(searchedAddr) != nullptr) {
+            addresses.insert(searchedAddr);
+            addrCounter++;
+        }
         //---
         call_via += sizeof(FIELD_T);
         thunk_addr += sizeof(FIELD_T);
@@ -231,9 +234,9 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapp
         DWORD thunk_addr = lib_desc->OriginalFirstThunk; // warning: it can be NULL!
         std::set<ULONGLONG> addresses;
         if (!is64) {
-            find_addresses_to_fill<DWORD>(call_via, thunk_addr, modulePtr, moduleSize, addresses);
+            find_addresses_to_fill<DWORD>(call_via, thunk_addr, modulePtr, moduleSize, exportsMap, addresses);
         } else {
-            find_addresses_to_fill<ULONGLONG>(call_via, thunk_addr, modulePtr, moduleSize, addresses);
+            find_addresses_to_fill<ULONGLONG>(call_via, thunk_addr, modulePtr, moduleSize, exportsMap, addresses);
         }
         ImportedDllCoverage dllCoverage(addresses, exportsMap);
         bool is_all_covered = dllCoverage.findCoveringDll();
