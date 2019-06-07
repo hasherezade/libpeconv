@@ -55,7 +55,7 @@ namespace peconv {
     dump_mode: specifies in which format the PE should be dumped. If the mode was set to PE_DUMP_AUTO, it autodetects mode and returns the detected one.
     exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
     */
-    bool dump_remote_pe(const char *outputFilePath, 
+    bool dump_remote_pe(IN const char *outputFilePath,
                         IN const HANDLE processHandle, 
                         IN BYTE *moduleBase, 
                         IN OUT t_pe_dump_mode &dump_mode,

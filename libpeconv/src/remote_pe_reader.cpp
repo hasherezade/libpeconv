@@ -251,7 +251,11 @@ DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr
     return peconv::get_image_size(hdr_buffer);
 }
 
-bool peconv::dump_remote_pe(const char *out_path, const HANDLE processHandle, BYTE* start_addr, t_pe_dump_mode &dump_mode, peconv::ExportsMapper* exportsMap)
+bool peconv::dump_remote_pe(IN const char *out_path, 
+    IN const HANDLE processHandle, 
+    IN BYTE* start_addr, 
+    IN OUT t_pe_dump_mode &dump_mode, 
+    IN OPTIONAL peconv::ExportsMapper* exportsMap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
 #ifdef _DEBUG
