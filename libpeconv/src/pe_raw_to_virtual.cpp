@@ -56,10 +56,10 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
         SIZE_T sec_size = next_sec->SizeOfRawData;
         raw_end = next_sec->SizeOfRawData + next_sec->PointerToRawData;
         
-        if (next_sec->VirtualAddress + sec_size > destBufferSize) {
+        if ((next_sec->VirtualAddress + sec_size) > destBufferSize) {
             std::cerr << "[!] Virtual section size is out ouf bounds: " << std::hex << sec_size << std::endl;
-            sec_size = SIZE_T(destBufferSize - next_sec->VirtualAddress);
-            std::cerr << "[!] Truncated to maximal size: " << std::hex << sec_size << std::endl;
+            sec_size = (destBufferSize > next_sec->VirtualAddress) ? SIZE_T(destBufferSize - next_sec->VirtualAddress) : 0;
+            std::cerr << "[!] Truncated to maximal size: " << std::hex << sec_size << ", buffer size:" << destBufferSize << std::endl;
         }
         if (next_sec->VirtualAddress >= destBufferSize && sec_size != 0) {
             std::cerr << "[-] VirtualAddress of section is out ouf bounds: " << std::hex << next_sec->VirtualAddress << std::endl;
