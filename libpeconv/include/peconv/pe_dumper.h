@@ -27,7 +27,7 @@ namespace peconv {
         IN OUT BYTE* buffer, IN size_t mod_size,
         IN const ULONGLONG moduleBase,
         IN OUT t_pe_dump_mode &dump_mode,
-        IN OPTIONAL peconv::ExportsMapper* exportsMap = nullptr
+        IN OPTIONAL const peconv::ExportsMapper* exportsMap = nullptr
     );
 
 };// namespace peconv

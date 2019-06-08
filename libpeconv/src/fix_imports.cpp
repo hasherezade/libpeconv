@@ -7,7 +7,7 @@
 using namespace peconv;
 
 template <typename FIELD_T>
-size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePtr, size_t moduleSize, IN peconv::ExportsMapper& exportsMap, OUT std::set<ULONGLONG> &addresses)
+size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePtr, size_t moduleSize, IN const peconv::ExportsMapper& exportsMap, OUT std::set<ULONGLONG> &addresses)
 {
     size_t addrCounter = 0;
     do {
@@ -44,7 +44,7 @@ size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modul
 }
 
 //find the name of the DLL that can cover all the addresses of imported functions
-std::string find_covering_dll(std::set<ULONGLONG> &addresses, peconv::ExportsMapper& exportsMap)
+std::string find_covering_dll(std::set<ULONGLONG> &addresses, const peconv::ExportsMapper& exportsMap)
 {
     std::set<std::string> dllNames;
     bool isFresh = true;
@@ -120,11 +120,11 @@ bool ImportedDllCoverage::findCoveringDll()
 }
 
 size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses, 
-                               std::string chosenDll,
-                               peconv::ExportsMapper& exportsMap,
-                               OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
-                               OUT std::set<ULONGLONG> &not_found
-                               )
+    IN std::string chosenDll,
+    IN const peconv::ExportsMapper& exportsMap,
+    OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
+    OUT std::set<ULONGLONG> &not_found
+)
 {
     std::set<ULONGLONG> coveredAddresses;
     std::set<ULONGLONG>::iterator addrItr;
@@ -186,7 +186,7 @@ size_t ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
     return coveredCount;
 }
 
-bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap)
+bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::ExportsMapper& exportsMap)
 {
     bool skip_bound = false; // skip boud imports?
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);

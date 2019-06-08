@@ -26,7 +26,7 @@ bool peconv::dump_pe(IN const char *out_path,
     IN OUT BYTE *buffer, IN size_t mod_size,
     IN const ULONGLONG start_addr,
     IN OUT t_pe_dump_mode &dump_mode,
-    IN OPTIONAL peconv::ExportsMapper* exportsMap
+    IN OPTIONAL const peconv::ExportsMapper* exportsMap
 )
 {
     // if the exportsMap is supplied, attempt to recover the (destroyed) import table:

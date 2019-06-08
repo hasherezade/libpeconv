@@ -26,18 +26,18 @@ namespace peconv {
         }
 
         //which DLL exports the function of given address?
-        const std::set<ExportedFunc>* find_exports_by_va(ULONGLONG va)
+        const std::set<ExportedFunc>* find_exports_by_va(ULONGLONG va) const
         {
-            std::map<ULONGLONG, std::set<ExportedFunc>>::iterator itr = va_to_func.find(va);
+            std::map<ULONGLONG, std::set<ExportedFunc>>::const_iterator itr = va_to_func.find(va);
             if (itr != va_to_func.end()) {
-                std::set<ExportedFunc> &fSet = itr->second;
+                const std::set<ExportedFunc> &fSet = itr->second;
                 return &fSet;
             }
             return NULL;
         }
 
         //which DLL exports the function of given address? give the first entry
-        const ExportedFunc* find_export_by_va(ULONGLONG va)
+        const ExportedFunc* find_export_by_va(ULONGLONG va) const
         {
             const std::set<ExportedFunc>* exp_set = find_exports_by_va(va);
             if (exp_set == NULL) return NULL;

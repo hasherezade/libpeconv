@@ -18,7 +18,7 @@
 namespace peconv {
 
     //fix imports in the given module, using the given map of all available exports
-    bool fix_imports(PVOID modulePtr, size_t moduleSize, peconv::ExportsMapper& exportsMap);
+    bool fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::ExportsMapper& exportsMap);
     
     // a helper class that allows to find out where the functions are imported from
     class ImportedDllCoverage
@@ -26,7 +26,7 @@ namespace peconv {
     public:
         //_addresses: the list of filled imports (VAs)
         //_exportsMap: the map of the exports of all loaded DLLs (the space in which we will be searching)
-        ImportedDllCoverage(std::set<ULONGLONG>& _addresses, peconv::ExportsMapper& _exportsMap)
+        ImportedDllCoverage(std::set<ULONGLONG>& _addresses, const peconv::ExportsMapper& _exportsMap)
             : addresses(_addresses), exportsMap(_exportsMap)
         {
         }
@@ -54,7 +54,6 @@ namespace peconv {
         std::string mappedDllName;
 
         std::set<ULONGLONG> &addresses;
-        peconv::ExportsMapper& exportsMap;
-        
+        const peconv::ExportsMapper& exportsMap; //only using as a lookup, not changing
     };
 }
