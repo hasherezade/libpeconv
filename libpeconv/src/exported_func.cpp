@@ -7,7 +7,7 @@
 
 using namespace peconv;
 
-std::string peconv::get_dll_name(const std::string& str)
+std::string peconv::get_dll_shortname(const std::string& str)
 {
     std::size_t len = str.length();
     std::size_t found = str.find_last_of("/\\");
@@ -80,7 +80,7 @@ DWORD peconv::ordinal_string_to_val(const std::string& func_name_str)
 
 std::string peconv::format_dll_func(const std::string& str)
 {
-    std::string dllName = get_dll_name(str);
+    std::string dllName = get_dll_shortname(str);
     std::string funcName = get_func_name(str);
     if (dllName.length() == 0 || funcName.length() == 0) {
         return "";
@@ -114,7 +114,7 @@ ExportedFunc::ExportedFunc(const ExportedFunc& other)
 
 ExportedFunc::ExportedFunc(const std::string &forwarderName)
 {
-    this->libName = get_dll_name(forwarderName);
+    this->libName = get_dll_shortname(forwarderName);
     std::string func_name_str =  get_func_name(forwarderName);
     if (func_name_str.length() < 2) {
         this->funcOrdinal = -1;

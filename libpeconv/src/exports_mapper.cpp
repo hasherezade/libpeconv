@@ -137,7 +137,8 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     if (!is_valid_export_table(exp, modulePtr, module_size)) {
         return 0;
     }
-    std::string dllName = get_dll_name(moduleName);
+    std::string dllName = get_dll_shortname(moduleName);
+    this->dll_shortname_to_path[dllName] = moduleName;
 
     std::map<PDWORD, DWORD> va_to_ord;
     size_t functCount = make_ord_lookup_tables(modulePtr, module_size, va_to_ord);

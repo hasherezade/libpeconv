@@ -9,6 +9,7 @@
 #include "pe_hdrs_helper.h"
 #include "pe_raw_to_virtual.h"
 #include "peconv/exported_func.h"
+#include "peconv/file_util.h"
 
 namespace peconv {
 
@@ -36,6 +37,23 @@ namespace peconv {
             return NULL;
         }
 
+        std::string get_dll_path(std::string short_name) const
+        {
+            std::map<std::string, std::string>::const_iterator found = this->dll_shortname_to_path.find(short_name);
+            if (found == dll_shortname_to_path.end()) {
+                return "";
+            }
+            return found->second;
+        }
+
+        std::string get_dll_fullname(std::string short_name) const
+        {
+            std::string dll_path = get_dll_path(short_name);
+            if (dll_path.length() == 0) return "";
+
+            return get_file_name(dll_path);
+        }
+
         //which DLL exports the function of given address? give the first entry
         const ExportedFunc* find_export_by_va(ULONGLONG va) const
         {
@@ -58,6 +76,7 @@ namespace peconv {
         std::map<ULONGLONG, std::set<ExportedFunc>> va_to_func;
         std::map<ExportedFunc, std::set<ExportedFunc>> forwarders_lookup;
         std::map<ExportedFunc, ULONGLONG> func_to_va;
+        std::map<std::string, std::string> dll_shortname_to_path;
     };
 
 }; //namespace peconv

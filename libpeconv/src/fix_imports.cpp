@@ -1,5 +1,6 @@
 #include "peconv/fix_imports.h"
 #include "peconv/imports_uneraser.h"
+#include "peconv/file_util.h"
 
 #include <iostream>
 #include <algorithm>
@@ -177,7 +178,7 @@ size_t ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
 
     size_t coveredCount = map_addresses_to_functions(this->addresses, dll, this->exportsMap, this->addrToFunc, this->notFound); 
     if (notFound.size()) {
-        std::cerr << "[-] Not all addresses are covered! Not found: " << std::dec << notFound.size() << std::endl;
+        std::cout << "[-] Not all addresses are covered! Not found: " << std::dec << notFound.size() << std::endl;
     } else {
 #ifdef _DEBUG
         std::cout << "All covered!" << std::endl;
@@ -242,7 +243,7 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::Expor
         bool is_all_covered = dllCoverage.findCoveringDll();
         bool is_lib_erased = false;
 
-        lib_name = get_dll_name(lib_name); //without extension
+        lib_name = get_dll_shortname(lib_name); //without extension
 
         if (lib_name.length() == 0) {
             is_lib_erased = true;
@@ -268,7 +269,8 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::Expor
             return false;
         }
         if (is_lib_erased) {
-            impUneraser.uneraseDllName(lib_desc, dllCoverage);
+            const std::string dll_with_ext = exportsMap.get_dll_fullname(dllCoverage.dllName);
+            impUneraser.uneraseDllName(lib_desc, dll_with_ext);
         }
     }
 #ifdef _DEBUG

@@ -19,11 +19,11 @@ LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
     return NULL;
 }
 
-bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string found_name)
+bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string found_name)
 {
     if (found_name.find_last_of(".")  >= found_name.length()) {
         //if no extension found, append extension DLL
-        found_name += ".dll"; //TODO: it not always has to have extension DLL!
+        found_name;
     }
 #ifdef _DEBUG
     std::cout << "Found name:" << found_name << std::endl;
@@ -41,7 +41,7 @@ bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::
     return true;
 }
 
-bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage)
+bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string dll_name)
 {
     LPSTR name_ptr = nullptr;
     if (lib_desc->Name != 0) {
@@ -49,17 +49,17 @@ bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, Imported
     }
     if (name_ptr == nullptr || !validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
         //try to get the cave:
-        DWORD cave_size = DWORD(dllCoverage.dllName.length() + 4 + 1 + 5); //extension + ending null + padding
+        DWORD cave_size = DWORD(dll_name.length() + 1 + 5); //ending null + padding
         PBYTE ptr = find_ending_cave(modulePtr, moduleSize, cave_size);
         if (ptr == nullptr) {
-            std::cerr << "Cannot save the DLL name: " << dllCoverage.dllName << std::endl;
+            std::cerr << "Cannot save the DLL name: " << dll_name << std::endl;
             return false;
         }
         DWORD cave_rva = static_cast<DWORD>(ptr - modulePtr);
         lib_desc->Name = cave_rva;
     }
 
-    if (writeFoundDllName(lib_desc, dllCoverage.dllName)) {
+    if (writeFoundDllName(lib_desc, dll_name)) {
         return true; // written the found name
     }
     return false;

@@ -11,7 +11,7 @@ namespace peconv {
     size_t forwarder_name_len(BYTE* fPtr); 
 
     // get the DLL name without the extension
-    std::string get_dll_name(const std::string& str);
+    std::string get_dll_shortname(const std::string& str);
 
     std::string get_func_name(const std::string& str);
     std::string ordinal_to_string(DWORD func_ordinal);

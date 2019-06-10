@@ -22,7 +22,7 @@ namespace peconv {
         }
 
         bool uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage);
-        bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage);
+        bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string dll_name);
 
     protected:
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <windows.h>
+#include <iostream>
+
 #include "buffer_util.h"
 
 namespace peconv {
@@ -11,7 +13,7 @@ namespace peconv {
     The actual read size is returned back in read_size.
     Automatically allocates a buffer of the required size.
     */
-    peconv::ALIGNED_BUF load_file(const char *filename, OUT size_t &r_size);
+    peconv::ALIGNED_BUF load_file(IN const char *filename, OUT size_t &r_size);
 
     /**
     Reads a raw content of the file with the given path. 
@@ -26,5 +28,9 @@ namespace peconv {
 
     //free the buffer allocated by load_file/read_from_file
     void free_file(IN peconv::ALIGNED_BUF buffer);
+
+    std::string get_file_name(IN const std::string str);
+
+    std::string get_directory_name(IN const std::string str);
 
 }; //namespace peconv
