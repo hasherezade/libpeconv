@@ -141,7 +141,7 @@ bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T
 {
     if (foundFunc.isByOrdinal) {
         FIELD_T ordinal = foundFunc.funcOrdinal | ordinal_flag;
-        FIELD_T* by_ord = (FIELD_T*) &desc->u1.Ordinal;
+        FIELD_T* by_ord = (FIELD_T*) desc;
         *by_ord = ordinal;
 #ifdef _DEBUG
         std::cout << "[+] Saved ordinal" << std::endl;
@@ -196,21 +196,31 @@ bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
             break;
         }
 
-        IMAGE_THUNK_DATA_T* desc = (IMAGE_THUNK_DATA_T*) thunk_ptr;
-        if (desc->u1.Function == NULL) {
-            break;
-        }
-
         ULONGLONG searchedAddr = ULONGLONG(*call_via_val);
-        std::set<ExportedFunc>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
-
-        if (addr_to_func[searchedAddr].begin() == addr_to_func[searchedAddr].end()) {
+        std::map<ULONGLONG,std::set<ExportedFunc>>::const_iterator found_itr = addr_to_func.find(searchedAddr);
+        if (found_itr == addr_to_func.end() || found_itr->second.size() == 0) {
+            //not found, move on
             std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
             call_via += sizeof(FIELD_T);
             thunk_addr += sizeof(FIELD_T);
             continue;
         }
-
+        std::set<ExportedFunc>::const_iterator funcname_itr = found_itr->second.begin();
+        const peconv::ExportedFunc &foundFunc = *funcname_itr;
+        IMAGE_THUNK_DATA_T* desc = (IMAGE_THUNK_DATA_T*)thunk_ptr;
+        if (desc->u1.Function == NULL) {
+            FIELD_T ordinal = foundFunc.funcOrdinal | ordinal_flag;
+            FIELD_T* by_ord = (FIELD_T*)desc;
+            *by_ord = ordinal;
+#ifdef _DEBUG
+            std::cout << "[+] Saved ordinal" << std::endl;
+#endif
+            call_via += sizeof(FIELD_T);
+            thunk_addr += sizeof(FIELD_T);
+            processed_imps++;
+            recovered_imps++;
+            continue;
+        }
 #ifdef _DEBUG
         std::cout << "[*][" << std::hex << searchedAddr << "] " << funcname_itr->toString() << std::endl;
 #endif
