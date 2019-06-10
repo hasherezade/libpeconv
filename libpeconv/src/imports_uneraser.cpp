@@ -182,13 +182,13 @@ bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         thunk_addr = call_via;
     }
 
-    do {
-        LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
-        if (call_via_ptr == NULL) break;
-
-        LPVOID thunk_ptr = (LPVOID)((ULONGLONG)modulePtr + thunk_addr);
-        if (thunk_ptr == NULL) break;
-
+    BYTE* call_via_ptr = (BYTE*)((ULONGLONG)modulePtr + call_via);
+    BYTE* thunk_ptr = (BYTE*)((ULONGLONG)modulePtr + thunk_addr);
+    for (;
+        call_via_ptr != NULL && thunk_ptr != NULL;
+        call_via_ptr += sizeof(FIELD_T), thunk_ptr += sizeof(FIELD_T)
+        )
+    {
         FIELD_T *thunk_val = (FIELD_T*)thunk_ptr;
         FIELD_T *call_via_val = (FIELD_T*)call_via_ptr;
         if (*call_via_val == 0) {
@@ -201,8 +201,6 @@ bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         if (found_itr == addr_to_func.end() || found_itr->second.size() == 0) {
             //not found, move on
             std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
-            call_via += sizeof(FIELD_T);
-            thunk_addr += sizeof(FIELD_T);
             continue;
         }
         std::set<ExportedFunc>::const_iterator funcname_itr = found_itr->second.begin();
@@ -215,8 +213,6 @@ bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
 #ifdef _DEBUG
             std::cout << "[+] Saved ordinal" << std::endl;
 #endif
-            call_via += sizeof(FIELD_T);
-            thunk_addr += sizeof(FIELD_T);
             processed_imps++;
             recovered_imps++;
             continue;
@@ -228,12 +224,9 @@ bool ImportsUneraser::fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         if (!is_name_saved) {
             is_name_saved = findNameInBinaryAndFill<FIELD_T>(lib_desc, call_via_ptr, thunk_ptr, ordinal_flag, addr_to_func);
         }
-        call_via += sizeof(FIELD_T);
-        thunk_addr += sizeof(FIELD_T);
         processed_imps++;
         if (is_name_saved) recovered_imps++;
-
-    } while (true);
+    }
 
     return (recovered_imps == processed_imps);
 }
