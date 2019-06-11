@@ -50,8 +50,11 @@ std::string find_covering_dll(std::set<ULONGLONG> &addresses, const peconv::Expo
     std::set<std::string> dllNames;
     bool isFresh = true;
 
-    std::set<ULONGLONG>::iterator addrItr;
-    for (addrItr = addresses.begin(); addrItr != addresses.end(); addrItr++) {
+    // the earliest addresses are more significant for the final decision on what DLL to choose
+    // so, they should be processed at the end
+    std::set<ULONGLONG>::reverse_iterator addrItr;
+
+    for (addrItr = addresses.rbegin(); addrItr != addresses.rend(); addrItr++) {
         ULONGLONG searchedAddr = *addrItr;
         //---
         // Find all the DLLs exporting this particular function (can be forwarded etc)
