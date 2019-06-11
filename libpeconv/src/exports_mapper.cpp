@@ -13,9 +13,11 @@ ULONGLONG rebase_va(ULONGLONG va, ULONGLONG currBase, ULONGLONG targetBase)
     return rva + targetBase;
 }
 
-size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr, size_t moduleSize,
-                                             std::map<PDWORD, DWORD> &va_to_ord
-                                             )
+size_t ExportsMapper::make_ord_lookup_tables(
+    PVOID modulePtr, 
+    size_t moduleSize,
+    std::map<PDWORD, DWORD> &va_to_ord
+    )
 {
     IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
     if (exp == NULL) return NULL;
@@ -27,6 +29,13 @@ size_t ExportsMapper::make_ord_lookup_tables(PVOID modulePtr, size_t moduleSize,
     //go through names:
     for (DWORD i = 0; i < functCount; i++) {
         DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
+        if (*recordRVA == 0) {
+#ifdef _DEBUG
+            std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)recordRVA - (BYTE*)modulePtr<< "(ord)\n";
+#endif
+            //skip if the function RVA is 0 (empty export)
+            continue;
+        }
         if (!peconv::validate_ptr(modulePtr, moduleSize, recordRVA, sizeof(DWORD))) {
             break;
         }
@@ -159,7 +168,13 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
-
+        if (*funcRVA == 0) {
+#ifdef _DEBUG
+            std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)funcRVA - (BYTE*)modulePtr << "(name)\n";
+#endif
+            //skip if the function RVA is 0 (empty export)
+            continue;
+        }
         DWORD funcOrd = get_ordinal(funcRVA, va_to_ord);
 
         DWORD callRVA = *funcRVA;
