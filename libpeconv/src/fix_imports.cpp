@@ -44,67 +44,80 @@ size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modul
     return addrCounter;
 }
 
+std::set<std::string> get_all_dlls_exporting_function(ULONGLONG func_addr, const peconv::ExportsMapper& exportsMap)
+{
+    std::set<std::string> currDllNames;
+    //1. Get all the functions from all accessible DLLs that correspond to this address:
+    const std::set<ExportedFunc>* exports_for_va = exportsMap.find_exports_by_va(func_addr);
+    if (!exports_for_va) {
+        std::cerr << "Cannot find any DLL exporting: " << std::hex << func_addr << std::endl;
+        return currDllNames; //empty
+    }
+    //2. Iterate through their DLL names and add them to a set:
+    for (std::set<ExportedFunc>::iterator strItr = exports_for_va->begin();
+        strItr != exports_for_va->end();
+        strItr++)
+    {
+        currDllNames.insert(strItr->libName);
+    }
+    return currDllNames;
+}
+
+std::set<std::string> get_dlls_intersection(const std::set<std::string> &dllNames, const std::set<std::string> &currDllNames)
+{
+    std::set<std::string> resultSet;
+    std::set_intersection(dllNames.begin(), dllNames.end(),
+        currDllNames.begin(), currDllNames.end(),
+        std::inserter(resultSet, resultSet.begin())
+    );
+    return resultSet;
+}
+
 //find the name of the DLL that can cover all the addresses of imported functions
 std::string find_covering_dll(std::set<ULONGLONG> &addresses, const peconv::ExportsMapper& exportsMap)
 {
-    std::set<std::string> dllNames;
+    std::set<std::string> mainDllsSet;
+    std::set<std::string> reserveDllSet;
     bool isFresh = true;
 
     // the earliest addresses are more significant for the final decision on what DLL to choose
     // so, they should be processed at the end
-    std::set<ULONGLONG>::reverse_iterator addrItr;
+    std::set<ULONGLONG>::iterator addrItr;
 
-    for (addrItr = addresses.rbegin(); addrItr != addresses.rend(); addrItr++) {
+    for (addrItr = addresses.begin(); addrItr != addresses.end(); addrItr++) {
         ULONGLONG searchedAddr = *addrItr;
         //---
-        // Find all the DLLs exporting this particular function (can be forwarded etc)
-        //1. Get all the functions from all accessible DLLs that correspond to this address:
-        const std::set<ExportedFunc>* exports_for_va = exportsMap.find_exports_by_va(searchedAddr);
-        if (exports_for_va == nullptr) {
-            std::cerr << "Cannot find any DLL exporting: " << std::hex << searchedAddr << std::endl;
-            return "";
-        }
-        //2. Iterate through their DLL names and add them to a set:
-        std::set<std::string> currDllNames;
-        for (std::set<ExportedFunc>::iterator strItr = exports_for_va->begin(); 
-            strItr != exports_for_va->end(); 
-            strItr++)
-        {
-            currDllNames.insert(strItr->libName);
-        }
-        //3. Which of those DLLs covers also previous functions from this series?
+        // 1. Find all the DLLs exporting this particular function (can be forwarded etc)
+        std::set<std::string> currDllNames = get_all_dlls_exporting_function(searchedAddr, exportsMap);
+
+        //2. Which of those DLLs covers also previous functions from this series?
         if (isFresh) {
             //if no other function was processed before, set the current DLL set as the total set
-            dllNames = currDllNames;
+            mainDllsSet = currDllNames;
             isFresh = false;
             continue;
         }
         // find the intersection between the total set and the current set
-        std::set<std::string> resultSet;
-        std::set_intersection(dllNames.begin(), dllNames.end(),
-            currDllNames.begin(), currDllNames.end(),
-            std::inserter(resultSet, resultSet.begin())
-        );
-        //std::cout << "ResultSet size: " << resultSet.size() << std::endl;
-        
-        if (resultSet.size() == 0) {
-#ifdef _DEBUG
-            std::cerr << "Suspicious address: " << std::hex << searchedAddr << " not found in the currently processed DLL"  << std::endl;
-            std::string prev_lib = *(dllNames.begin());
-            std::cerr << "Not found in: " << prev_lib << std::endl;
-
-            std::string curr_lib = *(currDllNames.begin());
-            std::cerr << "Found in: " << curr_lib << std::endl;
-#endif
-            //reinitializate the set and keep going...
-            dllNames = currDllNames;
+        std::set<std::string> resultSet = get_dlls_intersection(mainDllsSet, currDllNames);
+        if (resultSet.size() > 0) {
+            //found intersection, overwrite the main set
+            mainDllsSet = resultSet;
             continue;
         }
-        dllNames = resultSet;
-        //---
+        // if no intersection found in the main set, check if there is any in the reserved set:
+        resultSet = get_dlls_intersection(reserveDllSet, currDllNames);
+        if (resultSet.size() > 0) {
+            //found intersection, overwrite the main set
+            reserveDllSet = mainDllsSet; // move the current to the reserve
+            mainDllsSet = resultSet;
+            continue;
+        }
+        // no intersection found with any of the sets:
+        reserveDllSet = currDllNames; //set is as a reserved DLL: to be used if it will reoccur
     }
-    if (dllNames.size() > 0) {
-        return *(dllNames.begin());
+    if (mainDllsSet.size() > 0) {
+        const std::string main_dll = *(mainDllsSet.begin());
+        return main_dll;
     }
     return "";
 }
