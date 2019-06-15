@@ -150,12 +150,13 @@ bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T
     }
 
     PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
-    by_name->Hint = foundFunc.funcOrdinal;
+
     LPSTR func_name_ptr = reinterpret_cast<LPSTR>(by_name->Name);
     std::string found_name = foundFunc.funcName;
     bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
     // try to save the found name under the pointer:
-    if (is_nameptr_valid == true) {
+    if (is_nameptr_valid) {
+        by_name->Hint = foundFunc.funcOrdinal;
         memcpy(func_name_ptr, found_name.c_str(), found_name.length() + 1); // with the ending '\0'
 #ifdef _DEBUG
         std::cout << "[+] Saved name" << std::endl;
