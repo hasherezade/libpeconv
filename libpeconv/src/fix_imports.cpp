@@ -192,14 +192,15 @@ size_t ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
     }
     this->notFound.clear();
 
-    size_t coveredCount = map_addresses_to_functions(this->addresses, dll, this->exportsMap, this->addrToFunc, this->notFound); 
+    const size_t coveredCount = map_addresses_to_functions(this->addresses, dll, this->exportsMap, this->addrToFunc, this->notFound);
+#ifdef _DEBUG
     if (notFound.size()) {
         std::cout << "[-] Not all addresses are covered! Not found: " << std::dec << notFound.size() << std::endl;
     } else {
-#ifdef _DEBUG
+
         std::cout << "All covered!" << std::endl;
-#endif
     }
+#endif
     return coveredCount;
 }
 
