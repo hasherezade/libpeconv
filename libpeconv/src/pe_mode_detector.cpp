@@ -55,7 +55,7 @@ bool is_hdr_virtual_align(const BYTE* pe_buffer, size_t pe_size)
 {
     const size_t v_align = peconv::get_sec_alignment((PBYTE)pe_buffer, false);
     if (peconv::get_hdrs_size(pe_buffer) >= v_align) {
-        //underermined for such case
+        //undetermined for such case
         return false;
     }
     //walk through sections and check their sizes
@@ -78,6 +78,34 @@ bool is_hdr_virtual_align(const BYTE* pe_buffer, size_t pe_size)
         }
     }
     return false;
+}
+
+bool sec_hdrs_erased(IN const BYTE* pe_buffer, IN size_t pe_size, bool is_raw)
+{
+    const size_t count = peconv::get_sections_count(pe_buffer, pe_size);
+    for (size_t i = 0; i < count; i++) {
+        const IMAGE_SECTION_HEADER* hdr = peconv::get_section_hdr(pe_buffer, pe_size, i);
+        if (!hdr) continue;
+        if (is_raw) {
+            if (hdr->PointerToRawData != 0) return false;
+        }
+        else {
+            if (hdr->VirtualAddress != 0) return false;
+        }
+    }
+    return true;
+}
+
+bool peconv::is_pe_raw_eq_virtual(IN const BYTE* pe_buffer, IN size_t pe_size)
+{
+    const size_t count = peconv::get_sections_count(pe_buffer, pe_size);
+    for (size_t i = 0; i < count; i++) {
+        const IMAGE_SECTION_HEADER* hdr = peconv::get_section_hdr(pe_buffer, pe_size, i);
+        if (!hdr) continue;
+        if (hdr->VirtualAddress != hdr->PointerToRawData) return false;
+        if (hdr->Misc.VirtualSize != hdr->SizeOfRawData) return false;
+    }
+    return true;
 }
 
 bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
@@ -110,7 +138,15 @@ bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
 #ifdef _DEBUG
     std::cout << "TOTAL v_score: " << std::dec << v_score << std::endl;
 #endif
-    return (v_score == 0);
+    if (v_score > 0) {
+       // it has artefacts typical for a PE in a virtual alignment
+        return false;
+    }
+    if (sec_hdrs_erased(pe_buffer, pe_size, true)) {
+        // the raw alignment of the sections is erased
+        return false;
+    }
+    return true;
 }
 
 // checks if any of the executable sections has been expanded in the memory

@@ -12,6 +12,12 @@ namespace peconv {
         IN size_t pe_size
     );
 
+    // check if the Virtual Section alignment is identical as the Raw alignment (i.e. if the PE was realigned)
+    bool is_pe_raw_eq_virtual(
+        IN const BYTE* pe_buffer,
+        IN size_t pe_size
+    );
+
     //checks if the PE has sections that were unpacked in the memory
     bool is_pe_expanded(
         IN const BYTE* pe_buffer,
