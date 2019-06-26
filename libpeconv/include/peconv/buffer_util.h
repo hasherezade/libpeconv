@@ -4,7 +4,9 @@
 
 namespace peconv {
 
-    // Validates pointers, checks if the particular field is inside the given buffer. Sizes must be given in bytes.
+    /** 
+    Validates pointers, checks if the particular field is inside the given buffer. Sizes must be given in bytes.
+    */
     bool validate_ptr(
         IN const void* buffer_bgn, 
         IN SIZE_T buffer_size,
@@ -16,37 +18,54 @@ namespace peconv {
 //
 // supported buffers:
 //
-    typedef PBYTE UNALIGNED_BUF; // not aligned to the beginning of section
-    typedef PBYTE ALIGNED_BUF; //always starting from the beginning of the new section
+    /**
+    A buffer allocated on the heap of a process, not aligned to the beginning of a memory page.
+    */
+    typedef PBYTE UNALIGNED_BUF;
+
+    /**
+    A buffer allocated in a virtual space of a process, aligned to the beginning of a memory page.
+    */
+    typedef PBYTE ALIGNED_BUF;
 
 //
 // alloc/free unaligned buffers:
 //
-    //allocates a buffer that does not have to start from the beginning of the section
+     /** 
+     Allocates a buffer on the heap. Can be used in the cases when the buffer does not have to start at the beginning of a page.
+     */
     UNALIGNED_BUF alloc_unaligned(size_t buf_size);
 
-    //frees buffer allocated by alloc_unaligned:
+    //
+    /**
+    Frees buffer allocated by alloc_unaligned.
+    */
     void free_unaligned(UNALIGNED_BUF section_buffer);
 
 //
 // alloc/free aligned buffers:
 //
 
-    //allocates buffer starting from the beginning of the section (this function is a wrapper for VirtualAlloc)
+    /**
+    Allocates a buffer of a virtual memory (using VirtualAlloc).  Can be used in the cases when the buffer have to be aligned to the beginning of a page.
+    */
     ALIGNED_BUF alloc_aligned(size_t buffer_size, DWORD protect, ULONGLONG desired_base=NULL);
 
-    //frees buffer allocated by alloc_alligned:
+    /**
+    Frees buffer allocated by alloc_aligned.
+    */
     bool free_aligned(ALIGNED_BUF buffer, size_t buffer_size=0);
 
     //PE buffers (wrappers)
 
+    /**
+    Allocates an aligned buffer for a PE file.
+    */
     ALIGNED_BUF alloc_pe_buffer(size_t buffer_size, DWORD protect, ULONGLONG desired_base=NULL);
 
-    // Free loaded module (wrapper)
+    /**
+    Free the memory allocated with alloc_pe_buffer.
+    */
     bool free_pe_buffer(ALIGNED_BUF buffer, size_t buffer_size=0);
-
-    UNALIGNED_BUF alloc_pe_section(size_t buf_size);
-
-    void free_pe_section(UNALIGNED_BUF section_buffer);
 
 }; //namespace peconv
