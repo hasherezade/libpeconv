@@ -1,7 +1,6 @@
 cmake_minimum_required ( VERSION 2.8 )
 
 project ( peconv )
-
 option(PECONV_BUILD_TESTING "enable testing for peconv" ON)
 
 # modules:
@@ -33,7 +32,6 @@ if(PECONV_BUILD_TESTING)
 	enable_testing()
 
 	# executables
-
 	add_subdirectory ( ${M_PECONV_TEST} )
 	add_dependencies ( ${M_PECONV_TEST} libpeconv )
 endif()
