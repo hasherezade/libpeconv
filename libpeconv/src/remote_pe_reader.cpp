@@ -165,13 +165,13 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
         return NULL;
     }
     size_t buffer_size = section_hdr->Misc.VirtualSize;
-    BYTE *module_code = peconv::alloc_pe_section(buffer_size);
+    BYTE *module_code = peconv::alloc_unaligned(buffer_size);
     if (module_code == NULL) {
         return NULL;
     }
     size_t read_size = read_remote_memory(processHandle, start_addr + section_hdr->VirtualAddress, module_code, buffer_size);
     if (read_size == 0) {
-        peconv::free_pe_section(module_code);
+        peconv::free_unaligned(module_code);
         return NULL;
     }
     section_size = buffer_size;
