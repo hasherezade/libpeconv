@@ -93,7 +93,13 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
     return true;
 }
 
-BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBase, size_t &out_size, bool rebuffer)
+BYTE* peconv::pe_virtual_to_raw(
+    IN BYTE* payload,
+    IN size_t in_size,
+    IN ULONGLONG loadBase,
+    OUT size_t &out_size,
+    IN OPTIONAL bool rebuffer
+)
 {
     BYTE* in_buf = payload;
     if (rebuffer) {
@@ -136,7 +142,12 @@ BYTE* peconv::pe_virtual_to_raw(BYTE* payload, size_t in_size, ULONGLONG loadBas
     return out_buf;
 }
 
-BYTE* peconv::pe_realign_raw_to_virtual(const BYTE* payload, size_t in_size, ULONGLONG loadBase, size_t &out_size)
+BYTE* peconv::pe_realign_raw_to_virtual(
+    IN const BYTE* payload,
+    IN size_t in_size,
+    IN ULONGLONG loadBase,
+    OUT size_t &out_size
+)
 {
     BYTE* out_buf = (BYTE*)alloc_pe_buffer(in_size, PAGE_READWRITE);
     if (!out_buf) return nullptr;

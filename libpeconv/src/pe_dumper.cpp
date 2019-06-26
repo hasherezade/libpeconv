@@ -10,7 +10,7 @@
 
 using namespace peconv;
 
-t_pe_dump_mode peconv::detect_dump_mode(const BYTE * buffer, size_t mod_size)
+t_pe_dump_mode peconv::detect_dump_mode(IN const BYTE* buffer, IN size_t mod_size)
 {
     t_pe_dump_mode dump_mode = peconv::PE_DUMP_UNMAP;
     if (peconv::is_pe_raw(buffer, mod_size)) {

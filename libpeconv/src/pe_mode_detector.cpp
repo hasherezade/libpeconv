@@ -165,7 +165,7 @@ bool peconv::is_pe_expanded(IN const BYTE* pe_buffer, IN size_t pe_size)
 }
 
 // checks if the section's content in memory is bigger than in the raw format
-bool peconv::is_section_expanded(IN const BYTE* pe_buffer, IN size_t pe_size, const PIMAGE_SECTION_HEADER sec)
+bool peconv::is_section_expanded(IN const BYTE* pe_buffer, IN size_t pe_size, IN const PIMAGE_SECTION_HEADER sec)
 {
     if (!sec) return false;
 
