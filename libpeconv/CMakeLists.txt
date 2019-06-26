@@ -1,8 +1,6 @@
 cmake_minimum_required ( VERSION 2.8 )
 project ( libpeconv )
 
-include(GNUInstallDirs)
-
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 
 include_directories (
@@ -67,11 +65,11 @@ set (hdrs
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )
 
-#INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_BINARY_DIR} COMPONENT ${PROJECT_NAME} )
+include(GNUInstallDirs)
 
 install(TARGETS ${PROJECT_NAME}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
+	
 install(DIRECTORY "include/" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

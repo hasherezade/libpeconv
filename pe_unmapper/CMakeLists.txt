@@ -12,7 +12,10 @@ set (srcs
 	main.cpp
 )
 
-
 add_executable ( ${PROJECT_NAME} ${srcs} )
 target_link_libraries ( ${PROJECT_NAME} ${PECONV_LIB} )
 add_dependencies( ${PROJECT_NAME} libpeconv)
+
+include(GNUInstallDirs)
+
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
