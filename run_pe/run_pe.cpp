@@ -192,16 +192,13 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
         printf("Could not relocate the module!\n");
         return false;
     }
-    //3. Guarantee that the subsystem of the payload is GUI:
-    set_subsystem(loaded_pe, IMAGE_SUBSYSTEM_WINDOWS_GUI);
-
-    //4. Update the image base of the payload (local copy) to the Remote Base:
+    //3. Update the image base of the payload (local copy) to the Remote Base:
     update_image_base(loaded_pe, (ULONGLONG) remoteBase);
 
 #ifdef _DEBUG
     printf("Writing to remote process...\n");
 #endif
-    //5. Write the payload to the remote process, at the Remote Base:
+    //4. Write the payload to the remote process, at the Remote Base:
     SIZE_T written = 0;
     if (!WriteProcessMemory(pi.hProcess, remoteBase, loaded_pe, payloadImageSize, &written)) {
         return false;
@@ -209,12 +206,12 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
 #ifdef _DEBUG
     printf("Loaded at: %p\n", loaded_pe);
 #endif
-    //6. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
+    //5. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
     if (!redirect_to_payload(loaded_pe, remoteBase, pi, is32bit)) {
         printf("Redirecting failed!\n");
         return false;
     }
-    //7. Resume the thread and let the payload run:
+    //6. Resume the thread and let the payload run:
     ResumeThread(pi.hThread);
     return true;
 }
@@ -228,6 +225,35 @@ bool get_calc_path(LPSTR lpOutPath, DWORD szOutPath, bool is_payload_32b)
     }
 #endif
     ExpandEnvironmentStrings("%SystemRoot%\\system32\\calc.exe", lpOutPath, szOutPath);
+    return true;
+}
+
+bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, char *targetPath)
+{
+    if (!payload_buf) {
+        return false;
+    }
+    const WORD payload_subs = peconv::get_subsystem(payload_buf);
+
+    size_t target_size = 0;
+    BYTE* target_pe = load_pe_module(targetPath, target_size, false, false);
+    if (!target_pe) {
+        return false;
+    }
+    const WORD target_subs = peconv::get_subsystem(target_pe);
+    const bool is64bit_target = peconv::is64bit(target_pe);
+    peconv::free_pe_buffer(target_pe); target_pe = NULL; target_size = 0;
+
+    if (is64bit_target != peconv::is64bit(payload_buf)) {
+        printf("Incompatibile target bitness!\n");
+        return false;
+    }
+    if (payload_subs != IMAGE_SUBSYSTEM_WINDOWS_GUI //only a payload with GUI subsystem can be run by both GUI and CLI
+        && target_subs != payload_subs)
+    {
+        printf("Incompatibile target subsystem!\n");
+        return false;
+    }
     return true;
 }
 
@@ -262,6 +288,10 @@ bool run_pe(char *payloadPath, char *targetPath)
     get_calc_path(calc_path, MAX_PATH, is32bit_payload);
     if (targetPath == NULL) {
         targetPath = calc_path;
+    }
+    if (!is_target_compatibile(loaded_pe, payloadImageSize, targetPath)) {
+        free_pe_buffer(loaded_pe, payloadImageSize);
+        return false;
     }
     // Create the target process (suspended):
     PROCESS_INFORMATION pi = { 0 };
