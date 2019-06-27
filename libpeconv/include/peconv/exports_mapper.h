@@ -28,7 +28,7 @@ namespace peconv {
         /**
         Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
         Assumes that the module was relocated to the same address as is the address of the given buffer (modulePtr).
-        (A wrapper fot the case if we are adding a DLL that was loaded within the current process.)
+        (A wrapper for the case if we are adding a DLL that was loaded within the current process.)
         \param moduleName : name of the DLL
         \param modulePtr : buffer containing the DLL in a Virtual format. 
         */
