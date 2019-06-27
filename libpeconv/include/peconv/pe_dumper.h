@@ -5,6 +5,9 @@
 
 namespace peconv {
 
+    /**
+    A mode in which the PE fille be dumped.
+    */
     typedef enum {
         PE_DUMP_AUTO = 0,// autodetect which dump mode is the most suitable for the given input
         PE_DUMP_VIRTUAL, // dump as it is in the memory (virtual)
@@ -13,7 +16,7 @@ namespace peconv {
         PE_DUMP_MODES_COUNT
     } t_pe_dump_mode;
 
-    /*
+    /**
     Detect dump mode that is the most suitable for the given input.
     */
     t_pe_dump_mode detect_dump_mode(IN const BYTE* buffer, IN size_t mod_size);

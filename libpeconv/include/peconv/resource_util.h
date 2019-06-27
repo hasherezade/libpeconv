@@ -16,9 +16,14 @@ namespace peconv {
     */
     peconv::ALIGNED_BUF load_resource_data(OUT size_t &out_size, const int res_id, const LPSTR res_type = RT_RCDATA_A, HMODULE hInstance = nullptr);
 
+    /**
+    Free the buffer with PE Resources, mapped by the function load_resource_data.
+    */
     void free_resource_data(peconv::ALIGNED_BUF buffer);
 
-    // a helper function to get the module handle of the current DLL:
+    /**
+    a helper function to get the module handle of the current DLL
+    */
     HMODULE get_current_module_handle();
 
 }; //namespace peconv

@@ -17,31 +17,44 @@
 
 namespace peconv {
 
-    //fix imports in the given module, using the given map of all available exports
+    /**
+    fix imports in the given module, using the given map of all available exports
+    */
     bool fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::ExportsMapper& exportsMap);
     
-    // a helper class that allows to find out where the functions are imported from
+    /**
+    a helper class that allows to find out where the functions are imported from
+    */
     class ImportedDllCoverage
     {
     public:
-        //_addresses: the list of filled imports (VAs)
-        //_exportsMap: the map of the exports of all loaded DLLs (the space in which we will be searching)
+        /**
+        \param _addresses : the list of filled imports (VAs)
+        \param _exportsMap : the map of the exports of all loaded DLLs (the space in which we will be searching)
+        */
         ImportedDllCoverage(std::set<ULONGLONG>& _addresses, const peconv::ExportsMapper& _exportsMap)
             : addresses(_addresses), exportsMap(_exportsMap)
         {
         }
 
-        // Checks if all the addresses can be covered by one DLL. If yes, this dll will be saved into: dllName.
+        /**
+        Checks if all the addresses can be covered by one DLL. If yes, this dll will be saved into: dllName.
+        */
         bool findCoveringDll();
 
-        // Maps the addresses from the set to functions from the given DLL. 
-        // The used DLL name is saved into mappedDllName. Results are saved into: addrToFunc. 
-        // Addresses that could not be covered by the given DLL are saved into notFound.
-        // Before each execution, the content of involved variables is erased.
-        // Returns a number of covered functions.
+        /** 
+        Maps the addresses from the set to functions from the given DLL. 
+        The used DLL name is saved into mappedDllName. Results are saved into: addrToFunc. 
+        Addresses that could not be covered by the given DLL are saved into notFound.
+        Before each execution, the content of involved variables is erased.
+        Returns a number of covered functions.
+        */
         size_t mapAddressesToFunctions(std::string dll);
 
-       // //returns the status: true if all the addresses are mapped to functions' names, false if not
+       /**
+       Check if the functions mapping is complete.
+       \return the status: true if all the addresses are mapped to functions' names, false if not
+       */
         bool isMappingComplete() { return (addresses.size() == addrToFunc.size()) ? true : false; }
 
         std::map<ULONGLONG, std::set<ExportedFunc>> addrToFunc;

@@ -10,11 +10,17 @@
 
 namespace peconv {
 
-    //for hooking IAT:
+    /**
+    A functions resolver that can be used for hooking IAT. Allows for defining functions that are supposed to be replaced.
+    */
     class hooking_func_resolver : peconv::default_func_resolver {
         public:
-
-        void add_hook(std::string name, FARPROC function ) 
+        /**
+        Define a function that will be replaced.
+        \param name : a name of the function that will be replaced
+        \param function : an address of the replacement function
+        */
+        void add_hook(std::string name, FARPROC function) 
         {
             hooks_map[name] = function;
         }
@@ -25,13 +31,19 @@ namespace peconv {
         std::map<std::string, FARPROC> hooks_map;
     };
 
-    // Installs inline hook at the given ptr. Returns the number of bytes overwriten. 64 bit version.
+    /**
+    Installs inline hook at the given ptr. Returns the number of bytes overwriten. 64 bit version.
+    */
     size_t redirect_to_local64(void *ptr, ULONGLONG new_offset);
 
-    // Installs inline hook at the given ptr. Returns the number of bytes overwriten. 32 bit version.
+    /**
+    Installs inline hook at the given ptr. Returns the number of bytes overwriten. 32 bit version.
+    */
     size_t redirect_to_local32(void *ptr, DWORD new_offset);
 
-    // Replaces a target address of JMP <DWORD> or CALL <DWORD>
+    /**
+    Replaces a target address of JMP <DWORD> or CALL <DWORD>
+    */
     bool replace_target(BYTE *ptr, ULONGLONG dest_addr);
 
 };//namespace peconv
