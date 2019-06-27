@@ -17,16 +17,29 @@ namespace peconv {
 
     public:
 
-        // Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
+        /**
+        Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
+        \param moduleName : name of the DLL
+        \param modulePtr : buffer containing the DLL in a Virtual format
+        \param moduleBase : a base address to which the given DLL was relocated
+        */
         size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase);
 
-        // wrapper (for current process) - if the modulePtr is same as the module base
+        /**
+        Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
+        Assumes that the module was relocated to the same address as is the address of the given buffer (modulePtr).
+        (A wrapper fot the case if we are adding a DLL that was loaded within the current process.)
+        \param moduleName : name of the DLL
+        \param modulePtr : buffer containing the DLL in a Virtual format. 
+        */
         size_t add_to_lookup(std::string moduleName, HMODULE modulePtr) 
         {
             return add_to_lookup(moduleName, modulePtr, reinterpret_cast<ULONGLONG>(modulePtr));
         }
 
-        //which DLL exports the function of given address?
+        /**
+        Find the set of Exported Functions that can be mapped to the given VA. Includes forwarders, and function aliases.
+        */
         const std::set<ExportedFunc>* find_exports_by_va(ULONGLONG va) const
         {
             std::map<ULONGLONG, std::set<ExportedFunc>>::const_iterator itr = va_to_func.find(va);
@@ -37,6 +50,9 @@ namespace peconv {
             return NULL;
         }
 
+        /**
+        Retrieve the full path of the DLL with the given short name.
+        */
         std::string get_dll_path(std::string short_name) const
         {
             std::map<std::string, std::string>::const_iterator found = this->dll_shortname_to_path.find(short_name);
@@ -46,6 +62,9 @@ namespace peconv {
             return found->second;
         }
 
+        /**
+        Retrieve the full name of the DLL (including the extension) using its short name (without the extension).
+        */
         std::string get_dll_fullname(std::string short_name) const
         {
             std::string dll_path = get_dll_path(short_name);
@@ -54,7 +73,9 @@ namespace peconv {
             return get_file_name(dll_path);
         }
 
-        //which DLL exports the function of given address? give the first entry
+        /**
+        Find an Exported Function that can be mapped to the given VA,
+        */
         const ExportedFunc* find_export_by_va(ULONGLONG va) const
         {
             const std::set<ExportedFunc>* exp_set = find_exports_by_va(va);

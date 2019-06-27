@@ -25,6 +25,12 @@ namespace peconv {
             hooks_map[name] = function;
         }
 
+        /**
+        Get the address (VA) of the function with the given name, from the given DLL. If the function was hooked, it retrieves the address of the replacement function instead.
+        \param func_name : the name of the function
+        \param lib_name : the name of the DLL
+        \return Virtual Address of the exported function, or the address of the replacement function.
+        */
         virtual FARPROC resolve_func(LPSTR lib_name, LPSTR func_name);
 
         private:
