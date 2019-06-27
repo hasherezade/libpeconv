@@ -23,6 +23,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libPeConv
    </div>
+   <div id="projectbrief">A library to load, manipulate, dump PE files.</div>
   </td>
  </tr>
  </tbody>
@@ -99,14 +100,14 @@ Functions</h2></td></tr>
 <tr class="separator:a6b648968461926931b82a784812cb37c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a828f178bb058745b958f7c9af9a55528"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a828f178bb058745b958f7c9af9a55528">peconv::read_remote_pe_header</a> (HANDLE processHandle, BYTE *moduleBase, OUT BYTE *buffer, const size_t bufferSize)</td></tr>
 <tr class="separator:a828f178bb058745b958f7c9af9a55528"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4853f6591d154d3687f1336f5cf5286"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ad4853f6591d154d3687f1336f5cf5286">peconv::get_remote_pe_section</a> (HANDLE processHandle, BYTE *moduleBase, const size_t sectionNum, OUT size_t &amp;sectionSize)</td></tr>
-<tr class="separator:ad4853f6591d154d3687f1336f5cf5286"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a137135aa62f3f4fc7babad2ace3e4ec4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacepeconv.html#ad8fbac05bb7872b5680e1fcd7cea04bf">peconv::UNALIGNED_BUF</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a137135aa62f3f4fc7babad2ace3e4ec4">peconv::get_remote_pe_section</a> (HANDLE processHandle, BYTE *moduleBase, const size_t sectionNum, OUT size_t &amp;sectionSize)</td></tr>
+<tr class="separator:a137135aa62f3f4fc7babad2ace3e4ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c97657d75c18561eb2ae5566366a4a3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a8c97657d75c18561eb2ae5566366a4a3">peconv::read_remote_pe</a> (const HANDLE processHandle, BYTE *moduleBase, const size_t moduleSize, OUT BYTE *buffer, const size_t bufferSize)</td></tr>
 <tr class="separator:a8c97657d75c18561eb2ae5566366a4a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa10cbf259ef601bdb3fe83233b955bc0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aa10cbf259ef601bdb3fe83233b955bc0">peconv::dump_remote_pe</a> (IN const char *outputFilePath, IN const HANDLE processHandle, IN BYTE *moduleBase, IN OUT <a class="el" href="namespacepeconv.html#a8013b1d19293cc6a84f121d4889835d1">t_pe_dump_mode</a> &amp;dump_mode, IN OPTIONAL <a class="el" href="classpeconv_1_1_exports_mapper.html">peconv::ExportsMapper</a> *exportsMap=nullptr)</td></tr>
 <tr class="separator:aa10cbf259ef601bdb3fe83233b955bc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4764b67413cf20b6603484f30c38f96"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae4764b67413cf20b6603484f30c38f96">peconv::get_remote_image_size</a> (const HANDLE processHandle, BYTE *start_addr)</td></tr>
-<tr class="separator:ae4764b67413cf20b6603484f30c38f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6773656f932a5f008fcb5f69be642de0"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a6773656f932a5f008fcb5f69be642de0">peconv::get_remote_image_size</a> (IN const HANDLE processHandle, IN BYTE *start_addr)</td></tr>
+<tr class="separator:a6773656f932a5f008fcb5f69be642de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
