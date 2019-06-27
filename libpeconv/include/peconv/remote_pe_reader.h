@@ -11,8 +11,17 @@ namespace peconv {
 
     bool fetch_region_info(HANDLE processHandle, BYTE* start_addr, MEMORY_BASIC_INFORMATION &page_info);
 
+    /**
+    Fetch size of the memory region starting from the given address.
+    */
     size_t fetch_region_size(HANDLE processHandle, BYTE* start_addr);
 
+    /**
+    Fetch the allocation base of the memory region with the supplied start address.
+    \param processHandle : handle of the process where the region of interest belongs
+    \param start_addr : the address inside the region of interest
+    \return the allocation base address of the memory region, or 0 if not found
+    */
     ULONGLONG fetch_alloc_base(HANDLE processHandle, BYTE* start_addr);
 
     /**
@@ -49,19 +58,21 @@ namespace peconv {
     */
     size_t read_remote_pe(const HANDLE processHandle, BYTE *moduleBase, const size_t moduleSize, OUT BYTE* buffer, const size_t bufferSize);
 
-
     /**
     Dumps PE from the remote process into a file. It expects the module base and size to be given.
     dump_mode: specifies in which format the PE should be dumped. If the mode was set to PE_DUMP_AUTO, it autodetects mode and returns the detected one.
     exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
     */
     bool dump_remote_pe(IN const char *outputFilePath,
-                        IN const HANDLE processHandle, 
-                        IN BYTE *moduleBase, 
-                        IN OUT t_pe_dump_mode &dump_mode,
-                        IN OPTIONAL peconv::ExportsMapper* exportsMap = nullptr
-                        );
+        IN const HANDLE processHandle, 
+        IN BYTE *moduleBase, 
+        IN OUT t_pe_dump_mode &dump_mode,
+        IN OPTIONAL peconv::ExportsMapper* exportsMap = nullptr
+    );
 
+    /**
+    Retrieve the Image Size saved in the header of the remote PE.
+    */
     DWORD get_remote_image_size(const HANDLE processHandle, BYTE *start_addr);
 
 }; //namespace peconv

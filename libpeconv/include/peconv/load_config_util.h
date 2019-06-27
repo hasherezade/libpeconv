@@ -30,7 +30,7 @@ namespace peconv {
     Detect which version of Load Config Directory was used in the given PE.
     \param buffer : a buffer containing the PE file in a Virtual format
     \param buf_size : size of the buffer
-    \ld_config_ptr : pointer to the Load Config Directory within the given PE
+    \param ld_config_ptr : pointer to the Load Config Directory within the given PE
     \return detected version of Load Config Directory
     */
     t_load_config_ver get_load_config_version(BYTE* buffer, size_t buf_size, BYTE* ld_config_ptr);

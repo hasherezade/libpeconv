@@ -8,6 +8,9 @@
 #endif
 
 namespace peconv {
+    /**
+    Maximal size of the PE header.
+    */
     const ULONGLONG MAX_HEADER_SIZE = PAGE_SIZE;
 
     /**
