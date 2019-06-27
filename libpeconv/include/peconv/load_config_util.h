@@ -11,11 +11,11 @@ namespace peconv {
     A version of Load Config Directory.
     */
     typedef enum {
-        LOAD_CONFIG_NONE = 0,
-        LOAD_CONFIG_W7_VER = 7,
-        LOAD_CONFIG_W8_VER = 8,
-        LOAD_CONFIG_W10_VER = 10,
-        LOAD_CONFIG_UNK_VER = -1
+        LOAD_CONFIG_NONE = 0, /**< Load Config Directory not found */
+        LOAD_CONFIG_W7_VER = 7,  /**< Load Config Directory in the Windows 7 version */
+        LOAD_CONFIG_W8_VER = 8, /**< Load Config Directory in the Windows 8 version */
+        LOAD_CONFIG_W10_VER = 10, /**< Load Config Directory in the Windows 10 version */
+        LOAD_CONFIG_UNK_VER = -1 /**< Load Config Directory in an unknown version */
     } t_load_config_ver;
 
     /**

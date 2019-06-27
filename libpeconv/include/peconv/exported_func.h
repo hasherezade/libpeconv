@@ -48,6 +48,9 @@ namespace peconv {
     class ExportedFunc
     {
     public:
+        /**
+        Converts the name to the normalized format.
+        */
         static std::string formatName(std::string name);
 
         std::string libName;
@@ -60,6 +63,11 @@ namespace peconv {
         ExportedFunc(std::string libName, DWORD funcOrdinal);
         ExportedFunc(const std::string &forwarderName);
 
+        /**
+        Compare two functions with each other.
+        If both functions are unnamed, the function with the smaller ordinal is treated as smaller.
+        Otherwise, the function with the shorter name is treated as smaller.
+        */
         bool operator < (const ExportedFunc& other) const
         {
             int cmp = libName.compare(other.libName);
@@ -78,10 +86,14 @@ namespace peconv {
             return cmp < 0;
         }
 
-        // full info about the function: library, name, ordinal
+        /**
+        Gets a string representation of the variable. Full info about the function: library, name, ordinal.
+        */
         std::string toString() const;
 
-        // short info: only function name or ordinal (if the name is missing)
+        /**
+        Gets a string representation of the variable. Short info about the function: only function name or ordinal (if the name is missing).
+        */
         std::string nameToString() const;
 
         bool isValid() const

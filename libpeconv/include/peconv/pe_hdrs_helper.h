@@ -126,18 +126,39 @@ namespace peconv {
         IN size_t section_num
     );
 
+    /**
+    Fetch the PE Characteristics from the File Header.
+    */
     WORD get_file_characteristics(IN const BYTE* payload);
 
+    /**
+    Check if the module is a DLL (basing on the Characteristcs in the header).
+    */
     bool is_module_dll(IN const BYTE* payload);
 
+    /**
+    Fetch the DLL Characteristics from the Optional Header.
+    */
     WORD get_dll_characteristics(IN const BYTE* payload);
 
+    /**
+    Set the PE subsystem in the header.
+    */
     bool set_subsystem(IN OUT BYTE* payload, IN WORD subsystem);
 
+    /**
+    Get the PE subsystem from the header.
+    */
     WORD get_subsystem(IN const BYTE* payload);
 
+    /**
+    Check if the PE has relocations Data Directory.
+    */
     bool has_relocations(IN const BYTE *pe_buffer);
 
+    /**
+    Fetch the pointer to the .NET header (if exist).
+    */
     IMAGE_COR20_HEADER* get_dotnet_hdr(
         IN const BYTE* pe_buffer,
         IN size_t const buffer_size,

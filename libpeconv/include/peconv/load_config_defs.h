@@ -5,6 +5,9 @@
 
 namespace peconv {
 
+    /**
+    IMAGE_LOAD_CONFIG_CODE_INTEGRITY: a structure used by IMAGE_LOAD_CONFIG_DIR - the Windows 10 version.
+    */
     typedef struct _IMAGE_LOAD_CONFIG_CODE_INTEGRITY_W10 {
         WORD    Flags;          // Flags to indicate if CI information is available, etc.
         WORD    Catalog;        // 0xFFFF means not available
@@ -12,8 +15,9 @@ namespace peconv {
         DWORD   Reserved;       // Additional bitmask to be defined later
     } IMAGE_LOAD_CONFIG_CODE_INTEGRITY_W10;
 
-    //Win8.1 -10 version:
-
+    /**
+    IMAGE_LOAD_CONFIG_DIR32: the Windows 10 version.
+    */
     typedef struct _IMAGE_LOAD_CONFIG_DIR32_W10 {
         DWORD   Size;
         DWORD   TimeDateStamp;
@@ -58,6 +62,9 @@ namespace peconv {
         DWORD   EnclaveConfigurationPointer;    // VA
     } IMAGE_LOAD_CONFIG_DIR32_W10;
 
+    /**
+    IMAGE_LOAD_CONFIG_DIR64: the Windows 10 version.
+    */
     typedef struct _IMAGE_LOAD_CONFIG_DIR64_W10 {
         DWORD      Size;
         DWORD      TimeDateStamp;
@@ -102,8 +109,9 @@ namespace peconv {
         ULONGLONG  EnclaveConfigurationPointer;     // VA
     } IMAGE_LOAD_CONFIG_DIR64_W10;
 
-    //Win8 version:
-
+    /**
+    IMAGE_LOAD_CONFIG_DIR32: the Windows 8 version.
+    */
     typedef struct _IMAGE_LOAD_CONFIG_DIR32_W8 {
         DWORD   Size;
         DWORD   TimeDateStamp;
@@ -132,6 +140,9 @@ namespace peconv {
         DWORD   GuardFlags;
     } IMAGE_LOAD_CONFIG_DIR32_W8;
 
+    /**
+    IMAGE_LOAD_CONFIG_DIR64: the Windows 8 version.
+    */
     typedef struct _IMAGE_LOAD_CONFIG_DIR64_W8 {
         DWORD      Size;
         DWORD      TimeDateStamp;
@@ -161,8 +172,9 @@ namespace peconv {
     } IMAGE_LOAD_CONFIG_DIR64_W8;
 
 
-    //Win7 version:
-
+    /**
+    IMAGE_LOAD_CONFIG_DIR32: the Windows 7 version.
+    */
     typedef struct _IMAGE_LOAD_CONFIG_DIR32_W7 {
         DWORD   Size;
         DWORD   TimeDateStamp;
@@ -186,6 +198,9 @@ namespace peconv {
         DWORD   SEHandlerCount;
     } IMAGE_LOAD_CONFIG_DIR32_W7;
 
+    /**
+    IMAGE_LOAD_CONFIG_DIR64: the Windows 7 version. 
+    */
     typedef struct _IMAGE_LOAD_CONFIG_DIR64_W7 {
         DWORD      Size;
         DWORD      TimeDateStamp;

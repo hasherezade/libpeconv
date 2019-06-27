@@ -153,7 +153,7 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
     return true;
 }
 
-BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, const size_t section_num, OUT size_t &section_size)
+peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, const size_t section_num, OUT size_t &section_size)
 {
     BYTE header_buffer[MAX_HEADER_SIZE] = { 0 };
 
@@ -165,7 +165,7 @@ BYTE* peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, cons
         return NULL;
     }
     size_t buffer_size = section_hdr->Misc.VirtualSize;
-    BYTE *module_code = peconv::alloc_unaligned(buffer_size);
+    UNALIGNED_BUF module_code = peconv::alloc_unaligned(buffer_size);
     if (module_code == NULL) {
         return NULL;
     }
@@ -242,7 +242,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
     return read_size;
 }
 
-DWORD peconv::get_remote_image_size(const HANDLE processHandle, BYTE *start_addr)
+DWORD peconv::get_remote_image_size(IN const HANDLE processHandle, IN BYTE *start_addr)
 {
     BYTE hdr_buffer[MAX_HEADER_SIZE] = { 0 };
     if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {

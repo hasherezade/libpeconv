@@ -12,6 +12,9 @@
 #include "caves.h"
 
 namespace peconv {
+    /**
+    A class responsible for recovering the partially erased Import Table from the PE.
+    */
     class ImportsUneraser
     {
     public:
@@ -21,7 +24,14 @@ namespace peconv {
             is64 = peconv::is64bit((BYTE*)modulePtr);
         }
 
+        /**
+        Recover the imported functions' names in the given Import Descriptor, using the given coverage.
+        */
         bool uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage);
+
+        /**
+        Recover the imported DLL name in the given Import Descriptor, filling it with the given dll_name.
+        */
         bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string dll_name);
 
     protected:

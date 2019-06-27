@@ -27,6 +27,13 @@ namespace peconv {
     */
     class export_based_resolver : default_func_resolver {
         public:
+        /**
+        Get the address (VA) of the function with the given name, from the given DLL.
+        Uses Export Table lookup as a primary method of finding the import. On failure it falls back to the default Functions Resolver.
+        \param func_name : the name of the function
+        \param lib_name : the name of the DLL
+        \return Virtual Address of the exported function
+        */
         virtual FARPROC resolve_func(LPSTR lib_name, LPSTR func_name);
     };
 

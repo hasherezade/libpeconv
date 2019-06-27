@@ -39,7 +39,6 @@ namespace peconv {
     */
     size_t read_remote_area(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size = 0x100);
 
-    //size_t read_remote_area(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size);
     /**
     Reads a PE header of the remote module within the given process. Requires a valid output buffer to be supplied (buffer).
     */
@@ -47,11 +46,11 @@ namespace peconv {
 
     /**
     Reads a PE section with a given number (sectionNum) from the remote module within the given process. 
-    It returns a buffer containing a copy of the section. 
-    The buffer of appropriate size is automatically allocated. After use, it should be freed by the function free_pe_section.
+    The buffer of appropriate size is automatically allocated. After use, it should be freed by the function free_unaligned.
     The size of the buffer is writen into sectionSize.
+    \return a buffer containing a copy of the section. 
     */
-    BYTE* get_remote_pe_section(HANDLE processHandle, BYTE *moduleBase, const size_t sectionNum, OUT size_t &sectionSize);
+    peconv::UNALIGNED_BUF get_remote_pe_section(HANDLE processHandle, BYTE *moduleBase, const size_t sectionNum, OUT size_t &sectionSize);
 
     /**
     Reads PE file from the remote process into the supplied buffer. It expects the module base and size to be given.
@@ -60,19 +59,23 @@ namespace peconv {
 
     /**
     Dumps PE from the remote process into a file. It expects the module base and size to be given.
-    dump_mode: specifies in which format the PE should be dumped. If the mode was set to PE_DUMP_AUTO, it autodetects mode and returns the detected one.
-    exportsMap: optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
+    \param processHandle : the handle to the remote process
+    \param moduleBase : the base address of the module that needs to be dumped
+    \param dump_mode : specifies in which format the PE should be dumped. If the mode was set to PE_DUMP_AUTO, it autodetects mode and returns the detected one.
+    \param exportsMap : optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
     */
     bool dump_remote_pe(IN const char *outputFilePath,
         IN const HANDLE processHandle, 
-        IN BYTE *moduleBase, 
+        IN BYTE *moduleBase,
         IN OUT t_pe_dump_mode &dump_mode,
         IN OPTIONAL peconv::ExportsMapper* exportsMap = nullptr
     );
 
     /**
     Retrieve the Image Size saved in the header of the remote PE.
+    \param processHandle : process from where we are reading
+    \param start_addr : a base address of the PE within the given process
     */
-    DWORD get_remote_image_size(const HANDLE processHandle, BYTE *start_addr);
+    DWORD get_remote_image_size(IN const HANDLE processHandle, IN BYTE *start_addr);
 
 }; //namespace peconv
