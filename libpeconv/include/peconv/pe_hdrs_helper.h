@@ -19,9 +19,9 @@ namespace peconv {
     DWORD get_image_size(IN const BYTE *payload);
 
     /**
-    Change the Image Base in Optional Header to the given one.
+    Change the Image Size in Optional Header to the given one.
     */
-    bool update_image_size(IN OUT BYTE* payload, IN DWORD destImageBase);
+    bool update_image_size(IN OUT BYTE* payload, IN DWORD new_img_size);
 
     /**
     Fetch architecture from the NT headers. Checks for bad pointers. 
