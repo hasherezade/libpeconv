@@ -94,9 +94,24 @@ namespace peconv {
         size_t make_ord_lookup_tables(PVOID modulePtr, size_t moduleSize, std::map<PDWORD, DWORD> &va_to_ord);
 
     protected:
+        /**
+        A map associating VA of the function with the related exports.
+        */
         std::map<ULONGLONG, std::set<ExportedFunc>> va_to_func;
+
+        /**
+        A map associating an exported functions with its forwarders.
+        */
         std::map<ExportedFunc, std::set<ExportedFunc>> forwarders_lookup;
+
+        /**
+        A map associating an exported functions with its VA.
+        */
         std::map<ExportedFunc, ULONGLONG> func_to_va;
+        
+        /**
+        A map associating DLL shortname with the full path to the DLL.
+        */
         std::map<std::string, std::string> dll_shortname_to_path;
     };
 

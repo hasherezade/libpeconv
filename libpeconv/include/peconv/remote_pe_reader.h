@@ -59,12 +59,14 @@ namespace peconv {
 
     /**
     Dumps PE from the remote process into a file. It expects the module base and size to be given.
+    \param outputFilePath : the path where the dump will be saved
     \param processHandle : the handle to the remote process
     \param moduleBase : the base address of the module that needs to be dumped
     \param dump_mode : specifies in which format the PE should be dumped. If the mode was set to PE_DUMP_AUTO, it autodetects mode and returns the detected one.
     \param exportsMap : optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
     */
-    bool dump_remote_pe(IN const char *outputFilePath,
+    bool dump_remote_pe(
+        IN const char *outputFilePath,
         IN const HANDLE processHandle, 
         IN BYTE *moduleBase,
         IN OUT t_pe_dump_mode &dump_mode,

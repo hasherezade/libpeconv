@@ -29,8 +29,9 @@ namespace peconv {
     {
     public:
         /**
-        \param _addresses : the list of filled imports (VAs)
-        \param _exportsMap : the map of the exports of all loaded DLLs (the space in which we will be searching)
+        A constructor of an object of ImportedDllCoverage class.
+        \param _addresses : the list of filled imports (VAs): the addresses to be covered
+        \param _exportsMap : the map of the exports of all the loaded DLLs (the space in which we will be searching)
         */
         ImportedDllCoverage(std::set<ULONGLONG>& _addresses, const peconv::ExportsMapper& _exportsMap)
             : addresses(_addresses), exportsMap(_exportsMap)
@@ -39,34 +40,56 @@ namespace peconv {
 
         /**
         Checks if all the addresses can be covered by one DLL. If yes, this dll will be saved into: dllName.
+        \return true if the covering DLL for the addresses was found. false otherwise.
         */
         bool findCoveringDll();
 
         /** 
         Maps the addresses from the set to functions from the given DLL. 
-        The used DLL name is saved into mappedDllName. Results are saved into: addrToFunc. 
+        Results are saved into: addrToFunc.
         Addresses that could not be covered by the given DLL are saved into notFound.
         Before each execution, the content of involved variables is erased.
-        Returns a number of covered functions.
+        \param _mappedDllName : the name of the DLL that we will be used to mapping. This DLL is saved into mappedDllName. 
+        \return a number of covered functions
         */
-        size_t mapAddressesToFunctions(std::string dll);
+        size_t mapAddressesToFunctions(std::string _mappedDllName);
 
        /**
        Check if the functions mapping is complete.
-       \return the status: true if all the addresses are mapped to functions' names, false if not
+       \return the status: true if all the addresses are mapped to specific exports, false if not
        */
         bool isMappingComplete() { return (addresses.size() == addrToFunc.size()) ? true : false; }
 
+        /**
+        A mapping associating each of the covered function addresses with the set of exports (from mapped DLL) that cover this address
+        */
         std::map<ULONGLONG, std::set<ExportedFunc>> addrToFunc;
-        std::set<ULONGLONG> notFound; //addresses not found in the mappedDll
 
-        std::string dllName; //covering DLL
+        /**
+        Addresses of the functions not found in the mapped DLL
+        */
+        std::set<ULONGLONG> notFound;
+
+        /**
+        Name of the covering DLL
+        */
+        std::string dllName;
 
     protected:
-        // a name of the  DLL that was used for mapping. In a normal scenario it will be the same as coveringDLL, but may be set different.
+        /**
+        A name of the  DLL that was used for mapping. In a typical scenario it will be the same as covering DLL, but may be set different.
+        */
         std::string mappedDllName;
 
+        /**
+        A supplied set of the addresses of imported functions.
+        Those addressed will be covered (associated with the corresponding exports from available DLLs, defined by exportsMap).
+        */
         std::set<ULONGLONG> &addresses;
-        const peconv::ExportsMapper& exportsMap; //only using as a lookup, not changing
+
+        /**
+        A supplied exportsMap. Only used as a lookup, no changes applied.
+        */
+        const peconv::ExportsMapper& exportsMap;
     };
 }
