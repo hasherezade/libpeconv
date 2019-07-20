@@ -18,7 +18,7 @@ var searchData=
   ['is_5fvalid_5fexport_5ftable',['is_valid_export_table',['../exports__mapper_8cpp.html#a3550d9ab7af1ae0df7860be7560f3487',1,'exports_mapper.cpp']]],
   ['is_5fvalid_5fimport_5fname',['is_valid_import_name',['../namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90',1,'peconv']]],
   ['is_5fvalid_5fsections_5fhdr_5foffset',['is_valid_sections_hdr_offset',['../namespacepeconv.html#a3fa674b54bb5428890869defc92564e6',1,'peconv']]],
-  ['is_5fvalid_5fsectons_5falignment',['is_valid_sectons_alignment',['../namespacepeconv.html#adb8459dc0fd57175a65bc17c2c6822a1',1,'peconv']]],
+  ['is_5fvalid_5fsectons_5falignment',['is_valid_sectons_alignment',['../namespacepeconv.html#adfdae754cddaa01f3babd7ef20314859',1,'peconv']]],
   ['is_5fvirtual_5fpadding',['is_virtual_padding',['../pe__mode__detector_8cpp.html#a8c2532fe49ea494f668a64bbf327cf6d',1,'pe_mode_detector.cpp']]],
   ['is_5fwanted_5ffunc',['is_wanted_func',['../exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43',1,'exports_lookup.cpp']]],
   ['ismappingcomplete',['isMappingComplete',['../classpeconv_1_1_imported_dll_coverage.html#a655da420b79785bb92c9067fc82ad7b9',1,'peconv::ImportedDllCoverage']]],

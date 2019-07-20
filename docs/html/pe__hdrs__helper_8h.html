@@ -75,6 +75,9 @@ $(function() {
 <div class="title">pe_hdrs_helper.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Wrappers over various fields in the PE header. Read, write, parse PE headers.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;Windows.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="buffer__util_8h_source.html">buffer_util.h</a>&quot;</code><br />
 </div>
@@ -157,15 +160,19 @@ Functions</h2></td></tr>
 <tr class="separator:ad7bc9517bad540eec401af74db0ab99a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae868d124a8e0597ca7fa27adf77e2255"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">peconv::calc_pe_size</a> (IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)</td></tr>
 <tr class="separator:ae868d124a8e0597ca7fa27adf77e2255"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb8459dc0fd57175a65bc17c2c6822a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#adb8459dc0fd57175a65bc17c2c6822a1">peconv::is_valid_sectons_alignment</a> (IN const BYTE *payload, IN const SIZE_T payload_size, IN bool is_raw)</td></tr>
-<tr class="separator:adb8459dc0fd57175a65bc17c2c6822a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfdae754cddaa01f3babd7ef20314859"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#adfdae754cddaa01f3babd7ef20314859">peconv::is_valid_sectons_alignment</a> (IN const BYTE *buffer, IN const SIZE_T buffer_size, IN bool is_raw)</td></tr>
+<tr class="separator:adfdae754cddaa01f3babd7ef20314859"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:ab9e88d124d620871287713092a8c4653"><td class="memItemLeft" align="right" valign="top">const ULONGLONG&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab9e88d124d620871287713092a8c4653">peconv::MAX_HEADER_SIZE</a> = <a class="el" href="pe__hdrs__helper_8h.html#a7d467c1d283fdfa1f2081ba1e0d01b6e">PAGE_SIZE</a></td></tr>
 <tr class="separator:ab9e88d124d620871287713092a8c4653"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Wrappers over various fields in the PE header. Read, write, parse PE headers. </p>
+
+<p class="definition">Definition in file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a7d467c1d283fdfa1f2081ba1e0d01b6e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7d467c1d283fdfa1f2081ba1e0d01b6e">&#9670;&nbsp;</a></span>PAGE_SIZE</h2>
 
@@ -178,7 +185,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8h_source.html#l00007">7</a> of file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8h_source.html#l00012">12</a> of file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
 
 </div>
 </div>

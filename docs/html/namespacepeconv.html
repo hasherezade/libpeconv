@@ -301,8 +301,8 @@ Functions</h2></td></tr>
 <tr class="separator:ad7bc9517bad540eec401af74db0ab99a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae868d124a8e0597ca7fa27adf77e2255"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">calc_pe_size</a> (IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)</td></tr>
 <tr class="separator:ae868d124a8e0597ca7fa27adf77e2255"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb8459dc0fd57175a65bc17c2c6822a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#adb8459dc0fd57175a65bc17c2c6822a1">is_valid_sectons_alignment</a> (IN const BYTE *payload, IN const SIZE_T payload_size, IN bool is_raw)</td></tr>
-<tr class="separator:adb8459dc0fd57175a65bc17c2c6822a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfdae754cddaa01f3babd7ef20314859"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#adfdae754cddaa01f3babd7ef20314859">is_valid_sectons_alignment</a> (IN const BYTE *buffer, IN const SIZE_T buffer_size, IN bool is_raw)</td></tr>
+<tr class="separator:adfdae754cddaa01f3babd7ef20314859"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7731531c07531385db3c749676dd702f"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a7731531c07531385db3c749676dd702f">load_pe_module</a> (BYTE *dllRawData, size_t r_size, OUT size_t &amp;v_size, bool executable, bool relocate)</td></tr>
 <tr class="separator:a7731531c07531385db3c749676dd702f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6053c10eb518aeb03eff2d7ffc1020e1"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a6053c10eb518aeb03eff2d7ffc1020e1">load_pe_module</a> (const char *filename, OUT size_t &amp;v_size, bool executable, bool relocate)</td></tr>
@@ -381,7 +381,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>A buffer allocated in a virtual space of a process, aligned to the beginning of a memory page. </p>
 
-<p class="definition">Definition at line <a class="el" href="buffer__util_8h_source.html#l00029">29</a> of file <a class="el" href="buffer__util_8h_source.html">buffer_util.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="buffer__util_8h_source.html#l00034">34</a> of file <a class="el" href="buffer__util_8h_source.html">buffer_util.h</a>.</p>
 
 </div>
 </div>
@@ -503,7 +503,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>A callback that will be executed by imports_walker when the next import was found </p>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8h_source.html#l00013">13</a> of file <a class="el" href="imports__loader_8h_source.html">imports_loader.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8h_source.html#l00018">18</a> of file <a class="el" href="imports__loader_8h_source.html">imports_loader.h</a>.</p>
 
 </div>
 </div>
@@ -520,7 +520,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>A callback that will be executed by the function parse_resources when the Resource Entry was found. </p>
 
-<p class="definition">Definition at line <a class="el" href="resource__parser_8h_source.html#l00008">8</a> of file <a class="el" href="resource__parser_8h_source.html">resource_parser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="resource__parser_8h_source.html#l00013">13</a> of file <a class="el" href="resource__parser_8h_source.html">resource_parser.h</a>.</p>
 
 </div>
 </div>
@@ -537,7 +537,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>A buffer allocated on the heap of a process, not aligned to the beginning of a memory page. </p>
 
-<p class="definition">Definition at line <a class="el" href="buffer__util_8h_source.html#l00024">24</a> of file <a class="el" href="buffer__util_8h_source.html">buffer_util.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="buffer__util_8h_source.html#l00029">29</a> of file <a class="el" href="buffer__util_8h_source.html">buffer_util.h</a>.</p>
 
 </div>
 </div>
@@ -567,7 +567,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="load__config__util_8h_source.html#l00013">13</a> of file <a class="el" href="load__config__util_8h_source.html">load_config_util.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="load__config__util_8h_source.html#l00017">17</a> of file <a class="el" href="load__config__util_8h_source.html">load_config_util.h</a>.</p>
 
 </div>
 </div>
@@ -596,7 +596,7 @@ Variables</h2></td></tr>
 </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="pe__dumper_8h_source.html#l00011">11</a> of file <a class="el" href="pe__dumper_8h_source.html">pe_dumper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__dumper_8h_source.html#l00016">16</a> of file <a class="el" href="pe__dumper_8h_source.html">pe_dumper.h</a>.</p>
 
 </div>
 </div>
@@ -736,7 +736,14 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Calculate full PE size (raw or virtual) using information from sections' headers. WARNING: it drops an overlay. </p>
+<p>Calculate full PE size (raw or virtual) using information from sections' headers. WARNING: it drops an overlay. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pe_buffer</td><td>: a buffer containing a PE </td></tr>
+    <tr><td class="paramname">pe_size</td><td>: the size of the given buffer </td></tr>
+    <tr><td class="paramname">is_raw</td><td>: If true, the Raw alignment is used. If false, the Virtual alignment is used. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00586">586</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
@@ -3643,8 +3650,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="adb8459dc0fd57175a65bc17c2c6822a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb8459dc0fd57175a65bc17c2c6822a1">&#9670;&nbsp;</a></span>is_valid_sectons_alignment()</h2>
+<a id="adfdae754cddaa01f3babd7ef20314859"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfdae754cddaa01f3babd7ef20314859">&#9670;&nbsp;</a></span>is_valid_sectons_alignment()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3653,13 +3660,13 @@ Here is the call graph for this function:</div>
           <td class="memname">bool peconv::is_valid_sectons_alignment </td>
           <td>(</td>
           <td class="paramtype">IN const BYTE *&#160;</td>
-          <td class="paramname"><em>payload</em>, </td>
+          <td class="paramname"><em>buffer</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">IN const SIZE_T&#160;</td>
-          <td class="paramname"><em>payload_size</em>, </td>
+          <td class="paramname"><em>buffer_size</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -3674,13 +3681,21 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Walk through sections headers checking if the sections beginnings and sizes are fitting the alignment (Virtual or Raw) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>: a buffer containing a PE </td></tr>
+    <tr><td class="paramname">buffer_size</td><td>: the size of the given buffer </td></tr>
+    <tr><td class="paramname">is_raw</td><td>: If true, the Raw alignment is checked. If false, the Virtual alignment is checked. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00604">604</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_adb8459dc0fd57175a65bc17c2c6822a1_cgraph.png" border="0" usemap="#namespacepeconv_adb8459dc0fd57175a65bc17c2c6822a1_cgraph" alt=""/></div>
-<map name="namespacepeconv_adb8459dc0fd57175a65bc17c2c6822a1_cgraph" id="namespacepeconv_adb8459dc0fd57175a65bc17c2c6822a1_cgraph">
+<div class="center"><img src="namespacepeconv_adfdae754cddaa01f3babd7ef20314859_cgraph.png" border="0" usemap="#namespacepeconv_adfdae754cddaa01f3babd7ef20314859_cgraph" alt=""/></div>
+<map name="namespacepeconv_adfdae754cddaa01f3babd7ef20314859_cgraph" id="namespacepeconv_adfdae754cddaa01f3babd7ef20314859_cgraph">
 <area shape="rect"  title=" " alt="" coords="5,137,171,178"/>
 <area shape="rect"  href="namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c" title=" " alt="" coords="429,144,608,171"/>
 <area shape="rect"  href="namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f" title=" " alt="" coords="447,195,591,237"/>
@@ -5272,7 +5287,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p>Maximal size of the PE header. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8h_source.html#l00014">14</a> of file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8h_source.html#l00019">19</a> of file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
 
 </div>
 </div>
