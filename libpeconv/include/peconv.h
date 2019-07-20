@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Master include file, including everything else.
+*/
+
 #pragma once
 
 #include "peconv/buffer_util.h"

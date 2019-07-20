@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Functions related to operations on files.
+*/
+
 #pragma once
 
 #include <windows.h>
@@ -23,14 +28,28 @@ namespace peconv {
     */
     peconv::ALIGNED_BUF read_from_file(IN const char *path, IN OUT size_t &read_size);
 
-    // Writes a buffer of bytes into a file of given path
-    bool dump_to_file(OUT const char *path, IN PBYTE dump_data, IN size_t dump_size);
+    /**
+    Writes a buffer of bytes into a file of given path.
+    \param path : the path to the output file
+    \param dump_data : the buffer to be dumped
+    \param dump_size : the size of data to be dumped (in bytes)
+    \return true if succeeded, false if failed
+    */
+    bool dump_to_file(IN const char *path, IN PBYTE dump_data, IN size_t dump_size);
 
-    //free the buffer allocated by load_file/read_from_file
+    /**
+    Free the buffer allocated by load_file/read_from_file
+    */
     void free_file(IN peconv::ALIGNED_BUF buffer);
 
+    /**
+    Get the file name from the given path.
+    */
     std::string get_file_name(IN const std::string str);
 
+    /**
+    Get the directory name from the given path.
+    */
     std::string get_directory_name(IN const std::string str);
 
 }; //namespace peconv
