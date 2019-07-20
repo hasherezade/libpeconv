@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   A definition of ImportedDllCoverage class. It is responsible for associating imports' addresses with the corresponding exported functions.
+*/
+
 #pragma once
 
 #include <Windows.h>

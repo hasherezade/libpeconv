@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Converting PE from raw to virtual format.
+*/
+
 #pragma once
 
 #include <windows.h>

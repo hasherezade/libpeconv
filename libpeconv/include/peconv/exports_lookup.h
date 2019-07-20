@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   A definition of an Imports Resolver class, using exports lookup.
+*/
+
 #pragma once
 #include <Windows.h>
 

@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Functions related to operations on files.
+*/
+
 #pragma once
 
 #include <windows.h>

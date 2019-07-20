@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Parsing PE's resource directory.
+*/
+
 #pragma once
 #include <Windows.h>
 

@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Miscellaneous utility functions.
+*/
+
 #pragma once
 
 #include "file_util.h"

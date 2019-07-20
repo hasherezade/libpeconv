@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Definitions of basic Imports Resolver classes. They can be used for filling imports when the PE is loaded.
+*/
+
 #pragma once
 
 #include <Windows.h>

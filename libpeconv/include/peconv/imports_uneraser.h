@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   A definition of ImportsUneraser class - for recovery of a partialy erased Import Table.
+*/
+
 #pragma once
 
 #include <Windows.h>

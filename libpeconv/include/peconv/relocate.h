@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Operating on PE file's relocations table.
+*/
+
 #pragma once
 
 #include <Windows.h>

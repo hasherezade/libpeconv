@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Parsing and filling the Delayload Import Table.
+*/
+
 #pragma once
 
 #include <Windows.h>

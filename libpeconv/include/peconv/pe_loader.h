@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Loading PE from a file with the help of the custom loader.
+*/
+
 #pragma once
 
 #include "pe_raw_to_virtual.h"

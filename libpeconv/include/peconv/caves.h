@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Functions related to finding caves in the loaded PE file.
+*/
+
 #pragma once
 
 #include <Windows.h>

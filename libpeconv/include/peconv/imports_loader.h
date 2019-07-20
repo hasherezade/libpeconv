@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Parsing and filling the Import Table.
+*/
+
 #pragma once
 
 #include <Windows.h>

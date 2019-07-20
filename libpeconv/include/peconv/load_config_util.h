@@ -1,8 +1,12 @@
+/**
+* @file
+* @brief   Fetching Load Config Directory and recognizing its version.
+*/
+
 #pragma once
-
 #include <Windows.h>
-#include "buffer_util.h"
 
+#include "buffer_util.h"
 #include "load_config_defs.h"
 
 namespace peconv {

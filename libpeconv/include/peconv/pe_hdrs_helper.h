@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Wrappers over various fields in the PE header. Read, write, parse PE headers.
+*/
+
 #pragma once
 
 #include <Windows.h>
@@ -194,6 +199,9 @@ namespace peconv {
 
     /**
     Calculate full PE size (raw or virtual) using information from sections' headers. WARNING: it drops an overlay.
+    \param pe_buffer : a buffer containing a PE
+    \param pe_size : the size of the given buffer
+    \param is_raw : If true, the Raw alignment is used. If false, the Virtual alignment is used.
     */
     DWORD calc_pe_size(
         IN const PBYTE pe_buffer,
@@ -201,6 +209,12 @@ namespace peconv {
         IN bool is_raw
     );
 
-    bool is_valid_sectons_alignment(IN const BYTE* payload, IN const SIZE_T payload_size, IN bool is_raw);
+    /**
+    Walk through sections headers checking if the sections beginnings and sizes are fitting the alignment (Virtual or Raw)
+    \param buffer : a buffer containing a PE
+    \param buffer_size : the size of the given buffer
+    \param is_raw : If true, the Raw alignment is checked. If false, the Virtual alignment is checked.
+    */
+    bool is_valid_sectons_alignment(IN const BYTE* buffer, IN const SIZE_T buffer_size, IN bool is_raw);
 
 }; // namespace peconv
