@@ -612,16 +612,15 @@ bool peconv::is_valid_sectons_alignment(IN const BYTE* payload, IN const SIZE_T 
 #endif
         return false;
     }
-    size_t sections_count = peconv::get_sections_count(payload, payload_size);
+    const size_t sections_count = peconv::get_sections_count(payload, payload_size);
     if (sections_count == 0) {
         //no sections
         return false;
     }
-    for (WORD i = 0; i < sections_count; i++) {
+    for (size_t i = 0; i < sections_count; i++) {
         PIMAGE_SECTION_HEADER next_sec = peconv::get_section_hdr(payload, payload_size, i);
 
         const DWORD next_sec_addr = is_raw ? (next_sec->PointerToRawData) : (next_sec->VirtualAddress);
-        const BYTE* section_ptr = payload + next_sec_addr;
 
         SIZE_T sec_size = is_raw ? next_sec->SizeOfRawData : next_sec->Misc.VirtualSize;
         if (sec_size == 0) continue;
