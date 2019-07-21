@@ -1,6 +1,6 @@
 /**
 * @file
-* @brief   Functions related to operations on files.
+* @brief   Functions related to operations on files. Wrappers for read/write.
 */
 
 #pragma once

@@ -1,6 +1,6 @@
 /**
 * @file
-* @brief   A definition of ImportedDllCoverage class. It is responsible for associating imports' addresses with the corresponding exported functions.
+* @brief   Functions and classes responsible for fixing Import Table. A definition of ImportedDllCoverage class.
 */
 
 #pragma once

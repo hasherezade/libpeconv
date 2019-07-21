@@ -1,6 +1,6 @@
 /**
 * @file
-* @brief   A definition of an Imports Resolver class, using exports lookup.
+* @brief   Searching specific functions in PE's Exports Table.
 */
 
 #pragma once
