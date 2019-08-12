@@ -180,12 +180,12 @@ bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, UL
     return process_relocation_table(modulePtr, moduleSize, &callback);
 }
 
-bool peconv::relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
+bool peconv::relocate_module(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase)
 {
     if (modulePtr == NULL) {
         return false;
     }
-    if (oldBase == NULL) {
+    if (oldBase == 0) {
         oldBase = get_image_base(modulePtr);
     }
 #ifdef _DEBUG
@@ -217,7 +217,7 @@ bool peconv::relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBa
     return false;
 }
 
-bool peconv::has_valid_relocation_table(const PBYTE modulePtr, const size_t moduleSize)
+bool peconv::has_valid_relocation_table(IN const PBYTE modulePtr, IN const size_t moduleSize)
 {
     return process_relocation_table(modulePtr, moduleSize, nullptr);
 }
