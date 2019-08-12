@@ -18,6 +18,11 @@ namespace peconv {
     /**
     Checks if the given  PE has a valid relocations table.
     */
-    bool has_valid_relocation_table(const PBYTE modulePtr, size_t moduleSize);
+    bool has_valid_relocation_table(IN const PBYTE modulePtr, IN const size_t moduleSize);
+
+    /**
+    Checks if the given PE is relocated to the given moduleBase.
+    */
+    bool is_relocated_to_base(IN const PBYTE modulePtr, IN const size_t moduleSize, IN const ULONGLONG moduleBase);
 
 };//namespace peconv

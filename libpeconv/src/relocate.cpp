@@ -1,7 +1,7 @@
 #include "peconv/relocate.h"
 
 #include "peconv/pe_hdrs_helper.h"
-
+#include <iostream>
 #include <stdio.h>
 
 using namespace peconv;
@@ -15,44 +15,80 @@ typedef struct _BASE_RELOCATION_ENTRY {
 } BASE_RELOCATION_ENTRY;
 
 
-bool apply_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD page, ULONGLONG oldBase, ULONGLONG newBase, PVOID modulePtr, SIZE_T moduleSize, bool is64bit)
+class RelocBlockCallback
 {
-    BASE_RELOCATION_ENTRY* entry = block;
-    SIZE_T i = 0;
-    for (i = 0; i < entriesNum; i++) {
-        if (!validate_ptr(modulePtr, moduleSize, entry, sizeof(BASE_RELOCATION_ENTRY))) {
-            break;
-        }
-        DWORD offset = entry->Offset;
-        DWORD type = entry->Type;
-        if (type == 0) {
-            break;
-        }
-        if (type != RELOC_32BIT_FIELD && type != RELOC_64BIT_FIELD) {
-            printf("[-] Not supported relocations format at %d: %d\n", (int) i, (int) type);
-            return false;
-        }
-        DWORD reloc_field = page + offset;
-        if (reloc_field >= moduleSize) {
-            printf("[-] Malformed field: %lx\n", reloc_field);
-            return false;
-        }
+public:
+    RelocBlockCallback(bool _is64bit)
+        : is64bit(_is64bit)
+    {
+    }
+
+    virtual bool processRelocField(ULONG_PTR relocField) = 0;
+
+protected:
+    bool is64bit;
+};
+
+
+class ApplyRelocCallback : public RelocBlockCallback
+{
+public:
+    ApplyRelocCallback(bool _is64bit, ULONGLONG _oldBase, ULONGLONG _newBase)
+        : RelocBlockCallback(_is64bit), oldBase(_oldBase), newBase(_newBase)
+    {
+    }
+
+    virtual bool processRelocField(ULONG_PTR relocField)
+    {
         if (is64bit) {
-            ULONGLONG* relocateAddr = (ULONGLONG*)((ULONG_PTR)modulePtr + reloc_field);
+            ULONGLONG* relocateAddr = (ULONGLONG*)((ULONG_PTR)relocField);
             ULONGLONG rva = (*relocateAddr) - oldBase;
             (*relocateAddr) = rva + newBase;
         }
         else {
-            DWORD* relocateAddr = (DWORD*)((ULONG_PTR)modulePtr + reloc_field);
+            DWORD* relocateAddr = (DWORD*)((ULONG_PTR)relocField);
             ULONGLONG rva = (*relocateAddr) - oldBase;
             (*relocateAddr) = static_cast<DWORD>(rva + newBase);
         }
-        entry = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)entry + sizeof(WORD));
+        return true;
     }
-    return true;
-}
 
-bool validate_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD page, PVOID modulePtr, SIZE_T moduleSize, bool is64bit)
+protected:
+    ULONGLONG oldBase;
+    ULONGLONG newBase;
+};
+
+class IsRelocatedCallback : public RelocBlockCallback
+{
+public:
+    IsRelocatedCallback(bool _is64bit, ULONGLONG _imageBase, DWORD _imageSize)
+        : RelocBlockCallback(_is64bit), imageBase(_imageBase), imageSize(_imageSize)
+    {
+    }
+
+    virtual bool processRelocField(ULONG_PTR relocField)
+    {
+        ULONGLONG rva = 0;
+        if (is64bit) {
+            ULONGLONG* relocateAddr = (ULONGLONG*)(relocField);
+            rva = (*relocateAddr) - imageBase;
+        }
+        else {
+            DWORD* relocateAddr = (DWORD*)(relocField);
+            rva = (*relocateAddr) - imageBase;
+        }
+        if (rva > imageSize) {
+            //std::cout << "RVA: " << std::hex << rva << " > imageSize: " << imageSize << "\n";
+            return false;
+        }
+        return true;
+    }
+protected:
+    ULONGLONG imageBase;
+    DWORD imageSize;
+};
+
+bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD page, PVOID modulePtr, SIZE_T moduleSize, bool is64bit, RelocBlockCallback *callback)
 {
     BASE_RELOCATION_ENTRY* entry = block;
     SIZE_T i = 0;
@@ -66,20 +102,34 @@ bool validate_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD
             break;
         }
         if (type != RELOC_32BIT_FIELD && type != RELOC_64BIT_FIELD) {
+            if (callback) { //print debug messages only if the callback function was set
+                printf("[-] Not supported relocations format at %d: %d\n", (int)i, (int)type);
+            }
+            
             return false;
         }
         DWORD reloc_field = page + offset;
         if (reloc_field >= moduleSize) {
+            if (callback) { //print debug messages only if the callback function was set
+                printf("[-] Malformed field: %lx\n", reloc_field);
+            }
             return false;
+        }
+        if (callback) {
+            bool isOk = callback->processRelocField(((ULONG_PTR)modulePtr + reloc_field));
+            if (!isOk) {
+                //std::cout << "[-] Failed processing reloc field at: " << std::hex << reloc_field << "\n";
+                return false;
+            }
         }
         entry = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)entry + sizeof(WORD));
     }
     return true;
 }
 
-bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
+bool process_relocation_table(PVOID modulePtr, SIZE_T moduleSize, RelocBlockCallback *callback)
 {
-    IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
+    IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
     if (relocDir == NULL) {
 #ifdef _DEBUG
         printf("[!] WARNING: no relocation table found!\n");
@@ -116,11 +166,18 @@ bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, UL
             printf("[-] Invalid address of relocations block\n");
             return false;
         }
-        if (apply_reloc_block(block, entriesNum, page, oldBase, newBase, modulePtr, moduleSize, is64b) == false) {
+        if (process_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b, callback) == false) {
             return false;
         }
     }
     return (parsedSize != 0);
+}
+
+bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
+{
+    const bool is64b = is64bit((BYTE*)modulePtr);
+    ApplyRelocCallback callback(is64b, oldBase, newBase);
+    return process_relocation_table(modulePtr, moduleSize, &callback);
 }
 
 bool peconv::relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
@@ -141,6 +198,16 @@ bool peconv::relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBa
 #endif
         return true; //nothing to relocate
     }
+    if (!is_relocated_to_base(modulePtr, moduleSize, oldBase)) {
+        if (is_relocated_to_base(modulePtr, moduleSize, newBase)) {
+            // The module is already relocated to the newBase
+            return true;
+        }
+        else {
+            std::cout << "Could not relocate: the module is NOT relocated to the given oldBase: " << std::hex << oldBase << "\n";
+            return false;
+        }
+    }
     if (apply_relocations(modulePtr, moduleSize, newBase, oldBase)) {
         return true;
     }
@@ -150,39 +217,16 @@ bool peconv::relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBa
     return false;
 }
 
-bool peconv::has_valid_relocation_table(const PBYTE modulePtr, size_t moduleSize)
+bool peconv::has_valid_relocation_table(const PBYTE modulePtr, const size_t moduleSize)
 {
-    IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
-    if (!relocDir || !validate_ptr(modulePtr, moduleSize, relocDir, sizeof(IMAGE_DATA_DIRECTORY))) {
-        return false;
-    }
-    const DWORD maxSize = relocDir->Size;
-    const DWORD relocAddr = relocDir->VirtualAddress;
+    return process_relocation_table(modulePtr, moduleSize, nullptr);
+}
 
-    DWORD parsedSize = 0;
-    while (parsedSize < maxSize) {
-        IMAGE_BASE_RELOCATION* reloc = (IMAGE_BASE_RELOCATION*)(relocAddr + parsedSize + (ULONG_PTR)modulePtr);
-        if (!validate_ptr(modulePtr, moduleSize, reloc, sizeof(IMAGE_BASE_RELOCATION))) {
-            return false;
-        }
-        parsedSize += reloc->SizeOfBlock;
+bool peconv::is_relocated_to_base(IN const PBYTE modulePtr, IN const size_t moduleSize, IN const ULONGLONG moduleBase)
+{
+    const bool is64b = is64bit((BYTE*)modulePtr);
+    const DWORD image_size = peconv::get_image_size((BYTE*)modulePtr);
+    IsRelocatedCallback callback(is64b, moduleBase, image_size);
 
-        if (reloc->VirtualAddress == NULL || reloc->SizeOfBlock == 0) {
-            break;
-        }
-
-        size_t entriesNum = (reloc->SizeOfBlock - 2 * sizeof(DWORD)) / sizeof(WORD);
-        DWORD page = reloc->VirtualAddress;
-
-        BASE_RELOCATION_ENTRY* block = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)reloc + sizeof(DWORD) + sizeof(DWORD));
-        if (!validate_ptr(modulePtr, moduleSize, block, sizeof(BASE_RELOCATION_ENTRY))) {
-            return false;
-        }
-        //check relocations block:
-        bool is64b = is64bit((BYTE*)modulePtr);
-        if (validate_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b) == false) {
-            return false;
-        }
-    }
-    return (parsedSize != 0);
+    return process_relocation_table(modulePtr, moduleSize, &callback);
 }
