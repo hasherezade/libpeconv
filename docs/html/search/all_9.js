@@ -7,6 +7,8 @@ var searchData=
   ['image_5fload_5fconfig_5fdir64_5fw10',['IMAGE_LOAD_CONFIG_DIR64_W10',['../namespacepeconv.html#a7ab169e26ee50bf6dff5b4715cd7eaad',1,'peconv']]],
   ['image_5fload_5fconfig_5fdir64_5fw7',['IMAGE_LOAD_CONFIG_DIR64_W7',['../namespacepeconv.html#a4fd5e4905488d818ba0f8d9a60681005',1,'peconv']]],
   ['image_5fload_5fconfig_5fdir64_5fw8',['IMAGE_LOAD_CONFIG_DIR64_W8',['../namespacepeconv.html#a1cb0aa764a707979e6db301232efacc6',1,'peconv']]],
+  ['imagebase',['imageBase',['../class_is_relocated_callback.html#a37e3abe5399cd15ee1cc07777e60f8fa',1,'IsRelocatedCallback']]],
+  ['imagesize',['imageSize',['../class_is_relocated_callback.html#a9e8fd7f2302ce36c2dbd1c607d92c5cd',1,'IsRelocatedCallback']]],
   ['importeddllcoverage',['ImportedDllCoverage',['../classpeconv_1_1_imported_dll_coverage.html',1,'peconv::ImportedDllCoverage'],['../classpeconv_1_1_imported_dll_coverage.html#a421654da84ac1375451e7df9751efe0f',1,'peconv::ImportedDllCoverage::ImportedDllCoverage()']]],
   ['imports_5fdll_5fwalker',['imports_dll_walker',['../imports__loader_8cpp.html#a87ed856eb60ea32aa28c584d71b92cca',1,'imports_loader.cpp']]],
   ['imports_5floader_2ecpp',['imports_loader.cpp',['../imports__loader_8cpp.html',1,'']]],
@@ -16,7 +18,7 @@ var searchData=
   ['imports_5fwalker',['imports_walker',['../namespacepeconv.html#a0c83689180b9dd9b6a3fa70032f811d0',1,'peconv']]],
   ['importsuneraser',['ImportsUneraser',['../classpeconv_1_1_imports_uneraser.html',1,'peconv::ImportsUneraser'],['../classpeconv_1_1_imports_uneraser.html#a407d30983cdf6d92701a79a2258966b2',1,'peconv::ImportsUneraser::ImportsUneraser()']]],
   ['is64',['is64',['../classpeconv_1_1_imports_uneraser.html#a9c7708c1a04f5cfac817b62a1bdd14d3',1,'peconv::ImportsUneraser']]],
-  ['is64bit',['is64bit',['../namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f',1,'peconv']]],
+  ['is64bit',['is64bit',['../class_reloc_block_callback.html#a6ecec7a2bbd27f04321af5fe4f52088b',1,'RelocBlockCallback::is64bit()'],['../namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f',1,'peconv::is64bit()']]],
   ['is_5fhdr_5fvirtual_5falign',['is_hdr_virtual_align',['../pe__mode__detector_8cpp.html#a5835ce4cee47662b28c07b2c280cd4ae',1,'pe_mode_detector.cpp']]],
   ['is_5fmodule_5fdll',['is_module_dll',['../namespacepeconv.html#aea672840faf6e644ffb82a493f1344a3',1,'peconv']]],
   ['is_5fordinal',['is_ordinal',['../exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5',1,'exports_lookup.cpp']]],
@@ -25,6 +27,7 @@ var searchData=
   ['is_5fpe_5fexpanded',['is_pe_expanded',['../namespacepeconv.html#abadc792662f4eacb9a9f5453ed977816',1,'peconv']]],
   ['is_5fpe_5fraw',['is_pe_raw',['../namespacepeconv.html#a3046d1cdda885f782e5ef1497123a515',1,'peconv']]],
   ['is_5fpe_5fraw_5feq_5fvirtual',['is_pe_raw_eq_virtual',['../namespacepeconv.html#aaf10a852b5e7a96b643148eb9ee00827',1,'peconv']]],
+  ['is_5frelocated_5fto_5fbase',['is_relocated_to_base',['../namespacepeconv.html#ad37f759264810216f1430415a0662c90',1,'peconv']]],
   ['is_5fsection_5fexpanded',['is_section_expanded',['../namespacepeconv.html#a2666035d7df89e33d188628064720a68',1,'peconv']]],
   ['is_5fvalid_5fdelta',['is_valid_delta',['../hooks_8cpp.html#af48839ae565817ce546c278c526e3030',1,'hooks.cpp']]],
   ['is_5fvalid_5fexport_5ftable',['is_valid_export_table',['../exports__mapper_8cpp.html#a3550d9ab7af1ae0df7860be7560f3487',1,'exports_mapper.cpp']]],
@@ -35,5 +38,6 @@ var searchData=
   ['is_5fwanted_5ffunc',['is_wanted_func',['../exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43',1,'exports_lookup.cpp']]],
   ['isbyordinal',['isByOrdinal',['../classpeconv_1_1_exported_func.html#acdf2023a9e4c12283c29b6e9d7e52cef',1,'peconv::ExportedFunc']]],
   ['ismappingcomplete',['isMappingComplete',['../classpeconv_1_1_imported_dll_coverage.html#a655da420b79785bb92c9067fc82ad7b9',1,'peconv::ImportedDllCoverage']]],
+  ['isrelocatedcallback',['IsRelocatedCallback',['../class_is_relocated_callback.html',1,'IsRelocatedCallback'],['../class_is_relocated_callback.html#a3f9f58e66651699d551669bd985ce590',1,'IsRelocatedCallback::IsRelocatedCallback()']]],
   ['isvalid',['isValid',['../classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd',1,'peconv::ExportedFunc']]]
 ];

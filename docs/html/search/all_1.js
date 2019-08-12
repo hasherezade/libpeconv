@@ -8,6 +8,6 @@ var searchData=
   ['alloc_5faligned',['alloc_aligned',['../namespacepeconv.html#a3df24248b3c8c9be64db51a405486923',1,'peconv']]],
   ['alloc_5fpe_5fbuffer',['alloc_pe_buffer',['../namespacepeconv.html#a92647f207ca261ca38ff516943501dd1',1,'peconv']]],
   ['alloc_5funaligned',['alloc_unaligned',['../namespacepeconv.html#a4d50b95546cf5fa78ce185ce1acbb8ec',1,'peconv']]],
-  ['apply_5freloc_5fblock',['apply_reloc_block',['../relocate_8cpp.html#ad936a27990ae1203a0aef892b045c7cf',1,'relocate.cpp']]],
-  ['apply_5frelocations',['apply_relocations',['../relocate_8cpp.html#a66ddf83b81ed1c6787ffb1421a4f94b5',1,'relocate.cpp']]]
+  ['apply_5frelocations',['apply_relocations',['../relocate_8cpp.html#a66ddf83b81ed1c6787ffb1421a4f94b5',1,'relocate.cpp']]],
+  ['applyreloccallback',['ApplyRelocCallback',['../class_apply_reloc_callback.html',1,'ApplyRelocCallback'],['../class_apply_reloc_callback.html#a09cde4a31ccf84a41b1343cd8ce0d646',1,'ApplyRelocCallback::ApplyRelocCallback()']]]
 ];

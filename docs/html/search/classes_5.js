@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['t_5ffunction_5fresolver',['t_function_resolver',['../classpeconv_1_1t__function__resolver.html',1,'peconv']]]
+  ['importeddllcoverage',['ImportedDllCoverage',['../classpeconv_1_1_imported_dll_coverage.html',1,'peconv']]],
+  ['importsuneraser',['ImportsUneraser',['../classpeconv_1_1_imports_uneraser.html',1,'peconv']]],
+  ['isrelocatedcallback',['IsRelocatedCallback',['../class_is_relocated_callback.html',1,'']]]
 ];

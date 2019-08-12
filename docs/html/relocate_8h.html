@@ -87,10 +87,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6a54581485f762c5241c99ea1e5a7fa8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a6a54581485f762c5241c99ea1e5a7fa8">peconv::relocate_module</a> (BYTE *modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase=NULL)</td></tr>
-<tr class="separator:a6a54581485f762c5241c99ea1e5a7fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0e59db58ee1b5a53d46fc490b45ea73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae0e59db58ee1b5a53d46fc490b45ea73">peconv::has_valid_relocation_table</a> (const PBYTE modulePtr, size_t moduleSize)</td></tr>
-<tr class="separator:ae0e59db58ee1b5a53d46fc490b45ea73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab35521cbdafa0310a0d7e9d1525beed8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab35521cbdafa0310a0d7e9d1525beed8">peconv::relocate_module</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase=0)</td></tr>
+<tr class="separator:ab35521cbdafa0310a0d7e9d1525beed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2bb52d5cf4b94ee5db2e3003f8b0d1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae2bb52d5cf4b94ee5db2e3003f8b0d1b">peconv::has_valid_relocation_table</a> (IN const PBYTE modulePtr, IN const size_t moduleSize)</td></tr>
+<tr class="separator:ae2bb52d5cf4b94ee5db2e3003f8b0d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad37f759264810216f1430415a0662c90"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ad37f759264810216f1430415a0662c90">peconv::is_relocated_to_base</a> (IN const PBYTE modulePtr, IN const size_t moduleSize, IN const ULONGLONG moduleBase)</td></tr>
+<tr class="separator:ad37f759264810216f1430415a0662c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Operating on PE file's relocations table. </p>
