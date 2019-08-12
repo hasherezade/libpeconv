@@ -17,7 +17,7 @@ namespace peconv {
      \param newBase : a base to which the PE should be relocated
      \param oldBase : a base to which the PE is currently relocated (if not set, the imageBase from the header will be used)
     */
-    bool relocate_module(BYTE* modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase=0);
+    bool relocate_module(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase = 0);
 
     /**
     Checks if the given  PE has a valid relocations table.
