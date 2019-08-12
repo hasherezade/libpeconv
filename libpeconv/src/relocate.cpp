@@ -52,6 +52,31 @@ bool apply_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD pa
     return true;
 }
 
+bool validate_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD page, PVOID modulePtr, SIZE_T moduleSize, bool is64bit)
+{
+    BASE_RELOCATION_ENTRY* entry = block;
+    SIZE_T i = 0;
+    for (i = 0; i < entriesNum; i++) {
+        if (!validate_ptr(modulePtr, moduleSize, entry, sizeof(BASE_RELOCATION_ENTRY))) {
+            break;
+        }
+        DWORD offset = entry->Offset;
+        DWORD type = entry->Type;
+        if (type == 0) {
+            break;
+        }
+        if (type != RELOC_32BIT_FIELD && type != RELOC_64BIT_FIELD) {
+            return false;
+        }
+        DWORD reloc_field = page + offset;
+        if (reloc_field >= moduleSize) {
+            return false;
+        }
+        entry = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)entry + sizeof(WORD));
+    }
+    return true;
+}
+
 bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
 {
     IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
@@ -151,6 +176,11 @@ bool peconv::has_valid_relocation_table(const PBYTE modulePtr, size_t moduleSize
 
         BASE_RELOCATION_ENTRY* block = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)reloc + sizeof(DWORD) + sizeof(DWORD));
         if (!validate_ptr(modulePtr, moduleSize, block, sizeof(BASE_RELOCATION_ENTRY))) {
+            return false;
+        }
+        //check relocations block:
+        bool is64b = is64bit((BYTE*)modulePtr);
+        if (validate_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b) == false) {
             return false;
         }
     }
