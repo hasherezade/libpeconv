@@ -16,6 +16,8 @@ add_executable ( ${PROJECT_NAME} ${srcs} )
 target_link_libraries ( ${PROJECT_NAME} ${PECONV_LIB} )
 add_dependencies( ${PROJECT_NAME} libpeconv)
 
-include(GNUInstallDirs)
+if(PECONV_LIB_INSTALL)
+	include(GNUInstallDirs)
 
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+	install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()

@@ -2,6 +2,7 @@ cmake_minimum_required ( VERSION 2.8 )
 
 project ( peconv )
 option(PECONV_BUILD_TESTING "enable testing for peconv" ON)
+option(PECONV_LIB_INSTALL "Enable install" ON )
 
 # modules:
 set ( M_PECONV_LIB "libpeconv" )
