@@ -47,7 +47,7 @@ public:
         }
         else {
             DWORD* relocateAddr = (DWORD*)((ULONG_PTR)relocField);
-            ULONGLONG rva = (*relocateAddr) - oldBase;
+            ULONGLONG rva = ULONGLONG(*relocateAddr) - oldBase;
             (*relocateAddr) = static_cast<DWORD>(rva + newBase);
         }
         return true;
@@ -56,36 +56,6 @@ public:
 protected:
     ULONGLONG oldBase;
     ULONGLONG newBase;
-};
-
-class IsRelocatedCallback : public RelocBlockCallback
-{
-public:
-    IsRelocatedCallback(bool _is64bit, ULONGLONG _imageBase, DWORD _imageSize)
-        : RelocBlockCallback(_is64bit), imageBase(_imageBase), imageSize(_imageSize)
-    {
-    }
-
-    virtual bool processRelocField(ULONG_PTR relocField)
-    {
-        ULONGLONG rva = 0;
-        if (is64bit) {
-            ULONGLONG* relocateAddr = (ULONGLONG*)(relocField);
-            rva = (*relocateAddr) - imageBase;
-        }
-        else {
-            DWORD* relocateAddr = (DWORD*)(relocField);
-            rva = (*relocateAddr) - imageBase;
-        }
-        if (rva > imageSize) {
-            //std::cout << "RVA: " << std::hex << rva << " > imageSize: " << imageSize << "\n";
-            return false;
-        }
-        return true;
-    }
-protected:
-    ULONGLONG imageBase;
-    DWORD imageSize;
 };
 
 bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD page, PVOID modulePtr, SIZE_T moduleSize, bool is64bit, RelocBlockCallback *callback)
@@ -118,7 +88,7 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
         if (callback) {
             bool isOk = callback->processRelocField(((ULONG_PTR)modulePtr + reloc_field));
             if (!isOk) {
-                //std::cout << "[-] Failed processing reloc field at: " << std::hex << reloc_field << "\n";
+                std::cout << "[-] Failed processing reloc field at: " << std::hex << reloc_field << "\n";
                 return false;
             }
         }
@@ -198,16 +168,6 @@ bool peconv::relocate_module(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ULONGL
 #endif
         return true; //nothing to relocate
     }
-    if (!is_relocated_to_base(modulePtr, moduleSize, oldBase)) {
-        if (is_relocated_to_base(modulePtr, moduleSize, newBase)) {
-            // The module is already relocated to the newBase
-            return true;
-        }
-        else {
-            std::cout << "Could not relocate: the module is NOT relocated to the given oldBase: " << std::hex << oldBase << "\n";
-            return false;
-        }
-    }
     if (apply_relocations(modulePtr, moduleSize, newBase, oldBase)) {
         return true;
     }
@@ -222,11 +182,3 @@ bool peconv::has_valid_relocation_table(IN const PBYTE modulePtr, IN const size_
     return process_relocation_table(modulePtr, moduleSize, nullptr);
 }
 
-bool peconv::is_relocated_to_base(IN const PBYTE modulePtr, IN const size_t moduleSize, IN const ULONGLONG moduleBase)
-{
-    const bool is64b = is64bit((BYTE*)modulePtr);
-    const DWORD image_size = peconv::get_image_size((BYTE*)modulePtr);
-    IsRelocatedCallback callback(is64b, moduleBase, image_size);
-
-    return process_relocation_table(modulePtr, moduleSize, &callback);
-}

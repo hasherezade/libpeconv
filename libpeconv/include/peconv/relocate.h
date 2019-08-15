@@ -26,13 +26,4 @@ namespace peconv {
     */
     bool has_valid_relocation_table(IN const PBYTE modulePtr, IN const size_t moduleSize);
 
-    /**
-    Checks if the given PE is relocated to the given moduleBase.
-    \param modulePtr : a buffer containing the PE to be checked
-    \param moduleSize : the size of the given PE buffer
-    \param moduleBase : a base address to which the PE was potentially allocated
-    \return true if the module was relocated to the given base, false otherwise
-    */
-    bool is_relocated_to_base(IN const PBYTE modulePtr, IN const size_t moduleSize, IN const ULONGLONG moduleBase);
-
 };//namespace peconv
