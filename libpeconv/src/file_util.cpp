@@ -25,7 +25,7 @@ peconv::ALIGNED_BUF peconv::load_file(IN const char *filename, OUT size_t &read_
         return nullptr;
     }
     BYTE *dllRawData = (BYTE*) MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0);
-    if (dllRawData == nullptr) {
+    if (!dllRawData) {
 #ifdef _DEBUG
         std::cerr << "Could not map view of file" << std::endl;
 #endif
@@ -36,6 +36,13 @@ peconv::ALIGNED_BUF peconv::load_file(IN const char *filename, OUT size_t &read_
     size_t r_size = GetFileSize(file, 0);
     if (read_size != 0 && read_size <= r_size) {
         r_size = read_size;
+    }
+    if (IsBadReadPtr(dllRawData, r_size)) {
+        std::cerr << "[-] Mapping of " << filename << " is invalid!" << std::endl;
+        UnmapViewOfFile(dllRawData);
+        CloseHandle(mapping);
+        CloseHandle(file);
+        return nullptr;
     }
     peconv::ALIGNED_BUF localCopyAddress = peconv::alloc_aligned(r_size, PAGE_READWRITE);
     if (localCopyAddress != nullptr) {

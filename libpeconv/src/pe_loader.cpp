@@ -37,36 +37,14 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
 
 BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool executable, bool relocate)
 {
-    HANDLE file = CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-    if(file == INVALID_HANDLE_VALUE) {
-        printf("Cannot open the file!\n");
+    size_t r_size = 0;
+    BYTE *dllRawData = load_file(filename, r_size);
+    if (!dllRawData) {
+        std::cerr << "Cannot load the file: " << filename << std::endl;
         return NULL;
     }
-    size_t r_size = GetFileSize(file, 0);
-    HANDLE mapping  = CreateFileMapping(file, 0, PAGE_READONLY, 0, 0, 0);
-    if (!mapping) {
-        printf("Cannot map the file!\n");
-        CloseHandle(file);
-        return NULL;
-    }
-    
-    BYTE *dllRawData = (BYTE*) MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, r_size);
-    
-    if (dllRawData == NULL) {
-        CloseHandle(mapping);
-        CloseHandle(file);
-        return NULL;
-    }
-    BYTE *mappedDLL = nullptr;
-    if (!IsBadReadPtr(dllRawData,r_size)) {
-        mappedDLL = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
-    } else {
-        std::cerr << "[-] oops, mapping of " << filename << " is invalid!" << std::endl;
-    }
-    UnmapViewOfFile(dllRawData);
-    CloseHandle(mapping);
-    CloseHandle(file);
-
+    BYTE* mappedDLL = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
+    free_pe_buffer(dllRawData);
     return mappedDLL;
 }
 

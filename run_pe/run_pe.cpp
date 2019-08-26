@@ -262,7 +262,7 @@ bool run_pe(char *payloadPath, char *targetPath)
     //1. Load the payload:
     size_t payloadImageSize = 0;
     // Load the current executable from the file with the help of libpeconv:
-    BYTE* loaded_pe = load_pe_module(payloadPath, payloadImageSize, false, false);
+    BYTE* loaded_pe = peconv::load_pe_module(payloadPath, payloadImageSize, false, false);
     if (!loaded_pe) {
         printf("Loading failed!\n");
         return false;
