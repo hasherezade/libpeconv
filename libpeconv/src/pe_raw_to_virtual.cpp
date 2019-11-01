@@ -14,7 +14,7 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
 
     bool is64b = is64bit(payload);
 
-    BYTE* payload_nt_hdr = get_nt_hrds(payload);
+    BYTE* payload_nt_hdr = get_nt_hdrs(payload);
     if (payload_nt_hdr == NULL) {
         std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
@@ -93,7 +93,7 @@ BYTE* peconv::pe_raw_to_virtual(
 )
 {
     //check payload:
-    BYTE* nt_hdr = get_nt_hrds(payload);
+    BYTE* nt_hdr = get_nt_hdrs(payload);
     if (nt_hdr == NULL) {
         std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return nullptr;

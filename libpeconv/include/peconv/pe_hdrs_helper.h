@@ -42,7 +42,7 @@ namespace peconv {
     Fetch pointer to the NT headers of the PE file. 
     Checks for bad pointers. If buffer_size is set, validates pointers against the buffer size.
     */
-    BYTE* get_nt_hrds(
+    BYTE* get_nt_hdrs(
         IN const BYTE *pe_buffer, 
         IN OPTIONAL size_t buffer_size=0 //if buffer_size=0 means size unknown
     );
@@ -50,12 +50,12 @@ namespace peconv {
     /**
     Wrapper for get_nt_headers. Automatically detects if the PE is 32 bit - if not, returns null pointer.
     */
-    IMAGE_NT_HEADERS32* get_nt_hrds32(IN const BYTE *pe_buffer);
+    IMAGE_NT_HEADERS32* get_nt_hdrs32(IN const BYTE *pe_buffer);
 
     /**
     Wrapper for get_nt_headers. Automatically detects if the PE is 64 bit - if not, returns null pointer.
     */
-    IMAGE_NT_HEADERS64* get_nt_hrds64(IN const BYTE *pe_buffer);
+    IMAGE_NT_HEADERS64* get_nt_hdrs64(IN const BYTE *pe_buffer);
 
     /**
     Fetches optional header of the PE. Validates pointers against buffer size.

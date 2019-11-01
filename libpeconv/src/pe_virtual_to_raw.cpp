@@ -14,7 +14,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 
     bool is64b = is64bit(payload);
 
-    BYTE* payload_nt_hdr = get_nt_hrds(payload);
+    BYTE* payload_nt_hdr = get_nt_hdrs(payload);
     if (payload_nt_hdr == NULL) {
         std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
