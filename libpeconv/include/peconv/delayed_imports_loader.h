@@ -10,16 +10,14 @@
 #include "pe_hdrs_helper.h"
 #include "function_resolver.h"
 
-#if defined(_MSC_VER) && _MSC_VER > 1900 //(Visual Studio 2015 version 14.0)
-#define DELAYLOAD_IMPORTS_DEFINED
-#endif
-
-#if defined(_WIN32_WINNT) && _WIN32_WINNT > 0x0601 //Windows SDK version£ 6.1 (Windows 7)
+#if defined(_WIN32_WINNT) && _WIN32_WINNT > 0x0601 //Windows SDK version 6.1 (Windows 7)
 #define DELAYLOAD_IMPORTS_DEFINED
 #endif
 
 #ifndef DELAYLOAD_IMPORTS_DEFINED
-    typedef struct _IMAGE_DELAYLOAD_DESCRIPTOR {
+#include "pshpack4.h"
+
+typedef struct _IMAGE_DELAYLOAD_DESCRIPTOR {
     union {
         DWORD AllAttributes;
         struct {
@@ -35,9 +33,13 @@
     DWORD BoundImportAddressTableRVA;       // RVA to an optional bound IAT
     DWORD UnloadInformationTableRVA;        // RVA to an optional unload info table
     DWORD TimeDateStamp;                    // 0 if not bound,
-    // Otherwise, date/time of the target DLL
+                                            // Otherwise, date/time of the target DLL
 
-    } IMAGE_DELAYLOAD_DESCRIPTOR, *PIMAGE_DELAYLOAD_DESCRIPTOR;
+} IMAGE_DELAYLOAD_DESCRIPTOR, *PIMAGE_DELAYLOAD_DESCRIPTOR;
+
+typedef const IMAGE_DELAYLOAD_DESCRIPTOR *PCIMAGE_DELAYLOAD_DESCRIPTOR;
+
+#include "poppack.h"
 #endif
 
 namespace peconv {
