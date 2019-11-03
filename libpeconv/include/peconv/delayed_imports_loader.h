@@ -10,6 +10,36 @@
 #include "pe_hdrs_helper.h"
 #include "function_resolver.h"
 
+#if defined(_MSC_VER) && _MSC_VER > 1900 //(Visual Studio 2015 version 14.0)
+#define DELAYLOAD_IMPORTS_DEFINED
+#endif
+
+#if defined(_WIN32_WINNT) && _WIN32_WINNT > 0x0601 //Windows SDK version£ 6.1 (Windows 7)
+#define DELAYLOAD_IMPORTS_DEFINED
+#endif
+
+#ifndef DELAYLOAD_IMPORTS_DEFINED
+    typedef struct _IMAGE_DELAYLOAD_DESCRIPTOR {
+    union {
+        DWORD AllAttributes;
+        struct {
+            DWORD RvaBased : 1;             // Delay load version 2
+            DWORD ReservedAttributes : 31;
+        } DUMMYSTRUCTNAME;
+    } Attributes;
+
+    DWORD DllNameRVA;                       // RVA to the name of the target library (NULL-terminate ASCII string)
+    DWORD ModuleHandleRVA;                  // RVA to the HMODULE caching location (PHMODULE)
+    DWORD ImportAddressTableRVA;            // RVA to the start of the IAT (PIMAGE_THUNK_DATA)
+    DWORD ImportNameTableRVA;               // RVA to the start of the name table (PIMAGE_THUNK_DATA::AddressOfData)
+    DWORD BoundImportAddressTableRVA;       // RVA to an optional bound IAT
+    DWORD UnloadInformationTableRVA;        // RVA to an optional unload info table
+    DWORD TimeDateStamp;                    // 0 if not bound,
+    // Otherwise, date/time of the target DLL
+
+    } IMAGE_DELAYLOAD_DESCRIPTOR, *PIMAGE_DELAYLOAD_DESCRIPTOR;
+#endif
+
 namespace peconv {
 
     /**
