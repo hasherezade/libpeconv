@@ -139,7 +139,7 @@ std::string peconv::get_directory_name(IN const std::string str)
 {
     size_t found = str.find_last_of("/\\");
     if (found == std::string::npos) {
-        return str;
+        return "";
     }
     return str.substr(0, found);
 }

@@ -45,11 +45,11 @@ namespace peconv {
     /**
     Get the file name from the given path.
     */
-    std::string get_file_name(IN const std::string str);
+    std::string get_file_name(IN const std::string full_path);
 
     /**
-    Get the directory name from the given path.
+    Get the directory name from the given path. It assumes that a directory name always ends with a separator ("/" or "\")
     */
-    std::string get_directory_name(IN const std::string str);
+    std::string get_directory_name(IN const std::string full_path);
 
 }; //namespace peconv
