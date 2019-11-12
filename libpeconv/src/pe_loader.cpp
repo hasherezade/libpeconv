@@ -40,7 +40,9 @@ BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool exec
     size_t r_size = 0;
     BYTE *dllRawData = load_file(filename, r_size);
     if (!dllRawData) {
+#ifdef _DEBUG
         std::cerr << "Cannot load the file: " << filename << std::endl;
+#endif
         return NULL;
     }
     BYTE* mappedDLL = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
