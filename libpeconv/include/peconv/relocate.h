@@ -9,6 +9,28 @@
 
 namespace peconv {
 
+    typedef struct _BASE_RELOCATION_ENTRY {
+        WORD Offset : 12;
+        WORD Type : 4;
+    } BASE_RELOCATION_ENTRY;
+
+    class RelocBlockCallback
+    {
+    public:
+        RelocBlockCallback(bool _is64bit)
+            : is64bit(_is64bit)
+        {
+        }
+
+        virtual bool processRelocField(ULONG_PTR relocField) = 0;
+
+    protected:
+        bool is64bit;
+    };
+
+    // Processs the relocation table and make your own callback on each relocation field
+    bool process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, IN RelocBlockCallback *callback);
+
     /** 
      Applies relocations on the PE in virtual format. Relocates it from the old base given to the new base given.
      If 0 was supplied as the old base, it assumes that the old base is the ImageBase given in the header.

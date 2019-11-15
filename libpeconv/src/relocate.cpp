@@ -1,34 +1,13 @@
 #include "peconv/relocate.h"
 
 #include "peconv/pe_hdrs_helper.h"
-#include <iostream>
 #include <stdio.h>
+#include <iostream>
 
 using namespace peconv;
 
 #define RELOC_32BIT_FIELD 3
 #define RELOC_64BIT_FIELD 0xA
-
-typedef struct _BASE_RELOCATION_ENTRY {
-    WORD Offset : 12;
-    WORD Type : 4;
-} BASE_RELOCATION_ENTRY;
-
-
-class RelocBlockCallback
-{
-public:
-    RelocBlockCallback(bool _is64bit)
-        : is64bit(_is64bit)
-    {
-    }
-
-    virtual bool processRelocField(ULONG_PTR relocField) = 0;
-
-protected:
-    bool is64bit;
-};
-
 
 class ApplyRelocCallback : public RelocBlockCallback
 {
@@ -97,7 +76,7 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
     return true;
 }
 
-bool process_relocation_table(PVOID modulePtr, SIZE_T moduleSize, RelocBlockCallback *callback)
+bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, IN RelocBlockCallback *callback)
 {
     IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
     if (relocDir == NULL) {
