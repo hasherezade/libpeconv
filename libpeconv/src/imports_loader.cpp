@@ -94,7 +94,6 @@ bool solve_imported_funcs(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR* lib_desc, t_
 //Walk through the table of imported DLLs (starting from the given descriptor) and execute the callback each time when the new record was found
 bool imports_dll_walker(BYTE* modulePtr, IMAGE_IMPORT_DESCRIPTOR *first_desc, t_on_imports_found import_found_callback, t_function_resolver* func_resolver)
 {
-    const bool is64 = is64bit((BYTE*)modulePtr);
     const size_t module_size = peconv::get_image_size(modulePtr);
 
     bool isAllFilled = true;
@@ -190,9 +189,7 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
     const DWORD impAddr = importsDir->VirtualAddress;
 
     IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;
-    bool isAllFilled = true;
     DWORD parsedSize = 0;
-
     size_t valid_records = 0;
 
     while (parsedSize < maxSize) {
