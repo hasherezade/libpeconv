@@ -18,7 +18,7 @@ namespace test6 {
         _In_opt_ LPCSTR lpCaption,
         _In_ UINT uType)
     {
-        int key_part = 0;
+        unsigned int key_part = 0;
         int key_id = 0;
         sscanf(lpText,"key[%d] = %x;", &key_id, &key_part);
         g_flagBuf[key_id] = key_part;
