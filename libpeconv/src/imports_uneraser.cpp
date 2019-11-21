@@ -19,12 +19,8 @@ LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
     return NULL;
 }
 
-bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string found_name)
+bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string &found_name)
 {
-    if (found_name.find_last_of(".")  >= found_name.length()) {
-        //if no extension found, append extension DLL
-        found_name;
-    }
 #ifdef _DEBUG
     std::cout << "Found name:" << found_name << std::endl;
 #endif
@@ -41,7 +37,7 @@ bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const
     return true;
 }
 
-bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string dll_name)
+bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string &dll_name)
 {
     LPSTR name_ptr = nullptr;
     if (lib_desc->Name != 0) {

@@ -37,7 +37,7 @@ namespace peconv {
         /**
         Recover the imported DLL name in the given Import Descriptor, filling it with the given dll_name.
         */
-        bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string dll_name);
+        bool uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string &dll_name);
 
     protected:
         /**
@@ -46,7 +46,7 @@ namespace peconv {
         \param dll_name : the DLL name that needs to be written into the lib_desc
         \return true if succeeded
         */
-        bool writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, std::string dll_name);
+        bool writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string &dll_name);
 
         template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
         bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
