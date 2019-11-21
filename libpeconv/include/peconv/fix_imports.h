@@ -57,7 +57,7 @@ namespace peconv {
         \param _mappedDllName : the name of the DLL that we will be used to mapping. This DLL is saved into mappedDllName. 
         \return a number of covered functions
         */
-        size_t mapAddressesToFunctions(std::string _mappedDllName);
+        size_t mapAddressesToFunctions(const std::string &_mappedDllName);
 
        /**
        Check if the functions mapping is complete.

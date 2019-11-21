@@ -137,7 +137,7 @@ bool ImportedDllCoverage::findCoveringDll()
 }
 
 size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses, 
-    IN std::string chosenDll,
+    IN const std::string &chosenDll,
     IN const peconv::ExportsMapper& exportsMap,
     OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
     OUT std::set<ULONGLONG> &not_found
@@ -183,7 +183,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
     return coveredAddresses.size();
 }
 
-size_t ImportedDllCoverage::mapAddressesToFunctions(std::string dll)
+size_t ImportedDllCoverage::mapAddressesToFunctions(const std::string &dll)
 {
     //reset all stored info:
     this->mappedDllName = dll;
