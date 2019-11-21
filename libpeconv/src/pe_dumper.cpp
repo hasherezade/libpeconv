@@ -12,14 +12,14 @@ using namespace peconv;
 
 t_pe_dump_mode peconv::detect_dump_mode(IN const BYTE* buffer, IN size_t mod_size)
 {
-    t_pe_dump_mode dump_mode = peconv::PE_DUMP_UNMAP;
+    const t_pe_dump_mode default_mode = peconv::PE_DUMP_UNMAP;
     if (peconv::is_pe_raw(buffer, mod_size)) {
         return peconv::PE_DUMP_VIRTUAL;
     }
     if (peconv::is_pe_expanded(buffer, mod_size)) {
         return peconv::PE_DUMP_REALIGN;
     }
-    return peconv::PE_DUMP_UNMAP;
+    return default_mode;
 }
 
 bool peconv::dump_pe(IN const char *out_path,

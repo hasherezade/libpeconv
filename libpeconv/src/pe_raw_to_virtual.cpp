@@ -100,23 +100,19 @@ BYTE* peconv::pe_raw_to_virtual(
     }
     ULONGLONG oldImageBase = 0;
     DWORD payloadImageSize = 0;
-    ULONGLONG entryPoint = 0;
 
     bool is64 = is64bit(payload);
     if (is64) {
         IMAGE_NT_HEADERS64* payload_nt_hdr = (IMAGE_NT_HEADERS64*)nt_hdr;
         oldImageBase = payload_nt_hdr->OptionalHeader.ImageBase;
         payloadImageSize = payload_nt_hdr->OptionalHeader.SizeOfImage;
-        entryPoint = payload_nt_hdr->OptionalHeader.AddressOfEntryPoint;
     }
     else {
         IMAGE_NT_HEADERS32* payload_nt_hdr = (IMAGE_NT_HEADERS32*)nt_hdr;
         oldImageBase = payload_nt_hdr->OptionalHeader.ImageBase;
         payloadImageSize = payload_nt_hdr->OptionalHeader.SizeOfImage;
-        entryPoint = payload_nt_hdr->OptionalHeader.AddressOfEntryPoint;
     }
 
-    SIZE_T written = 0;
     DWORD protect = executable ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
 
     //first we will prepare the payload image in the local memory, so that it will be easier to edit it, apply relocations etc.

@@ -75,7 +75,7 @@ int tests::brutforce_crackme_f4_3()
         res = 0;
     }
     peconv::free_pe_buffer(loaded_pe, v_size);
-    return 0;
+    return res;
 }
 
 //For now this is for manual tests only:
