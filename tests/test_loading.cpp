@@ -36,8 +36,8 @@ int tests::load_self()
         printf("Reading file failed!\n");
         return -1;
     }
-    printf("Read size: %d\n", read_size);
-    printf("Unmapped size: %d\n", raw_size);
+    printf("Read size: %zd\n", read_size);
+    printf("Unmapped size: %zd\n", raw_size);
     size_t smaller_size = raw_size < read_size ? raw_size : read_size;
     int res = memcmp(unmapped, file_content, smaller_size);
     if (loaded_pe) {

@@ -270,9 +270,9 @@ bool peconv::dump_remote_pe(IN const char *out_path,
         std::cerr << "[-] Failed allocating buffer. Error: " << GetLastError() << std::endl;
         return false;
     }
-    size_t read_size = 0;
     //read the module that it mapped in the remote process:
-    if ((read_size = read_remote_pe(processHandle, start_addr, mod_size, buffer, mod_size)) == 0) {
+    const size_t read_size = read_remote_pe(processHandle, start_addr, mod_size, buffer, mod_size);
+    if (read_size == 0) {
         std::cerr << "[-] Failed reading module. Error: " << GetLastError() << std::endl;
         peconv::free_pe_buffer(buffer, mod_size);
         buffer = nullptr;

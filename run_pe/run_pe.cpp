@@ -84,7 +84,6 @@ BOOL update_remote_entry_point(PROCESS_INFORMATION &pi, ULONGLONG entry_point_va
 
 ULONGLONG get_remote_peb_addr(PROCESS_INFORMATION &pi, bool is32bit)
 {
-    BOOL is_ok = FALSE;
 #if defined(_WIN64)
     if (is32bit) {
         //get initial context of the target:

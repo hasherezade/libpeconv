@@ -24,7 +24,3 @@ Supply 2 commandline arguments:
 ```
 If target path is not supplied, _calc.exe_ is used as the default target.
 
-Compiled versions:
--
-32bit: https://drive.google.com/uc?export=download&id=1ecRq0R3ABzkXELfyx95qxFjIsCCEFbEz <br/>
-64bit: https://drive.google.com/uc?export=download&id=1ohcIvmMnFq5OgONaZXlkQQ2TkmJbpLhl <br/>
