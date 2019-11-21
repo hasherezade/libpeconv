@@ -98,18 +98,15 @@ BYTE* peconv::pe_raw_to_virtual(
         std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return nullptr;
     }
-    ULONGLONG oldImageBase = 0;
     DWORD payloadImageSize = 0;
 
     bool is64 = is64bit(payload);
     if (is64) {
         IMAGE_NT_HEADERS64* payload_nt_hdr = (IMAGE_NT_HEADERS64*)nt_hdr;
-        oldImageBase = payload_nt_hdr->OptionalHeader.ImageBase;
         payloadImageSize = payload_nt_hdr->OptionalHeader.SizeOfImage;
     }
     else {
         IMAGE_NT_HEADERS32* payload_nt_hdr = (IMAGE_NT_HEADERS32*)nt_hdr;
-        oldImageBase = payload_nt_hdr->OptionalHeader.ImageBase;
         payloadImageSize = payload_nt_hdr->OptionalHeader.SizeOfImage;
     }
 
