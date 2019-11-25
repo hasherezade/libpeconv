@@ -81,7 +81,7 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
         }
     }
 
-    //copy headers:
+    //copy payload's headers:
     if (hdrsSize == 0) {
         hdrsSize= first_raw;
 #ifdef _DEBUG
@@ -91,7 +91,6 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
     if (!validate_ptr((const LPVOID)payload, destBufferSize, (const LPVOID)payload, hdrsSize)) {
         return false;
     }
-    //copy payload's headers:
     memcpy(destBuffer, payload, hdrsSize);
     return true;
 }
