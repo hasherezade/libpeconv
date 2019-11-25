@@ -35,12 +35,8 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
         hdrsSize = payload_nt_hdr32->OptionalHeader.SizeOfHeaders;
         secptr = (LPVOID)((ULONGLONG)&(payload_nt_hdr32->OptionalHeader) + fileHdr->SizeOfOptionalHeader);
     }
-    if (!validate_ptr((const LPVOID) payload, destBufferSize, (const LPVOID) payload, hdrsSize)) {
-        return false;
-    }
-    //copy payload's headers:
-    memcpy(destBuffer, payload, hdrsSize);
 
+    DWORD first_raw = 0;
     //copy all the sections, one by one:
     SIZE_T raw_end = 0;
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
@@ -80,7 +76,23 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
             continue;
         }
         memcpy(section_mapped, section_raw_ptr, sec_size);
+        if (first_raw == 0 || (first_raw != 0 && next_sec->PointerToRawData < first_raw)) {
+            first_raw = next_sec->PointerToRawData;
+        }
     }
+
+    //copy headers:
+    if (hdrsSize == 0) {
+        hdrsSize= first_raw;
+#ifdef _DEBUG
+        std::cout << "hdrsSize not filled, using calculated size: " << std::hex << hdrsSize << "\n";
+#endif
+    }
+    if (!validate_ptr((const LPVOID)payload, destBufferSize, (const LPVOID)payload, hdrsSize)) {
+        return false;
+    }
+    //copy payload's headers:
+    memcpy(destBuffer, payload, hdrsSize);
     return true;
 }
 
