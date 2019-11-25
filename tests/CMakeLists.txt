@@ -34,7 +34,7 @@ set (hdrs
 )
 
 set (rsrc
-    resource.rc
+	resource.rc
 )
 
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} ${rsrc} )
