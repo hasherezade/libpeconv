@@ -135,11 +135,7 @@ bool peconv::imports_walker(BYTE* modulePtr, t_on_imports_found on_functions, t_
     if (!importsDir) {
         return false;
     }
-    const DWORD maxSize = importsDir->Size;
     const DWORD impAddr = importsDir->VirtualAddress;
-    if (maxSize < sizeof(IMAGE_IMPORT_DESCRIPTOR)) {
-        return false;
-    }
     IMAGE_IMPORT_DESCRIPTOR *first_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + (ULONG_PTR)modulePtr);
     return imports_dll_walker(modulePtr, first_desc, on_functions, func_resolver);
 }
@@ -185,14 +181,13 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
     IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
 
-    const DWORD maxSize = importsDir->Size;
     const DWORD impAddr = importsDir->VirtualAddress;
 
     IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;
     DWORD parsedSize = 0;
     size_t valid_records = 0;
 
-    while (parsedSize < maxSize) {
+    while (true) { //size of the import table doesn't matter
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR)modulePtr);
         if (!peconv::validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
             return false;
