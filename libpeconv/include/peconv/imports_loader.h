@@ -32,7 +32,6 @@ namespace peconv {
         bool is64b;
     };
 
-
     /**
     Process the given PE's import table and execute the callback each time when the new imported function was found
     */
@@ -42,6 +41,8 @@ namespace peconv {
     Fills imports of the given PE with the help of the defined functions resolver.
     */
     bool load_imports(BYTE* modulePtr, t_function_resolver* func_resolver=nullptr);
+
+    bool list_imports(IN BYTE* modulePtr, IN SIZE_T moduleSize = 0);
 
     /**
     Checks if the given PE has a valid import table.
