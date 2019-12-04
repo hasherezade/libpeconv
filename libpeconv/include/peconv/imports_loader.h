@@ -13,18 +13,29 @@
 namespace peconv {
 
     /**
-    A callback that will be executed by imports_walker when the next import was found
+    A callback that will be executed by process_import_table when the next imported function was found
     */
-    typedef bool (*t_on_imports_found) (
-        BYTE* modulePtr, 
-        IMAGE_IMPORT_DESCRIPTOR* lib_desc,
-        t_function_resolver* func_resolver
-    );
-    
+    class ImportThunksCallback
+    {
+    public:
+        ImportThunksCallback(BYTE* _modulePtr, size_t _moduleSize)
+            : modulePtr(_modulePtr), moduleSize(_moduleSize)
+        {
+            this->is64b = is64bit((BYTE*)modulePtr);
+        }
+
+        virtual bool processThunks(LPSTR lib_name, ULONG_PTR origFirstThunkPtr, ULONG_PTR firstThunkPtr) = 0;
+
+    protected:
+        BYTE* modulePtr;
+        size_t moduleSize;
+        bool is64b;
+    };
+
     /**
-    Walk through the table of imported DLLs (using the Import Table from Data Directory) and execute the callback each time when the new record was found
+    Process the given PE's import table and execute the callback each time when the new imported function was found
     */
-    bool imports_walker(BYTE* modulePtr, t_on_imports_found on_functions_callback, t_function_resolver* func_resolver);
+    bool process_import_table(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ImportThunksCallback *callback);
 
     /**
     Fills imports of the given PE with the help of the defined functions resolver.
