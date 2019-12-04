@@ -32,6 +32,7 @@ set (srcs
 	src/load_config_util.cpp
 	src/caves.cpp
 	src/util.cpp
+	src/fix_dot_net_ep.cpp
 )
 
 set (hdrs
@@ -61,6 +62,7 @@ set (hdrs
 	include/peconv/load_config_util.h
 	include/peconv/load_config_defs.h
 	include/peconv/caves.h
+	src/fix_dot_net_ep.h #not in API
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )

@@ -5,6 +5,7 @@
 #include "peconv/fix_imports.h"
 #include "peconv/file_util.h"
 #include "peconv/pe_mode_detector.h"
+#include "fix_dot_net_ep.h"
 
 #include <iostream>
 
@@ -48,6 +49,9 @@ bool peconv::dump_pe(IN const char *out_path,
         //if the image base in headers is invalid, set the current base and prevent from relocating PE:
         if (peconv::get_image_base(buffer) == 0) {
             peconv::update_image_base(buffer, (ULONGLONG)start_addr);
+        }
+        if (is_dot_net(buffer, mod_size)) {
+            fix_dot_net_ep(buffer, mod_size);
         }
         if (dump_mode == peconv::PE_DUMP_UNMAP) {
             unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
