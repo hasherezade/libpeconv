@@ -99,7 +99,6 @@ bool process_imp_functions_tpl(BYTE* modulePtr, size_t module_size, LPSTR lib_na
         //when the callback is called, all the pointers should be already verified
         if (!callback->processThunks(lib_name, (ULONG_PTR)&thunks[index], (ULONG_PTR)&callers[index])) {
             is_ok = false;
-            break;
         }
     }
     return is_ok;
