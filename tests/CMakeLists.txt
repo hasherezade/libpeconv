@@ -18,6 +18,7 @@ set (srcs
 	test_load_ntdll.cpp
 	test_replacing_func.cpp
 	test_delayed_imps.cpp
+	test_imp_list.cpp
 )
 
 set (hdrs
@@ -29,6 +30,7 @@ set (hdrs
 	test_load_ntdll.h
 	test_replacing_func.h
 	test_delayed_imps.h
+	test_imp_list.h
 	resource.h
 	shellcodes.h
 )

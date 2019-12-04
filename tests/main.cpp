@@ -9,6 +9,7 @@
 #include "test_load_ntdll.h"
 #include "test_replacing_func.h"
 #include "test_delayed_imps.h"
+#include "test_imp_list.h"
 
 int make_test(int test_id, char *test_arg)
 {
@@ -25,9 +26,10 @@ int make_test(int test_id, char *test_arg)
             }
         case 5: return tests::hook_testcase(test_arg);
         case 6: return tests::decode_crackme_f4_6(test_arg);
-        case 7: return tests::test_ntdll(NULL);
+        case 7: return tests::test_ntdll(NULL); //manual test
         case 8: return tests::replace_func_testcase(test_arg);
         case 9: return tests::replace_delayed_imps(test_arg);
+        case 10: return tests::imp_list(test_arg); //manual test
     }
     return -1;
 }
