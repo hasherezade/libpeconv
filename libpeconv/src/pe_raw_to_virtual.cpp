@@ -76,7 +76,7 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
             continue;
         }
         memcpy(section_mapped, section_raw_ptr, sec_size);
-        if (first_raw == 0 || (first_raw != 0 && next_sec->PointerToRawData < first_raw)) {
+        if (first_raw == 0 || (next_sec->PointerToRawData < first_raw)) {
             first_raw = next_sec->PointerToRawData;
         }
     }
