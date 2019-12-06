@@ -47,7 +47,6 @@ bool list_imports(IN BYTE* modulePtr, IN size_t moduleSize)
 {
     if (moduleSize == 0) {
         moduleSize = peconv::get_image_size((const BYTE*)modulePtr);
-        return false;
     }
     if (moduleSize == 0) return false;
 
