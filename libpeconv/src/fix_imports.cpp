@@ -145,7 +145,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
 {
     std::set<ULONGLONG> coveredAddresses;
     std::set<ULONGLONG>::iterator addrItr;
-    for (addrItr = addresses.begin(); addrItr != addresses.end(); addrItr++) {
+    for (addrItr = addresses.begin(); addrItr != addresses.end(); ++addrItr) {
 
         ULONGLONG searchedAddr = *addrItr;
 
@@ -162,7 +162,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
 
         for (std::set<ExportedFunc>::iterator strItr = exports_for_va->begin(); 
             strItr != exports_for_va->end(); 
-            strItr++)
+            ++strItr)
         {
             std::string dll_name = strItr->libName;
             if (dll_name != chosenDll) {

@@ -53,7 +53,7 @@ size_t ExportsMapper::resolve_forwarders(const ULONGLONG va, ExportedFunc &currF
     if (fItr != forwarders_lookup.end()) {
         //printf("[+] Forwarders (%d):\n", fItr->second.size());
         std::set<ExportedFunc>::iterator sItr;
-        for (sItr = fItr->second.begin(); sItr != fItr->second.end(); sItr++) {
+        for (sItr = fItr->second.begin(); sItr != fItr->second.end(); ++sItr) {
             //printf("-> %s\n", sItr->c_str());
             va_to_func[va].insert(*sItr);
             func_to_va[*sItr] = va;
@@ -197,7 +197,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     }
     //go through unnamed functions exported by ordinals:
     std::map<PDWORD, DWORD>::iterator ord_itr = va_to_ord.begin();
-    for (;ord_itr != va_to_ord.end(); ord_itr++) {
+    for (;ord_itr != va_to_ord.end(); ++ord_itr) {
 
         ExportedFunc currFunc(dllName, ord_itr->second);
 
