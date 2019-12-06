@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
 
     char *target_path = NULL;
 
-    ULONGLONG loadBase = 0;
     if (argc < 2) {
         printf("[ run_pe v%s ]\n\n", version);
         printf("Args: <payload_path> [*target_path]\n");

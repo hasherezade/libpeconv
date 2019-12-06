@@ -92,7 +92,6 @@ size_t read_remote_region(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buff
     if (buffer == nullptr) {
         return 0;
     }
-    MEMORY_BASIC_INFORMATION page_info = { 0 };
     size_t region_size = peconv::fetch_region_size(processHandle, start_addr);
     if (region_size == 0) return false;
 
