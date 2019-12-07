@@ -1,6 +1,7 @@
 #include "run_pe.h"
 
-#include "peconv.h"
+#include <peconv.h>
+#include <iostream>
 
 using namespace peconv;
 
@@ -29,6 +30,23 @@ bool create_suspended_process(IN LPSTR path, OUT PROCESS_INFORMATION &pi)
         return false;
     }
     return true;
+}
+
+bool terminate_process(DWORD pid)
+{
+    bool is_killed = false;
+    HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
+    if (!hProcess) {
+        return false;
+    }
+    if (TerminateProcess(hProcess, 0)) {
+        is_killed = true;
+    }
+    else {
+        std::cerr << "[ERROR] Could not terminate the process. PID = " << pid << std::endl;
+    }
+    CloseHandle(hProcess);
+    return is_killed;
 }
 
 bool read_remote_mem(HANDLE hProcess, ULONGLONG remote_addr, OUT void* buffer, const size_t buffer_size)
@@ -305,6 +323,9 @@ bool run_pe(char *payloadPath, char *targetPath)
     bool isOk = _run_pe(loaded_pe, payloadImageSize, pi, is32bit_payload);
 
     //4. Cleanup:
+    if (!isOk) { //if injection failed, kill the process
+        terminate_process(pi.dwProcessId);
+    }
     free_pe_buffer(loaded_pe, payloadImageSize);
     CloseHandle(pi.hThread);
     CloseHandle(pi.hProcess);
