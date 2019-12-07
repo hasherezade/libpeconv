@@ -6,6 +6,5 @@ A library to load and manipulate PE files.<br/>
 </br>
 
 ### Read more
-
++   [Examples](https://github.com/hasherezade/libpeconv/tree/master/tests)
 +   [Tutorials](https://hshrzd.wordpress.com/tag/libpeconv/)
-
