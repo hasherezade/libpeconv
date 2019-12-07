@@ -5,9 +5,11 @@ var searchData=
   ['addresses',['addresses',['../classpeconv_1_1_imported_dll_coverage.html#ab3f8575995b216c18a86085791fdf16d',1,'peconv::ImportedDllCoverage']]],
   ['addrtofunc',['addrToFunc',['../classpeconv_1_1_imported_dll_coverage.html#aba9ec06f5ab9e18f8078bdeada9ed4fb',1,'peconv::ImportedDllCoverage']]],
   ['aligned_5fbuf',['ALIGNED_BUF',['../namespacepeconv.html#a4389e097c30b01568bf10f4d07a50b42',1,'peconv']]],
+  ['allattributes',['AllAttributes',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a750c5d722c0ad77145156dfad29d143c',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
   ['alloc_5faligned',['alloc_aligned',['../namespacepeconv.html#a3df24248b3c8c9be64db51a405486923',1,'peconv']]],
   ['alloc_5fpe_5fbuffer',['alloc_pe_buffer',['../namespacepeconv.html#a92647f207ca261ca38ff516943501dd1',1,'peconv']]],
   ['alloc_5funaligned',['alloc_unaligned',['../namespacepeconv.html#a4d50b95546cf5fa78ce185ce1acbb8ec',1,'peconv']]],
   ['apply_5frelocations',['apply_relocations',['../relocate_8cpp.html#a66ddf83b81ed1c6787ffb1421a4f94b5',1,'relocate.cpp']]],
-  ['applyreloccallback',['ApplyRelocCallback',['../class_apply_reloc_callback.html',1,'ApplyRelocCallback'],['../class_apply_reloc_callback.html#a09cde4a31ccf84a41b1343cd8ce0d646',1,'ApplyRelocCallback::ApplyRelocCallback()']]]
+  ['applyreloccallback',['ApplyRelocCallback',['../class_apply_reloc_callback.html',1,'ApplyRelocCallback'],['../class_apply_reloc_callback.html#a09cde4a31ccf84a41b1343cd8ce0d646',1,'ApplyRelocCallback::ApplyRelocCallback()']]],
+  ['attributes',['Attributes',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a7d2d91922fce83740e95bb555cb12b71',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
 ];

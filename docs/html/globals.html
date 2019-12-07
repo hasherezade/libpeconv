@@ -78,13 +78,6 @@ $(function() {
 </ul>
 
 
-<h3><a id="index_b"></a>- b -</h3><ul>
-<li>BASE_RELOCATION_ENTRY
-: <a class="el" href="relocate_8cpp.html#acd9c160c8009909e86ed7d83a9ca3329">relocate.cpp</a>
-</li>
-</ul>
-
-
 <h3><a id="index_f"></a>- f -</h3><ul>
 <li>fetch_file_hdr()
 : <a class="el" href="pe__hdrs__helper_8cpp.html#a1de4bb4b596838882f60e7b5ebdb844c">pe_hdrs_helper.cpp</a>
@@ -98,8 +91,15 @@ $(function() {
 <li>find_addresses_to_fill()
 : <a class="el" href="fix__imports_8cpp.html#ab60595ca007731229053fef3f4b677d0">fix_imports.cpp</a>
 </li>
+<li>find_corexemain()
+: <a class="el" href="fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b">fix_dot_net_ep.cpp</a>
+</li>
 <li>find_covering_dll()
 : <a class="el" href="fix__imports_8cpp.html#a1080df55d905f4d4aec10316c73b90d4">fix_imports.cpp</a>
+</li>
+<li>fix_dot_net_ep()
+: <a class="el" href="fix__dot__net__ep_8cpp.html#a3568562d224c76b49d5841a18e63d96c">fix_dot_net_ep.cpp</a>
+, <a class="el" href="fix__dot__net__ep_8h.html#a3568562d224c76b49d5841a18e63d96c">fix_dot_net_ep.h</a>
 </li>
 </ul>
 
@@ -124,8 +124,12 @@ $(function() {
 
 
 <h3><a id="index_i"></a>- i -</h3><ul>
-<li>imports_dll_walker()
-: <a class="el" href="imports__loader_8cpp.html#a87ed856eb60ea32aa28c584d71b92cca">imports_loader.cpp</a>
+<li>IMAGE_DELAYLOAD_DESCRIPTOR
+: <a class="el" href="delayed__imports__loader_8h.html#abef754056e478b2d511fb70caf64d6ed">delayed_imports_loader.h</a>
+</li>
+<li>is_dot_net()
+: <a class="el" href="fix__dot__net__ep_8cpp.html#a3527cc38038e8bb746932fd84e8994b3">fix_dot_net_ep.cpp</a>
+, <a class="el" href="fix__dot__net__ep_8h.html#a3527cc38038e8bb746932fd84e8994b3">fix_dot_net_ep.h</a>
 </li>
 <li>is_hdr_virtual_align()
 : <a class="el" href="pe__mode__detector_8cpp.html#a5835ce4cee47662b28c07b2c280cd4ae">pe_mode_detector.cpp</a>
@@ -150,7 +154,7 @@ $(function() {
 
 <h3><a id="index_m"></a>- m -</h3><ul>
 <li>map_addresses_to_functions()
-: <a class="el" href="fix__imports_8cpp.html#ac9d621126f72b3d4363a96ab6547aa53">fix_imports.cpp</a>
+: <a class="el" href="fix__imports_8cpp.html#aa0ace6690418a5db20ba7a713a0494f1">fix_imports.cpp</a>
 </li>
 <li>MIN_DLL_LEN
 : <a class="el" href="fix__imports_8h.html#af0e2f31bb97b6213d7dfa6511915f4d7">fix_imports.h</a>
@@ -171,11 +175,20 @@ $(function() {
 <li>parse_resource_entry()
 : <a class="el" href="resource__parser_8cpp.html#a381ec8bd63afd2eebee73048ea8ee25c">resource_parser.cpp</a>
 </li>
+<li>PCIMAGE_DELAYLOAD_DESCRIPTOR
+: <a class="el" href="delayed__imports__loader_8h.html#a8e3863ec76d5a39e467336a07318e8de">delayed_imports_loader.h</a>
+</li>
+<li>PIMAGE_DELAYLOAD_DESCRIPTOR
+: <a class="el" href="delayed__imports__loader_8h.html#ac16349d16c5f5fbc92eef21f92205735">delayed_imports_loader.h</a>
+</li>
+<li>process_dlls()
+: <a class="el" href="imports__loader_8cpp.html#a5d800d31ea01e77114afee0804cdef68">imports_loader.cpp</a>
+</li>
+<li>process_imp_functions_tpl()
+: <a class="el" href="imports__loader_8cpp.html#aed075f185dfb45800e2086d507f725ab">imports_loader.cpp</a>
+</li>
 <li>process_reloc_block()
 : <a class="el" href="relocate_8cpp.html#a093b755c4e9d6081fda4f19ff3bc19ec">relocate.cpp</a>
-</li>
-<li>process_relocation_table()
-: <a class="el" href="relocate_8cpp.html#a206578e0ca77e5b4eb11b4c526dc4de8">relocate.cpp</a>
 </li>
 </ul>
 
@@ -197,6 +210,9 @@ $(function() {
 
 
 <h3><a id="index_s"></a>- s -</h3><ul>
+<li>search_jump()
+: <a class="el" href="fix__dot__net__ep_8cpp.html#ace75081cd3fd63b0edd8bec6cc17d8f8">fix_dot_net_ep.cpp</a>
+</li>
 <li>search_name()
 : <a class="el" href="imports__uneraser_8cpp.html#ac8887910b541cf30816d0630aa7c87fc">imports_uneraser.cpp</a>
 </li>
@@ -208,12 +224,6 @@ $(function() {
 </li>
 <li>sections_virtual_to_raw()
 : <a class="el" href="pe__virtual__to__raw_8cpp.html#a9cdaf21aebd9581283a011f9efca8a89">pe_virtual_to_raw.cpp</a>
-</li>
-<li>solve_imported_funcs()
-: <a class="el" href="imports__loader_8cpp.html#a1dcd0e1d1b646e6aa57ce50af2e63e30">imports_loader.cpp</a>
-</li>
-<li>solve_imported_funcs_tpl()
-: <a class="el" href="imports__loader_8cpp.html#aa6f445e17aff37af145c1f7345fa5f74">imports_loader.cpp</a>
 </li>
 </ul>
 

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['image_5fdelayload_5fdescriptor',['IMAGE_DELAYLOAD_DESCRIPTOR',['../delayed__imports__loader_8h.html#abef754056e478b2d511fb70caf64d6ed',1,'delayed_imports_loader.h']]],
   ['image_5fload_5fconfig_5fcode_5fintegrity_5fw10',['IMAGE_LOAD_CONFIG_CODE_INTEGRITY_W10',['../namespacepeconv.html#a3b8d90e218f9187a8c307939c5df23f0',1,'peconv']]],
   ['image_5fload_5fconfig_5fdir32_5fw10',['IMAGE_LOAD_CONFIG_DIR32_W10',['../namespacepeconv.html#a9aca6bacca6d5cb60ef459d0da033def',1,'peconv']]],
   ['image_5fload_5fconfig_5fdir32_5fw7',['IMAGE_LOAD_CONFIG_DIR32_W7',['../namespacepeconv.html#afd85c2662d11b3f62dea11a195e77d27',1,'peconv']]],

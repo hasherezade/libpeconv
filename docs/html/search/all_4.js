@@ -9,6 +9,8 @@ var searchData=
   ['detect_5fdump_5fmode',['detect_dump_mode',['../namespacepeconv.html#ab921893df2ddaeb33f3b376a04e5afde',1,'peconv']]],
   ['dll_5fshortname_5fto_5fpath',['dll_shortname_to_path',['../classpeconv_1_1_exports_mapper.html#a20bc131230f7ec0c5f36a47b09ed6516',1,'peconv::ExportsMapper']]],
   ['dllname',['dllName',['../classpeconv_1_1_imported_dll_coverage.html#a44db2fbbbabe6c82883f95e17ec8d261',1,'peconv::ImportedDllCoverage']]],
+  ['dllnamerva',['DllNameRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a41772447f7cf6e943380a3ab637f04e0',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
+  ['dummystructname',['DUMMYSTRUCTNAME',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a47f44d8bcf5d72629f9a1dc6217d50b7',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
   ['dump_5fpe',['dump_pe',['../namespacepeconv.html#a3fcbd8235d3f9bbbde2caa1a091387bc',1,'peconv']]],
   ['dump_5fremote_5fpe',['dump_remote_pe',['../namespacepeconv.html#aa10cbf259ef601bdb3fe83233b955bc0',1,'peconv']]],
   ['dump_5fto_5ffile',['dump_to_file',['../namespacepeconv.html#ab42b47b407565497fe16772d66b02606',1,'peconv']]],

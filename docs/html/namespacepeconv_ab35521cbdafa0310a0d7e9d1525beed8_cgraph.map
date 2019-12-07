@@ -1,13 +1,13 @@
 <map id="peconv::relocate_module" name="peconv::relocate_module">
 <area shape="rect" id="node1" title=" " alt="" coords="5,31,171,57"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#a413347caca570436e87a5dedc988660d" title=" " alt="" coords="568,5,733,32"/>
+<area shape="rect" id="node2" href="$namespacepeconv.html#a413347caca570436e87a5dedc988660d" title=" " alt="" coords="616,5,781,32"/>
 <area shape="rect" id="node7" href="$relocate_8cpp.html#a66ddf83b81ed1c6787ffb1421a4f94b5" title=" " alt="" coords="219,56,341,83"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="797,64,905,91"/>
-<area shape="rect" id="node5" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1147,93,1285,120"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="968,57,1099,98"/>
-<area shape="rect" id="node6" href="$namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1333,240,1468,267"/>
-<area shape="rect" id="node8" href="$relocate_8cpp.html#a206578e0ca77e5b4eb11b4c526dc4de8" title=" " alt="" coords="389,158,520,199"/>
-<area shape="rect" id="node9" href="$namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " alt="" coords="578,158,723,199"/>
-<area shape="rect" id="node10" href="$relocate_8cpp.html#a093b755c4e9d6081fda4f19ff3bc19ec" title=" " alt="" coords="580,224,721,251"/>
-<area shape="rect" id="node11" href="$class_reloc_block_callback.html#aab7de8ef366cb44d52a2e98881d10407" title=" " alt="" coords="781,174,920,215"/>
+<area shape="rect" id="node3" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="869,64,977,91"/>
+<area shape="rect" id="node5" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1243,93,1381,120"/>
+<area shape="rect" id="node4" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1064,57,1195,98"/>
+<area shape="rect" id="node6" href="$namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1429,240,1564,267"/>
+<area shape="rect" id="node8" href="$namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb" title=" " alt="" coords="389,158,568,199"/>
+<area shape="rect" id="node9" href="$namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " alt="" coords="626,158,771,199"/>
+<area shape="rect" id="node10" href="$relocate_8cpp.html#a093b755c4e9d6081fda4f19ff3bc19ec" title=" " alt="" coords="628,224,769,251"/>
+<area shape="rect" id="node11" href="$classpeconv_1_1_reloc_block_callback.html#ac5f7dfc42d843ee4c369afad0f8b0f8f" title=" " alt="" coords="829,174,1016,215"/>
 </map>

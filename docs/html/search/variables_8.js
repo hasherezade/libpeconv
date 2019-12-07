@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['libname',['libName',['../classpeconv_1_1_exported_func.html#af1d0cc6562b7ee535ad0f77c590638f3',1,'peconv::ExportedFunc']]],
-  ['lockprefixtable',['LockPrefixTable',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w10.html#a5a1671209cc9627f43d82d3188417ea6',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W10::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html#a0642a2b4bd7b88693125f3a218b76051',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W10::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w8.html#a3c771689d66148a26411f956a06eb957',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W8::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w8.html#ac8b0ece29ae0d498b6b5b633fc4f499a',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W8::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w7.html#ab9365ad3c4dba3e33d6d9a3ea8592ca0',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W7::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w7.html#abc86dd7101d87a6c0c4eb672a6863199',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W7::LockPrefixTable()']]]
+  ['importaddresstablerva',['ImportAddressTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a9413645cefe8b211394712da017d804e',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
+  ['importnametablerva',['ImportNameTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a99cbde6c5d2737f60329a78a296eec6a',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
+  ['is64',['is64',['../classpeconv_1_1_imports_uneraser.html#a9c7708c1a04f5cfac817b62a1bdd14d3',1,'peconv::ImportsUneraser']]],
+  ['is64b',['is64b',['../classpeconv_1_1_import_thunks_callback.html#a24c7bd6867753f01d3c66fd0e4192251',1,'peconv::ImportThunksCallback']]],
+  ['is64bit',['is64bit',['../classpeconv_1_1_reloc_block_callback.html#a923acb1a8bd23569338ed57e0167ffb4',1,'peconv::RelocBlockCallback']]],
+  ['isbyordinal',['isByOrdinal',['../classpeconv_1_1_exported_func.html#acdf2023a9e4c12283c29b6e9d7e52cef',1,'peconv::ExportedFunc']]]
 ];

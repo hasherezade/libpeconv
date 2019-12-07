@@ -9,8 +9,10 @@ var searchData=
   ['file_5futil_2ecpp',['file_util.cpp',['../file__util_8cpp.html',1,'']]],
   ['file_5futil_2eh',['file_util.h',['../file__util_8h.html',1,'']]],
   ['fillimportnames',['fillImportNames',['../classpeconv_1_1_imports_uneraser.html#ac2f9850c6071bdc486d5df45891f45f1',1,'peconv::ImportsUneraser']]],
+  ['fillimportthunks',['FillImportThunks',['../class_fill_import_thunks.html',1,'FillImportThunks'],['../class_fill_import_thunks.html#a05e6f526fae8589bcbbbfb0a0141b9a1',1,'FillImportThunks::FillImportThunks()']]],
   ['find_5faddresses_5fto_5ffill',['find_addresses_to_fill',['../fix__imports_8cpp.html#ab60595ca007731229053fef3f4b677d0',1,'fix_imports.cpp']]],
   ['find_5falignment_5fcave',['find_alignment_cave',['../namespacepeconv.html#a52ed5ac63150ed6c4d7e5a53b9d7b717',1,'peconv']]],
+  ['find_5fcorexemain',['find_corexemain',['../fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b',1,'fix_dot_net_ep.cpp']]],
   ['find_5fcovering_5fdll',['find_covering_dll',['../fix__imports_8cpp.html#a1080df55d905f4d4aec10316c73b90d4',1,'fix_imports.cpp']]],
   ['find_5fending_5fcave',['find_ending_cave',['../namespacepeconv.html#a8305069df7f35087b9b45db686417009',1,'peconv']]],
   ['find_5fexport_5fby_5fva',['find_export_by_va',['../classpeconv_1_1_exports_mapper.html#a516ba8a5136bfd1db547c6ff1e5197dc',1,'peconv::ExportsMapper']]],
@@ -18,6 +20,9 @@ var searchData=
   ['find_5fpadding_5fcave',['find_padding_cave',['../namespacepeconv.html#ac11803cf089141d58e14abf908fadf17',1,'peconv']]],
   ['findcoveringdll',['findCoveringDll',['../classpeconv_1_1_imported_dll_coverage.html#a4ab945b8531b18d18df02cbe82084185',1,'peconv::ImportedDllCoverage']]],
   ['findnameinbinaryandfill',['findNameInBinaryAndFill',['../classpeconv_1_1_imports_uneraser.html#afd91801bc26a5e927dd4787fe01d03e8',1,'peconv::ImportsUneraser']]],
+  ['fix_5fdot_5fnet_5fep',['fix_dot_net_ep',['../fix__dot__net__ep_8cpp.html#a3568562d224c76b49d5841a18e63d96c',1,'fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size):&#160;fix_dot_net_ep.cpp'],['../fix__dot__net__ep_8h.html#a3568562d224c76b49d5841a18e63d96c',1,'fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size):&#160;fix_dot_net_ep.cpp']]],
+  ['fix_5fdot_5fnet_5fep_2ecpp',['fix_dot_net_ep.cpp',['../fix__dot__net__ep_8cpp.html',1,'']]],
+  ['fix_5fdot_5fnet_5fep_2eh',['fix_dot_net_ep.h',['../fix__dot__net__ep_8h.html',1,'']]],
   ['fix_5fimports',['fix_imports',['../namespacepeconv.html#a288de7119742145bb8cade2e8ee2ba2a',1,'peconv']]],
   ['fix_5fimports_2ecpp',['fix_imports.cpp',['../fix__imports_8cpp.html',1,'']]],
   ['fix_5fimports_2eh',['fix_imports.h',['../fix__imports_8h.html',1,'']]],
@@ -34,6 +39,7 @@ var searchData=
   ['func_5fto_5fva',['func_to_va',['../classpeconv_1_1_exports_mapper.html#a9fde36a2a34db4c1951811baaf73d330',1,'peconv::ExportsMapper']]],
   ['funcname',['funcName',['../classpeconv_1_1_exported_func.html#a503c9c17aeeeb8134f4d489730ffd0e1',1,'peconv::ExportedFunc']]],
   ['funcordinal',['funcOrdinal',['../classpeconv_1_1_exported_func.html#ad26b14347e42b01def98fe7f9ec3599c',1,'peconv::ExportedFunc']]],
+  ['funcresolver',['funcResolver',['../class_fill_import_thunks.html#addf45ec78fe007d44258b559981f4609',1,'FillImportThunks']]],
   ['function_5fresolver_2ecpp',['function_resolver.cpp',['../function__resolver_8cpp.html',1,'']]],
   ['function_5fresolver_2eh',['function_resolver.h',['../function__resolver_8h.html',1,'']]]
 ];
