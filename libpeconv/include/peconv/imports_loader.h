@@ -13,7 +13,7 @@
 namespace peconv {
 
     /**
-    A callback that will be executed by process_import_table when the next imported function was found
+    A class defining a callback that will be executed when the next imported function was found
     */
     class ImportThunksCallback
     {
@@ -24,7 +24,14 @@ namespace peconv {
             this->is64b = is64bit((BYTE*)modulePtr);
         }
 
-        virtual bool processThunks(LPSTR lib_name, ULONG_PTR origFirstThunkPtr, ULONG_PTR firstThunkPtr) = 0;
+        /**
+        A callback that will be executed by process_import_table when the next imported function was found
+        \param libName : the pointer to the DLL name
+        \param origFirstThunkPtr : the pointer to the Original First Thunk
+        \param firstThunkPtr : the pointer to the First Thunk
+        \return : true if processing succeeded, false otherwise
+        */
+        virtual bool processThunks(LPSTR libName, ULONG_PTR origFirstThunkPtr, ULONG_PTR firstThunkPtr) = 0;
 
     protected:
         BYTE* modulePtr;
@@ -34,11 +41,18 @@ namespace peconv {
 
     /**
     Process the given PE's import table and execute the callback each time when the new imported function was found
+    \param modulePtr : a pointer to the loded PE (in virtual format)
+    \param moduleSize : a size of the supplied PE
+    \param callback : a callback that will be executed to process each imported function
+    \return : true if processing succeeded, false otherwise
     */
     bool process_import_table(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ImportThunksCallback *callback);
 
     /**
     Fills imports of the given PE with the help of the defined functions resolver.
+    \param modulePtr : a pointer to the loded PE (in virtual format)
+    \param func_resolver : a resolver that will be used to fill the thunk of the import
+    \return : true if loading all functions succeeded, false otherwise
     */
     bool load_imports(BYTE* modulePtr, t_function_resolver* func_resolver=nullptr);
 
