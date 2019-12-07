@@ -90,7 +90,7 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
 
     for (funcname_itr = addr_to_func[searchedAddr].begin(); 
         funcname_itr != addr_to_func[searchedAddr].end(); 
-        funcname_itr++) 
+        ++funcname_itr) 
     {
         const ExportedFunc &found_func = *funcname_itr;
         lastOrdinal = found_func.funcOrdinal;
