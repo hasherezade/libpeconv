@@ -31,7 +31,8 @@ protected:
         if (!this->funcResolver) {
             return false;
         }
-        bool is_by_ord = desc->u1.Ordinal & ordinal_flag;
+
+        bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
 
         FARPROC hProc = nullptr;
         if (is_by_ord) {

@@ -31,7 +31,7 @@ protected:
         DWORD call_via_rva = static_cast<DWORD>((ULONG_PTR)call_via - (ULONG_PTR)this->modulePtr);
         std::cout << "via RVA: " << std::hex << call_via_rva << " : ";
 
-        bool is_by_ord = desc->u1.Ordinal & ordinal_flag;
+        bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
         if (!is_by_ord) {
             PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
             LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
