@@ -16,5 +16,10 @@ namespace peconv {
     \param padding_char : the required character
     */
     bool is_padding(BYTE *cave_ptr, size_t cave_size, const BYTE padding_char);
+
+    /**
+    Wrapper for GetProcessId - for a backward compatibility with old versions of Windows
+    */
+    DWORD get_process_id(HANDLE hProcess);
 };
 
