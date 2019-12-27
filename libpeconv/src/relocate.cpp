@@ -148,8 +148,6 @@ bool peconv::relocate_module(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ULONGL
         return true; //nothing to relocate
     }
     if (apply_relocations(modulePtr, moduleSize, newBase, oldBase)) {
-        // Save the base to which the module was relocated in the header:
-        peconv::update_image_base(modulePtr, newBase);
         return true;
     }
 #ifdef _DEBUG
