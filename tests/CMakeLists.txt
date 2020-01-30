@@ -101,3 +101,8 @@ endif()
 add_test (TestDelayedImps tests 9 "C://tests//test_case4.exe")
 set_tests_properties (TestDelayedImps PROPERTIES PASS_REGULAR_EXPRESSION "Hooking test passed")
 set_tests_properties (TestDelayedImps PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+
+# 11) test redirecting local functions (and undoing the redirection)
+add_test (TestLocalRedirect tests 11 )
+set_tests_properties (TestLocalRedirect PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+set_tests_properties (TestLocalRedirect PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
