@@ -19,6 +19,7 @@ set (srcs
 	test_replacing_func.cpp
 	test_delayed_imps.cpp
 	test_imp_list.cpp
+	test_hooking_local.cpp
 )
 
 set (hdrs
@@ -31,6 +32,7 @@ set (hdrs
 	test_replacing_func.h
 	test_delayed_imps.h
 	test_imp_list.h
+	test_hooking_local.h
 	resource.h
 	shellcodes.h
 )
