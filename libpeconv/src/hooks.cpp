@@ -1,5 +1,4 @@
 #include "peconv\hooks.h"
-#include "peconv\pe_hdrs_helper.h"
 
 using namespace peconv;
 
@@ -23,14 +22,22 @@ size_t peconv::redirect_to_local64(void *ptr, ULONGLONG new_offset, PatchBackup*
 {
     if (!ptr) return 0;
 
-    DWORD oldProtect = 0;
-    if (!VirtualProtect((LPVOID)ptr, PAGE_SIZE, PAGE_READWRITE, &oldProtect)) return 0;
-
     BYTE hook_64[] = {
         0x48, 0xB8, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xEE, 0xFF, //movabs rax,FFEE998877665544 
         0xFF, 0xE0 //jmp rax
     };
     const size_t hook64_size = sizeof(hook_64);
+    if (ptr == VirtualProtect) {
+        return 0; //do not allow to hook VirtualProtect
+    }
+    DWORD oldProtect = 0;
+    if (!VirtualProtect((LPVOID)ptr,
+        hook64_size,
+        PAGE_EXECUTE_READWRITE, //this must be executable if we are hooking kernel32.dll, because we are using VirtualProtect from kernel32 at the same time
+        &oldProtect))
+    {
+        return 0;
+    }
 
     if (backup != nullptr) {
         backup->makeBackup((BYTE*)ptr, hook64_size);
@@ -38,7 +45,7 @@ size_t peconv::redirect_to_local64(void *ptr, ULONGLONG new_offset, PatchBackup*
     memcpy(hook_64 + 2, &new_offset, sizeof(ULONGLONG));
     memcpy(ptr, hook_64, hook64_size);
 
-    VirtualProtect((LPVOID)ptr, PAGE_SIZE, oldProtect, &oldProtect);
+    VirtualProtect((LPVOID)ptr, hook64_size, oldProtect, &oldProtect);
     return hook64_size;
 }
 
@@ -46,14 +53,22 @@ size_t peconv::redirect_to_local32(void *ptr, DWORD new_offset, PatchBackup* bac
 {
     if (!ptr) return 0;
 
-    DWORD oldProtect = 0;
-    if (!VirtualProtect((LPVOID)ptr, PAGE_SIZE, PAGE_READWRITE, &oldProtect)) return 0;
-
     BYTE hook_32[] = {
         0xB8, 0xCC, 0xDD, 0xEE, 0xFF, // mov eax,FFEEDDCC
         0xFF, 0xE0 //jmp eax
     };
     const size_t hook32_size = sizeof(hook_32);
+    if (ptr == VirtualProtect) {
+        return 0; //do not allow to hook VirtualProtect
+    }
+    DWORD oldProtect = 0;
+    if (!VirtualProtect((LPVOID)ptr,
+        hook32_size,
+        PAGE_EXECUTE_READWRITE, //this must be executable if we are hooking kernel32.dll, because we are using VirtualProtect from kernel32 at the same time
+        &oldProtect))
+    {
+        return 0;
+    }
 
     if (backup != nullptr) {
         backup->makeBackup((BYTE*)ptr, hook32_size);
@@ -61,7 +76,7 @@ size_t peconv::redirect_to_local32(void *ptr, DWORD new_offset, PatchBackup* bac
     memcpy(hook_32 + 1, &new_offset, sizeof(DWORD));
     memcpy(ptr, hook_32, hook32_size);
 
-    VirtualProtect((LPVOID)ptr, PAGE_SIZE, oldProtect, &oldProtect);
+    VirtualProtect((LPVOID)ptr, hook32_size, oldProtect, &oldProtect);
     return hook32_size;
 }
 

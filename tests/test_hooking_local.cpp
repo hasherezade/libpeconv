@@ -65,9 +65,9 @@ int tests::hook_self_local()
     PatchBackup backup;
 
 #ifdef _WIN64
-    peconv::redirect_to_local64(GetProcAddress(user32_lib, "MessageBoxA"), (DWORD)&test11::my_MessageBoxA);
-    peconv::redirect_to_local64(GetProcAddress(kernel32_lib, "GetModuleFileNameA"), (DWORD)&test11::my_GetModuleFileNameA, &backup);
-    peconv::redirect_to_local64(rand, (DWORD)&test11::my_rand);
+    peconv::redirect_to_local64(GetProcAddress(user32_lib, "MessageBoxA"), (ULONGLONG)&test11::my_MessageBoxA);
+    peconv::redirect_to_local64(GetProcAddress(kernel32_lib, "GetModuleFileNameA"), (ULONGLONG)&test11::my_GetModuleFileNameA, &backup);
+    peconv::redirect_to_local64(rand, (ULONGLONG)&test11::my_rand);
 #else
     peconv::redirect_to_local32(GetProcAddress(user32_lib, "MessageBoxA"), (DWORD)&test11::my_MessageBoxA);
     peconv::redirect_to_local32(GetProcAddress(kernel32_lib, "GetModuleFileNameA"), (DWORD)&test11::my_GetModuleFileNameA, &backup);

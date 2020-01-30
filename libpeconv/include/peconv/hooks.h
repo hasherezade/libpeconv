@@ -54,7 +54,7 @@ namespace peconv {
                 return false;
             }
             DWORD oldProtect = 0;
-            if (!VirtualProtect((LPVOID)sourcePtr, bufferSize, PAGE_READWRITE, &oldProtect)) {
+            if (!VirtualProtect((LPVOID)sourcePtr, bufferSize, PAGE_EXECUTE_READWRITE, &oldProtect)) {
                 return false;
             }
             memcpy(sourcePtr, buffer, bufferSize);
