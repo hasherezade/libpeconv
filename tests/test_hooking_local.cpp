@@ -6,7 +6,6 @@ using namespace peconv;
 #include <iostream>
 #include <string>
 #include <map>
-#include <time.h>
 
 #define FAKE_NAME "fake_module_name"
 
@@ -62,17 +61,14 @@ int tests::hook_self_local()
 
     HMODULE user32_lib = LoadLibraryA("user32.dll");
     HMODULE kernel32_lib = LoadLibraryA("kernel32.dll");
+    FARPROC proc = GetProcAddress(GetModuleHandle("kernel32.dll"), "VirtualProtect");
     PatchBackup backup;
 
-#ifdef _WIN64
-    peconv::redirect_to_local64(GetProcAddress(user32_lib, "MessageBoxA"), (ULONGLONG)&test11::my_MessageBoxA);
-    peconv::redirect_to_local64(GetProcAddress(kernel32_lib, "GetModuleFileNameA"), (ULONGLONG)&test11::my_GetModuleFileNameA, &backup);
-    peconv::redirect_to_local64(rand, (ULONGLONG)&test11::my_rand);
-#else
-    peconv::redirect_to_local32(GetProcAddress(user32_lib, "MessageBoxA"), (DWORD)&test11::my_MessageBoxA);
-    peconv::redirect_to_local32(GetProcAddress(kernel32_lib, "GetModuleFileNameA"), (DWORD)&test11::my_GetModuleFileNameA, &backup);
-    peconv::redirect_to_local32(rand, (DWORD)&test11::my_rand);
-#endif
+
+    peconv::redirect_to_local(GetProcAddress(user32_lib, "MessageBoxA"), &test11::my_MessageBoxA);
+    peconv::redirect_to_local(GetProcAddress(kernel32_lib, "GetModuleFileNameA"), &test11::my_GetModuleFileNameA, &backup);
+    peconv::redirect_to_local(rand, &test11::my_rand);
+
     char module_name[MAX_PATH] = { 0 };
     GetModuleFileNameA(NULL, module_name, MAX_PATH);
     MessageBoxA(0, module_name, "Module Name", MB_OK);
@@ -81,9 +77,10 @@ int tests::hook_self_local()
         std::cout << "Failed!";
         return -1;
     }
-    srand(time(NULL));
-    if (rand() != 44) {
-        std::cout << "Failed!";
+    srand(10000);
+    int rand_val = rand();
+    if (rand_val != 44) {
+        std::cout << "Failed: " << rand_val << "\n";
         return -2;
     }
     if (!backup.applyBackup()) {

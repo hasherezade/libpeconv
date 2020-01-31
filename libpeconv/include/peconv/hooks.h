@@ -34,33 +34,9 @@ namespace peconv {
             }
         }
 
-        bool makeBackup(BYTE *patch_ptr, size_t patch_size)
-        {
-            if (!patch_ptr) {
-                return false;
-            }
-            deleteBackup();
-            this->sourcePtr = patch_ptr;
-            this->buffer = new BYTE[patch_size];
-            this->bufferSize = patch_size;
+        bool makeBackup(BYTE *patch_ptr, size_t patch_size);
 
-            memcpy(buffer, patch_ptr, patch_size);
-            return true;
-        }
-
-        bool applyBackup()
-        {
-            if (!isBackup()) {
-                return false;
-            }
-            DWORD oldProtect = 0;
-            if (!VirtualProtect((LPVOID)sourcePtr, bufferSize, PAGE_EXECUTE_READWRITE, &oldProtect)) {
-                return false;
-            }
-            memcpy(sourcePtr, buffer, bufferSize);
-            VirtualProtect((LPVOID)sourcePtr, bufferSize, oldProtect, &oldProtect);
-            return true;
-        }
+        bool applyBackup();
 
         bool isBackup()
         {
@@ -106,14 +82,22 @@ namespace peconv {
     };
 
     /**
-    Installs inline hook at the given ptr. Returns the number of bytes overwriten. 64 bit version.
+    Installs inline hook at the given ptr. Returns the number of bytes overwriten.
+    64 bit version.
     */
     size_t redirect_to_local64(void *ptr, ULONGLONG new_offset, PatchBackup* backup = nullptr);
 
     /**
-    Installs inline hook at the given ptr. Returns the number of bytes overwriten. 32 bit version.
+    Installs inline hook at the given ptr. Returns the number of bytes overwriten.
+    32 bit version.
     */
     size_t redirect_to_local32(void *ptr, DWORD new_offset, PatchBackup* backup = nullptr);
+
+    /**
+    Installs inline hook at the given ptr. Returns the number of bytes overwriten.
+    Uses bitness of the current applications for the bitness of the intalled hook.
+    */
+    size_t redirect_to_local(void *ptr, void* new_function_ptr, PatchBackup* backup = nullptr);
 
     /**
     Replaces a target address of JMP <DWORD> or CALL <DWORD>
