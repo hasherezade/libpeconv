@@ -61,9 +61,7 @@ int tests::hook_self_local()
 
     HMODULE user32_lib = LoadLibraryA("user32.dll");
     HMODULE kernel32_lib = LoadLibraryA("kernel32.dll");
-    FARPROC proc = GetProcAddress(GetModuleHandle("kernel32.dll"), "VirtualProtect");
     PatchBackup backup;
-
 
     peconv::redirect_to_local(GetProcAddress(user32_lib, "MessageBoxA"), &test11::my_MessageBoxA);
     peconv::redirect_to_local(GetProcAddress(kernel32_lib, "GetModuleFileNameA"), &test11::my_GetModuleFileNameA, &backup);
