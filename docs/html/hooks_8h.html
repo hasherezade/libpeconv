@@ -82,11 +82,14 @@ $(function() {
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;map&gt;</code><br />
+<code>#include &quot;<a class="el" href="buffer__util_8h_source.html">peconv/buffer_util.h</a>&quot;</code><br />
 </div>
 <p><a href="hooks_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_patch_backup.html">peconv::PatchBackup</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1hooking__func__resolver.html">peconv::hooking_func_resolver</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -97,10 +100,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a80d25566862f8e210cead2b2ad0355a3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a80d25566862f8e210cead2b2ad0355a3">peconv::redirect_to_local64</a> (void *ptr, ULONGLONG new_offset)</td></tr>
-<tr class="separator:a80d25566862f8e210cead2b2ad0355a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3eb37656fb2004d70ea309b308a4e0ed"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a3eb37656fb2004d70ea309b308a4e0ed">peconv::redirect_to_local32</a> (void *ptr, DWORD new_offset)</td></tr>
-<tr class="separator:a3eb37656fb2004d70ea309b308a4e0ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2db9ff90abb684282d89b6e22c6b39a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ad2db9ff90abb684282d89b6e22c6b39a">peconv::redirect_to_local64</a> (void *ptr, ULONGLONG new_offset, <a class="el" href="classpeconv_1_1_patch_backup.html">PatchBackup</a> *backup=nullptr)</td></tr>
+<tr class="separator:ad2db9ff90abb684282d89b6e22c6b39a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9419aae3425d44292f606c7d6348fea"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea">peconv::redirect_to_local32</a> (void *ptr, DWORD new_offset, <a class="el" href="classpeconv_1_1_patch_backup.html">PatchBackup</a> *backup=nullptr)</td></tr>
+<tr class="separator:ab9419aae3425d44292f606c7d6348fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae242eb506be32b05644e02b346063748"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae242eb506be32b05644e02b346063748">peconv::redirect_to_local</a> (void *ptr, void *new_function_ptr, <a class="el" href="classpeconv_1_1_patch_backup.html">PatchBackup</a> *backup=nullptr)</td></tr>
+<tr class="separator:ae242eb506be32b05644e02b346063748"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5141d4b76a42b9e0498381c2f29bfee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab5141d4b76a42b9e0498381c2f29bfee">peconv::replace_target</a> (BYTE *ptr, ULONGLONG dest_addr)</td></tr>
 <tr class="separator:ab5141d4b76a42b9e0498381c2f29bfee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

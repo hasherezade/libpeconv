@@ -1,9 +1,10 @@
 <map id="peconv::find_padding_cave" name="peconv::find_padding_cave">
-<area shape="rect" id="node1" title=" " alt="" coords="5,124,180,151"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,149,180,176"/>
 <area shape="rect" id="node2" href="$namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f" title=" " alt="" coords="439,86,583,127"/>
 <area shape="rect" id="node5" href="$namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1336,91,1471,117"/>
 <area shape="rect" id="node9" href="$namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c" title=" " alt="" coords="228,149,391,176"/>
-<area shape="rect" id="node10" href="$namespacepeconv.html#a160339727fda0f2d2f865cbca142a19d" title=" " alt="" coords="243,200,375,227"/>
+<area shape="rect" id="node10" href="$namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="249,200,369,227"/>
+<area shape="rect" id="node11" href="$namespacepeconv.html#a160339727fda0f2d2f865cbca142a19d" title=" " alt="" coords="243,251,375,277"/>
 <area shape="rect" id="node3" href="$namespacepeconv.html#a30c642b479e9bd27a66332b73d65cabb" title=" " alt="" coords="631,93,767,120"/>
 <area shape="rect" id="node4" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1149,123,1288,149"/>
 <area shape="rect" id="node6" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="815,152,923,179"/>

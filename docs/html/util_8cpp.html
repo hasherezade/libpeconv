@@ -66,6 +66,10 @@ $(function() {
 </div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">util.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -73,6 +77,61 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="util_8h_source.html">peconv/util.h</a>&quot;</code><br />
 </div>
 <p><a href="util_8cpp_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespacepeconv"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html">peconv</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:abff674ea8e527f49f9741ff81596a15d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a> (WINAPI *g_GetProcessId)(IN HANDLE Process)</td></tr>
+<tr class="separator:abff674ea8e527f49f9741ff81596a15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b4307b5dbe3228c5a8502fffe93aa63"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">peconv::get_kernel32_hndl</a> ()</td></tr>
+<tr class="separator:a9b4307b5dbe3228c5a8502fffe93aa63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd0370b87e95a0755199897a7fb79067"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">peconv::get_ntdll_hndl</a> ()</td></tr>
+<tr class="separator:afd0370b87e95a0755199897a7fb79067"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5f3f23e0f2678c1a145e0e0f7a3a7f8"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a> (HANDLE hProcess)</td></tr>
+<tr class="separator:ab5f3f23e0f2678c1a145e0e0f7a3a7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:af7fbbf3b5b2c890138c9d66318ecf526"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">peconv::g_kernel32Hndl</a> = nullptr</td></tr>
+<tr class="separator:af7fbbf3b5b2c890138c9d66318ecf526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c103094b71a9e438ba80ea83384366a"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">peconv::g_ntdllHndl</a> = nullptr</td></tr>
+<tr class="separator:a3c103094b71a9e438ba80ea83384366a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ab5f3f23e0f2678c1a145e0e0f7a3a7f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">&#9670;&nbsp;</a></span>ntdll_get_process_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DWORD ntdll_get_process_id </td>
+          <td>(</td>
+          <td class="paramtype">HANDLE&#160;</td>
+          <td class="paramname"><em>hProcess</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="util_8cpp_source.html#l00026">26</a> of file <a class="el" href="util_8cpp_source.html">util.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="util_8cpp_ab5f3f23e0f2678c1a145e0e0f7a3a7f8_cgraph.png" border="0" usemap="#util_8cpp_ab5f3f23e0f2678c1a145e0e0f7a3a7f8_cgraph" alt=""/></div>
+<map name="util_8cpp_ab5f3f23e0f2678c1a145e0e0f7a3a7f8_cgraph" id="util_8cpp_ab5f3f23e0f2678c1a145e0e0f7a3a7f8_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,31,147,57"/>
+<area shape="rect"  href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067" title=" " alt="" coords="195,5,345,32"/>
+<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="210,56,330,83"/>
+</map>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
