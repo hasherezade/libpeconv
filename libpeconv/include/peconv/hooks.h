@@ -100,7 +100,7 @@ namespace peconv {
     size_t redirect_to_local(void *ptr, void* new_function_ptr, PatchBackup* backup = nullptr);
 
     /**
-    Replaces a target address of JMP <DWORD> or CALL <DWORD>
+    Replaces a target address of JMP [DWORD] or CALL [DWORD]
     */
     bool replace_target(BYTE *ptr, ULONGLONG dest_addr);
 

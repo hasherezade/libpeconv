@@ -28,17 +28,17 @@ namespace peconv {
     std::string get_func_name(const std::string& str);
 
     /**
-    Convert ordinal value to the ordinal string (in a format #<ordinal>)
+    Convert ordinal value to the ordinal string (in a format #[ordinal])
     */
     std::string ordinal_to_string(DWORD func_ordinal);
 
     /**
-    Check if the given string is in a format typical for storing ordinals (#<ordinal>)
+    Check if the given string is in a format typical for storing ordinals (#[ordinal])
     */
     bool is_ordinal_string(const std::string& str);
 
     /**
-    Get the ordinal value from the ordinal string (in a format #<ordinal>)
+    Get the ordinal value from the ordinal string (in a format #[ordinal])
     */
     DWORD ordinal_string_to_val(const std::string& str);
 
