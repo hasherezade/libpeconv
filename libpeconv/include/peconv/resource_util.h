@@ -1,3 +1,8 @@
+/**
+* @file
+* @brief   Functions related to manual retrieving of PE resources.
+*/
+
 #pragma once
 
 #include <windows.h>

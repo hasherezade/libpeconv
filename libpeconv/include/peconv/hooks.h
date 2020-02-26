@@ -14,9 +14,15 @@
 #include "peconv/buffer_util.h"
 
 namespace peconv {
+
+    /**
+    A buffer storing a binary patch, that can be applied on a module. Used as a restorable backup in case of function patching.
+    */
     class PatchBackup {
     public:
-
+        /**
+        Creates an empty backup.
+        */
         PatchBackup()
             : buffer(nullptr), bufferSize(0)
         {
@@ -26,33 +32,43 @@ namespace peconv {
             deleteBackup();
         }
 
+        /**
+        Destroys the backup and resets internal fields.
+        */
         void deleteBackup()
         {
             if (buffer) {
                 delete[] buffer;
                 bufferSize = 0;
+                sourcePtr = nullptr;
             }
         }
 
+        /**
+        Reads bytes from the binary to the backup. The source buffer must be within the current process.
+        */
         bool makeBackup(BYTE *patch_ptr, size_t patch_size);
 
+        /**
+        Applies the backup back to the pointer from which it was read.
+        */
         bool applyBackup();
 
+        /**
+        Checks if the buffer was filled.
+        */
         bool isBackup()
         {
             return buffer != nullptr;
         }
 
     protected:
-
         BYTE *buffer;
         size_t bufferSize;
 
-        BYTE * sourcePtr;
+        BYTE *sourcePtr;
     };
-};
 
-namespace peconv {
 
     /**
     A functions resolver that can be used for hooking IAT. Allows for defining functions that are supposed to be replaced.
@@ -84,18 +100,30 @@ namespace peconv {
     /**
     Installs inline hook at the given ptr. Returns the number of bytes overwriten.
     64 bit version.
+    \param ptr : pointer to the function to be replaced
+    \param new_offset : VA of the new function
+    \param backup : (optional) backup that can be used to reverse the changes
+    \return size of the applied patch
     */
     size_t redirect_to_local64(void *ptr, ULONGLONG new_offset, PatchBackup* backup = nullptr);
 
     /**
     Installs inline hook at the given ptr. Returns the number of bytes overwriten.
     32 bit version.
+    \param ptr : pointer to the function to be replaced
+    \param new_offset : VA of the new function
+    \param backup : (optional) backup that can be used to reverse the changes
+    \return size of the applied patch
     */
     size_t redirect_to_local32(void *ptr, DWORD new_offset, PatchBackup* backup = nullptr);
 
     /**
     Installs inline hook at the given ptr. Returns the number of bytes overwriten.
     Uses bitness of the current applications for the bitness of the intalled hook.
+    \param ptr : pointer to the function to be replaced
+    \param new_function_ptr : pointer to the new function
+    \param backup : (optional) backup that can be used to reverse the changes
+    \return size of the applied patch
     */
     size_t redirect_to_local(void *ptr, void* new_function_ptr, PatchBackup* backup = nullptr);
 
