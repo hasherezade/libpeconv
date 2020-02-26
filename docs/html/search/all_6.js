@@ -14,7 +14,7 @@ var searchData=
   ['find_5falignment_5fcave',['find_alignment_cave',['../namespacepeconv.html#a52ed5ac63150ed6c4d7e5a53b9d7b717',1,'peconv']]],
   ['find_5fbase_2ecpp',['find_base.cpp',['../find__base_8cpp.html',1,'']]],
   ['find_5fbase_2eh',['find_base.h',['../find__base_8h.html',1,'']]],
-  ['find_5fbase_5fcandidate',['find_base_candidate',['../namespacepeconv.html#afd41d670d3ffa3fd6cb6cb2169ea7f68',1,'peconv']]],
+  ['find_5fbase_5fcandidate',['find_base_candidate',['../namespacepeconv.html#a3955bdf94d7090239822a8c93e467d20',1,'peconv']]],
   ['find_5fcorexemain',['find_corexemain',['../fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b',1,'fix_dot_net_ep.cpp']]],
   ['find_5fcovering_5fdll',['find_covering_dll',['../fix__imports_8cpp.html#a1080df55d905f4d4aec10316c73b90d4',1,'fix_imports.cpp']]],
   ['find_5fending_5fcave',['find_ending_cave',['../namespacepeconv.html#a8305069df7f35087b9b45db686417009',1,'peconv']]],
