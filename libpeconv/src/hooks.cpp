@@ -1,5 +1,6 @@
 #include "peconv\hooks.h"
 #include "peconv.h"
+#include "peconv\peb_lookup.h"
 
 using namespace peconv;
 
@@ -7,7 +8,7 @@ namespace peconv {
 
     bool is_pointer_in_ntdll(LPVOID lpAddress)
     {
-        HMODULE mod = GetModuleHandle("ntdll.dll");
+        HMODULE mod = get_module_via_peb(L"ntdll.dll");
         size_t module_size = peconv::get_image_size((BYTE*)mod);
         if (peconv::validate_ptr(mod, module_size, lpAddress, sizeof(BYTE))) {
             return true; //this address lies within NTDLL
@@ -17,7 +18,10 @@ namespace peconv {
 
     BOOL nt_protect(LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpflOldProtect)
     {
-        FARPROC proc = GetProcAddress(GetModuleHandle("ntdll.dll"), "NtProtectVirtualMemory");
+        FARPROC proc = peconv::get_exported_func(
+            peconv::get_module_via_peb(L"ntdll.dll"),
+            "NtProtectVirtualMemory"
+        );
         if (!proc) {
             return FALSE;
         }
