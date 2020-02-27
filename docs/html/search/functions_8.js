@@ -22,6 +22,7 @@ var searchData=
   ['is_5fvalid_5fsectons_5falignment',['is_valid_sectons_alignment',['../namespacepeconv.html#adfdae754cddaa01f3babd7ef20314859',1,'peconv']]],
   ['is_5fvirtual_5fpadding',['is_virtual_padding',['../pe__mode__detector_8cpp.html#a8c2532fe49ea494f668a64bbf327cf6d',1,'pe_mode_detector.cpp']]],
   ['is_5fwanted_5ffunc',['is_wanted_func',['../exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43',1,'exports_lookup.cpp']]],
+  ['is_5fwanted_5fmodule',['is_wanted_module',['../peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b',1,'peb_lookup.cpp']]],
   ['isbackup',['isBackup',['../classpeconv_1_1_patch_backup.html#af1d324a838c4de3201a1cd3dac36eb98',1,'peconv::PatchBackup']]],
   ['ismappingcomplete',['isMappingComplete',['../classpeconv_1_1_imported_dll_coverage.html#a655da420b79785bb92c9067fc82ad7b9',1,'peconv::ImportedDllCoverage']]],
   ['isvalid',['isValid',['../classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd',1,'peconv::ExportedFunc']]]

@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['dbgbreakpoint',['DbgBreakPoint',['../ntddk_8h.html#abb005def6c8352367ca627ec40c82ddf',1,'ntddk.h']]],
+  ['dbgprint',['DbgPrint',['../ntddk_8h.html#ad913c91eef1e6b32c06ba16d75d74d37',1,'ntddk.h']]],
   ['deletebackup',['deleteBackup',['../classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04',1,'peconv::PatchBackup']]],
   ['detect_5fdump_5fmode',['detect_dump_mode',['../namespacepeconv.html#ab921893df2ddaeb33f3b376a04e5afde',1,'peconv']]],
   ['dump_5fpe',['dump_pe',['../namespacepeconv.html#a3fcbd8235d3f9bbbde2caa1a091387bc',1,'peconv']]],

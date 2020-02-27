@@ -1,12 +1,18 @@
 var searchData=
 [
-  ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['relocate_2ecpp',['relocate.cpp',['../relocate_8cpp.html',1,'']]],
-  ['relocate_2eh',['relocate.h',['../relocate_8h.html',1,'']]],
-  ['remote_5fpe_5freader_2ecpp',['remote_pe_reader.cpp',['../remote__pe__reader_8cpp.html',1,'']]],
-  ['remote_5fpe_5freader_2eh',['remote_pe_reader.h',['../remote__pe__reader_8h.html',1,'']]],
-  ['resource_5fparser_2ecpp',['resource_parser.cpp',['../resource__parser_8cpp.html',1,'']]],
-  ['resource_5fparser_2eh',['resource_parser.h',['../resource__parser_8h.html',1,'']]],
-  ['resource_5futil_2ecpp',['resource_util.cpp',['../resource__util_8cpp.html',1,'']]],
-  ['resource_5futil_2eh',['resource_util.h',['../resource__util_8h.html',1,'']]]
+  ['pe_5fdumper_2ecpp',['pe_dumper.cpp',['../pe__dumper_8cpp.html',1,'']]],
+  ['pe_5fdumper_2eh',['pe_dumper.h',['../pe__dumper_8h.html',1,'']]],
+  ['pe_5fhdrs_5fhelper_2ecpp',['pe_hdrs_helper.cpp',['../pe__hdrs__helper_8cpp.html',1,'']]],
+  ['pe_5fhdrs_5fhelper_2eh',['pe_hdrs_helper.h',['../pe__hdrs__helper_8h.html',1,'']]],
+  ['pe_5floader_2ecpp',['pe_loader.cpp',['../pe__loader_8cpp.html',1,'']]],
+  ['pe_5floader_2eh',['pe_loader.h',['../pe__loader_8h.html',1,'']]],
+  ['pe_5fmode_5fdetector_2ecpp',['pe_mode_detector.cpp',['../pe__mode__detector_8cpp.html',1,'']]],
+  ['pe_5fmode_5fdetector_2eh',['pe_mode_detector.h',['../pe__mode__detector_8h.html',1,'']]],
+  ['pe_5fraw_5fto_5fvirtual_2ecpp',['pe_raw_to_virtual.cpp',['../pe__raw__to__virtual_8cpp.html',1,'']]],
+  ['pe_5fraw_5fto_5fvirtual_2eh',['pe_raw_to_virtual.h',['../pe__raw__to__virtual_8h.html',1,'']]],
+  ['pe_5fvirtual_5fto_5fraw_2ecpp',['pe_virtual_to_raw.cpp',['../pe__virtual__to__raw_8cpp.html',1,'']]],
+  ['pe_5fvirtual_5fto_5fraw_2eh',['pe_virtual_to_raw.h',['../pe__virtual__to__raw_8h.html',1,'']]],
+  ['peb_5flookup_2ecpp',['peb_lookup.cpp',['../peb__lookup_8cpp.html',1,'']]],
+  ['peb_5flookup_2eh',['peb_lookup.h',['../peb__lookup_8h.html',1,'']]],
+  ['peconv_2eh',['peconv.h',['../peconv_8h.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['min_5fdll_5flen',['MIN_DLL_LEN',['../fix__imports_8h.html#af0e2f31bb97b6213d7dfa6511915f4d7',1,'fix_imports.h']]]
+  ['assert',['ASSERT',['../ntddk_8h.html#aca68c0d4ac8df0838e209fb5300f7be3',1,'ntddk.h']]]
 ];

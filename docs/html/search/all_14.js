@@ -1,5 +1,27 @@
 var searchData=
 [
-  ['writefounddllname',['writeFoundDllName',['../classpeconv_1_1_imports_uneraser.html#a1d9a2f83300fef33a1a57c993aed1e0a',1,'peconv::ImportsUneraser']]],
-  ['writefoundfunction',['writeFoundFunction',['../classpeconv_1_1_imports_uneraser.html#aa644fc17eedbe2024bd8a070aef57c69',1,'peconv::ImportsUneraser']]]
+  ['unaligned_5fbuf',['UNALIGNED_BUF',['../namespacepeconv.html#ad8fbac05bb7872b5680e1fcd7cea04bf',1,'peconv']]],
+  ['uncommittedhandles',['UnCommittedHandles',['../struct___r_t_l___h_a_n_d_l_e___t_a_b_l_e.html#a22b11c6c50863e6547ee76c51d0290ad',1,'_RTL_HANDLE_TABLE']]],
+  ['unerasedllimports',['uneraseDllImports',['../classpeconv_1_1_imports_uneraser.html#a866ebc6e6189e0f90f18f2f1c6bd98b2',1,'peconv::ImportsUneraser']]],
+  ['unerasedllname',['uneraseDllName',['../classpeconv_1_1_imports_uneraser.html#aa04d81c9356a905aacd731d3b9b59cf9',1,'peconv::ImportsUneraser']]],
+  ['unicode_5fnull',['UNICODE_NULL',['../ntddk_8h.html#a86ba064762d3800e79a3f1304bbb5eef',1,'ntddk.h']]],
+  ['unicode_5fstring',['UNICODE_STRING',['../ntddk_8h.html#afb1771465aaa5d77efedcfc1a3a43dfb',1,'ntddk.h']]],
+  ['unicodecasetabledata',['UnicodeCaseTableData',['../struct___p_e_b.html#af996599a84eb58c7790dcb123fe1f12b',1,'_PEB']]],
+  ['uniqueprocess',['UniqueProcess',['../struct___c_l_i_e_n_t___i_d.html#abb0a773960bff0abda53454fd7921a07',1,'_CLIENT_ID']]],
+  ['uniqueprocessid',['UniqueProcessId',['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s___i_n_f_o_r_m_a_t_i_o_n.html#aa45a76c0d25680f6adb10899b068883c',1,'_SYSTEM_PROCESS_INFORMATION::UniqueProcessId()'],['../struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d',1,'_PROCESS_BASIC_INFORMATION::UniqueProcessId()']]],
+  ['uniquethread',['UniqueThread',['../struct___c_l_i_e_n_t___i_d.html#a48899a44b4edcb3f44ccde218a33f35f',1,'_CLIENT_ID']]],
+  ['unknown',['Unknown',['../struct___s_y_s_t_e_m___m_o_d_u_l_e.html#ade1964c6f67cf6a702ecdc5ff4c24259',1,'_SYSTEM_MODULE']]],
+  ['unknown01',['Unknown01',['../struct___r_t_l___h_a_n_d_l_e___t_a_b_l_e.html#a47103e743de5c2cb91d88a953b293a0e',1,'_RTL_HANDLE_TABLE']]],
+  ['unknown02',['Unknown02',['../struct___r_t_l___h_a_n_d_l_e___t_a_b_l_e.html#a364635e054d617b041b0f5ba217f3f64',1,'_RTL_HANDLE_TABLE']]],
+  ['unknown1',['Unknown1',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#a055f29e1b6655ecddcfecf98f9b15947',1,'_LDR_DATA_TABLE_ENTRY']]],
+  ['unknown2',['Unknown2',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#a79d3147de40c8b1f5dd15530da824bc3',1,'_LDR_DATA_TABLE_ENTRY']]],
+  ['unknown3',['Unknown3',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#aa5929267efa340337f9e287b39b2513b',1,'_LDR_DATA_TABLE_ENTRY']]],
+  ['unloadinformationtablerva',['UnloadInformationTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#aa3fed6e3b3805d61a29a7613fa8554f2',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
+  ['update_5fentry_5fpoint_5frva',['update_entry_point_rva',['../namespacepeconv.html#a004e65e7a4fa036bfc18dcf4091b985d',1,'peconv']]],
+  ['update_5fimage_5fbase',['update_image_base',['../namespacepeconv.html#a386f3e2c4274a475f157124b5d116b36',1,'peconv']]],
+  ['update_5fimage_5fsize',['update_image_size',['../namespacepeconv.html#ab7f00436adb92e08a80bdbad79352b69',1,'peconv']]],
+  ['userflags',['UserFlags',['../struct___k_e_y___f_l_a_g_s___i_n_f_o_r_m_a_t_i_o_n.html#a7afec43c4acd719ddcab0a591df1ab36',1,'_KEY_FLAGS_INFORMATION']]],
+  ['usertime',['UserTime',['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s___i_n_f_o_r_m_a_t_i_o_n.html#a26114ada5e4c6fb17878659ca0472041',1,'_SYSTEM_PROCESS_INFORMATION::UserTime()'],['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s_o_r___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#ac775a33411cb143cf711a3ef5a88bd41',1,'_SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION::UserTime()']]],
+  ['util_2ecpp',['util.cpp',['../util_8cpp.html',1,'']]],
+  ['util_2eh',['util.h',['../util_8h.html',1,'']]]
 ];

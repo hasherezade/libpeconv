@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['secondstruct',['SecondStruct',['../ntddk_8h.html#ab4a9251458f9e3e4ccdae4d09170ed52',1,'ntddk.h']]],
+  ['section_5finformation_5fclass',['SECTION_INFORMATION_CLASS',['../ntddk_8h.html#ab71119b3de8630007fdff418d3007096',1,'ntddk.h']]],
+  ['section_5finherit',['SECTION_INHERIT',['../ntddk_8h.html#a0a64bb526e58ec166d35c6a4b1622603',1,'ntddk.h']]],
+  ['shutdown_5faction',['SHUTDOWN_ACTION',['../ntddk_8h.html#a958fdb0254dbe1d28e4156ed8a83081a',1,'ntddk.h']]],
+  ['string',['STRING',['../ntddk_8h.html#a7a5264f79c9b7b3909aa03dcd114b22f',1,'ntddk.h']]],
+  ['system_5fbasic_5finformation',['SYSTEM_BASIC_INFORMATION',['../ntddk_8h.html#aa7607ba1ea029c12db046b7e34d8e9a6',1,'ntddk.h']]],
+  ['system_5fdevice_5finformation',['SYSTEM_DEVICE_INFORMATION',['../ntddk_8h.html#a970b266bf24d8c828d764eefb44641c2',1,'ntddk.h']]],
+  ['system_5fflags_5finformation',['SYSTEM_FLAGS_INFORMATION',['../ntddk_8h.html#a408b47a3a2c39b0c03ac04df73687029',1,'ntddk.h']]],
+  ['system_5finformation_5fclass',['SYSTEM_INFORMATION_CLASS',['../ntddk_8h.html#a6f4391292f166b482e5b633f423436d7',1,'ntddk.h']]],
+  ['system_5fmodule',['SYSTEM_MODULE',['../ntddk_8h.html#ab40017ed4fa44d862a300868be40315b',1,'ntddk.h']]],
+  ['system_5fmodule_5finformation',['SYSTEM_MODULE_INFORMATION',['../ntddk_8h.html#aab9e13324a27a016ba9480224ab7d625',1,'ntddk.h']]],
+  ['system_5fperformance_5finformation',['SYSTEM_PERFORMANCE_INFORMATION',['../ntddk_8h.html#a26ba78469e80f3217165ca531077fc8e',1,'ntddk.h']]],
+  ['system_5fprocess_5finformation',['SYSTEM_PROCESS_INFORMATION',['../ntddk_8h.html#aa35cdb5a4946532ca3985925c85057d7',1,'ntddk.h']]],
+  ['system_5fprocessor_5finformation',['SYSTEM_PROCESSOR_INFORMATION',['../ntddk_8h.html#a06d1192d36632da820c07eb2919e4aae',1,'ntddk.h']]],
+  ['system_5fprocessor_5fperformance_5finformation',['SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION',['../ntddk_8h.html#abccd688eff7dce99f6890f2afe6e48ac',1,'ntddk.h']]],
+  ['system_5ftimeofday_5finformation',['SYSTEM_TIMEOFDAY_INFORMATION',['../ntddk_8h.html#af5ccb95ae784abd001deaa1126ea639f',1,'ntddk.h']]]
+];

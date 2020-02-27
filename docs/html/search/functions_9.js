@@ -1,5 +1,9 @@
 var searchData=
 [
+  ['ldrfindentryforaddress',['LdrFindEntryForAddress',['../ntddk_8h.html#aeb06f1b86780c52c9c5f8c8bf1a35684',1,'ntddk.h']]],
+  ['ldrgetdllhandle',['LdrGetDllHandle',['../ntddk_8h.html#a8465dbb3678396076eacba582fc50be7',1,'ntddk.h']]],
+  ['ldrgetprocedureaddress',['LdrGetProcedureAddress',['../ntddk_8h.html#a27ab4fd00034d0e65bc1e3a9fe2d6cea',1,'ntddk.h']]],
+  ['ldrloaddll',['LdrLoadDll',['../ntddk_8h.html#ac747c48625e712ce3e9cc34d7dea748f',1,'ntddk.h']]],
   ['listimportnames',['ListImportNames',['../class_list_import_names.html#a943c16591ee9e07b17de1dcf48754558',1,'ListImportNames']]],
   ['load_5fdelayed_5fimports',['load_delayed_imports',['../namespacepeconv.html#a160928436b4c34309ed3c2da10f8dc53',1,'peconv']]],
   ['load_5ffile',['load_file',['../namespacepeconv.html#aa0ea3c0c35b7c51ab4506630315252aa',1,'peconv']]],

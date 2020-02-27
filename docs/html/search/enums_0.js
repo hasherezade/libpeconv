@@ -1,5 +1,20 @@
 var searchData=
 [
-  ['t_5fload_5fconfig_5fver',['t_load_config_ver',['../namespacepeconv.html#afb17360c7076dbaebd8629b02b7f3614',1,'peconv']]],
-  ['t_5fpe_5fdump_5fmode',['t_pe_dump_mode',['../namespacepeconv.html#a8013b1d19293cc6a84f121d4889835d1',1,'peconv']]]
+  ['_5fevent_5finformation_5fclass',['_EVENT_INFORMATION_CLASS',['../ntddk_8h.html#aab2aa3748576a2911435d68338b60944',1,'ntddk.h']]],
+  ['_5fevent_5ftype',['_EVENT_TYPE',['../ntddk_8h.html#a4fd8d54f196d53e4f9494e1874200d9c',1,'ntddk.h']]],
+  ['_5ffile_5finformation_5fclass',['_FILE_INFORMATION_CLASS',['../ntddk_8h.html#a075f48e31b26c8f11bca06a880199380',1,'ntddk.h']]],
+  ['_5ffsinfoclass',['_FSINFOCLASS',['../ntddk_8h.html#a9b8177320803f9d6c0afedc9e6000d39',1,'ntddk.h']]],
+  ['_5fkey_5finformation_5fclass',['_KEY_INFORMATION_CLASS',['../ntddk_8h.html#a253bba9c575cd482f9b16ba67fd6cac7',1,'ntddk.h']]],
+  ['_5fkey_5fvalue_5finformation_5fclass',['_KEY_VALUE_INFORMATION_CLASS',['../ntddk_8h.html#a38eb26a81e03c00024b8e1afe131306e',1,'ntddk.h']]],
+  ['_5flpc_5ftype',['_LPC_TYPE',['../ntddk_8h.html#af87d37562abb8c95a40ca950a8a1692e',1,'ntddk.h']]],
+  ['_5fobject_5finformation_5fclass',['_OBJECT_INFORMATION_CLASS',['../ntddk_8h.html#a782d79148e4a1c27b79bcf93d3c59740',1,'ntddk.h']]],
+  ['_5fpool_5ftype',['_POOL_TYPE',['../ntddk_8h.html#a32a1467b2542bf2a6384f6fc19953bdd',1,'ntddk.h']]],
+  ['_5fprocessinfoclass',['_PROCESSINFOCLASS',['../ntddk_8h.html#a986543046e9a63c091c874efae0565d6',1,'ntddk.h']]],
+  ['_5frtl_5fgeneric_5fcompare_5fresults',['_RTL_GENERIC_COMPARE_RESULTS',['../ntddk_8h.html#ad7ef1aa11ee7738aac70bb450a9a8f51',1,'ntddk.h']]],
+  ['_5fsection_5finformation_5fclass',['_SECTION_INFORMATION_CLASS',['../ntddk_8h.html#adc48903abe919326b8a626099c911161',1,'ntddk.h']]],
+  ['_5fsection_5finherit',['_SECTION_INHERIT',['../ntddk_8h.html#a9c762429d7a9b5922b13a598ec08975f',1,'ntddk.h']]],
+  ['_5fshutdown_5faction',['_SHUTDOWN_ACTION',['../ntddk_8h.html#a2d2504c485764baf99df04348943f57d',1,'ntddk.h']]],
+  ['_5fsystem_5finformation_5fclass',['_SYSTEM_INFORMATION_CLASS',['../ntddk_8h.html#ad5d815b48e8f4da1ef2eb7a2f18a54e0',1,'ntddk.h']]],
+  ['_5fthreadinfoclass',['_THREADINFOCLASS',['../ntddk_8h.html#a65780912cd4fb95e0089374e5a58e603',1,'ntddk.h']]],
+  ['_5fwait_5ftype',['_WAIT_TYPE',['../ntddk_8h.html#a698d786b10840dc1198b09bb957b00f5',1,'ntddk.h']]]
 ];
