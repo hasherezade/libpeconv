@@ -90,9 +90,12 @@ bool is_wanted_module(LPWSTR curr_name, LPWSTR wanted_name)
     return true;
 }
 
-HMODULE peconv::get_module_via_peb(LPWSTR module_name)
+HMODULE peconv::get_module_via_peb(IN OPTIONAL LPWSTR module_name)
 {
     PLDR_MODULE curr_module = get_ldr_module();
+    if (!module_name) {
+        return (HMODULE)(curr_module->BaseAddress);
+    }
     while (curr_module != NULL && curr_module->BaseAddress != NULL) {
         if (is_wanted_module(curr_module->BaseDllName.Buffer, module_name)) {
             return (HMODULE)(curr_module->BaseAddress);
