@@ -70,17 +70,26 @@ namespace peconv {
 
         /**
         Compare two functions with each other.
+        Gives the priority to the named functions: if one of the compared functions is unnamed, the named one is treated as smaller.
         If both functions are unnamed, the function with the smaller ordinal is treated as smaller.
         Otherwise, the function with the shorter name is treated as smaller.
         */
         bool operator < (const ExportedFunc& other) const
         {
+            //if only one function is named, give the preference to the named one:
+            const size_t thisNameLen = this->funcName.length();
+            const size_t otherNameLen = other.funcName.length();
+            if (thisNameLen == 0 && otherNameLen > 0) {
+                return false;
+            }
+            if (thisNameLen > 0 && otherNameLen == 0) {
+                return true;
+            }
+            //select by shorter lib name:
             int cmp = libName.compare(other.libName);
             if (cmp != 0) {
                 return cmp < 0;
             }
-            const size_t thisNameLen = this->funcName.length();
-            const size_t otherNameLen = other.funcName.length();
             if (thisNameLen == 0 || otherNameLen == 0) {
                 return this->funcOrdinal < other.funcOrdinal;
             }
