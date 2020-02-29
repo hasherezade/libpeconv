@@ -339,8 +339,10 @@ Functions</h2></td></tr>
 <tr class="separator:a76c6ce4daf3e2f7bfadda595a5113505"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addf8f50c27775ed2fa84c33450e0ec7e"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#addf8f50c27775ed2fa84c33450e0ec7e">pe_realign_raw_to_virtual</a> (IN const BYTE *payload, IN size_t in_size, IN ULONGLONG loadBase, OUT size_t &amp;outputSize)</td></tr>
 <tr class="separator:addf8f50c27775ed2fa84c33450e0ec7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdd59ee71c84a7148b6689794ee054eb"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#acdd59ee71c84a7148b6689794ee054eb">get_module_via_peb</a> (IN OPTIONAL LPWSTR module_name)</td></tr>
-<tr class="separator:acdd59ee71c84a7148b6689794ee054eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab47119fd997003e3db87a61a293a835e"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">get_module_via_peb</a> (IN OPTIONAL LPWSTR module_name=nullptr)</td></tr>
+<tr class="separator:ab47119fd997003e3db87a61a293a835e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1fda7041e960e41247f5861abcffd7a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a">get_module_size_via_peb</a> (IN OPTIONAL HMODULE hModule=nullptr)</td></tr>
+<tr class="separator:aa1fda7041e960e41247f5861abcffd7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e87560c87993545d9e1ece20e756bfb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb">process_relocation_table</a> (IN PVOID modulePtr, IN SIZE_T moduleSize, IN <a class="el" href="classpeconv_1_1_reloc_block_callback.html">RelocBlockCallback</a> *callback)</td></tr>
 <tr class="separator:a7e87560c87993545d9e1ece20e756bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab35521cbdafa0310a0d7e9d1525beed8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab35521cbdafa0310a0d7e9d1525beed8">relocate_module</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase=0)</td></tr>
@@ -2619,8 +2621,45 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="acdd59ee71c84a7148b6689794ee054eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdd59ee71c84a7148b6689794ee054eb">&#9670;&nbsp;</a></span>get_module_via_peb()</h2>
+<a id="aa1fda7041e960e41247f5861abcffd7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1fda7041e960e41247f5861abcffd7a">&#9670;&nbsp;</a></span>get_module_size_via_peb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t peconv::get_module_size_via_peb </td>
+          <td>(</td>
+          <td class="paramtype">IN OPTIONAL HMODULE&#160;</td>
+          <td class="paramname"><em>hModule</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets size of the given module via PEB. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hModule</td><td>: (optional) the base of the module which's size we want to retrieve. If not set, the main module of the current process is used. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the size of the given module. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00108">108</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_aa1fda7041e960e41247f5861abcffd7a_cgraph.png" border="0" usemap="#namespacepeconv_aa1fda7041e960e41247f5861abcffd7a_cgraph" alt=""/></div>
+<map name="namespacepeconv_aa1fda7041e960e41247f5861abcffd7a_cgraph" id="namespacepeconv_aa1fda7041e960e41247f5861abcffd7a_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,143,47"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="191,13,301,39"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="349,13,417,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab47119fd997003e3db87a61a293a835e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab47119fd997003e3db87a61a293a835e">&#9670;&nbsp;</a></span>get_module_via_peb()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2629,14 +2668,14 @@ Here is the call graph for this function:</div>
           <td class="memname">HMODULE peconv::get_module_via_peb </td>
           <td>(</td>
           <td class="paramtype">IN OPTIONAL LPWSTR&#160;</td>
-          <td class="paramname"><em>module_name</em></td><td>)</td>
+          <td class="paramname"><em>module_name</em> = <code>nullptr</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Gets handle to the given module via PEB. A low-level equivalent of <code>GetModuleHandleW</code>. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">module_name</td><td>: (optional) the name of the DLL loaded within the current process. </td></tr>
+    <tr><td class="paramname">module_name</td><td>: (optional) the name of the DLL loaded within the current process. If not set, the main module of the current process is used. </td></tr>
   </table>
   </dd>
 </dl>
@@ -2646,8 +2685,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_acdd59ee71c84a7148b6689794ee054eb_cgraph.png" border="0" usemap="#namespacepeconv_acdd59ee71c84a7148b6689794ee054eb_cgraph" alt=""/></div>
-<map name="namespacepeconv_acdd59ee71c84a7148b6689794ee054eb_cgraph" id="namespacepeconv_acdd59ee71c84a7148b6689794ee054eb_cgraph">
+<div class="center"><img src="namespacepeconv_ab47119fd997003e3db87a61a293a835e_cgraph.png" border="0" usemap="#namespacepeconv_ab47119fd997003e3db87a61a293a835e_cgraph" alt=""/></div>
+<map name="namespacepeconv_ab47119fd997003e3db87a61a293a835e_cgraph" id="namespacepeconv_ab47119fd997003e3db87a61a293a835e_cgraph">
 <area shape="rect"  title=" " alt="" coords="5,23,143,65"/>
 <area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="200,5,311,32"/>
 <area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="191,56,320,83"/>
@@ -3746,20 +3785,14 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacepeconv_a7d3bc9bbb499d00f44e357050910116d_cgraph.png" border="0" usemap="#namespacepeconv_a7d3bc9bbb499d00f44e357050910116d_cgraph" alt=""/></div>
 <map name="namespacepeconv_a7d3bc9bbb499d00f44e357050910116d_cgraph" id="namespacepeconv_a7d3bc9bbb499d00f44e357050910116d_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,217,132,258"/>
-<area shape="rect"  href="namespacepeconv.html#acdd59ee71c84a7148b6689794ee054eb" title=" " alt="" coords="192,49,329,90"/>
-<area shape="rect"  href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="180,224,341,251"/>
-<area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1111,300,1245,327"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="410,5,521,32"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="401,56,530,83"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="609,5,677,32"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="594,56,693,83"/>
-<area shape="rect"  href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="924,224,1063,251"/>
-<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="405,325,525,352"/>
-<area shape="rect"  href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="589,169,697,196"/>
-<area shape="rect"  href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="389,123,541,149"/>
-<area shape="rect"  href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="389,224,541,251"/>
-<area shape="rect"  href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="745,158,876,199"/>
+<area shape="rect"  title=" " alt="" coords="5,71,132,112"/>
+<area shape="rect"  href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="180,71,317,112"/>
+<area shape="rect"  href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="180,5,317,47"/>
+<area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="181,137,316,163"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="375,21,485,47"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="365,78,495,105"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="558,21,626,47"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="543,78,641,105"/>
 </map>
 </div>
 
@@ -4534,7 +4567,7 @@ Here is the call graph for this function:</div>
 <area shape="rect"  title=" " alt="" coords="5,307,133,334"/>
 <area shape="rect"  href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="181,147,357,174"/>
 <area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="617,206,737,233"/>
-<area shape="rect"  href="namespacepeconv.html#acdd59ee71c84a7148b6689794ee054eb" title=" " alt="" coords="201,359,338,400"/>
+<area shape="rect"  href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="201,359,338,400"/>
 <area shape="rect"  href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="405,140,536,181"/>
 <area shape="rect"  href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="432,257,509,283"/>
 <area shape="rect"  href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="406,38,535,65"/>
@@ -5383,32 +5416,27 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacepeconv_ae242eb506be32b05644e02b346063748_cgraph.png" border="0" usemap="#namespacepeconv_ae242eb506be32b05644e02b346063748_cgraph" alt=""/></div>
 <map name="namespacepeconv_ae242eb506be32b05644e02b346063748_cgraph" id="namespacepeconv_ae242eb506be32b05644e02b346063748_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,371,136,412"/>
-<area shape="rect"  href="namespacepeconv.html#ad2db9ff90abb684282d89b6e22c6b39a" title=" " alt="" coords="184,371,315,412"/>
-<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="1015,328,1135,354"/>
-<area shape="rect"  href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea" title=" " alt="" coords="184,436,315,478"/>
-<area shape="rect"  href="namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d" title=" " alt="" coords="373,547,500,588"/>
-<area shape="rect"  href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="373,378,501,405"/>
-<area shape="rect"  href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="363,430,511,471"/>
-<area shape="rect"  href="namespacepeconv.html#acdd59ee71c84a7148b6689794ee054eb" title=" " alt="" coords="578,547,715,588"/>
-<area shape="rect"  href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="566,702,727,729"/>
-<area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1581,825,1716,852"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="803,576,914,602"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="794,525,923,552"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="1041,576,1109,602"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="1026,525,1125,552"/>
-<area shape="rect"  href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1395,770,1533,797"/>
-<area shape="rect"  href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="1021,766,1129,793"/>
-<area shape="rect"  href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="783,677,935,704"/>
-<area shape="rect"  href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="783,728,935,754"/>
-<area shape="rect"  href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1216,763,1347,804"/>
-<area shape="rect"  href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="559,168,735,194"/>
-<area shape="rect"  href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="793,160,924,202"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="820,226,897,253"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="794,58,923,85"/>
-<area shape="rect"  href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="983,8,1168,34"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="803,109,914,136"/>
-<area shape="rect"  href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="573,430,721,471"/>
+<area shape="rect"  title=" " alt="" coords="5,103,136,144"/>
+<area shape="rect"  href="namespacepeconv.html#ad2db9ff90abb684282d89b6e22c6b39a" title=" " alt="" coords="184,168,315,209"/>
+<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="994,194,1114,221"/>
+<area shape="rect"  href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea" title=" " alt="" coords="184,103,315,144"/>
+<area shape="rect"  href="namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d" title=" " alt="" coords="373,477,500,519"/>
+<area shape="rect"  href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="373,219,501,246"/>
+<area shape="rect"  href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="363,103,511,144"/>
+<area shape="rect"  href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="578,477,715,519"/>
+<area shape="rect"  href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="578,615,715,656"/>
+<area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="579,543,714,570"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="793,641,903,667"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="783,590,913,617"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="1020,641,1088,667"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="1005,590,1103,617"/>
+<area shape="rect"  href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="559,387,735,414"/>
+<area shape="rect"  href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="783,271,913,312"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="809,337,887,363"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="783,489,913,515"/>
+<area shape="rect"  href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="961,514,1147,541"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="793,438,903,465"/>
+<area shape="rect"  href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="573,103,721,144"/>
 </map>
 </div>
 
@@ -5461,30 +5489,25 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacepeconv_ab9419aae3425d44292f606c7d6348fea_cgraph.png" border="0" usemap="#namespacepeconv_ab9419aae3425d44292f606c7d6348fea_cgraph" alt=""/></div>
 <map name="namespacepeconv_ab9419aae3425d44292f606c7d6348fea_cgraph" id="namespacepeconv_ab9419aae3425d44292f606c7d6348fea_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,431,136,473"/>
-<area shape="rect"  href="namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d" title=" " alt="" coords="195,275,321,317"/>
-<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="837,464,957,491"/>
-<area shape="rect"  href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="194,464,322,491"/>
-<area shape="rect"  href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="184,574,332,615"/>
-<area shape="rect"  href="namespacepeconv.html#acdd59ee71c84a7148b6689794ee054eb" title=" " alt="" coords="399,326,537,367"/>
-<area shape="rect"  href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="387,185,549,212"/>
-<area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1403,51,1537,77"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="625,312,735,339"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="615,363,745,389"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="863,312,931,339"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="847,363,946,389"/>
-<area shape="rect"  href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1216,109,1355,136"/>
-<area shape="rect"  href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="843,59,951,85"/>
-<area shape="rect"  href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="604,109,756,136"/>
-<area shape="rect"  href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="604,160,756,187"/>
-<area shape="rect"  href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1037,43,1168,85"/>
-<area shape="rect"  href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="380,607,556,633"/>
-<area shape="rect"  href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="615,515,745,557"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="641,581,719,608"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="615,683,745,709"/>
-<area shape="rect"  href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="804,733,989,760"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="625,733,735,760"/>
-<area shape="rect"  href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="394,658,542,699"/>
+<area shape="rect"  title=" " alt="" coords="5,462,136,503"/>
+<area shape="rect"  href="namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d" title=" " alt="" coords="195,90,321,131"/>
+<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="815,401,935,428"/>
+<area shape="rect"  href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="194,401,322,428"/>
+<area shape="rect"  href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="184,587,332,629"/>
+<area shape="rect"  href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="399,122,537,163"/>
+<area shape="rect"  href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="399,57,537,98"/>
+<area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="401,5,535,32"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="614,64,725,91"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="605,115,734,141"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="841,64,909,91"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="826,115,925,141"/>
+<area shape="rect"  href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="380,317,556,344"/>
+<area shape="rect"  href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="604,419,735,461"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="631,216,708,243"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="605,267,734,293"/>
+<area shape="rect"  href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="783,216,968,243"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="614,368,725,395"/>
+<area shape="rect"  href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="394,587,542,629"/>
 </map>
 </div>
 
@@ -5537,30 +5560,25 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacepeconv_ad2db9ff90abb684282d89b6e22c6b39a_cgraph.png" border="0" usemap="#namespacepeconv_ad2db9ff90abb684282d89b6e22c6b39a_cgraph" alt=""/></div>
 <map name="namespacepeconv_ad2db9ff90abb684282d89b6e22c6b39a_cgraph" id="namespacepeconv_ad2db9ff90abb684282d89b6e22c6b39a_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,431,136,473"/>
-<area shape="rect"  href="namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d" title=" " alt="" coords="195,275,321,317"/>
-<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="837,464,957,491"/>
-<area shape="rect"  href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="194,464,322,491"/>
-<area shape="rect"  href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="184,574,332,615"/>
-<area shape="rect"  href="namespacepeconv.html#acdd59ee71c84a7148b6689794ee054eb" title=" " alt="" coords="399,326,537,367"/>
-<area shape="rect"  href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="387,185,549,212"/>
-<area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1403,51,1537,77"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="625,312,735,339"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="615,363,745,389"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="863,312,931,339"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="847,363,946,389"/>
-<area shape="rect"  href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1216,109,1355,136"/>
-<area shape="rect"  href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="843,59,951,85"/>
-<area shape="rect"  href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="604,109,756,136"/>
-<area shape="rect"  href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="604,160,756,187"/>
-<area shape="rect"  href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1037,43,1168,85"/>
-<area shape="rect"  href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="380,607,556,633"/>
-<area shape="rect"  href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="615,515,745,557"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="641,581,719,608"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="615,683,745,709"/>
-<area shape="rect"  href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="804,733,989,760"/>
-<area shape="rect"  href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="625,733,735,760"/>
-<area shape="rect"  href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="394,658,542,699"/>
+<area shape="rect"  title=" " alt="" coords="5,462,136,503"/>
+<area shape="rect"  href="namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d" title=" " alt="" coords="195,90,321,131"/>
+<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="815,401,935,428"/>
+<area shape="rect"  href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="194,401,322,428"/>
+<area shape="rect"  href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="184,587,332,629"/>
+<area shape="rect"  href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="399,122,537,163"/>
+<area shape="rect"  href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="399,57,537,98"/>
+<area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="401,5,535,32"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b" title=" " alt="" coords="614,64,725,91"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="605,115,734,141"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="841,64,909,91"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="826,115,925,141"/>
+<area shape="rect"  href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="380,317,556,344"/>
+<area shape="rect"  href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="604,419,735,461"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="631,216,708,243"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="605,267,734,293"/>
+<area shape="rect"  href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="783,216,968,243"/>
+<area shape="rect"  href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="614,368,725,395"/>
+<area shape="rect"  href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="394,587,542,629"/>
 </map>
 </div>
 
