@@ -108,3 +108,8 @@ set_tests_properties (TestDelayedImps PROPERTIES FAIL_REGULAR_EXPRESSION "Failed
 add_test (TestLocalRedirect tests 11 )
 set_tests_properties (TestLocalRedirect PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 set_tests_properties (TestLocalRedirect PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+
+# 12) test PEB lookup
+add_test (TestLocalRedirect tests 12 )
+set_tests_properties (TestLocalRedirect PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+set_tests_properties (TestLocalRedirect PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
