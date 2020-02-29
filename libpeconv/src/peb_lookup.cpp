@@ -104,3 +104,18 @@ HMODULE peconv::get_module_via_peb(IN OPTIONAL LPWSTR module_name)
     }
     return NULL;
 }
+
+size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
+{
+    PLDR_MODULE curr_module = get_ldr_module();
+    if (!hModule) {
+        return (size_t)(curr_module->SizeOfImage);
+    }
+    while (curr_module != NULL && curr_module->BaseAddress != NULL) {
+        if (hModule == (HMODULE)(curr_module->BaseAddress)) {
+            return (size_t)(curr_module->SizeOfImage);
+        }
+        curr_module = (PLDR_MODULE)curr_module->InLoadOrderModuleList.Flink;
+    }
+    return 0;
+}

@@ -25,3 +25,4 @@
 #include "peconv/delayed_imports_loader.h"
 #include "peconv/resource_parser.h"
 #include "peconv/load_config_util.h"
+#include "peconv/peb_lookup.h"

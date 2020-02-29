@@ -8,8 +8,8 @@ namespace peconv {
 
     bool is_pointer_in_ntdll(LPVOID lpAddress)
     {
-        HMODULE mod = get_module_via_peb(L"ntdll.dll");
-        size_t module_size = peconv::get_image_size((BYTE*)mod);
+        HMODULE mod = peconv::get_module_via_peb(L"ntdll.dll");
+        size_t module_size = peconv::get_module_size_via_peb(mod);
         if (peconv::validate_ptr(mod, module_size, lpAddress, sizeof(BYTE))) {
             return true; //this address lies within NTDLL
         }
