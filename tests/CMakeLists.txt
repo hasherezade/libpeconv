@@ -110,6 +110,6 @@ set_tests_properties (TestLocalRedirect PROPERTIES PASS_REGULAR_EXPRESSION "Test
 set_tests_properties (TestLocalRedirect PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 
 # 12) test PEB lookup
-add_test (TestLocalRedirect tests 12 )
+add_test (TestPEBLookup tests 12 )
 set_tests_properties (TestLocalRedirect PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 set_tests_properties (TestLocalRedirect PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")

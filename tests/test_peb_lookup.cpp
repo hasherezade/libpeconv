@@ -18,7 +18,7 @@ namespace tests {
         HMODULE mod1 = peconv::get_module_via_peb(module_name);
         HMODULE mod2 = GetModuleHandleW(module_name);
         std::cout << "get_module_via_peb: " << std::hex << mod1 << "\n";
-        std::cout << "GetModuleHandleA: " << std::hex << mod2 << "\n";
+        std::cout << "GetModuleHandle: " << std::hex << mod2 << "\n";
         if (mod1 != mod2) {
             return false;
         }
