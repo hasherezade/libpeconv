@@ -20,6 +20,7 @@ set (srcs
 	test_delayed_imps.cpp
 	test_imp_list.cpp
 	test_hooking_local.cpp
+	test_peb_lookup.cpp
 )
 
 set (hdrs
@@ -33,6 +34,7 @@ set (hdrs
 	test_delayed_imps.h
 	test_imp_list.h
 	test_hooking_local.h
+	test_peb_lookup.h
 	resource.h
 	shellcodes.h
 )

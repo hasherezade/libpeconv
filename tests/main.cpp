@@ -11,6 +11,7 @@
 #include "test_delayed_imps.h"
 #include "test_imp_list.h"
 #include "test_hooking_local.h"
+#include "test_peb_lookup.h"
 
 int make_test(int test_id, char *test_arg)
 {
@@ -32,6 +33,7 @@ int make_test(int test_id, char *test_arg)
         case 9: return tests::replace_delayed_imps(test_arg);
         case 10: return tests::imp_list(test_arg); //manual test
         case 11: return tests::hook_self_local();
+        case 12: return tests::check_modules();
     }
     return -1;
 }
