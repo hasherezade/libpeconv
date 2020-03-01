@@ -10,6 +10,7 @@
 #include <string>
 #include <map>
 #include <set>
+#include <sstream>
 
 #include "pe_hdrs_helper.h"
 #include "pe_raw_to_virtual.h"
@@ -91,6 +92,10 @@ namespace peconv {
             return func;
         }
 
+        void print_va_to_func(std::stringstream &stream);
+        void print_func_to_va(std::stringstream &stream);
+        
+
     private:
         bool add_forwarded(PBYTE fPtr, ExportedFunc &currFunc);
         bool add_to_maps(ULONGLONG va, ExportedFunc &currFunc);
@@ -99,6 +104,15 @@ namespace peconv {
         size_t make_ord_lookup_tables(PVOID modulePtr, size_t moduleSize, std::map<PDWORD, DWORD> &va_to_ord);
 
     protected:
+        /**
+        Add a function and a VA into a mutual mapping.
+        */
+        void associateVaAndFunc(ULONGLONG va, const ExportedFunc& func)
+        {
+            va_to_func[va].insert(func);
+            func_to_va[func] = va;
+        }
+
         /**
         A map associating VA of the function with the related exports.
         */

@@ -2,7 +2,34 @@
 #include <algorithm>
 #include <iostream>
 
+
 using namespace peconv;
+
+void ExportsMapper::print_va_to_func(std::stringstream &stream)
+{
+    std::map<ULONGLONG, std::set<ExportedFunc>>::const_iterator itr;
+
+    for (itr = va_to_func.begin(); itr != va_to_func.end(); itr++) {
+        
+        stream << std::hex << itr->first << " :\n";
+
+        std::set<ExportedFunc>::const_iterator itr2;
+        const std::set<ExportedFunc> &funcs = itr->second;
+
+        for (itr2 = funcs.begin(); itr2 != funcs.end(); itr2++) {
+            stream << "\t" << itr2->toString() << "\n";
+        }
+    }
+}
+
+void ExportsMapper::print_func_to_va(std::stringstream &stream)
+{
+    std::map<ExportedFunc, ULONGLONG>::const_iterator itr;
+    for (itr = func_to_va.begin(); itr != func_to_va.end(); itr++) {
+        stream << itr->first.toString() << " : "
+            << std::hex << itr->second << "\n";
+    }
+}
 
 ULONGLONG rebase_va(ULONGLONG va, ULONGLONG currBase, ULONGLONG targetBase)
 {
@@ -55,8 +82,7 @@ size_t ExportsMapper::resolve_forwarders(const ULONGLONG va, ExportedFunc &currF
         std::set<ExportedFunc>::iterator sItr;
         for (sItr = fItr->second.begin(); sItr != fItr->second.end(); ++sItr) {
             //printf("-> %s\n", sItr->c_str());
-            va_to_func[va].insert(*sItr);
-            func_to_va[*sItr] = va;
+            associateVaAndFunc(va, *sItr);
             resolved++;
         }
     }
@@ -86,8 +112,7 @@ bool ExportsMapper::add_forwarded(PBYTE fPtr, ExportedFunc &currFunc)
 
     if (func_to_va[forwarder] != 0) {
         ULONGLONG va = func_to_va[forwarder];
-        va_to_func[va].insert(currFunc);
-        func_to_va[currFunc] = va;
+        associateVaAndFunc(va, currFunc);
     }
     return true;
 }
@@ -106,8 +131,7 @@ DWORD get_ordinal(PDWORD recordPtr, std::map<PDWORD, DWORD> &va_to_ord)
 
 bool ExportsMapper::add_to_maps(ULONGLONG va, ExportedFunc &currFunc)
 {
-    va_to_func[va].insert(currFunc);
-    func_to_va[currFunc] = va;
+    associateVaAndFunc(va, currFunc);
     resolve_forwarders(va, currFunc);
     return true;
 }
