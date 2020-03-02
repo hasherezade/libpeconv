@@ -162,7 +162,7 @@ bool peconv::process_import_table(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN I
 
     IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (!importsDir) {
-        return false;
+        return true; //no import table
     }
     const DWORD impAddr = importsDir->VirtualAddress;
     IMAGE_IMPORT_DESCRIPTOR *first_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + (ULONG_PTR)modulePtr);
