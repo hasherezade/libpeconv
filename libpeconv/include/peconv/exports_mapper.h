@@ -97,7 +97,10 @@ namespace peconv {
         
 
     private:
-        bool add_forwarded(PBYTE fPtr, ExportedFunc &currFunc);
+        enum ADD_FUNC_RES { RES_INVALID = 0, RES_MAPPED = 1, RES_FORWARDED = 2 };
+        ADD_FUNC_RES add_function_to_lookup(HMODULE modulePtr, ULONGLONG moduleBase, size_t moduleSize, ExportedFunc &currFunc, DWORD callRVA);
+
+        bool add_forwarded(ExportedFunc &currFunc, DWORD callRVA, PBYTE modulePtr, size_t moduleSize);
         bool add_to_maps(ULONGLONG va, ExportedFunc &currFunc);
 
         size_t resolve_forwarders(const ULONGLONG va, ExportedFunc &currFunc);
