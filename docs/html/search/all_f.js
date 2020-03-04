@@ -136,6 +136,8 @@ var searchData=
   ['pport_5fview',['PPORT_VIEW',['../ntddk_8h.html#a8f850eae5b6bc5bffd5128526a0e20d3',1,'ntddk.h']]],
   ['pprocess_5fbasic_5finformation',['PPROCESS_BASIC_INFORMATION',['../ntddk_8h.html#a067bee81623102885be84e6f4103cbf3',1,'ntddk.h']]],
   ['premote_5fport_5fview',['PREMOTE_PORT_VIEW',['../ntddk_8h.html#a596d311a6e3b7156fcc95b1ccb650d4c',1,'ntddk.h']]],
+  ['print_5ffunc_5fto_5fva',['print_func_to_va',['../classpeconv_1_1_exports_mapper.html#a9dd655e82413bbe8f47d29793c2a492d',1,'peconv::ExportsMapper']]],
+  ['print_5fva_5fto_5ffunc',['print_va_to_func',['../classpeconv_1_1_exports_mapper.html#a960cfd6b2c1b621a4ec9654308b9e048',1,'peconv::ExportsMapper']]],
   ['process_5fbasic_5finformation',['PROCESS_BASIC_INFORMATION',['../ntddk_8h.html#a161d086172c3b4e22b703321df8763fc',1,'ntddk.h']]],
   ['process_5fdlls',['process_dlls',['../imports__loader_8cpp.html#a5d800d31ea01e77114afee0804cdef68',1,'imports_loader.cpp']]],
   ['process_5fimp_5ffunctions_5ftpl',['process_imp_functions_tpl',['../imports__loader_8cpp.html#aed075f185dfb45800e2086d507f725ab',1,'imports_loader.cpp']]],

@@ -25,6 +25,7 @@ var searchData=
   ['applybackup',['applyBackup',['../classpeconv_1_1_patch_backup.html#a39e33bcc6a1558a6768357ddf4ffbb50',1,'peconv::PatchBackup']]],
   ['applyreloccallback',['ApplyRelocCallback',['../class_apply_reloc_callback.html',1,'ApplyRelocCallback'],['../class_apply_reloc_callback.html#a09cde4a31ccf84a41b1343cd8ce0d646',1,'ApplyRelocCallback::ApplyRelocCallback()']]],
   ['assert',['ASSERT',['../ntddk_8h.html#aca68c0d4ac8df0838e209fb5300f7be3',1,'ntddk.h']]],
+  ['associatevaandfunc',['associateVaAndFunc',['../classpeconv_1_1_exports_mapper.html#a6af4b7af3e750b72615c33969a27ef72',1,'peconv::ExportsMapper']]],
   ['atlthunkslistptr32',['AtlThunkSListPtr32',['../struct___p_e_b.html#a7fd78401d5c2fa4905ad6af3652653d0',1,'_PEB']]],
   ['attributes',['Attributes',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a7d2d91922fce83740e95bb555cb12b71',1,'_IMAGE_DELAYLOAD_DESCRIPTOR::Attributes()'],['../struct___o_b_j_e_c_t___a_t_t_r_i_b_u_t_e_s.html#a1d8b689e2a58e2636ad7ab487a4fb365',1,'_OBJECT_ATTRIBUTES::Attributes()'],['../struct___o_b_j_e_c_t___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a2e020ac76b79fae052ec97c6e54124dc',1,'_OBJECT_BASIC_INFORMATION::Attributes()']]],
   ['availablepages',['AvailablePages',['../struct___s_y_s_t_e_m___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#a12f6c012c757c66a062f4a893adffd6a',1,'_SYSTEM_PERFORMANCE_INFORMATION']]]

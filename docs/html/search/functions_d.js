@@ -8,6 +8,8 @@ var searchData=
   ['pe_5fraw_5fto_5fvirtual',['pe_raw_to_virtual',['../namespacepeconv.html#aa1700ed9ad374834ca6b2b07f146ad0b',1,'peconv']]],
   ['pe_5frealign_5fraw_5fto_5fvirtual',['pe_realign_raw_to_virtual',['../namespacepeconv.html#addf8f50c27775ed2fa84c33450e0ec7e',1,'peconv']]],
   ['pe_5fvirtual_5fto_5fraw',['pe_virtual_to_raw',['../namespacepeconv.html#a76c6ce4daf3e2f7bfadda595a5113505',1,'peconv']]],
+  ['print_5ffunc_5fto_5fva',['print_func_to_va',['../classpeconv_1_1_exports_mapper.html#a9dd655e82413bbe8f47d29793c2a492d',1,'peconv::ExportsMapper']]],
+  ['print_5fva_5fto_5ffunc',['print_va_to_func',['../classpeconv_1_1_exports_mapper.html#a960cfd6b2c1b621a4ec9654308b9e048',1,'peconv::ExportsMapper']]],
   ['process_5fdlls',['process_dlls',['../imports__loader_8cpp.html#a5d800d31ea01e77114afee0804cdef68',1,'imports_loader.cpp']]],
   ['process_5fimp_5ffunctions_5ftpl',['process_imp_functions_tpl',['../imports__loader_8cpp.html#aed075f185dfb45800e2086d507f725ab',1,'imports_loader.cpp']]],
   ['process_5fimport_5ftable',['process_import_table',['../namespacepeconv.html#a48b50ca71aff05c2edfca1ff816db197',1,'peconv']]],

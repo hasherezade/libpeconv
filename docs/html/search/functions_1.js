@@ -7,5 +7,6 @@ var searchData=
   ['alloc_5funaligned',['alloc_unaligned',['../namespacepeconv.html#a4d50b95546cf5fa78ce185ce1acbb8ec',1,'peconv']]],
   ['apply_5frelocations',['apply_relocations',['../relocate_8cpp.html#a66ddf83b81ed1c6787ffb1421a4f94b5',1,'relocate.cpp']]],
   ['applybackup',['applyBackup',['../classpeconv_1_1_patch_backup.html#a39e33bcc6a1558a6768357ddf4ffbb50',1,'peconv::PatchBackup']]],
-  ['applyreloccallback',['ApplyRelocCallback',['../class_apply_reloc_callback.html#a09cde4a31ccf84a41b1343cd8ce0d646',1,'ApplyRelocCallback']]]
+  ['applyreloccallback',['ApplyRelocCallback',['../class_apply_reloc_callback.html#a09cde4a31ccf84a41b1343cd8ce0d646',1,'ApplyRelocCallback']]],
+  ['associatevaandfunc',['associateVaAndFunc',['../classpeconv_1_1_exports_mapper.html#a6af4b7af3e750b72615c33969a27ef72',1,'peconv::ExportsMapper']]]
 ];
