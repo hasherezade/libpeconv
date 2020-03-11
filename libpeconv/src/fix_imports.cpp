@@ -204,7 +204,7 @@ size_t ImportedDllCoverage::mapAddressesToFunctions(const std::string &dll)
     return coveredCount;
 }
 
-bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::ExportsMapper& exportsMap)
+bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const peconv::ExportsMapper& exportsMap, OUT OPTIONAL peconv::ImpsNotCovered* notCovered)
 {
     bool skip_bound = false; // skip boud imports?
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
@@ -282,7 +282,7 @@ bool peconv::fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::Expor
         }
         //everything mapped, now recover it:
         ImportsUneraser impUneraser(modulePtr, moduleSize);
-        if (!impUneraser.uneraseDllImports(lib_desc, dllCoverage)) {
+        if (!impUneraser.uneraseDllImports(lib_desc, dllCoverage, notCovered)) {
             return false;
         }
         if (is_lib_erased) {

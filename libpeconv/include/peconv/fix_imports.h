@@ -23,9 +23,27 @@
 namespace peconv {
 
     /**
+    a helper class that allows to store information about functions that could not be covered by the given mapping
+    */
+    class ImpsNotCovered
+    {
+    public:
+        ImpsNotCovered() {}
+        ~ImpsNotCovered() {}
+
+        void insert(ULONGLONG searchedAddr)
+        {
+            std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
+            addresses.insert(searchedAddr);
+        }
+
+        std::set<ULONGLONG> addresses; //addresses of not recovered functions
+    };
+
+    /**
     fix imports in the given module, using the given map of all available exports
     */
-    bool fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::ExportsMapper& exportsMap);
+    bool fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const peconv::ExportsMapper& exportsMap, OUT OPTIONAL peconv::ImpsNotCovered* notCovered);
     
     /**
     a helper class that allows to find out where the functions are imported from
