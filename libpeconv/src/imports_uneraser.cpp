@@ -164,9 +164,9 @@ bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T
 
 template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
 bool ImportsUneraser::fillImportNames(
-    IN IMAGE_IMPORT_DESCRIPTOR* lib_desc,
+    IN OUT IMAGE_IMPORT_DESCRIPTOR* lib_desc,
     IN const FIELD_T ordinal_flag,
-    OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
+    IN std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
     OUT std::set<ULONGLONG> &not_recovered
 )
 {

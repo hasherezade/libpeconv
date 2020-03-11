@@ -30,7 +30,12 @@ namespace peconv {
         }
 
         /**
-        Recover the imported functions' names in the given Import Descriptor, using the given coverage.
+        Fill the imported functions' names in the given Import Descriptor, using the given coverage.
+        Collect addressees of functions that couldn't be filled with the given mapping.
+        \param lib_desc : the IMAGE_IMPORT_DESCRIPTOR where the functions' names should be set
+        \param dllCoverage : a mapping associating addresses with the corresponding exports from available DLLs
+        \param not_recovered : a set of addresses that could not be found in the supplied mapping
+        \return true if succeeded
         */
         bool uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage, std::set<ULONGLONG> &not_recovered);
 
@@ -48,13 +53,21 @@ namespace peconv {
         */
         bool writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string &dll_name);
 
+        /**
+        Fill the names of imported functions with names of the prepared mapping.
+        Collect addressees of functions that couldn't be filled with the given mapping.
+        \param lib_desc : the IMAGE_IMPORT_DESCRIPTOR where the functions' names should be set
+        \ordinal_flag : the flag that is used to recognize import by ordinal (32 or 64 bit)
+        \param addr_to_func : a mapping assigning functions' addresses to their definitions (names etc.)
+        \param not_recovered : a set of addresses that could not be found in the supplied mapping
+        \return true if succeeded
+        */
         template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
-        bool fillImportNames(IN IMAGE_IMPORT_DESCRIPTOR* lib_desc,
+        bool fillImportNames(IN OUT IMAGE_IMPORT_DESCRIPTOR* lib_desc,
                 IN const FIELD_T ordinal_flag,
-                OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
+                IN std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
                 OUT std::set<ULONGLONG> &not_recovered
             );
-
 
         template <typename FIELD_T>
         bool findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
