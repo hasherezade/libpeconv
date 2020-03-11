@@ -32,8 +32,7 @@ bool peconv::dump_pe(IN const char *out_path,
 {
     // if the exportsMap is supplied, attempt to recover the (destroyed) import table:
     if (exportsMap != nullptr) {
-        std::set<ULONGLONG> notRecoveredFunctions;
-        if (!peconv::fix_imports(buffer, mod_size, *exportsMap, notRecoveredFunctions)) {
+        if (!peconv::fix_imports(buffer, mod_size, *exportsMap, NULL)) {
             std::cerr << "[-] Unable to fix imports!" << std::endl;
         }
     }

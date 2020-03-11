@@ -167,7 +167,7 @@ bool ImportsUneraser::fillImportNames(
     IN OUT IMAGE_IMPORT_DESCRIPTOR* lib_desc,
     IN const FIELD_T ordinal_flag,
     IN std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
-    OUT std::set<ULONGLONG> &not_recovered
+    OUT OPTIONAL ImpsNotCovered* notCovered
 )
 {
     if (lib_desc == NULL) return false;
@@ -204,8 +204,9 @@ bool ImportsUneraser::fillImportNames(
         std::map<ULONGLONG,std::set<ExportedFunc>>::const_iterator found_itr = addr_to_func.find(searchedAddr);
         if (found_itr == addr_to_func.end() || found_itr->second.size() == 0) {
             //not found, move on
-            std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
-            not_recovered.insert(searchedAddr);
+            if (notCovered) {
+                notCovered->insert(searchedAddr);
+            }
             continue;
         }
         std::set<ExportedFunc>::const_iterator funcname_itr = found_itr->second.begin();
@@ -225,14 +226,14 @@ bool ImportsUneraser::fillImportNames(
     return (recovered_imps == processed_imps);
 }
 
-bool ImportsUneraser::uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage, std::set<ULONGLONG> &not_recovered)
+bool ImportsUneraser::uneraseDllImports(IN OUT IMAGE_IMPORT_DESCRIPTOR* lib_desc, IN ImportedDllCoverage &dllCoverage, OUT OPTIONAL ImpsNotCovered* notCovered)
 {
     //everything mapped, now recover it:
     bool is_filled = false;
     if (!is64) {
-        is_filled = fillImportNames<DWORD, IMAGE_THUNK_DATA32>(lib_desc, IMAGE_ORDINAL_FLAG32, dllCoverage.addrToFunc, not_recovered);
+        is_filled = fillImportNames<DWORD, IMAGE_THUNK_DATA32>(lib_desc, IMAGE_ORDINAL_FLAG32, dllCoverage.addrToFunc, notCovered);
     } else {
-        is_filled = fillImportNames<ULONGLONG, IMAGE_THUNK_DATA64>(lib_desc, IMAGE_ORDINAL_FLAG64, dllCoverage.addrToFunc, not_recovered);
+        is_filled = fillImportNames<ULONGLONG, IMAGE_THUNK_DATA64>(lib_desc, IMAGE_ORDINAL_FLAG64, dllCoverage.addrToFunc, notCovered);
     }
     if (!is_filled) {
         std::cerr << "[-] Could not fill some import names!" << std::endl;

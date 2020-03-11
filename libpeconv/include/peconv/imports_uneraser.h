@@ -17,6 +17,7 @@
 #include "caves.h"
 
 namespace peconv {
+
     /**
     A class responsible for recovering the partially erased Import Table from the PE.
     */
@@ -37,7 +38,7 @@ namespace peconv {
         \param not_recovered : a set of addresses that could not be found in the supplied mapping
         \return true if succeeded
         */
-        bool uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage, std::set<ULONGLONG> &not_recovered);
+        bool uneraseDllImports(IN OUT IMAGE_IMPORT_DESCRIPTOR* lib_desc, IN ImportedDllCoverage &dllCoverage, OUT OPTIONAL ImpsNotCovered* notCovered);
 
         /**
         Recover the imported DLL name in the given Import Descriptor, filling it with the given dll_name.
@@ -66,7 +67,7 @@ namespace peconv {
         bool fillImportNames(IN OUT IMAGE_IMPORT_DESCRIPTOR* lib_desc,
                 IN const FIELD_T ordinal_flag,
                 IN std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
-                OUT std::set<ULONGLONG> &not_recovered
+                OUT OPTIONAL ImpsNotCovered* notCovered
             );
 
         template <typename FIELD_T>
