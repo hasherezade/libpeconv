@@ -25,7 +25,7 @@ namespace peconv {
     /**
     fix imports in the given module, using the given map of all available exports
     */
-    bool fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::ExportsMapper& exportsMap);
+    bool fix_imports(PVOID modulePtr, size_t moduleSize, const peconv::ExportsMapper& exportsMap, std::set<ULONGLONG> &not_recovered);
     
     /**
     a helper class that allows to find out where the functions are imported from

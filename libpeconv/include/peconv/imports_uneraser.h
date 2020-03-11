@@ -32,7 +32,7 @@ namespace peconv {
         /**
         Recover the imported functions' names in the given Import Descriptor, using the given coverage.
         */
-        bool uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage);
+        bool uneraseDllImports(IMAGE_IMPORT_DESCRIPTOR* lib_desc, ImportedDllCoverage &dllCoverage, std::set<ULONGLONG> &not_recovered);
 
         /**
         Recover the imported DLL name in the given Import Descriptor, filling it with the given dll_name.
@@ -49,9 +49,11 @@ namespace peconv {
         bool writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string &dll_name);
 
         template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
-        bool fillImportNames(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
-                     const FIELD_T ordinal_flag,
-                     std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func);
+        bool fillImportNames(IN IMAGE_IMPORT_DESCRIPTOR* lib_desc,
+                IN const FIELD_T ordinal_flag,
+                OUT std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func,
+                OUT std::set<ULONGLONG> &not_recovered
+            );
 
 
         template <typename FIELD_T>
