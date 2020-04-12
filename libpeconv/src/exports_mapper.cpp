@@ -5,7 +5,7 @@
 
 using namespace peconv;
 
-void ExportsMapper::print_va_to_func(std::stringstream &stream)
+void ExportsMapper::print_va_to_func(std::stringstream &stream) const
 {
     std::map<ULONGLONG, std::set<ExportedFunc>>::const_iterator itr;
 
@@ -22,7 +22,7 @@ void ExportsMapper::print_va_to_func(std::stringstream &stream)
     }
 }
 
-void ExportsMapper::print_func_to_va(std::stringstream &stream)
+void ExportsMapper::print_func_to_va(std::stringstream &stream) const
 {
     std::map<ExportedFunc, ULONGLONG>::const_iterator itr;
     for (itr = func_to_va.begin(); itr != func_to_va.end(); itr++) {
@@ -142,21 +142,37 @@ bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const
 {
     if (exp == nullptr) return false;
 
-    DWORD funcsListRVA = exp->AddressOfFunctions;
-    DWORD funcNamesListRVA = exp->AddressOfNames;
-    DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
+    const SIZE_T namesCount = exp->NumberOfNames;
+    const SIZE_T funcCount = exp->NumberOfFunctions;
 
-    DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*)modulePtr + sizeof(DWORD));
-    WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*)modulePtr + sizeof(WORD));
-    if ((!peconv::validate_ptr(modulePtr, module_size, nameRVA, sizeof(DWORD)))
-        || (!peconv::validate_ptr(modulePtr, module_size, nameIndex, sizeof(WORD))))
-    {
-        return false;
+    const DWORD funcsListRVA = exp->AddressOfFunctions;
+    const DWORD funcNamesListRVA = exp->AddressOfNames;
+    const DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
+
+    for (DWORD i = 0; i < funcCount; i++) {
+        DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + i * sizeof(DWORD));
+        if (*recordRVA == 0) {
+            //skip if the function RVA is 0 (empty export)
+            continue;
+        }
+        if (!peconv::validate_ptr(modulePtr, module_size, recordRVA, sizeof(DWORD))) {
+            return false;
+        }
     }
-    DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + (*nameIndex) * sizeof(DWORD));
-    if (!peconv::validate_ptr(modulePtr, module_size, funcRVA, sizeof(DWORD)))
-    {
-        return false;
+
+    for (SIZE_T i = 0; i < namesCount; i++) {
+        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*)modulePtr + i * sizeof(DWORD));
+        WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*)modulePtr + i * sizeof(WORD));
+        if ((!peconv::validate_ptr(modulePtr, module_size, nameRVA, sizeof(DWORD)))
+            || (!peconv::validate_ptr(modulePtr, module_size, nameIndex, sizeof(WORD))))
+        {
+            return false;
+        }
+        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + (*nameIndex) * sizeof(DWORD));
+        if (!peconv::validate_ptr(modulePtr, module_size, funcRVA, sizeof(DWORD)))
+        {
+            return false;
+        }
     }
     return true;
 }

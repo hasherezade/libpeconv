@@ -92,8 +92,8 @@ namespace peconv {
             return func;
         }
 
-        void print_va_to_func(std::stringstream &stream);
-        void print_func_to_va(std::stringstream &stream);
+        void print_va_to_func(std::stringstream &stream) const;
+        void print_func_to_va(std::stringstream &stream) const;
         
 
     private:
