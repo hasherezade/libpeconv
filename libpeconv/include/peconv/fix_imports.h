@@ -33,7 +33,9 @@ namespace peconv {
 
         void insert(ULONGLONG searchedAddr)
         {
+#ifdef _DEBUG
             std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
+#endif
             addresses.insert(searchedAddr);
         }
 
