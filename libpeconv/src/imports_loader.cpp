@@ -93,9 +93,13 @@ bool process_imp_functions_tpl(BYTE* modulePtr, size_t module_size, LPSTR lib_na
         if (desc->u1.Function == NULL) {
             break;
         }
-        PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
-        if (!validate_ptr(modulePtr, module_size, by_name, sizeof(IMAGE_IMPORT_BY_NAME))) {
-            break;
+        T_FIELD ordinal_flag = (sizeof(T_FIELD) == sizeof(ULONGLONG)) ? IMAGE_ORDINAL_FLAG64 : IMAGE_ORDINAL_FLAG32;
+        bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
+        if (!is_by_ord) {
+            PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
+            if (!validate_ptr(modulePtr, module_size, by_name, sizeof(IMAGE_IMPORT_BY_NAME))) {
+                break;
+            }
         }
         //when the callback is called, all the pointers should be already verified
         if (!callback->processThunks(lib_name, (ULONG_PTR)&thunks[index], (ULONG_PTR)&callers[index])) {
