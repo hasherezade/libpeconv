@@ -63,6 +63,9 @@ namespace peconv {
         DWORD funcOrdinal;
         bool isByOrdinal;
 
+        //default constructor:
+        ExportedFunc() : funcOrdinal(0), isByOrdinal(false) {}
+
         ExportedFunc(const ExportedFunc& other);
         ExportedFunc(std::string libName, std::string funcName, DWORD funcOrdinal);
         ExportedFunc(std::string libName, DWORD funcOrdinal);
