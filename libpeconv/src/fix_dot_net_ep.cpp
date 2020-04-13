@@ -29,13 +29,16 @@ protected:
     bool processThunks_tpl(LPSTR lib_name, T_IMAGE_THUNK_DATA* desc, T_FIELD* call_via, T_FIELD ordinal_flag)
     {
         DWORD call_via_rva = static_cast<DWORD>((ULONG_PTR)call_via - (ULONG_PTR)this->modulePtr);
+#ifdef _DEBUG
         std::cout << "via RVA: " << std::hex << call_via_rva << " : ";
-
+#endif
         bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
         if (!is_by_ord) {
             PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
             LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
+#ifdef _DEBUG
             std::cout << "name: " << func_name << std::endl;
+#endif
             nameToAddr[func_name] = call_via_rva;
         }
         return true;
@@ -51,9 +54,12 @@ DWORD find_corexemain(BYTE *buf, size_t buf_size)
     if (!peconv::process_import_table(buf, buf_size, &callback)) return 0;
 
     std::map<std::string, DWORD>::iterator found = name_to_addr.find("_CorExeMain");
-    if (found == name_to_addr.end()) return 0;
+    if (found != name_to_addr.end()) return found->second;
 
-    return found->second;
+    found = name_to_addr.find("_CorDllMain");
+    if (found != name_to_addr.end()) return found->second;
+
+    return 0;
 }
 
 BYTE* search_jump(BYTE *buf, size_t buf_size, const DWORD cor_exe_main_thunk, const ULONGLONG img_base)
@@ -70,11 +76,13 @@ BYTE* search_jump(BYTE *buf, size_t buf_size, const DWORD cor_exe_main_thunk, co
             DWORD* addr = (DWORD*)(&buf[i + 2]);
             DWORD rva = static_cast<DWORD>((*addr) - img_base);
             if (rva == cor_exe_main_thunk) {
+#ifdef _DEBUG
                 std::cout << "Found call to _CorExeMain\n";
+#endif
                 return buf + i;
             }
             else {
-                std::cout << "Mismatch: " << std::hex << rva << " vs _CorExeMain: " << cor_exe_main_thunk << std::endl;
+                std::cout << "[!] Mismatch: " << std::hex << rva << " vs _CorExeMain: " << cor_exe_main_thunk << std::endl;
             }
         }
     }
@@ -92,7 +100,7 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
     }
 
     DWORD ep_rva = peconv::get_entry_point_rva(pe_buffer);
-    std::cout << "[*] This is a .NET payload and require Enty Point corection. Current EP: " << std::hex << ep_rva << "\n";
+    std::cout << "[*] This is a .NET payload and may require Enty Point corection. Current EP: " << std::hex << ep_rva << "\n";
 
     PIMAGE_SECTION_HEADER sec_hdr = peconv::get_section_hdr(pe_buffer, pe_buffer_size, 0);
     if (!sec_hdr) return false;
