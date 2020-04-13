@@ -102,8 +102,10 @@ bool peconv::is_pe_raw_eq_virtual(IN const BYTE* pe_buffer, IN size_t pe_size)
     for (size_t i = 0; i < count; i++) {
         const IMAGE_SECTION_HEADER* hdr = peconv::get_section_hdr(pe_buffer, pe_size, i);
         if (!hdr) continue;
-        if (hdr->VirtualAddress != hdr->PointerToRawData) return false;
-        if (hdr->Misc.VirtualSize != hdr->SizeOfRawData) return false;
+
+        if (hdr->VirtualAddress != hdr->PointerToRawData) {
+            return false;
+        }
     }
     return true;
 }

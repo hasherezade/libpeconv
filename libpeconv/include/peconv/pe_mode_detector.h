@@ -20,7 +20,7 @@ namespace peconv {
     );
 
     /**
-    check if the Virtual Section alignment is identical as the Raw alignment (i.e. if the PE was realigned)
+    check if Virtual section addresses are identical to Raw addresses (i.e. if the PE was realigned)
     */
     bool is_pe_raw_eq_virtual(
         IN const BYTE* pe_buffer,
