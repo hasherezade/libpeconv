@@ -205,7 +205,7 @@ bool ImportsUneraser::fillImportNames(
         if (found_itr == addr_to_func.end() || found_itr->second.size() == 0) {
             //not found, move on
             if (notCovered) {
-                notCovered->insert(searchedAddr);
+                notCovered->insert((call_via_ptr - modulePtr), searchedAddr);
             }
             continue;
         }

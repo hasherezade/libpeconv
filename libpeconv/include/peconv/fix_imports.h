@@ -30,16 +30,15 @@ namespace peconv {
     public:
         ImpsNotCovered() {}
         ~ImpsNotCovered() {}
+        
+        /*
+        Number of stored records
+        */
+        size_t count() { return thunkToAddr.size();  }
 
-        void insert(ULONGLONG searchedAddr)
-        {
-#ifdef _DEBUG
-            std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
-#endif
-            addresses.insert(searchedAddr);
-        }
+        void insert(ULONGLONG thunk, ULONGLONG searchedAddr);
 
-        std::set<ULONGLONG> addresses; //addresses of not recovered functions
+        std::map<ULONGLONG, ULONGLONG> thunkToAddr; //addresses of not recovered functions with their thunks (call_via)
     };
 
     /**

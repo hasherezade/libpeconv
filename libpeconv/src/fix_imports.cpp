@@ -204,6 +204,15 @@ size_t ImportedDllCoverage::mapAddressesToFunctions(const std::string &dll)
     return coveredCount;
 }
 
+void ImpsNotCovered::insert(ULONGLONG thunk, ULONGLONG searchedAddr)
+{
+#ifdef _DEBUG
+    std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
+#endif
+    thunkToAddr[thunk] = searchedAddr;
+}
+
+
 bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const peconv::ExportsMapper& exportsMap, OUT OPTIONAL peconv::ImpsNotCovered* notCovered)
 {
     bool skip_bound = false; // skip boud imports?
