@@ -126,7 +126,9 @@ bool ImportedDllCoverage::findCoveringDll()
 {
     std::string found_name = find_covering_dll(this->addresses, this->exportsMap);
     if (found_name.length() == 0) {
+#ifdef _DEBUG
         std::cerr << "Cannot find a covering DLL" << std::endl;
+#endif
         return false;
     }
     this->dllName = found_name;
