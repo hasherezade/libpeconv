@@ -2,7 +2,7 @@ var searchData=
 [
   ['unaligned_5fbuf',['UNALIGNED_BUF',['../namespacepeconv.html#ad8fbac05bb7872b5680e1fcd7cea04bf',1,'peconv']]],
   ['uncommittedhandles',['UnCommittedHandles',['../struct___r_t_l___h_a_n_d_l_e___t_a_b_l_e.html#a22b11c6c50863e6547ee76c51d0290ad',1,'_RTL_HANDLE_TABLE']]],
-  ['unerasedllimports',['uneraseDllImports',['../classpeconv_1_1_imports_uneraser.html#a866ebc6e6189e0f90f18f2f1c6bd98b2',1,'peconv::ImportsUneraser']]],
+  ['unerasedllimports',['uneraseDllImports',['../classpeconv_1_1_imports_uneraser.html#ab92ef0cc71ef9973eaa2befd8262519a',1,'peconv::ImportsUneraser']]],
   ['unerasedllname',['uneraseDllName',['../classpeconv_1_1_imports_uneraser.html#aa04d81c9356a905aacd731d3b9b59cf9',1,'peconv::ImportsUneraser']]],
   ['unicode_5fnull',['UNICODE_NULL',['../ntddk_8h.html#a86ba064762d3800e79a3f1304bbb5eef',1,'ntddk.h']]],
   ['unicode_5fstring',['UNICODE_STRING',['../ntddk_8h.html#afb1771465aaa5d77efedcfc1a3a43dfb',1,'ntddk.h']]],

@@ -82,8 +82,8 @@ $(function() {
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a407d30983cdf6d92701a79a2258966b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html#a407d30983cdf6d92701a79a2258966b2">ImportsUneraser</a> (PVOID _modulePtr, size_t _moduleSize)</td></tr>
 <tr class="separator:a407d30983cdf6d92701a79a2258966b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a866ebc6e6189e0f90f18f2f1c6bd98b2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html#a866ebc6e6189e0f90f18f2f1c6bd98b2">uneraseDllImports</a> (IMAGE_IMPORT_DESCRIPTOR *lib_desc, <a class="el" href="classpeconv_1_1_imported_dll_coverage.html">ImportedDllCoverage</a> &amp;dllCoverage)</td></tr>
-<tr class="separator:a866ebc6e6189e0f90f18f2f1c6bd98b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab92ef0cc71ef9973eaa2befd8262519a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html#ab92ef0cc71ef9973eaa2befd8262519a">uneraseDllImports</a> (IN OUT IMAGE_IMPORT_DESCRIPTOR *lib_desc, IN <a class="el" href="classpeconv_1_1_imported_dll_coverage.html">ImportedDllCoverage</a> &amp;dllCoverage, OUT OPTIONAL <a class="el" href="classpeconv_1_1_imps_not_covered.html">ImpsNotCovered</a> *not_covered)</td></tr>
+<tr class="separator:ab92ef0cc71ef9973eaa2befd8262519a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa04d81c9356a905aacd731d3b9b59cf9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html#aa04d81c9356a905aacd731d3b9b59cf9">uneraseDllName</a> (IMAGE_IMPORT_DESCRIPTOR *lib_desc, const std::string &amp;dll_name)</td></tr>
 <tr class="separator:aa04d81c9356a905aacd731d3b9b59cf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -91,9 +91,9 @@ Public Member Functions</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a1d9a2f83300fef33a1a57c993aed1e0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html#a1d9a2f83300fef33a1a57c993aed1e0a">writeFoundDllName</a> (IMAGE_IMPORT_DESCRIPTOR *lib_desc, const std::string &amp;dll_name)</td></tr>
 <tr class="separator:a1d9a2f83300fef33a1a57c993aed1e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2f9850c6071bdc486d5df45891f45f1"><td class="memTemplParams" colspan="2">template&lt;typename FIELD_T , typename IMAGE_THUNK_DATA_T &gt; </td></tr>
-<tr class="memitem:ac2f9850c6071bdc486d5df45891f45f1"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html#ac2f9850c6071bdc486d5df45891f45f1">fillImportNames</a> (IMAGE_IMPORT_DESCRIPTOR *lib_desc, const FIELD_T ordinal_flag, std::map&lt; ULONGLONG, std::set&lt; <a class="el" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &gt;&gt; &amp;addr_to_func)</td></tr>
-<tr class="separator:ac2f9850c6071bdc486d5df45891f45f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27e141b8d696237d7678d780fd01163a"><td class="memTemplParams" colspan="2">template&lt;typename FIELD_T , typename IMAGE_THUNK_DATA_T &gt; </td></tr>
+<tr class="memitem:a27e141b8d696237d7678d780fd01163a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html#a27e141b8d696237d7678d780fd01163a">fillImportNames</a> (IN OUT IMAGE_IMPORT_DESCRIPTOR *lib_desc, IN const FIELD_T ordinal_flag, IN std::map&lt; ULONGLONG, std::set&lt; <a class="el" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &gt;&gt; &amp;addr_to_func, OUT OPTIONAL <a class="el" href="classpeconv_1_1_imps_not_covered.html">ImpsNotCovered</a> *not_covered)</td></tr>
+<tr class="separator:a27e141b8d696237d7678d780fd01163a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd91801bc26a5e927dd4787fe01d03e8"><td class="memTemplParams" colspan="2">template&lt;typename FIELD_T &gt; </td></tr>
 <tr class="memitem:afd91801bc26a5e927dd4787fe01d03e8"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html#afd91801bc26a5e927dd4787fe01d03e8">findNameInBinaryAndFill</a> (IMAGE_IMPORT_DESCRIPTOR *lib_desc, LPVOID call_via_ptr, LPVOID thunk_ptr, const FIELD_T ordinal_flag, std::map&lt; ULONGLONG, std::set&lt; <a class="el" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &gt;&gt; &amp;addr_to_func)</td></tr>
 <tr class="separator:afd91801bc26a5e927dd4787fe01d03e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,7 +113,7 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class responsible for recovering the partially erased Import Table from the PE. </p>
 
-<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00023">23</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00024">24</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a407d30983cdf6d92701a79a2258966b2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a407d30983cdf6d92701a79a2258966b2">&#9670;&nbsp;</a></span>ImportsUneraser()</h2>
@@ -149,7 +149,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00026">26</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00027">27</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -166,8 +166,8 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac2f9850c6071bdc486d5df45891f45f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2f9850c6071bdc486d5df45891f45f1">&#9670;&nbsp;</a></span>fillImportNames()</h2>
+<a id="a27e141b8d696237d7678d780fd01163a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27e141b8d696237d7678d780fd01163a">&#9670;&nbsp;</a></span>fillImportNames()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,20 +180,26 @@ template&lt;typename FIELD_T , typename IMAGE_THUNK_DATA_T &gt; </div>
         <tr>
           <td class="memname">bool ImportsUneraser::fillImportNames </td>
           <td>(</td>
-          <td class="paramtype">IMAGE_IMPORT_DESCRIPTOR *&#160;</td>
+          <td class="paramtype">IN OUT IMAGE_IMPORT_DESCRIPTOR *&#160;</td>
           <td class="paramname"><em>lib_desc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const FIELD_T&#160;</td>
+          <td class="paramtype">IN const FIELD_T&#160;</td>
           <td class="paramname"><em>ordinal_flag</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::map&lt; ULONGLONG, std::set&lt; <a class="el" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>addr_to_func</em>&#160;</td>
+          <td class="paramtype">IN std::map&lt; ULONGLONG, std::set&lt; <a class="el" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>addr_to_func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OUT OPTIONAL <a class="el" href="classpeconv_1_1_imps_not_covered.html">ImpsNotCovered</a> *&#160;</td>
+          <td class="paramname"><em>not_covered</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -207,13 +213,23 @@ template&lt;typename FIELD_T , typename IMAGE_THUNK_DATA_T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Fill the names of imported functions with names of the prepared mapping. Collect addressees of functions that couldn't be filled with the given mapping. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lib_desc</td><td>: the IMAGE_IMPORT_DESCRIPTOR where the functions' names should be set </td></tr>
+    <tr><td class="paramname">ordinal_flag</td><td>: the flag that is used to recognize import by ordinal (32 or 64 bit) </td></tr>
+    <tr><td class="paramname">addr_to_func</td><td>: a mapping assigning functions' addresses to their definitions (names etc.) </td></tr>
+    <tr><td class="paramname">not_covered</td><td>: a set of addresses that could not be found in the supplied mapping </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if succeeded </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="imports__uneraser_8cpp_source.html#l00166">166</a> of file <a class="el" href="imports__uneraser_8cpp_source.html">imports_uneraser.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classpeconv_1_1_imports_uneraser_ac2f9850c6071bdc486d5df45891f45f1_cgraph.png" border="0" usemap="#classpeconv_1_1_imports_uneraser_ac2f9850c6071bdc486d5df45891f45f1_cgraph" alt=""/></div>
-<map name="classpeconv_1_1_imports_uneraser_ac2f9850c6071bdc486d5df45891f45f1_cgraph" id="classpeconv_1_1_imports_uneraser_ac2f9850c6071bdc486d5df45891f45f1_cgraph">
+<div class="center"><img src="classpeconv_1_1_imports_uneraser_a27e141b8d696237d7678d780fd01163a_cgraph.png" border="0" usemap="#classpeconv_1_1_imports_uneraser_a27e141b8d696237d7678d780fd01163a_cgraph" alt=""/></div>
+<map name="classpeconv_1_1_imports_uneraser_a27e141b8d696237d7678d780fd01163a_cgraph" id="classpeconv_1_1_imports_uneraser_a27e141b8d696237d7678d780fd01163a_cgraph">
 <area shape="rect"  title=" " alt="" coords="5,39,171,80"/>
 <area shape="rect"  href="classpeconv_1_1_exported_func.html#af723125e547c1e1459dbcd0a4ac02d0a" title=" " alt="" coords="219,39,369,80"/>
 <area shape="rect"  href="classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd" title=" " alt="" coords="417,5,568,47"/>
@@ -299,8 +315,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a866ebc6e6189e0f90f18f2f1c6bd98b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a866ebc6e6189e0f90f18f2f1c6bd98b2">&#9670;&nbsp;</a></span>uneraseDllImports()</h2>
+<a id="ab92ef0cc71ef9973eaa2befd8262519a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab92ef0cc71ef9973eaa2befd8262519a">&#9670;&nbsp;</a></span>uneraseDllImports()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -308,14 +324,20 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">bool ImportsUneraser::uneraseDllImports </td>
           <td>(</td>
-          <td class="paramtype">IMAGE_IMPORT_DESCRIPTOR *&#160;</td>
+          <td class="paramtype">IN OUT IMAGE_IMPORT_DESCRIPTOR *&#160;</td>
           <td class="paramname"><em>lib_desc</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classpeconv_1_1_imported_dll_coverage.html">ImportedDllCoverage</a> &amp;&#160;</td>
-          <td class="paramname"><em>dllCoverage</em>&#160;</td>
+          <td class="paramtype">IN <a class="el" href="classpeconv_1_1_imported_dll_coverage.html">ImportedDllCoverage</a> &amp;&#160;</td>
+          <td class="paramname"><em>dllCoverage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OUT OPTIONAL <a class="el" href="classpeconv_1_1_imps_not_covered.html">ImpsNotCovered</a> *&#160;</td>
+          <td class="paramname"><em>not_covered</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -324,9 +346,17 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Recover the imported functions' names in the given Import Descriptor, using the given coverage. </p>
+<p>Fill the imported functions' names in the given Import Descriptor, using the given coverage. Collect addressees of functions that couldn't be filled with the given mapping. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lib_desc</td><td>: the IMAGE_IMPORT_DESCRIPTOR where the functions' names should be set </td></tr>
+    <tr><td class="paramname">dllCoverage</td><td>: a mapping associating addresses with the corresponding exports from available DLLs </td></tr>
+    <tr><td class="paramname">not_covered</td><td>: a set of addresses that could not be found in the supplied mapping </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if succeeded </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="imports__uneraser_8cpp_source.html#l00224">224</a> of file <a class="el" href="imports__uneraser_8cpp_source.html">imports_uneraser.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__uneraser_8cpp_source.html#l00229">229</a> of file <a class="el" href="imports__uneraser_8cpp_source.html">imports_uneraser.cpp</a>.</p>
 
 </div>
 </div>
@@ -519,7 +549,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00076">76</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00092">92</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
 
 </div>
 </div>
@@ -543,7 +573,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00074">74</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00090">90</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
 
 </div>
 </div>
@@ -567,7 +597,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00075">75</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__uneraser_8h_source.html#l00091">91</a> of file <a class="el" href="imports__uneraser_8h_source.html">imports_uneraser.h</a>.</p>
 
 </div>
 </div>

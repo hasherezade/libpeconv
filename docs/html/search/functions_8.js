@@ -3,6 +3,8 @@ var searchData=
   ['importeddllcoverage',['ImportedDllCoverage',['../classpeconv_1_1_imported_dll_coverage.html#a421654da84ac1375451e7df9751efe0f',1,'peconv::ImportedDllCoverage']]],
   ['importsuneraser',['ImportsUneraser',['../classpeconv_1_1_imports_uneraser.html#a407d30983cdf6d92701a79a2258966b2',1,'peconv::ImportsUneraser']]],
   ['importthunkscallback',['ImportThunksCallback',['../classpeconv_1_1_import_thunks_callback.html#aed2b499a0dff6531e498f6d2093bfcde',1,'peconv::ImportThunksCallback']]],
+  ['impsnotcovered',['ImpsNotCovered',['../classpeconv_1_1_imps_not_covered.html#abe850516b0b3fa9079be76ed718bb797',1,'peconv::ImpsNotCovered']]],
+  ['insert',['insert',['../classpeconv_1_1_imps_not_covered.html#a3ea258bced47b906abb1011834d2aea3',1,'peconv::ImpsNotCovered']]],
   ['is64bit',['is64bit',['../namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f',1,'peconv']]],
   ['is_5fdot_5fnet',['is_dot_net',['../fix__dot__net__ep_8cpp.html#a3527cc38038e8bb746932fd84e8994b3',1,'is_dot_net(BYTE *pe_buffer, size_t pe_buffer_size):&#160;fix_dot_net_ep.cpp'],['../fix__dot__net__ep_8h.html#a3527cc38038e8bb746932fd84e8994b3',1,'is_dot_net(BYTE *pe_buffer, size_t pe_buffer_size):&#160;fix_dot_net_ep.cpp']]],
   ['is_5fhdr_5fvirtual_5falign',['is_hdr_virtual_align',['../pe__mode__detector_8cpp.html#a5835ce4cee47662b28c07b2c280cd4ae',1,'pe_mode_detector.cpp']]],

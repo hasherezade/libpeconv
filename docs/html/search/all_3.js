@@ -69,6 +69,7 @@ var searchData=
   ['consolehandle',['ConsoleHandle',['../struct___r_t_l___u_s_e_r___p_r_o_c_e_s_s___p_a_r_a_m_e_t_e_r_s.html#a4f7c5732cc8a5c75e5f891b6bc6057da',1,'_RTL_USER_PROCESS_PARAMETERS']]],
   ['contextswitches',['ContextSwitches',['../struct___s_y_s_t_e_m___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#a1ada4ddde9f1d504fcfadf1167711e64',1,'_SYSTEM_PERFORMANCE_INFORMATION']]],
   ['copyonwritecount',['CopyOnWriteCount',['../struct___s_y_s_t_e_m___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#a7ea1056dc6deffc2999df03246843fe0',1,'_SYSTEM_PERFORMANCE_INFORMATION']]],
+  ['count',['count',['../classpeconv_1_1_imps_not_covered.html#a5102727b2381dac90c87d59780d96948',1,'peconv::ImpsNotCovered']]],
   ['countcharsx',['CountCharsX',['../struct___r_t_l___u_s_e_r___p_r_o_c_e_s_s___p_a_r_a_m_e_t_e_r_s.html#a075bae6cd4b715c10293ea49aa334b2f',1,'_RTL_USER_PROCESS_PARAMETERS']]],
   ['countcharsy',['CountCharsY',['../struct___r_t_l___u_s_e_r___p_r_o_c_e_s_s___p_a_r_a_m_e_t_e_r_s.html#a7b549f96ffc1f781d855a7a496f06cfc',1,'_RTL_USER_PROCESS_PARAMETERS']]],
   ['countofownedcriticalsections',['CountOfOwnedCriticalSections',['../struct___t_e_b.html#a6a81b2f97ccd3dbbcae60d772a22cff8',1,'_TEB']]],
