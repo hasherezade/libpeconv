@@ -10,7 +10,7 @@
 #include "pe_hdrs_helper.h"
 #include "function_resolver.h"
 
-#if defined(_WIN32_WINNT) && _WIN32_WINNT > 0x0601 //Windows SDK version 6.1 (Windows 7)
+#if (defined(_WIN32_WINNT) && _WIN32_WINNT > 0x0601) || __MINGW32__ //Windows SDK version 6.1 (Windows 7)
 #define DELAYLOAD_IMPORTS_DEFINED
 #endif
 
