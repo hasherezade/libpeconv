@@ -1,5 +1,5 @@
-#include "peconv\load_config_util.h"
-#include "peconv\pe_hdrs_helper.h"
+#include "peconv/load_config_util.h"
+#include "peconv/pe_hdrs_helper.h"
 
 BYTE* peconv::get_load_config_ptr(BYTE* buffer, size_t buf_size)
 {

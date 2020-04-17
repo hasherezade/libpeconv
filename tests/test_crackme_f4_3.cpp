@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <Windows.h>
+#include <windows.h>
 
 #include "test_crackme_f4_3.h"
 

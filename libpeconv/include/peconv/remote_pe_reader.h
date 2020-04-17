@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 
 #include "pe_hdrs_helper.h"
 #include "pe_virtual_to_raw.h"

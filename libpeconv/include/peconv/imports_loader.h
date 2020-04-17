@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 
 #include "pe_hdrs_helper.h"
 #include "function_resolver.h"

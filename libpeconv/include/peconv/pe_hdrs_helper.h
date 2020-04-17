@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 #include "buffer_util.h"
 
 #ifndef PAGE_SIZE

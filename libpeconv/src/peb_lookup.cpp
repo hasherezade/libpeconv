@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 #include "ntddk.h"
 
-#include "peconv\peb_lookup.h"
+#include "peconv/peb_lookup.h"
 
 //here we don't want to use any functions imported form extenal modules
 

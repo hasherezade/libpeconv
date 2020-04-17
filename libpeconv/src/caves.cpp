@@ -1,6 +1,6 @@
-#include "peconv\caves.h"
-#include "peconv\pe_hdrs_helper.h"
-#include "peconv\util.h"
+#include "peconv/caves.h"
+#include "peconv/pe_hdrs_helper.h"
+#include "peconv/util.h"
 
 using namespace peconv;
 

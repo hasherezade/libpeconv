@@ -1,6 +1,6 @@
-#include <peconv\find_base.h>
-#include <peconv\pe_hdrs_helper.h>
-#include <peconv\relocate.h>
+#include <peconv/find_base.h>
+#include <peconv/pe_hdrs_helper.h>
+#include <peconv/relocate.h>
 #include <set>
 #include <map>
 #include <iostream>
