@@ -460,18 +460,6 @@ bool peconv::has_relocations(IN const BYTE *pe_buffer)
     return true;
 }
 
-template <typename IMAGE_TYPE_DIRECTORY>
-IMAGE_TYPE_DIRECTORY* peconv::get_type_directory(IN HMODULE modulePtr, IN DWORD dir_id)
-{
-    IMAGE_DATA_DIRECTORY *my_dir = peconv::get_directory_entry((const BYTE*) modulePtr, dir_id);
-    if (!my_dir) return nullptr;
-
-    DWORD dir_addr = my_dir->VirtualAddress;
-    if (dir_addr == 0) return nullptr;
-
-    return (IMAGE_TYPE_DIRECTORY*)(dir_addr + (ULONG_PTR) modulePtr);
-}
-
 IMAGE_EXPORT_DIRECTORY* peconv::get_export_directory(IN HMODULE modulePtr)
 {
     return get_type_directory<IMAGE_EXPORT_DIRECTORY>(modulePtr, IMAGE_DIRECTORY_ENTRY_EXPORT);

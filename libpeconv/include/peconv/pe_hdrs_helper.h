@@ -81,10 +81,19 @@ namespace peconv {
     IMAGE_DATA_DIRECTORY* get_directory_entry(IN const BYTE* pe_buffer, IN DWORD dir_id, IN bool allow_empty = false);
 
     /**
-    Get pointer to the Data Directory content of the given number. Automatically case to the chosen type.
+    Get pointer to the Data Directory content of the given number. Automatically cast to the chosen type.
     */
     template <typename IMAGE_TYPE_DIRECTORY>
-    IMAGE_TYPE_DIRECTORY* get_type_directory(IN HMODULE modulePtr, IN DWORD dir_id);
+    IMAGE_TYPE_DIRECTORY* get_type_directory(IN HMODULE modulePtr, IN DWORD dir_id)
+    {
+        IMAGE_DATA_DIRECTORY *my_dir = peconv::get_directory_entry((const BYTE*)modulePtr, dir_id);
+        if (!my_dir) return nullptr;
+
+        DWORD dir_addr = my_dir->VirtualAddress;
+        if (dir_addr == 0) return nullptr;
+
+        return (IMAGE_TYPE_DIRECTORY*)(dir_addr + (ULONG_PTR)modulePtr);
+    }
 
     /**
     Get pointer to the Export Directory.
