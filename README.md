@@ -54,5 +54,7 @@ int main(int argc, char *argv[])
 ```
 
 ### Read more
++   [Docs](https://hasherezade.github.io/libpeconv/)
 +   [Examples](https://github.com/hasherezade/libpeconv/tree/master/tests)
 +   [Tutorials](https://hshrzd.wordpress.com/tag/libpeconv/)
++   [Project template](https://github.com/hasherezade/libpeconv_project_template)
