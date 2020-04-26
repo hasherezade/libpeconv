@@ -607,6 +607,7 @@ bool peconv::is_valid_sectons_alignment(IN const BYTE* payload, IN const SIZE_T 
     }
     for (size_t i = 0; i < sections_count; i++) {
         PIMAGE_SECTION_HEADER next_sec = peconv::get_section_hdr(payload, payload_size, i);
+        if (!next_sec) return false; //the number of the sections in header is out of scope
 
         const DWORD next_sec_addr = is_raw ? (next_sec->PointerToRawData) : (next_sec->VirtualAddress);
 
