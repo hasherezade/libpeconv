@@ -24,7 +24,7 @@ namespace peconv {
         Creates an empty backup.
         */
         PatchBackup()
-            : buffer(nullptr), bufferSize(0)
+            : buffer(nullptr), bufferSize(0), sourcePtr(nullptr)
         {
         }
 
