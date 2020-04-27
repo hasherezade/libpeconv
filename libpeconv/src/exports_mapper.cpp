@@ -9,14 +9,14 @@ void ExportsMapper::print_va_to_func(std::stringstream &stream) const
 {
     std::map<ULONGLONG, std::set<ExportedFunc>>::const_iterator itr;
 
-    for (itr = va_to_func.begin(); itr != va_to_func.end(); itr++) {
+    for (itr = va_to_func.begin(); itr != va_to_func.end(); ++itr) {
         
         stream << std::hex << itr->first << " :\n";
 
         std::set<ExportedFunc>::const_iterator itr2;
         const std::set<ExportedFunc> &funcs = itr->second;
 
-        for (itr2 = funcs.begin(); itr2 != funcs.end(); itr2++) {
+        for (itr2 = funcs.begin(); itr2 != funcs.end(); ++itr2) {
             stream << "\t" << itr2->toString() << "\n";
         }
     }
@@ -25,7 +25,7 @@ void ExportsMapper::print_va_to_func(std::stringstream &stream) const
 void ExportsMapper::print_func_to_va(std::stringstream &stream) const
 {
     std::map<ExportedFunc, ULONGLONG>::const_iterator itr;
-    for (itr = func_to_va.begin(); itr != func_to_va.end(); itr++) {
+    for (itr = func_to_va.begin(); itr != func_to_va.end(); ++itr) {
         stream << itr->first.toString() << " : "
             << std::hex << itr->second << "\n";
     }

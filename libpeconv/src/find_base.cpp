@@ -91,7 +91,7 @@ ULONGLONG peconv::find_base_candidate(IN BYTE* modulePtr, IN size_t moduleSize)
 
     std::set<ULONGLONG>::iterator itr = relocs.begin();
     
-    for (itr = relocs.begin(); itr != relocs.end(); itr++) {
+    for (itr = relocs.begin(); itr != relocs.end(); ++itr) {
         const ULONGLONG guessed_base = (*itr) & mask;
         std::map<ULONGLONG, size_t>::iterator found = base_candidates.find(guessed_base);
         if (found == base_candidates.end()) {
@@ -102,14 +102,14 @@ ULONGLONG peconv::find_base_candidate(IN BYTE* modulePtr, IN size_t moduleSize)
     ULONGLONG most_freqent = 0;
     size_t max_freq = 0;
     std::map<ULONGLONG, size_t>::iterator mapItr;
-    for (mapItr = base_candidates.begin(); mapItr != base_candidates.end(); mapItr++) {
+    for (mapItr = base_candidates.begin(); mapItr != base_candidates.end(); ++mapItr) {
         if (mapItr->second >= max_freq) {
             most_freqent = mapItr->first;
             max_freq = mapItr->second;
         }
     }
     ULONGLONG first_base = 0;
-    for (itr = relocs.begin(); itr != relocs.end(); itr++) {
+    for (itr = relocs.begin(); itr != relocs.end(); ++itr) {
         ULONGLONG first = *itr;
         first_base = first & mask;
         if (first_base > most_freqent) {
