@@ -216,7 +216,6 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     std::map<PDWORD, DWORD> va_to_ord;
     size_t functCount = make_ord_lookup_tables(modulePtr, module_size, va_to_ord);
 
-    std::map<DWORD, char*> rva_to_name;
     //go through names:
     
     size_t forwarded_ctr = 0;

@@ -160,8 +160,6 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
             continue;
         }
 
-        std::set<std::string> currDllNames;
-
         for (std::set<ExportedFunc>::iterator strItr = exports_for_va->begin(); 
             strItr != exports_for_va->end(); 
             ++strItr)
