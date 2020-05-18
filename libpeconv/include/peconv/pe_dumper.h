@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 #include "exports_mapper.h"
 
 namespace peconv {

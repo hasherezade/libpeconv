@@ -1,4 +1,4 @@
-#include "peconv\exported_func.h"
+#include "peconv/exported_func.h"
 
 #include <algorithm>
 #include <sstream>

@@ -1,6 +1,6 @@
-#include "peconv\hooks.h"
+#include "peconv/hooks.h"
 #include "peconv.h"
-#include "peconv\peb_lookup.h"
+#include "peconv/peb_lookup.h"
 
 using namespace peconv;
 

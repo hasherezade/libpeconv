@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 
 /**
 Perform the RunPE injection of the payload into the target.

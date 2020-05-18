@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <Windows.h>
+#include <windows.h>
 
 #include "test_loading.h"
 #include "test_loading_imps.h"

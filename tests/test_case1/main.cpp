@@ -1,4 +1,4 @@
-#include <Windows.h>
+#include <windows.h>
 #include <stdio.h>
 
 int popup_message1()

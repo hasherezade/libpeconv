@@ -4,7 +4,7 @@
 */
 
 #pragma once
-#include <Windows.h>
+#include <windows.h>
 
 #include "buffer_util.h"
 #include "load_config_defs.h"
