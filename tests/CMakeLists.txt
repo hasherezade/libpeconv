@@ -118,6 +118,6 @@ set_tests_properties (TestPEBLookup PROPERTIES PASS_REGULAR_EXPRESSION "Test pas
 set_tests_properties (TestPEBLookup PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 
 # 13) test mixed imports
-add_test (TestMixImp tests 13 )
+add_test (TestMixImp tests 13 "C://tests//test_case5_exe.exe")
 set_tests_properties (TestMixImp PROPERTIES PASS_REGULAR_EXPRESSION "Test Case 5 finished, checks: a0caa919")
 set_tests_properties (TestMixImp PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
