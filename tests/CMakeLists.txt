@@ -21,6 +21,7 @@ set (srcs
 	test_imp_list.cpp
 	test_hooking_local.cpp
 	test_peb_lookup.cpp
+	test_imports_mix.cpp
 )
 
 set (hdrs
@@ -35,6 +36,7 @@ set (hdrs
 	test_imp_list.h
 	test_hooking_local.h
 	test_peb_lookup.h
+	test_imports_mix.h
 	resource.h
 	shellcodes.h
 )
@@ -51,6 +53,7 @@ add_dependencies( ${PROJECT_NAME} libpeconv test_case1 test_case3 )
 add_subdirectory ( test_case1 )
 add_subdirectory ( test_case3 )
 add_subdirectory ( test_case4 )
+add_subdirectory ( test_case5 )
 
 enable_testing()
 

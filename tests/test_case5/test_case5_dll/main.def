@@ -1,0 +1,7 @@
+LIBRARY test_case5_dll
+EXPORTS
+	test_checksum1
+	test_checksum2 @2 NONAME
+	test_checksum3
+	test_checksum4 @4 NONAME
+	test_checksum5
