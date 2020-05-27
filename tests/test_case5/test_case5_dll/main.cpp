@@ -4,6 +4,8 @@
 #define DLL_EXPORTS
 #include "api.h"
 
+//#define SHOW_MSGBOX
+
 inline DWORD rotl32a(DWORD x, DWORD n)
 {
     return (x << n) | (x >> (32 - n));
@@ -45,7 +47,9 @@ int DLL_API test_checksum2()
 {
     wchar_t teststr[] = L"Checking wide strings";
     DWORD checks = calc_checksum((BYTE*)teststr, sizeof(teststr), true);
+#ifdef SHOW_MSGBOX
     MessageBoxW(NULL, teststr, L"Test Case 5", MB_OK);
+#endif
     std::cout << "Checks 2: " << std::hex << checks << std::endl;
     return checks;
 }
@@ -54,7 +58,9 @@ int DLL_API test_checksum4()
 {
     wchar_t teststr[] = L"Test checksum 4";
     DWORD checks = calc_checksum((BYTE*)teststr, sizeof(teststr), true);
+#ifdef SHOW_MSGBOX
     MessageBoxW(NULL, teststr, L"Test Case 5", MB_OK);
+#endif
     std::cout << "Checks 4: " << std::hex << checks << std::endl;
     return checks;
 }
@@ -63,7 +69,9 @@ int DLL_API test_checksum5()
 {
     wchar_t teststr[] = L"Yet another checksum test: 5";
     DWORD checks = calc_checksum((BYTE*)teststr, sizeof(teststr), true);
+#ifdef SHOW_MSGBOX
     MessageBoxW(NULL, teststr, L"Test Case 5", MB_OK);
+#endif
     std::cout << "Checks 5: " << std::hex << checks << std::endl;
     return checks;
 }
@@ -79,7 +87,9 @@ int DLL_API test_checksum3()
     wchar_t teststr[] = L"Time func checksum";
     DWORD checks = calc_checksum((BYTE*)teststr, sizeof(teststr), true);
     std::cout << "Checks 3: " << std::hex << checks << std::endl;
+#ifdef SHOW_MSGBOX
     MessageBoxA(NULL, pszDate, "Test Case 5", MB_OK);
+#endif
     return checks;
 }
 
