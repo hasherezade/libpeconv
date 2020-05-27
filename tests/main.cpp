@@ -12,6 +12,7 @@
 #include "test_imp_list.h"
 #include "test_hooking_local.h"
 #include "test_peb_lookup.h"
+#include "test_imports_mix.h"
 
 int make_test(int test_id, char *test_arg)
 {
@@ -34,6 +35,7 @@ int make_test(int test_id, char *test_arg)
         case 10: return tests::imp_list(test_arg); //manual test
         case 11: return tests::hook_self_local();
         case 12: return tests::check_modules();
+        case 13: return tests::imports_mix(test_arg);
     }
     return -1;
 }

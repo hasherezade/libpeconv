@@ -21,6 +21,7 @@ set (srcs
 	test_imp_list.cpp
 	test_hooking_local.cpp
 	test_peb_lookup.cpp
+	test_imports_mix.cpp
 )
 
 set (hdrs
@@ -35,6 +36,7 @@ set (hdrs
 	test_imp_list.h
 	test_hooking_local.h
 	test_peb_lookup.h
+	test_imports_mix.h
 	resource.h
 	shellcodes.h
 )
@@ -51,6 +53,7 @@ add_dependencies( ${PROJECT_NAME} libpeconv test_case1 test_case3 )
 add_subdirectory ( test_case1 )
 add_subdirectory ( test_case3 )
 add_subdirectory ( test_case4 )
+add_subdirectory ( test_case5 )
 
 enable_testing()
 
@@ -92,11 +95,11 @@ endif()
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	add_test (TestReplaceFunc64 tests 8 "C://tests//test_case3_64.exe")
 	set_tests_properties (TestReplaceFunc64 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
-	set_tests_properties (TestDeploySelfExpResolver PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+	set_tests_properties (TestReplaceFunc64 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 else()
 	add_test (TestReplaceFunc32 tests 8 "C://tests//test_case3_32.exe")
 	set_tests_properties (TestReplaceFunc32 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
-	set_tests_properties (TestDeploySelfExpResolver PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+	set_tests_properties (TestReplaceFunc32 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 endif()
 
 # 9) test replacing Delay-Load Imports
@@ -111,5 +114,10 @@ set_tests_properties (TestLocalRedirect PROPERTIES FAIL_REGULAR_EXPRESSION "Fail
 
 # 12) test PEB lookup
 add_test (TestPEBLookup tests 12 )
-set_tests_properties (TestLocalRedirect PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
-set_tests_properties (TestLocalRedirect PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+set_tests_properties (TestPEBLookup PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+set_tests_properties (TestPEBLookup PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+
+# 13) test mixed imports
+add_test (TestMixImp tests 13 )
+set_tests_properties (TestMixImp PROPERTIES PASS_REGULAR_EXPRESSION "Test Case 5 finished, checks: a0caa919")
+set_tests_properties (TestMixImp PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
