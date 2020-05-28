@@ -24,26 +24,26 @@ environment:
     - env_arch: "x64"
     - env_arch: "x86"
   
-build_script:
+before_build:
   - mkdir build
   - cd build
   - if [%env_arch%]==[x64] (
       cmake .. -A x64 )
   - if [%env_arch%]==[x86] (
       cmake .. )
-  - cmake --build .
+  - cmake -DCMAKE_INSTALL_PREFIX:PATH=%APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT% ..
   - cd ..
+
+build_script:
+  - cmake --build . --config %CONFIGURATION% --target install
 
 test_script:
   - mkdir "C:\tests"
   - cd build
-  - cp "tests\test_case1\Debug\test_case1.exe" "C:\tests\test_case1.exe"
-  - cp "..\tests\test_case3\bin\test_case3_32.exe" "C:\tests\test_case3_32.exe"
-  - cp "..\tests\test_case3\bin\test_case3_64.exe" "C:\tests\test_case3_64.exe"
-  - cp "tests\test_case4\Debug\test_case4.exe" "C:\tests\test_case4.exe"
-  - cp "tests\test_case5\Debug\test_case5_exe.exe" "C:\tests\test_case5_exe.exe"
-  - cp "tests\test_case5\test_case5_dll\Debug\test_case5_dll.dll" "C:\tests\test_case5_dll.dll"
+  - cp "..\tests\test_case3\bin\test_case3_32.exe" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/
+  - cp "..\tests\test_case3\bin\test_case3_64.exe" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/
+  - dir "C:\tests\"
   - if [%env_arch%]==[x64] (
-      cp "..\tests\test_case2\payload.dll" "C:\tests\payload.dll" )
+      cp "..\tests\test_case2\payload.dll" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/ )
   - ctest -V
   

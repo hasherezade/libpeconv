@@ -17,3 +17,5 @@ include_directories ( test_case5_dll/include )
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} )
 target_link_libraries(${PROJECT_NAME} "test_case5_dll" )
 
+#install
+INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT ${PROJECT_NAME} )

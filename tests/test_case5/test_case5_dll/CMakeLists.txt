@@ -14,3 +14,5 @@ set (dll_hdrs
 
 add_library ( ${PROJECT_NAME} SHARED ${dll_hdrs} ${srcs} main.def)
 
+#install
+INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT ${PROJECT_NAME} )

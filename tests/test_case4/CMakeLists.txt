@@ -14,3 +14,6 @@ set (hdrs
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} )
 target_link_libraries(${PROJECT_NAME} "delayimp.lib" )
 set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS " ${DELAYLOAD_FLAG}")
+
+#install
+INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT ${PROJECT_NAME} )

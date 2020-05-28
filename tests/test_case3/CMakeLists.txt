@@ -13,3 +13,6 @@ set (hdrs
 )
 
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs})
+
+#install
+INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT ${PROJECT_NAME} )
