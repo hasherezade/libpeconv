@@ -39,7 +39,6 @@ build_script:
 test_script:
   - cp "..\tests\test_case3\bin\test_case3_32.exe" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/
   - cp "..\tests\test_case3\bin\test_case3_64.exe" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/
-  - dir "C:\tests\"
   - if [%env_arch%]==[x64] (
       cp "..\tests\test_case2\payload.dll" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/ )
   - ctest -V
