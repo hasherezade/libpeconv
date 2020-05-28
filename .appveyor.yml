@@ -32,14 +32,11 @@ before_build:
   - if [%env_arch%]==[x86] (
       cmake .. )
   - cmake -DCMAKE_INSTALL_PREFIX:PATH=%APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT% ..
-  - cd ..
 
 build_script:
   - cmake --build . --config %CONFIGURATION% --target install
 
 test_script:
-  - mkdir "C:\tests"
-  - cd build
   - cp "..\tests\test_case3\bin\test_case3_32.exe" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/
   - cp "..\tests\test_case3\bin\test_case3_64.exe" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/
   - dir "C:\tests\"
