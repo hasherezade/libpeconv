@@ -84,29 +84,29 @@ set_tests_properties (TestDeploySelfExpResolver PROPERTIES PASS_REGULAR_EXPRESSI
 set_tests_properties (TestDeploySelfExpResolver PROPERTIES FAIL_REGULAR_EXPRESSION "Loaded proc is not matching the default one!")
 
 # 5) test hooking a test_case1 application
-add_test (TestHookMessageBox ${CMAKE_INSTALL_PREFIX}/tests 5 ${CMAKE_INSTALL_PREFIX}/"test_case1.exe")
+add_test (TestHookMessageBox ${CMAKE_INSTALL_PREFIX}/tests 5 ${CMAKE_INSTALL_PREFIX}/test_case1.exe )
 set_tests_properties (TestHookMessageBox PROPERTIES PASS_REGULAR_EXPRESSION "Hooking test passed")
 
 #only for 64bit:
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	# 6) Solve FlareOn2017 Challenge6
-	add_test (TestCrackmeF4_6 ${CMAKE_INSTALL_PREFIX}/tests 6 ${CMAKE_INSTALL_PREFIX}/"payload.dll")
+	add_test (TestCrackmeF4_6 ${CMAKE_INSTALL_PREFIX}/tests 6 ${CMAKE_INSTALL_PREFIX}/payload.dll )
 	set_tests_properties (TestCrackmeF4_6 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 endif()
 
 # 8) Test replacing and redirecting functions
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-	add_test (TestReplaceFunc64 ${CMAKE_INSTALL_PREFIX}/tests 8 ${CMAKE_INSTALL_PREFIX}/"test_case3_64.exe")
+	add_test (TestReplaceFunc64 ${CMAKE_INSTALL_PREFIX}/tests 8 ${CMAKE_INSTALL_PREFIX}/test_case3_64.exe )
 	set_tests_properties (TestReplaceFunc64 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
 	set_tests_properties (TestReplaceFunc64 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 else()
-	add_test (TestReplaceFunc32 tests 8 ${CMAKE_INSTALL_PREFIX}/"test_case3_32.exe")
+	add_test (TestReplaceFunc32 tests 8 ${CMAKE_INSTALL_PREFIX}/test_case3_32.exe )
 	set_tests_properties (TestReplaceFunc32 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
 	set_tests_properties (TestReplaceFunc32 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 endif()
 
 # 9) test replacing Delay-Load Imports
-add_test (TestDelayedImps ${CMAKE_INSTALL_PREFIX}/tests 9 ${CMAKE_INSTALL_PREFIX}/"test_case4.exe")
+add_test (TestDelayedImps ${CMAKE_INSTALL_PREFIX}/tests 9 ${CMAKE_INSTALL_PREFIX}/test_case4.exe )
 set_tests_properties (TestDelayedImps PROPERTIES PASS_REGULAR_EXPRESSION "Hooking test passed")
 set_tests_properties (TestDelayedImps PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 
@@ -121,6 +121,6 @@ set_tests_properties (TestPEBLookup PROPERTIES PASS_REGULAR_EXPRESSION "Test pas
 set_tests_properties (TestPEBLookup PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 
 # 13) test mixed imports
-add_test (TestMixImp ${CMAKE_INSTALL_PREFIX}/tests 13 ${CMAKE_INSTALL_PREFIX}/"test_case5_exe.exe")
+add_test (TestMixImp ${CMAKE_INSTALL_PREFIX}/tests 13 ${CMAKE_INSTALL_PREFIX}/test_case5_exe.exe )
 set_tests_properties (TestMixImp PROPERTIES PASS_REGULAR_EXPRESSION "Test Case 5 finished, checks: a0caa919")
 set_tests_properties (TestMixImp PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
