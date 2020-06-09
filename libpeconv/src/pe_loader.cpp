@@ -12,6 +12,13 @@ using namespace peconv;
 
 BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate)
 {
+    if (peconv::get_sections_count(dllRawData, r_size) == 0) {
+        DWORD protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
+        BYTE* mappedPE = peconv::alloc_pe_buffer(r_size, protect);
+        memcpy(mappedPE, dllRawData, r_size);
+        v_size = r_size;
+        return mappedPE;
+    }
     // by default, allow to load the PE at any base:
     ULONGLONG desired_base = NULL;
     // if relocating is required, but the PE has no relocation table...
@@ -45,9 +52,9 @@ BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool exec
 #endif
         return NULL;
     }
-    BYTE* mappedDLL = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
+    BYTE* mappedPE = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
     free_pe_buffer(dllRawData);
-    return mappedDLL;
+    return mappedPE;
 }
 
 BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver)
