@@ -112,6 +112,9 @@ bool peconv::is_pe_raw_eq_virtual(IN const BYTE* pe_buffer, IN size_t pe_size)
 
 bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
 {
+    if (peconv::get_sections_count(pe_buffer, pe_size) == 0) {
+        return true;
+    }
     size_t v_score = 0;
     if (peconv::has_valid_import_table((const PBYTE)pe_buffer, pe_size)) {
 #ifdef _DEBUG
