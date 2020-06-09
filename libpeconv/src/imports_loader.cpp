@@ -170,7 +170,9 @@ bool peconv::process_import_table(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN I
     }
     const DWORD impAddr = importsDir->VirtualAddress;
     IMAGE_IMPORT_DESCRIPTOR *first_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + (ULONG_PTR)modulePtr);
-
+    if (!peconv::validate_ptr(modulePtr, moduleSize, first_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
+        return false;
+    }
     return process_dlls(modulePtr, moduleSize, first_desc, callback);
 }
 

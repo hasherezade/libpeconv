@@ -10,14 +10,36 @@
 
 using namespace peconv;
 
+namespace peconv {
+    BYTE* load_no_sec_pe(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable)
+    {
+        ULONGLONG desired_base = 0;
+        if (executable) {
+            desired_base = get_image_base(dllRawData);
+        }
+        size_t out_size = peconv::get_image_size(dllRawData);
+        DWORD protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
+        BYTE* mappedPE = peconv::alloc_pe_buffer(out_size, protect, desired_base);
+        if (!mappedPE) {
+            if (!executable) {
+                out_size = (r_size < PAGE_SIZE) ? PAGE_SIZE : r_size;
+                mappedPE = peconv::alloc_pe_buffer(out_size, protect, desired_base);
+            }
+            if (!mappedPE) return NULL;
+        }
+        memcpy(mappedPE, dllRawData, r_size);
+        v_size = out_size;
+        return mappedPE;
+    }
+};
+
 BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate)
 {
+    if (!peconv::get_nt_hdrs(dllRawData)) {
+        return NULL;
+    }
     if (peconv::get_sections_count(dllRawData, r_size) == 0) {
-        DWORD protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
-        BYTE* mappedPE = peconv::alloc_pe_buffer(r_size, protect);
-        memcpy(mappedPE, dllRawData, r_size);
-        v_size = r_size;
-        return mappedPE;
+        return load_no_sec_pe(dllRawData, r_size, v_size, executable);
     }
     // by default, allow to load the PE at any base:
     ULONGLONG desired_base = NULL;
@@ -61,16 +83,21 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
 {
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true);
     if (!loaded_pe) {
-        printf("Loading failed!\n");
+        printf("[-] Loading failed!\n");
         return NULL;
     }
 #if _DEBUG
     printf("Loaded at: %p\n", loaded_pe);
 #endif
-    if (!load_imports(loaded_pe, import_resolver)) {
-        printf("[-] Loading imports failed!");
-        free_pe_buffer(loaded_pe, v_size);
-        return NULL;
+    if (has_valid_import_table(loaded_pe, v_size)) {
+        if (!load_imports(loaded_pe, import_resolver)) {
+            printf("[-] Loading imports failed!");
+            free_pe_buffer(loaded_pe, v_size);
+            return NULL;
+        }
+    }
+    else {
+        printf("[-] PE doesn't have a valid Import Table!\n");
     }
     return loaded_pe;
 }
