@@ -14,18 +14,15 @@ namespace peconv {
     BYTE* load_no_sec_pe(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable)
     {
         ULONGLONG desired_base = 0;
+        size_t out_size = (r_size < PAGE_SIZE) ? PAGE_SIZE : r_size;
         if (executable) {
             desired_base = get_image_base(dllRawData);
+            out_size = peconv::get_image_size(dllRawData);
         }
-        size_t out_size = peconv::get_image_size(dllRawData);
         DWORD protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
         BYTE* mappedPE = peconv::alloc_pe_buffer(out_size, protect, desired_base);
         if (!mappedPE) {
-            if (!executable) {
-                out_size = (r_size < PAGE_SIZE) ? PAGE_SIZE : r_size;
-                mappedPE = peconv::alloc_pe_buffer(out_size, protect, desired_base);
-            }
-            if (!mappedPE) return NULL;
+            return NULL;
         }
         memcpy(mappedPE, dllRawData, r_size);
         v_size = out_size;
