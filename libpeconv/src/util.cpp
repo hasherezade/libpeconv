@@ -89,7 +89,7 @@ DWORD peconv::get_process_id(HANDLE hProcess)
     return ntdll_get_process_id(hProcess);
 }
 
-bool peconv::is_padding(BYTE *cave_ptr, size_t cave_size, const BYTE padding)
+bool peconv::is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE padding)
 {
     for (size_t i = 0; i < cave_size; i++) {
         if (cave_ptr[i] != padding) {
