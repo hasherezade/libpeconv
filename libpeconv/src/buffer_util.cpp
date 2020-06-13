@@ -34,6 +34,8 @@ bool peconv::validate_ptr(IN const void* buffer_bgn, IN SIZE_T buffer_size, IN c
 //allocates a buffer that does not have to start from the beginning of the section
 peconv::UNALIGNED_BUF peconv::alloc_unaligned(size_t buf_size)
 {
+    if (!buf_size) return NULL;
+
     UNALIGNED_BUF buf = (UNALIGNED_BUF) calloc(buf_size, sizeof(BYTE));
     return buf;
 }
@@ -49,6 +51,8 @@ void peconv::free_unaligned(peconv::UNALIGNED_BUF section_buffer)
 
 peconv::ALIGNED_BUF peconv::alloc_aligned(size_t buffer_size, DWORD protect, ULONGLONG desired_base)
 {
+    if (!buffer_size) return NULL;
+
     ALIGNED_BUF buf = (ALIGNED_BUF) VirtualAlloc((LPVOID) desired_base, buffer_size, MEM_COMMIT | MEM_RESERVE, protect);
     return buf;
 }
