@@ -10,7 +10,7 @@ using namespace peconv;
 
 bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destAddress, OUT SIZE_T *raw_size_ptr)
 {
-    if (payload == NULL) return false;
+    if (!payload || !destAddress) return false;
 
     bool is64b = is64bit(payload);
 
