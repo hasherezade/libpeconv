@@ -99,6 +99,8 @@ peconv::ALIGNED_BUF peconv::read_from_file(IN const char *in_path, IN OUT size_t
 //save the given buffer into a file
 bool peconv::dump_to_file(IN const char *out_path, IN PBYTE dump_data, IN size_t dump_size)
 {
+    if (!out_path || !dump_data || !dump_size) return false;
+
     HANDLE file = CreateFileA(out_path, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
     if (file == INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
