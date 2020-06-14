@@ -112,14 +112,19 @@ BYTE* peconv::pe_virtual_to_raw(
     IN OPTIONAL bool rebuffer
 )
 {
+    BYTE* out_buf = (BYTE*)alloc_pe_buffer(in_size, PAGE_READWRITE);
+    if (out_buf == NULL) return NULL; //could not allocate output buffer
+
     BYTE* in_buf = payload;
     if (rebuffer) {
         in_buf = (BYTE*) alloc_pe_buffer(in_size, PAGE_READWRITE);
-        if (in_buf == NULL) return NULL;
+        if (in_buf == NULL) {
+            free_pe_buffer(out_buf, in_size);
+            return NULL;
+        }
         memcpy(in_buf, payload, in_size);
     }
 
-    BYTE* out_buf = (BYTE*) alloc_pe_buffer(in_size, PAGE_READWRITE);
     ULONGLONG oldBase = get_image_base(in_buf);
     bool isOk = true;
     // from the loadBase go back to the original base
