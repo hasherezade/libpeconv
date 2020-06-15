@@ -53,9 +53,14 @@ namespace peconv {
     Reads a PE section with a given number (sectionNum) from the remote module within the given process. 
     The buffer of appropriate size is automatically allocated. After use, it should be freed by the function free_unaligned.
     The size of the buffer is writen into sectionSize.
-    \return a buffer containing a copy of the section. 
+    \param processHandle : the handle to the remote process
+    \param moduleBase : the base address of the module
+    \sectionNum : number of the section to be read
+    \param sectionSize : the size of the read section (output)
+    \param roundup : if set, the section size is roundup to the alignment unit
+    \return a buffer containing a copy of the section.
     */
-    peconv::UNALIGNED_BUF get_remote_pe_section(HANDLE processHandle, BYTE *moduleBase, const size_t sectionNum, OUT size_t &sectionSize);
+    peconv::UNALIGNED_BUF get_remote_pe_section(HANDLE processHandle, BYTE *moduleBase, const size_t sectionNum, OUT size_t &sectionSize, bool roundup = false);
 
     /**
     Reads PE file from the remote process into the supplied buffer. It expects the module base and size to be given.
