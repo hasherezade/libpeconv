@@ -55,7 +55,7 @@ namespace peconv {
     The size of the buffer is writen into sectionSize.
     \param processHandle : the handle to the remote process
     \param moduleBase : the base address of the module
-    \sectionNum : number of the section to be read
+    \param sectionNum : number of the section to be read
     \param sectionSize : the size of the read section (output)
     \param roundup : if set, the section size is roundup to the alignment unit
     \return a buffer containing a copy of the section.
