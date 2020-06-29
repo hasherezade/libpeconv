@@ -15,6 +15,7 @@ var searchData=
   ['relocblockcallback',['RelocBlockCallback',['../classpeconv_1_1_reloc_block_callback.html#a660477672175a10f6650b41af345124d',1,'peconv::RelocBlockCallback']]],
   ['replace_5ftarget',['replace_target',['../namespacepeconv.html#ab5141d4b76a42b9e0498381c2f29bfee',1,'peconv']]],
   ['resolve_5ffunc',['resolve_func',['../classpeconv_1_1export__based__resolver.html#aee9dfbf0bfd458b4ad8bb3ad9c13bb85',1,'peconv::export_based_resolver::resolve_func()'],['../classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159',1,'peconv::t_function_resolver::resolve_func()'],['../classpeconv_1_1default__func__resolver.html#a0c962c78cbbeb72018094ad6218979d7',1,'peconv::default_func_resolver::resolve_func()'],['../classpeconv_1_1hooking__func__resolver.html#afb89d14990f16bd9459741a0822c93dc',1,'peconv::hooking_func_resolver::resolve_func()']]],
+  ['roundup_5fto_5funit',['roundup_to_unit',['../namespacepeconv.html#a948c3b100c0f089152fe09a870769215',1,'peconv']]],
   ['rtl_5fgeneric_5fcompare_5fresults',['RTL_GENERIC_COMPARE_RESULTS',['../ntddk_8h.html#aa22cc9c27ca9cfec27b7e146f8483c19',1,'ntddk.h']]],
   ['rtladdaccessallowedace',['RtlAddAccessAllowedAce',['../ntddk_8h.html#a4b849af3a4b4caad36dcde94cb2d18d0',1,'ntddk.h']]],
   ['rtladdaccessallowedaceex',['RtlAddAccessAllowedAceEx',['../ntddk_8h.html#a7a5e290094bf74c10decf620fe8dff31',1,'ntddk.h']]],

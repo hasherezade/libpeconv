@@ -48,6 +48,7 @@ var searchData=
   ['resource_5futil_2eh',['resource_util.h',['../resource__util_8h.html',1,'']]],
   ['rightchild',['RightChild',['../struct___r_t_l___s_p_l_a_y___l_i_n_k_s.html#a854ccd0b4ae1ec7eaa1c279976850a16',1,'_RTL_SPLAY_LINKS']]],
   ['rootdirectory',['RootDirectory',['../struct___o_b_j_e_c_t___a_t_t_r_i_b_u_t_e_s.html#a81a3a1fa5c45cc06208aeb85e98af656',1,'_OBJECT_ATTRIBUTES::RootDirectory()'],['../struct___f_i_l_e___r_e_n_a_m_e___i_n_f_o_r_m_a_t_i_o_n.html#ae2c4337c13ffff77ac4bf1d46ff8d5a0',1,'_FILE_RENAME_INFORMATION::RootDirectory()'],['../struct___f_i_l_e___l_i_n_k___i_n_f_o_r_m_a_t_i_o_n.html#a21f7e9d07bf1147b69c24161ab2fac16',1,'_FILE_LINK_INFORMATION::RootDirectory()'],['../struct___f_i_l_e___m_o_v_e___c_l_u_s_t_e_r___i_n_f_o_r_m_a_t_i_o_n.html#a0354fc3828918dd19cdb8623e1118f5e',1,'_FILE_MOVE_CLUSTER_INFORMATION::RootDirectory()']]],
+  ['roundup_5fto_5funit',['roundup_to_unit',['../namespacepeconv.html#a948c3b100c0f089152fe09a870769215',1,'peconv']]],
   ['rt_5frcdata_5fa',['RT_RCDATA_A',['../namespacepeconv.html#af8a1e1c9f135f6fe168fc358a772e729',1,'peconv']]],
   ['rtl_5fdrive_5fletter_5fcurdir',['RTL_DRIVE_LETTER_CURDIR',['../ntddk_8h.html#ae5fbb4213ce766164eeee1cb04d5a84f',1,'ntddk.h']]],
   ['rtl_5fgeneric_5fcompare_5fresults',['RTL_GENERIC_COMPARE_RESULTS',['../ntddk_8h.html#ac5383e83a3012cf1b7a0dc940e5153a8',1,'RTL_GENERIC_COMPARE_RESULTS():&#160;ntddk.h'],['../ntddk_8h.html#aa22cc9c27ca9cfec27b7e146f8483c19',1,'RTL_GENERIC_COMPARE_RESULTS(NTAPI *PRTL_GENERIC_COMPARE_ROUTINE)(struct _RTL_GENERIC_TABLE *Table:&#160;ntddk.h']]],
