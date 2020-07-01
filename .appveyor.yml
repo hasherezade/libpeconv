@@ -47,7 +47,7 @@ test_script:
   
 after_test:
   - mkdir %artifactName%
-  - cp %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/* %artifactName%
+  - cp -r %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/* %artifactName%
 
 artifacts:
   - path: build\%artifactName%
