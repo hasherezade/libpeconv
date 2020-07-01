@@ -17,9 +17,11 @@ build:
   verbosity: detailed
 
 configuration:
+  - Release
   - Debug
   
 environment:
+  artifactName: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_REPO_COMMIT)-$(CONFIGURATION)
   matrix:
     - env_arch: "x64"
     - env_arch: "x86"
@@ -42,4 +44,11 @@ test_script:
   - if [%env_arch%]==[x64] (
       cp "..\tests\test_case2\payload.dll" %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/ )
   - ctest -V
+  
+after_test:
+  - mkdir %artifactName%
+  - cp %APPVEYOR_BUILD_FOLDER%/%APPVEYOR_REPO_COMMIT%/* %artifactName%
+
+artifacts:
+  - path: build\%artifactName%
   
