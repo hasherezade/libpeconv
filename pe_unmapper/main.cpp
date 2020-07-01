@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     init_params(params);
 
     if (argc < 3) {
-        std::cout << "[ pe_unmapper v" << VERSION  << "]\n";
+        std::cout << "[ pe_unmapper v" << VERSION  << " ]\n";
         print_help();
         std::cout << "---" << std::endl;
         system("pause");
