@@ -1,9 +1,9 @@
-#include <stdio.h>
+#include <iostream>
 
-#include "peconv.h"
+#include <peconv.h>
 using namespace peconv;
 
-#define VERSION "0.4"
+#define VERSION "0.5"
 
 #define PARAM_RAW_TO_VIRTUAL "/r2v"
 #define PARAM_OUT_FILE "/out"
@@ -36,6 +36,10 @@ bool remap_pe_file(t_unmapper_params &params)
 
     size_t in_size = 0;
     BYTE* in_buf = peconv::read_from_file(params.in_file.c_str(), in_size);
+    if (!in_buf) {
+        std::cerr << "[-] Cannot load file: " << params.in_file << "\n";
+        return false;
+    }
 
     BYTE* out_buf = nullptr;
     size_t out_size = 0;
@@ -57,7 +61,13 @@ bool remap_pe_file(t_unmapper_params &params)
             out_buf = peconv::pe_realign_raw_to_virtual(in_buf, in_size, params.load_base, out_size);
         }
         else {
-            out_buf = peconv::pe_virtual_to_raw(in_buf, in_size, params.load_base, out_size, false);
+            ULONGLONG load_base = params.load_base;
+            if (!load_base) {
+                load_base = peconv::find_base_candidate(in_buf, in_size);
+                std::cout << "[!] Load base not supplied! Using autosearch...\n";
+                std::cout << "[*] Found possible relocation base: " << std::hex << load_base << "\n";
+            }
+            out_buf = peconv::pe_virtual_to_raw(in_buf, in_size, load_base, out_size, false);
         }
     }
     if (!out_buf) {
