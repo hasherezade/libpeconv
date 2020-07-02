@@ -54,7 +54,6 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
             if (callback) { //print debug messages only if the callback function was set
                 printf("[-] Not supported relocations format at %d: %d\n", (int)i, (int)type);
             }
-            
             return false;
         }
         DWORD reloc_field = page + offset;
@@ -81,11 +80,12 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
     IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
     if (relocDir == NULL) {
 #ifdef _DEBUG
-        printf("[!] WARNING: no relocation table found!\n");
+        std::cout << "[!] WARNING: no relocation table found!\n";
 #endif
         return false;
     }
     if (!validate_ptr(modulePtr, moduleSize, relocDir, sizeof(IMAGE_DATA_DIRECTORY))) {
+        std::cerr << "[!] Invalid relocDir pointer\n";
         return false;
     }
     DWORD maxSize = relocDir->Size;
@@ -98,7 +98,9 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
     while (parsedSize < maxSize) {
         reloc = (IMAGE_BASE_RELOCATION*)(relocAddr + parsedSize + (ULONG_PTR)modulePtr);
         if (!validate_ptr(modulePtr, moduleSize, reloc, sizeof(IMAGE_BASE_RELOCATION))) {
-            printf("[-] Invalid address of relocations\n");
+#ifdef _DEBUG
+            std::cerr << "[-] Invalid address of relocations\n";
+#endif
             return false;
         }
         parsedSize += reloc->SizeOfBlock;
@@ -112,7 +114,7 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
 
         BASE_RELOCATION_ENTRY* block = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)reloc + sizeof(DWORD) + sizeof(DWORD));
         if (!validate_ptr(modulePtr, moduleSize, block, sizeof(BASE_RELOCATION_ENTRY))) {
-            printf("[-] Invalid address of relocations block\n");
+            std::cerr << "[-] Invalid address of relocations block\n";
             return false;
         }
         if (process_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b, callback) == false) {
