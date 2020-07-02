@@ -26,3 +26,5 @@
 #include "peconv/resource_parser.h"
 #include "peconv/load_config_util.h"
 #include "peconv/peb_lookup.h"
+#include "peconv/find_base.h"
+
