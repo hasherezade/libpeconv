@@ -22,6 +22,7 @@ set (srcs
 	test_hooking_local.cpp
 	test_peb_lookup.cpp
 	test_imports_mix.cpp
+	test_found_base.cpp
 )
 
 set (hdrs
@@ -37,6 +38,7 @@ set (hdrs
 	test_hooking_local.h
 	test_peb_lookup.h
 	test_imports_mix.h
+	test_found_base.h
 	resource.h
 	shellcodes.h
 )
