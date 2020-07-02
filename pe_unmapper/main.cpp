@@ -153,7 +153,8 @@ int main(int argc, char *argv[])
     init_params(params);
 
     if (argc < 3) {
-        std::cout << "[ pe_unmapper v" << VERSION  << " ]\n";
+        std::cout << "PE Unmapper v" << VERSION  << "\n"
+             << "URL: https://github.com/hasherezade/libpeconv\n";
         std::cout << "Args:\n\n";
         print_help();
         std::cout << "---" << std::endl;
