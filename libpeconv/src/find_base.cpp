@@ -21,8 +21,11 @@ namespace peconv {
         {
             if (!codeSec) return false;
             ULONGLONG reloc_addr = (relocField - (ULONGLONG)peBuffer);
-            if (reloc_addr < codeSec->VirtualAddress || reloc_addr >= codeSec->Misc.VirtualSize) {
-                return true;
+            if (!is64bit) {
+                // in case of 32 bit PEs process only the relocations form the code section
+                if (reloc_addr < codeSec->VirtualAddress || reloc_addr >= codeSec->Misc.VirtualSize) {
+                    return true;
+                }
             }
             ULONGLONG rva = 0;
             if (is64bit) {
