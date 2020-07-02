@@ -1,6 +1,6 @@
 # pe_unmapper
 
-Small tool to convert beteween the PE aligmnents (raw and virtual).
+Small tool to convert beteween the PE alignments (raw and virtual).
 
 Allows for easy PE unmapping: useful in recovering executables dumped from the memory.
 
