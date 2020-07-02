@@ -20,12 +20,12 @@ namespace peconv {
         virtual bool processRelocField(ULONG_PTR relocField)
         {
             if (!codeSec) return false;
+
             ULONGLONG reloc_addr = (relocField - (ULONGLONG)peBuffer);
-            if (!is64bit) {
+            const bool is_in_code = (reloc_addr >= codeSec->VirtualAddress) && (reloc_addr < codeSec->Misc.VirtualSize);
+            if (!is64bit && !is_in_code) {
                 // in case of 32 bit PEs process only the relocations form the code section
-                if (reloc_addr < codeSec->VirtualAddress || reloc_addr >= codeSec->Misc.VirtualSize) {
-                    return true;
-                }
+                return true;
             }
             ULONGLONG rva = 0;
             if (is64bit) {
