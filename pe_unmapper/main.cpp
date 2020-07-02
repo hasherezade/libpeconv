@@ -3,20 +3,25 @@
 #include <peconv.h>
 using namespace peconv;
 
-#define VERSION "0.5"
+#define VERSION "1.0"
 
-#define PARAM_RAW_TO_VIRTUAL "/r2v"
 #define PARAM_OUT_FILE "/out"
 #define PARAM_BASE "/base"
 #define PARAM_IN_FILE "/in"
-#define PARAM_REALIGN_RAW "/vraw"
+#define PARAM_MODE "/mode"
+
+typedef enum  {
+    MODE_VIRTUAL_TO_RAW = 'U',
+    MODE_RAW_TO_VIRTUAL = 'M',
+    MODE_REALIGN = 'R',
+    MODES_COUNT = 3
+} t_map_modes;
 
 typedef struct {
     std::string in_file;
     std::string out_file;
     ULONGLONG load_base;
-    bool mode_r_to_v;
-    bool realign_raw;
+    t_map_modes mode;
 } t_unmapper_params;
 
 void init_params(t_unmapper_params &params)
@@ -24,15 +29,35 @@ void init_params(t_unmapper_params &params)
     params.in_file = "";
     params.out_file = "out.exe";
     params.load_base = 0;
-    params.mode_r_to_v = false;
-    params.realign_raw = false;
+    params.mode = MODE_VIRTUAL_TO_RAW;
 }
+
+std::string mode_to_string(const t_map_modes mode)
+{
+    switch (mode) {
+    case MODE_VIRTUAL_TO_RAW:
+        return "UNMAP (Virtual to Raw)";
+    case MODE_RAW_TO_VIRTUAL:
+        return "MAP (Raw to Virtual)";
+    case MODE_REALIGN:
+        return "REALIGN (Virtual to Raw, where: Raw == Virtual)";
+    }
+    return "Undefined";
+}
+
+t_map_modes parse_mode(char *arg)
+{
+    if (!arg) return MODE_VIRTUAL_TO_RAW;
+    char mode_val = toupper(arg[0]);
+    return t_map_modes(mode_val);
+}
+
 
 bool remap_pe_file(t_unmapper_params &params)
 {
     if (params.in_file.length() == 0 || params.out_file.length() == 0) return false;
     //Read input module:
-    std::cout << "filename: " << params.in_file << "\n";
+    std::cout << "Input file: " << params.in_file << "\n";
 
     size_t in_size = 0;
     BYTE* in_buf = peconv::read_from_file(params.in_file.c_str(), in_size);
@@ -43,24 +68,10 @@ bool remap_pe_file(t_unmapper_params &params)
 
     BYTE* out_buf = nullptr;
     size_t out_size = 0;
-
-    if (params.mode_r_to_v) {
-        std::cout << "MODE: Raw -> Virtual\n";
-        out_buf = peconv::load_pe_module(in_buf, in_size, out_size, false, false);
-        if (out_buf) {
-           ULONGLONG base = peconv::get_image_base(out_buf);
-           if (!relocate_module(out_buf, out_size, (ULONGLONG) base)) {
-               std::cout << "Could not relocate the module!\n";
-           }
-        }
-    }
-    else {
-        std::cout << "MODE: Virtual -> Raw\n";
-        if (params.realign_raw) {
-            std::cout << "Realign Raw to Virtual\n";
-            out_buf = peconv::pe_realign_raw_to_virtual(in_buf, in_size, params.load_base, out_size);
-        }
-        else {
+    std::cout << "[*] Mode: " << mode_to_string(params.mode) << "\n";
+    switch (params.mode) {
+        case MODE_VIRTUAL_TO_RAW:
+        {
             ULONGLONG load_base = params.load_base;
             if (!load_base) {
                 load_base = peconv::find_base_candidate(in_buf, in_size);
@@ -68,7 +79,35 @@ bool remap_pe_file(t_unmapper_params &params)
                 std::cout << "[*] Found possible relocation base: " << std::hex << load_base << "\n";
             }
             out_buf = peconv::pe_virtual_to_raw(in_buf, in_size, load_base, out_size, false);
-        }
+        };
+        break;
+        case MODE_RAW_TO_VIRTUAL:
+        {
+            out_buf = peconv::load_pe_module(in_buf, in_size, out_size, false, false);
+            if (out_buf) {
+                ULONGLONG base = peconv::get_image_base(out_buf);
+                if (!relocate_module(out_buf, out_size, (ULONGLONG)base)) {
+                    std::cout << "Could not relocate the module!\n";
+                }
+                if (params.load_base) {
+                    if (relocate_module(out_buf, out_size, (ULONGLONG)params.load_base)) {
+                        peconv::update_image_base(out_buf, params.load_base);
+                        std::cout << "[*] Changed image base to: " << std::hex << params.load_base << "\n";
+                    }
+                }
+            }
+        };
+        break;
+        case MODE_REALIGN:
+        {
+            if (peconv::is_pe_raw(in_buf, in_size)) {
+                std::cout << "[!] First you need to convert your PE to Virtual format\n";
+            }
+            else {
+                out_buf = peconv::pe_realign_raw_to_virtual(in_buf, in_size, params.load_base, out_size);
+            }
+        };
+        break;
     }
     if (!out_buf) {
         std::cerr << "Failed to convert!\n";
@@ -92,20 +131,20 @@ void print_help()
 
     std::cout << PARAM_IN_FILE;
     std::cout << "\t: Input file name\n";
+
+    std::cout << "\nOptional: \n";
+
     std::cout << PARAM_BASE;
     std::cout << "\t: Base address where the image was loaded: in hex\n";
 
-    std::cout << "\nOptional: \n";
-    
     std::cout << PARAM_OUT_FILE;
     std::cout << "\t: Output file name\n";
 
-    std::cout << PARAM_RAW_TO_VIRTUAL;
-    std::cout << "\t: Switch conversion mode: raw input -> virtual output\n";
-    std::cout << "\t(Default mode: virtual input -> raw output)\n";
-
-    std::cout << PARAM_REALIGN_RAW;
-    std::cout << "\t: Change raw alignment: copy from virtual\n";
+    std::cout << PARAM_MODE;
+    std::cout << "\t: Choose the conversion mode:\n";
+    std::cout << "\t " << (char) MODE_VIRTUAL_TO_RAW << ": " << mode_to_string(MODE_VIRTUAL_TO_RAW) << " [DEFAULT]\n";
+    std::cout << "\t " << (char) MODE_RAW_TO_VIRTUAL << ": " << mode_to_string(MODE_RAW_TO_VIRTUAL) << "\n";
+    std::cout << "\t " << (char) MODE_REALIGN << ": " << mode_to_string(MODE_REALIGN) << "\n";
 }
 
 int main(int argc, char *argv[])
@@ -115,6 +154,7 @@ int main(int argc, char *argv[])
 
     if (argc < 3) {
         std::cout << "[ pe_unmapper v" << VERSION  << " ]\n";
+        std::cout << "Args:\n\n";
         print_help();
         std::cout << "---" << std::endl;
         system("pause");
@@ -122,11 +162,8 @@ int main(int argc, char *argv[])
     }
 
     for (int i = 1; i < argc; i++) {
-        if (!strcmp(argv[i], PARAM_RAW_TO_VIRTUAL)) {
-            params.mode_r_to_v = true;
-        }
-        else if (!strcmp(argv[i], PARAM_REALIGN_RAW)) {
-            params.realign_raw = true;
+        if (!strcmp(argv[i], PARAM_MODE) && ((i + 1) < argc) && argv[i + 1] != NULL) {
+            params.mode = parse_mode(argv[i + 1]);
         }
         else if (!strcmp(argv[i], PARAM_OUT_FILE) && (i + 1) < argc) {
             params.out_file = argv[i + 1];
