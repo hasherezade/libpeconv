@@ -126,3 +126,8 @@ set_tests_properties (TestPEBLookup PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 add_test (TestMixImp ${CMAKE_INSTALL_PREFIX}/tests 13 ${CMAKE_INSTALL_PREFIX}/test_case5_exe.exe )
 set_tests_properties (TestMixImp PROPERTIES PASS_REGULAR_EXPRESSION "Test Case 5 finished, checks: a0caa919")
 set_tests_properties (TestMixImp PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+
+# 14) test finding base
+add_test (TestFindBase ${CMAKE_INSTALL_PREFIX}/tests 14 ${CMAKE_INSTALL_PREFIX}/test_case5_exe.exe )
+set_tests_properties (TestFindBase PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+set_tests_properties (TestFindBase PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
