@@ -2699,7 +2699,7 @@ typedef struct _PEB
     BOOLEAN InheritedAddressSpace;      // These four fields cannot change unless the
     BOOLEAN ReadImageFileExecOptions;   //
     BOOLEAN BeingDebugged;              //
-    BOOLEAN SpareBool;                  //
+    BOOLEAN SpareBool;                  // reserved for bitfields with system-specific flags
     HANDLE Mutant;                      // INITIAL_PEB structure is also updated.
 
     PVOID ImageBaseAddress;
@@ -2777,6 +2777,7 @@ typedef struct _PEB
     ULONG ImageProcessAffinityMask;
     ULONG GdiHandleBuffer[GDI_HANDLE_BUFFER_SIZE];
 
+    // [...] - more fields are there: this is just a fragment of the PEB structure
 } PEB, *PPEB;
 
 
