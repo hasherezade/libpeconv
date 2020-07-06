@@ -119,3 +119,23 @@ size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
     }
     return 0;
 }
+
+bool peconv::set_main_module_in_peb(HMODULE module_ptr)
+{
+    PPEB peb = get_peb();
+    if (peb == NULL) {
+        return false;
+    }
+    peb->ImageBaseAddress = module_ptr;
+    return true;
+}
+
+HMODULE peconv::get_main_module_via_peb()
+{
+    PPEB peb = get_peb();
+    if (peb == NULL) {
+        return NULL;
+    }
+    return (HMODULE) peb->ImageBaseAddress;
+}
+

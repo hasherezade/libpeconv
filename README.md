@@ -38,6 +38,10 @@ int main(int argc, char *argv[])
     if (!my_pe) {
         return -1;
     }
+	
+    // if the loaded PE needs to access resources, you may need to connect it to the PEB:
+    peconv::set_main_module_in_peb((HMODULE)my_pe);
+	
     //calculate the Entry Point of the manually loaded module
     DWORD ep_rva = peconv::get_entry_point_rva(my_pe);
     if (!ep_rva) {
