@@ -345,6 +345,10 @@ Functions</h2></td></tr>
 <tr class="separator:ab47119fd997003e3db87a61a293a835e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1fda7041e960e41247f5861abcffd7a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a">get_module_size_via_peb</a> (IN OPTIONAL HMODULE hModule=nullptr)</td></tr>
 <tr class="separator:aa1fda7041e960e41247f5861abcffd7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b2f6b38a8631d42d6a7919f41de7e01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">set_main_module_in_peb</a> (HMODULE hModule)</td></tr>
+<tr class="separator:a1b2f6b38a8631d42d6a7919f41de7e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06362b6f7168eb7debde0e75cbffbf1a"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a06362b6f7168eb7debde0e75cbffbf1a">get_main_module_via_peb</a> ()</td></tr>
+<tr class="separator:a06362b6f7168eb7debde0e75cbffbf1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e87560c87993545d9e1ece20e756bfb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb">process_relocation_table</a> (IN PVOID modulePtr, IN SIZE_T moduleSize, IN <a class="el" href="classpeconv_1_1_reloc_block_callback.html">RelocBlockCallback</a> *callback)</td></tr>
 <tr class="separator:a7e87560c87993545d9e1ece20e756bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab35521cbdafa0310a0d7e9d1525beed8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab35521cbdafa0310a0d7e9d1525beed8">relocate_module</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase=0)</td></tr>
@@ -1398,7 +1402,7 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Try to find a base to which the PE file was relocated, basing on the filled relocations. WARNING: sometimes it may give inaccurate results. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Try to find a base to which the PE file was relocated, basing on the filled relocations. WARNING: the found base is an estimate, and sometimes may not be fully accurate. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">module_ptr</td><td>: the module which's base is being searched </td></tr>
     <tr><td class="paramname">module_size</td><td>: the size of the given module </td></tr>
@@ -1407,7 +1411,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the base to which the module was relocated </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="find__base_8cpp_source.html#l00067">67</a> of file <a class="el" href="find__base_8cpp_source.html">find_base.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="find__base_8cpp_source.html#l00070">70</a> of file <a class="el" href="find__base_8cpp_source.html">find_base.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2630,6 +2634,35 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a06362b6f7168eb7debde0e75cbffbf1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06362b6f7168eb7debde0e75cbffbf1a">&#9670;&nbsp;</a></span>get_main_module_via_peb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HMODULE peconv::get_main_module_via_peb </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Gets the main module from the current PEB. </p><dl class="section return"><dt>Returns</dt><dd>the main module connected to the current PEB. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00133">133</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_a06362b6f7168eb7debde0e75cbffbf1a_cgraph.png" border="0" usemap="#namespacepeconv_a06362b6f7168eb7debde0e75cbffbf1a_cgraph" alt=""/></div>
+<map name="namespacepeconv_a06362b6f7168eb7debde0e75cbffbf1a_cgraph" id="namespacepeconv_a06362b6f7168eb7debde0e75cbffbf1a_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,177,47"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="225,13,293,39"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="aa1fda7041e960e41247f5861abcffd7a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa1fda7041e960e41247f5861abcffd7a">&#9670;&nbsp;</a></span>get_module_size_via_peb()</h2>
 
@@ -3475,7 +3508,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="relocate_8cpp_source.html#l00159">159</a> of file <a class="el" href="relocate_8cpp_source.html">relocate.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="relocate_8cpp_source.html#l00161">161</a> of file <a class="el" href="relocate_8cpp_source.html">relocate.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5124,7 +5157,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="relocate_8cpp_source.html#l00079">79</a> of file <a class="el" href="relocate_8cpp_source.html">relocate.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="relocate_8cpp_source.html#l00078">78</a> of file <a class="el" href="relocate_8cpp_source.html">relocate.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5742,7 +5775,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="relocate_8cpp_source.html#l00132">132</a> of file <a class="el" href="relocate_8cpp_source.html">relocate.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="relocate_8cpp_source.html#l00134">134</a> of file <a class="el" href="relocate_8cpp_source.html">relocate.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5842,6 +5875,42 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="remote__pe__reader_8cpp_source.html#l00156">156</a> of file <a class="el" href="remote__pe__reader_8cpp_source.html">remote_pe_reader.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1b2f6b38a8631d42d6a7919f41de7e01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b2f6b38a8631d42d6a7919f41de7e01">&#9670;&nbsp;</a></span>set_main_module_in_peb()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool peconv::set_main_module_in_peb </td>
+          <td>(</td>
+          <td class="paramtype">HMODULE&#160;</td>
+          <td class="paramname"><em>hModule</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Sets the given module as the main module in the current PEB. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hModule</td><td>: the module to be connected to the current PEB. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if succeeded, false if failed </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00123">123</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_a1b2f6b38a8631d42d6a7919f41de7e01_cgraph.png" border="0" usemap="#namespacepeconv_a1b2f6b38a8631d42d6a7919f41de7e01_cgraph" alt=""/></div>
+<map name="namespacepeconv_a1b2f6b38a8631d42d6a7919f41de7e01_cgraph" id="namespacepeconv_a1b2f6b38a8631d42d6a7919f41de7e01_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,177,47"/>
+<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="225,13,293,39"/>
+</map>
+</div>
 
 </div>
 </div>
