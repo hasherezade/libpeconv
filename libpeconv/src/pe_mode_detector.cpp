@@ -110,11 +110,8 @@ bool peconv::is_pe_raw_eq_virtual(IN const BYTE* pe_buffer, IN size_t pe_size)
     return true;
 }
 
-bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
+bool is_pe_mapped(IN const BYTE* pe_buffer, IN size_t pe_size)
 {
-    if (peconv::get_sections_count(pe_buffer, pe_size) == 0) {
-        return true;
-    }
     size_t v_score = 0;
     if (peconv::has_valid_import_table((const PBYTE)pe_buffer, pe_size)) {
 #ifdef _DEBUG
@@ -144,10 +141,24 @@ bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
     std::cout << "TOTAL v_score: " << std::dec << v_score << std::endl;
 #endif
     if (v_score > 0) {
+        return true;
+    }
+    return false;
+}
+
+bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
+{
+    if (peconv::get_sections_count(pe_buffer, pe_size) == 0) {
+        return true;
+    }
+    if (is_pe_mapped(pe_buffer, pe_size)) {
        // it has artefacts typical for a PE in a virtual alignment
         return false;
     }
     if (sec_hdrs_erased(pe_buffer, pe_size, true)) {
+#ifdef _DEBUG
+        std::cout << "Raw alignment is erased\n";
+#endif
         // the raw alignment of the sections is erased
         return false;
     }
@@ -163,7 +174,9 @@ bool peconv::is_pe_expanded(IN const BYTE* pe_buffer, IN size_t pe_size)
         PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
         //scan only executable sections
         if ((sec->Characteristics & IMAGE_SCN_MEM_EXECUTE) != 0) {
-            if (is_section_expanded(pe_buffer, pe_size, sec)) return true;
+            if (is_section_expanded(pe_buffer, pe_size, sec)) {
+                return true;
+            }
         }
     }
     return false;
