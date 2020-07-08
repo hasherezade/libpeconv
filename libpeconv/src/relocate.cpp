@@ -72,7 +72,7 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
         }
         entry = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)entry + sizeof(WORD));
     }
-    return true;
+    return (i != 0);
 }
 
 bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, IN RelocBlockCallback *callback)
@@ -103,12 +103,9 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
 #endif
             return false;
         }
-        parsedSize += reloc->SizeOfBlock;
-
         if (reloc->SizeOfBlock == 0) {
             break;
         }
-
         size_t entriesNum = (reloc->SizeOfBlock - 2 * sizeof(DWORD)) / sizeof(WORD);
         DWORD page = reloc->VirtualAddress;
 
@@ -117,9 +114,10 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
             std::cerr << "[-] Invalid address of relocations block\n";
             return false;
         }
-        if (process_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b, callback) == false) {
+        if (!process_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b, callback)) {
             return false;
         }
+        parsedSize += reloc->SizeOfBlock;
     }
     return (parsedSize != 0);
 }
