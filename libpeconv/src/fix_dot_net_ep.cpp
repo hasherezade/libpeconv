@@ -70,7 +70,7 @@ BYTE* search_jump(BYTE *buf, size_t buf_size, const DWORD cor_exe_main_thunk, co
     if (arg_size >= buf_size) return nullptr;
 
     const size_t end_offset = buf_size - arg_size - 1;
-    for (int i = end_offset; i >= 0; i--) {
+    for (long i = end_offset; i >= 0; i--) {
         BYTE nextb = buf[i];
         if (buf[i] == 0xFF && buf[i + 1] == 0x25) { // JMP
             DWORD* addr = (DWORD*)(&buf[i + 2]);
