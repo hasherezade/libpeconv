@@ -19,7 +19,7 @@ set ( RUNPE_DIR "${CMAKE_SOURCE_DIR}/${M_RUN_PE}" CACHE PATH "RunPE main path" )
 #
 # libs
 add_subdirectory ( libpeconv )
-set ( PECONV_LIB $<TARGET_FILE:libpeconv> CACHE FILE "PEConvLib library path" )
+set ( PECONV_LIB $<TARGET_FILE:libpeconv> CACHE PATH "PEConvLib library path" )
 
 #demos:
 add_subdirectory ( pe_unmapper )
