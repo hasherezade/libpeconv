@@ -181,7 +181,8 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, BYTE *
     }
     size_t buffer_size = section_hdr->Misc.VirtualSize;
     if (roundup) {
-        const DWORD va = peconv::get_sec_alignment(header_buffer, false);
+        DWORD va = peconv::get_sec_alignment(header_buffer, false);
+        if (va == 0) va = PAGE_SIZE;
         buffer_size = roundup_to_unit(section_hdr->Misc.VirtualSize, va);
     }
     UNALIGNED_BUF module_code = peconv::alloc_unaligned(buffer_size);
