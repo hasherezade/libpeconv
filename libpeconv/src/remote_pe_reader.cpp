@@ -159,6 +159,9 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
 namespace peconv {
     inline size_t roundup_to_unit(size_t size, size_t unit)
     {
+        if (unit == 0) {
+            return size;
+        }
         size_t parts = size / unit;
         if (size % unit) parts++;
         return parts * unit;
