@@ -12,7 +12,7 @@ Not only it allows for loading PE files, but also for customizing of some steps,
 
 LibPeConv can be used for creating PE binders, as it allows to load a PE directly from the resource, and integrate it as if it was a local code.
 
-As well it can help you in dumping PEs from the memory, and rebuildign their IATs.
+As well it can help you in dumping PEs from the memory, and rebuilding their IATs.
 
 ### Basic example
 
