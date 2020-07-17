@@ -69,6 +69,7 @@ var searchData=
   ['is_5fordinal_5fstring',['is_ordinal_string',['../namespacepeconv.html#a0189721b0f85feff51517e729b11cf47',1,'peconv']]],
   ['is_5fpadding',['is_padding',['../namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4',1,'peconv']]],
   ['is_5fpe_5fexpanded',['is_pe_expanded',['../namespacepeconv.html#abadc792662f4eacb9a9f5453ed977816',1,'peconv']]],
+  ['is_5fpe_5fmapped',['is_pe_mapped',['../pe__mode__detector_8cpp.html#aee0b670cbdb261635a8cc5f8f33cb9da',1,'pe_mode_detector.cpp']]],
   ['is_5fpe_5fraw',['is_pe_raw',['../namespacepeconv.html#a3046d1cdda885f782e5ef1497123a515',1,'peconv']]],
   ['is_5fpe_5fraw_5feq_5fvirtual',['is_pe_raw_eq_virtual',['../namespacepeconv.html#aaf10a852b5e7a96b643148eb9ee00827',1,'peconv']]],
   ['is_5fpointer_5fin_5fntdll',['is_pointer_in_ntdll',['../namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d',1,'peconv']]],

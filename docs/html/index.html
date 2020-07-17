@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libPeConv: libpeconv</title>
+<title>libPeConv: libPeConv</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,15 +63,18 @@ $(function() {
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">libpeconv </div>  </div>
+<div class="title">libPeConv </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a href="https://ci.appveyor.com/project/hasherezade/libpeconv"><img src="https://ci.appveyor.com/api/projects/status/pqo6ob148pf5b352?svg=true" alt="Build status" class="inline"/>
 </a> <a href="https://www.codacy.com/manual/hasherezade/libpeconv?utm_source=github.com&amp;amp;utm_medium=referral&amp;amp;utm_content=hasherezade/libpeconv&amp;amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/55911b033cf145d38d6e38a0c005b686" alt="Codacy Badge" class="inline"/>
 </a></p>
-<p>A library to load and manipulate PE files.<br />
- <br />
-</p>
+<p><em>A library to load and manipulate PE files.</em></p>
+<h3>Objectives</h3>
+<p>The goal of libPEConv was to create a "swiss army knife" for custom loading of PE files. It gathers various helper functions that you can quickly integrate in your own loader. For example: remapping sections, applying relocations, loading imports, parsing resources.</p>
+<p>Not only it allows for loading PE files, but also for customizing of some steps, i.e. IAT hooking (by providing custom IAT resolvers), and functions redirection. Yet, it is NOT focused on inline hooking and should not be confused with libraries such as Ms Detours or MinHook.</p>
+<p>LibPeConv can be used for creating PE binders, as it allows to load a PE directly from the resource, and integrate it as if it was a local code.</p>
+<p>As well it can help you in dumping PEs from the memory, and rebuilding their IATs.</p>
 <h3>Basic example</h3>
 <p><em>The simplest usecase</em>: use libPeConv to manually load and run an EXE of you choice.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;Windows.h&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="peconv_8h.html">peconv.h</a>&gt;</span> <span class="comment">// include libPeConv header</span></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div><div class="line">{</div><div class="line">    <span class="keywordflow">if</span> (argc &lt; 2) {</div><div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;Args: &lt;path to the exe&gt;&quot;</span> &lt;&lt; std::endl;</div><div class="line">        <span class="keywordflow">return</span> 0;</div><div class="line">    }</div><div class="line">    LPCSTR pe_path = argv[1];</div><div class="line"></div><div class="line">    <span class="comment">// manually load the PE file using libPeConv:</span></div><div class="line">    <span class="keywordtype">size_t</span> v_size = 0;</div><div class="line"><span class="preprocessor">#ifdef LOAD_FROM_PATH</span></div><div class="line">    <span class="comment">//if the PE is dropped on the disk, you can load it from the file:</span></div><div class="line">    BYTE* my_pe = <a class="code" href="namespacepeconv.html#a59b0b9f9daf4ccf3e35c5e337cfaed4e">peconv::load_pe_executable</a>(pe_path, v_size);</div><div class="line"><span class="preprocessor">#else</span></div><div class="line">    <span class="keywordtype">size_t</span> bufsize = 0;</div><div class="line">    BYTE *buffer = <a class="code" href="namespacepeconv.html#aa0ea3c0c35b7c51ab4506630315252aa">peconv::load_file</a>(pe_path, bufsize);</div><div class="line"></div><div class="line">    <span class="comment">// if the file is NOT dropped on the disk, you can load it directly from a memory buffer:</span></div><div class="line">    BYTE* my_pe = <a class="code" href="namespacepeconv.html#a59b0b9f9daf4ccf3e35c5e337cfaed4e">peconv::load_pe_executable</a>(buffer, bufsize, v_size);</div><div class="line"><span class="preprocessor">#endif</span></div><div class="line">    <span class="keywordflow">if</span> (!my_pe) {</div><div class="line">        <span class="keywordflow">return</span> -1;</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="comment">// if the loaded PE needs to access resources, you may need to connect it to the PEB:</span></div><div class="line">    <a class="code" href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">peconv::set_main_module_in_peb</a>((HMODULE)my_pe);</div><div class="line">    </div><div class="line">    <span class="comment">//calculate the Entry Point of the manually loaded module</span></div><div class="line">    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> ep_rva = <a class="code" href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a>(my_pe);</div><div class="line">    <span class="keywordflow">if</span> (!ep_rva) {</div><div class="line">        <span class="keywordflow">return</span> -2;</div><div class="line">    }</div><div class="line">    ULONG_PTR ep_va = ep_rva + (ULONG_PTR) my_pe;</div><div class="line">    <span class="comment">//assuming that the payload is an EXE file (not DLL) this will be the simplest prototype of the main:</span></div><div class="line">    int (*new_main)() = (<span class="keywordtype">int</span>(*)())ep_va;</div><div class="line"></div><div class="line">    <span class="comment">//call the Entry Point of the manually loaded PE:</span></div><div class="line">    <span class="keywordflow">return</span> new_main();</div><div class="line">}</div></div><!-- fragment --><h3>Read more</h3>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['libpeconv',['libpeconv',['../index.html',1,'']]]
+  ['libpeconv',['libPeConv',['../index.html',1,'']]]
 ];
