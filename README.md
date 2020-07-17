@@ -1,9 +1,18 @@
-# libpeconv
+# libPeConv
 [![Build status](https://ci.appveyor.com/api/projects/status/pqo6ob148pf5b352?svg=true)](https://ci.appveyor.com/project/hasherezade/libpeconv)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/55911b033cf145d38d6e38a0c005b686)](https://www.codacy.com/manual/hasherezade/libpeconv?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hasherezade/libpeconv&amp;utm_campaign=Badge_Grade)
 
-A library to load and manipulate PE files.<br/>
-<br/>
+*A library to load and manipulate PE files.*
+
+### Objectives
+
+The goal of libPEConv was to create a "swiss army knife" for custom loading of PE files. It gathers various helper functions that you can quickly inegrate in your own loader. For example: remapping sections, applying relocations, loading imports, parsing resources. 
+
+Not only it allows for loading PE files, but also for customizing of some steps, i.e. IAT hooking (by providing custom IAT resolvers), and functions redirection. Yet, it is NOT focused on inline hooking and should not be confused with libraries such as Ms Detours or MinHook.
+
+LibPeConv can be used for creating PE binders, as it allows to load a PE directly from the resource, and integrate it as if it was a local code.
+
+As well it can help you in dumping PEs from the memory, and rebuildign their IATs.
 
 ### Basic example
 
