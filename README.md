@@ -8,7 +8,7 @@
 
 The goal of libPEConv was to create a "swiss army knife" for custom loading of PE files. It gathers various helper functions that you can quickly integrate in your own loader. For example: remapping sections, applying relocations, loading imports, parsing resources. 
 
-Not only it allows for loading PE files, but also for customizing of some steps, i.e. IAT hooking (by providing custom IAT resolvers), and functions redirection. Yet, it is NOT focused on inline hooking and should not be confused with libraries such as Ms Detours or MinHook.
+Not only it allows for loading PE files, but also for customizing of some steps, i.e. IAT hooking (by providing custom IAT resolvers), and functions redirection. Yet, it is NOT focused on inline hooking and should not be confused with libraries such as MS Detours or MinHook.
 
 LibPeConv can be used for creating PE binders, as it allows to load a PE directly from the resource, and integrate it as if it was a local code.
 
