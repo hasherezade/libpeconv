@@ -23,6 +23,7 @@ set (srcs
 	test_peb_lookup.cpp
 	test_imports_mix.cpp
 	test_found_base.cpp
+	test_fix_dotnet.cpp
 )
 
 set (hdrs
@@ -39,6 +40,7 @@ set (hdrs
 	test_peb_lookup.h
 	test_imports_mix.h
 	test_found_base.h
+	test_fix_dotnet.h
 	resource.h
 	shellcodes.h
 )
@@ -131,3 +133,8 @@ set_tests_properties (TestMixImp PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 add_test (TestFindBase ${CMAKE_INSTALL_PREFIX}/tests 14 ${CMAKE_INSTALL_PREFIX}/test_case5_exe.exe )
 set_tests_properties (TestFindBase PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 set_tests_properties (TestFindBase PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+
+# 14) test finding jumps
+add_test (TestFindJumpToDotNet ${CMAKE_INSTALL_PREFIX}/tests 15 )
+set_tests_properties (TestFindJumpToDotNet PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+set_tests_properties (TestFindJumpToDotNet PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")

@@ -14,6 +14,7 @@
 #include "test_peb_lookup.h"
 #include "test_imports_mix.h"
 #include "test_found_base.h"
+#include "test_fix_dotnet.h"
 
 int make_test(int test_id, char *test_arg)
 {
@@ -37,7 +38,8 @@ int make_test(int test_id, char *test_arg)
         case 11: return tests::hook_self_local();
         case 12: return tests::check_modules();
         case 13: return tests::imports_mix(test_arg);
-        case 14: return tests::load_and_check_base(test_arg); //manual test
+        case 14: return tests::load_and_check_base(test_arg);
+		case 15: return tests::check_finding_jumps();
     }
     return -1;
 }
