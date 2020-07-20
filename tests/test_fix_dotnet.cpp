@@ -17,7 +17,7 @@ namespace tests {
         if (!direction_start) {
             pattern_offset = (buf_size - sizeof(pattern)) - pattern_offset;
         }
-        if (buf_size > sizeof(pattern) || (pattern_offset + sizeof(pattern)) > buf_size) {
+        if (buf_size < sizeof(pattern) || (pattern_offset + sizeof(pattern)) > buf_size) {
             std::cerr << __FILE__ << " incorrect test data!" << std::endl;
             return false;
         }
