@@ -39,6 +39,9 @@ protected:
 
 bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD page, PVOID modulePtr, SIZE_T moduleSize, bool is64bit, RelocBlockCallback *callback)
 {
+    if (entriesNum == 0) {
+        return true; // nothing to process
+    }
     BASE_RELOCATION_ENTRY* entry = block;
     SIZE_T i = 0;
     for (i = 0; i < entriesNum; i++) {
