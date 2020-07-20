@@ -65,15 +65,22 @@ DWORD find_corexemain(BYTE *buf, size_t buf_size)
 BYTE* search_jump(BYTE *buf, size_t buf_size, const DWORD cor_exe_main_thunk, const ULONGLONG img_base)
 {
     // search the jump pattern, i.e.:
-    //JMP DWORD NEAR [0X402000] : FF2500204000
-    const size_t arg_size = sizeof(DWORD);
-    if (arg_size >= buf_size) return nullptr;
+    //JMP DWORD NEAR [0X402000] : FF 25 00204000
+    const size_t jmp_size = 2;
+    const BYTE jmp_pattern[jmp_size] = { 0xFF, 0x25 };
 
-    const size_t end_offset = buf_size - arg_size - 1;
-    for (long i = end_offset; i >= 0; i--) {
-        BYTE nextb = buf[i];
-        if (buf[i] == 0xFF && buf[i + 1] == 0x25) { // JMP
-            DWORD* addr = (DWORD*)(&buf[i + 2]);
+    const size_t arg_size = sizeof(DWORD);
+    if ((jmp_size + arg_size) > buf_size) {
+        return nullptr;
+    }
+    const size_t end_offset = buf_size - (jmp_size + arg_size);
+
+    for (size_t i = end_offset; // search backwards
+        (i + 1) != 0; // this is unsigned comparison, so we cannot do: i >= 0
+        i--) // go back by one BYTE
+    {
+        if (buf[i] == jmp_pattern[0] && buf[i + 1] == jmp_pattern[1]) { // JMP
+            DWORD* addr = (DWORD*)(&buf[i + jmp_size]);
             DWORD rva = static_cast<DWORD>((*addr) - img_base);
             if (rva == cor_exe_main_thunk) {
 #ifdef _DEBUG
