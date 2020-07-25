@@ -15,13 +15,25 @@ public:
     virtual bool processThunks(LPSTR lib_name, ULONG_PTR origFirstThunkPtr, ULONG_PTR firstThunkPtr)
     {
         if (this->is64b) {
+#ifdef _WIN64 // loader is 64 bit, allow to load imports for 64-bit payload:
             IMAGE_THUNK_DATA64* desc = reinterpret_cast<IMAGE_THUNK_DATA64*>(origFirstThunkPtr);
             ULONGLONG* call_via = reinterpret_cast<ULONGLONG*>(firstThunkPtr);
             return processThunks_tpl<ULONGLONG, IMAGE_THUNK_DATA64>(lib_name, desc, call_via, IMAGE_ORDINAL_FLAG64);
+#else
+            std::cerr << "[!] Cannot fill imports into 64 bit PE via 32 bit loader!\n";
+            return false;
+#endif
         }
-        IMAGE_THUNK_DATA32* desc = reinterpret_cast<IMAGE_THUNK_DATA32*>(origFirstThunkPtr);
-        DWORD* call_via = reinterpret_cast<DWORD*>(firstThunkPtr);
-        return processThunks_tpl<DWORD, IMAGE_THUNK_DATA32>(lib_name, desc, call_via, IMAGE_ORDINAL_FLAG32);
+        else {
+#ifndef _WIN64 // loader is 32 bit, allow to load imports for 32-bit payload:
+            IMAGE_THUNK_DATA32* desc = reinterpret_cast<IMAGE_THUNK_DATA32*>(origFirstThunkPtr);
+            DWORD* call_via = reinterpret_cast<DWORD*>(firstThunkPtr);
+            return processThunks_tpl<DWORD, IMAGE_THUNK_DATA32>(lib_name, desc, call_via, IMAGE_ORDINAL_FLAG32);
+#else
+            std::cerr << "[!] Cannot fill imports into 32 bit PE via 64 bit loader!\n";
+            return false;
+#endif 
+        }
     }
 
 protected:

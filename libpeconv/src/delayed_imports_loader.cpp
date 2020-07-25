@@ -140,10 +140,18 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
         std::cout << dll_name << std::endl;
 #endif
         if (is_64bit) {
+#ifdef _WIN64
             parse_delayed_desc<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver);
+#else
+            return false;
+#endif
         }
         else {
+#ifndef _WIN64
             parse_delayed_desc<DWORD, IMAGE_THUNK_DATA32>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver);
+#else
+            return false;
+#endif
         }
     }
     return true;
