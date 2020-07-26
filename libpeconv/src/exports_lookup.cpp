@@ -111,7 +111,8 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
 #ifdef _DEBUG
         std::cerr << "[*] Getting function by ordinal" << std::endl;
 #endif
-        return get_export_by_ord(modulePtr, exp, reinterpret_cast<DWORD>(wanted_name));
+        const DWORD ordinal = IMAGE_ORDINAL64((ULONG_PTR)wanted_name);
+        return get_export_by_ord(modulePtr, exp, ordinal);
     }
     if (IsBadReadPtr(wanted_name, 1)) {
         std::cerr << "[-] Invalid pointer to the name" << std::endl;
@@ -152,12 +153,14 @@ FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
     FARPROC hProc = get_exported_func(libBasePtr, func_name);
 
     if (hProc == NULL) {
+#ifdef _DEBUG
         if (!IsBadReadPtr(func_name, 1)) {
             std::cerr << "[!] Cound not get the function: "<< func_name <<" from exports!" << std::endl;
         } else {
-            std::cerr << "[!] Cound not get the function: "<< reinterpret_cast<DWORD>(func_name) <<" from exports!" << std::endl;
+            std::cerr << "[!] Cound not get the function: "<< IMAGE_ORDINAL64((ULONG_PTR)func_name) <<" from exports!" << std::endl;
         }
         std::cerr << "[!] Falling back to the default resolver..." <<std::endl;
+#endif
         hProc = default_func_resolver::resolve_func(lib_name, func_name);
         if (hProc == NULL) {
             std::cerr << "[-] Loading function from " << lib_name << " failed!" << std::endl;
