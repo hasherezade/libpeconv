@@ -12,6 +12,9 @@
 #define PAGE_SIZE 0x1000
 #endif
 
+#define MASK_TO_DWORD(val) (val & 0xffffffff)
+#define MASK_TO_WORD(val) (val & 0xffff)
+
 namespace peconv {
     /**
     Maximal size of the PE header.
