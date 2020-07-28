@@ -573,7 +573,7 @@ PIMAGE_SECTION_HEADER peconv::get_last_section(IN const PBYTE pe_buffer, IN size
 
 DWORD peconv::calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)
 {
-    SIZE_T module_end = peconv::get_hdrs_size(pe_buffer);
+    DWORD module_end = peconv::get_hdrs_size(pe_buffer);
     const size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
     if (sections_count == 0) {
         return module_end;
@@ -583,7 +583,7 @@ DWORD peconv::calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool 
         PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
         if (!sec) break;
 
-        size_t new_end = is_raw ? (sec->PointerToRawData + sec->SizeOfRawData) : (sec->VirtualAddress + sec->Misc.VirtualSize);
+        DWORD new_end = is_raw ? (sec->PointerToRawData + sec->SizeOfRawData) : (sec->VirtualAddress + sec->Misc.VirtualSize);
         if (new_end > module_end) module_end = new_end;
     }
     return module_end;
