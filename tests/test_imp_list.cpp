@@ -29,7 +29,7 @@ protected:
         ULONG_PTR call_via_rva = (ULONG_PTR)call_via - (ULONG_PTR)this->modulePtr;
         std::cout << "via RVA: " << std::hex << call_via_rva << " : " << lib_name << " : ";
 
-        bool is_by_ord = desc->u1.Ordinal & ordinal_flag;
+        bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
         if (is_by_ord) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
             std::cout << "ord: " << raw_ordinal << std::endl;
