@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['search_5fjump',['search_jump',['../fix__dot__net__ep_8cpp.html#ace75081cd3fd63b0edd8bec6cc17d8f8',1,'fix_dot_net_ep.cpp']]],
+  ['search_5fjump',['search_jump',['../fix__dot__net__ep_8cpp.html#ace75081cd3fd63b0edd8bec6cc17d8f8',1,'search_jump(BYTE *buf, size_t buf_size, const DWORD cor_exe_main_thunk, const ULONGLONG img_base):&#160;fix_dot_net_ep.cpp'],['../fix__dot__net__ep_8h.html#ace75081cd3fd63b0edd8bec6cc17d8f8',1,'search_jump(BYTE *buf, size_t buf_size, const DWORD cor_exe_main_thunk, const ULONGLONG img_base):&#160;fix_dot_net_ep.cpp']]],
   ['search_5fname',['search_name',['../imports__uneraser_8cpp.html#ac8887910b541cf30816d0630aa7c87fc',1,'imports_uneraser.cpp']]],
   ['sec_5fhdrs_5ferased',['sec_hdrs_erased',['../pe__mode__detector_8cpp.html#affdcfe22d38288937ec5fa936e708118',1,'pe_mode_detector.cpp']]],
   ['secondleveltbfills',['SecondLevelTbFills',['../struct___s_y_s_t_e_m___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#a37682521ff0ce02646d29ad5d7caaaab',1,'_SYSTEM_PERFORMANCE_INFORMATION']]],
@@ -26,6 +26,7 @@ var searchData=
   ['set_5fmain_5fmodule_5fin_5fpeb',['set_main_module_in_peb',['../namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01',1,'peconv']]],
   ['set_5fsec_5falignment',['set_sec_alignment',['../namespacepeconv.html#a02b851a59c1ad626a8b737b9c3d7e89c',1,'peconv']]],
   ['set_5fsubsystem',['set_subsystem',['../namespacepeconv.html#a18923adb0587b6bedb07c773962ffa18',1,'peconv']]],
+  ['shareddata',['SharedData',['../struct___p_e_b.html#a2c910501d9caf09591c7850e4ae736b2',1,'_PEB']]],
   ['shellinfo',['ShellInfo',['../struct___r_t_l___u_s_e_r___p_r_o_c_e_s_s___p_a_r_a_m_e_t_e_r_s.html#ac3565c91e1e190c449e1b5de8d14acac',1,'_RTL_USER_PROCESS_PARAMETERS']]],
   ['shortname',['ShortName',['../struct___f_i_l_e___b_o_t_h___d_i_r___i_n_f_o_r_m_a_t_i_o_n.html#a52d962cf87da93d105312ea762c349f1',1,'_FILE_BOTH_DIR_INFORMATION::ShortName()'],['../struct___f_i_l_e___i_d___b_o_t_h___d_i_r___i_n_f_o_r_m_a_t_i_o_n.html#a8aa27434361fbe3f0e059c40f2b390ad',1,'_FILE_ID_BOTH_DIR_INFORMATION::ShortName()']]],
   ['shortnamelength',['ShortNameLength',['../struct___f_i_l_e___b_o_t_h___d_i_r___i_n_f_o_r_m_a_t_i_o_n.html#afef82c6bee563ff546f82a061209e126',1,'_FILE_BOTH_DIR_INFORMATION::ShortNameLength()'],['../struct___f_i_l_e___i_d___b_o_t_h___d_i_r___i_n_f_o_r_m_a_t_i_o_n.html#a3ac1545257ec23fe8dbf1322804030b9',1,'_FILE_ID_BOTH_DIR_INFORMATION::ShortNameLength()']]],
@@ -41,7 +42,6 @@ var searchData=
   ['sizeofimage',['SizeOfImage',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#a332d3022eadcda6c2b80dcffabc3124d',1,'_LDR_DATA_TABLE_ENTRY::SizeOfImage()'],['../struct___l_d_r___m_o_d_u_l_e.html#a2d1ab5c58f2176667b85246bd54355ff',1,'_LDR_MODULE::SizeOfImage()']]],
   ['sourceptr',['sourcePtr',['../classpeconv_1_1_patch_backup.html#a3f0d04d49b9942f135ff9068ee750ced',1,'peconv::PatchBackup']]],
   ['spare3count',['Spare3Count',['../struct___s_y_s_t_e_m___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#afe90fa4446dd4bcfc22d84e4c64307f1',1,'_SYSTEM_PERFORMANCE_INFORMATION']]],
-  ['sparebool',['SpareBool',['../struct___p_e_b.html#adb38529ff5d253e00d7a55ac9c105ade',1,'_PEB']]],
   ['spareli1',['SpareLi1',['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s___i_n_f_o_r_m_a_t_i_o_n.html#a8db42237da69f8c7a3f04b5a57e10476',1,'_SYSTEM_PROCESS_INFORMATION']]],
   ['spareli2',['SpareLi2',['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s___i_n_f_o_r_m_a_t_i_o_n.html#ad51c5c7e3a80716c4280e0b317cceb1b',1,'_SYSTEM_PROCESS_INFORMATION']]],
   ['spareli3',['SpareLi3',['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s___i_n_f_o_r_m_a_t_i_o_n.html#af80deddd16df1a6c5560ad1f66b46de5',1,'_SYSTEM_PROCESS_INFORMATION']]],
@@ -112,7 +112,7 @@ var searchData=
   ['systemprocessorinformation',['SystemProcessorInformation',['../ntddk_8h.html#ad5d815b48e8f4da1ef2eb7a2f18a54e0a338ad575bde4c1c8b176255cf643f5b6',1,'ntddk.h']]],
   ['systemprocessorperformanceinformation',['SystemProcessorPerformanceInformation',['../ntddk_8h.html#ad5d815b48e8f4da1ef2eb7a2f18a54e0aee4010baa865aaa3351efd466dae10cd',1,'ntddk.h']]],
   ['systemregistryquotainformation',['SystemRegistryQuotaInformation',['../ntddk_8h.html#ad5d815b48e8f4da1ef2eb7a2f18a54e0a5083f0df0a390a238fd7d00f5bb17daa',1,'ntddk.h']]],
-  ['systemreserved',['SystemReserved',['../struct___p_e_b.html#a61b552a12f6e55fb7a6868c914c479fd',1,'_PEB']]],
+  ['systemreserved',['SystemReserved',['../struct___p_e_b.html#a629b748c7ae2d96cafb61ed1402be330',1,'_PEB']]],
   ['systemstacktraceinformation',['SystemStackTraceInformation',['../ntddk_8h.html#ad5d815b48e8f4da1ef2eb7a2f18a54e0aa589ff854f977a7baf8a4e6232963490',1,'ntddk.h']]],
   ['systemsummarymemoryinformation',['SystemSummaryMemoryInformation',['../ntddk_8h.html#ad5d815b48e8f4da1ef2eb7a2f18a54e0adbac7f8318344ddf7df6aef51312e524',1,'ntddk.h']]],
   ['systemtimeadjustmentinformation',['SystemTimeAdjustmentInformation',['../ntddk_8h.html#ad5d815b48e8f4da1ef2eb7a2f18a54e0a8f6b9da43599db5ff7f952770a0e0222',1,'ntddk.h']]],

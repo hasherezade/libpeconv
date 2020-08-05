@@ -13,6 +13,7 @@ var searchData=
   ['parentfileid',['ParentFileId',['../struct___f_i_l_e___l_i_n_k___e_n_t_r_y___i_n_f_o_r_m_a_t_i_o_n.html#acb264096b24e44b8cf59476f0b30beb0',1,'_FILE_LINK_ENTRY_INFORMATION']]],
   ['patchinformation',['PatchInformation',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#af9ba6f02d5e97ae0c7b762d74ac953f8',1,'_LDR_DATA_TABLE_ENTRY']]],
   ['peakcommitment',['PeakCommitment',['../struct___s_y_s_t_e_m___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#ada89f5f2d8f9829a716de91684b74fc5',1,'_SYSTEM_PERFORMANCE_INFORMATION']]],
+  ['peb',['peb',['../class_p_e_b_fast_locker.html#a100cf94bc92ded8f0a8f5022ee7185b1',1,'PEBFastLocker::peb()'],['../class_p_e_b_loader_locker.html#af325171e337b89e1308d7ab065cc7e2e',1,'PEBLoaderLocker::peb()']]],
   ['pebbaseaddress',['PebBaseAddress',['../struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a0e16d6208b60ee422a60c8b02b2ead6b',1,'_PROCESS_BASIC_INFORMATION']]],
   ['pebuffer',['peBuffer',['../classpeconv_1_1_collect_code_relocs.html#af665132262ce50e1fed3a746650ab334',1,'peconv::CollectCodeRelocs']]],
   ['pointer',['Pointer',['../struct___i_o___s_t_a_t_u_s___b_l_o_c_k.html#a8ae820dfd3297d6bb1cc764e9ac41b59',1,'_IO_STATUS_BLOCK']]],

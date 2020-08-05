@@ -26,7 +26,6 @@ var searchData=
   ['get_5fjmp_5fdelta',['get_jmp_delta',['../hooks_8cpp.html#a57569380a053fc3b1b44fd5b7f8d8904',1,'hooks.cpp']]],
   ['get_5fkernel32_5fhndl',['get_kernel32_hndl',['../namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63',1,'peconv']]],
   ['get_5flast_5fsection',['get_last_section',['../namespacepeconv.html#ad7bc9517bad540eec401af74db0ab99a',1,'peconv']]],
-  ['get_5fldr_5fmodule',['get_ldr_module',['../peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b',1,'peb_lookup.cpp']]],
   ['get_5fload_5fconfig_5fptr',['get_load_config_ptr',['../namespacepeconv.html#a2f40e0e53ef6ac8104faf550e5b41bf5',1,'peconv']]],
   ['get_5fload_5fconfig_5fversion',['get_load_config_version',['../namespacepeconv.html#a31644522ca0b80875ee60e71a68540c1',1,'peconv']]],
   ['get_5fmain_5fmodule_5fvia_5fpeb',['get_main_module_via_peb',['../namespacepeconv.html#a06362b6f7168eb7debde0e75cbffbf1a',1,'peconv']]],

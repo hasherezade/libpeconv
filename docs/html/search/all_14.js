@@ -21,6 +21,7 @@ var searchData=
   ['update_5fimage_5fbase',['update_image_base',['../namespacepeconv.html#a386f3e2c4274a475f157124b5d116b36',1,'peconv']]],
   ['update_5fimage_5fsize',['update_image_size',['../namespacepeconv.html#ab7f00436adb92e08a80bdbad79352b69',1,'peconv']]],
   ['userflags',['UserFlags',['../struct___k_e_y___f_l_a_g_s___i_n_f_o_r_m_a_t_i_o_n.html#a7afec43c4acd719ddcab0a591df1ab36',1,'_KEY_FLAGS_INFORMATION']]],
+  ['usersharedinfoptr',['UserSharedInfoPtr',['../struct___p_e_b.html#ae1e741e18084ea9816c08527503bcb11',1,'_PEB']]],
   ['usertime',['UserTime',['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s___i_n_f_o_r_m_a_t_i_o_n.html#a26114ada5e4c6fb17878659ca0472041',1,'_SYSTEM_PROCESS_INFORMATION::UserTime()'],['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s_o_r___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#ac775a33411cb143cf711a3ef5a88bd41',1,'_SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION::UserTime()']]],
   ['util_2ecpp',['util.cpp',['../util_8cpp.html',1,'']]],
   ['util_2eh',['util.h',['../util_8h.html',1,'']]]

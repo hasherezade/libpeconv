@@ -116,7 +116,7 @@ var searchData=
   ['numberofcdroms',['NumberOfCdRoms',['../struct___s_y_s_t_e_m___d_e_v_i_c_e___i_n_f_o_r_m_a_t_i_o_n.html#a7a0f0087a022e2a68609c13b410642bb',1,'_SYSTEM_DEVICE_INFORMATION']]],
   ['numberofdisks',['NumberOfDisks',['../struct___s_y_s_t_e_m___d_e_v_i_c_e___i_n_f_o_r_m_a_t_i_o_n.html#a110da1dbfd3b14ba0ec2ecef0bc0e317',1,'_SYSTEM_DEVICE_INFORMATION']]],
   ['numberoffloppies',['NumberOfFloppies',['../struct___s_y_s_t_e_m___d_e_v_i_c_e___i_n_f_o_r_m_a_t_i_o_n.html#ad09660297637819b3e19ebd9a90997b7',1,'_SYSTEM_DEVICE_INFORMATION']]],
-  ['numberofheaps',['NumberOfHeaps',['../struct___p_e_b.html#aa91f5b1a771afcc566e2ea74d020c590',1,'_PEB']]],
+  ['numberofheaps',['NumberOfHeaps',['../struct___p_e_b.html#a8413611db5c910356eeafac230bd2086',1,'_PEB']]],
   ['numberoflinks',['NumberOfLinks',['../struct___f_i_l_e___s_t_a_n_d_a_r_d___i_n_f_o_r_m_a_t_i_o_n.html#a0ce5ea8999eaf912ea04aa43d8df282c',1,'_FILE_STANDARD_INFORMATION']]],
   ['numberofparallelports',['NumberOfParallelPorts',['../struct___s_y_s_t_e_m___d_e_v_i_c_e___i_n_f_o_r_m_a_t_i_o_n.html#a7f33a5bba38f421ee4639bb4772edeb5',1,'_SYSTEM_DEVICE_INFORMATION']]],
   ['numberofphysicalpages',['NumberOfPhysicalPages',['../struct___s_y_s_t_e_m___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#abb2fe3107a11376ba03e12f1379fe073',1,'_SYSTEM_BASIC_INFORMATION']]],

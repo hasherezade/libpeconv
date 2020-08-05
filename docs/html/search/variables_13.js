@@ -13,5 +13,6 @@ var searchData=
   ['unknown3',['Unknown3',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#aa5929267efa340337f9e287b39b2513b',1,'_LDR_DATA_TABLE_ENTRY']]],
   ['unloadinformationtablerva',['UnloadInformationTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#aa3fed6e3b3805d61a29a7613fa8554f2',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
   ['userflags',['UserFlags',['../struct___k_e_y___f_l_a_g_s___i_n_f_o_r_m_a_t_i_o_n.html#a7afec43c4acd719ddcab0a591df1ab36',1,'_KEY_FLAGS_INFORMATION']]],
+  ['usersharedinfoptr',['UserSharedInfoPtr',['../struct___p_e_b.html#ae1e741e18084ea9816c08527503bcb11',1,'_PEB']]],
   ['usertime',['UserTime',['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s___i_n_f_o_r_m_a_t_i_o_n.html#a26114ada5e4c6fb17878659ca0472041',1,'_SYSTEM_PROCESS_INFORMATION::UserTime()'],['../struct___s_y_s_t_e_m___p_r_o_c_e_s_s_o_r___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#ac775a33411cb143cf711a3ef5a88bd41',1,'_SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION::UserTime()']]]
 ];

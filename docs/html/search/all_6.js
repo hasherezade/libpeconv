@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['fastpeblock',['FastPebLock',['../struct___p_e_b.html#afc7a6b7f99c700d1ea4634fc09ca44e7',1,'_PEB']]],
-  ['fastpeblockroutine',['FastPebLockRoutine',['../struct___p_e_b.html#abc51d7fb5ac9beff9eea832af910ef7c',1,'_PEB']]],
-  ['fastpebunlockroutine',['FastPebUnlockRoutine',['../struct___p_e_b.html#aea6d04359a8edab54ea30971cb1c4955',1,'_PEB']]],
+  ['fastpeblock',['FastPebLock',['../struct___p_e_b.html#aadb1d199ea3ea50573f1f2ae5d3b7c4f',1,'_PEB']]],
   ['fetch_5falloc_5fbase',['fetch_alloc_base',['../namespacepeconv.html#a6ded18042a145d62d1dc77f296cd9b2c',1,'peconv']]],
   ['fetch_5ffile_5fhdr',['fetch_file_hdr',['../pe__hdrs__helper_8cpp.html#a1de4bb4b596838882f60e7b5ebdb844c',1,'pe_hdrs_helper.cpp']]],
   ['fetch_5fopt_5fhdr',['fetch_opt_hdr',['../pe__hdrs__helper_8cpp.html#ac183c9b8abf9da22f9ddbc8ce62565e1',1,'pe_hdrs_helper.cpp']]],
@@ -184,7 +182,6 @@ var searchData=
   ['free_5fresource_5fdata',['free_resource_data',['../namespacepeconv.html#aa6eeac8478ddecca9169342322ef8011',1,'peconv']]],
   ['free_5funaligned',['free_unaligned',['../namespacepeconv.html#afdb790b678572d608be3675ced9b777a',1,'peconv']]],
   ['freehandles',['FreeHandles',['../struct___r_t_l___h_a_n_d_l_e___t_a_b_l_e.html#a2fe78ff3303bf790fea970a827902d3d',1,'_RTL_HANDLE_TABLE']]],
-  ['freelist',['FreeList',['../struct___p_e_b.html#aea7cf291f76073ce4a32e33c6ceb3637',1,'_PEB']]],
   ['freeroutine',['FreeRoutine',['../struct___r_t_l___g_e_n_e_r_i_c___t_a_b_l_e.html#a3ad3fa7dd635426b87f0b11ecf2d6517',1,'_RTL_GENERIC_TABLE']]],
   ['freesystemptes',['FreeSystemPtes',['../struct___s_y_s_t_e_m___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#aedf8ca2de5c4420b88c804018605c608',1,'_SYSTEM_PERFORMANCE_INFORMATION']]],
   ['fs_5finformation_5fclass',['FS_INFORMATION_CLASS',['../ntddk_8h.html#a253e737ec71e265b2931b97dca268e4e',1,'ntddk.h']]],

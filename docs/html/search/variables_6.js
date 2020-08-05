@@ -3,7 +3,7 @@ var searchData=
   ['g_5fkernel32hndl',['g_kernel32Hndl',['../namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526',1,'peconv']]],
   ['g_5fntdllhndl',['g_ntdllHndl',['../namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a',1,'peconv']]],
   ['gdidcattributelist',['GdiDCAttributeList',['../struct___p_e_b.html#aa0135f9fca83614d1f0f9a5be847b712',1,'_PEB']]],
-  ['gdihandlebuffer',['GdiHandleBuffer',['../struct___p_e_b.html#aee7303dbcb7e1f493843ec803f91cdac',1,'_PEB']]],
+  ['gdihandlebuffer',['GdiHandleBuffer',['../struct___p_e_b.html#a23744b7bdef501eaf22042492ebf11e7',1,'_PEB']]],
   ['gdisharedhandletable',['GdiSharedHandleTable',['../struct___p_e_b.html#a87bcf6d7b7ab12df63fc9b306c52127c',1,'_PEB']]],
   ['genericmapping',['GenericMapping',['../struct___o_b_j_e_c_t___t_y_p_e___i_n_f_o_r_m_a_t_i_o_n.html#afa60957b9694785dd46af0df21a16daa',1,'_OBJECT_TYPE_INFORMATION']]],
   ['globalflag',['GlobalFlag',['../struct___s_y_s_t_e_m___f_l_a_g_s___i_n_f_o_r_m_a_t_i_o_n.html#a3369b4745dab43cc64127d393848b540',1,'_SYSTEM_FLAGS_INFORMATION']]],

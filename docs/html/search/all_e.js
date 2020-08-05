@@ -37,8 +37,8 @@ var searchData=
   ['ordinal_5fto_5fstring',['ordinal_to_string',['../namespacepeconv.html#a2fe6bfa1e17c0b4a1efcb195b482565e',1,'peconv']]],
   ['osbuildnumber',['OSBuildNumber',['../struct___p_e_b.html#a050b94ee8012a8099cf8e2e65d73c0de',1,'_PEB']]],
   ['oscsdversion',['OSCSDVersion',['../struct___p_e_b.html#a3b5945b30b85edeabe169983a409ab80',1,'_PEB']]],
-  ['osmajorversion',['OSMajorVersion',['../struct___p_e_b.html#abde8158594c43beb87a3e6f7c58a07a5',1,'_PEB']]],
-  ['osminorversion',['OSMinorVersion',['../struct___p_e_b.html#a8eea784fff2111e34f75f7664f51c582',1,'_PEB']]],
-  ['osplatformid',['OSPlatformId',['../struct___p_e_b.html#ae0c63d19d2e892118e5e0f616ad05a71',1,'_PEB']]],
+  ['osmajorversion',['OSMajorVersion',['../struct___p_e_b.html#ab2242b974ed33d431c64b80eaa559c52',1,'_PEB']]],
+  ['osminorversion',['OSMinorVersion',['../struct___p_e_b.html#a30346be93c89663556b5891493f52a1c',1,'_PEB']]],
+  ['osplatformid',['OSPlatformId',['../struct___p_e_b.html#a6c56158b979a50ff2fff89a23dd74ff9',1,'_PEB']]],
   ['outboundquota',['OutboundQuota',['../struct___f_i_l_e___p_i_p_e___l_o_c_a_l___i_n_f_o_r_m_a_t_i_o_n.html#a78cea8075f727be6869b921bf962aa1f',1,'_FILE_PIPE_LOCAL_INFORMATION']]]
 ];

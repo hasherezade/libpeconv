@@ -8,6 +8,7 @@ var searchData=
   ['beingdebugged',['BeingDebugged',['../struct___p_e_b.html#aaaa08e502577f755193e7d3f2da10bd8',1,'_PEB']]],
   ['birthobjectid',['BirthObjectId',['../struct___f_i_l_e___o_b_j_e_c_t_i_d___i_n_f_o_r_m_a_t_i_o_n.html#a7a053d3825ef502bd5188df3e42757ab',1,'_FILE_OBJECTID_INFORMATION']]],
   ['birthvolumeid',['BirthVolumeId',['../struct___f_i_l_e___o_b_j_e_c_t_i_d___i_n_f_o_r_m_a_t_i_o_n.html#a76f553a1da8cf7f4fba2b4f6eda5e643',1,'_FILE_OBJECTID_INFORMATION']]],
+  ['bitfield',['BitField',['../struct___p_e_b.html#a8989743780e51241e1df979e7a50194c',1,'_PEB']]],
   ['boottime',['BootTime',['../struct___s_y_s_t_e_m___t_i_m_e_o_f_d_a_y___i_n_f_o_r_m_a_t_i_o_n.html#a800df7030333764529ff3b26a09b9f37',1,'_SYSTEM_TIMEOFDAY_INFORMATION']]],
   ['boundimportaddresstablerva',['BoundImportAddressTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#af50bca6c734b5a94914cca512517f1e8',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
   ['buffer',['buffer',['../classpeconv_1_1_patch_backup.html#a8f69c14488288dfec69ede5710e75d8d',1,'peconv::PatchBackup::buffer()'],['../struct___s_t_r_i_n_g.html#aaaaa56a4176d7ae875eaea419d56799f',1,'_STRING::Buffer()'],['../struct___u_n_i_c_o_d_e___s_t_r_i_n_g.html#afbc2ba2b7be88d0118e683a2eb289795',1,'_UNICODE_STRING::Buffer()']]],

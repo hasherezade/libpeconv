@@ -12,7 +12,6 @@ var searchData=
   ['readme_2emd',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
   ['readmode',['ReadMode',['../struct___f_i_l_e___p_i_p_e___i_n_f_o_r_m_a_t_i_o_n.html#a0edaba2081bff4aec832ab28a82fce60',1,'_FILE_PIPE_INFORMATION']]],
   ['readonlysharedmemorybase',['ReadOnlySharedMemoryBase',['../struct___p_e_b.html#a8cb4b837bfae167cff1912429042edaa',1,'_PEB']]],
-  ['readonlysharedmemoryheap',['ReadOnlySharedMemoryHeap',['../struct___p_e_b.html#a2e43ada4fd5253785311e2ac11671073',1,'_PEB']]],
   ['readonlystaticserverdata',['ReadOnlyStaticServerData',['../struct___p_e_b.html#a354974b32ef98eea0f953718d420302b',1,'_PEB']]],
   ['readtimeout',['ReadTimeout',['../struct___f_i_l_e___m_a_i_l_s_l_o_t___q_u_e_r_y___i_n_f_o_r_m_a_t_i_o_n.html#a1848415bc2b1694be14097e911924588',1,'_FILE_MAILSLOT_QUERY_INFORMATION::ReadTimeout()'],['../struct___f_i_l_e___m_a_i_l_s_l_o_t___s_e_t___i_n_f_o_r_m_a_t_i_o_n.html#ae6198ab8e6c1b8fcc4c39a97885ce4b5',1,'_FILE_MAILSLOT_SET_INFORMATION::ReadTimeout()']]],
   ['rebase_5fva',['rebase_va',['../exports__mapper_8cpp.html#a13da3bed9f695ac0059c3b9deb0a1c4d',1,'exports_mapper.cpp']]],

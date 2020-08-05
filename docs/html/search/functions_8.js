@@ -7,6 +7,7 @@ var searchData=
   ['insert',['insert',['../classpeconv_1_1_imps_not_covered.html#a3ea258bced47b906abb1011834d2aea3',1,'peconv::ImpsNotCovered']]],
   ['is64bit',['is64bit',['../namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f',1,'peconv']]],
   ['is_5fdot_5fnet',['is_dot_net',['../fix__dot__net__ep_8cpp.html#a3527cc38038e8bb746932fd84e8994b3',1,'is_dot_net(BYTE *pe_buffer, size_t pe_buffer_size):&#160;fix_dot_net_ep.cpp'],['../fix__dot__net__ep_8h.html#a3527cc38038e8bb746932fd84e8994b3',1,'is_dot_net(BYTE *pe_buffer, size_t pe_buffer_size):&#160;fix_dot_net_ep.cpp']]],
+  ['is_5fempty_5freloc_5fblock',['is_empty_reloc_block',['../relocate_8cpp.html#a8d5cd17d6da3200a78291b6000d37ac2',1,'relocate.cpp']]],
   ['is_5fhdr_5fvirtual_5falign',['is_hdr_virtual_align',['../pe__mode__detector_8cpp.html#a5835ce4cee47662b28c07b2c280cd4ae',1,'pe_mode_detector.cpp']]],
   ['is_5fmodule_5fdll',['is_module_dll',['../namespacepeconv.html#aea672840faf6e644ffb82a493f1344a3',1,'peconv']]],
   ['is_5fordinal',['is_ordinal',['../exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5',1,'exports_lookup.cpp']]],

@@ -77,11 +77,16 @@ $(function() {
 <div class="textblock"><code>#include &lt;windows.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="ntddk_8h_source.html">ntddk.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="peb__lookup_8h_source.html">peconv/peb_lookup.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
 </div>
 <p><a href="peb__lookup_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_e_b_fast_locker.html">PEBFastLocker</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_e_b_loader_locker.html">PEBLoaderLocker</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct___l_d_r___m_o_d_u_l_e.html">_LDR_MODULE</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -96,8 +101,6 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a7f86e7558b841ac9e5a6374758a3f71c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ntddk_8h.html#a7e2190f300039ae1e9d8ac5e07305664">PPEB</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a> ()</td></tr>
 <tr class="separator:a7f86e7558b841ac9e5a6374758a3f71c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3becd94b0fc7d1293930bccef1f9e6b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="peb__lookup_8cpp.html#a27abfabc1173f89eb02464af4efce9e7">PLDR_MODULE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="peb__lookup_8cpp.html#aa3becd94b0fc7d1293930bccef1f9e6b">get_ldr_module</a> ()</td></tr>
-<tr class="separator:aa3becd94b0fc7d1293930bccef1f9e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef56d6318074c8c7b7bf2cd5ad2ee649"><td class="memItemLeft" align="right" valign="top">WCHAR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649">to_lowercase</a> (WCHAR c1)</td></tr>
 <tr class="separator:aef56d6318074c8c7b7bf2cd5ad2ee649"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ced3a8c81ab02e70578ea1d1ee70e6b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b">is_wanted_module</a> (LPWSTR curr_name, LPWSTR wanted_name)</td></tr>
@@ -133,42 +136,6 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aa3becd94b0fc7d1293930bccef1f9e6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3becd94b0fc7d1293930bccef1f9e6b">&#9670;&nbsp;</a></span>get_ldr_module()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="peb__lookup_8cpp.html#a27abfabc1173f89eb02464af4efce9e7">PLDR_MODULE</a> get_ldr_module </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00045">45</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="peb__lookup_8cpp_aa3becd94b0fc7d1293930bccef1f9e6b_cgraph.png" border="0" usemap="#peb__lookup_8cpp_aa3becd94b0fc7d1293930bccef1f9e6b_cgraph" alt=""/></div>
-<map name="peb__lookup_8cpp_aa3becd94b0fc7d1293930bccef1f9e6b_cgraph" id="peb__lookup_8cpp_aa3becd94b0fc7d1293930bccef1f9e6b_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,5,116,32"/>
-<area shape="rect"  href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="164,5,232,32"/>
-</map>
-</div>
-
-</div>
-</div>
 <a id="a7f86e7558b841ac9e5a6374758a3f71c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7f86e7558b841ac9e5a6374758a3f71c">&#9670;&nbsp;</a></span>get_peb()</h2>
 
@@ -192,7 +159,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00027">27</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00063">63</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
 
 </div>
 </div>
@@ -222,7 +189,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00066">66</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00092">92</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -259,7 +226,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00058">58</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00084">84</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
 
 </div>
 </div>

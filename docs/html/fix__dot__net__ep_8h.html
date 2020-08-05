@@ -82,6 +82,8 @@ Functions</h2></td></tr>
 <tr class="separator:a3568562d224c76b49d5841a18e63d96c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3527cc38038e8bb746932fd84e8994b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fix__dot__net__ep_8h.html#a3527cc38038e8bb746932fd84e8994b3">is_dot_net</a> (BYTE *pe_buffer, size_t pe_buffer_size)</td></tr>
 <tr class="separator:a3527cc38038e8bb746932fd84e8994b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace75081cd3fd63b0edd8bec6cc17d8f8"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fix__dot__net__ep_8h.html#ace75081cd3fd63b0edd8bec6cc17d8f8">search_jump</a> (BYTE *buf, size_t buf_size, const DWORD cor_exe_main_thunk, const ULONGLONG img_base)</td></tr>
+<tr class="separator:ace75081cd3fd63b0edd8bec6cc17d8f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a3568562d224c76b49d5841a18e63d96c"></a>
@@ -110,7 +112,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fix__dot__net__ep_8cpp_source.html#l00092">92</a> of file <a class="el" href="fix__dot__net__ep_8cpp_source.html">fix_dot_net_ep.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fix__dot__net__ep_8cpp_source.html#l00099">99</a> of file <a class="el" href="fix__dot__net__ep_8cpp_source.html">fix_dot_net_ep.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -169,7 +171,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="fix__dot__net__ep_8cpp_source.html#l00126">126</a> of file <a class="el" href="fix__dot__net__ep_8cpp_source.html">fix_dot_net_ep.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fix__dot__net__ep_8cpp_source.html#l00133">133</a> of file <a class="el" href="fix__dot__net__ep_8cpp_source.html">fix_dot_net_ep.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -183,6 +185,57 @@ Here is the call graph for this function:</div>
 <area shape="rect"  href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="873,64,1008,90"/>
 <area shape="rect"  href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="508,27,639,68"/>
 <area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="340,144,460,170"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ace75081cd3fd63b0edd8bec6cc17d8f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace75081cd3fd63b0edd8bec6cc17d8f8">&#9670;&nbsp;</a></span>search_jump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BYTE* search_jump </td>
+          <td>(</td>
+          <td class="paramtype">BYTE *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>buf_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DWORD&#160;</td>
+          <td class="paramname"><em>cor_exe_main_thunk</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ULONGLONG&#160;</td>
+          <td class="paramname"><em>img_base</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="fix__dot__net__ep_8cpp_source.html#l00065">65</a> of file <a class="el" href="fix__dot__net__ep_8cpp_source.html">fix_dot_net_ep.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="fix__dot__net__ep_8h_ace75081cd3fd63b0edd8bec6cc17d8f8_cgraph.png" border="0" usemap="#fix__dot__net__ep_8h_ace75081cd3fd63b0edd8bec6cc17d8f8_cgraph" alt=""/></div>
+<map name="fix__dot__net__ep_8h_ace75081cd3fd63b0edd8bec6cc17d8f8_cgraph" id="fix__dot__net__ep_8h_ace75081cd3fd63b0edd8bec6cc17d8f8_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,101,32"/>
+<area shape="rect"  href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d" title=" " alt="" coords="149,5,269,32"/>
 </map>
 </div>
 

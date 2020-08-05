@@ -14,7 +14,7 @@ var searchData=
   ['maximumlength',['MaximumLength',['../struct___s_t_r_i_n_g.html#a51da46a492a3ce1a490f9fa32bb37c0b',1,'_STRING::MaximumLength()'],['../struct___u_n_i_c_o_d_e___s_t_r_i_n_g.html#ae0487ecc173e55918bcee834bd3d107b',1,'_UNICODE_STRING::MaximumLength()'],['../struct___r_t_l___u_s_e_r___p_r_o_c_e_s_s___p_a_r_a_m_e_t_e_r_s.html#a404babcee6ec2d0c282c5b1c53f0f694',1,'_RTL_USER_PROCESS_PARAMETERS::MaximumLength()']]],
   ['maximummessagesize',['MaximumMessageSize',['../struct___f_i_l_e___m_a_i_l_s_l_o_t___q_u_e_r_y___i_n_f_o_r_m_a_t_i_o_n.html#a2c5b537a7da3d053cb8ccf88d6b50fdc',1,'_FILE_MAILSLOT_QUERY_INFORMATION']]],
   ['maximumnumberofhandles',['MaximumNumberOfHandles',['../struct___r_t_l___h_a_n_d_l_e___t_a_b_l_e.html#a99410bd0928b37db01dcc29b7dc67a22',1,'_RTL_HANDLE_TABLE']]],
-  ['maximumnumberofheaps',['MaximumNumberOfHeaps',['../struct___p_e_b.html#a88e48783803789f405a8dfc113e79df8',1,'_PEB']]],
+  ['maximumnumberofheaps',['MaximumNumberOfHeaps',['../struct___p_e_b.html#acae1581d48c3911178d1d46858de8717',1,'_PEB']]],
   ['maximumusermodeaddress',['MaximumUserModeAddress',['../struct___s_y_s_t_e_m___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a0b610bd8e22666dcbc0ba4cf6cf195ab',1,'_SYSTEM_BASIC_INFORMATION']]],
   ['maxnamelen',['MaxNameLen',['../struct___k_e_y___f_u_l_l___i_n_f_o_r_m_a_t_i_o_n.html#ade76d7b9e03154145655f984114f7757',1,'_KEY_FULL_INFORMATION::MaxNameLen()'],['../struct___k_e_y___c_a_c_h_e_d___i_n_f_o_r_m_a_t_i_o_n.html#acb6c9bc98ddbce0be3855433dacb8c25',1,'_KEY_CACHED_INFORMATION::MaxNameLen()']]],
   ['maxreservedhandles',['MaxReservedHandles',['../struct___r_t_l___h_a_n_d_l_e___t_a_b_l_e.html#a9f1b4353630874787cc0a6bdef42a24a',1,'_RTL_HANDLE_TABLE']]],

@@ -16,7 +16,6 @@ var searchData=
   ['entrypointactivationcontext',['EntryPointActivationContext',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#aaba1e8fb0cf4e6a99e4862bdba6c3011',1,'_LDR_DATA_TABLE_ENTRY']]],
   ['environment',['Environment',['../struct___r_t_l___u_s_e_r___p_r_o_c_e_s_s___p_a_r_a_m_e_t_e_r_s.html#a15d70bf7bbdf2c975fd990ded725d89f',1,'_RTL_USER_PROCESS_PARAMETERS']]],
   ['environmentpointer',['EnvironmentPointer',['../struct___t_e_b.html#a0b940cac7daf04639b7e56a94538dccc',1,'_TEB']]],
-  ['environmentupdatecount',['EnvironmentUpdateCount',['../struct___p_e_b.html#ad2696ff100f4549a193f9f8a44b6bdee',1,'_PEB']]],
   ['eventstate',['EventState',['../struct___e_v_e_n_t___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a9abc743617116c8e93062ccee900f407',1,'_EVENT_BASIC_INFORMATION']]],
   ['eventtype',['EventType',['../struct___e_v_e_n_t___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#ace49b9bd46c6b3e355e98e0f9e8749e8',1,'_EVENT_BASIC_INFORMATION']]],
   ['exitstatus',['ExitStatus',['../struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a706f0aa09b133c05d17f97092a81cada',1,'_PROCESS_BASIC_INFORMATION']]],

@@ -16,7 +16,6 @@ var searchData=
   ['entrypointactivationcontext',['EntryPointActivationContext',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#aaba1e8fb0cf4e6a99e4862bdba6c3011',1,'_LDR_DATA_TABLE_ENTRY']]],
   ['environment',['Environment',['../struct___r_t_l___u_s_e_r___p_r_o_c_e_s_s___p_a_r_a_m_e_t_e_r_s.html#a15d70bf7bbdf2c975fd990ded725d89f',1,'_RTL_USER_PROCESS_PARAMETERS']]],
   ['environmentpointer',['EnvironmentPointer',['../struct___t_e_b.html#a0b940cac7daf04639b7e56a94538dccc',1,'_TEB']]],
-  ['environmentupdatecount',['EnvironmentUpdateCount',['../struct___p_e_b.html#ad2696ff100f4549a193f9f8a44b6bdee',1,'_PEB']]],
   ['event_5fbasic_5finformation',['EVENT_BASIC_INFORMATION',['../ntddk_8h.html#accfac4b1e3fd1fed6f3a3343c4095582',1,'ntddk.h']]],
   ['event_5finformation_5fclass',['EVENT_INFORMATION_CLASS',['../ntddk_8h.html#a733c464cdf1ce159e94c0452e6d4ee1e',1,'ntddk.h']]],
   ['event_5ftype',['EVENT_TYPE',['../ntddk_8h.html#ab7805b00967f7f2eede043aed2f8714b',1,'ntddk.h']]],
