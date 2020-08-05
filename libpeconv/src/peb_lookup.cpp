@@ -130,12 +130,20 @@ HMODULE peconv::get_module_via_peb(IN OPTIONAL LPWSTR module_name)
     if (!module_name) {
         return (HMODULE)(curr_module->BaseAddress);
     }
-    while (curr_module != NULL && curr_module->BaseAddress != NULL) {
+
+    // it is a cyclic list, so if the next record links to the initial one, it means we went throught the full loop
+    do {
+        // this should also work as a terminator, because the BaseAddress of the last module in the cycle is NULL
+        if (curr_module == NULL || curr_module->BaseAddress == NULL) {
+            break;
+        }
         if (is_wanted_module(curr_module->BaseDllName.Buffer, module_name)) {
             return (HMODULE)(curr_module->BaseAddress);
         }
         curr_module = (PLDR_MODULE)curr_module->InLoadOrderModuleList.Flink;
-    }
+
+    } while (curr_module != first_module);
+
     return NULL;
 }
 
@@ -146,18 +154,27 @@ size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
         return NULL;
     }
     PEBLoaderLocker locker(*peb);
-    LIST_ENTRY list = peb->Ldr->InLoadOrderModuleList;
+    LIST_ENTRY head = peb->Ldr->InLoadOrderModuleList;
 
-    PLDR_MODULE curr_module = *((PLDR_MODULE *)(&list));
+    const PLDR_MODULE first_module = *((PLDR_MODULE *)(&head));
+    PLDR_MODULE curr_module = first_module;
     if (!hModule) {
         return (size_t)(curr_module->SizeOfImage);
     }
-    while (curr_module != NULL && curr_module->BaseAddress != NULL) {
+
+    // it is a cyclic list, so if the next record links to the initial one, it means we went throught the full loop
+    do {
+        // this should also work as a terminator, because the BaseAddress of the last module in the cycle is NULL
+        if (curr_module == NULL || curr_module->BaseAddress == NULL) {
+            break;
+        }
         if (hModule == (HMODULE)(curr_module->BaseAddress)) {
             return (size_t)(curr_module->SizeOfImage);
         }
         curr_module = (PLDR_MODULE)curr_module->InLoadOrderModuleList.Flink;
-    }
+
+    } while (curr_module != first_module);
+
     return 0;
 }
 
