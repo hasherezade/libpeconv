@@ -39,7 +39,7 @@ int make_test(int test_id, char *test_arg)
         case 12: return tests::check_modules();
         case 13: return tests::imports_mix(test_arg);
         case 14: return tests::load_and_check_base(test_arg);
-		case 15: return tests::check_finding_jumps();
+        case 15: return tests::check_finding_jumps();
     }
     return -1;
 }

@@ -32,6 +32,23 @@ namespace tests {
         }
         return true;
     }
+
+    bool check_unexisting_module()
+    {
+        std::wcout << "\n[*] Test: unexisting module\n";
+
+        wchar_t* module_name = L"unexisting_module";
+        HMODULE mod1 = peconv::get_module_via_peb(module_name);
+        HMODULE mod2 = GetModuleHandleW(module_name);
+
+        std::cout << "get_module_via_peb: " << std::hex << mod1 << "\n";
+        std::cout << "GetModuleHandle: " << std::hex << mod2 << "\n";
+        if (mod1 != mod2) {
+            return false;
+        }
+        return true;
+    }
+
 };
 
 int tests::check_modules()
@@ -52,6 +69,9 @@ int tests::check_modules()
         return 1;
     }
     if (!compare_modules_and_sizes(L"ws2_32.dll")) {
+        return 1;
+    }
+    if (!check_unexisting_module()) {
         return 1;
     }
     return 0;
