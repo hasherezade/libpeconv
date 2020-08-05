@@ -23,6 +23,24 @@ protected:
     PEB &peb;
 };
 
+class PEBLoaderLocker {
+public:
+    PEBLoaderLocker(PEB &_peb)
+        : peb(_peb)
+    {
+        RtlEnterCriticalSection(peb.LoaderLock);
+    }
+
+    ~PEBLoaderLocker()
+    {
+        RtlLeaveCriticalSection(peb.LoaderLock);
+}
+
+protected:
+    PEB & peb;
+};
+
+
 //here we don't want to use any functions imported form extenal modules
 
 typedef struct _LDR_MODULE { 
@@ -104,7 +122,7 @@ HMODULE peconv::get_module_via_peb(IN OPTIONAL LPWSTR module_name)
     if (!peb) {
         return NULL;
     }
-    PEBFastLocker locker(*peb);
+    PEBLoaderLocker locker(*peb);
     LIST_ENTRY head = peb->Ldr->InLoadOrderModuleList;
 
     const PLDR_MODULE first_module = *((PLDR_MODULE *)(&head));
@@ -127,7 +145,7 @@ size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
     if (!peb) {
         return NULL;
     }
-    PEBFastLocker locker(*peb);
+    PEBLoaderLocker locker(*peb);
     LIST_ENTRY list = peb->Ldr->InLoadOrderModuleList;
 
     PLDR_MODULE curr_module = *((PLDR_MODULE *)(&list));

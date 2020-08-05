@@ -2712,14 +2712,16 @@ typedef struct _PEB
     PVOID FastPebUnlockRoutine;
     ULONG EnvironmentUpdateCount;
     PVOID KernelCallbackTable;
-    HANDLE SystemReserved;
-    PVOID  AtlThunkSListPtr32;
-    PPEB_FREE_BLOCK FreeList;
-    ULONG TlsExpansionCounter;
+    DWORD SystemReserved;
+    DWORD  AtlThunkSListPtr32;
+    PVOID ApiSetMap;
+
+    PVOID TlsExpansionCounter;
     PVOID TlsBitmap;
-    ULONG TlsBitmapBits[2];         // relates to TLS_MINIMUM_AVAILABLE
+    DWORD  TlsBitmapBits[2];         // relates to TLS_MINIMUM_AVAILABLE
+
     PVOID ReadOnlySharedMemoryBase;
-    PVOID ReadOnlySharedMemoryHeap;
+    PVOID SharedData;
     PVOID *ReadOnlyStaticServerData;
     PVOID AnsiCodePageData;
     PVOID OemCodePageData;
@@ -2736,10 +2738,10 @@ typedef struct _PEB
     //
 
     LARGE_INTEGER CriticalSectionTimeout;
-    ULONG HeapSegmentReserve;
-    ULONG HeapSegmentCommit;
-    ULONG HeapDeCommitTotalFreeThreshold;
-    ULONG HeapDeCommitFreeBlockThreshold;
+    PVOID HeapSegmentReserve;
+    PVOID HeapSegmentCommit;
+    PVOID HeapDeCommitTotalFreeThreshold;
+    PVOID HeapDeCommitFreeBlockThreshold;
 
     //
     // Where heap manager keeps track of all heaps created for a process
@@ -2749,8 +2751,8 @@ typedef struct _PEB
     // size of this data structure.
     //
 
-    ULONG NumberOfHeaps;
-    ULONG MaximumNumberOfHeaps;
+    DWORD NumberOfHeaps;
+    DWORD MaximumNumberOfHeaps;
     PVOID *ProcessHeaps;
 
     //
@@ -2758,7 +2760,7 @@ typedef struct _PEB
     PVOID GdiSharedHandleTable;
     PVOID ProcessStarterHelper;
     PVOID GdiDCAttributeList;
-    PVOID LoaderLock;
+    PRTL_CRITICAL_SECTION LoaderLock;
 
     //
     // Following fields filled in by MmCreatePeb from system values and/or
@@ -2766,16 +2768,17 @@ typedef struct _PEB
     // so use with caution
     //
 
-    ULONG OSMajorVersion;
-    ULONG OSMinorVersion;
+    DWORD OSMajorVersion;
+    DWORD OSMinorVersion;
     USHORT OSBuildNumber;
     USHORT OSCSDVersion;
-    ULONG OSPlatformId;
-    ULONG ImageSubsystem;
-    ULONG ImageSubsystemMajorVersion;
-    ULONG ImageSubsystemMinorVersion;
-    ULONG ImageProcessAffinityMask;
-    ULONG GdiHandleBuffer[GDI_HANDLE_BUFFER_SIZE];
+    DWORD OSPlatformId;
+    DWORD ImageSubsystem;
+    DWORD ImageSubsystemMajorVersion;
+
+    PVOID ImageSubsystemMinorVersion;
+    PVOID ImageProcessAffinityMask;
+    PVOID GdiHandleBuffer[GDI_HANDLE_BUFFER_SIZE];
 
     // [...] - more fields are there: this is just a fragment of the PEB structure
 } PEB, *PPEB;
