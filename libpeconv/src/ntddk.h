@@ -2699,7 +2699,8 @@ typedef struct _PEB
     BOOLEAN InheritedAddressSpace;      // These four fields cannot change unless the
     BOOLEAN ReadImageFileExecOptions;   //
     BOOLEAN BeingDebugged;              //
-    BOOLEAN SpareBool;                  // reserved for bitfields with system-specific flags
+    BOOLEAN BitField;                  // reserved for bitfields with system-specific flags
+
     HANDLE Mutant;                      // INITIAL_PEB structure is also updated.
 
     PVOID ImageBaseAddress;
@@ -2708,10 +2709,15 @@ typedef struct _PEB
     PVOID SubSystemData;
     PVOID ProcessHeap;
     PRTL_CRITICAL_SECTION FastPebLock;
-    PVOID FastPebLockRoutine;
-    PVOID FastPebUnlockRoutine;
-    ULONG EnvironmentUpdateCount;
-    PVOID KernelCallbackTable;
+
+    PSLIST_HEADER AtlThunkSListPtr;
+    PVOID IFEOKey;
+    ULONG CrossProcessFlags;
+    union {
+        PVOID KernelCallbackTable;
+        PVOID UserSharedInfoPtr;
+    };
+
     DWORD SystemReserved;
     DWORD  AtlThunkSListPtr32;
     PVOID ApiSetMap;
