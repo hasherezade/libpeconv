@@ -11,29 +11,12 @@ public:
     PEBFastLocker(PEB &_peb)
         : peb(_peb)
     {
-        RtlEnterCriticalSection((PRTL_CRITICAL_SECTION)peb.FastPebLock);
+        RtlEnterCriticalSection(peb.FastPebLock);
     }
 
     ~PEBFastLocker()
     {
-        RtlLeaveCriticalSection((PRTL_CRITICAL_SECTION)peb.FastPebLock);
-    }
-
-protected:
-    PEB &peb;
-};
-
-class PEBLoaderLocker {
-public:
-    PEBLoaderLocker(PEB &_peb)
-        : peb(_peb)
-    {
-        RtlEnterCriticalSection((PRTL_CRITICAL_SECTION)peb.LoaderLock);
-    }
-
-    ~PEBLoaderLocker()
-    {
-        RtlLeaveCriticalSection((PRTL_CRITICAL_SECTION)peb.LoaderLock);
+        RtlLeaveCriticalSection(peb.FastPebLock);
     }
 
 protected:
@@ -121,7 +104,7 @@ HMODULE peconv::get_module_via_peb(IN OPTIONAL LPWSTR module_name)
     if (!peb) {
         return NULL;
     }
-    PEBLoaderLocker locker(*peb);
+    PEBFastLocker locker(*peb);
     LIST_ENTRY head = peb->Ldr->InLoadOrderModuleList;
 
     const PLDR_MODULE first_module = *((PLDR_MODULE *)(&head));
@@ -144,7 +127,7 @@ size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
     if (!peb) {
         return NULL;
     }
-    PEBLoaderLocker locker(*peb);
+    PEBFastLocker locker(*peb);
     LIST_ENTRY list = peb->Ldr->InLoadOrderModuleList;
 
     PLDR_MODULE curr_module = *((PLDR_MODULE *)(&list));
