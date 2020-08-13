@@ -8,8 +8,6 @@ var searchData=
   ['pe_5fraw_5fto_5fvirtual',['pe_raw_to_virtual',['../namespacepeconv.html#aa1700ed9ad374834ca6b2b07f146ad0b',1,'peconv']]],
   ['pe_5frealign_5fraw_5fto_5fvirtual',['pe_realign_raw_to_virtual',['../namespacepeconv.html#addf8f50c27775ed2fa84c33450e0ec7e',1,'peconv']]],
   ['pe_5fvirtual_5fto_5fraw',['pe_virtual_to_raw',['../namespacepeconv.html#a76c6ce4daf3e2f7bfadda595a5113505',1,'peconv']]],
-  ['pebfastlocker',['PEBFastLocker',['../class_p_e_b_fast_locker.html#a05e3c7884da84d832076b89964bfc658',1,'PEBFastLocker']]],
-  ['pebloaderlocker',['PEBLoaderLocker',['../class_p_e_b_loader_locker.html#a1f5c30021785a8d7f47ca5787efa845b',1,'PEBLoaderLocker']]],
   ['print_5ffunc_5fto_5fva',['print_func_to_va',['../classpeconv_1_1_exports_mapper.html#aa0bf5547e3b177ced7ac2997d46cf357',1,'peconv::ExportsMapper']]],
   ['print_5fva_5fto_5ffunc',['print_va_to_func',['../classpeconv_1_1_exports_mapper.html#a11023dc6f48ab156a2032d77fc1ad9ad',1,'peconv::ExportsMapper']]],
   ['process_5fdlls',['process_dlls',['../imports__loader_8cpp.html#a5d800d31ea01e77114afee0804cdef68',1,'imports_loader.cpp']]],

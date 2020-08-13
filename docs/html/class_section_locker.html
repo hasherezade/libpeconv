@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libPeConv: PEBLoaderLocker Class Reference</title>
+<title>libPeConv: SectionLocker Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -65,30 +65,30 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="class_p_e_b_loader_locker-members.html">List of all members</a>  </div>
+<a href="class_section_locker-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">PEBLoaderLocker Class Reference</div>  </div>
+<div class="title">SectionLocker Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1f5c30021785a8d7f47ca5787efa845b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_e_b_loader_locker.html#a1f5c30021785a8d7f47ca5787efa845b">PEBLoaderLocker</a> (<a class="el" href="ntddk_8h.html#abd7aa772f278ee048b6f003b476c9b46">PEB</a> &amp;_peb)</td></tr>
-<tr class="separator:a1f5c30021785a8d7f47ca5787efa845b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37875283299478aa0d78a52084c5e8c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_e_b_loader_locker.html#a37875283299478aa0d78a52084c5e8c7">~PEBLoaderLocker</a> ()</td></tr>
-<tr class="separator:a37875283299478aa0d78a52084c5e8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2692f118109a400d4bc4e160895e89df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_section_locker.html#a2692f118109a400d4bc4e160895e89df">SectionLocker</a> (RTL_CRITICAL_SECTION &amp;_section)</td></tr>
+<tr class="separator:a2692f118109a400d4bc4e160895e89df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6e725b899702cf9c3fe0f068ab64520"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_section_locker.html#ab6e725b899702cf9c3fe0f068ab64520">~SectionLocker</a> ()</td></tr>
+<tr class="separator:ab6e725b899702cf9c3fe0f068ab64520"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:af325171e337b89e1308d7ab065cc7e2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ntddk_8h.html#abd7aa772f278ee048b6f003b476c9b46">PEB</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_p_e_b_loader_locker.html#af325171e337b89e1308d7ab065cc7e2e">peb</a></td></tr>
-<tr class="separator:af325171e337b89e1308d7ab065cc7e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad19c0b987a04832ef86726eda536d834"><td class="memItemLeft" align="right" valign="top">RTL_CRITICAL_SECTION &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_section_locker.html#ad19c0b987a04832ef86726eda536d834">section</a></td></tr>
+<tr class="separator:ad19c0b987a04832ef86726eda536d834"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00026">26</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00009">9</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1f5c30021785a8d7f47ca5787efa845b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f5c30021785a8d7f47ca5787efa845b">&#9670;&nbsp;</a></span>PEBLoaderLocker()</h2>
+<a id="a2692f118109a400d4bc4e160895e89df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2692f118109a400d4bc4e160895e89df">&#9670;&nbsp;</a></span>SectionLocker()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -97,10 +97,10 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">PEBLoaderLocker::PEBLoaderLocker </td>
+          <td class="memname">SectionLocker::SectionLocker </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="ntddk_8h.html#abd7aa772f278ee048b6f003b476c9b46">PEB</a> &amp;&#160;</td>
-          <td class="paramname"><em>_peb</em></td><td>)</td>
+          <td class="paramtype">RTL_CRITICAL_SECTION &amp;&#160;</td>
+          <td class="paramname"><em>_section</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -111,21 +111,21 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00028">28</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00011">11</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_p_e_b_loader_locker_a1f5c30021785a8d7f47ca5787efa845b_cgraph.png" border="0" usemap="#class_p_e_b_loader_locker_a1f5c30021785a8d7f47ca5787efa845b_cgraph" alt=""/></div>
-<map name="class_p_e_b_loader_locker_a1f5c30021785a8d7f47ca5787efa845b_cgraph" id="class_p_e_b_loader_locker_a1f5c30021785a8d7f47ca5787efa845b_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,5,207,47"/>
-<area shape="rect"  href="ntddk_8h.html#ac9bb2adaee7154df698b43e044505f84" title=" " alt="" coords="255,13,408,39"/>
+<div class="center"><img src="class_section_locker_a2692f118109a400d4bc4e160895e89df_cgraph.png" border="0" usemap="#class_section_locker_a2692f118109a400d4bc4e160895e89df_cgraph" alt=""/></div>
+<map name="class_section_locker_a2692f118109a400d4bc4e160895e89df_cgraph" id="class_section_locker_a2692f118109a400d4bc4e160895e89df_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,201,32"/>
+<area shape="rect"  href="ntddk_8h.html#ac9bb2adaee7154df698b43e044505f84" title=" " alt="" coords="249,5,403,32"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a37875283299478aa0d78a52084c5e8c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37875283299478aa0d78a52084c5e8c7">&#9670;&nbsp;</a></span>~PEBLoaderLocker()</h2>
+<a id="ab6e725b899702cf9c3fe0f068ab64520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6e725b899702cf9c3fe0f068ab64520">&#9670;&nbsp;</a></span>~SectionLocker()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -134,7 +134,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">PEBLoaderLocker::~PEBLoaderLocker </td>
+          <td class="memname">SectionLocker::~SectionLocker </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -147,22 +147,22 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00034">34</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00017">17</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_p_e_b_loader_locker_a37875283299478aa0d78a52084c5e8c7_cgraph.png" border="0" usemap="#class_p_e_b_loader_locker_a37875283299478aa0d78a52084c5e8c7_cgraph" alt=""/></div>
-<map name="class_p_e_b_loader_locker_a37875283299478aa0d78a52084c5e8c7_cgraph" id="class_p_e_b_loader_locker_a37875283299478aa0d78a52084c5e8c7_cgraph">
-<area shape="rect"  title=" " alt="" coords="5,5,215,47"/>
-<area shape="rect"  href="ntddk_8h.html#a8db55f17ca33b3ddad5e1d0aa8b22d63" title=" " alt="" coords="263,13,417,39"/>
+<div class="center"><img src="class_section_locker_ab6e725b899702cf9c3fe0f068ab64520_cgraph.png" border="0" usemap="#class_section_locker_ab6e725b899702cf9c3fe0f068ab64520_cgraph" alt=""/></div>
+<map name="class_section_locker_ab6e725b899702cf9c3fe0f068ab64520_cgraph" id="class_section_locker_ab6e725b899702cf9c3fe0f068ab64520_cgraph">
+<area shape="rect"  title=" " alt="" coords="5,5,209,32"/>
+<area shape="rect"  href="ntddk_8h.html#a8db55f17ca33b3ddad5e1d0aa8b22d63" title=" " alt="" coords="257,5,412,32"/>
 </map>
 </div>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="af325171e337b89e1308d7ab065cc7e2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af325171e337b89e1308d7ab065cc7e2e">&#9670;&nbsp;</a></span>peb</h2>
+<a id="ad19c0b987a04832ef86726eda536d834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad19c0b987a04832ef86726eda536d834">&#9670;&nbsp;</a></span>section</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,7 +171,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ntddk_8h.html#abd7aa772f278ee048b6f003b476c9b46">PEB</a>&amp; PEBLoaderLocker::peb</td>
+          <td class="memname">RTL_CRITICAL_SECTION&amp; SectionLocker::section</td>
         </tr>
       </table>
   </td>
@@ -181,7 +181,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00040">40</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="peb__lookup_8cpp_source.html#l00023">23</a> of file <a class="el" href="peb__lookup_8cpp_source.html">peb_lookup.cpp</a>.</p>
 
 </div>
 </div>

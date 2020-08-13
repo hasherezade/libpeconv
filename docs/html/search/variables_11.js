@@ -1,6 +1,7 @@
 var searchData=
 [
   ['secondleveltbfills',['SecondLevelTbFills',['../struct___s_y_s_t_e_m___p_e_r_f_o_r_m_a_n_c_e___i_n_f_o_r_m_a_t_i_o_n.html#a37682521ff0ce02646d29ad5d7caaaab',1,'_SYSTEM_PERFORMANCE_INFORMATION']]],
+  ['section',['section',['../class_section_locker.html#ad19c0b987a04832ef86726eda536d834',1,'SectionLocker']]],
   ['sectionhandle',['SectionHandle',['../struct___p_o_r_t___v_i_e_w.html#addb9b270379a34da5c45e99c9c588634',1,'_PORT_VIEW::SectionHandle()'],['../struct___l_d_r___m_o_d_u_l_e.html#a41f17ab18ff4fc7f4bde6dab3f5ca4a4',1,'_LDR_MODULE::SectionHandle()']]],
   ['sectionoffset',['SectionOffset',['../struct___p_o_r_t___v_i_e_w.html#ace42dd072be3e47296070a1752905cf4',1,'_PORT_VIEW']]],
   ['sectionpointer',['SectionPointer',['../struct___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y.html#a914e63912b523e278a6b285953eb99b9',1,'_LDR_DATA_TABLE_ENTRY']]],
