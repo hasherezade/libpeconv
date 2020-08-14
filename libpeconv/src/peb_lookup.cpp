@@ -1,10 +1,6 @@
-#pragma once
-
-#include <windows.h>
 #include "ntddk.h"
 
-#include "peconv/peb_lookup.h"
-#include <iostream>
+#include <peconv/peb_lookup.h>
 
 class SectionLocker {
 public:
@@ -133,7 +129,7 @@ size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
 {
     PPEB peb = get_peb();
     if (!peb) {
-        return NULL;
+        return 0;
     }
     SectionLocker locker(*peb->LoaderLock);
     LIST_ENTRY head = peb->Ldr->InLoadOrderModuleList;

@@ -47,7 +47,7 @@ size_t ExportsMapper::make_ord_lookup_tables(
     )
 {
     IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
-    if (exp == NULL) return NULL;
+    if (exp == NULL) return 0;
 
     SIZE_T functCount = exp->NumberOfFunctions;
     DWORD funcsListRVA = exp->AddressOfFunctions;
