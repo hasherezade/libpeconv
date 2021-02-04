@@ -28,7 +28,7 @@ int tests::test_ntdll(char *path)
         return -1;
     }
     bool is64 = peconv::is64bit(ntdll_module);
-    std::cout << "NTDLL loaded" << is64 << std::endl;
+    std::cout << "NTDLL loaded, is64: " << is64 << std::endl;
     FARPROC n_offset = peconv::get_exported_func(ntdll_module, "tolower");
     if (n_offset == NULL) {
         return -1;
