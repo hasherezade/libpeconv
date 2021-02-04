@@ -43,6 +43,8 @@ set (hdrs
 	test_fix_dotnet.h
 	resource.h
 	shellcodes.h
+	shellc32.h
+	shellc64.h
 )
 
 set (rsrc
