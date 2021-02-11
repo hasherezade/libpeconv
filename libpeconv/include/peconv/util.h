@@ -25,7 +25,7 @@ namespace peconv {
     /**
     Verifies that the calling process has read access to the specified range of memory.
     \param lp : A pointer to the first byte of the memory block
-    \param ucb : The size of the memory block, in bytes. If this parameter is zero, the return value is zero.
+    \param ucb : The size of the memory block, in bytes. If this parameter is zero, the return value is true (bad pointer).
     */
     bool is_bad_read_ptr(LPCVOID lp, SIZE_T ucb);
 };
