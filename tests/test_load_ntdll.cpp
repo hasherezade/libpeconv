@@ -23,6 +23,8 @@ int tests::test_ntdll(char *path)
     ExpandEnvironmentStrings("%SystemRoot%\\system32\\ntdll.dll", ntdllPath, MAX_PATH);
 
     size_t v_size = 0;
+    // NTDLL does not need any imports, so we can load it by load_pe_module
+    // in a normal case we should use load_pe_executable
     BYTE *ntdll_module = peconv::load_pe_module(ntdllPath, v_size, true, true);
     if (!ntdll_module) {
         return -1;
