@@ -23,10 +23,17 @@ namespace peconv {
     DWORD get_process_id(HANDLE hProcess);
 
     /**
-    Verifies that the calling process has read access to the specified range of memory.
-    \param lp : A pointer to the first byte of the memory block
-    \param ucb : The size of the memory block, in bytes. If this parameter is zero, the return value is true (bad pointer).
+    Verifies that the calling process has a defined access to the specified range of memory.
+    \param areaStart : A pointer to the first byte of the memory block
+    \param areaSize : The size of the memory block, in bytes. If this parameter is zero, the return value is false.
     */
-    bool is_bad_read_ptr(LPCVOID lp, SIZE_T ucb);
+    bool is_mem_accessible(LPCVOID areaStart, SIZE_T areaSize, DWORD accessRights);
+
+    /**
+    Verifies that the calling process has read access to the specified range of memory.
+    \param areaStart : A pointer to the first byte of the memory block
+    \param areaSize : The size of the memory block, in bytes. If this parameter is zero, the return value is true (bad pointer).
+    */
+    bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize);
 };
 

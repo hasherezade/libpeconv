@@ -100,12 +100,11 @@ bool peconv::is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE paddi
     return true;
 }
 
-bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
+bool peconv::is_mem_accessible(LPCVOID areaStart, SIZE_T areaSize, DWORD dwAccessRights)
 {
-    if (!areaSize) return true; // zero-sized areas are not allowed
+    if (!areaSize) return false; // zero-sized areas are not allowed
 
     const DWORD dwForbiddenArea = PAGE_GUARD | PAGE_NOACCESS;
-    const DWORD dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
 
     MEMORY_BASIC_INFORMATION mbi = { 0 };
     const size_t mbiSize = sizeof(MEMORY_BASIC_INFORMATION);
@@ -115,28 +114,39 @@ bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
 
     while (sizeToCheck > 0) {
         //reset area
-        memset(&mbi, 0, sizeof(MEMORY_BASIC_INFORMATION));
+        memset(&mbi, 0, mbiSize);
 
         // query the next area
         if (VirtualQuery(areaPtr, &mbi, mbiSize) != mbiSize) {
-            return true; // could not query the area, assume it is bad
+            return false; // could not query the area, assume it is bad
         }
         // check the privileges
         bool isOk = (mbi.State & MEM_COMMIT) // memory allocated and
             && !(mbi.Protect & dwForbiddenArea) // access to page allowed and
-            && (mbi.Protect & dwReadRights); // the required rights
+            && (mbi.Protect & dwAccessRights); // the required rights
         if (!isOk) {
-            return true; //invalid access
+            return false; //invalid access
         }
         SIZE_T offset = (ULONG_PTR)areaPtr - (ULONG_PTR)mbi.BaseAddress;
         SIZE_T queriedSize = mbi.RegionSize - offset;
         if (queriedSize >= sizeToCheck) {
-            return false; // is is fine
+            return true; // is is fine
         }
         // move to the next region
         sizeToCheck -= queriedSize;
         areaPtr = LPCVOID((ULONG_PTR)areaPtr + queriedSize);
     }
-    // by default assume it is bad
+    // by default assume it is inaccessible
+    return false;
+}
+
+bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
+{
+    const DWORD dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
+    bool isAccessible = peconv::is_mem_accessible(areaStart, areaSize, dwReadRights);
+    if (isAccessible) {
+        // the area has read access rights: not a bad read pointer
+        return false;
+    }
     return true;
 }
