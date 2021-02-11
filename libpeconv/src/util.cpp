@@ -99,15 +99,40 @@ bool peconv::is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE paddi
     return true;
 }
 
-bool peconv::is_bad_read_ptr(LPCVOID lp, SIZE_T ucb)
-{ 
-  MEMORY_BASIC_INFORMATION mbi = { 0 };
+bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
+{
+    if (!areaSize) return false;
 
-  if (!ucb) return false;
-  
-  if (VirtualQuery(lp, &mbi, ucb)) {
-      return (mbi.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)) != 0 
-          && (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS)) == 0;
-  }
-  return true;
+    const DWORD dwForbiddenArea = PAGE_GUARD | PAGE_NOACCESS;
+    const DWORD dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
+
+    MEMORY_BASIC_INFORMATION mbi = { 0 };
+    SIZE_T sizeToCheck = areaSize;
+    LPCVOID areaPtr = areaStart;
+    bool isOk = false;
+
+    while (sizeToCheck > 0) {
+        //reset area
+        memset(&mbi, 0, sizeof(MEMORY_BASIC_INFORMATION));
+
+        // query the next area
+        if (VirtualQuery(areaPtr, &mbi, sizeof(MEMORY_BASIC_INFORMATION) != sizeof(MEMORY_BASIC_INFORMATION))) {
+            return false;
+        }
+        // check the privileges
+        isOk = (mbi.State & MEM_COMMIT) // memory allocated and
+            && !(mbi.Protect & dwForbiddenArea) // access to page allowed and
+            && (mbi.Protect & dwReadRights); // the required rights
+        if (!isOk) return false;
+
+        SIZE_T offset = (ULONG_PTR)areaPtr - (ULONG_PTR)mbi.BaseAddress;
+        SIZE_T queriedSize = mbi.RegionSize - offset;
+        if (queriedSize >= sizeToCheck) {
+            return true;
+        }
+        // move to the next region
+        sizeToCheck -= queriedSize;
+        areaPtr = LPCVOID((ULONG_PTR)areaPtr + queriedSize);
+    }
+    return isOk;
 }
