@@ -102,8 +102,10 @@ bool peconv::is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE paddi
 bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
 {
     if (!areaSize) return false;
+    return IsBadReadPtr(areaStart, areaSize);
 
-    const DWORD dwForbiddenArea = PAGE_GUARD | PAGE_NOACCESS;
+    //TODO: rework it
+    /*const DWORD dwForbiddenArea = PAGE_GUARD | PAGE_NOACCESS;
     const DWORD dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
 
     MEMORY_BASIC_INFORMATION mbi = { 0 };
@@ -116,7 +118,7 @@ bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
         memset(&mbi, 0, sizeof(MEMORY_BASIC_INFORMATION));
 
         // query the next area
-        if (VirtualQuery(areaPtr, &mbi, sizeof(MEMORY_BASIC_INFORMATION) != sizeof(MEMORY_BASIC_INFORMATION))) {
+        if (!VirtualQuery(areaPtr, &mbi, sizeof(MEMORY_BASIC_INFORMATION))) {
             return false;
         }
         // check the privileges
@@ -134,5 +136,6 @@ bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
         sizeToCheck -= queriedSize;
         areaPtr = LPCVOID((ULONG_PTR)areaPtr + queriedSize);
     }
-    return isOk;
+    return isOk;*/
+
 }
