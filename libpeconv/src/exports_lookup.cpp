@@ -1,4 +1,5 @@
 #include "peconv/exports_lookup.h"
+#include "peconv/util.h"
 
 #include <iostream>
 
@@ -88,7 +89,7 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
        
         LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
-        if (IsBadReadPtr(name, 1)) break; // this shoudld not happen. maybe the PE file is corrupt?
+        if (peconv::is_bad_read_ptr(name, 1)) break; // this shoudld not happen. maybe the PE file is corrupt?
 
         names_list.push_back(name);
     }
@@ -114,7 +115,7 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
         const DWORD ordinal = MASK_TO_DWORD((ULONG_PTR)wanted_name);
         return get_export_by_ord(modulePtr, exp, ordinal);
     }
-    if (IsBadReadPtr(wanted_name, 1)) {
+    if (peconv::is_bad_read_ptr(wanted_name, 1)) {
         std::cerr << "[-] Invalid pointer to the name" << std::endl;
         return NULL;
     }
@@ -154,7 +155,7 @@ FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
 
     if (hProc == NULL) {
 #ifdef _DEBUG
-        if (!IsBadReadPtr(func_name, 1)) {
+        if (!peconv::is_bad_read_ptr(func_name, 1)) {
             std::cerr << "[!] Cound not get the function: "<< func_name <<" from exports!" << std::endl;
         } else {
             std::cerr << "[!] Cound not get the function: "<< MASK_TO_DWORD((ULONG_PTR)func_name) <<" from exports!" << std::endl;
@@ -182,7 +183,7 @@ LPSTR peconv::read_dll_name(HMODULE modulePtr)
         return NULL;
     }
     LPSTR module_name = (char*)((ULONGLONG)modulePtr + exp->Name);
-    if (IsBadReadPtr(module_name, 1)) {
+    if (peconv::is_bad_read_ptr(module_name, 1)) {
         return NULL;
     }
     size_t len = peconv::forwarder_name_len((BYTE*) module_name);

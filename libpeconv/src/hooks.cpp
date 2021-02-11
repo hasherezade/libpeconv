@@ -81,7 +81,7 @@ bool PatchBackup::applyBackup()
 FARPROC peconv::hooking_func_resolver::resolve_func(LPSTR lib_name, LPSTR func_name)
 {
     //the name may be ordinal rather than string, so check if it is a valid pointer:
-    if (!IsBadReadPtr(func_name, 1)) {
+    if (!peconv::is_bad_read_ptr(func_name, 1)) {
         std::map<std::string, FARPROC>::iterator itr = hooks_map.find(func_name);
         if (itr != hooks_map.end()) {
             FARPROC hook = itr->second;
