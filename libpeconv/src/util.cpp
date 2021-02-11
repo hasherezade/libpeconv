@@ -1,4 +1,5 @@
 #include "peconv/util.h"
+#include <iostream>
 
 namespace peconv {
     DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process) = nullptr;
@@ -101,41 +102,41 @@ bool peconv::is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE paddi
 
 bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
 {
-    if (!areaSize) return false;
-    return IsBadReadPtr(areaStart, areaSize);
+    if (!areaSize) return true; // zero-sized areas are not allowed
 
-    //TODO: rework it
-    /*const DWORD dwForbiddenArea = PAGE_GUARD | PAGE_NOACCESS;
+    const DWORD dwForbiddenArea = PAGE_GUARD | PAGE_NOACCESS;
     const DWORD dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
 
     MEMORY_BASIC_INFORMATION mbi = { 0 };
+    const size_t mbiSize = sizeof(MEMORY_BASIC_INFORMATION);
+
     SIZE_T sizeToCheck = areaSize;
     LPCVOID areaPtr = areaStart;
-    bool isOk = false;
 
     while (sizeToCheck > 0) {
         //reset area
         memset(&mbi, 0, sizeof(MEMORY_BASIC_INFORMATION));
 
         // query the next area
-        if (!VirtualQuery(areaPtr, &mbi, sizeof(MEMORY_BASIC_INFORMATION))) {
-            return false;
+        if (VirtualQuery(areaPtr, &mbi, mbiSize) != mbiSize) {
+            return true; // could not query the area, assume it is bad
         }
         // check the privileges
-        isOk = (mbi.State & MEM_COMMIT) // memory allocated and
+        bool isOk = (mbi.State & MEM_COMMIT) // memory allocated and
             && !(mbi.Protect & dwForbiddenArea) // access to page allowed and
             && (mbi.Protect & dwReadRights); // the required rights
-        if (!isOk) return false;
-
+        if (!isOk) {
+            return true; //invalid access
+        }
         SIZE_T offset = (ULONG_PTR)areaPtr - (ULONG_PTR)mbi.BaseAddress;
         SIZE_T queriedSize = mbi.RegionSize - offset;
         if (queriedSize >= sizeToCheck) {
-            return true;
+            return false; // is is fine
         }
         // move to the next region
         sizeToCheck -= queriedSize;
         areaPtr = LPCVOID((ULONG_PTR)areaPtr + queriedSize);
     }
-    return isOk;*/
-
+    // by default assume it is bad
+    return true;
 }
