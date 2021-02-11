@@ -1,5 +1,6 @@
 #include "peconv/file_util.h"
 #include "peconv/buffer_util.h"
+#include "peconv/util.h"
 
 #include <fstream>
 #ifdef _DEBUG
@@ -37,7 +38,7 @@ peconv::ALIGNED_BUF peconv::load_file(IN const char *filename, OUT size_t &read_
     if (read_size != 0 && read_size <= r_size) {
         r_size = read_size;
     }
-    if (IsBadReadPtr(dllRawData, r_size)) {
+    if (peconv::is_bad_read_ptr(dllRawData, r_size)) {
         std::cerr << "[-] Mapping of " << filename << " is invalid!" << std::endl;
         UnmapViewOfFile(dllRawData);
         CloseHandle(mapping);

@@ -21,5 +21,12 @@ namespace peconv {
     Wrapper for GetProcessId - for a backward compatibility with old versions of Windows
     */
     DWORD get_process_id(HANDLE hProcess);
+
+    /**
+    Verifies that the calling process has read access to the specified range of memory.
+    \param lp : A pointer to the first byte of the memory block
+    \param ucb : The size of the memory block, in bytes. If this parameter is zero, the return value is zero.
+    */
+    bool is_bad_read_ptr(LPCVOID lp, SIZE_T ucb);
 };
 

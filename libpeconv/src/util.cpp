@@ -98,3 +98,16 @@ bool peconv::is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE paddi
     }
     return true;
 }
+
+bool peconv::is_bad_read_ptr(LPCVOID lp, SIZE_T ucb)
+{ 
+  MEMORY_BASIC_INFORMATION mbi = { 0 };
+
+  if (!ucb) return false;
+  
+  if (VirtualQuery(lp, &mbi, ucb)) {
+      return (mbi.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)) != 0 
+          && (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS)) == 0;
+  }
+  return true;
+}

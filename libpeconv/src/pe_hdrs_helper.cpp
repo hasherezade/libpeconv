@@ -1,4 +1,5 @@
 #include "peconv/pe_hdrs_helper.h"
+#include "peconv/util.h"
 
 using namespace peconv;
 
@@ -16,7 +17,7 @@ BYTE* peconv::get_nt_hdrs(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_si
             return nullptr;
         }
     }
-    if (IsBadReadPtr(idh, sizeof(IMAGE_DOS_HEADER))) {
+    if (peconv::is_bad_read_ptr(idh, sizeof(IMAGE_DOS_HEADER))) {
         return nullptr;
     }
     if (idh->e_magic != IMAGE_DOS_SIGNATURE) {
@@ -33,7 +34,7 @@ BYTE* peconv::get_nt_hdrs(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_si
             return nullptr;
         }
     }
-    if (IsBadReadPtr(inh, sizeof(IMAGE_NT_HEADERS32))) {
+    if (peconv::is_bad_read_ptr(inh, sizeof(IMAGE_NT_HEADERS32))) {
         return nullptr;
     }
     if (inh->Signature != IMAGE_NT_SIGNATURE) {
@@ -106,7 +107,7 @@ WORD peconv::get_nt_hdr_architecture(IN const BYTE *pe_buffer)
     if (!ptr) return 0;
 
     IMAGE_NT_HEADERS32 *inh = static_cast<IMAGE_NT_HEADERS32*>(ptr);
-    if (IsBadReadPtr(inh, sizeof(IMAGE_NT_HEADERS32))) {
+    if (peconv::is_bad_read_ptr(inh, sizeof(IMAGE_NT_HEADERS32))) {
         return 0;
     }
     return inh->OptionalHeader.Magic;
