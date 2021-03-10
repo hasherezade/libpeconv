@@ -26,7 +26,7 @@ bool create_suspended_process(IN const char* path, IN const char* cmdLine, OUT P
             &pi //lpProcessInformation
         ))
     {
-        printf("[ERROR] CreateProcess failed, Error = %x\n", GetLastError());
+        std::cerr << "[ERROR] CreateProcess failed, Error = " << std::hex << GetLastError() << "\n";
         return false;
     }
     return true;
@@ -43,7 +43,7 @@ bool terminate_process(DWORD pid)
         is_killed = true;
     }
     else {
-        std::cerr << "[ERROR] Could not terminate the process. PID = " << pid << std::endl;
+        std::cerr << "[ERROR] Could not terminate the process. PID = " << std::dec << pid << std::endl;
     }
     CloseHandle(hProcess);
     return is_killed;
@@ -53,7 +53,7 @@ bool read_remote_mem(HANDLE hProcess, ULONGLONG remote_addr, OUT void* buffer, c
 {
     memset(buffer, 0, buffer_size);
     if (!ReadProcessMemory(hProcess, LPVOID(remote_addr), buffer, buffer_size, NULL)) {
-        printf("[ERROR] Cannot read from the remote memory!\n");
+        std::cerr << "[ERROR] Cannot read from the remote memory!\n";
         return false;
     }
     return true;
@@ -165,13 +165,13 @@ bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &
 
     //2. Write the new Entry Point into context of the remote process:
     if (update_remote_entry_point(pi, ep_va, is32bit) == FALSE) {
-        printf("Cannot update remote EP!\n");
+        std::cerr << "Cannot update remote EP!\n";
         return false;
     }
     //3. Get access to the remote PEB:
     ULONGLONG remote_peb_addr = get_remote_peb_addr(pi, is32bit);
     if (!remote_peb_addr) {
-        printf("Failed getting remote PEB address!\n");
+        std::cerr << "Failed getting remote PEB address!\n";
         return false;
     }
     // get the offset to the PEB's field where the ImageBase should be saved (depends on architecture):
@@ -185,7 +185,7 @@ bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &
         &load_base, img_base_size, 
         &written)) 
     {
-        printf("Cannot update ImageBaseAddress!\n");
+        std::cerr << "Cannot update ImageBaseAddress!\n";
         return false;
     }
     return true;
@@ -198,7 +198,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
     //1. Allocate memory for the payload in the remote process:
     LPVOID remoteBase = VirtualAllocEx(pi.hProcess, NULL, payloadImageSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
     if (remoteBase == NULL)  {
-        printf("Could not allocate memory in the remote process\n");
+        std::cerr << "Could not allocate memory in the remote process\n";
         return false;
     }
 #ifdef _DEBUG
@@ -206,18 +206,16 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
 #endif
     //2. Relocate the payload (local copy) to the Remote Base:
     if (!relocate_module(loaded_pe, payloadImageSize, (ULONGLONG) remoteBase)) {
-        printf("Could not relocate the module!\n");
+        std::cout << "Could not relocate the module!\n";
         return false;
     }
     //3. Update the image base of the payload (local copy) to the Remote Base:
     update_image_base(loaded_pe, (ULONGLONG) remoteBase);
 
-#ifdef _DEBUG
-    printf("Writing to remote process...\n");
-#endif
     //4. Write the payload to the remote process, at the Remote Base:
     SIZE_T written = 0;
     if (!WriteProcessMemory(pi.hProcess, remoteBase, loaded_pe, payloadImageSize, &written)) {
+        std::cout << "Writing to the remote process failed!\n";
         return false;
     }
 #ifdef _DEBUG
@@ -225,23 +223,11 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
 #endif
     //5. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
     if (!redirect_to_payload(loaded_pe, remoteBase, pi, is32bit)) {
-        printf("Redirecting failed!\n");
+        std::cerr << "Redirecting failed!\n";
         return false;
     }
     //6. Resume the thread and let the payload run:
     ResumeThread(pi.hThread);
-    return true;
-}
-
-bool get_calc_path(LPSTR lpOutPath, DWORD szOutPath, bool is_payload_32b)
-{
-#if defined(_WIN64)
-    if (is_payload_32b) {
-        ExpandEnvironmentStrings("%SystemRoot%\\SysWoW64\\calc.exe", lpOutPath, szOutPath);
-        return true;
-    }
-#endif
-    ExpandEnvironmentStrings("%SystemRoot%\\system32\\calc.exe", lpOutPath, szOutPath);
     return true;
 }
 
@@ -262,13 +248,13 @@ bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, const char *t
     peconv::free_pe_buffer(target_pe); target_pe = NULL; target_size = 0;
 
     if (is64bit_target != peconv::is64bit(payload_buf)) {
-        printf("Incompatibile target bitness!\n");
+        std::cerr << "Incompatibile target bitness!\n";
         return false;
     }
     if (payload_subs != IMAGE_SUBSYSTEM_WINDOWS_GUI //only a payload with GUI subsystem can be run by both GUI and CLI
         && target_subs != payload_subs)
     {
-        printf("Incompatibile target subsystem!\n");
+        std::cerr << "Incompatibile target subsystem!\n";
         return false;
     }
     return true;
@@ -281,30 +267,28 @@ bool run_pe(IN const char *payloadPath, IN const char *targetPath, IN const char
     // Load the current executable from the file with the help of libpeconv:
     BYTE* loaded_pe = peconv::load_pe_module(payloadPath, payloadImageSize, false, false);
     if (!loaded_pe) {
-        printf("Loading failed!\n");
+        std::cerr << "Loading failed!\n";
         return false;
     }
 
     // Get the payload's architecture and check if it is compatibile with the loader:
     const WORD payload_arch = get_nt_hdr_architecture(loaded_pe);
     if (payload_arch != IMAGE_NT_OPTIONAL_HDR32_MAGIC && payload_arch != IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
-        printf("Not supported paylad architecture!\n");
+        std::cerr << "Not supported paylad architecture!\n";
         return false;
     }
     const bool is32bit_payload = !peconv::is64bit(loaded_pe);
 #ifndef _WIN64
     if (!is32bit_payload) {
-        printf("Incompatibile payload architecture!\n");
-        printf("Only 32 bit payloads can be injected from 32bit loader!\n");
+        std::cerr << "Incompatibile payload architecture!\n"
+            << "Only 32 bit payloads can be injected from 32bit loader!\n";
         return false;
     }
 #endif
     // 2. Prepare the taget
-    // Make target path if none supplied:
-    char calc_path[MAX_PATH] = { 0 };
-    get_calc_path(calc_path, MAX_PATH, is32bit_payload);
     if (targetPath == NULL) {
-        targetPath = calc_path;
+        std::cerr << "No target supplied!\n";
+        return false;
     }
     if (!is_target_compatibile(loaded_pe, payloadImageSize, targetPath)) {
         free_pe_buffer(loaded_pe, payloadImageSize);
@@ -314,7 +298,7 @@ bool run_pe(IN const char *payloadPath, IN const char *targetPath, IN const char
     PROCESS_INFORMATION pi = { 0 };
     bool is_created = create_suspended_process(targetPath, cmdLine, pi);
     if (!is_created) {
-        printf("Creating target process failed!\n");
+        std::cerr << "Creating target process failed!\n";
         free_pe_buffer(loaded_pe, payloadImageSize);
         return false;
     }
