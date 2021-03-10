@@ -5,7 +5,7 @@
 
 using namespace peconv;
 
-bool create_suspended_process(IN LPSTR path, OUT PROCESS_INFORMATION &pi)
+bool create_suspended_process(IN const char* path, IN const char* cmdLine, OUT PROCESS_INFORMATION &pi)
 {
     STARTUPINFO si;
     memset(&si, 0, sizeof(STARTUPINFO));
@@ -14,8 +14,8 @@ bool create_suspended_process(IN LPSTR path, OUT PROCESS_INFORMATION &pi)
     memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 
     if (!CreateProcessA(
-            NULL,
             path,
+            (LPSTR)cmdLine,
             NULL, //lpProcessAttributes
             NULL, //lpThreadAttributes
             FALSE, //bInheritHandles
@@ -245,7 +245,7 @@ bool get_calc_path(LPSTR lpOutPath, DWORD szOutPath, bool is_payload_32b)
     return true;
 }
 
-bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, char *targetPath)
+bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, const char *targetPath)
 {
     if (!payload_buf) {
         return false;
@@ -274,7 +274,7 @@ bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, char *targetP
     return true;
 }
 
-bool run_pe(char *payloadPath, char *targetPath)
+bool run_pe(IN const char *payloadPath, IN const char *targetPath, IN const char *cmdLine)
 {
     //1. Load the payload:
     size_t payloadImageSize = 0;
@@ -312,7 +312,7 @@ bool run_pe(char *payloadPath, char *targetPath)
     }
     // Create the target process (suspended):
     PROCESS_INFORMATION pi = { 0 };
-    bool is_created = create_suspended_process(targetPath, pi);
+    bool is_created = create_suspended_process(targetPath, cmdLine, pi);
     if (!is_created) {
         printf("Creating target process failed!\n");
         free_pe_buffer(loaded_pe, payloadImageSize);

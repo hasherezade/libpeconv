@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    char* version = "0.1.5";
+    char* version = "0.1.6";
     char* payload_path = NULL;
 
     char *target_path = NULL;
@@ -23,7 +23,14 @@ int main(int argc, char *argv[])
     }
 
     printf("Payload: %s\n", payload_path );
-    run_pe(payload_path, target_path);
+
+    std::string cmdLine = GetCommandLineA();
+    size_t found = cmdLine.find(target_path);
+
+    //cut the cmdLine just before the target_path
+    std::string trimmedCmdLine = cmdLine.substr(found, cmdLine.length());
+
+    run_pe(payload_path, target_path, trimmedCmdLine.c_str());
 
     system("pause");
     return 0;
