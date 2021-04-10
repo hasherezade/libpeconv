@@ -46,7 +46,49 @@ ULONGLONG peconv::fetch_alloc_base(HANDLE processHandle, BYTE* moduleBase)
     return (ULONGLONG) page_info.AllocationBase;
 }
 
-size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
+namespace peconv {
+    SIZE_T search_readable_size(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
+    {
+        if (!buffer || (buffer_size < minimal_size) || minimal_size == 0) {
+            return 0;
+        }
+        SIZE_T last_failed_size = buffer_size;
+        SIZE_T last_success_size = 0;
+
+        SIZE_T test_read_size = 0;
+        if (!ReadProcessMemory(processHandle, start_addr, buffer, minimal_size, &test_read_size)) {
+            //cannot read even the minimal size, quit trying
+            return test_read_size;
+        }
+        last_success_size = minimal_size;
+
+        SIZE_T read_size = 0;
+        SIZE_T to_read_size = buffer_size/2;
+
+        while (to_read_size > minimal_size && to_read_size < buffer_size)
+        {
+            read_size = 0;
+            if (ReadProcessMemory(processHandle, start_addr, buffer, to_read_size, &read_size)) {
+                last_success_size = to_read_size;
+            }
+            else {
+                last_failed_size = to_read_size;
+            }
+            const size_t delta = (last_failed_size - last_success_size) / 2;
+            if (delta == 0) break;
+            to_read_size = last_success_size + delta;
+        }
+        if (last_success_size) {
+            read_size = 0;
+            memset(buffer, 0, buffer_size);
+            ReadProcessMemory(processHandle, start_addr, buffer, last_success_size, &read_size);
+            return read_size;
+        }
+        return 0;
+    }
+};
+
+size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
 {
     if (!buffer) {
         return 0;
@@ -56,25 +98,24 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
     SIZE_T read_size = 0;
     DWORD last_error = ERROR_SUCCESS;
 
-    for (SIZE_T to_read_size = buffer_size; to_read_size > 0; to_read_size -= step_size)
+    while (buffer_size > 0)
     {
-        if (ReadProcessMemory(processHandle, start_addr, buffer, to_read_size, &read_size)) {
+        if (ReadProcessMemory(processHandle, start_addr, buffer, buffer_size, &read_size)) {
             break;
         }
-        // is it not the first attempt?
+        last_error = GetLastError();
         if (last_error != ERROR_SUCCESS) {
             if (read_size == 0 && (last_error != ERROR_PARTIAL_COPY)) {
-                last_error = GetLastError();
-                break; // no progress, break
+                break; // break
             }
         }
-
-        last_error = GetLastError();
-
-        if ((to_read_size < step_size) || step_size == 0) {
-            break;
+        if (last_error == ERROR_PARTIAL_COPY) {
+            read_size = peconv::search_readable_size(processHandle, start_addr, buffer, buffer_size, minimal_size);
+#ifdef _DEBUG
+            std::cout << "peconv::search_readable_size res: " << std::hex << read_size << std::endl;
+#endif
         }
-        //otherwise, decrease the to_read_size, and try again...
+        break;
     }
 
 #ifdef _DEBUG
@@ -90,6 +131,7 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
 #endif
     return static_cast<size_t>(read_size);
 }
+
 
 size_t read_remote_region(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
