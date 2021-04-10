@@ -1,6 +1,8 @@
 #include "peconv/util.h"
 #include <iostream>
 
+#define USE_OLD_BADPTR
+
 namespace peconv {
     DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process) = nullptr;
 
@@ -142,6 +144,9 @@ bool peconv::is_mem_accessible(LPCVOID areaStart, SIZE_T areaSize, DWORD dwAcces
 
 bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
 {
+#ifdef USE_OLD_BADPTR // classic IsBadReadPtr is much faster than the version using VirtualQuery
+    return IsBadReadPtr(areaStart, areaSize);
+#else
     const DWORD dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
     bool isAccessible = peconv::is_mem_accessible(areaStart, areaSize, dwReadRights);
     if (isAccessible) {
@@ -149,4 +154,5 @@ bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
         return false;
     }
     return true;
+#endif
 }
