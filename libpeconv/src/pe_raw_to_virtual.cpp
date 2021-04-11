@@ -12,9 +12,9 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
 {
     if (!payload || !destBuffer) return false;
 
-    bool is64b = is64bit(payload);
+    bool is64b = is64bit(payload, payloadSize);
 
-    BYTE* payload_nt_hdr = get_nt_hdrs(payload);
+    BYTE* payload_nt_hdr = get_nt_hdrs(payload, payloadSize);
     if (payload_nt_hdr == NULL) {
         std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
@@ -104,14 +104,14 @@ BYTE* peconv::pe_raw_to_virtual(
 )
 {
     //check payload:
-    BYTE* nt_hdr = get_nt_hdrs(payload);
+    BYTE* nt_hdr = get_nt_hdrs(payload, in_size);
     if (nt_hdr == NULL) {
         std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return nullptr;
     }
     DWORD payloadImageSize = 0;
 
-    bool is64 = is64bit(payload);
+    bool is64 = is64bit(payload, in_size);
     if (is64) {
         IMAGE_NT_HEADERS64* payload_nt_hdr = (IMAGE_NT_HEADERS64*)nt_hdr;
         payloadImageSize = payload_nt_hdr->OptionalHeader.SizeOfImage;

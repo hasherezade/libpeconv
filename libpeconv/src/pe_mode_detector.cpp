@@ -11,7 +11,7 @@
 // Returns true if confirmed, false if not confirmed. False result can also mean that data was invalid/insufficient to decide.
 bool is_virtual_padding(const BYTE* pe_buffer, size_t pe_size)
 {
-    const size_t r_align = peconv::get_sec_alignment((PBYTE)pe_buffer, true);
+    const size_t r_align = peconv::get_sec_alignment((PBYTE)pe_buffer, pe_size, true);
 
     size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
     if (sections_count < 2) return false;
@@ -53,8 +53,8 @@ bool is_virtual_padding(const BYTE* pe_buffer, size_t pe_size)
 // Returns true if confirmed, false if not confirmed. False result can also mean that data was invalid/insufficient to decide.
 bool is_hdr_virtual_align(const BYTE* pe_buffer, size_t pe_size)
 {
-    const size_t v_align = peconv::get_sec_alignment((PBYTE)pe_buffer, false);
-    if (peconv::get_hdrs_size(pe_buffer) >= v_align) {
+    const size_t v_align = peconv::get_sec_alignment((PBYTE)pe_buffer, pe_size, false);
+    if (peconv::get_hdrs_size(pe_buffer, pe_size) >= v_align) {
         //undetermined for such case
         return false;
     }
@@ -187,7 +187,7 @@ bool peconv::is_section_expanded(IN const BYTE* pe_buffer, IN size_t pe_size, IN
 {
     if (!sec) return false;
 
-    size_t sec_vsize = peconv::get_virtual_sec_size(pe_buffer, sec, true);
+    size_t sec_vsize = peconv::get_virtual_sec_size(pe_buffer, pe_size, sec, true);
     size_t sec_rsize = sec->SizeOfRawData;
 
     if (sec_rsize >= sec_vsize) return false;

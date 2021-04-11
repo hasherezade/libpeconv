@@ -24,22 +24,22 @@ namespace peconv {
     /**
     Fetch image size from headers.
     */
-    DWORD get_image_size(IN const BYTE *payload);
+    DWORD get_image_size(IN const BYTE *payload, IN const size_t buf_size);
 
     /**
     Change the Image Size in Optional Header to the given one.
     */
-    bool update_image_size(IN OUT BYTE* payload, IN DWORD new_img_size);
+    bool update_image_size(IN OUT BYTE* payload, IN const size_t buf_size, IN DWORD new_img_size);
 
     /**
     Fetch architecture from the NT headers. Checks for bad pointers. 
     */
-    WORD get_nt_hdr_architecture(IN const BYTE *pe_buffer);
+    WORD get_nt_hdr_architecture(IN const BYTE *pe_buffer, IN const size_t buf_size);
 
     /**
     Wrapper for get_nt_hdr_architecture. Returns true if the PE file is 64 bit.
     */
-    bool is64bit(IN const BYTE *pe_buffer);
+    bool is64bit(IN const BYTE *pe_buffer, IN const size_t buf_size);
 
     /**
     Fetch pointer to the NT headers of the PE file. 
@@ -53,12 +53,12 @@ namespace peconv {
     /**
     Wrapper for get_nt_headers. Automatically detects if the PE is 32 bit - if not, returns null pointer.
     */
-    IMAGE_NT_HEADERS32* get_nt_hdrs32(IN const BYTE *pe_buffer);
+    IMAGE_NT_HEADERS32* get_nt_hdrs32(IN const BYTE *pe_buffer, IN const size_t buf_size);
 
     /**
     Wrapper for get_nt_headers. Automatically detects if the PE is 64 bit - if not, returns null pointer.
     */
-    IMAGE_NT_HEADERS64* get_nt_hdrs64(IN const BYTE *pe_buffer);
+    IMAGE_NT_HEADERS64* get_nt_hdrs64(IN const BYTE *pe_buffer, IN const size_t buf_size);
 
     /**
     Fetches optional header of the PE. Validates pointers against buffer size.
@@ -76,20 +76,20 @@ namespace peconv {
     /**
     Fetch the size of headers (from Optional Header).
     */
-    DWORD get_hdrs_size(IN const BYTE *pe_buffer);
+    DWORD get_hdrs_size(IN const BYTE *pe_buffer, IN const size_t buf_size);
 
     /**
     get Data Directory entry of the given number. If the entry is not filled and allow_empty is not set, it returns null pointer.
     */
-    IMAGE_DATA_DIRECTORY* get_directory_entry(IN const BYTE* pe_buffer, IN DWORD dir_id, IN bool allow_empty = false);
+    IMAGE_DATA_DIRECTORY* get_directory_entry(IN const BYTE* pe_buffer, IN const size_t buf_size, IN DWORD dir_id, IN bool allow_empty = false);
 
     /**
     Get pointer to the Data Directory content of the given number. Automatically cast to the chosen type.
     */
     template <typename IMAGE_TYPE_DIRECTORY>
-    IMAGE_TYPE_DIRECTORY* get_type_directory(IN HMODULE modulePtr, IN DWORD dir_id)
+    IMAGE_TYPE_DIRECTORY* get_type_directory(IN HMODULE modulePtr, IN const size_t moduleSize, IN DWORD dir_id)
     {
-        IMAGE_DATA_DIRECTORY *my_dir = peconv::get_directory_entry((const BYTE*)modulePtr, dir_id);
+        IMAGE_DATA_DIRECTORY *my_dir = peconv::get_directory_entry((const BYTE*)modulePtr, moduleSize, dir_id);
         if (!my_dir) return nullptr;
 
         DWORD dir_addr = my_dir->VirtualAddress;
@@ -101,25 +101,25 @@ namespace peconv {
     /**
     Get pointer to the Export Directory.
     */
-    IMAGE_EXPORT_DIRECTORY* get_export_directory(IN HMODULE modulePtr);
+    IMAGE_EXPORT_DIRECTORY* get_export_directory(IN HMODULE modulePtr, IN const size_t moduleSize);
 
     // Fetch Image Base from Optional Header.
-    ULONGLONG get_image_base(IN const BYTE *pe_buffer);
+    ULONGLONG get_image_base(IN const BYTE *pe_buffer, IN const size_t buf_size);
 
     /**
     Change the Image Base in Optional Header to the given one.
     */
-    bool update_image_base(IN OUT BYTE* payload, IN ULONGLONG destImageBase);
+    bool update_image_base(IN OUT BYTE* payload, IN const size_t buf_size, IN ULONGLONG destImageBase);
 
     /**
     Get RVA of the Entry Point from the Optional Header.
     */
-    DWORD get_entry_point_rva(IN const BYTE *pe_buffer);
+    DWORD get_entry_point_rva(IN const BYTE *pe_buffer, IN const size_t buf_size);
 
     /**
     Change the Entry Point RVA in the Optional Header to the given one.
     */
-    bool update_entry_point_rva(IN OUT BYTE *pe_buffer, IN DWORD ep);
+    bool update_entry_point_rva(IN OUT BYTE *pe_buffer, IN const size_t buf_size, IN DWORD ep);
 
     /**
     Get number of sections from the File Header. It does not validate if this the actual number.
@@ -146,32 +146,32 @@ namespace peconv {
     /**
     Fetch the PE Characteristics from the File Header.
     */
-    WORD get_file_characteristics(IN const BYTE* payload);
+    WORD get_file_characteristics(IN const BYTE* payload, IN const size_t buffer_size);
 
     /**
     Check if the module is a DLL (basing on the Characteristcs in the header).
     */
-    bool is_module_dll(IN const BYTE* payload);
+    bool is_module_dll(IN const BYTE* payload, IN const size_t payload_size);
 
     /**
     Fetch the DLL Characteristics from the Optional Header.
     */
-    WORD get_dll_characteristics(IN const BYTE* payload);
+    WORD get_dll_characteristics(IN const BYTE* payload, IN const size_t buffer_size);
 
     /**
     Set the PE subsystem in the header.
     */
-    bool set_subsystem(IN OUT BYTE* payload, IN WORD subsystem);
+    bool set_subsystem(IN OUT BYTE* payload, IN const size_t buffer_size, IN WORD subsystem);
 
     /**
     Get the PE subsystem from the header.
     */
-    WORD get_subsystem(IN const BYTE* payload);
+    WORD get_subsystem(IN const BYTE* payload, IN const size_t buffer_size);
 
     /**
     Check if the PE has relocations Data Directory.
     */
-    bool has_relocations(IN const BYTE *pe_buffer);
+    bool has_relocations(IN const BYTE *pe_buffer, IN const size_t buffer_size);
 
     /**
     Fetch the pointer to the .NET header (if exist).
@@ -185,18 +185,19 @@ namespace peconv {
     /**
     Fetch section aligmenent from headers. Depending on the flag, it fetches either Raw Alignment or Virtual Alignment.
     */
-    DWORD get_sec_alignment(IN const BYTE* modulePtr, IN bool is_raw);
+    DWORD get_sec_alignment(IN const BYTE* modulePtr, IN const size_t buffer_size, IN bool is_raw);
 
     /**
     Change section aligmenent in headers. Depending on the flag, it sets either Raw Alignment or Virtual Alignment.
     */
-    bool set_sec_alignment(IN OUT BYTE* pe_buffer, IN bool is_raw, IN DWORD new_alignment);
+    bool set_sec_alignment(IN OUT BYTE* pe_buffer, IN const size_t buffer_size, IN bool is_raw, IN DWORD new_alignment);
 
     /**
     Get size of virtual section from the headers (optionaly rounds it up to the Virtual Alignment)
     */
     DWORD get_virtual_sec_size(
         IN const BYTE* pe_hdr,
+        IN const size_t buffer_size,
         IN const PIMAGE_SECTION_HEADER sec_hdr,
         IN bool rounded //if set, it rounds it up to the Virtual Alignment
     );

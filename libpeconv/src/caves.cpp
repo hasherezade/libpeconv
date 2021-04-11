@@ -47,7 +47,7 @@ PBYTE peconv::find_ending_cave(BYTE*modulePtr, size_t moduleSize, const DWORD mi
 
 PBYTE peconv::find_alignment_cave(BYTE* modulePtr, size_t moduleSize, const DWORD minimal_size, const DWORD req_charact)
 {
-    DWORD alignment = peconv::get_sec_alignment(modulePtr, true);
+    DWORD alignment = peconv::get_sec_alignment(modulePtr, moduleSize, true);
     if (alignment == 0) return nullptr;
 
     size_t sec_count = peconv::get_sections_count(modulePtr, moduleSize);

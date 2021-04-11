@@ -27,7 +27,7 @@ namespace peconv {
         ImportsUneraser(PVOID _modulePtr, size_t _moduleSize)
             : modulePtr((PBYTE)_modulePtr), moduleSize(_moduleSize)
         {
-            is64 = peconv::is64bit((BYTE*)modulePtr);
+            is64 = peconv::is64bit((BYTE*)modulePtr, moduleSize);
         }
 
         /**

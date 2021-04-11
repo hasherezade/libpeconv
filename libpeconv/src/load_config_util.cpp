@@ -4,7 +4,7 @@
 BYTE* peconv::get_load_config_ptr(BYTE* buffer, size_t buf_size)
 {
     if (!buffer || !buf_size) return nullptr;
-    IMAGE_DATA_DIRECTORY* dir = peconv::get_directory_entry(buffer, IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG);
+    IMAGE_DATA_DIRECTORY* dir = peconv::get_directory_entry(buffer, buf_size, IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG);
     if (!dir) {
         return 0;
     }
@@ -20,7 +20,7 @@ BYTE* peconv::get_load_config_ptr(BYTE* buffer, size_t buf_size)
 peconv::t_load_config_ver peconv::get_load_config_version(BYTE* buffer, size_t buf_size, BYTE* ld_config_ptr)
 {
     if (!buffer || !buf_size || !ld_config_ptr) peconv::LOAD_CONFIG_NONE;
-    bool is64b = peconv::is64bit(buffer);
+    bool is64b = peconv::is64bit(buffer,buf_size);
 
     if (!peconv::validate_ptr(buffer, buf_size, ld_config_ptr, sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W7))) {
         return peconv::LOAD_CONFIG_NONE;

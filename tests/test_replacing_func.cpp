@@ -100,7 +100,7 @@ int tests::replace_func_testcase(char *path)
     ULONGLONG checksum_offset = (ULONGLONG)loaded_pe + 0x2B10;
     peconv::redirect_to_local64((BYTE*)checksum_offset, (ULONGLONG)&test8::my_calc_checksum64);
 #endif
-    ULONGLONG ep_exp_offset = (ULONGLONG) loaded_pe + peconv::get_entry_point_rva(loaded_pe);
+    ULONGLONG ep_exp_offset = (ULONGLONG) loaded_pe + peconv::get_entry_point_rva(loaded_pe, v_size);
     void (_cdecl *ep_func)() = (void (_cdecl *)()) (ep_exp_offset);
     std::cout << "Calling entry point:" <<std::endl;
     ep_func();

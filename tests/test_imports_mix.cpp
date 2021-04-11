@@ -14,7 +14,7 @@ int tests::imports_mix(const char *my_path)
     }
 
     //calculate the Entry Point of the manually loaded module
-    DWORD ep_rva = peconv::get_entry_point_rva(loaded_pe);
+    DWORD ep_rva = peconv::get_entry_point_rva(loaded_pe, v_size);
     if (!ep_rva) {
         return -2;
     }

@@ -95,12 +95,12 @@ namespace test6 {
             printf("Returned: %x\n", returned);
 #endif
             std::vector<std::string> names_set;
-            if (peconv::get_exported_names(loaded_pe, names_set) > 0) {
+            if (peconv::get_exported_names(loaded_pe, v_size, names_set) > 0) {
 #ifdef _DEBUG
                 std::cout << "exported: " << names_set[0] << std::endl;
 #endif
                 const char *got_name = names_set[0].c_str();
-                FARPROC exp1 = peconv::get_exported_func(loaded_pe, const_cast<char*>(got_name));
+                FARPROC exp1 = peconv::get_exported_func(loaded_pe, v_size, const_cast<char*>(got_name));
                 test6::display_chunk = (DWORD(*)(int, int, LPSTR)) exp1;
 #ifdef _DEBUG
                 printf("Calling exported function at: %p\n", exp1);
@@ -154,12 +154,12 @@ namespace test6 {
             printf("Returned: %x\n", returned);
 #endif
             std::vector<std::string> names_set;
-            if (peconv::get_exported_names(loaded_pe, names_set) > 0) {
+            if (peconv::get_exported_names(loaded_pe, v_size, names_set) > 0) {
 #ifdef _DEBUG
                 std::cout << "exported: " << names_set[0] << std::endl;
 #endif
                 const char *got_name = names_set[0].c_str();
-                FARPROC exp1 = peconv::get_exported_func(loaded_pe, const_cast<char*>(got_name));
+                FARPROC exp1 = peconv::get_exported_func(loaded_pe, v_size, const_cast<char*>(got_name));
                 test6::display_chunk = (DWORD(*)(int, int, LPSTR)) exp1;
 #ifdef _DEBUG
                 printf("Calling exported function at: %p\n", exp1);

@@ -12,7 +12,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 {
     if (!payload || !destAddress) return false;
 
-    bool is64b = is64bit(payload);
+    bool is64b = is64bit(payload, payload_size);
 
     BYTE* payload_nt_hdr = get_nt_hdrs(payload);
     if (payload_nt_hdr == NULL) {
@@ -125,12 +125,12 @@ BYTE* peconv::pe_virtual_to_raw(
         memcpy(in_buf, payload, in_size);
     }
 
-    ULONGLONG oldBase = get_image_base(in_buf);
+    ULONGLONG oldBase = get_image_base(in_buf, in_size);
     bool isOk = true;
     // from the loadBase go back to the original base
     if (!relocate_module(in_buf, in_size, oldBase, loadBase)) {
         //Failed relocating the module! Changing image base instead...
-        if (!update_image_base(in_buf, (ULONGLONG)loadBase)) {
+        if (!update_image_base(in_buf, in_size, (ULONGLONG)loadBase)) {
             std::cerr << "[-] Failed relocating the module!" << std::endl;
             isOk = false;
         } else {
@@ -173,12 +173,12 @@ BYTE* peconv::pe_realign_raw_to_virtual(
     }
     memcpy(out_buf, payload, in_size);
 
-    ULONGLONG oldBase = get_image_base(out_buf);
+    ULONGLONG oldBase = get_image_base(out_buf, out_size);
     bool isOk = true;
     // from the loadBase go back to the original base
     if (!relocate_module(out_buf, out_size, oldBase, loadBase)) {
         //Failed relocating the module! Changing image base instead...
-        if (!update_image_base(out_buf, (ULONGLONG)loadBase)) {
+        if (!update_image_base(out_buf, out_size, (ULONGLONG)loadBase)) {
             std::cerr << "[-] Failed relocating the module!" << std::endl;
             isOk = false;
         } else {
@@ -189,8 +189,8 @@ BYTE* peconv::pe_realign_raw_to_virtual(
     }
     //---
     //set raw alignment the same as virtual
-    DWORD v_alignment = peconv::get_sec_alignment((const PBYTE)payload, false);
-    if (!peconv::set_sec_alignment(out_buf, true, v_alignment)) {
+    DWORD v_alignment = peconv::get_sec_alignment((const PBYTE)payload, in_size, false);
+    if (!peconv::set_sec_alignment(out_buf, out_size, true, v_alignment)) {
         isOk = false;
     }
     //set Raw pointers and sizes of the sections same as Virtual
@@ -199,7 +199,7 @@ BYTE* peconv::pe_realign_raw_to_virtual(
         PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(out_buf, out_size, i);
         if (!sec) break;
 
-        sec->Misc.VirtualSize = peconv::get_virtual_sec_size(out_buf, sec, true);
+        sec->Misc.VirtualSize = peconv::get_virtual_sec_size(out_buf, out_size, sec, true);
         sec->SizeOfRawData = sec->Misc.VirtualSize;
         sec->PointerToRawData = sec->VirtualAddress;
     }

@@ -28,7 +28,7 @@ int tests::deploy_self_ex(peconv::t_function_resolver* func_resolver)
     printf("Module: %s\n", my_path);
     // Load the current executable from the file with the help of libpeconv:
     BYTE* loaded_pe = peconv::load_pe_executable(my_path, v_size, func_resolver);
-    ULONGLONG ep = peconv::get_entry_point_rva(loaded_pe) + (ULONGLONG) loaded_pe;
+    ULONGLONG ep = peconv::get_entry_point_rva(loaded_pe, v_size) + (ULONGLONG) loaded_pe;
     LPVOID ep_ptr = (LPVOID) ep;
 
     // Deploy itself!

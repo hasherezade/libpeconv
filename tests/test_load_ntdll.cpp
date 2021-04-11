@@ -29,9 +29,9 @@ int tests::test_ntdll(char *path)
     if (!ntdll_module) {
         return -1;
     }
-    bool is64 = peconv::is64bit(ntdll_module);
+    bool is64 = peconv::is64bit(ntdll_module, v_size);
     std::cout << "NTDLL loaded, is64: " << is64 << std::endl;
-    FARPROC n_offset = peconv::get_exported_func(ntdll_module, "tolower");
+    FARPROC n_offset = peconv::get_exported_func(ntdll_module, v_size, "tolower");
     if (n_offset == NULL) {
         return -1;
     }
@@ -40,7 +40,7 @@ int tests::test_ntdll(char *path)
     int out = ntdll_tolower('C');
     std::cout << "To lower char: " << (char) out << std::endl;
 
-    n_offset = peconv::get_exported_func(ntdll_module, "ZwAllocateVirtualMemory");
+    n_offset = peconv::get_exported_func(ntdll_module, v_size, "ZwAllocateVirtualMemory");
     if (n_offset == NULL) {
         return -1;
     }

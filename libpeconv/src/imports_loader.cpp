@@ -128,7 +128,7 @@ bool process_dlls(BYTE* modulePtr, size_t module_size, IMAGE_IMPORT_DESCRIPTOR *
 #ifdef _DEBUG
     std::cout << "---IMP---" << std::endl;
 #endif
-    const bool is64 = is64bit((BYTE*)modulePtr);
+    const bool is64 = is64bit((BYTE*)modulePtr, module_size);
     IMAGE_IMPORT_DESCRIPTOR* lib_desc = nullptr;
 
     for (size_t i = 0; true; i++) {
@@ -172,11 +172,11 @@ bool process_dlls(BYTE* modulePtr, size_t module_size, IMAGE_IMPORT_DESCRIPTOR *
 bool peconv::process_import_table(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ImportThunksCallback *callback)
 {
     if (moduleSize == 0) { //if not given, try to fetch
-        moduleSize = peconv::get_image_size((const BYTE*)modulePtr);
+        moduleSize = peconv::get_image_size((const BYTE*)modulePtr, moduleSize);
     }
     if (moduleSize == 0) return false;
 
-    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, moduleSize, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (!importsDir) {
         return true; //no import table
     }
@@ -188,12 +188,9 @@ bool peconv::process_import_table(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN I
     return process_dlls(modulePtr, moduleSize, first_desc, callback);
 }
 
-bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
+bool peconv::load_imports(BYTE* modulePtr, IN SIZE_T moduleSize, t_function_resolver* func_resolver)
 {
-    size_t moduleSize = peconv::get_image_size((const BYTE*)modulePtr);
-    if (moduleSize == 0) return false;
-
-    bool is64 = is64bit((BYTE*)modulePtr);
+    bool is64 = is64bit((BYTE*)modulePtr, moduleSize);
     bool is_loader64 = false;
 #ifdef _WIN64
     is_loader64 = true;
@@ -232,7 +229,7 @@ bool peconv::is_valid_import_name(const PBYTE modulePtr, const size_t moduleSize
 
 bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
 {
-    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, moduleSize, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) return false;
 
     const DWORD impAddr = importsDir->VirtualAddress;

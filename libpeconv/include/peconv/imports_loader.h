@@ -21,7 +21,7 @@ namespace peconv {
         ImportThunksCallback(BYTE* _modulePtr, size_t _moduleSize)
             : modulePtr(_modulePtr), moduleSize(_moduleSize)
         {
-            this->is64b = is64bit((BYTE*)modulePtr);
+            this->is64b = is64bit((BYTE*)modulePtr, _moduleSize);
         }
 
         /**
@@ -54,7 +54,7 @@ namespace peconv {
     \param func_resolver : a resolver that will be used to fill the thunk of the import
     \return : true if loading all functions succeeded, false otherwise
     */
-    bool load_imports(BYTE* modulePtr, t_function_resolver* func_resolver=nullptr);
+    bool load_imports(IN BYTE* modulePtr, IN SIZE_T moduleSize, t_function_resolver* func_resolver=nullptr);
 
     /**
     Checks if the given PE has a valid import table.

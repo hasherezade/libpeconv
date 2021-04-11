@@ -157,10 +157,10 @@ typedef struct _PEB
     return img_base_offset;
 }
 
-bool redirect_to_payload(BYTE* loaded_pe, PVOID load_base, PROCESS_INFORMATION &pi, bool is32bit)
+bool redirect_to_payload(BYTE* loaded_pe, const size_t loaded_size, PVOID load_base, PROCESS_INFORMATION &pi, bool is32bit)
 {
     //1. Calculate VA of the payload's EntryPoint
-    DWORD ep = get_entry_point_rva(loaded_pe);
+    DWORD ep = get_entry_point_rva(loaded_pe, loaded_size);
     ULONGLONG ep_va = (ULONGLONG)load_base + ep;
 
     //2. Write the new Entry Point into context of the remote process:
@@ -210,7 +210,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
         return false;
     }
     //3. Update the image base of the payload (local copy) to the Remote Base:
-    update_image_base(loaded_pe, (ULONGLONG) remoteBase);
+    update_image_base(loaded_pe, payloadImageSize, (ULONGLONG) remoteBase);
 
     //4. Write the payload to the remote process, at the Remote Base:
     SIZE_T written = 0;
@@ -222,7 +222,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
     printf("Loaded at: %p\n", loaded_pe);
 #endif
     //5. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
-    if (!redirect_to_payload(loaded_pe, remoteBase, pi, is32bit)) {
+    if (!redirect_to_payload(loaded_pe, payloadImageSize, remoteBase, pi, is32bit)) {
         std::cerr << "Redirecting failed!\n";
         return false;
     }
@@ -236,18 +236,18 @@ bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, const char *t
     if (!payload_buf) {
         return false;
     }
-    const WORD payload_subs = peconv::get_subsystem(payload_buf);
+    const WORD payload_subs = peconv::get_subsystem(payload_buf, payload_size);
 
     size_t target_size = 0;
     BYTE* target_pe = load_pe_module(targetPath, target_size, false, false);
     if (!target_pe) {
         return false;
     }
-    const WORD target_subs = peconv::get_subsystem(target_pe);
-    const bool is64bit_target = peconv::is64bit(target_pe);
+    const WORD target_subs = peconv::get_subsystem(target_pe, target_size);
+    const bool is64bit_target = peconv::is64bit(target_pe, target_size);
     peconv::free_pe_buffer(target_pe); target_pe = NULL; target_size = 0;
 
-    if (is64bit_target != peconv::is64bit(payload_buf)) {
+    if (is64bit_target != peconv::is64bit(payload_buf, payload_size)) {
         std::cerr << "Incompatibile target bitness!\n";
         return false;
     }
@@ -272,12 +272,12 @@ bool run_pe(IN const char *payloadPath, IN const char *targetPath, IN const char
     }
 
     // Get the payload's architecture and check if it is compatibile with the loader:
-    const WORD payload_arch = get_nt_hdr_architecture(loaded_pe);
+    const WORD payload_arch = get_nt_hdr_architecture(loaded_pe, payloadImageSize);
     if (payload_arch != IMAGE_NT_OPTIONAL_HDR32_MAGIC && payload_arch != IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
         std::cerr << "Not supported paylad architecture!\n";
         return false;
     }
-    const bool is32bit_payload = !peconv::is64bit(loaded_pe);
+    const bool is32bit_payload = !peconv::is64bit(loaded_pe, payloadImageSize);
 #ifndef _WIN64
     if (!is32bit_payload) {
         std::cerr << "Incompatibile payload architecture!\n"

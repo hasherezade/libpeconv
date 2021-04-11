@@ -47,8 +47,8 @@ bool peconv::dump_pe(IN const char *out_path,
 
     if (dump_mode == peconv::PE_DUMP_UNMAP || dump_mode == peconv::PE_DUMP_REALIGN) {
         //if the image base in headers is invalid, set the current base and prevent from relocating PE:
-        if (peconv::get_image_base(buffer) == 0) {
-            peconv::update_image_base(buffer, (ULONGLONG)start_addr);
+        if (peconv::get_image_base(buffer, mod_size) == 0) {
+            peconv::update_image_base(buffer, mod_size, (ULONGLONG)start_addr);
         }
         if (is_dot_net(buffer, mod_size)) {
             fix_dot_net_ep(buffer, mod_size);

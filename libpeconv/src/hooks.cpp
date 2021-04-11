@@ -9,7 +9,7 @@ namespace peconv {
     bool is_pointer_in_ntdll(LPVOID lpAddress)
     {
         HMODULE mod = peconv::get_module_via_peb(L"ntdll.dll");
-        size_t module_size = peconv::get_module_size_via_peb(mod);
+        const size_t module_size = peconv::get_module_size_via_peb(mod);
         if (peconv::validate_ptr(mod, module_size, lpAddress, sizeof(BYTE))) {
             return true; //this address lies within NTDLL
         }
@@ -18,8 +18,11 @@ namespace peconv {
 
     BOOL nt_protect(LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpflOldProtect)
     {
+        HMODULE mod = peconv::get_module_via_peb(L"ntdll.dll");
+        const size_t module_size = peconv::get_module_size_via_peb(mod);
+
         FARPROC proc = peconv::get_exported_func(
-            peconv::get_module_via_peb(L"ntdll.dll"),
+            mod, module_size,
             "NtProtectVirtualMemory"
         );
         if (!proc) {

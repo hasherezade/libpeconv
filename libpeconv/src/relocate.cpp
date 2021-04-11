@@ -100,7 +100,7 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
 
 bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, IN RelocBlockCallback *callback)
 {
-    IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
+    IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*)modulePtr, moduleSize, IMAGE_DIRECTORY_ENTRY_BASERELOC);
     if (relocDir == NULL) {
 #ifdef _DEBUG
         std::cout << "[!] WARNING: no relocation table found!\n";
@@ -113,7 +113,7 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
     }
     DWORD maxSize = relocDir->Size;
     DWORD relocAddr = relocDir->VirtualAddress;
-    bool is64b = is64bit((BYTE*)modulePtr);
+    bool is64b = is64bit((BYTE*)modulePtr, moduleSize);
 
     IMAGE_BASE_RELOCATION* reloc = NULL;
 
@@ -154,7 +154,7 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
 
 bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
 {
-    const bool is64b = is64bit((BYTE*)modulePtr);
+    const bool is64b = is64bit((BYTE*)modulePtr, moduleSize);
     ApplyRelocCallback callback(is64b, oldBase, newBase);
     return process_relocation_table(modulePtr, moduleSize, &callback);
 }
@@ -165,7 +165,7 @@ bool peconv::relocate_module(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ULONGL
         return false;
     }
     if (oldBase == 0) {
-        oldBase = get_image_base(modulePtr);
+        oldBase = get_image_base(modulePtr, moduleSize);
     }
 #ifdef _DEBUG
     printf("New Base: %llx\n", newBase);

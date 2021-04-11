@@ -178,19 +178,19 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
     if (read_size == 0) {
         return false;
     }
-    BYTE *nt_ptr = get_nt_hdrs(buffer);
+    BYTE *nt_ptr = get_nt_hdrs(buffer, buffer_size);
     if (nt_ptr == nullptr) {
         return false;
     }
     const size_t nt_offset = nt_ptr - buffer;
-    const size_t nt_size = peconv::is64bit(buffer) ? sizeof(IMAGE_NT_HEADERS64) : sizeof(IMAGE_NT_HEADERS32);
+    const size_t nt_size = peconv::is64bit(buffer, buffer_size) ? sizeof(IMAGE_NT_HEADERS64) : sizeof(IMAGE_NT_HEADERS32);
     const size_t min_size = nt_offset + nt_size;
 
     if (read_size < min_size) {
         std::cerr << "[-] [" << std::dec << get_process_id(processHandle) 
             << " ][" << std::hex << (ULONGLONG) start_addr 
             << "] Read size: " << std::hex << read_size 
-            << " is smaller that the minimal size:" << get_hdrs_size(buffer) 
+            << " is smaller that the minimal size:" << get_hdrs_size(buffer, buffer_size)
             << std::endl;
         return false;
     }
@@ -223,7 +223,7 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, BYTE *
     }
     size_t buffer_size = section_hdr->Misc.VirtualSize;
     if (roundup) {
-        DWORD va = peconv::get_sec_alignment(header_buffer, false);
+        DWORD va = peconv::get_sec_alignment(header_buffer, buffer_size, false);
         if (va == 0) va = PAGE_SIZE;
         buffer_size = roundup_to_unit(section_hdr->Misc.VirtualSize, va);
     }
@@ -274,7 +274,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             break;
         }
         const DWORD sec_va = hdr->VirtualAddress;
-        const DWORD sec_vsize = get_virtual_sec_size(hdr_buffer, hdr, true);
+        const DWORD sec_vsize = get_virtual_sec_size(hdr_buffer, bufferSize, hdr, true);
         if (sec_va + sec_vsize > bufferSize) {
             std::cerr << "[-] No more space in the buffer!" << std::endl;
             break;
@@ -298,7 +298,7 @@ DWORD peconv::get_remote_image_size(IN const HANDLE processHandle, IN BYTE *star
     if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
         return 0;
     }
-    return peconv::get_image_size(hdr_buffer);
+    return peconv::get_image_size(hdr_buffer, MAX_HEADER_SIZE);
 }
 
 bool peconv::dump_remote_pe(IN const char *out_path, 

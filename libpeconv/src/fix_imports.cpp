@@ -216,11 +216,11 @@ void ImpsNotCovered::insert(ULONGLONG thunk, ULONGLONG searchedAddr)
 bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const peconv::ExportsMapper& exportsMap, OUT OPTIONAL peconv::ImpsNotCovered* notCovered)
 {
     bool skip_bound = false; // skip boud imports?
-    IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+    IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, moduleSize, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (importsDir == NULL) {
         return true; // done! no imports -> nothing to fix
     }
-    bool is64 = peconv::is64bit((BYTE*)modulePtr);
+    bool is64 = peconv::is64bit((BYTE*)modulePtr, moduleSize);
     DWORD maxSize = importsDir->Size;
     DWORD impAddr = importsDir->VirtualAddress;
 

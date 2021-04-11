@@ -72,7 +72,7 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
     if (call_via_ptr == NULL || modulePtr == NULL || lib_desc == NULL) {
         return false; //malformed input
     }
-    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, moduleSize, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (!importsDir) return false;
 
     const DWORD impAddr = importsDir->VirtualAddress; //start of the import table

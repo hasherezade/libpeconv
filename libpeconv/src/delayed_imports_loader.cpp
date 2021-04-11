@@ -6,7 +6,7 @@
 IMAGE_DELAYLOAD_DESCRIPTOR* peconv::get_delayed_imps(IN const BYTE* modulePtr, IN const size_t moduleSize, OUT size_t &dir_size)
 {
     dir_size = 0;
-    IMAGE_DATA_DIRECTORY *d_imps_dir = peconv::get_directory_entry(modulePtr, IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT);
+    IMAGE_DATA_DIRECTORY *d_imps_dir = peconv::get_directory_entry(modulePtr, moduleSize, IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT);
     if (!d_imps_dir) {
         return nullptr;
     }
@@ -98,9 +98,9 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
     return true;
 }
 
-bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_function_resolver* func_resolver)
+bool peconv::load_delayed_imports(BYTE* modulePtr, IN const size_t moduleSize, ULONGLONG moduleBase, t_function_resolver* func_resolver)
 {
-    const bool is_64bit = peconv::is64bit(modulePtr);
+    const bool is_64bit = peconv::is64bit(modulePtr, moduleSize);
     bool is_loader64 = false;
 #ifdef _WIN64
     is_loader64 = true;
@@ -110,7 +110,7 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
         return false;
     }
 
-    const size_t module_size = peconv::get_image_size(modulePtr);
+    const size_t module_size = peconv::get_image_size(modulePtr, moduleSize);
     default_func_resolver default_res;
     if (!func_resolver) {
         func_resolver = (t_function_resolver*)&default_res;

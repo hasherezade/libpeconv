@@ -70,11 +70,11 @@ namespace peconv {
 ULONGLONG peconv::find_base_candidate(IN BYTE* modulePtr, IN size_t moduleSize)
 {
     if (moduleSize == 0) {
-        moduleSize = peconv::get_image_size((const BYTE*)modulePtr);
+        moduleSize = peconv::get_image_size((const BYTE*)modulePtr, moduleSize);
     }
     if (moduleSize == 0) return 0;
 
-    bool is64 = peconv::is64bit(modulePtr);
+    bool is64 = peconv::is64bit(modulePtr, moduleSize);
     std::set<ULONGLONG> relocs;
     peconv::CollectCodeRelocs callback(modulePtr, moduleSize, is64, relocs);
     if (!peconv::process_relocation_table(modulePtr, moduleSize, &callback)) {

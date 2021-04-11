@@ -46,7 +46,7 @@ size_t ExportsMapper::make_ord_lookup_tables(
     std::map<PDWORD, DWORD> &va_to_ord
     )
 {
-    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr, moduleSize);
     if (exp == NULL) return 0;
 
     SIZE_T functCount = exp->NumberOfFunctions;
@@ -200,21 +200,21 @@ ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE module
     return ExportsMapper::RES_MAPPED;
 }
 
-size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
+size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE moduleBuf, ULONGLONG moduleBase, size_t bufSize)
 {
-    IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(moduleBuf, bufSize);
     if (exp == NULL) {
         return 0;
     }
-    size_t module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(modulePtr));
-    if (!is_valid_export_table(exp, modulePtr, module_size)) {
+    size_t module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(moduleBuf), bufSize);
+    if (!is_valid_export_table(exp, moduleBuf, module_size)) {
         return 0;
     }
     std::string dllName = get_dll_shortname(moduleName);
     this->dll_shortname_to_path[dllName] = moduleName;
 
     std::map<PDWORD, DWORD> va_to_ord;
-    size_t functCount = make_ord_lookup_tables(modulePtr, module_size, va_to_ord);
+    size_t functCount = make_ord_lookup_tables(moduleBuf, module_size, va_to_ord);
 
     //go through names:
     
@@ -228,25 +228,25 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     size_t mapped_ctr = 0;
 
     for (SIZE_T i = 0; i < namesCount; i++) {
-        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
-        WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
-        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
+        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*)moduleBuf + i * sizeof(DWORD));
+        WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*)moduleBuf + i * sizeof(WORD));
+        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*)moduleBuf + (*nameIndex) * sizeof(DWORD));
         if (*funcRVA == 0) {
 #ifdef _DEBUG
-            std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)funcRVA - (BYTE*)modulePtr << "(name)\n";
+            std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)funcRVA - (BYTE*)moduleBuf << "(name)\n";
 #endif
             //skip if the function RVA is 0 (empty export)
             continue;
         }
 
-        LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
-        if (!peconv::validate_ptr(modulePtr, module_size, name, sizeof(char))) break;
+        LPSTR name = (LPSTR)(*nameRVA + (BYTE*)moduleBuf);
+        if (!peconv::validate_ptr(moduleBuf, module_size, name, sizeof(char))) break;
 
         DWORD funcOrd = get_ordinal(funcRVA, va_to_ord);
         DWORD callRVA = *funcRVA;
         ExportedFunc currFunc(dllName, name, funcOrd);
 
-        int res = add_function_to_lookup(modulePtr, moduleBase, module_size, currFunc, callRVA);
+        int res = add_function_to_lookup(moduleBuf, moduleBase, module_size, currFunc, callRVA);
         if (res == ExportsMapper::RES_FORWARDED) forwarded_ctr++;
         if (res == ExportsMapper::RES_MAPPED) mapped_ctr++;
     }
@@ -258,7 +258,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         DWORD callRVA = *funcRVA;
         ExportedFunc currFunc(dllName, ord_itr->second);
 
-        int res = add_function_to_lookup(modulePtr, moduleBase, module_size, currFunc, callRVA);
+        int res = add_function_to_lookup(moduleBuf, moduleBase, module_size, currFunc, callRVA);
         if (res == ExportsMapper::RES_FORWARDED) forwarded_ctr++;
         if (res == ExportsMapper::RES_MAPPED) mapped_ctr++;
     }

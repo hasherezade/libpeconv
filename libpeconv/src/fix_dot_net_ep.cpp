@@ -100,13 +100,13 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
 {
     if (!pe_buffer) return false;
 
-    if (peconv::is64bit(pe_buffer)) {
+    if (peconv::is64bit(pe_buffer, pe_buffer_size)) {
         //64bit .NET files have EP=0
-        peconv::update_entry_point_rva(pe_buffer, 0);
+        peconv::update_entry_point_rva(pe_buffer, pe_buffer_size, 0);
         return true;
     }
 
-    DWORD ep_rva = peconv::get_entry_point_rva(pe_buffer);
+    DWORD ep_rva = peconv::get_entry_point_rva(pe_buffer, pe_buffer_size);
     std::cout << "[*] This is a .NET payload and may require Enty Point corection. Current EP: " << std::hex << ep_rva << "\n";
 
     PIMAGE_SECTION_HEADER sec_hdr = peconv::get_section_hdr(pe_buffer, pe_buffer_size, 0);
@@ -116,7 +116,7 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
     if (!peconv::validate_ptr(pe_buffer, pe_buffer_size, sec_ptr, sec_hdr->SizeOfRawData)) {
         return false;
     }
-    ULONGLONG img_base = peconv::get_image_base(pe_buffer);
+    ULONGLONG img_base = peconv::get_image_base(pe_buffer, pe_buffer_size);
     DWORD cor_exe_main_thunk = find_corexemain(pe_buffer, pe_buffer_size);
     if (!cor_exe_main_thunk) {
         return false;
@@ -125,7 +125,7 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
     if (jump_ptr == nullptr) return false;
 
     size_t offset = jump_ptr - pe_buffer;
-    peconv::update_entry_point_rva(pe_buffer, static_cast<DWORD>(offset));
+    peconv::update_entry_point_rva(pe_buffer, pe_buffer_size, static_cast<DWORD>(offset));
     std::cout << "[*] Found possible Entry Point: " << std::hex << offset << std::endl;
     return true;
 }

@@ -50,12 +50,12 @@ int tests::replace_delayed_imps(char *path)
     if (!loaded_pe) {
         return -1;
     }
-    if (!peconv::load_delayed_imports(loaded_pe, (ULONGLONG)loaded_pe, (peconv::t_function_resolver*) &my_res)) {
+    if (!peconv::load_delayed_imports(loaded_pe, v_size, (ULONGLONG)loaded_pe, (peconv::t_function_resolver*) &my_res)) {
         std::cout << "Failed loading delayed functions!" << std::endl;
         peconv::free_pe_buffer(loaded_pe, v_size);
         return -1;
     }
-    ULONGLONG ep_exp_offset = (ULONGLONG)loaded_pe + peconv::get_entry_point_rva(loaded_pe);
+    ULONGLONG ep_exp_offset = (ULONGLONG)loaded_pe + peconv::get_entry_point_rva(loaded_pe, v_size);
     void(_cdecl *ep_func)() = (void(_cdecl *)()) (ep_exp_offset);
     std::cout << "Calling entry point:" << std::endl;
     ep_func();

@@ -36,7 +36,7 @@ bool parse_resource_entry(BYTE* modulePtr, const size_t moduleSize,
         if (!peconv::validate_ptr(modulePtr, moduleSize, data_ptr, data_entry->Size)) {
             return false;
         }
-        on_entry(modulePtr, root_dir, data_entry);
+        on_entry(modulePtr, moduleSize, root_dir, data_entry);
         return true;
     }
 #ifdef _DEBUG
@@ -75,16 +75,16 @@ bool parse_resource_dir(BYTE* modulePtr, const size_t moduleSize,
     return true;
 }
 
-bool peconv::parse_resources(BYTE* modulePtr, t_on_res_entry_found on_entry)
+bool peconv::parse_resources(BYTE* modulePtr, const size_t modulSize, t_on_res_entry_found on_entry)
 {
-    const size_t module_size = peconv::get_image_size(modulePtr);
-    IMAGE_DATA_DIRECTORY *dir = peconv::get_directory_entry(modulePtr, IMAGE_DIRECTORY_ENTRY_RESOURCE);
+    //const size_t module_size = peconv::get_image_size(modulePtr, modulSize);
+    IMAGE_DATA_DIRECTORY *dir = peconv::get_directory_entry(modulePtr, modulSize, IMAGE_DIRECTORY_ENTRY_RESOURCE);
     if (!dir || dir->VirtualAddress == 0 || dir->Size == 0) {
         return false;
     }
     IMAGE_RESOURCE_DIRECTORY *res_dir = (IMAGE_RESOURCE_DIRECTORY*)(dir->VirtualAddress + (ULONGLONG)modulePtr);
-    if (!peconv::validate_ptr(modulePtr, module_size, res_dir, sizeof(IMAGE_DEBUG_DIRECTORY))) {
+    if (!peconv::validate_ptr(modulePtr, modulSize, res_dir, sizeof(IMAGE_DEBUG_DIRECTORY))) {
         return false;
     }
-    return parse_resource_dir(modulePtr, module_size, nullptr, res_dir, res_dir, on_entry);
+    return parse_resource_dir(modulePtr, modulSize, nullptr, res_dir, res_dir, on_entry);
 }

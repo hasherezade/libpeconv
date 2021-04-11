@@ -56,6 +56,6 @@ namespace peconv {
     \param func_resolver : the resolver that will be used for loading the imports
     \return : true if resolving all succeeded, false otherwise
     */
-    bool load_delayed_imports(BYTE* modulePtr, const ULONGLONG moduleBase, t_function_resolver* func_resolver = nullptr);
+    bool load_delayed_imports(BYTE* modulePtr, IN const size_t moduleSize, const ULONGLONG moduleBase, t_function_resolver* func_resolver = nullptr);
 
 }; // namespace peconv

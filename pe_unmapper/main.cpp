@@ -85,13 +85,13 @@ bool remap_pe_file(t_unmapper_params &params)
         {
             out_buf = peconv::load_pe_module(in_buf, in_size, out_size, false, false);
             if (out_buf) {
-                ULONGLONG base = peconv::get_image_base(out_buf);
+                ULONGLONG base = peconv::get_image_base(out_buf, out_size);
                 if (!relocate_module(out_buf, out_size, (ULONGLONG)base)) {
                     std::cout << "Could not relocate the module!\n";
                 }
                 if (params.load_base) {
                     if (relocate_module(out_buf, out_size, (ULONGLONG)params.load_base)) {
-                        peconv::update_image_base(out_buf, params.load_base);
+                        peconv::update_image_base(out_buf, out_size, params.load_base);
                         std::cout << "[*] Changed image base to: " << std::hex << params.load_base << "\n";
                     }
                 }

@@ -1,5 +1,6 @@
 #include "peconv/exports_lookup.h"
 #include "peconv/util.h"
+#include "peconv/peb_lookup.h"
 
 #include <iostream>
 
@@ -75,9 +76,9 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
     return NULL;
 }
 
-size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &names_list)
+size_t peconv::get_exported_names(PVOID modulePtr, const size_t moduleSize, std::vector<std::string> &names_list)
 {
-    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr, moduleSize);
     if (exp == 0) return 0;
 
     SIZE_T namesCount = exp->NumberOfNames;
@@ -97,9 +98,9 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
 }
 
 //WARNING: doesn't work for the forwarded functions.
-FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
+FARPROC peconv::get_exported_func(PVOID modulePtr, const size_t moduleSize, LPSTR wanted_name)
 {
-    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr, moduleSize);
     if (exp == NULL) return NULL;
 
     SIZE_T namesCount = exp->NumberOfNames;
@@ -151,7 +152,8 @@ FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
         return NULL;
     }
 
-    FARPROC hProc = get_exported_func(libBasePtr, func_name);
+    const size_t mod_size = peconv::get_module_size_via_peb(libBasePtr);
+    FARPROC hProc = get_exported_func(libBasePtr, mod_size, func_name);
 
     if (hProc == NULL) {
 #ifdef _DEBUG
@@ -176,9 +178,9 @@ FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
     return hProc;
 }
 
-LPSTR peconv::read_dll_name(HMODULE modulePtr)
+LPSTR peconv::read_dll_name(HMODULE modulePtr, const size_t moduleSize)
 {
-    IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
+    IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr, moduleSize);
     if (exp == NULL) {
         return NULL;
     }

@@ -22,9 +22,8 @@ namespace tests {
         if (mod1 != mod2) {
             return false;
         }
-
-        size_t size1 = peconv::get_image_size((BYTE*)mod1);
         size_t size2 = peconv::get_module_size_via_peb(mod2);
+        size_t size1 = peconv::get_image_size((BYTE*)mod1, size2);
         std::cout << "get_image_size: " << std::hex << size1 << "\n";
         std::cout << "get_module_size_via_peb: " << std::hex << size2 << "\n";
         if (size1 != size2) {

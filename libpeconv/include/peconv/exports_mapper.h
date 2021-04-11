@@ -26,21 +26,23 @@ namespace peconv {
         /**
         Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
         \param moduleName : name of the DLL
-        \param modulePtr : buffer containing the DLL in a Virtual format
+        \param moduleBuf : buffer containing the DLL in a Virtual format
         \param moduleBase : a base address to which the given DLL was relocated
+        \param bufSize : a size of the moduleBuf
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase);
+        size_t add_to_lookup(std::string moduleName, HMODULE moduleBuf, ULONGLONG moduleBase, size_t bufSize);
 
         /**
         Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
         Assumes that the module was relocated to the same address as is the address of the given buffer (modulePtr).
         (A wrapper for the case if we are adding a DLL that was loaded within the current process.)
         \param moduleName : name of the DLL
-        \param modulePtr : buffer containing the DLL in a Virtual format. 
+        \param modulePtr : buffer containing the DLL in a Virtual format.
+        \param bufSize : a size of the moduleBuf
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr) 
+        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t bufSize)
         {
-            return add_to_lookup(moduleName, modulePtr, reinterpret_cast<ULONGLONG>(modulePtr));
+            return add_to_lookup(moduleName, modulePtr, reinterpret_cast<ULONGLONG>(modulePtr), bufSize);
         }
 
         /**

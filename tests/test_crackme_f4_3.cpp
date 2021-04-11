@@ -114,7 +114,7 @@ int tests::deploy_crackme_f4_3(peconv::t_function_resolver* func_resolver)
         peconv::free_pe_buffer(loaded_pe, v_size);
         return -1;
     }
-    ULONGLONG ep_va = peconv::get_entry_point_rva(loaded_pe) + (ULONGLONG) loaded_pe;
+    ULONGLONG ep_va = peconv::get_entry_point_rva(loaded_pe, v_size) + (ULONGLONG) loaded_pe;
     printf("Press any key to go to function's entry point\n");
     system("pause");
     //make pointer to the entry function:
