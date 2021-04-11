@@ -32,7 +32,7 @@ namespace peconv {
 
 BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate)
 {
-    if (!peconv::get_nt_hdrs(dllRawData)) {
+    if (!peconv::get_nt_hdrs(dllRawData, r_size)) {
         return NULL;
     }
     if (peconv::get_sections_count(dllRawData, r_size) == 0) {

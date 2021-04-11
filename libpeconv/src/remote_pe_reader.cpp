@@ -178,7 +178,7 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT B
     if (read_size == 0) {
         return false;
     }
-    BYTE *nt_ptr = get_nt_hdrs(buffer);
+    BYTE *nt_ptr = get_nt_hdrs(buffer, buffer_size);
     if (nt_ptr == nullptr) {
         return false;
     }

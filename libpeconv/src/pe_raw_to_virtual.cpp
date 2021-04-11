@@ -12,13 +12,13 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
 {
     if (!payload || !destBuffer) return false;
 
-    bool is64b = is64bit(payload);
-
-    BYTE* payload_nt_hdr = get_nt_hdrs(payload);
+    BYTE* payload_nt_hdr = get_nt_hdrs(payload, payloadSize);
     if (payload_nt_hdr == NULL) {
         std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
     }
+
+    const bool is64b = is64bit(payload);
 
     IMAGE_FILE_HEADER *fileHdr = NULL;
     DWORD hdrsSize = 0;
