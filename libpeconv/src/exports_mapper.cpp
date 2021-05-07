@@ -154,10 +154,6 @@ bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const
         if (!peconv::validate_ptr(modulePtr, module_size, recordRVA, sizeof(DWORD))) {
             return false;
         }
-        if (*recordRVA == 0) {
-            //skip if the function RVA is 0 (empty export)
-            continue;
-        }
     }
 
     for (SIZE_T i = 0; i < namesCount; i++) {
