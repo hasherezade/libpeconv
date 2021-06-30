@@ -159,7 +159,7 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
         LPVOID remote_chunk = LPVOID((ULONG_PTR)start_addr + read);
         size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + read, buffer_size - read, step_size);
         if (read_chunk == 0) {
-            size_t region_size = peconv::fetch_region_size(processHandle, start_addr);
+            size_t region_size = peconv::fetch_region_size(processHandle, remote_chunk);
             if (region_size == 0) break;
             //skip the region that could not be read:
             read += region_size;
