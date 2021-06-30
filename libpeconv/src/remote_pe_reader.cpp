@@ -176,7 +176,7 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
         DWORD oldProtect = 0;
 
         // check the access right and eventually try to change it
-        if ((page_info.Protect & PAGE_NOACCESS) == 1) {
+        if ((page_info.Protect & PAGE_NOACCESS) != 0) {
             change_access = VirtualProtectEx(processHandle, remote_chunk, region_size, PAGE_READONLY, &oldProtect);
             if (!change_access) {
                 std::cerr << "[!] " << std::hex << remote_chunk << " : " << region_size << " inaccessible area, changing page access failed: " << GetLastError() << "\n";
@@ -185,7 +185,7 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
         // read the memory:
         size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + read, buffer_size - read, step_size);
 
-        // if the access rights were change, change it back:
+        // if the access rights were changed, change it back:
         if (change_access) {
             VirtualProtectEx(processHandle, remote_chunk, region_size, oldProtect, &oldProtect);
         }
