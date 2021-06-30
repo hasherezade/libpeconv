@@ -17,20 +17,26 @@ bool peconv::fetch_region_info(HANDLE processHandle, LPVOID moduleBase, MEMORY_B
     return true;
 }
 
-size_t peconv::fetch_region_size(HANDLE processHandle, LPVOID moduleBase)
+size_t _fetch_region_size(MEMORY_BASIC_INFORMATION &page_info, LPVOID moduleBase)
 {
-    MEMORY_BASIC_INFORMATION page_info = { 0 };
-    if (!peconv::fetch_region_info(processHandle, moduleBase, page_info)) {
-        return 0;
-    }
     if (page_info.Type == 0) {
         return false; //invalid type, skip it
     }
     if ((BYTE*)page_info.BaseAddress > moduleBase) {
         return 0; //should never happen
     }
-    size_t offset = (ULONG_PTR)moduleBase - (ULONG_PTR)page_info.BaseAddress;
-    size_t area_size = page_info.RegionSize - offset;
+    const size_t offset = (ULONG_PTR)moduleBase - (ULONG_PTR)page_info.BaseAddress;
+    const size_t area_size = page_info.RegionSize - offset;
+    return area_size;
+}
+
+size_t peconv::fetch_region_size(HANDLE processHandle, LPVOID moduleBase)
+{
+    MEMORY_BASIC_INFORMATION page_info = { 0 };
+    if (!peconv::fetch_region_info(processHandle, moduleBase, page_info)) {
+        return 0;
+    }
+    const size_t area_size = _fetch_region_size(page_info, moduleBase);
     return area_size;
 }
 
@@ -157,10 +163,34 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
     size_t read = 0;
     for (read = 0; read < buffer_size; ) {
         LPVOID remote_chunk = LPVOID((ULONG_PTR)start_addr + read);
+
+        MEMORY_BASIC_INFORMATION page_info = { 0 };
+        if (!peconv::fetch_region_info(processHandle, remote_chunk, page_info)) {
+            break;
+        }
+        size_t region_size = _fetch_region_size(page_info, remote_chunk);
+        if (region_size == 0) {
+            break;
+        }
+        BOOL change_access = FALSE;
+        DWORD oldProtect = 0;
+
+        // check the access right and eventually try to change it
+        if ((page_info.Protect & PAGE_NOACCESS) == 1) {
+            change_access = VirtualProtectEx(processHandle, remote_chunk, region_size, PAGE_READONLY, &oldProtect);
+            if (!change_access) {
+                std::cerr << "[!] " << std::hex << remote_chunk << " : " << region_size << " inaccessible area, changing page access failed: " << GetLastError() << "\n";
+            }
+        }
+        // read the memory:
         size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + read, buffer_size - read, step_size);
+
+        // if the access rights were change, change it back:
+        if (change_access) {
+            VirtualProtectEx(processHandle, remote_chunk, region_size, oldProtect, &oldProtect);
+        }
+
         if (read_chunk == 0) {
-            size_t region_size = peconv::fetch_region_size(processHandle, remote_chunk);
-            if (region_size == 0) break;
             //skip the region that could not be read:
             read += region_size;
             continue;
