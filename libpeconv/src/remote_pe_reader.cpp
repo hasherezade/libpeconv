@@ -7,17 +7,17 @@
 
 using namespace peconv;
 
-bool peconv::fetch_region_info(HANDLE processHandle, BYTE* moduleBase, MEMORY_BASIC_INFORMATION &page_info)
+bool peconv::fetch_region_info(HANDLE processHandle, LPVOID moduleBase, MEMORY_BASIC_INFORMATION &page_info)
 {
     memset(&page_info, 0, sizeof(MEMORY_BASIC_INFORMATION));
-    SIZE_T out = VirtualQueryEx(processHandle, (LPCVOID)moduleBase, &page_info, sizeof(page_info));
+    SIZE_T out = VirtualQueryEx(processHandle, moduleBase, &page_info, sizeof(page_info));
     if (out != sizeof(page_info)) {
         return false;
     }
     return true;
 }
 
-size_t peconv::fetch_region_size(HANDLE processHandle, BYTE* moduleBase)
+size_t peconv::fetch_region_size(HANDLE processHandle, LPVOID moduleBase)
 {
     MEMORY_BASIC_INFORMATION page_info = { 0 };
     if (!peconv::fetch_region_info(processHandle, moduleBase, page_info)) {
@@ -29,12 +29,12 @@ size_t peconv::fetch_region_size(HANDLE processHandle, BYTE* moduleBase)
     if ((BYTE*)page_info.BaseAddress > moduleBase) {
         return 0; //should never happen
     }
-    size_t offset = moduleBase - (BYTE*)page_info.BaseAddress;
+    size_t offset = (ULONG_PTR)moduleBase - (ULONG_PTR)page_info.BaseAddress;
     size_t area_size = page_info.RegionSize - offset;
     return area_size;
 }
 
-ULONGLONG peconv::fetch_alloc_base(HANDLE processHandle, BYTE* moduleBase)
+ULONGLONG peconv::fetch_alloc_base(HANDLE processHandle, LPVOID moduleBase)
 {
     MEMORY_BASIC_INFORMATION page_info = { 0 };
     if (!peconv::fetch_region_info(processHandle, moduleBase, page_info)) {
@@ -47,7 +47,7 @@ ULONGLONG peconv::fetch_alloc_base(HANDLE processHandle, BYTE* moduleBase)
 }
 
 namespace peconv {
-    SIZE_T search_readable_size(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
+    SIZE_T search_readable_size(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
     {
         if (!buffer || (buffer_size < minimal_size) || minimal_size == 0) {
             return 0;
@@ -88,7 +88,7 @@ namespace peconv {
     }
 };
 
-size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
+size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
 {
     if (!buffer) {
         return 0;
@@ -133,7 +133,7 @@ size_t peconv::read_remote_memory(HANDLE processHandle, BYTE *start_addr, OUT BY
 }
 
 
-size_t read_remote_region(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
+size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
     if (buffer == nullptr) {
         return 0;
@@ -147,7 +147,7 @@ size_t read_remote_region(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buff
     return peconv::read_remote_memory(processHandle, start_addr, buffer, region_size, step_size);
 }
 
-size_t peconv::read_remote_area(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
+size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
     if (!buffer || !start_addr) {
         return 0;
@@ -156,7 +156,8 @@ size_t peconv::read_remote_area(HANDLE processHandle, BYTE *start_addr, OUT BYTE
 
     size_t read = 0;
     for (read = 0; read < buffer_size; ) {
-        size_t read_chunk = read_remote_region(processHandle, start_addr + read, buffer + read, buffer_size - read, step_size);
+        LPVOID remote_chunk = LPVOID((ULONG_PTR)start_addr + read);
+        size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + read, buffer_size - read, step_size);
         if (read_chunk == 0) {
             size_t region_size = peconv::fetch_region_size(processHandle, start_addr);
             if (region_size == 0) break;
@@ -169,7 +170,7 @@ size_t peconv::read_remote_area(HANDLE processHandle, BYTE *start_addr, OUT BYTE
     return read;
 }
 
-bool peconv::read_remote_pe_header(HANDLE processHandle, BYTE *start_addr, OUT BYTE* buffer, const size_t buffer_size)
+bool peconv::read_remote_pe_header(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size)
 {
     if (buffer == nullptr) {
         return false;
@@ -210,7 +211,7 @@ namespace peconv {
     }
 };
 
-peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, BYTE *start_addr, const size_t section_num, OUT size_t &section_size, bool roundup)
+peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID start_addr, const size_t section_num, OUT size_t &section_size, bool roundup)
 {
     BYTE header_buffer[MAX_HEADER_SIZE] = { 0 };
 
@@ -231,7 +232,7 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, BYTE *
     if (module_code == NULL) {
         return NULL;
     }
-    size_t read_size = read_remote_memory(processHandle, start_addr + section_hdr->VirtualAddress, module_code, buffer_size);
+    size_t read_size = read_remote_memory(processHandle, LPVOID((ULONG_PTR)start_addr + section_hdr->VirtualAddress), module_code, buffer_size);
     if (read_size == 0) {
         peconv::free_unaligned(module_code);
         return NULL;
@@ -240,7 +241,7 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, BYTE *
     return module_code;
 }
 
-size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
+size_t peconv::read_remote_pe(const HANDLE processHandle, LPVOID start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
 {
     if (buffer == nullptr) {
         std::cerr << "[-] Invalid output buffer: NULL pointer" << std::endl;
@@ -279,8 +280,8 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
             std::cerr << "[-] No more space in the buffer!" << std::endl;
             break;
         }
-        if (sec_vsize > 0 && !read_remote_memory(processHandle, start_addr + sec_va, buffer + sec_va, sec_vsize)) {
-            std::cerr << "[-] Failed to read the module section " << i <<" : at: " << std::hex << ULONG_PTR(start_addr + sec_va) << std::endl;
+        if (sec_vsize > 0 && !read_remote_memory(processHandle, LPVOID((ULONG_PTR)start_addr + sec_va), buffer + sec_va, sec_vsize)) {
+            std::cerr << "[-] Failed to read the module section " << i <<" : at: " << std::hex << (ULONG_PTR)start_addr + sec_va << std::endl;
         }
         // update the end of the read area:
         size_t new_end = sec_va + sec_vsize;
@@ -292,7 +293,7 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, BYTE *start_addr, cons
     return read_size;
 }
 
-DWORD peconv::get_remote_image_size(IN const HANDLE processHandle, IN BYTE *start_addr)
+DWORD peconv::get_remote_image_size(IN const HANDLE processHandle, IN LPVOID start_addr)
 {
     BYTE hdr_buffer[MAX_HEADER_SIZE] = { 0 };
     if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
@@ -303,7 +304,7 @@ DWORD peconv::get_remote_image_size(IN const HANDLE processHandle, IN BYTE *star
 
 bool peconv::dump_remote_pe(IN const char *out_path, 
     IN const HANDLE processHandle, 
-    IN BYTE* start_addr, 
+    IN LPVOID start_addr,
     IN OUT t_pe_dump_mode &dump_mode, 
     IN OPTIONAL peconv::ExportsMapper* exportsMap)
 {
@@ -314,7 +315,6 @@ bool peconv::dump_remote_pe(IN const char *out_path,
     if (mod_size == 0) {
         return false;
     }
-    
     BYTE* buffer = peconv::alloc_pe_buffer(mod_size, PAGE_READWRITE);
     if (buffer == nullptr) {
         std::cerr << "[-] Failed allocating buffer. Error: " << GetLastError() << std::endl;
