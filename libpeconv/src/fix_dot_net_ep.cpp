@@ -107,7 +107,7 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
     }
 
     DWORD ep_rva = peconv::get_entry_point_rva(pe_buffer);
-    std::cout << "[*] This is a .NET payload and may require Enty Point corection. Current EP: " << std::hex << ep_rva << "\n";
+    std::cout << "[*] This is a .NET payload and may require Enty Point correction. Current EP: " << std::hex << ep_rva << "\n";
 
     PIMAGE_SECTION_HEADER sec_hdr = peconv::get_section_hdr(pe_buffer, pe_buffer_size, 0);
     if (!sec_hdr) return false;
