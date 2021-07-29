@@ -168,7 +168,13 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
         }
     }
 
-    const size_t size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, step_size);
+    size_t size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, step_size);
+    if ((size_read == 0) && (page_info.Protect & PAGE_GUARD)) {
+#ifdef _DEBUG
+        std::cout << "Warning: guarded page, trying to read again..." << std::endl;
+#endif
+        size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, step_size);
+    }
 
     // if the access rights were changed, change it back:
     if (access_changed) {
