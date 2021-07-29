@@ -11,6 +11,13 @@ namespace peconv {
 
     /** 
     Validates pointers, checks if the particular field is inside the given buffer. Sizes must be given in bytes.
+    \param buffer_bgn : the start address of the buffer
+    \param buffer_size : the size of the buffer
+    \param field_bgn : the start address of the field
+    \param field_size : the size of the field
+    \return true if the field (defined by its start address: field_bgn, and size: field_size) is contained within the given buffer
+    (defined by its start address: buffer_bgn, and size: buffer_size).
+    false otherwise
     */
     bool validate_ptr(
         IN const void* buffer_bgn, 
