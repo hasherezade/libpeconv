@@ -141,21 +141,20 @@ size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT B
 
 size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
-    if (buffer == nullptr) {
+    if (!buffer || buffer_size == 0) {
         return 0;
     }
     size_t region_size = peconv::fetch_region_size(processHandle, start_addr);
     if (region_size == 0) return false;
 
-    if (region_size >= buffer_size) {
-        return peconv::read_remote_memory(processHandle, start_addr, buffer, buffer_size, step_size);
-    }
-    return peconv::read_remote_memory(processHandle, start_addr, buffer, region_size, step_size);
+    const size_t size_to_read = (region_size > buffer_size) ? buffer_size : region_size;
+    const size_t size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, step_size);
+    return size_read;
 }
 
 size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
-    if (!buffer || !start_addr) {
+    if (!buffer || !start_addr || buffer_size == 0) {
         return 0;
     }
     memset(buffer, 0, buffer_size);
