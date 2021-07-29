@@ -147,7 +147,7 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
     if (!peconv::fetch_region_info(processHandle, start_addr, page_info)) {
         return 0;
     }
-    if (page_info.State != MEM_COMMIT) {
+    if ((page_info.State & MEM_COMMIT) == 0) {
         return 0;
     }
     size_t region_size = _fetch_region_size(page_info, start_addr);
