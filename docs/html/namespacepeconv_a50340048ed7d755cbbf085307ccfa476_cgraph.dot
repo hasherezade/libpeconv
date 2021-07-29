@@ -1,0 +1,25 @@
+digraph "peconv::get_file_characteristics"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="peconv::get_file_characteristics",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="peconv::get_nt_hdrs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="peconv::is_bad_read_ptr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="peconv::DWORD",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="peconv::is_mem_accessible",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb",tooltip=" "];
+  Node5 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="peconv::validate_ptr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="peconv::is64bit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f",tooltip=" "];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="peconv::get_nt_hdr\l_architecture",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b",tooltip=" "];
+  Node8 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

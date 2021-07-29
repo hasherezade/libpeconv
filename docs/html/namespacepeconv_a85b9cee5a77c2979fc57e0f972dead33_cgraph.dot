@@ -1,0 +1,18 @@
+digraph "peconv::read_from_file"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="peconv::read_from_file",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="peconv::alloc_pe_buffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a92647f207ca261ca38ff516943501dd1",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="peconv::alloc_aligned",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a3df24248b3c8c9be64db51a405486923",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="peconv::DWORD",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="peconv::free_pe_buffer",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a839f04fa06f311e3270a4305421ad35f",tooltip=" "];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="peconv::free_aligned",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a0e37c28aa6d21070a623054c52126531",tooltip=" "];
+}

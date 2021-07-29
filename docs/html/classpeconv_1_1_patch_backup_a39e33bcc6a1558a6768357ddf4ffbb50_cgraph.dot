@@ -1,0 +1,44 @@
+digraph "peconv::PatchBackup::applyBackup"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="peconv::PatchBackup\l::applyBackup",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="peconv::DWORD",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="peconv::PatchBackup\l::isBackup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classpeconv_1_1_patch_backup.html#af1d324a838c4de3201a1cd3dac36eb98",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="peconv::nt_protect",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8",tooltip=" "];
+  Node4 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="peconv::get_exported_func",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a81fd743876afa97b45eb997d814bad11",tooltip=" "];
+  Node5 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="peconv::forwarder_name_len",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c",tooltip=" "];
+  Node5 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="get_export_by_ord",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b",tooltip=" "];
+  Node7 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="peconv::get_export\l_directory",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0",tooltip=" "];
+  Node5 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="peconv::is_bad_read_ptr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056",tooltip=" "];
+  Node9 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="peconv::is_mem_accessible",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb",tooltip=" "];
+  Node10 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="is_ordinal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5",tooltip=" "];
+  Node5 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="is_wanted_func",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43",tooltip=" "];
+  Node4 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="peconv::get_module\l_via_peb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespacepeconv.html#ab47119fd997003e3db87a61a293a835e",tooltip=" "];
+  Node13 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="get_peb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c",tooltip=" "];
+  Node13 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="is_wanted_module",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b",tooltip=" "];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="to_lowercase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649",tooltip=" "];
+}

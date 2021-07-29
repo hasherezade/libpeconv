@@ -1,7 +1,0 @@
-<map id="peconv::ImportedDllCoverage::mapAddressesToFunctions" name="peconv::ImportedDllCoverage::mapAddressesToFunctions">
-<area shape="rect" id="node1" title=" " alt="" coords="5,39,193,80"/>
-<area shape="rect" id="node2" href="$fix__imports_8cpp.html#aa0ace6690418a5db20ba7a713a0494f1" title=" " alt="" coords="241,46,432,73"/>
-<area shape="rect" id="node3" href="$classpeconv_1_1_exported_func.html#af723125e547c1e1459dbcd0a4ac02d0a" title=" " alt="" coords="480,39,631,80"/>
-<area shape="rect" id="node4" href="$classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd" title=" " alt="" coords="679,5,829,47"/>
-<area shape="rect" id="node5" href="$namespacepeconv.html#a2fe6bfa1e17c0b4a1efcb195b482565e" title=" " alt="" coords="691,71,817,112"/>
-</map>

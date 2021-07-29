@@ -1,0 +1,11 @@
+digraph "libpeconv/src" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_0967e0f2f9550a0457eea072dbf2c2dc {
+    graph [ bgcolor="#ddddee", pencolor="black", label="libpeconv" fontname="Helvetica", fontsize="10", URL="dir_0967e0f2f9550a0457eea072dbf2c2dc.html"]
+  dir_127e51e56c563ea726ade0e84fc3d48f [shape=box, label="src", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_127e51e56c563ea726ade0e84fc3d48f.html"];
+  }
+  dir_710da80bdc3300874944b1903bcc1810 [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_710da80bdc3300874944b1903bcc1810.html"];
+  dir_127e51e56c563ea726ade0e84fc3d48f->dir_710da80bdc3300874944b1903bcc1810 [headlabel="63", labeldistance=1.5 headhref="dir_000003_000001.html"];
+}
