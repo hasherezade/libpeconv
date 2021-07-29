@@ -38,8 +38,16 @@ namespace peconv {
     size_t read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size = 0x100);
 
     /**
-    Reads the full memory area of a given size within a given process.
-    The memory area can consist of multiple regions with various access rights. In case of inaccessible areas, it tries to force the access, or skip.
+    Reads a single memory region (continuous, with the same access rights) within a given process, starting at the start_addr.
+    In case if it is inaccessible, it tries to force the access, or skip.
+    Requires a handle with privilege PROCESS_QUERY_INFORMATION.
+    step_size is passed to the underlying read_remote_memory.
+    */
+    size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size = 0x100);
+
+    /**
+    Reads the full memory area of a given size within a given process, starting at the start_addr.
+    The memory area can consist of multiple regions with various access rights. In case of inaccessible regions, it tries to force the access, or skip.
     Requires a handle with privilege PROCESS_QUERY_INFORMATION.
     step_size is passed to the underlying read_remote_memory.
     */

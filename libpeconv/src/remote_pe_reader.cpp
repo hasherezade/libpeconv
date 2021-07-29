@@ -138,7 +138,7 @@ size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT B
     return static_cast<size_t>(read_size);
 }
 
-size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
+size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
     if (!buffer || buffer_size == 0) {
         return 0;
