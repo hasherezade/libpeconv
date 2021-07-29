@@ -138,17 +138,42 @@ size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT B
     return static_cast<size_t>(read_size);
 }
 
-
 size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
 {
     if (!buffer || buffer_size == 0) {
         return 0;
     }
-    size_t region_size = peconv::fetch_region_size(processHandle, start_addr);
-    if (region_size == 0) return false;
+    MEMORY_BASIC_INFORMATION page_info = { 0 };
+    if (!peconv::fetch_region_info(processHandle, start_addr, page_info)) {
+        return 0;
+    }
+    if (page_info.State != MEM_COMMIT) {
+        return 0;
+    }
+    size_t region_size = _fetch_region_size(page_info, start_addr);
+    if (region_size == 0) {
+        return 0;
+    }
 
     const size_t size_to_read = (region_size > buffer_size) ? buffer_size : region_size;
+
+    BOOL access_changed = FALSE;
+    DWORD oldProtect = 0;
+
+    // check the access right and eventually try to change it
+    if (page_info.Protect & PAGE_NOACCESS) {
+        access_changed = VirtualProtectEx(processHandle, start_addr, region_size, PAGE_READONLY, &oldProtect);
+        if (!access_changed) {
+            std::cerr << "[!] " << std::hex << start_addr << " : " << region_size << " inaccessible area, changing page access failed: " << GetLastError() << "\n";
+        }
+    }
+
     const size_t size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, step_size);
+
+    // if the access rights were changed, change it back:
+    if (access_changed) {
+        VirtualProtectEx(processHandle, start_addr, region_size, oldProtect, &oldProtect);
+    }
     return size_read;
 }
 
@@ -171,23 +196,9 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
         if (region_size == 0) {
             break;
         }
-        BOOL change_access = FALSE;
-        DWORD oldProtect = 0;
 
-        // check the access right and eventually try to change it
-        if ((page_info.Protect & PAGE_NOACCESS) != 0) {
-            change_access = VirtualProtectEx(processHandle, remote_chunk, region_size, PAGE_READONLY, &oldProtect);
-            if (!change_access) {
-                std::cerr << "[!] " << std::hex << remote_chunk << " : " << region_size << " inaccessible area, changing page access failed: " << GetLastError() << "\n";
-            }
-        }
         // read the memory:
         size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + read, buffer_size - read, step_size);
-
-        // if the access rights were changed, change it back:
-        if (change_access) {
-            VirtualProtectEx(processHandle, remote_chunk, region_size, oldProtect, &oldProtect);
-        }
 
         if (read_chunk == 0) {
             //skip the region that could not be read:
