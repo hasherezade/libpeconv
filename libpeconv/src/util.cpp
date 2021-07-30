@@ -4,7 +4,6 @@
 #define USE_OLD_BADPTR
 
 namespace peconv {
-    DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process) = nullptr;
 
     HMODULE g_kernel32Hndl = nullptr;
     HMODULE g_ntdllHndl = nullptr;
@@ -76,17 +75,23 @@ DWORD ntdll_get_process_id(HANDLE hProcess)
 
 DWORD peconv::get_process_id(HANDLE hProcess)
 {
-    if (!peconv::g_GetProcessId) {
+    static DWORD(WINAPI *_GetProcessId)(IN HANDLE Process) = nullptr;
+
+    DWORD processID = 0;
+    if (!_GetProcessId) {
         HMODULE kernelLib = peconv::get_kernel32_hndl();
-        if (!kernelLib) return FALSE;
-
-        FARPROC procPtr = GetProcAddress(kernelLib, "GetProcessId");
-        if (!procPtr) return FALSE;
-
-        peconv::g_GetProcessId = (DWORD(WINAPI *) (IN HANDLE))procPtr;
+        if (kernelLib) {
+            FARPROC procPtr = GetProcAddress(kernelLib, "GetProcessId");
+            if (procPtr) {
+                _GetProcessId = (DWORD(WINAPI *) (IN HANDLE))procPtr;
+            }
+        }
     }
-    if (peconv::g_GetProcessId) {
-        return peconv::g_GetProcessId(hProcess);
+    if (_GetProcessId) {
+        processID = _GetProcessId(hProcess);
+    }
+    if (processID != 0) {
+        return processID;
     }
     //could not retrieve Pid using GetProcessId, try using NTDLL:
     return ntdll_get_process_id(hProcess);
@@ -132,7 +137,7 @@ bool peconv::is_mem_accessible(LPCVOID areaStart, SIZE_T areaSize, DWORD dwAcces
         SIZE_T offset = (ULONG_PTR)areaPtr - (ULONG_PTR)mbi.BaseAddress;
         SIZE_T queriedSize = mbi.RegionSize - offset;
         if (queriedSize >= sizeToCheck) {
-            return true; // is is fine
+            return true; // it is fine
         }
         // move to the next region
         sizeToCheck -= queriedSize;
