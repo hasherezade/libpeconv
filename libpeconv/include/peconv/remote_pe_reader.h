@@ -52,7 +52,8 @@ namespace peconv {
     \param start_addr : the address within the remote process to start reading from
     \param buffer : the buffer where the read data will be stored
     \param buffer_size : the size of the buffer
-    \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading
+    \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading.
+    WARNING: force_access should be used only on a suspended process, or a process relection, otherwise it may cause instability.
     \param minimal_size : the minimal size that has to be read in order to consider the read successful (passed to read_remote_memory)
     \return the number of bytes successfuly read
     */
@@ -69,7 +70,8 @@ namespace peconv {
     \param start_addr : the address within the remote process to start reading from
     \param buffer : the buffer where the read data will be stored
     \param buffer_size : the size of the buffer
-    \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading
+    \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading.
+    WARNING: force_access should be used only on a suspended process, or a process relection, otherwise it may cause instability.
     \param minimal_size : the minimal size that has to be read in order to consider the read successful (passed to read_remote_memory)
     \return the number of bytes successfuly read
     */

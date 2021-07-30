@@ -165,25 +165,32 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
 
     const size_t size_to_read = (region_size > buffer_size) ? buffer_size : region_size;
 
+    const bool is_accessible = (page_info.Protect & PAGE_NOACCESS) != 0;
     BOOL access_changed = FALSE;
     DWORD oldProtect = 0;
 
     // check the access right and eventually try to change it
-    if ((page_info.Protect & PAGE_NOACCESS) && force_access) {
+    if (force_access && !is_accessible) {
         access_changed = VirtualProtectEx(processHandle, start_addr, region_size, PAGE_READONLY, &oldProtect);
+#ifdef _DEBUG
         if (!access_changed) {
-            std::cerr << "[!] " << std::hex << start_addr << " : " << region_size << " inaccessible area, changing page access failed: " << GetLastError() << "\n";
+            DWORD err = GetLastError();
+            if (err != ERROR_ACCESS_DENIED) {
+                std::cerr << "[!] " << std::hex << start_addr << " : " << region_size << " inaccessible area, changing page access failed: " << std::dec << err << "\n";
+            }
+        }
+#endif
+    }
+    size_t size_read = 0;
+    if (is_accessible || access_changed) {
+        size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, minimal_size);
+        if ((size_read == 0) && (page_info.Protect & PAGE_GUARD)) {
+#ifdef _DEBUG
+            std::cout << "Warning: guarded page, trying to read again..." << std::endl;
+#endif
+            size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, minimal_size);
         }
     }
-
-    size_t size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, minimal_size);
-    if ((size_read == 0) && (page_info.Protect & PAGE_GUARD)) {
-#ifdef _DEBUG
-        std::cout << "Warning: guarded page, trying to read again..." << std::endl;
-#endif
-        size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, minimal_size);
-    }
-
     // if the access rights were changed, change it back:
     if (access_changed) {
         VirtualProtectEx(processHandle, start_addr, region_size, oldProtect, &oldProtect);
