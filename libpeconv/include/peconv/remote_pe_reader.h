@@ -59,7 +59,7 @@ namespace peconv {
     size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T minimal_size = 0x100);
 
     /**
-    Reads a full memory area of a within a given process, starting at the start_addr, till the buffer_size is exceeded.
+    Reads a full memory area within a given process, starting at the start_addr, till the buffer_size is exceeded.
     The memory area can consist of multiple regions with various access rights.
     In case if the region is inaccessible, if the flag force_access was set, it tries to force the access by temporarly changing the permissions.
     On read failure the region is skipped, and the read is moving to the next one, leaving in the output buffer an empty space of the region size.
