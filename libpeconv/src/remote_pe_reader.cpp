@@ -165,7 +165,7 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
 
     const size_t size_to_read = (region_size > buffer_size) ? buffer_size : region_size;
 
-    const bool is_accessible = (page_info.Protect & PAGE_NOACCESS) != 0;
+    const bool is_accessible = (page_info.Protect & PAGE_NOACCESS) == 0;
     BOOL access_changed = FALSE;
     DWORD oldProtect = 0;
 
