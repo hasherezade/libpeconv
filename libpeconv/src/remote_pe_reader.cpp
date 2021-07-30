@@ -190,30 +190,29 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
     }
     memset(buffer, 0, buffer_size);
 
-    size_t read = 0;
-    for (read = 0; read < buffer_size; ) {
-        LPVOID remote_chunk = LPVOID((ULONG_PTR)start_addr + read);
+    size_t total_read = 0;
+    for (total_read = 0; total_read < buffer_size; ) {
+        LPVOID remote_chunk = LPVOID((ULONG_PTR)start_addr + total_read);
 
         MEMORY_BASIC_INFORMATION page_info = { 0 };
         if (!peconv::fetch_region_info(processHandle, remote_chunk, page_info)) {
             break;
         }
-        size_t region_size = _fetch_region_size(page_info, remote_chunk);
+        const size_t region_size = _fetch_region_size(page_info, remote_chunk);
         if (region_size == 0) {
             break;
         }
 
         // read the memory:
-        size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + read, buffer_size - read, force_access, step_size);
-
+        const size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + total_read, buffer_size - total_read, force_access, step_size);
         if (read_chunk == 0) {
             //skip the region that could not be read:
-            read += region_size;
+            total_read += region_size;
             continue;
         }
-        read += read_chunk;
+        total_read += read_chunk;
     }
-    return read;
+    return total_read;
 }
 
 bool peconv::read_remote_pe_header(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size)
