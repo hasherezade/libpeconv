@@ -138,7 +138,7 @@ size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT B
     return static_cast<size_t>(read_size);
 }
 
-size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T step_size)
+size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T minimal_size)
 {
     if (!buffer || buffer_size == 0) {
         return 0;
@@ -168,12 +168,12 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
         }
     }
 
-    size_t size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, step_size);
+    size_t size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, minimal_size);
     if ((size_read == 0) && (page_info.Protect & PAGE_GUARD)) {
 #ifdef _DEBUG
         std::cout << "Warning: guarded page, trying to read again..." << std::endl;
 #endif
-        size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, step_size);
+        size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, minimal_size);
     }
 
     // if the access rights were changed, change it back:
@@ -183,7 +183,7 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
     return size_read;
 }
 
-size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T step_size)
+size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T minimal_size)
 {
     if (!buffer || !start_addr || buffer_size == 0) {
         return 0;
@@ -204,7 +204,7 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
         }
 
         // read the memory:
-        const size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + total_read, buffer_size - total_read, force_access, step_size);
+        const size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + total_read, buffer_size - total_read, force_access, minimal_size);
         if (read_chunk == 0) {
             //skip the region that could not be read:
             total_read += region_size;

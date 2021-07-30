@@ -31,17 +31,17 @@ namespace peconv {
 
     /**
     Wrapper over ReadProcessMemory. Requires a handle with privilege PROCESS_VM_READ.
-    If reading full buffer_size was not possible, it will keep trying to read a smaller chunk,
-    decreasing requested size by step_size in each iteration (it is a workaround for errors such as FAULTY_HARDWARE_CORRUPTED_PAGE).
+    If reading of the full buffer_size was not possible, it will keep trying to read a smaller chunk, decreasing requested size on each attempt, 
+    till the minimal_size is reached (it is a workaround for errors such as FAULTY_HARDWARE_CORRUPTED_PAGE).
     Returns how many bytes were successfuly read.
     \param processHandle : handle of the process where the memory of interest belongs
     \param start_addr : the address within the remote process to start reading from
     \param buffer : the buffer where the read data will be stored
     \param buffer_size : the size of the buffer, and the size that will be attempted to read
-    \param step_size : the size by which the demanded size will be decreased in each read attempt
+    \param minimal_size : the minimal size that has to be read in order to consider the read successful
     \return the number of bytes successfuly read
     */
-    size_t read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size = 0x100);
+    size_t read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size = 0x100);
 
     /**
     Reads a single memory region (continuous, with the same access rights) within a given process, starting at the start_addr.
@@ -53,10 +53,10 @@ namespace peconv {
     \param buffer : the buffer where the read data will be stored
     \param buffer_size : the size of the buffer
     \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading
-    \param step_size : the size by which the demanded size will be decreased in each read attempt (passed to underlying read_remote_memory)
+    \param minimal_size : the minimal size that has to be read in order to consider the read successful (passed to read_remote_memory)
     \return the number of bytes successfuly read
     */
-    size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T step_size = 0x100);
+    size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T minimal_size = 0x100);
 
     /**
     Reads the full memory area of a given size within a given process, starting at the start_addr.
@@ -70,10 +70,10 @@ namespace peconv {
     \param buffer : the buffer where the read data will be stored
     \param buffer_size : the size of the buffer
     \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading
-    \param step_size : the size by which the demanded size will be decreased in each read attempt (passed to underlying read_remote_memory)
+    \param minimal_size : the minimal size that has to be read in order to consider the read successful (passed to read_remote_memory)
     \return the number of bytes successfuly read
     */
-    size_t read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T step_size = 0x100);
+    size_t read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T minimal_size = 0x100);
 
     /**
     Reads a PE header of the remote module within the given process. Requires a valid output buffer to be supplied (buffer).
