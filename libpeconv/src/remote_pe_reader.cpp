@@ -53,9 +53,12 @@ ULONGLONG peconv::fetch_alloc_base(HANDLE processHandle, LPVOID moduleBase)
 }
 
 namespace peconv {
-    SIZE_T search_readable_size(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
+    SIZE_T _search_readable_size(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
     {
-        if (!buffer || (buffer_size < minimal_size) || minimal_size == 0) {
+        if (!buffer || buffer_size == 0) {
+            return 0;
+        }
+        if ((buffer_size < minimal_size) || minimal_size == 0) {
             return 0;
         }
         SIZE_T last_failed_size = buffer_size;
@@ -96,7 +99,7 @@ namespace peconv {
 
 size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
 {
-    if (!buffer) {
+    if (!buffer || buffer_size == 0) {
         return 0;
     }
     memset(buffer, 0, buffer_size);
@@ -116,7 +119,7 @@ size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT B
             }
         }
         if (last_error == ERROR_PARTIAL_COPY) {
-            read_size = peconv::search_readable_size(processHandle, start_addr, buffer, buffer_size, minimal_size);
+            read_size = peconv::_search_readable_size(processHandle, start_addr, buffer, buffer_size, minimal_size);
 #ifdef _DEBUG
             std::cout << "peconv::search_readable_size res: " << std::hex << read_size << std::endl;
 #endif
