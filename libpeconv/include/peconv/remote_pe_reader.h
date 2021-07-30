@@ -46,7 +46,7 @@ namespace peconv {
     /**
     Reads a single memory region (continuous, with the same access rights) within a given process, starting at the start_addr.
     In case if it is inaccessible, if the flag force_access was set, it tries to force the access by temporarly changing the permissions.
-    Requires a handle with privilege PROCESS_QUERY_INFORMATION.
+    Requires a handle with privilege PROCESS_QUERY_INFORMATION. In order for force_access to work, PROCESS_VM_OPERATION is additionally required.
     step_size is passed to the underlying read_remote_memory.
     \param processHandle : handle of the process where the memory of interest belongs
     \param start_addr : the address within the remote process to start reading from
@@ -63,7 +63,7 @@ namespace peconv {
     The memory area can consist of multiple regions with various access rights.
     In case if the region is inaccessible, if the flag force_access was set, it tries to force the access by temporarly changing the permissions.
     On read failure the region is skipped, and the read is moving to the next one, leaving in the output buffer an empty space of the region size.
-    Requires a handle with privilege PROCESS_QUERY_INFORMATION.
+    Requires a handle with privilege PROCESS_QUERY_INFORMATION. In order for force_access to work, PROCESS_VM_OPERATION is additionally required.
     step_size is passed to the underlying read_remote_memory.
     \param processHandle : handle of the process where the memory of interest belongs
     \param start_addr : the address within the remote process to start reading from
