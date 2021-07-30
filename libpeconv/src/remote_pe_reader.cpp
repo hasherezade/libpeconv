@@ -138,7 +138,7 @@ size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT B
     return static_cast<size_t>(read_size);
 }
 
-size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
+size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T step_size)
 {
     if (!buffer || buffer_size == 0) {
         return 0;
@@ -161,7 +161,7 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
     DWORD oldProtect = 0;
 
     // check the access right and eventually try to change it
-    if (page_info.Protect & PAGE_NOACCESS) {
+    if ((page_info.Protect & PAGE_NOACCESS) && force_access) {
         access_changed = VirtualProtectEx(processHandle, start_addr, region_size, PAGE_READONLY, &oldProtect);
         if (!access_changed) {
             std::cerr << "[!] " << std::hex << start_addr << " : " << region_size << " inaccessible area, changing page access failed: " << GetLastError() << "\n";
@@ -183,7 +183,7 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
     return size_read;
 }
 
-size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size)
+size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T step_size)
 {
     if (!buffer || !start_addr || buffer_size == 0) {
         return 0;
@@ -204,7 +204,7 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
         }
 
         // read the memory:
-        size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + read, buffer_size - read, step_size);
+        size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + read, buffer_size - read, force_access, step_size);
 
         if (read_chunk == 0) {
             //skip the region that could not be read:

@@ -45,19 +45,35 @@ namespace peconv {
 
     /**
     Reads a single memory region (continuous, with the same access rights) within a given process, starting at the start_addr.
-    In case if it is inaccessible, it tries to force the access, or skip.
+    In case if it is inaccessible, if the flag force_access was set, it tries to force the access by temporarly changing the permissions.
     Requires a handle with privilege PROCESS_QUERY_INFORMATION.
     step_size is passed to the underlying read_remote_memory.
+    \param processHandle : handle of the process where the memory of interest belongs
+    \param start_addr : the address within the remote process to start reading from
+    \param buffer : the buffer where the read data will be stored
+    \param buffer_size : the size of the buffer
+    \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading
+    \param step_size : the size by which the demanded size will be decreased in each read attempt (passed to underlying read_remote_memory)
+    \return the number of bytes successfuly read
     */
-    size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size = 0x100);
+    size_t read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T step_size = 0x100);
 
     /**
     Reads the full memory area of a given size within a given process, starting at the start_addr.
-    The memory area can consist of multiple regions with various access rights. In case of inaccessible regions, it tries to force the access, or skip.
+    The memory area can consist of multiple regions with various access rights.
+    In case if the region is inaccessible, if the flag force_access was set, it tries to force the access by temporarly changing the permissions.
+    On read failure the region is skipped, and the read is moving to the next one, leaving in the output buffer an empty space of the region size.
     Requires a handle with privilege PROCESS_QUERY_INFORMATION.
     step_size is passed to the underlying read_remote_memory.
+    \param processHandle : handle of the process where the memory of interest belongs
+    \param start_addr : the address within the remote process to start reading from
+    \param buffer : the buffer where the read data will be stored
+    \param buffer_size : the size of the buffer
+    \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading
+    \param step_size : the size by which the demanded size will be decreased in each read attempt (passed to underlying read_remote_memory)
+    \return the number of bytes successfuly read
     */
-    size_t read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T step_size = 0x100);
+    size_t read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const bool force_access, const SIZE_T step_size = 0x100);
 
     /**
     Reads a PE header of the remote module within the given process. Requires a valid output buffer to be supplied (buffer).
