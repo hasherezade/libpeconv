@@ -109,7 +109,7 @@ $(function() {
 <div class="line">    <a class="code" href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">peconv::set_main_module_in_peb</a>((HMODULE)my_pe);</div>
 <div class="line">    </div>
 <div class="line">    <span class="comment">//calculate the Entry Point of the manually loaded module</span></div>
-<div class="line">    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> ep_rva = <a class="code" href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a>(my_pe);</div>
+<div class="line">    DWORD ep_rva = <a class="code" href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a>(my_pe);</div>
 <div class="line">    <span class="keywordflow">if</span> (!ep_rva) {</div>
 <div class="line">        <span class="keywordflow">return</span> -2;</div>
 <div class="line">    }</div>
@@ -129,7 +129,6 @@ $(function() {
 </ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="anamespacepeconv_html_a12d3fa7eccb95cafc6d2be997965e97c"><div class="ttname"><a href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a></div><div class="ttdeci">DWORD get_entry_point_rva(IN const BYTE *pe_buffer)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00171">pe_hdrs_helper.cpp:171</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a59b0b9f9daf4ccf3e35c5e337cfaed4e"><div class="ttname"><a href="namespacepeconv.html#a59b0b9f9daf4ccf3e35c5e337cfaed4e">peconv::load_pe_executable</a></div><div class="ttdeci">BYTE * load_pe_executable(BYTE *dllRawData, size_t r_size, OUT size_t &amp;v_size, t_function_resolver *import_resolver=NULL)</div><div class="ttdef"><b>Definition:</b> <a href="pe__loader_8cpp_source.html#l00079">pe_loader.cpp:79</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a1b2f6b38a8631d42d6a7919f41de7e01"><div class="ttname"><a href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">peconv::set_main_module_in_peb</a></div><div class="ttdeci">bool set_main_module_in_peb(HMODULE hModule)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00159">peb_lookup.cpp:159</a></div></div>

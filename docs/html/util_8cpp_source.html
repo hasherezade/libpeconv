@@ -76,177 +76,181 @@ $(function() {
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="util_8cpp.html#a1b2751b7d8faf8a3c964c061854785c8">    4</a></span>&#160;<span class="preprocessor">#define USE_OLD_BADPTR</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacepeconv.html">peconv</a> {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>(WINAPI *g_GetProcessId)(IN HANDLE Process) = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">    9</a></span>&#160;    HMODULE <a class="code" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">g_kernel32Hndl</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">   10</a></span>&#160;    HMODULE <a class="code" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">g_ntdllHndl</a> = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">   12</a></span>&#160;    HMODULE <a class="code" href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">get_kernel32_hndl</a>()</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">g_kernel32Hndl</a> == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <a class="code" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">g_kernel32Hndl</a> = LoadLibraryA(<span class="stringliteral">&quot;kernel32.dll&quot;</span>);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        }</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">g_kernel32Hndl</a>;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    }</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">   20</a></span>&#160;    HMODULE <a class="code" href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">get_ntdll_hndl</a>()</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">g_ntdllHndl</a> == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <a class="code" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">g_ntdllHndl</a> = LoadLibraryA(<span class="stringliteral">&quot;ntdll.dll&quot;</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">g_ntdllHndl</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;};</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">   29</a></span>&#160;<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> <a class="code" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a>(HANDLE hProcess)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#if !defined PROCESSINFOCLASS</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">typedef</span> LONG <a class="code" href="ntddk_8h.html#ac2ce199d0d26b119c035a2c0f418cde8">PROCESSINFOCLASS</a>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a>(WINAPI *_ZwQueryInformationProcess)(</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        IN       HANDLE ProcessHandle,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        IN       <a class="code" href="ntddk_8h.html#ac2ce199d0d26b119c035a2c0f418cde8">PROCESSINFOCLASS</a> ProcessInformationClass,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        OUT      PVOID ProcessInformation,</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        IN       ULONG ProcessInformationLength,</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        OUT  PULONG ReturnLength</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ) = NULL;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    HINSTANCE hNtDll = <a class="code" href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">peconv::get_ntdll_hndl</a>();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (!hNtDll) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    FARPROC procPtr = GetProcAddress(hNtDll, <span class="stringliteral">&quot;ZwQueryInformationProcess&quot;</span>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span> (!procPtr) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    _ZwQueryInformationProcess = (<a class="code" href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a>(WINAPI *)(</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        HANDLE,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <a class="code" href="ntddk_8h.html#ac2ce199d0d26b119c035a2c0f418cde8">PROCESSINFOCLASS</a>,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        PVOID,</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        ULONG,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        PULONG)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;     ) procPtr;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">_PROCESS_BASIC_INFORMATION</a> {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        PVOID Reserved1;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        PVOID <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a0e16d6208b60ee422a60c8b02b2ead6b">PebBaseAddress</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        PVOID Reserved2[2];</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        ULONG_PTR <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d">UniqueProcessId</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        PVOID Reserved3;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    } <a class="code" href="ntddk_8h.html#a161d086172c3b4e22b703321df8763fc">PROCESS_BASIC_INFORMATION</a>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">PROCESS_BASIC_INFORMATION</a> pbi = { 0 };</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (_ZwQueryInformationProcess(hProcess, 0, &amp;pbi, <span class="keyword">sizeof</span>(<a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">PROCESS_BASIC_INFORMATION</a>), NULL) == S_OK) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> pid = static_cast&lt;DWORD&gt;(pbi.<a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d">UniqueProcessId</a>);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">return</span> pid;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8">   77</a></span>&#160;<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> <a class="code" href="namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8">peconv::get_process_id</a>(HANDLE hProcess)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;{</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (!peconv::g_GetProcessId) {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        HMODULE kernelLib = <a class="code" href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">peconv::get_kernel32_hndl</a>();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">if</span> (!kernelLib) <span class="keywordflow">return</span> FALSE;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        FARPROC procPtr = GetProcAddress(kernelLib, <span class="stringliteral">&quot;GetProcessId&quot;</span>);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">if</span> (!procPtr) <span class="keywordflow">return</span> FALSE;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        peconv::g_GetProcessId = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>(WINAPI *) (IN HANDLE))procPtr;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> (peconv::g_GetProcessId) {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">return</span> peconv::g_GetProcessId(hProcess);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">//could not retrieve Pid using GetProcessId, try using NTDLL:</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a>(hProcess);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4">   95</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4">peconv::is_padding</a>(<span class="keyword">const</span> BYTE *cave_ptr, <span class="keywordtype">size_t</span> cave_size, <span class="keyword">const</span> BYTE padding)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;{</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; cave_size; i++) {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">if</span> (cave_ptr[i] != padding) {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        }</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb">  105</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb">peconv::is_mem_accessible</a>(LPCVOID areaStart, SIZE_T areaSize, <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> dwAccessRights)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;{</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordflow">if</span> (!areaSize) <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// zero-sized areas are not allowed</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> dwForbiddenArea = PAGE_GUARD | PAGE_NOACCESS;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    MEMORY_BASIC_INFORMATION mbi = { 0 };</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> mbiSize = <span class="keyword">sizeof</span>(MEMORY_BASIC_INFORMATION);</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">    8</a></span>&#160;    HMODULE <a class="code" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">g_kernel32Hndl</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">    9</a></span>&#160;    HMODULE <a class="code" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">g_ntdllHndl</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">   11</a></span>&#160;    HMODULE <a class="code" href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">get_kernel32_hndl</a>()</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">g_kernel32Hndl</a> == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <a class="code" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">g_kernel32Hndl</a> = LoadLibraryA(<span class="stringliteral">&quot;kernel32.dll&quot;</span>);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">g_kernel32Hndl</a>;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">   19</a></span>&#160;    HMODULE <a class="code" href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">get_ntdll_hndl</a>()</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">g_ntdllHndl</a> == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <a class="code" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">g_ntdllHndl</a> = LoadLibraryA(<span class="stringliteral">&quot;ntdll.dll&quot;</span>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">g_ntdllHndl</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">   28</a></span>&#160;DWORD <a class="code" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a>(HANDLE hProcess)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#if !defined PROCESSINFOCLASS</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">typedef</span> LONG <a class="code" href="ntddk_8h.html#ac2ce199d0d26b119c035a2c0f418cde8">PROCESSINFOCLASS</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a>(WINAPI *_ZwQueryInformationProcess)(</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        IN       HANDLE ProcessHandle,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        IN       <a class="code" href="ntddk_8h.html#ac2ce199d0d26b119c035a2c0f418cde8">PROCESSINFOCLASS</a> ProcessInformationClass,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        OUT      PVOID ProcessInformation,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        IN       ULONG ProcessInformationLength,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        OUT  PULONG ReturnLength</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ) = NULL;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    HINSTANCE hNtDll = <a class="code" href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">peconv::get_ntdll_hndl</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">if</span> (!hNtDll) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    FARPROC procPtr = GetProcAddress(hNtDll, <span class="stringliteral">&quot;ZwQueryInformationProcess&quot;</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">if</span> (!procPtr) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    _ZwQueryInformationProcess = (<a class="code" href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a>(WINAPI *)(</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        HANDLE,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="ntddk_8h.html#ac2ce199d0d26b119c035a2c0f418cde8">PROCESSINFOCLASS</a>,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        PVOID,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        ULONG,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        PULONG)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;     ) procPtr;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">_PROCESS_BASIC_INFORMATION</a> {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        PVOID Reserved1;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        PVOID <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a0e16d6208b60ee422a60c8b02b2ead6b">PebBaseAddress</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        PVOID Reserved2[2];</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        ULONG_PTR <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d">UniqueProcessId</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        PVOID Reserved3;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    } <a class="code" href="ntddk_8h.html#a161d086172c3b4e22b703321df8763fc">PROCESS_BASIC_INFORMATION</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">PROCESS_BASIC_INFORMATION</a> pbi = { 0 };</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (_ZwQueryInformationProcess(hProcess, 0, &amp;pbi, <span class="keyword">sizeof</span>(<a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">PROCESS_BASIC_INFORMATION</a>), NULL) == S_OK) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">const</span> DWORD pid = static_cast&lt;DWORD&gt;(pbi.<a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d">UniqueProcessId</a>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">return</span> pid;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8">   76</a></span>&#160;DWORD <a class="code" href="namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8">peconv::get_process_id</a>(HANDLE hProcess)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">static</span> DWORD(WINAPI *_GetProcessId)(IN HANDLE Process) = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    DWORD processID = 0;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span> (!_GetProcessId) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        HMODULE kernelLib = <a class="code" href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">peconv::get_kernel32_hndl</a>();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">if</span> (kernelLib) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            FARPROC procPtr = GetProcAddress(kernelLib, <span class="stringliteral">&quot;GetProcessId&quot;</span>);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">if</span> (procPtr) {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                _GetProcessId = (DWORD(WINAPI *) (IN HANDLE))procPtr;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">if</span> (_GetProcessId) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        processID = _GetProcessId(hProcess);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">if</span> (processID != 0) {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">return</span> processID;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="comment">//could not retrieve Pid using GetProcessId, try using NTDLL:</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a>(hProcess);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4">  100</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4">peconv::is_padding</a>(<span class="keyword">const</span> BYTE *cave_ptr, <span class="keywordtype">size_t</span> cave_size, <span class="keyword">const</span> BYTE padding)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;{</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; cave_size; i++) {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">if</span> (cave_ptr[i] != padding) {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb">  110</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb">peconv::is_mem_accessible</a>(LPCVOID areaStart, SIZE_T areaSize, DWORD dwAccessRights)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;{</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">if</span> (!areaSize) <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// zero-sized areas are not allowed</span></div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    SIZE_T sizeToCheck = areaSize;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    LPCVOID areaPtr = areaStart;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordflow">while</span> (sizeToCheck &gt; 0) {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="comment">//reset area</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        memset(&amp;mbi, 0, mbiSize);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="comment">// query the next area</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordflow">if</span> (VirtualQuery(areaPtr, &amp;mbi, mbiSize) != mbiSize) {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// could not query the area, assume it is bad</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        }</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="comment">// check the privileges</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordtype">bool</span> isOk = (mbi.State &amp; MEM_COMMIT) <span class="comment">// memory allocated and</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            &amp;&amp; !(mbi.Protect &amp; dwForbiddenArea) <span class="comment">// access to page allowed and</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            &amp;&amp; (mbi.Protect &amp; dwAccessRights); <span class="comment">// the required rights</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">if</span> (!isOk) {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">//invalid access</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        SIZE_T offset = (ULONG_PTR)areaPtr - (ULONG_PTR)mbi.BaseAddress;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        SIZE_T queriedSize = mbi.RegionSize - offset;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">if</span> (queriedSize &gt;= sizeToCheck) {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="comment">// is is fine</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">const</span> DWORD dwForbiddenArea = PAGE_GUARD | PAGE_NOACCESS;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    MEMORY_BASIC_INFORMATION mbi = { 0 };</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> mbiSize = <span class="keyword">sizeof</span>(MEMORY_BASIC_INFORMATION);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    SIZE_T sizeToCheck = areaSize;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    LPCVOID areaPtr = areaStart;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">while</span> (sizeToCheck &gt; 0) {</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="comment">//reset area</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        memset(&amp;mbi, 0, mbiSize);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="comment">// query the next area</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">if</span> (VirtualQuery(areaPtr, &amp;mbi, mbiSize) != mbiSize) {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// could not query the area, assume it is bad</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="comment">// check the privileges</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordtype">bool</span> isOk = (mbi.State &amp; MEM_COMMIT) <span class="comment">// memory allocated and</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            &amp;&amp; !(mbi.Protect &amp; dwForbiddenArea) <span class="comment">// access to page allowed and</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            &amp;&amp; (mbi.Protect &amp; dwAccessRights); <span class="comment">// the required rights</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">if</span> (!isOk) {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">//invalid access</span></div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        }</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="comment">// move to the next region</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        sizeToCheck -= queriedSize;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        areaPtr = LPCVOID((ULONG_PTR)areaPtr + queriedSize);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    }</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="comment">// by default assume it is inaccessible</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;}</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">  145</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(LPCVOID areaStart, SIZE_T areaSize)</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;{</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="preprocessor">#ifdef USE_OLD_BADPTR // classic IsBadReadPtr is much faster than the version using VirtualQuery</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">return</span> IsBadReadPtr(areaStart, areaSize);</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">bool</span> isAccessible = <a class="code" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb">peconv::is_mem_accessible</a>(areaStart, areaSize, dwReadRights);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">if</span> (isAccessible) {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="comment">// the area has read access rights: not a bad read pointer</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    }</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;}</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        SIZE_T offset = (ULONG_PTR)areaPtr - (ULONG_PTR)mbi.BaseAddress;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        SIZE_T queriedSize = mbi.RegionSize - offset;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordflow">if</span> (queriedSize &gt;= sizeToCheck) {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="comment">// it is fine</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="comment">// move to the next region</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        sizeToCheck -= queriedSize;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        areaPtr = LPCVOID((ULONG_PTR)areaPtr + queriedSize);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    }</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="comment">// by default assume it is inaccessible</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;}</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">  150</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(LPCVOID areaStart, SIZE_T areaSize)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;{</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor">#ifdef USE_OLD_BADPTR // classic IsBadReadPtr is much faster than the version using VirtualQuery</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">return</span> IsBadReadPtr(areaStart, areaSize);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">const</span> DWORD dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">bool</span> isAccessible = <a class="code" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb">peconv::is_mem_accessible</a>(areaStart, areaSize, dwReadRights);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">if</span> (isAccessible) {</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="comment">// the area has read access rights: not a bad read pointer</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="antddk_8h_html_a7dd9b3f076e3c60859a46a61d9341526"><div class="ttname"><a href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a></div><div class="ttdeci">long NTSTATUS</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l00028">ntddk.h:28</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="antddk_8h_html_ac2ce199d0d26b119c035a2c0f418cde8"><div class="ttname"><a href="ntddk_8h.html#ac2ce199d0d26b119c035a2c0f418cde8">PROCESSINFOCLASS</a></div><div class="ttdeci">enum _PROCESSINFOCLASS PROCESSINFOCLASS</div></div>
 <div class="ttc" id="astruct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n_html"><div class="ttname"><a href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">_PROCESS_BASIC_INFORMATION</a></div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02814">ntddk.h:2814</a></div></div>
 <div class="ttc" id="astruct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n_html_a0e16d6208b60ee422a60c8b02b2ead6b"><div class="ttname"><a href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a0e16d6208b60ee422a60c8b02b2ead6b">_PROCESS_BASIC_INFORMATION::PebBaseAddress</a></div><div class="ttdeci">PPEB PebBaseAddress</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02817">ntddk.h:2817</a></div></div>
 <div class="ttc" id="antddk_8h_html_a161d086172c3b4e22b703321df8763fc"><div class="ttname"><a href="ntddk_8h.html#a161d086172c3b4e22b703321df8763fc">PROCESS_BASIC_INFORMATION</a></div><div class="ttdeci">struct _PROCESS_BASIC_INFORMATION PROCESS_BASIC_INFORMATION</div></div>
-<div class="ttc" id="anamespacepeconv_html_af7fbbf3b5b2c890138c9d66318ecf526"><div class="ttname"><a href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">peconv::g_kernel32Hndl</a></div><div class="ttdeci">HMODULE g_kernel32Hndl</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00009">util.cpp:9</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a76d1db39dd42b8bf9443e503b02314b4"><div class="ttname"><a href="namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4">peconv::is_padding</a></div><div class="ttdeci">bool is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE padding_char)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00095">util.cpp:95</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_af7fbbf3b5b2c890138c9d66318ecf526"><div class="ttname"><a href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">peconv::g_kernel32Hndl</a></div><div class="ttdeci">HMODULE g_kernel32Hndl</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00008">util.cpp:8</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a76d1db39dd42b8bf9443e503b02314b4"><div class="ttname"><a href="namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4">peconv::is_padding</a></div><div class="ttdeci">bool is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE padding_char)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00100">util.cpp:100</a></div></div>
 <div class="ttc" id="astruct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n_html_afe6e56b5ae0aff9044ee218c86f59f2d"><div class="ttname"><a href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d">_PROCESS_BASIC_INFORMATION::UniqueProcessId</a></div><div class="ttdeci">ULONG_PTR UniqueProcessId</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02820">ntddk.h:2820</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a9b4307b5dbe3228c5a8502fffe93aa63"><div class="ttname"><a href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">peconv::get_kernel32_hndl</a></div><div class="ttdeci">HMODULE get_kernel32_hndl()</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00012">util.cpp:12</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a1c5650dbaaff41bf24cb94bd2ed60dcb"><div class="ttname"><a href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb">peconv::is_mem_accessible</a></div><div class="ttdeci">bool is_mem_accessible(LPCVOID areaStart, SIZE_T areaSize, DWORD accessRights)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00105">util.cpp:105</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a3c103094b71a9e438ba80ea83384366a"><div class="ttname"><a href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">peconv::g_ntdllHndl</a></div><div class="ttdeci">HMODULE g_ntdllHndl</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00010">util.cpp:10</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a9b4307b5dbe3228c5a8502fffe93aa63"><div class="ttname"><a href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">peconv::get_kernel32_hndl</a></div><div class="ttdeci">HMODULE get_kernel32_hndl()</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00011">util.cpp:11</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a1c5650dbaaff41bf24cb94bd2ed60dcb"><div class="ttname"><a href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb">peconv::is_mem_accessible</a></div><div class="ttdeci">bool is_mem_accessible(LPCVOID areaStart, SIZE_T areaSize, DWORD accessRights)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00110">util.cpp:110</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a3c103094b71a9e438ba80ea83384366a"><div class="ttname"><a href="namespacepeconv.html#a3c103094b71a9e438ba80ea83384366a">peconv::g_ntdllHndl</a></div><div class="ttdeci">HMODULE g_ntdllHndl</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00009">util.cpp:9</a></div></div>
 <div class="ttc" id="anamespacepeconv_html"><div class="ttname"><a href="namespacepeconv.html">peconv</a></div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8h_source.html#l00010">buffer_util.h:10</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_aad22870e562a1bf1a8972c0f1ba88056"><div class="ttname"><a href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a></div><div class="ttdeci">bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00145">util.cpp:145</a></div></div>
-<div class="ttc" id="autil_8cpp_html_ab5f3f23e0f2678c1a145e0e0f7a3a7f8"><div class="ttname"><a href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a></div><div class="ttdeci">DWORD ntdll_get_process_id(HANDLE hProcess)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00029">util.cpp:29</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a022bad7e1913b31319ae23d5644aaaa8"><div class="ttname"><a href="namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8">peconv::get_process_id</a></div><div class="ttdeci">DWORD get_process_id(HANDLE hProcess)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00077">util.cpp:77</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_aad22870e562a1bf1a8972c0f1ba88056"><div class="ttname"><a href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a></div><div class="ttdeci">bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00150">util.cpp:150</a></div></div>
+<div class="ttc" id="autil_8cpp_html_ab5f3f23e0f2678c1a145e0e0f7a3a7f8"><div class="ttname"><a href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a></div><div class="ttdeci">DWORD ntdll_get_process_id(HANDLE hProcess)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00028">util.cpp:28</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a022bad7e1913b31319ae23d5644aaaa8"><div class="ttname"><a href="namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8">peconv::get_process_id</a></div><div class="ttdeci">DWORD get_process_id(HANDLE hProcess)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00076">util.cpp:76</a></div></div>
 <div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Miscellaneous utility functions.</div></div>
-<div class="ttc" id="anamespacepeconv_html_afd0370b87e95a0755199897a7fb79067"><div class="ttname"><a href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">peconv::get_ntdll_hndl</a></div><div class="ttdeci">HMODULE get_ntdll_hndl()</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00020">util.cpp:20</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_afd0370b87e95a0755199897a7fb79067"><div class="ttname"><a href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">peconv::get_ntdll_hndl</a></div><div class="ttdeci">HMODULE get_ntdll_hndl()</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00019">util.cpp:19</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

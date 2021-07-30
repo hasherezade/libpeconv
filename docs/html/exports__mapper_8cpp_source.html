@@ -122,12 +122,12 @@ $(function() {
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (exp == NULL) <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    SIZE_T functCount = exp-&gt;NumberOfFunctions;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> funcsListRVA = exp-&gt;AddressOfFunctions;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> ordBase = exp-&gt;Base;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    DWORD funcsListRVA = exp-&gt;AddressOfFunctions;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    DWORD ordBase = exp-&gt;Base;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">//go through names:</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> i = 0; i &lt; functCount; i++) {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* recordRVA = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)(funcsListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">for</span> (DWORD i = 0; i &lt; functCount; i++) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(DWORD));</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">if</span> (*recordRVA == 0) {</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;&gt;&gt;&gt; Skipping 0 function address at RVA:&quot;</span> &lt;&lt; std::hex &lt;&lt; (BYTE*)recordRVA - (BYTE*)modulePtr&lt;&lt; <span class="stringliteral">&quot;(ord)\n&quot;</span>;</div>
@@ -135,10 +135,10 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="comment">//skip if the function RVA is 0 (empty export)</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">continue</span>;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, moduleSize, recordRVA, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>))) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, moduleSize, recordRVA, <span class="keyword">sizeof</span>(DWORD))) {</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> ordinal = ordBase + i;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        DWORD ordinal = ordBase + i;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        va_to_ord[recordRVA] = ordinal;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> functCount;</div>
@@ -161,7 +161,7 @@ $(function() {
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">return</span> resolved;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keywordtype">bool</span> ExportsMapper::add_forwarded(<a class="code" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &amp;currFunc, <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> callRVA, PBYTE modulePtr, <span class="keywordtype">size_t</span> moduleSize)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keywordtype">bool</span> ExportsMapper::add_forwarded(<a class="code" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &amp;currFunc, DWORD callRVA, PBYTE modulePtr, <span class="keywordtype">size_t</span> moduleSize)</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;{</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    PBYTE fPtr = modulePtr + callRVA;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, moduleSize, fPtr, 1)) {</div>
@@ -191,14 +191,14 @@ $(function() {
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280">  122</a></span>&#160;<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> <a class="code" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280">get_ordinal</a>(PDWORD recordPtr, std::map&lt;PDWORD, DWORD&gt; &amp;va_to_ord)</div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280">  122</a></span>&#160;DWORD <a class="code" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280">get_ordinal</a>(PDWORD recordPtr, std::map&lt;PDWORD, DWORD&gt; &amp;va_to_ord)</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;{</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    std::map&lt;PDWORD, DWORD&gt;::iterator ord_itr = va_to_ord.find(recordPtr);</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">if</span> (ord_itr == va_to_ord.end()) {</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="comment">//ordinal not found</span></div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> ordinal = ord_itr-&gt;second;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    DWORD ordinal = ord_itr-&gt;second;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    va_to_ord.erase(ord_itr);</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">return</span> ordinal;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
@@ -217,27 +217,27 @@ $(function() {
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keyword">const</span> SIZE_T namesCount = exp-&gt;NumberOfNames;</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">const</span> SIZE_T funcCount = exp-&gt;NumberOfFunctions;</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> funcsListRVA = exp-&gt;AddressOfFunctions;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> funcNamesListRVA = exp-&gt;AddressOfNames;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> namesOrdsListRVA = exp-&gt;AddressOfNameOrdinals;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">const</span> DWORD funcsListRVA = exp-&gt;AddressOfFunctions;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keyword">const</span> DWORD funcNamesListRVA = exp-&gt;AddressOfNames;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">const</span> DWORD namesOrdsListRVA = exp-&gt;AddressOfNameOrdinals;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> i = 0; i &lt; funcCount; i++) {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* recordRVA = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)(funcsListRVA + (BYTE*)modulePtr + i * <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, module_size, recordRVA, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>))) {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">for</span> (DWORD i = 0; i &lt; funcCount; i++) {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + i * <span class="keyword">sizeof</span>(DWORD));</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, module_size, recordRVA, <span class="keyword">sizeof</span>(DWORD))) {</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        }</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    }</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordflow">for</span> (SIZE_T i = 0; i &lt; namesCount; i++) {</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* nameRVA = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)(funcNamesListRVA + (BYTE*)modulePtr + i * <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*)modulePtr + i * <span class="keyword">sizeof</span>(DWORD));</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*)modulePtr + i * <span class="keyword">sizeof</span>(WORD));</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordflow">if</span> ((!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, module_size, nameRVA, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>)))</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordflow">if</span> ((!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, module_size, nameRVA, <span class="keyword">sizeof</span>(DWORD)))</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            || (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, module_size, nameIndex, <span class="keyword">sizeof</span>(WORD))))</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        {</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        }</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* funcRVA = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)(funcsListRVA + (BYTE*)modulePtr + (*nameIndex) * <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, module_size, funcRVA, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>)))</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + (*nameIndex) * <span class="keyword">sizeof</span>(DWORD));</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, module_size, funcRVA, <span class="keyword">sizeof</span>(DWORD)))</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        {</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        }</div>
@@ -245,7 +245,7 @@ $(function() {
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE modulePtr, ULONGLONG moduleBase, <span class="keywordtype">size_t</span> moduleSize, <a class="code" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &amp;currFunc, <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> callRVA)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE modulePtr, ULONGLONG moduleBase, <span class="keywordtype">size_t</span> moduleSize, <a class="code" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &amp;currFunc, DWORD callRVA)</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;{</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordflow">if</span> (add_forwarded(currFunc, callRVA, (BYTE*)modulePtr, moduleSize)) {</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor">#ifdef _DEBUG</span></div>
@@ -289,16 +289,16 @@ $(function() {
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordtype">size_t</span> forwarded_ctr = 0;</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    SIZE_T namesCount = exp-&gt;NumberOfNames;</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> funcsListRVA = exp-&gt;AddressOfFunctions;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> funcNamesListRVA = exp-&gt;AddressOfNames;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> namesOrdsListRVA = exp-&gt;AddressOfNameOrdinals;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    DWORD funcsListRVA = exp-&gt;AddressOfFunctions;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    DWORD funcNamesListRVA = exp-&gt;AddressOfNames;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    DWORD namesOrdsListRVA = exp-&gt;AddressOfNameOrdinals;</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordtype">size_t</span> mapped_ctr = 0;</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordflow">for</span> (SIZE_T i = 0; i &lt; namesCount; i++) {</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* nameRVA = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)(funcNamesListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(DWORD));</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(WORD));</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* funcRVA = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * <span class="keyword">sizeof</span>(DWORD));</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keywordflow">if</span> (*funcRVA == 0) {</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;&gt;&gt;&gt; Skipping 0 function address at RVA:&quot;</span> &lt;&lt; std::hex &lt;&lt; (BYTE*)funcRVA - (BYTE*)modulePtr &lt;&lt; <span class="stringliteral">&quot;(name)\n&quot;</span>;</div>
@@ -310,8 +310,8 @@ $(function() {
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, module_size, name, <span class="keyword">sizeof</span>(<span class="keywordtype">char</span>))) <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> funcOrd = <a class="code" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280">get_ordinal</a>(funcRVA, va_to_ord);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> callRVA = *funcRVA;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        DWORD funcOrd = <a class="code" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280">get_ordinal</a>(funcRVA, va_to_ord);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        DWORD callRVA = *funcRVA;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <a class="code" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> currFunc(dllName, name, funcOrd);</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="keywordtype">int</span> res = add_function_to_lookup(modulePtr, moduleBase, module_size, currFunc, callRVA);</div>
@@ -322,8 +322,8 @@ $(function() {
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    std::map&lt;PDWORD, DWORD&gt;::iterator ord_itr = va_to_ord.begin();</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keywordflow">for</span> (;ord_itr != va_to_ord.end(); ++ord_itr) {</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* funcRVA = ord_itr-&gt;first;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> callRVA = *funcRVA;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        DWORD* funcRVA = ord_itr-&gt;first;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        DWORD callRVA = *funcRVA;</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <a class="code" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> currFunc(dllName, ord_itr-&gt;second);</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="keywordtype">int</span> res = add_function_to_lookup(modulePtr, moduleBase, module_size, currFunc, callRVA);</div>
@@ -337,7 +337,6 @@ $(function() {
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aexports__mapper_8cpp_html_a7c3c7da5858665b6fe9a69bf18d05280"><div class="ttname"><a href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280">get_ordinal</a></div><div class="ttdeci">DWORD get_ordinal(PDWORD recordPtr, std::map&lt; PDWORD, DWORD &gt; &amp;va_to_ord)</div><div class="ttdef"><b>Definition:</b> <a href="exports__mapper_8cpp_source.html#l00122">exports_mapper.cpp:122</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="anamespacepeconv_html_ade9f80c0751d090dd6212d1f74241bf0"><div class="ttname"><a href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0">peconv::get_export_directory</a></div><div class="ttdeci">IMAGE_EXPORT_DIRECTORY * get_export_directory(IN HMODULE modulePtr)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00469">pe_hdrs_helper.cpp:469</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1_exports_mapper_html_a66bec297143444676b938fea64a5dc31"><div class="ttname"><a href="classpeconv_1_1_exports_mapper.html#a66bec297143444676b938fea64a5dc31">peconv::ExportsMapper::add_to_lookup</a></div><div class="ttdeci">size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)</div><div class="ttdef"><b>Definition:</b> <a href="exports__mapper_8cpp_source.html#l00199">exports_mapper.cpp:199</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_adb8774d18c6104ffeeeee028b5244fd7"><div class="ttname"><a href="namespacepeconv.html#adb8774d18c6104ffeeeee028b5244fd7">peconv::format_dll_func</a></div><div class="ttdeci">std::string format_dll_func(const std::string &amp;str)</div><div class="ttdef"><b>Definition:</b> <a href="exported__func_8cpp_source.html#l00081">exported_func.cpp:81</a></div></div>

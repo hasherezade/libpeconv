@@ -93,7 +93,7 @@ $(function() {
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Entry is NOT a directory\n&quot;</span>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> offset = entry-&gt;OffsetToData;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        DWORD offset = entry-&gt;OffsetToData;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Offset: &quot;</span> &lt;&lt; offset &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#endif</span></div>
@@ -115,7 +115,7 @@ $(function() {
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Entry is a directory\n&quot;</span>;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">//else: it is a next level directory</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> offset = entry-&gt;OffsetToDirectory;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    DWORD offset = entry-&gt;OffsetToDirectory;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;Offset: &quot;</span> &lt;&lt; offset &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
@@ -162,7 +162,6 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aresource__parser_8h_html"><div class="ttname"><a href="resource__parser_8h.html">resource_parser.h</a></div><div class="ttdoc">Parsing PE's resource directory.</div></div>
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="aresource__parser_8cpp_html_aa8cc2300e2c0aa30b4c3b465fc3306cb"><div class="ttname"><a href="resource__parser_8cpp.html#aa8cc2300e2c0aa30b4c3b465fc3306cb">parse_resource_dir</a></div><div class="ttdeci">bool parse_resource_dir(BYTE *modulePtr, const size_t moduleSize, IMAGE_RESOURCE_DIRECTORY_ENTRY *root_dir, const IMAGE_RESOURCE_DIRECTORY *upper_dir, IMAGE_RESOURCE_DIRECTORY *curr_dir, peconv::t_on_res_entry_found on_entry)</div><div class="ttdef"><b>Definition:</b> <a href="resource__parser_8cpp_source.html#l00057">resource_parser.cpp:57</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a02f2984cee1eddb5e883917f2c231016"><div class="ttname"><a href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a></div><div class="ttdeci">bool validate_ptr(IN const void *buffer_bgn, IN SIZE_T buffer_size, IN const void *field_bgn, IN SIZE_T field_size)</div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8cpp_source.html#l00009">buffer_util.cpp:9</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ad22e135ef3600e6ebc35b809804f5b68"><div class="ttname"><a href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68">peconv::get_directory_entry</a></div><div class="ttdeci">IMAGE_DATA_DIRECTORY * get_directory_entry(IN const BYTE *pe_buffer, IN DWORD dir_id, IN bool allow_empty=false)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00130">pe_hdrs_helper.cpp:130</a></div></div>

@@ -99,7 +99,7 @@ $(function() {
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifndef _WIN64 // loader is 32 bit, allow to load imports for 32-bit payload:</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            IMAGE_THUNK_DATA32* desc = reinterpret_cast&lt;IMAGE_THUNK_DATA32*&gt;(origFirstThunkPtr);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* call_via = reinterpret_cast&lt;DWORD*&gt;(firstThunkPtr);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            DWORD* call_via = reinterpret_cast&lt;DWORD*&gt;(firstThunkPtr);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">return</span> processThunks_tpl&lt;DWORD, IMAGE_THUNK_DATA32&gt;(lib_name, desc, call_via, IMAGE_ORDINAL_FLAG32);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            std::cerr &lt;&lt; <span class="stringliteral">&quot;[!] Cannot fill imports into 32 bit PE via 64 bit loader!\n&quot;</span>;</div>
@@ -151,7 +151,7 @@ $(function() {
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T_FIELD, <span class="keyword">typename</span> T_IMAGE_THUNK_DATA&gt;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="imports__loader_8cpp.html#aed075f185dfb45800e2086d507f725ab">   82</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="imports__loader_8cpp.html#aed075f185dfb45800e2086d507f725ab">process_imp_functions_tpl</a>(BYTE* modulePtr, <span class="keywordtype">size_t</span> module_size, LPSTR lib_name, <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> call_via, <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> thunk_addr, IN <a class="code" href="classpeconv_1_1_import_thunks_callback.html">ImportThunksCallback</a> *callback)</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="imports__loader_8cpp.html#aed075f185dfb45800e2086d507f725ab">   82</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="imports__loader_8cpp.html#aed075f185dfb45800e2086d507f725ab">process_imp_functions_tpl</a>(BYTE* modulePtr, <span class="keywordtype">size_t</span> module_size, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, IN <a class="code" href="classpeconv_1_1_import_thunks_callback.html">ImportThunksCallback</a> *callback)</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">bool</span> is_ok = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
@@ -216,8 +216,8 @@ $(function() {
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="comment">//invalid name</span></div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        }</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> call_via = lib_desc-&gt;FirstThunk;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> thunk_addr = lib_desc-&gt;OriginalFirstThunk;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        DWORD call_via = lib_desc-&gt;FirstThunk;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        DWORD thunk_addr = lib_desc-&gt;OriginalFirstThunk;</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">if</span> (thunk_addr == NULL) {</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            thunk_addr = lib_desc-&gt;FirstThunk;</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        }</div>
@@ -252,7 +252,7 @@ $(function() {
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordflow">if</span> (!importsDir) {</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="comment">//no import table</span></div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    }</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> impAddr = importsDir-&gt;VirtualAddress;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">const</span> DWORD impAddr = importsDir-&gt;VirtualAddress;</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    IMAGE_IMPORT_DESCRIPTOR *first_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + (ULONG_PTR)modulePtr);</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, moduleSize, first_desc, <span class="keyword">sizeof</span>(IMAGE_IMPORT_DESCRIPTOR))) {</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -307,10 +307,10 @@ $(function() {
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    IMAGE_DATA_DIRECTORY *importsDir = <a class="code" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68">get_directory_entry</a>((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordflow">if</span> (importsDir == NULL) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> impAddr = importsDir-&gt;VirtualAddress;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keyword">const</span> DWORD impAddr = importsDir-&gt;VirtualAddress;</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> parsedSize = 0;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    DWORD parsedSize = 0;</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordtype">size_t</span> valid_records = 0;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordflow">while</span> (<span class="keyword">true</span>) { <span class="comment">//size of the import table doesn&#39;t matter</span></div>
@@ -326,15 +326,15 @@ $(function() {
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc-&gt;Name);</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90">is_valid_import_name</a>(modulePtr, moduleSize, lib_name)) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> call_via = lib_desc-&gt;FirstThunk;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> thunk_addr = lib_desc-&gt;OriginalFirstThunk;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        DWORD call_via = lib_desc-&gt;FirstThunk;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        DWORD thunk_addr = lib_desc-&gt;OriginalFirstThunk;</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="keywordflow">if</span> (thunk_addr == NULL) thunk_addr = lib_desc-&gt;FirstThunk;</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> *thunks = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)((ULONGLONG)modulePtr + thunk_addr);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, moduleSize, thunks, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>))) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        DWORD *thunks = (DWORD*)((ULONGLONG)modulePtr + thunk_addr);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, moduleSize, thunks, <span class="keyword">sizeof</span>(DWORD))) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> *callers = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)((ULONGLONG)modulePtr + call_via);</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, moduleSize, callers, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>))) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        DWORD *callers = (DWORD*)((ULONGLONG)modulePtr + call_via);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(modulePtr, moduleSize, callers, <span class="keyword">sizeof</span>(DWORD))) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        valid_records++;</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    }</div>
@@ -342,7 +342,6 @@ $(function() {
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="keywordflow">return</span> (valid_records &gt; 0);</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="aclass_fill_import_thunks_html_add614b77d5182f19c6abb5b6e2eeb83b"><div class="ttname"><a href="class_fill_import_thunks.html#add614b77d5182f19c6abb5b6e2eeb83b">FillImportThunks::processThunks</a></div><div class="ttdeci">virtual bool processThunks(LPSTR lib_name, ULONG_PTR origFirstThunkPtr, ULONG_PTR firstThunkPtr)</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8cpp_source.html#l00015">imports_loader.cpp:15</a></div></div>
 <div class="ttc" id="aclass_fill_import_thunks_html_addf45ec78fe007d44258b559981f4609"><div class="ttname"><a href="class_fill_import_thunks.html#addf45ec78fe007d44258b559981f4609">FillImportThunks::funcResolver</a></div><div class="ttdeci">t_function_resolver * funcResolver</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8cpp_source.html#l00077">imports_loader.cpp:77</a></div></div>
 <div class="ttc" id="aclass_fill_import_thunks_html"><div class="ttname"><a href="class_fill_import_thunks.html">FillImportThunks</a></div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8cpp_source.html#l00007">imports_loader.cpp:7</a></div></div>

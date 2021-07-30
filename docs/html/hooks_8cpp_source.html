@@ -88,7 +88,7 @@ $(function() {
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">   19</a></span>&#160;    BOOL <a class="code" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">nt_protect</a>(LPVOID lpAddress, SIZE_T dwSize, <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> flNewProtect, PDWORD lpflOldProtect)</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">   19</a></span>&#160;    BOOL <a class="code" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">nt_protect</a>(LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpflOldProtect)</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        FARPROC proc = <a class="code" href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11">peconv::get_exported_func</a>(</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <a class="code" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">peconv::get_module_via_peb</a>(L<span class="stringliteral">&quot;ntdll.dll&quot;</span>),</div>
@@ -101,13 +101,13 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            IN HANDLE,</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            IN OUT PVOID*,</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            IN OUT PSIZE_T,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            IN <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            IN DWORD,</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            OUT PDWORD) =</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            (<a class="code" href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a>(NTAPI *)(</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                IN HANDLE,</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                IN OUT PVOID*,</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                IN OUT PSIZE_T,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                IN <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                IN DWORD,</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                OUT PDWORD)) proc;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        SIZE_T protect_size = dwSize;</div>
@@ -138,7 +138,7 @@ $(function() {
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="classpeconv_1_1_patch_backup.html#af1d324a838c4de3201a1cd3dac36eb98">isBackup</a>()) {</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> oldProtect = 0;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    DWORD oldProtect = 0;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">nt_protect</a>((LPVOID)<a class="code" href="classpeconv_1_1_patch_backup.html#a3f0d04d49b9942f135ff9068ee750ced">sourcePtr</a>, <a class="code" href="classpeconv_1_1_patch_backup.html#a1a63258222234db221ae0190b463cff1">bufferSize</a>, PAGE_EXECUTE_READWRITE, &amp;oldProtect)) {</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
@@ -179,7 +179,7 @@ $(function() {
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;[WARNING] Patching NTDLL is not allowed because of possible stability issues!\n&quot;</span>;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> oldProtect = 0;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    DWORD oldProtect = 0;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">nt_protect</a>((LPVOID)ptr,</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        hook64_size,</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        PAGE_EXECUTE_READWRITE, <span class="comment">//this must be executable if we are hooking kernel32.dll, because we are using VirtualProtect from kernel32 at the same time</span></div>
@@ -201,7 +201,7 @@ $(function() {
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">return</span> hook64_size;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea">  132</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea">peconv::redirect_to_local32</a>(<span class="keywordtype">void</span> *ptr, <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> new_offset, <a class="code" href="classpeconv_1_1_patch_backup.html">PatchBackup</a>* backup)</div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea">  132</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea">peconv::redirect_to_local32</a>(<span class="keywordtype">void</span> *ptr, DWORD new_offset, <a class="code" href="classpeconv_1_1_patch_backup.html">PatchBackup</a>* backup)</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;{</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">if</span> (!ptr) <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
@@ -214,7 +214,7 @@ $(function() {
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;[WARNING] Patching NTDLL is not allowed because of possible stability issues!\n&quot;</span>;</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    }</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> oldProtect = 0;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    DWORD oldProtect = 0;</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">nt_protect</a>((LPVOID)ptr,</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        hook32_size,</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        PAGE_EXECUTE_READWRITE, <span class="comment">//this must be executable if we are hooking kernel32.dll, because we are using VirtualProtect from kernel32 at the same time</span></div>
@@ -226,7 +226,7 @@ $(function() {
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> (backup != <span class="keyword">nullptr</span>) {</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        backup-&gt;<a class="code" href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2">makeBackup</a>((BYTE*)ptr, hook32_size);</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    memcpy(hook_32 + 1, &amp;new_offset, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    memcpy(hook_32 + 1, &amp;new_offset, <span class="keyword">sizeof</span>(DWORD));</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    memcpy(ptr, hook_32, hook32_size);</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <a class="code" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">nt_protect</a>((LPVOID)ptr, hook32_size, oldProtect, &amp;oldProtect);</div>
@@ -241,7 +241,7 @@ $(function() {
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">#ifdef _WIN64</span></div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="namespacepeconv.html#ad2db9ff90abb684282d89b6e22c6b39a">peconv::redirect_to_local64</a>(ptr, (ULONGLONG)new_function_ptr, backup);</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea">peconv::redirect_to_local32</a>(ptr, (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>)new_function_ptr, backup);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea">peconv::redirect_to_local32</a>(ptr, (DWORD)new_function_ptr, backup);</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
@@ -253,15 +253,15 @@ $(function() {
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
 <div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="hooks_8cpp.html#af48839ae565817ce546c278c526e3030">  182</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="hooks_8cpp.html#af48839ae565817ce546c278c526e3030">is_valid_delta</a>(<span class="keywordtype">long</span> <span class="keywordtype">long</span> <span class="keywordtype">int</span> delta)</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;{</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> first_dw = delta &gt;&gt; <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>) * 8;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    DWORD first_dw = delta &gt;&gt; <span class="keyword">sizeof</span>(DWORD) * 8;</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">if</span> (first_dw == 0) {</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> max_dword = <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>(-1);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keyword">const</span> DWORD max_dword = DWORD(-1);</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordflow">if</span> (first_dw != max_dword) {</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    }</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> delta_dw = <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>(delta);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    DWORD delta_dw = DWORD(delta);</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">if</span> (delta_dw &amp; 0x80000000) {</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    }</div>
@@ -285,11 +285,11 @@ $(function() {
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="comment">//too big delta, cannot be saved in a DWORD</span></div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        }</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> delta_dw = <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>(delta);</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        memcpy(patch_ptr + 1, &amp;delta_dw, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        DWORD delta_dw = DWORD(delta);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        memcpy(patch_ptr + 1, &amp;delta_dw, <span class="keyword">sizeof</span>(DWORD));</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="comment">//flush cache:</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        FlushInstructionCache(GetCurrentProcess(), patch_ptr + 1, <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>));</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        FlushInstructionCache(GetCurrentProcess(), patch_ptr + 1, <span class="keyword">sizeof</span>(DWORD));</div>
 <div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    }</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -297,7 +297,6 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclasspeconv_1_1_patch_backup_html_a3f0d04d49b9942f135ff9068ee750ced"><div class="ttname"><a href="classpeconv_1_1_patch_backup.html#a3f0d04d49b9942f135ff9068ee750ced">peconv::PatchBackup::sourcePtr</a></div><div class="ttdeci">BYTE * sourcePtr</div><div class="ttdef"><b>Definition:</b> <a href="hooks_8h_source.html#l00069">hooks.h:69</a></div></div>
 <div class="ttc" id="antddk_8h_html_a7dd9b3f076e3c60859a46a61d9341526"><div class="ttname"><a href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a></div><div class="ttdeci">long NTSTATUS</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l00028">ntddk.h:28</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="ahooks_8h_html"><div class="ttname"><a href="hooks_8h.html">hooks.h</a></div><div class="ttdoc">Functions related to hooking the loaded PE. Reditecting/replacing a functions with another.</div></div>
 <div class="ttc" id="anamespacepeconv_html_a498ab6676d1cac055878ab0be6cbcbb8"><div class="ttname"><a href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">peconv::nt_protect</a></div><div class="ttdeci">BOOL nt_protect(LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpflOldProtect)</div><div class="ttdef"><b>Definition:</b> <a href="hooks_8cpp_source.html#l00019">hooks.cpp:19</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1_patch_backup_html_a1a63258222234db221ae0190b463cff1"><div class="ttname"><a href="classpeconv_1_1_patch_backup.html#a1a63258222234db221ae0190b463cff1">peconv::PatchBackup::bufferSize</a></div><div class="ttdeci">size_t bufferSize</div><div class="ttdef"><b>Definition:</b> <a href="hooks_8h_source.html#l00067">hooks.h:67</a></div></div>
@@ -320,7 +319,7 @@ $(function() {
 <div class="ttc" id="aclasspeconv_1_1_patch_backup_html_a39e33bcc6a1558a6768357ddf4ffbb50"><div class="ttname"><a href="classpeconv_1_1_patch_backup.html#a39e33bcc6a1558a6768357ddf4ffbb50">peconv::PatchBackup::applyBackup</a></div><div class="ttdeci">bool applyBackup()</div><div class="ttdef"><b>Definition:</b> <a href="hooks_8cpp_source.html#l00064">hooks.cpp:64</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1_patch_backup_html_af1d324a838c4de3201a1cd3dac36eb98"><div class="ttname"><a href="classpeconv_1_1_patch_backup.html#af1d324a838c4de3201a1cd3dac36eb98">peconv::PatchBackup::isBackup</a></div><div class="ttdeci">bool isBackup()</div><div class="ttdef"><b>Definition:</b> <a href="hooks_8h_source.html#l00060">hooks.h:60</a></div></div>
 <div class="ttc" id="apeb__lookup_8h_html"><div class="ttname"><a href="peb__lookup_8h.html">peb_lookup.h</a></div><div class="ttdoc">Functions for retrieving process information from PEB.</div></div>
-<div class="ttc" id="anamespacepeconv_html_aad22870e562a1bf1a8972c0f1ba88056"><div class="ttname"><a href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a></div><div class="ttdeci">bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00145">util.cpp:145</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_aad22870e562a1bf1a8972c0f1ba88056"><div class="ttname"><a href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a></div><div class="ttdeci">bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00150">util.cpp:150</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ab9419aae3425d44292f606c7d6348fea"><div class="ttname"><a href="namespacepeconv.html#ab9419aae3425d44292f606c7d6348fea">peconv::redirect_to_local32</a></div><div class="ttdeci">size_t redirect_to_local32(void *ptr, DWORD new_offset, PatchBackup *backup=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="hooks_8cpp_source.html#l00132">hooks.cpp:132</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1_patch_backup_html"><div class="ttname"><a href="classpeconv_1_1_patch_backup.html">peconv::PatchBackup</a></div><div class="ttdef"><b>Definition:</b> <a href="hooks_8h_source.html#l00021">hooks.h:21</a></div></div>
 <div class="ttc" id="apeconv_8h_html"><div class="ttname"><a href="peconv_8h.html">peconv.h</a></div><div class="ttdoc">Master include file, including everything else.</div></div>

@@ -80,8 +80,8 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">if</span> (!dir) {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    }</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> entry_rva = dir-&gt;VirtualAddress;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> entry_size = dir-&gt;Size;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    DWORD entry_rva = dir-&gt;VirtualAddress;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    DWORD entry_size = dir-&gt;Size;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">if</span> (!<a class="code" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016">peconv::validate_ptr</a>(buffer, buf_size, buffer + entry_rva, entry_size)) {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
@@ -128,7 +128,6 @@ $(function() {
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="namespacepeconv.html#afb17360c7076dbaebd8629b02b7f3614a99042506e7dea4c1f2335a6a8e31ffa4">LOAD_CONFIG_UNK_VER</a>;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="anamespacepeconv_html_a9aca6bacca6d5cb60ef459d0da033def"><div class="ttname"><a href="namespacepeconv.html#a9aca6bacca6d5cb60ef459d0da033def">peconv::IMAGE_LOAD_CONFIG_DIR32_W10</a></div><div class="ttdeci">struct peconv::_IMAGE_LOAD_CONFIG_DIR32_W10 IMAGE_LOAD_CONFIG_DIR32_W10</div></div>
 <div class="ttc" id="anamespacepeconv_html_a2f40e0e53ef6ac8104faf550e5b41bf5"><div class="ttname"><a href="namespacepeconv.html#a2f40e0e53ef6ac8104faf550e5b41bf5">peconv::get_load_config_ptr</a></div><div class="ttdeci">BYTE * get_load_config_ptr(BYTE *buffer, size_t buf_size)</div><div class="ttdef"><b>Definition:</b> <a href="load__config__util_8cpp_source.html#l00004">load_config_util.cpp:4</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a1cb0aa764a707979e6db301232efacc6"><div class="ttname"><a href="namespacepeconv.html#a1cb0aa764a707979e6db301232efacc6">peconv::IMAGE_LOAD_CONFIG_DIR64_W8</a></div><div class="ttdeci">struct peconv::_IMAGE_LOAD_CONFIG_DIR64_W8 IMAGE_LOAD_CONFIG_DIR64_W8</div></div>

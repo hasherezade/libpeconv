@@ -92,7 +92,7 @@ $(function() {
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keywordflow">return</span> processThunks_tpl&lt;ULONGLONG, IMAGE_THUNK_DATA64&gt;(lib_name, desc, call_via, IMAGE_ORDINAL_FLAG64);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        }</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        IMAGE_THUNK_DATA32* desc = reinterpret_cast&lt;IMAGE_THUNK_DATA32*&gt;(origFirstThunkPtr);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* call_via = reinterpret_cast&lt;DWORD*&gt;(firstThunkPtr);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        DWORD* call_via = reinterpret_cast&lt;DWORD*&gt;(firstThunkPtr);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">return</span> processThunks_tpl&lt;DWORD, IMAGE_THUNK_DATA32&gt;(lib_name, desc, call_via, IMAGE_ORDINAL_FLAG32);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
@@ -100,7 +100,7 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T_FIELD, <span class="keyword">typename</span> T_IMAGE_THUNK_DATA&gt;</div>
 <div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_list_import_names.html#a8fbc69bc3c338d3706ec90d82a8c592d">   29</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_list_import_names.html#a8fbc69bc3c338d3706ec90d82a8c592d">processThunks_tpl</a>(LPSTR lib_name, T_IMAGE_THUNK_DATA* desc, T_FIELD* call_via, T_FIELD ordinal_flag)</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> call_via_rva = static_cast&lt;DWORD&gt;((ULONG_PTR)call_via - (ULONG_PTR)this-&gt;<a class="code" href="classpeconv_1_1_import_thunks_callback.html#a757fffb4a19309ab49bbb3f3c64369f0">modulePtr</a>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        DWORD call_via_rva = static_cast&lt;DWORD&gt;((ULONG_PTR)call_via - (ULONG_PTR)this-&gt;<a class="code" href="classpeconv_1_1_import_thunks_callback.html#a757fffb4a19309ab49bbb3f3c64369f0">modulePtr</a>);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;via RVA: &quot;</span> &lt;&lt; std::hex &lt;&lt; call_via_rva &lt;&lt; <span class="stringliteral">&quot; : &quot;</span>;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#endif</span></div>
@@ -119,7 +119,7 @@ $(function() {
 <div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_list_import_names.html#aa592fe4050b107389850cfbac25acc1f">   47</a></span>&#160;    std::map&lt;std::string, DWORD&gt; &amp;<a class="code" href="class_list_import_names.html#aa592fe4050b107389850cfbac25acc1f">nameToAddr</a>;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b">   50</a></span>&#160;<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> <a class="code" href="fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b">find_corexemain</a>(BYTE *buf, <span class="keywordtype">size_t</span> buf_size)</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b">   50</a></span>&#160;DWORD <a class="code" href="fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b">find_corexemain</a>(BYTE *buf, <span class="keywordtype">size_t</span> buf_size)</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::map&lt;std::string, DWORD&gt; name_to_addr;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="class_list_import_names.html">ListImportNames</a> callback(buf, buf_size, name_to_addr);</div>
@@ -134,14 +134,14 @@ $(function() {
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="fix__dot__net__ep_8h.html#ace75081cd3fd63b0edd8bec6cc17d8f8">   65</a></span>&#160;BYTE* <a class="code" href="fix__dot__net__ep_8cpp.html#ace75081cd3fd63b0edd8bec6cc17d8f8">search_jump</a>(BYTE *buf, <span class="keywordtype">size_t</span> buf_size, <span class="keyword">const</span> <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> cor_exe_main_thunk, <span class="keyword">const</span> ULONGLONG img_base)</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="fix__dot__net__ep_8h.html#ace75081cd3fd63b0edd8bec6cc17d8f8">   65</a></span>&#160;BYTE* <a class="code" href="fix__dot__net__ep_8cpp.html#ace75081cd3fd63b0edd8bec6cc17d8f8">search_jump</a>(BYTE *buf, <span class="keywordtype">size_t</span> buf_size, <span class="keyword">const</span> DWORD cor_exe_main_thunk, <span class="keyword">const</span> ULONGLONG img_base)</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;{</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">// search the jump pattern, i.e.:</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">//JMP DWORD NEAR [0X402000] : FF 25 00204000</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> jmp_size = 2;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">const</span> BYTE jmp_pattern[jmp_size] = { 0xFF, 0x25 };</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> arg_size = <span class="keyword">sizeof</span>(<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">size_t</span> arg_size = <span class="keyword">sizeof</span>(DWORD);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">if</span> ((jmp_size + arg_size) &gt; buf_size) {</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
@@ -152,8 +152,8 @@ $(function() {
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        i--) <span class="comment">// go back by one BYTE</span></div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    {</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">if</span> (buf[i] == jmp_pattern[0] &amp;&amp; buf[i + 1] == jmp_pattern[1]) { <span class="comment">// JMP</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>* addr = (<a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a>*)(&amp;buf[i + jmp_size]);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> rva = static_cast&lt;DWORD&gt;((*addr) - img_base);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            DWORD* addr = (DWORD*)(&amp;buf[i + jmp_size]);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            DWORD rva = static_cast&lt;DWORD&gt;((*addr) - img_base);</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">if</span> (rva == cor_exe_main_thunk) {</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                std::cout &lt;&lt; <span class="stringliteral">&quot;Found call to _CorExeMain\n&quot;</span>;</div>
@@ -178,7 +178,7 @@ $(function() {
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    }</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> ep_rva = <a class="code" href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a>(pe_buffer);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    DWORD ep_rva = <a class="code" href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a>(pe_buffer);</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;[*] This is a .NET payload and may require Enty Point correction. Current EP: &quot;</span> &lt;&lt; std::hex &lt;&lt; ep_rva &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    PIMAGE_SECTION_HEADER sec_hdr = <a class="code" href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c">peconv::get_section_hdr</a>(pe_buffer, pe_buffer_size, 0);</div>
@@ -189,7 +189,7 @@ $(function() {
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    ULONGLONG img_base = <a class="code" href="namespacepeconv.html#a413347caca570436e87a5dedc988660d">peconv::get_image_base</a>(pe_buffer);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> cor_exe_main_thunk = <a class="code" href="fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b">find_corexemain</a>(pe_buffer, pe_buffer_size);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    DWORD cor_exe_main_thunk = <a class="code" href="fix__dot__net__ep_8cpp.html#afc946fd358af361f6c6305f0cf56534b">find_corexemain</a>(pe_buffer, pe_buffer_size);</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">if</span> (!cor_exe_main_thunk) {</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    }</div>
@@ -218,7 +218,6 @@ $(function() {
 <div class="ttc" id="aclass_list_import_names_html_a943c16591ee9e07b17de1dcf48754558"><div class="ttname"><a href="class_list_import_names.html#a943c16591ee9e07b17de1dcf48754558">ListImportNames::ListImportNames</a></div><div class="ttdeci">ListImportNames(BYTE *_modulePtr, size_t _moduleSize, std::map&lt; std::string, DWORD &gt; &amp;name_to_addr)</div><div class="ttdef"><b>Definition:</b> <a href="fix__dot__net__ep_8cpp_source.html#l00010">fix_dot_net_ep.cpp:10</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1_import_thunks_callback_html_a757fffb4a19309ab49bbb3f3c64369f0"><div class="ttname"><a href="classpeconv_1_1_import_thunks_callback.html#a757fffb4a19309ab49bbb3f3c64369f0">peconv::ImportThunksCallback::modulePtr</a></div><div class="ttdeci">BYTE * modulePtr</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8h_source.html#l00037">imports_loader.h:37</a></div></div>
 <div class="ttc" id="aclass_list_import_names_html"><div class="ttname"><a href="class_list_import_names.html">ListImportNames</a></div><div class="ttdef"><b>Definition:</b> <a href="fix__dot__net__ep_8cpp_source.html#l00007">fix_dot_net_ep.cpp:7</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="anamespacepeconv_html_a004e65e7a4fa036bfc18dcf4091b985d"><div class="ttname"><a href="namespacepeconv.html#a004e65e7a4fa036bfc18dcf4091b985d">peconv::update_entry_point_rva</a></div><div class="ttdeci">bool update_entry_point_rva(IN OUT BYTE *pe_buffer, IN DWORD ep)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00190">pe_hdrs_helper.cpp:190</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a12d3fa7eccb95cafc6d2be997965e97c"><div class="ttname"><a href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a></div><div class="ttdeci">DWORD get_entry_point_rva(IN const BYTE *pe_buffer)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00171">pe_hdrs_helper.cpp:171</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_aa66eb25442292a01f9fcd0f1e4da899f"><div class="ttname"><a href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f">peconv::is64bit</a></div><div class="ttdeci">bool is64bit(IN const BYTE *pe_buffer)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00121">pe_hdrs_helper.cpp:121</a></div></div>

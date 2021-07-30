@@ -91,7 +91,7 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            desired_base = <a class="code" href="namespacepeconv.html#a413347caca570436e87a5dedc988660d">get_image_base</a>(dllRawData);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            out_size = <a class="code" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a>(dllRawData);</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">DWORD</a> protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        DWORD protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        BYTE* mappedPE = <a class="code" href="namespacepeconv.html#a92647f207ca261ca38ff516943501dd1">peconv::alloc_pe_buffer</a>(out_size, protect, desired_base);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">if</span> (!mappedPE) {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordflow">return</span> NULL;</div>
@@ -193,7 +193,6 @@ $(function() {
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">return</span> loaded_pe;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacepeconv_html_abff674ea8e527f49f9741ff81596a15d"><div class="ttname"><a href="namespacepeconv.html#abff674ea8e527f49f9741ff81596a15d">peconv::DWORD</a></div><div class="ttdeci">DWORD(WINAPI *g_GetProcessId)(IN HANDLE Process)</div></div>
 <div class="ttc" id="ape__hdrs__helper_8h_html_a7d467c1d283fdfa1f2081ba1e0d01b6e"><div class="ttname"><a href="pe__hdrs__helper_8h.html#a7d467c1d283fdfa1f2081ba1e0d01b6e">PAGE_SIZE</a></div><div class="ttdeci">#define PAGE_SIZE</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8h_source.html#l00012">pe_hdrs_helper.h:12</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ab2271a167be8077d8ca0ab9b9bf9483f"><div class="ttname"><a href="namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f">peconv::get_sections_count</a></div><div class="ttdeci">size_t get_sections_count(IN const BYTE *buffer, IN const size_t buffer_size)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00319">pe_hdrs_helper.cpp:319</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ae064b93af2489f2ba43b42fdfff2f2a3"><div class="ttname"><a href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3">peconv::get_nt_hdrs</a></div><div class="ttdeci">BYTE * get_nt_hdrs(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_size=0)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00010">pe_hdrs_helper.cpp:10</a></div></div>
