@@ -32,8 +32,8 @@ namespace peconv {
     /**
     Wrapper over ReadProcessMemory. Requires a handle with privilege PROCESS_VM_READ.
     If reading full buffer_size was not possible, it will keep trying to read a smaller chunk,
-    decreasing requested size by step_size in each iteration. Returns how many bytes were successfuly read.
-    It is a workaround for errors such as FAULTY_HARDWARE_CORRUPTED_PAGE. 
+    decreasing requested size by step_size in each iteration (it is a workaround for errors such as FAULTY_HARDWARE_CORRUPTED_PAGE).
+    Returns how many bytes were successfuly read.
     \param processHandle : handle of the process where the memory of interest belongs
     \param start_addr : the address within the remote process to start reading from
     \param buffer : the buffer where the read data will be stored
