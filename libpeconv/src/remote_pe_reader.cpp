@@ -53,6 +53,11 @@ ULONGLONG peconv::fetch_alloc_base(HANDLE processHandle, LPVOID moduleBase)
 }
 
 namespace peconv {
+    /**
+    Performs a binary search along with ReadProcessMemory, trying to find the biggest size of memory (within the buffer_size) that can be read. The search stops when the minimal_size was reached.
+    The given minimal_size must be non-zero, and smaller than the buffer_size.
+    If the size matching the constraints was found, it reads that many bytes to the buffer.
+    */
     SIZE_T _search_readable_size(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, const SIZE_T minimal_size)
     {
         if (!buffer || buffer_size == 0) {
