@@ -272,7 +272,7 @@ namespace peconv {
     }
 };
 
-peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID start_addr, const size_t section_num, OUT size_t &section_size, bool roundup)
+peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID start_addr, const size_t section_num, OUT size_t &section_size, bool roundup, bool force_access)
 {
     BYTE header_buffer[MAX_HEADER_SIZE] = { 0 };
 
@@ -293,7 +293,7 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID
     if (module_code == NULL) {
         return NULL;
     }
-    size_t read_size = read_remote_memory(processHandle, LPVOID((ULONG_PTR)start_addr + section_hdr->VirtualAddress), module_code, buffer_size);
+    size_t read_size = read_remote_region(processHandle, LPVOID((ULONG_PTR)start_addr + section_hdr->VirtualAddress), module_code, buffer_size, force_access);
     if (read_size == 0) {
         peconv::free_unaligned(module_code);
         return NULL;

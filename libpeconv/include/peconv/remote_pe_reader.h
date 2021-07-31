@@ -91,9 +91,11 @@ namespace peconv {
     \param sectionNum : number of the section to be read
     \param sectionSize : the size of the read section (output)
     \param roundup : if set, the section size is roundup to the alignment unit
+    \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading.
+    WARNING: force_access should be used only on a suspended process, or a process relection, otherwise it may cause instability.
     \return a buffer containing a copy of the section.
     */
-    peconv::UNALIGNED_BUF get_remote_pe_section(HANDLE processHandle, LPVOID moduleBase, const size_t sectionNum, OUT size_t &sectionSize, bool roundup = false);
+    peconv::UNALIGNED_BUF get_remote_pe_section(HANDLE processHandle, LPVOID moduleBase, const size_t sectionNum, OUT size_t &sectionSize, bool roundup, bool force_access);
 
     /**
     Reads PE file from the remote process into the supplied buffer. It expects the module base and size to be given.
