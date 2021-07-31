@@ -206,6 +206,7 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
     }
     memset(buffer, 0, buffer_size);
 
+    size_t real_read = 0; //how many bytes has been realy read (not counting the skipped areas)
     size_t total_read = 0;
     for (total_read = 0; total_read < buffer_size; ) {
         LPVOID remote_chunk = LPVOID((ULONG_PTR)start_addr + total_read);
@@ -226,7 +227,11 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
             total_read += region_size;
             continue;
         }
+        real_read += read_chunk;
         total_read += read_chunk;
+    }
+    if (real_read == 0) {
+        return 0;
     }
     return total_read;
 }
