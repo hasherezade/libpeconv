@@ -95,7 +95,7 @@ namespace peconv {
     WARNING: force_access should be used only on a suspended process, or a process relection, otherwise it may cause instability.
     \return a buffer containing a copy of the section.
     */
-    peconv::UNALIGNED_BUF get_remote_pe_section(HANDLE processHandle, LPVOID moduleBase, const size_t sectionNum, OUT size_t &sectionSize, bool roundup, bool force_access);
+    peconv::UNALIGNED_BUF get_remote_pe_section(HANDLE processHandle, LPVOID moduleBase, const size_t sectionNum, OUT size_t &sectionSize, bool roundup, bool force_access = false);
 
     /**
     Reads PE file from the remote process into the supplied buffer. It expects the module base and size to be given.
