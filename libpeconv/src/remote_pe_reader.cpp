@@ -298,7 +298,11 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID
     if (module_code == NULL) {
         return NULL;
     }
-    size_t read_size = read_remote_area(processHandle, LPVOID((ULONG_PTR)start_addr + section_hdr->VirtualAddress), module_code, buffer_size, force_access);
+    size_t read_size = peconv::read_remote_memory(processHandle, LPVOID((ULONG_PTR)start_addr + section_hdr->VirtualAddress), module_code, buffer_size);
+    if (read_size == 0) {
+        // this function is slower, so use it only if the normal read has failed:
+        read_size = read_remote_area(processHandle, LPVOID((ULONG_PTR)start_addr + section_hdr->VirtualAddress), module_code, buffer_size, force_access);
+    }
     if (read_size == 0) {
         peconv::free_unaligned(module_code);
         return NULL;
