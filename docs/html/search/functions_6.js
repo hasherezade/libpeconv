@@ -41,7 +41,7 @@ var searchData=
   ['get_5fpeb_1906',['get_peb',['../peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c',1,'peb_lookup.cpp']]],
   ['get_5fprocess_5fid_1907',['get_process_id',['../namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8',1,'peconv']]],
   ['get_5fremote_5fimage_5fsize_1908',['get_remote_image_size',['../namespacepeconv.html#afeeccff87d7eb9e791519cedb70c3626',1,'peconv']]],
-  ['get_5fremote_5fpe_5fsection_1909',['get_remote_pe_section',['../namespacepeconv.html#a3a492f6a95ca9cfced4b43fadb009c27',1,'peconv']]],
+  ['get_5fremote_5fpe_5fsection_1909',['get_remote_pe_section',['../namespacepeconv.html#a0a89659d1d02f1ef3dd315ef869da312',1,'peconv']]],
   ['get_5fsec_5falignment_1910',['get_sec_alignment',['../namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c',1,'peconv']]],
   ['get_5fsection_5fhdr_1911',['get_section_hdr',['../namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c',1,'peconv']]],
   ['get_5fsections_5fcount_1912',['get_sections_count',['../namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f',1,'peconv']]],
