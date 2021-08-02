@@ -1,6 +1,11 @@
-#pragma once
-#include <windows.h>
+/**
+* @file
+* @brief   Definitions of various versions of Load Config Directory (new fields added with new versions for Windows).
+*/
 
+#pragma once
+
+#include <windows.h>
 #include <pshpack4.h>
 
 namespace peconv {
