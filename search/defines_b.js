@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['reloc_5f32bit_5ffield_3279',['RELOC_32BIT_FIELD',['../relocate_8cpp.html#ad36edd25a9efdb8be96732f5e2bde561',1,'relocate.cpp']]],
+  ['reloc_5f64bit_5ffield_3280',['RELOC_64BIT_FIELD',['../relocate_8cpp.html#a243290c3931587e27cfacbb8cebf9aa4',1,'relocate.cpp']]],
+  ['rtl_5fquery_5fregistry_5fdelete_3281',['RTL_QUERY_REGISTRY_DELETE',['../ntddk_8h.html#ad14c6432c41226c2aeb3a57fbbb6259e',1,'ntddk.h']]],
+  ['rtl_5fquery_5fregistry_5fdirect_3282',['RTL_QUERY_REGISTRY_DIRECT',['../ntddk_8h.html#a988a60bc626d7b297d869d8c9b03ab41',1,'ntddk.h']]],
+  ['rtl_5fquery_5fregistry_5fnoexpand_3283',['RTL_QUERY_REGISTRY_NOEXPAND',['../ntddk_8h.html#a5ea7486f41d1f0e695a91f35cc9ebafa',1,'ntddk.h']]],
+  ['rtl_5fquery_5fregistry_5fnovalue_3284',['RTL_QUERY_REGISTRY_NOVALUE',['../ntddk_8h.html#ade009ceb0bf1163bc10b21bae26c4657',1,'ntddk.h']]],
+  ['rtl_5fquery_5fregistry_5frequired_3285',['RTL_QUERY_REGISTRY_REQUIRED',['../ntddk_8h.html#a92ff864669b309121d18f0e4c925ed19',1,'ntddk.h']]],
+  ['rtl_5fquery_5fregistry_5fsubkey_3286',['RTL_QUERY_REGISTRY_SUBKEY',['../ntddk_8h.html#a2c4a3e92db30496fa3a117ffa461f35d',1,'ntddk.h']]],
+  ['rtl_5fquery_5fregistry_5ftopkey_3287',['RTL_QUERY_REGISTRY_TOPKEY',['../ntddk_8h.html#a974676fb6fa9193eb3d661639e427764',1,'ntddk.h']]],
+  ['rtl_5fregistry_5fabsolute_3288',['RTL_REGISTRY_ABSOLUTE',['../ntddk_8h.html#a6604a8babb329baba07e91693c3335f1',1,'ntddk.h']]],
+  ['rtl_5fregistry_5fcontrol_3289',['RTL_REGISTRY_CONTROL',['../ntddk_8h.html#a0a6efe221e0c0cb6b87a71a69399bc3a',1,'ntddk.h']]],
+  ['rtl_5fregistry_5fdevicemap_3290',['RTL_REGISTRY_DEVICEMAP',['../ntddk_8h.html#a923b4aab796ff6923511a5ad79ce7724',1,'ntddk.h']]],
+  ['rtl_5fregistry_5fhandle_3291',['RTL_REGISTRY_HANDLE',['../ntddk_8h.html#af4158a8e5b117521878ac6bd99fa3abc',1,'ntddk.h']]],
+  ['rtl_5fregistry_5fmaximum_3292',['RTL_REGISTRY_MAXIMUM',['../ntddk_8h.html#ad6b8b3003770d85fe7857afccaad7b94',1,'ntddk.h']]],
+  ['rtl_5fregistry_5foptional_3293',['RTL_REGISTRY_OPTIONAL',['../ntddk_8h.html#ae1c825ef0f0305e45a1e68ea18b29e35',1,'ntddk.h']]],
+  ['rtl_5fregistry_5fservices_3294',['RTL_REGISTRY_SERVICES',['../ntddk_8h.html#ab31f7397a65c8243212279bef44ed569',1,'ntddk.h']]],
+  ['rtl_5fregistry_5fuser_3295',['RTL_REGISTRY_USER',['../ntddk_8h.html#a98fdb96bfdea7d2d0869518565a8a52b',1,'ntddk.h']]],
+  ['rtl_5fregistry_5fwindows_5fnt_3296',['RTL_REGISTRY_WINDOWS_NT',['../ntddk_8h.html#a7d1e4255d08abb06da159b52a82456f3',1,'ntddk.h']]],
+  ['rtlprocessheap_3297',['RtlProcessHeap',['../ntddk_8h.html#a868e617914bbd2dc44c740eac85b17df',1,'ntddk.h']]]
+];

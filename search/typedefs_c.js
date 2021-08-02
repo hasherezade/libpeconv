@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['secondstruct_2948',['SecondStruct',['../ntddk_8h.html#ab4a9251458f9e3e4ccdae4d09170ed52',1,'ntddk.h']]],
+  ['section_5finformation_5fclass_2949',['SECTION_INFORMATION_CLASS',['../ntddk_8h.html#a2a32e945804ae9b8d0f408e53b8adec0',1,'ntddk.h']]],
+  ['section_5finherit_2950',['SECTION_INHERIT',['../ntddk_8h.html#a8236d6b0852f8f2e6b74e858db454caf',1,'ntddk.h']]],
+  ['shutdown_5faction_2951',['SHUTDOWN_ACTION',['../ntddk_8h.html#a35c4066e09a516520c8dd959a48db156',1,'ntddk.h']]],
+  ['string_2952',['STRING',['../ntddk_8h.html#ac775ea6f789f1f0908bcfe9556100514',1,'ntddk.h']]],
+  ['system_5fbasic_5finformation_2953',['SYSTEM_BASIC_INFORMATION',['../ntddk_8h.html#a5e1f68d1f9759c0691b7c1ae3dbb703d',1,'ntddk.h']]],
+  ['system_5fdevice_5finformation_2954',['SYSTEM_DEVICE_INFORMATION',['../ntddk_8h.html#af2dc850b51f67ecdea11987b4e538b7c',1,'ntddk.h']]],
+  ['system_5fflags_5finformation_2955',['SYSTEM_FLAGS_INFORMATION',['../ntddk_8h.html#abdb7563d179896d98e31344ecdbff88d',1,'ntddk.h']]],
+  ['system_5finformation_5fclass_2956',['SYSTEM_INFORMATION_CLASS',['../ntddk_8h.html#ae75edb0a85f69b42a96960e023f58c47',1,'ntddk.h']]],
+  ['system_5fmodule_2957',['SYSTEM_MODULE',['../ntddk_8h.html#a7bbab47ef73b0b1313031dc3cbfe8964',1,'ntddk.h']]],
+  ['system_5fmodule_5finformation_2958',['SYSTEM_MODULE_INFORMATION',['../ntddk_8h.html#ab544297b0d5c1d52d774046be13f483d',1,'ntddk.h']]],
+  ['system_5fperformance_5finformation_2959',['SYSTEM_PERFORMANCE_INFORMATION',['../ntddk_8h.html#ac5bc328cf2bb2f0a9c0b0bbbdfe692f5',1,'ntddk.h']]],
+  ['system_5fprocess_5finformation_2960',['SYSTEM_PROCESS_INFORMATION',['../ntddk_8h.html#ae92e0931b2c1e8d9bb12c5a21175187e',1,'ntddk.h']]],
+  ['system_5fprocessor_5finformation_2961',['SYSTEM_PROCESSOR_INFORMATION',['../ntddk_8h.html#aed850a484e818f00b6812ff90a4bd309',1,'ntddk.h']]],
+  ['system_5fprocessor_5fperformance_5finformation_2962',['SYSTEM_PROCESSOR_PERFORMANCE_INFORMATION',['../ntddk_8h.html#a21345a6c332a293fe0ad94523e057515',1,'ntddk.h']]],
+  ['system_5ftimeofday_5finformation_2963',['SYSTEM_TIMEOFDAY_INFORMATION',['../ntddk_8h.html#a08e54a44a9ea75de57bbac1a4affa2e6',1,'ntddk.h']]]
+];
