@@ -70,7 +70,7 @@ $(function() {
 <div class="title">peb_lookup.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="peb__lookup_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ntddk_8h.html">ntddk.h</a>&quot;</span></div>
+<a href="peb__lookup_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ntddk.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="peb__lookup_8h.html">peconv/peb_lookup.h</a>&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
@@ -79,12 +79,12 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_section_locker.html#a2692f118109a400d4bc4e160895e89df">    7</a></span>&#160;    <a class="code" href="class_section_locker.html#a2692f118109a400d4bc4e160895e89df">SectionLocker</a>(RTL_CRITICAL_SECTION &amp;_section)</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        : <a class="code" href="class_section_locker.html#ad19c0b987a04832ef86726eda536d834">section</a>(_section)</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <a class="code" href="ntddk_8h.html#ac9bb2adaee7154df698b43e044505f84">RtlEnterCriticalSection</a>(&amp;<a class="code" href="class_section_locker.html#ad19c0b987a04832ef86726eda536d834">section</a>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        RtlEnterCriticalSection(&amp;<a class="code" href="class_section_locker.html#ad19c0b987a04832ef86726eda536d834">section</a>);</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    }</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="class_section_locker.html#ab6e725b899702cf9c3fe0f068ab64520">   13</a></span>&#160;    <a class="code" href="class_section_locker.html#ab6e725b899702cf9c3fe0f068ab64520">~SectionLocker</a>()</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="ntddk_8h.html#a8db55f17ca33b3ddad5e1d0aa8b22d63">RtlLeaveCriticalSection</a>(&amp;<a class="code" href="class_section_locker.html#ad19c0b987a04832ef86726eda536d834">section</a>);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        RtlLeaveCriticalSection(&amp;<a class="code" href="class_section_locker.html#ad19c0b987a04832ef86726eda536d834">section</a>);</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    }</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">protected</span>:</div>
@@ -100,8 +100,8 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#ac1e771f5736a9d5d9a5d41cc94161587">   28</a></span>&#160;    <span class="keywordtype">void</span>*   <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#ac1e771f5736a9d5d9a5d41cc94161587">BaseAddress</a>; <span class="comment">// +0x18 </span></div>
 <div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#a7834d9a3fce5c1f20dfb15c959187a60">   29</a></span>&#160;    <span class="keywordtype">void</span>*   <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#a7834d9a3fce5c1f20dfb15c959187a60">EntryPoint</a>;  <span class="comment">// +0x1c </span></div>
 <div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#a2d1ab5c58f2176667b85246bd54355ff">   30</a></span>&#160;    ULONG   <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#a2d1ab5c58f2176667b85246bd54355ff">SizeOfImage</a>; </div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#a16913d808e5ef65c64884f8f439b1b47">   31</a></span>&#160;    <a class="code" href="struct___u_n_i_c_o_d_e___s_t_r_i_n_g.html">UNICODE_STRING</a> <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#a16913d808e5ef65c64884f8f439b1b47">FullDllName</a>; </div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">   32</a></span>&#160;    <a class="code" href="struct___u_n_i_c_o_d_e___s_t_r_i_n_g.html">UNICODE_STRING</a> <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">BaseDllName</a>; </div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#a16913d808e5ef65c64884f8f439b1b47">   31</a></span>&#160;    UNICODE_STRING <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#a16913d808e5ef65c64884f8f439b1b47">FullDllName</a>; </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">   32</a></span>&#160;    UNICODE_STRING <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">BaseDllName</a>; </div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#a91f952631b22cdd1845354b0b805c301">   33</a></span>&#160;    ULONG   <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#a91f952631b22cdd1845354b0b805c301">Flags</a>; </div>
 <div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#aca0ffd55c95c4efcf419690a32abd6e6">   34</a></span>&#160;    SHORT   <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#aca0ffd55c95c4efcf419690a32abd6e6">LoadCount</a>; </div>
 <div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#a3295907078146d57a4e3c9dabc6e6934">   35</a></span>&#160;    SHORT   <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#a3295907078146d57a4e3c9dabc6e6934">TlsIndex</a>; </div>
@@ -110,12 +110,12 @@ $(function() {
 <div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="struct___l_d_r___m_o_d_u_l_e.html#a5d8daac31ccaf3be01366692d9b5be76">   38</a></span>&#160;    ULONG   <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#a5d8daac31ccaf3be01366692d9b5be76">TimeDateStamp</a>; </div>
 <div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="peb__lookup_8cpp.html#af2f5b3d0301120cc8f2ba9cc188ef38d">   39</a></span>&#160;} <a class="code" href="peb__lookup_8cpp.html#af2f5b3d0301120cc8f2ba9cc188ef38d">LDR_MODULE</a>, *<a class="code" href="peb__lookup_8cpp.html#a27abfabc1173f89eb02464af4efce9e7">PLDR_MODULE</a>;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">   41</a></span>&#160;<span class="keyword">inline</span> <a class="code" href="struct___p_e_b.html">PPEB</a> <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>()</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">   41</a></span>&#160;<span class="keyword">inline</span> PPEB <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>()</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#if defined(_WIN64)</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> (<a class="code" href="struct___p_e_b.html">PPEB</a>)__readgsqword(0x60);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> (PPEB)__readgsqword(0x60);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> (<a class="code" href="struct___p_e_b.html">PPEB</a>)__readfsdword(0x30);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> (PPEB)__readfsdword(0x30);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">//alternative way to fetch it:</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">    LPVOID PEB = NULL;</span></div>
@@ -168,12 +168,12 @@ $(function() {
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
 <div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">   97</a></span>&#160;HMODULE <a class="code" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">peconv::get_module_via_peb</a>(IN OPTIONAL LPWSTR module_name)</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;{</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="struct___p_e_b.html">PPEB</a> peb = <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    PPEB peb = <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">if</span> (!peb) {</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="class_section_locker.html">SectionLocker</a> locker(*peb-&gt;<a class="code" href="struct___p_e_b.html#a248ef72b632fc1a690ab4a2f5b77af74">LoaderLock</a>);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    LIST_ENTRY head = peb-&gt;<a class="code" href="struct___p_e_b.html#a29c84508296ee2568339d06368fbaf70">Ldr</a>-&gt;<a class="code" href="struct___p_e_b___l_d_r___d_a_t_a.html#ab301a08e20a78a7f334bfd351a0cca25">InLoadOrderModuleList</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <a class="code" href="class_section_locker.html">SectionLocker</a> locker(*peb-&gt;LoaderLock);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    LIST_ENTRY head = peb-&gt;Ldr-&gt;InLoadOrderModuleList;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">const</span> <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html">PLDR_MODULE</a> first_module = *((<a class="code" href="struct___l_d_r___m_o_d_u_l_e.html">PLDR_MODULE</a> *)(&amp;head));</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html">PLDR_MODULE</a> curr_module = first_module;</div>
@@ -187,7 +187,7 @@ $(function() {
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">if</span> (curr_module == NULL || curr_module-&gt;<a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#ac1e771f5736a9d5d9a5d41cc94161587">BaseAddress</a> == NULL) {</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        }</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b">is_wanted_module</a>(curr_module-&gt;<a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">BaseDllName</a>.<a class="code" href="struct___u_n_i_c_o_d_e___s_t_r_i_n_g.html#afbc2ba2b7be88d0118e683a2eb289795">Buffer</a>, module_name)) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b">is_wanted_module</a>(curr_module-&gt;<a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">BaseDllName</a>.Buffer, module_name)) {</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keywordflow">return</span> (HMODULE)(curr_module-&gt;<a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#ac1e771f5736a9d5d9a5d41cc94161587">BaseAddress</a>);</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        }</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        curr_module = (<a class="code" href="peb__lookup_8cpp.html#a27abfabc1173f89eb02464af4efce9e7">PLDR_MODULE</a>)curr_module-&gt;<a class="code" href="struct___l_d_r___m_o_d_u_l_e.html#a1034b510d0307a0158f51e67c526cfda">InLoadOrderModuleList</a>.Flink;</div>
@@ -199,12 +199,12 @@ $(function() {
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
 <div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a">  128</a></span>&#160;<span class="keywordtype">size_t</span> <a class="code" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a">peconv::get_module_size_via_peb</a>(IN OPTIONAL HMODULE hModule)</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;{</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <a class="code" href="struct___p_e_b.html">PPEB</a> peb = <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    PPEB peb = <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">if</span> (!peb) {</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    }</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="class_section_locker.html">SectionLocker</a> locker(*peb-&gt;<a class="code" href="struct___p_e_b.html#a248ef72b632fc1a690ab4a2f5b77af74">LoaderLock</a>);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    LIST_ENTRY head = peb-&gt;<a class="code" href="struct___p_e_b.html#a29c84508296ee2568339d06368fbaf70">Ldr</a>-&gt;<a class="code" href="struct___p_e_b___l_d_r___d_a_t_a.html#ab301a08e20a78a7f334bfd351a0cca25">InLoadOrderModuleList</a>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="class_section_locker.html">SectionLocker</a> locker(*peb-&gt;LoaderLock);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    LIST_ENTRY head = peb-&gt;Ldr-&gt;InLoadOrderModuleList;</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keyword">const</span> <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html">PLDR_MODULE</a> first_module = *((<a class="code" href="struct___l_d_r___m_o_d_u_l_e.html">PLDR_MODULE</a> *)(&amp;head));</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <a class="code" href="struct___l_d_r___m_o_d_u_l_e.html">PLDR_MODULE</a> curr_module = first_module;</div>
@@ -230,23 +230,23 @@ $(function() {
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
 <div class="line"><a name="l00159"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">  159</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">peconv::set_main_module_in_peb</a>(HMODULE module_ptr)</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;{</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <a class="code" href="struct___p_e_b.html">PPEB</a> peb = <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    PPEB peb = <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordflow">if</span> (peb == NULL) {</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    }</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <a class="code" href="class_section_locker.html">SectionLocker</a> locker(*peb-&gt;<a class="code" href="struct___p_e_b.html#aadb1d199ea3ea50573f1f2ae5d3b7c4f">FastPebLock</a>);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    peb-&gt;<a class="code" href="struct___p_e_b.html#a4689f1d1d2f23df970b34756abc837ed">ImageBaseAddress</a> = module_ptr;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <a class="code" href="class_section_locker.html">SectionLocker</a> locker(*peb-&gt;FastPebLock);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    peb-&gt;ImageBaseAddress = module_ptr;</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;}</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
 <div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a06362b6f7168eb7debde0e75cbffbf1a">  170</a></span>&#160;HMODULE <a class="code" href="namespacepeconv.html#a06362b6f7168eb7debde0e75cbffbf1a">peconv::get_main_module_via_peb</a>()</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;{</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <a class="code" href="struct___p_e_b.html">PPEB</a> peb = <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    PPEB peb = <a class="code" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">if</span> (peb == NULL) {</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <a class="code" href="class_section_locker.html">SectionLocker</a> locker(*peb-&gt;<a class="code" href="struct___p_e_b.html#aadb1d199ea3ea50573f1f2ae5d3b7c4f">FastPebLock</a>);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">return</span> (HMODULE) peb-&gt;<a class="code" href="struct___p_e_b.html#a4689f1d1d2f23df970b34756abc837ed">ImageBaseAddress</a>;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <a class="code" href="class_section_locker.html">SectionLocker</a> locker(*peb-&gt;FastPebLock);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">return</span> (HMODULE) peb-&gt;ImageBaseAddress;</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;}</div>
 <div class="ttc" id="aclass_section_locker_html"><div class="ttname"><a href="class_section_locker.html">SectionLocker</a></div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00005">peb_lookup.cpp:5</a></div></div>
 <div class="ttc" id="aclass_section_locker_html_a2692f118109a400d4bc4e160895e89df"><div class="ttname"><a href="class_section_locker.html#a2692f118109a400d4bc4e160895e89df">SectionLocker::SectionLocker</a></div><div class="ttdeci">SectionLocker(RTL_CRITICAL_SECTION &amp;_section)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00007">peb_lookup.cpp:7</a></div></div>
@@ -256,9 +256,6 @@ $(function() {
 <div class="ttc" id="anamespacepeconv_html_a1b2f6b38a8631d42d6a7919f41de7e01"><div class="ttname"><a href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">peconv::set_main_module_in_peb</a></div><div class="ttdeci">bool set_main_module_in_peb(HMODULE hModule)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00159">peb_lookup.cpp:159</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_aa1fda7041e960e41247f5861abcffd7a"><div class="ttname"><a href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a">peconv::get_module_size_via_peb</a></div><div class="ttdeci">size_t get_module_size_via_peb(IN OPTIONAL HMODULE hModule=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00128">peb_lookup.cpp:128</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ab47119fd997003e3db87a61a293a835e"><div class="ttname"><a href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">peconv::get_module_via_peb</a></div><div class="ttdeci">HMODULE get_module_via_peb(IN OPTIONAL LPWSTR module_name=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00097">peb_lookup.cpp:97</a></div></div>
-<div class="ttc" id="antddk_8h_html"><div class="ttname"><a href="ntddk_8h.html">ntddk.h</a></div></div>
-<div class="ttc" id="antddk_8h_html_a8db55f17ca33b3ddad5e1d0aa8b22d63"><div class="ttname"><a href="ntddk_8h.html#a8db55f17ca33b3ddad5e1d0aa8b22d63">RtlLeaveCriticalSection</a></div><div class="ttdeci">NTSYSAPI NTSTATUS NTAPI RtlLeaveCriticalSection(IN PRTL_CRITICAL_SECTION CriticalSection)</div></div>
-<div class="ttc" id="antddk_8h_html_ac9bb2adaee7154df698b43e044505f84"><div class="ttname"><a href="ntddk_8h.html#ac9bb2adaee7154df698b43e044505f84">RtlEnterCriticalSection</a></div><div class="ttdeci">NTSYSAPI NTSTATUS NTAPI RtlEnterCriticalSection(IN PRTL_CRITICAL_SECTION CriticalSection)</div></div>
 <div class="ttc" id="apeb__lookup_8cpp_html_a0ced3a8c81ab02e70578ea1d1ee70e6b"><div class="ttname"><a href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b">is_wanted_module</a></div><div class="ttdeci">bool is_wanted_module(LPWSTR curr_name, LPWSTR wanted_name)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00070">peb_lookup.cpp:70</a></div></div>
 <div class="ttc" id="apeb__lookup_8cpp_html_a27abfabc1173f89eb02464af4efce9e7"><div class="ttname"><a href="peb__lookup_8cpp.html#a27abfabc1173f89eb02464af4efce9e7">PLDR_MODULE</a></div><div class="ttdeci">struct _LDR_MODULE * PLDR_MODULE</div></div>
 <div class="ttc" id="apeb__lookup_8cpp_html_a7f86e7558b841ac9e5a6374758a3f71c"><div class="ttname"><a href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a></div><div class="ttdeci">PPEB get_peb()</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00041">peb_lookup.cpp:41</a></div></div>
@@ -280,18 +277,10 @@ $(function() {
 <div class="ttc" id="astruct___l_d_r___m_o_d_u_l_e_html_ac813c217c168d0c584fd083ba07a6c78"><div class="ttname"><a href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">_LDR_MODULE::BaseDllName</a></div><div class="ttdeci">UNICODE_STRING BaseDllName</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00032">peb_lookup.cpp:32</a></div></div>
 <div class="ttc" id="astruct___l_d_r___m_o_d_u_l_e_html_aca0ffd55c95c4efcf419690a32abd6e6"><div class="ttname"><a href="struct___l_d_r___m_o_d_u_l_e.html#aca0ffd55c95c4efcf419690a32abd6e6">_LDR_MODULE::LoadCount</a></div><div class="ttdeci">SHORT LoadCount</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00034">peb_lookup.cpp:34</a></div></div>
 <div class="ttc" id="astruct___l_d_r___m_o_d_u_l_e_html_afa60b7b3ededc8a73d787b4a91293669"><div class="ttname"><a href="struct___l_d_r___m_o_d_u_l_e.html#afa60b7b3ededc8a73d787b4a91293669">_LDR_MODULE::InInitializationOrderModuleList</a></div><div class="ttdeci">LIST_ENTRY InInitializationOrderModuleList</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00027">peb_lookup.cpp:27</a></div></div>
-<div class="ttc" id="astruct___p_e_b___l_d_r___d_a_t_a_html_ab301a08e20a78a7f334bfd351a0cca25"><div class="ttname"><a href="struct___p_e_b___l_d_r___d_a_t_a.html#ab301a08e20a78a7f334bfd351a0cca25">_PEB_LDR_DATA::InLoadOrderModuleList</a></div><div class="ttdeci">LIST_ENTRY InLoadOrderModuleList</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02662">ntddk.h:2662</a></div></div>
-<div class="ttc" id="astruct___p_e_b_html"><div class="ttname"><a href="struct___p_e_b.html">_PEB</a></div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02697">ntddk.h:2698</a></div></div>
-<div class="ttc" id="astruct___p_e_b_html_a248ef72b632fc1a690ab4a2f5b77af74"><div class="ttname"><a href="struct___p_e_b.html#a248ef72b632fc1a690ab4a2f5b77af74">_PEB::LoaderLock</a></div><div class="ttdeci">PRTL_CRITICAL_SECTION LoaderLock</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02769">ntddk.h:2769</a></div></div>
-<div class="ttc" id="astruct___p_e_b_html_a29c84508296ee2568339d06368fbaf70"><div class="ttname"><a href="struct___p_e_b.html#a29c84508296ee2568339d06368fbaf70">_PEB::Ldr</a></div><div class="ttdeci">PPEB_LDR_DATA Ldr</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02707">ntddk.h:2707</a></div></div>
-<div class="ttc" id="astruct___p_e_b_html_a4689f1d1d2f23df970b34756abc837ed"><div class="ttname"><a href="struct___p_e_b.html#a4689f1d1d2f23df970b34756abc837ed">_PEB::ImageBaseAddress</a></div><div class="ttdeci">PVOID ImageBaseAddress</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02706">ntddk.h:2706</a></div></div>
-<div class="ttc" id="astruct___p_e_b_html_aadb1d199ea3ea50573f1f2ae5d3b7c4f"><div class="ttname"><a href="struct___p_e_b.html#aadb1d199ea3ea50573f1f2ae5d3b7c4f">_PEB::FastPebLock</a></div><div class="ttdeci">PRTL_CRITICAL_SECTION FastPebLock</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02711">ntddk.h:2711</a></div></div>
-<div class="ttc" id="astruct___u_n_i_c_o_d_e___s_t_r_i_n_g_html"><div class="ttname"><a href="struct___u_n_i_c_o_d_e___s_t_r_i_n_g.html">_UNICODE_STRING</a></div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l00079">ntddk.h:80</a></div></div>
-<div class="ttc" id="astruct___u_n_i_c_o_d_e___s_t_r_i_n_g_html_afbc2ba2b7be88d0118e683a2eb289795"><div class="ttname"><a href="struct___u_n_i_c_o_d_e___s_t_r_i_n_g.html#afbc2ba2b7be88d0118e683a2eb289795">_UNICODE_STRING::Buffer</a></div><div class="ttdeci">PWSTR Buffer</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l00083">ntddk.h:83</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Mon Aug 2 2021 13:07:44 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

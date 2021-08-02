@@ -100,12 +100,12 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">   28</a></span>&#160;DWORD <a class="code" href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a>(HANDLE hProcess)</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#if !defined PROCESSINFOCLASS</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">typedef</span> LONG <a class="code" href="ntddk_8h.html#a62145bd371060f0ce04de55d42542dbe">PROCESSINFOCLASS</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">typedef</span> LONG PROCESSINFOCLASS;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a>(WINAPI *_ZwQueryInformationProcess)(</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    NTSTATUS(WINAPI *_ZwQueryInformationProcess)(</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        IN       HANDLE ProcessHandle,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        IN       <a class="code" href="ntddk_8h.html#a62145bd371060f0ce04de55d42542dbe">PROCESSINFOCLASS</a> ProcessInformationClass,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        IN       PROCESSINFOCLASS ProcessInformationClass,</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        OUT      PVOID ProcessInformation,</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        IN       ULONG ProcessInformationLength,</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        OUT  PULONG ReturnLength</div>
@@ -121,25 +121,25 @@ $(function() {
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    _ZwQueryInformationProcess = (<a class="code" href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a>(WINAPI *)(</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    _ZwQueryInformationProcess = (NTSTATUS(WINAPI *)(</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        HANDLE,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="ntddk_8h.html#a62145bd371060f0ce04de55d42542dbe">PROCESSINFOCLASS</a>,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        PROCESSINFOCLASS,</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        PVOID,</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        ULONG,</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        PULONG)</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;     ) procPtr;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">_PROCESS_BASIC_INFORMATION</a> {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">struct </span>_PROCESS_BASIC_INFORMATION {</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        PVOID Reserved1;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        PVOID <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a0e16d6208b60ee422a60c8b02b2ead6b">PebBaseAddress</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        PVOID PebBaseAddress;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        PVOID Reserved2[2];</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        ULONG_PTR <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d">UniqueProcessId</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        ULONG_PTR UniqueProcessId;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        PVOID Reserved3;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    } <a class="code" href="ntddk_8h.html#af20d59cc55d457c255a8faff6a66c28d">PROCESS_BASIC_INFORMATION</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    } PROCESS_BASIC_INFORMATION;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">PROCESS_BASIC_INFORMATION</a> pbi = { 0 };</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (_ZwQueryInformationProcess(hProcess, 0, &amp;pbi, <span class="keyword">sizeof</span>(<a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">PROCESS_BASIC_INFORMATION</a>), NULL) == S_OK) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">const</span> DWORD pid = <span class="keyword">static_cast&lt;</span>DWORD<span class="keyword">&gt;</span>(pbi.<a class="code" href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d">UniqueProcessId</a>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    PROCESS_BASIC_INFORMATION pbi = { 0 };</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (_ZwQueryInformationProcess(hProcess, 0, &amp;pbi, <span class="keyword">sizeof</span>(PROCESS_BASIC_INFORMATION), NULL) == S_OK) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">const</span> DWORD pid = <span class="keyword">static_cast&lt;</span>DWORD<span class="keyword">&gt;</span>(pbi.UniqueProcessId);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">return</span> pid;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> 0;</div>
@@ -242,18 +242,12 @@ $(function() {
 <div class="ttc" id="anamespacepeconv_html_aad22870e562a1bf1a8972c0f1ba88056"><div class="ttname"><a href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a></div><div class="ttdeci">bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00150">util.cpp:150</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_af7fbbf3b5b2c890138c9d66318ecf526"><div class="ttname"><a href="namespacepeconv.html#af7fbbf3b5b2c890138c9d66318ecf526">peconv::g_kernel32Hndl</a></div><div class="ttdeci">HMODULE g_kernel32Hndl</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00008">util.cpp:8</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_afd0370b87e95a0755199897a7fb79067"><div class="ttname"><a href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">peconv::get_ntdll_hndl</a></div><div class="ttdeci">HMODULE get_ntdll_hndl()</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00019">util.cpp:19</a></div></div>
-<div class="ttc" id="antddk_8h_html_a62145bd371060f0ce04de55d42542dbe"><div class="ttname"><a href="ntddk_8h.html#a62145bd371060f0ce04de55d42542dbe">PROCESSINFOCLASS</a></div><div class="ttdeci">enum _PROCESSINFOCLASS PROCESSINFOCLASS</div></div>
-<div class="ttc" id="antddk_8h_html_a7dd9b3f076e3c60859a46a61d9341526"><div class="ttname"><a href="ntddk_8h.html#a7dd9b3f076e3c60859a46a61d9341526">NTSTATUS</a></div><div class="ttdeci">long NTSTATUS</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l00028">ntddk.h:28</a></div></div>
-<div class="ttc" id="antddk_8h_html_af20d59cc55d457c255a8faff6a66c28d"><div class="ttname"><a href="ntddk_8h.html#af20d59cc55d457c255a8faff6a66c28d">PROCESS_BASIC_INFORMATION</a></div><div class="ttdeci">struct _PROCESS_BASIC_INFORMATION PROCESS_BASIC_INFORMATION</div></div>
-<div class="ttc" id="astruct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n_html"><div class="ttname"><a href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html">_PROCESS_BASIC_INFORMATION</a></div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02814">ntddk.h:2815</a></div></div>
-<div class="ttc" id="astruct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n_html_a0e16d6208b60ee422a60c8b02b2ead6b"><div class="ttname"><a href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#a0e16d6208b60ee422a60c8b02b2ead6b">_PROCESS_BASIC_INFORMATION::PebBaseAddress</a></div><div class="ttdeci">PPEB PebBaseAddress</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02817">ntddk.h:2817</a></div></div>
-<div class="ttc" id="astruct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n_html_afe6e56b5ae0aff9044ee218c86f59f2d"><div class="ttname"><a href="struct___p_r_o_c_e_s_s___b_a_s_i_c___i_n_f_o_r_m_a_t_i_o_n.html#afe6e56b5ae0aff9044ee218c86f59f2d">_PROCESS_BASIC_INFORMATION::UniqueProcessId</a></div><div class="ttdeci">ULONG_PTR UniqueProcessId</div><div class="ttdef"><b>Definition:</b> <a href="ntddk_8h_source.html#l02820">ntddk.h:2820</a></div></div>
 <div class="ttc" id="autil_8cpp_html_ab5f3f23e0f2678c1a145e0e0f7a3a7f8"><div class="ttname"><a href="util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8">ntdll_get_process_id</a></div><div class="ttdeci">DWORD ntdll_get_process_id(HANDLE hProcess)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00028">util.cpp:28</a></div></div>
 <div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Miscellaneous utility functions.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Mon Aug 2 2021 13:07:44 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
