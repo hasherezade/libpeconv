@@ -90,11 +90,11 @@ DWORD peconv::get_process_id(HANDLE hProcess)
     if (_GetProcessId) {
         processID = _GetProcessId(hProcess);
     }
-    if (processID != 0) {
-        return processID;
+    if (processID == 0) {
+        //could not retrieve Pid using GetProcessId, try using NTDLL:
+        processID = ntdll_get_process_id(hProcess);
     }
-    //could not retrieve Pid using GetProcessId, try using NTDLL:
-    return ntdll_get_process_id(hProcess);
+    return processID;
 }
 
 bool peconv::is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE padding)
