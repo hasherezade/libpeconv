@@ -236,12 +236,12 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
     return total_read;
 }
 
-bool peconv::read_remote_pe_header(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size)
+bool peconv::read_remote_pe_header(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, bool force_access)
 {
     if (buffer == nullptr) {
         return false;
     }
-    SIZE_T read_size = read_remote_memory(processHandle, start_addr, buffer, buffer_size);
+    SIZE_T read_size = read_remote_area(processHandle, start_addr, buffer, buffer_size, force_access);
     if (read_size == 0) {
         return false;
     }

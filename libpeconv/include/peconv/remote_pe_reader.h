@@ -79,8 +79,14 @@ namespace peconv {
 
     /**
     Reads a PE header of the remote module within the given process. Requires a valid output buffer to be supplied (buffer).
+    \param processHandle : handle of the process where the memory of interest belongs
+    \param moduleBase : the base address of the module within the remote process
+    \param buffer : the buffer where the read data will be stored
+    \param buffer_size : the size of the buffer
+    \param force_access : if this flag is set, in case if the region is inaccassible (PAGE_NOACCESS) it will try to force the the read by changing the permissions, and applying the old ones back after reading.
+    WARNING: force_access should be used only on a suspended process, or a process relection, otherwise it may cause instability.
     */
-    bool read_remote_pe_header(HANDLE processHandle, LPVOID moduleBase, OUT BYTE* buffer, const size_t bufferSize);
+    bool read_remote_pe_header(HANDLE processHandle, LPVOID moduleBase, OUT BYTE* buffer, const size_t bufferSize, bool force_access = false);
 
     /**
     Reads a PE section with a given number (sectionNum) from the remote module within the given process. 
