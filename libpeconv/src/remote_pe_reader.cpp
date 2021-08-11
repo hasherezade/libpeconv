@@ -206,10 +206,12 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
     }
     memset(buffer, 0, buffer_size);
 
-    size_t real_read = 0; //how many bytes has been realy read (not counting the skipped areas)
-    size_t total_read = 0;
-    for (total_read = 0; total_read < buffer_size; ) {
-        LPVOID remote_chunk = LPVOID((ULONG_PTR)start_addr + total_read);
+    size_t real_read = 0; // how many bytes has been realy read (not counting the skipped areas)
+    size_t last_valid = 0; // the last chunk that was really read (don't count the last skipped ones)
+
+    size_t buf_index = 0;
+    for (buf_index = 0; buf_index < buffer_size; ) {
+        LPVOID remote_chunk = LPVOID((ULONG_PTR)start_addr + buf_index);
 
         MEMORY_BASIC_INFORMATION page_info = { 0 };
         if (!peconv::fetch_region_info(processHandle, remote_chunk, page_info)) {
@@ -221,19 +223,27 @@ size_t peconv::read_remote_area(HANDLE processHandle, LPVOID start_addr, OUT BYT
         }
 
         // read the memory:
-        const size_t read_chunk = read_remote_region(processHandle, remote_chunk, buffer + total_read, buffer_size - total_read, force_access, minimal_size);
+        const size_t read_chunk = read_remote_region(
+            processHandle,
+            remote_chunk,
+            (BYTE*)((ULONG_PTR)buffer + buf_index),
+            buffer_size - buf_index,
+            force_access,
+            minimal_size
+        );
         if (read_chunk == 0) {
-            //skip the region that could not be read:
-            total_read += region_size;
+            //skip the region that could not be read, and proceed to the next:
+            buf_index += region_size;
             continue;
         }
-        real_read += read_chunk;
-        total_read += read_chunk;
+        buf_index += read_chunk;
+        real_read += read_chunk; // total sum of the read content
+        last_valid = buf_index; // the last chunk that was really read
     }
     if (real_read == 0) {
         return 0;
     }
-    return total_read;
+    return last_valid;
 }
 
 bool peconv::read_remote_pe_header(HANDLE processHandle, LPVOID start_addr, OUT BYTE* buffer, const size_t buffer_size, bool force_access)
