@@ -5,7 +5,7 @@ var searchData=
   ['read_5fremote_5farea_677',['read_remote_area',['../namespacepeconv.html#a811191e2701941ce55e9b6566f40202a',1,'peconv']]],
   ['read_5fremote_5fmemory_678',['read_remote_memory',['../namespacepeconv.html#a72999faa615c567ccac8b9389697d6a9',1,'peconv']]],
   ['read_5fremote_5fpe_679',['read_remote_pe',['../namespacepeconv.html#ae3b19cfa9048470a3c2d4d701a28a77e',1,'peconv']]],
-  ['read_5fremote_5fpe_5fheader_680',['read_remote_pe_header',['../namespacepeconv.html#ad22df79676a40566a9f7f8c5456829de',1,'peconv']]],
+  ['read_5fremote_5fpe_5fheader_680',['read_remote_pe_header',['../namespacepeconv.html#ac441b26e54a192e75420049e36210a1c',1,'peconv']]],
   ['read_5fremote_5fregion_681',['read_remote_region',['../namespacepeconv.html#a61af7b5278d087f90ac2c42b94ec7332',1,'peconv']]],
   ['rebase_5fva_682',['rebase_va',['../exports__mapper_8cpp.html#a13da3bed9f695ac0059c3b9deb0a1c4d',1,'exports_mapper.cpp']]],
   ['redirect_5fto_5flocal_683',['redirect_to_local',['../namespacepeconv.html#ae242eb506be32b05644e02b346063748',1,'peconv']]],
