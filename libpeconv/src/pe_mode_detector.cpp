@@ -165,18 +165,15 @@ bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
     return true;
 }
 
-// checks if any of the executable sections has been expanded in the memory
+// checks if any sections has been expanded in the memory
 bool peconv::is_pe_expanded(IN const BYTE* pe_buffer, IN size_t pe_size)
 {
     //walk through sections and check their sizes
     size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
     for (size_t i = 0; i < sections_count; i++) {
         PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
-        //scan only executable sections
-        if ((sec->Characteristics & IMAGE_SCN_MEM_EXECUTE) != 0) {
-            if (is_section_expanded(pe_buffer, pe_size, sec)) {
-                return true;
-            }
+        if (is_section_expanded(pe_buffer, pe_size, sec)) {
+            return true;
         }
     }
     return false;
