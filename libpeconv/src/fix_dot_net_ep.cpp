@@ -89,7 +89,7 @@ BYTE* search_jump(BYTE *buf, size_t buf_size, const DWORD cor_exe_main_thunk, co
                 return buf + i;
             }
             else {
-                std::cout << "[!] Mismatch: " << std::hex << rva << " vs _CorExeMain: " << cor_exe_main_thunk << std::endl;
+                std::cerr << "[!] Mismatch: " << std::hex << rva << " vs _CorExeMain: " << cor_exe_main_thunk << std::endl;
             }
         }
     }
@@ -107,12 +107,14 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
     }
 
     DWORD ep_rva = peconv::get_entry_point_rva(pe_buffer);
+#ifdef _DEBUG
     std::cout << "[*] This is a .NET payload and may require Enty Point correction. Current EP: " << std::hex << ep_rva << "\n";
-
+#endif
     PIMAGE_SECTION_HEADER sec_hdr = peconv::get_section_hdr(pe_buffer, pe_buffer_size, 0);
-    if (!sec_hdr) return false;
-
-    BYTE *sec_ptr = pe_buffer + sec_hdr->VirtualAddress;
+    if (!sec_hdr) {
+        return false;
+    }
+    BYTE* sec_ptr = (BYTE*)((ULONG_PTR)pe_buffer + sec_hdr->VirtualAddress);
     if (!peconv::validate_ptr(pe_buffer, pe_buffer_size, sec_ptr, sec_hdr->SizeOfRawData)) {
         return false;
     }
@@ -122,11 +124,14 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
         return false;
     }
     BYTE* jump_ptr = search_jump(sec_ptr, sec_hdr->SizeOfRawData, cor_exe_main_thunk, img_base);
-    if (jump_ptr == nullptr) return false;
-
-    size_t offset = jump_ptr - pe_buffer;
+    if (!jump_ptr) {
+        return false;
+    }
+    size_t offset = (ULONG_PTR)jump_ptr - (ULONG_PTR)pe_buffer;
     peconv::update_entry_point_rva(pe_buffer, static_cast<DWORD>(offset));
+#ifdef _DEBUG
     std::cout << "[*] Found possible Entry Point: " << std::hex << offset << std::endl;
+#endif
     return true;
 }
 
