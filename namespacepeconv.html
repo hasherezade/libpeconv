@@ -297,6 +297,8 @@ Functions</h2></td></tr>
 <tr class="separator:a50340048ed7d755cbbf085307ccfa476"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea672840faf6e644ffb82a493f1344a3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aea672840faf6e644ffb82a493f1344a3">is_module_dll</a> (IN const BYTE *payload)</td></tr>
 <tr class="separator:aea672840faf6e644ffb82a493f1344a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c8d2fca647e1d8a2b86fc85f702e135"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a2c8d2fca647e1d8a2b86fc85f702e135">is_dot_net</a> (BYTE *pe_buffer, size_t pe_buffer_size)</td></tr>
+<tr class="separator:a2c8d2fca647e1d8a2b86fc85f702e135"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9d1f4e8f4f50ef4ece40147212ff9e0"><td class="memItemLeft" align="right" valign="top">WORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ad9d1f4e8f4f50ef4ece40147212ff9e0">get_dll_characteristics</a> (IN const BYTE *payload)</td></tr>
 <tr class="separator:ad9d1f4e8f4f50ef4ece40147212ff9e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18923adb0587b6bedb07c773962ffa18"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a18923adb0587b6bedb07c773962ffa18">set_subsystem</a> (IN OUT BYTE *payload, IN WORD subsystem)</td></tr>
@@ -843,7 +845,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00580">580</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00593">593</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1016,7 +1018,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="namespacepeconv.html#a413347caca570436e87a5dedc988660d" title=" " alt="" coords="1128,1251,1293,1277"/>
 <area shape="rect" href="namespacepeconv.html#a38e3da47a207cd5ed9cfdd4c2a650db0" title=" " alt="" coords="202,336,334,363"/>
 <area shape="rect" href="namespacepeconv.html#a839f04fa06f311e3270a4305421ad35f" title=" " alt="" coords="904,1656,1056,1683"/>
-<area shape="rect" href="fix__dot__net__ep_8cpp.html#a3527cc38038e8bb746932fd84e8994b3" title=" " alt="" coords="1169,11,1252,37"/>
+<area shape="rect" href="namespacepeconv.html#a2c8d2fca647e1d8a2b86fc85f702e135" title=" " alt="" coords="1145,11,1276,37"/>
 <area shape="rect" href="namespacepeconv.html#addf8f50c27775ed2fa84c33450e0ec7e" title=" " alt="" coords="678,1294,807,1335"/>
 <area shape="rect" href="namespacepeconv.html#a386f3e2c4274a475f157124b5d116b36" title=" " alt="" coords="887,1555,1073,1581"/>
 <area shape="rect" href="namespacepeconv.html#a76c6ce4daf3e2f7bfadda595a5113505" title=" " alt="" coords="679,1489,806,1530"/>
@@ -1136,7 +1138,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="fix__dot__net__ep_8cpp.html#a3568562d224c76b49d5841a18e63d96c" title=" " alt="" coords="659,840,765,867"/>
 <area shape="rect" href="namespacepeconv.html#a413347caca570436e87a5dedc988660d" title=" " alt="" coords="1087,688,1252,715"/>
 <area shape="rect" href="namespacepeconv.html#a38e3da47a207cd5ed9cfdd4c2a650db0" title=" " alt="" coords="1103,115,1235,142"/>
-<area shape="rect" href="fix__dot__net__ep_8cpp.html#a3527cc38038e8bb746932fd84e8994b3" title=" " alt="" coords="1128,1466,1211,1492"/>
+<area shape="rect" href="namespacepeconv.html#a2c8d2fca647e1d8a2b86fc85f702e135" title=" " alt="" coords="1104,1466,1235,1492"/>
 <area shape="rect" href="namespacepeconv.html#addf8f50c27775ed2fa84c33450e0ec7e" title=" " alt="" coords="647,441,777,482"/>
 <area shape="rect" href="namespacepeconv.html#a386f3e2c4274a475f157124b5d116b36" title=" " alt="" coords="845,267,1032,294"/>
 <area shape="rect" href="namespacepeconv.html#a76c6ce4daf3e2f7bfadda595a5113505" title=" " alt="" coords="649,260,775,301"/>
@@ -2048,7 +2050,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Fetch the DLL Characteristics from the Optional Header. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00402">402</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00415">415</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2120,7 +2122,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Fetch the pointer to the .NET header (if exist). </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00475">475</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00488">488</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2185,7 +2187,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Get pointer to the Export Directory. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00469">469</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00482">482</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 
 </div>
 </div>
@@ -2565,7 +2567,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00558">558</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00571">571</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -3239,7 +3241,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Fetch section aligmenent from headers. Depending on the flag, it fetches either Raw Alignment or Virtual Alignment. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00506">506</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00519">519</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -3375,7 +3377,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Get the PE subsystem from the header. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00442">442</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00455">455</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -3474,7 +3476,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Get size of virtual section from the headers (optionaly rounds it up to the Virtual Alignment) </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00533">533</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00546">546</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -3513,7 +3515,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Check if the PE has relocations Data Directory. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00460">460</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00473">473</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -3710,6 +3712,53 @@ Here is the call graph for this function:</div>
 <map name="anamespacepeconv_aad22870e562a1bf1a8972c0f1ba88056_cgraph" id="anamespacepeconv_aad22870e562a1bf1a8972c0f1ba88056_cgraph">
 <area shape="rect" title=" " alt="" coords="5,5,168,32"/>
 <area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="216,5,401,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2c8d2fca647e1d8a2b86fc85f702e135" name="a2c8d2fca647e1d8a2b86fc85f702e135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c8d2fca647e1d8a2b86fc85f702e135">&#9670;&nbsp;</a></span>is_dot_net()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool peconv::is_dot_net </td>
+          <td>(</td>
+          <td class="paramtype">BYTE *&#160;</td>
+          <td class="paramname"><em>pe_buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>pe_buffer_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Check if the module is a .NET executable </p>
+
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00402">402</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_a2c8d2fca647e1d8a2b86fc85f702e135_cgraph.png" border="0" usemap="#anamespacepeconv_a2c8d2fca647e1d8a2b86fc85f702e135_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a2c8d2fca647e1d8a2b86fc85f702e135_cgraph" id="anamespacepeconv_a2c8d2fca647e1d8a2b86fc85f702e135_cgraph">
+<area shape="rect" title=" " alt="" coords="5,93,136,119"/>
+<area shape="rect" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " alt="" coords="184,56,328,97"/>
+<area shape="rect" href="namespacepeconv.html#a7839c42de0eb9d745d1ba40c60f90de4" title=" " alt="" coords="376,122,532,149"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="759,70,897,97"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="400,17,508,43"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="945,45,1108,71"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="958,95,1095,122"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1156,45,1341,71"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="580,5,711,47"/>
 </map>
 </div>
 
@@ -4254,7 +4303,7 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00598">598</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00611">611</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -6311,7 +6360,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Change section aligmenent in headers. Depending on the flag, it sets either Raw Alignment or Virtual Alignment. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00518">518</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00531">531</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -6356,7 +6405,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Set the PE subsystem in the header. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00423">423</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8cpp_source.html#l00436">436</a> of file <a class="el" href="pe__hdrs__helper_8cpp_source.html">pe_hdrs_helper.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -6632,7 +6681,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 10 2021 12:47:36 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Fri Sep 10 2021 17:06:55 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
