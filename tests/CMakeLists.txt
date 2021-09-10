@@ -24,6 +24,7 @@ set (srcs
 	test_imports_mix.cpp
 	test_found_base.cpp
 	test_fix_dotnet.cpp
+	test_format_detect.cpp
 )
 
 set (hdrs
@@ -41,6 +42,7 @@ set (hdrs
 	test_imports_mix.h
 	test_found_base.h
 	test_fix_dotnet.h
+	test_format_detect.h
 	resource.h
 	shellcodes.h
 	shellc32.h

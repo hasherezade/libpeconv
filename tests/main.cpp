@@ -15,6 +15,7 @@
 #include "test_imports_mix.h"
 #include "test_found_base.h"
 #include "test_fix_dotnet.h"
+#include "test_format_detect.h"
 
 int make_test(int test_id, char *test_arg)
 {
@@ -40,6 +41,7 @@ int make_test(int test_id, char *test_arg)
         case 13: return tests::imports_mix(test_arg);
         case 14: return tests::load_and_check_base(test_arg);
         case 15: return tests::check_finding_jumps();
+        case 16: return tests::check_pe_format(test_arg); //manual test
     }
     return -1;
 }
