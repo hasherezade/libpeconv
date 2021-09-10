@@ -138,7 +138,17 @@ add_test (TestFindBase ${CMAKE_INSTALL_PREFIX}/tests 14 ${CMAKE_INSTALL_PREFIX}/
 set_tests_properties (TestFindBase PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 set_tests_properties (TestFindBase PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
 
-# 14) test finding jumps
+# 15) test finding jumps
 add_test (TestFindJumpToDotNet ${CMAKE_INSTALL_PREFIX}/tests 15 )
 set_tests_properties (TestFindJumpToDotNet PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 set_tests_properties (TestFindJumpToDotNet PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+
+# 16.1) test detect virtual/raw: 32
+add_test (TestDetectMode32 tests 16 ${CMAKE_INSTALL_PREFIX}/test_case3_32.exe )
+set_tests_properties (TestDetectMode32 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+set_tests_properties (TestDetectMode32 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+
+# 16.2) test detect virtual/raw: 64
+add_test (TestDetectMode64 tests 16 ${CMAKE_INSTALL_PREFIX}/test_case3_64.exe )
+set_tests_properties (TestDetectMode64 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
+set_tests_properties (TestDetectMode64 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
