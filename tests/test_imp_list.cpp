@@ -68,5 +68,5 @@ int tests::imp_list(char *my_path)
     bool is_ok = list_imports(loaded_pe, v_size);
 
     peconv::free_pe_buffer(loaded_pe);
-    return is_ok;
+    return is_ok ? 0 : 1;
 }
