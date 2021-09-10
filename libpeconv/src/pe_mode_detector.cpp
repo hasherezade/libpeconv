@@ -131,12 +131,6 @@ bool is_pe_mapped(IN const BYTE* pe_buffer, IN size_t pe_size)
 #endif
         v_score++;
     }
-    if (is_virtual_padding(pe_buffer, pe_size)) {
-#ifdef _DEBUG
-        std::cout << "Virtual Padding OK" << std::endl;
-#endif
-        v_score++;
-    }
 #ifdef _DEBUG
     std::cout << "TOTAL v_score: " << std::dec << v_score << std::endl;
 #endif
