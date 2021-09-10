@@ -399,6 +399,19 @@ bool peconv::is_module_dll(IN const BYTE* payload)
     return ((charact & IMAGE_FILE_DLL) != 0);
 }
 
+bool peconv::is_dot_net(BYTE *pe_buffer, size_t pe_buffer_size)
+{
+    if (!pe_buffer) return false;
+
+    IMAGE_DATA_DIRECTORY* dotnet_ptr = peconv::get_directory_entry(pe_buffer, IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR, false);
+    if (!dotnet_ptr) return false;
+
+    if (peconv::get_dotnet_hdr(pe_buffer, pe_buffer_size, dotnet_ptr)) {
+        return true;
+    }
+    return false;
+}
+
 WORD peconv::get_dll_characteristics(IN const BYTE* payload)
 {
     if (!payload) return 0;

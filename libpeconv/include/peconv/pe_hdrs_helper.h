@@ -154,6 +154,11 @@ namespace peconv {
     bool is_module_dll(IN const BYTE* payload);
 
     /**
+    Check if the module is a .NET executable
+    */
+    bool is_dot_net(BYTE *pe_buffer, size_t pe_buffer_size);
+
+    /**
     Fetch the DLL Characteristics from the Optional Header.
     */
     WORD get_dll_characteristics(IN const BYTE* payload);
