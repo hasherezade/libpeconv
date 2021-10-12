@@ -105,7 +105,7 @@ if ("${CMAKE_GENERATOR_PLATFORM}" STREQUAL "x64")
 endif()
 
 # 8) Test replacing and redirecting functions
-if (NOT "${CMAKE_GENERATOR_PLATFORM}" STREQUAL "x64")
+if ("${CMAKE_GENERATOR_PLATFORM}" STREQUAL "x64")
 	add_test (TestReplaceFunc64 ${CMAKE_INSTALL_PREFIX}/tests 8 ${CMAKE_INSTALL_PREFIX}/test_case3_64.exe )
 	set_tests_properties (TestReplaceFunc64 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
 	set_tests_properties (TestReplaceFunc64 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
