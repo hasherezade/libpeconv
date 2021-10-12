@@ -63,6 +63,8 @@ add_subdirectory ( test_case3 )
 add_subdirectory ( test_case4 )
 add_subdirectory ( test_case5 )
 
+message (STATUS "Generator='${CMAKE_GENERATOR_PLATFORM}'")
+
 #install
 INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT ${PROJECT_NAME} )
 
@@ -80,7 +82,7 @@ add_test (TestDeploySelf ${CMAKE_INSTALL_PREFIX}/tests 2)
 set_tests_properties (TestDeploySelf PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 
 #only for 32bit:
-if(CMAKE_SIZEOF_VOID_P EQUAL 4)
+if (NOT "${CMAKE_GENERATOR_PLATFORM}" STREQUAL "x64")
 	# 3) Deploys a brutforcer for FlareOn4 Crackme 3
 	add_test (TestCrackmeF4_3 ${CMAKE_INSTALL_PREFIX}/tests 3)
 	set_tests_properties (TestCrackmeF4_3 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
@@ -96,14 +98,14 @@ add_test (TestHookMessageBox ${CMAKE_INSTALL_PREFIX}/tests 5 ${CMAKE_INSTALL_PRE
 set_tests_properties (TestHookMessageBox PROPERTIES PASS_REGULAR_EXPRESSION "Hooking test passed")
 
 #only for 64bit:
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if ("${CMAKE_GENERATOR_PLATFORM}" STREQUAL "x64")
 	# 6) Solve FlareOn2017 Challenge6
 	add_test (TestCrackmeF4_6 ${CMAKE_INSTALL_PREFIX}/tests 6 ${CMAKE_INSTALL_PREFIX}/payload.dll )
 	set_tests_properties (TestCrackmeF4_6 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 endif()
 
 # 8) Test replacing and redirecting functions
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if (NOT "${CMAKE_GENERATOR_PLATFORM}" STREQUAL "x64")
 	add_test (TestReplaceFunc64 ${CMAKE_INSTALL_PREFIX}/tests 8 ${CMAKE_INSTALL_PREFIX}/test_case3_64.exe )
 	set_tests_properties (TestReplaceFunc64 PROPERTIES PASS_REGULAR_EXPRESSION "Passed!")
 	set_tests_properties (TestReplaceFunc64 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
