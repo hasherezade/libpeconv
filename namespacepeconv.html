@@ -244,6 +244,8 @@ Functions</h2></td></tr>
 <tr class="separator:a198072d398d03570087df34a76d3454d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac67dbb3e437d06f60e0eb3cfcf567e90"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90">is_valid_import_name</a> (const PBYTE modulePtr, const size_t moduleSize, LPSTR lib_name)</td></tr>
 <tr class="separator:ac67dbb3e437d06f60e0eb3cfcf567e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd71ea9bdeb9fbfd04a0a75037034dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a8cd71ea9bdeb9fbfd04a0a75037034dc">collect_thunks</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, OUT std::set&lt; DWORD &gt; &amp;thunk_rvas)</td></tr>
+<tr class="separator:a8cd71ea9bdeb9fbfd04a0a75037034dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f40e0e53ef6ac8104faf550e5b41bf5"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a2f40e0e53ef6ac8104faf550e5b41bf5">get_load_config_ptr</a> (BYTE *buffer, size_t buf_size)</td></tr>
 <tr class="separator:a2f40e0e53ef6ac8104faf550e5b41bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31644522ca0b80875ee60e71a68540c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacepeconv.html#afb17360c7076dbaebd8629b02b7f3614">t_load_config_ver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a31644522ca0b80875ee60e71a68540c1">get_load_config_version</a> (BYTE *buffer, size_t buf_size, BYTE *ld_config_ptr)</td></tr>
@@ -863,6 +865,64 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="956,5,1087,47"/>
 <area shape="rect" href="namespacepeconv.html#a30c642b479e9bd27a66332b73d65cabb" title=" " alt="" coords="609,253,745,279"/>
 <area shape="rect" href="pe__hdrs__helper_8cpp.html#a00518686793ddc0f408a17dfaeaea0db" title=" " alt="" coords="972,299,1071,326"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a8cd71ea9bdeb9fbfd04a0a75037034dc" name="a8cd71ea9bdeb9fbfd04a0a75037034dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cd71ea9bdeb9fbfd04a0a75037034dc">&#9670;&nbsp;</a></span>collect_thunks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool peconv::collect_thunks </td>
+          <td>(</td>
+          <td class="paramtype">IN BYTE *&#160;</td>
+          <td class="paramname"><em>modulePtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN SIZE_T&#160;</td>
+          <td class="paramname"><em>moduleSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OUT std::set&lt; DWORD &gt; &amp;&#160;</td>
+          <td class="paramname"><em>thunk_rvas</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Collects all the Import Thunks RVAs (via which Imports are called) </p>
+
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00310">310</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_a8cd71ea9bdeb9fbfd04a0a75037034dc_cgraph.png" border="0" usemap="#anamespacepeconv_a8cd71ea9bdeb9fbfd04a0a75037034dc_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a8cd71ea9bdeb9fbfd04a0a75037034dc_cgraph" id="anamespacepeconv_a8cd71ea9bdeb9fbfd04a0a75037034dc_cgraph">
+<area shape="rect" title=" " alt="" coords="5,244,160,271"/>
+<area shape="rect" href="namespacepeconv.html#a48b50ca71aff05c2edfca1ff816db197" title=" " alt="" coords="208,237,367,278"/>
+<area shape="rect" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " alt="" coords="627,209,771,250"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1422,300,1559,327"/>
+<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="415,107,575,133"/>
+<area shape="rect" href="imports__loader_8cpp.html#a5d800d31ea01e77114afee0804cdef68" title=" " alt="" coords="651,275,746,301"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1223,115,1361,141"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="823,161,931,188"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1409,140,1572,167"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1620,140,1805,167"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1011,158,1142,199"/>
+<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="623,107,775,133"/>
+<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="623,5,775,32"/>
+<area shape="rect" href="namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="979,275,1175,301"/>
 </map>
 </div>
 
@@ -3561,7 +3621,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Checks if the given PE has a valid import table. </p>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00233">233</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00270">270</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -4201,7 +4261,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Checks if the given lib_name is a valid DLL name. A valid name must contain printable characters. Empty name is also acceptable (may have been erased). </p>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00216">216</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00253">253</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -4466,7 +4526,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>: true if loading all functions succeeded, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00191">191</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00228">228</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5378,7 +5438,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>: true if processing succeeded, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00172">172</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00209">209</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -6681,7 +6741,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Oct 12 2021 03:30:34 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Mon Dec 27 2021 15:00:52 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
