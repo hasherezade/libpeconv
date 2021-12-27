@@ -77,6 +77,43 @@ protected:
     t_function_resolver* funcResolver;
 };
 
+//---
+
+/**
+A class defining a callback that collects all the Import Thunks
+*/
+class CollectThunksCallback : public peconv::ImportThunksCallback
+{
+public:
+    CollectThunksCallback(BYTE* _vBuf, size_t _vBufSize, std::set<DWORD>& _fields)
+        : ImportThunksCallback(_vBuf, _vBufSize), vBuf(_vBuf), vBufSize(_vBufSize),
+        fields(_fields)
+    {
+    }
+
+    virtual bool processThunks(LPSTR libName, ULONG_PTR origFirstThunkPtr, ULONG_PTR va)
+    {
+        if (va == NULL) {
+            return false; // invalid thunk
+        }
+        const ULONGLONG module_base = reinterpret_cast<ULONGLONG>(this->vBuf);
+        if (va < module_base) {
+            return false; // not this module
+        }
+        if (va > module_base + this->vBufSize) {
+            return false; // not this module
+        }
+        DWORD thunk_rva = MASK_TO_DWORD(va - module_base);
+        fields.insert(thunk_rva);
+        return true;
+    }
+
+    std::set<DWORD>& fields;
+    BYTE* vBuf;
+    size_t vBufSize;
+};
+
+//---
 
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
 bool process_imp_functions_tpl(BYTE* modulePtr, size_t module_size, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, IN ImportThunksCallback *callback)
@@ -269,3 +306,10 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
 
     return (valid_records > 0);
 }
+
+bool peconv::collect_thunks(IN BYTE* modulePtr, IN SIZE_T moduleSize, OUT std::set<DWORD>& thunk_rvas)
+{
+    CollectThunksCallback collector(modulePtr, moduleSize, thunk_rvas);
+    return peconv::process_import_table(modulePtr, moduleSize, &collector);
+}
+

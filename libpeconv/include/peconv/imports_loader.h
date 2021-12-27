@@ -6,6 +6,7 @@
 #pragma once
 
 #include <windows.h>
+#include <set>
 
 #include "pe_hdrs_helper.h"
 #include "function_resolver.h"
@@ -66,5 +67,10 @@ namespace peconv {
     A valid name must contain printable characters. Empty name is also acceptable (may have been erased).
     */
     bool is_valid_import_name(const PBYTE modulePtr, const size_t moduleSize, LPSTR lib_name);
+
+    /**
+    * Collects all the Import Thunks RVAs (via which Imports are called)
+    */
+    bool collect_thunks(IN BYTE* modulePtr, IN SIZE_T moduleSize, OUT std::set<DWORD>& thunk_rvas);
 
 }; // namespace peconv
