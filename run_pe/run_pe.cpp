@@ -62,7 +62,7 @@ bool read_remote_mem(HANDLE hProcess, ULONGLONG remote_addr, OUT void* buffer, c
 BOOL update_remote_entry_point(PROCESS_INFORMATION &pi, ULONGLONG entry_point_va, bool is32bit)
 {
 #ifdef _DEBUG
-    printf("Writing new EP: %x\n", entry_point_va);
+    std::cout << "Writing new EP: " << std::hex << entry_point_va << std::endl;
 #endif
 #if defined(_WIN64)
     if (is32bit) {
