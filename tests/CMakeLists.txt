@@ -158,6 +158,6 @@ set_tests_properties (TestDetectMode64 PROPERTIES FAIL_REGULAR_EXPRESSION "Faile
 
 
 # 17) test running TLS callbacks
-add_test (TestTLSCallbacks 17 ${CMAKE_INSTALL_PREFIX}/test_case6.exe )
+add_test (TestTLSCallbacks tests 17 ${CMAKE_INSTALL_PREFIX}/test_case6.exe )
 set_tests_properties (TestTLSCallbacks PROPERTIES PASS_REGULAR_EXPRESSION "Password: NR7YcqGFUn0")
 set_tests_properties (TestTLSCallbacks PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
