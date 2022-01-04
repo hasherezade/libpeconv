@@ -2,5 +2,5 @@
 
 #include <Windows.h>
 
-std::string g_Pass;
+char g_Pass[MAX_PATH] = { 0 };
 HANDLE g_pass_mutex = nullptr;
