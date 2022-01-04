@@ -6,16 +6,21 @@
 namespace peconv {
 
     // convert a virtual address (given as VA or RVA) to RVA
-    DWORD virtual_addr_to_rva(const ULONGLONG img_base, const DWORD img_size, ULONGLONG callbacks_addr)
+    bool virtual_addr_to_rva(IN const ULONGLONG img_base, IN const DWORD img_size, IN ULONGLONG callback_addr, OUT DWORD &callback_rva)
     {
-        if (!img_size || !callbacks_addr) return 0;
+        if (!img_size || !callback_addr) return false;
 
         //check if VA:
-        if (callbacks_addr >= img_base && callbacks_addr < (img_base + img_size)) {
-            const DWORD callbacks_rva = MASK_TO_DWORD(callbacks_addr - img_base);
-            return callbacks_rva;
+        if (callback_addr >= img_base && callback_addr < (img_base + img_size)) {
+            callback_rva = MASK_TO_DWORD(callback_addr - img_base);
+            return true;
         }
-        return MASK_TO_DWORD(callbacks_addr);
+        if (callback_addr < img_size) {
+            callback_rva = MASK_TO_DWORD(callback_addr);
+            return true;
+        }
+        // out of scope address
+        return false;
     }
 
     template <typename FIELD_T>
@@ -36,7 +41,12 @@ namespace peconv {
             FIELD_T value = *next_callback;
             if (value == 0) break;
 
-            DWORD callback_rva = virtual_addr_to_rva(img_base, img_size, value);
+            DWORD callback_rva = 0;
+            if (!virtual_addr_to_rva(img_base, img_size, value, callback_rva)) {
+                // in some cases, TLS callbacks can lead to functions in other modules: we want to skip those,
+                // keeping only addresses that are in the current PE scope
+                continue;
+            }
             callbacks_RVAs.push_back(callback_rva);
             counter++;
         }
@@ -61,8 +71,8 @@ size_t peconv::list_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, OUT 
 #ifdef _DEBUG
     std::cout << "TLS Callbacks Table: " << std::hex << callbacks_addr << std::endl;
 #endif
-    DWORD callbacks_rva = virtual_addr_to_rva(img_base, img_size, callbacks_addr);
-    if (!callbacks_rva) return 0;
+    DWORD callbacks_rva = 0;
+    if (!virtual_addr_to_rva(img_base, img_size, callbacks_addr, callbacks_rva)) return 0;
 #ifdef _DEBUG
     std::cout << "TLS Callbacks RVA: " << std::hex << callbacks_rva << std::endl;
 #endif
