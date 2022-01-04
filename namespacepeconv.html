@@ -389,6 +389,12 @@ Functions</h2></td></tr>
 <tr class="separator:aa6eeac8478ddecca9169342322ef8011"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b0b947248a205212e2a556025c89c1b"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a8b0b947248a205212e2a556025c89c1b">get_current_module_handle</a> ()</td></tr>
 <tr class="separator:a8b0b947248a205212e2a556025c89c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ffc65b115ea04d0405b9789abdae8b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a62ffc65b115ea04d0405b9789abdae8b">virtual_addr_to_rva</a> (IN const ULONGLONG imgBase, IN const DWORD imgSize, IN ULONGLONG virtualAddr, OUT DWORD &amp;outRVA)</td></tr>
+<tr class="separator:a62ffc65b115ea04d0405b9789abdae8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0b5f4877627bc9a2dd939016d543212"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae0b5f4877627bc9a2dd939016d543212">list_tls_callbacks</a> (IN PVOID modulePtr, IN size_t moduleSize, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks)</td></tr>
+<tr class="separator:ae0b5f4877627bc9a2dd939016d543212"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e2ff10a8a87a03dcdb0e2e029406c6b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b">run_tls_callbacks</a> (IN PVOID modulePtr, IN size_t moduleSize=0, IN DWORD dwReason=DLL_PROCESS_ATTACH)</td></tr>
+<tr class="separator:a0e2ff10a8a87a03dcdb0e2e029406c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76d1db39dd42b8bf9443e503b02314b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4">is_padding</a> (const BYTE *cave_ptr, size_t cave_size, const BYTE padding_char)</td></tr>
 <tr class="separator:a76d1db39dd42b8bf9443e503b02314b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a022bad7e1913b31319ae23d5644aaaa8"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8">get_process_id</a> (HANDLE hProcess)</td></tr>
@@ -407,6 +413,14 @@ Functions</h2></td></tr>
 <tr class="separator:ab650ce67e446fe3ece6ced8fe56a912f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a948c3b100c0f089152fe09a870769215"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a948c3b100c0f089152fe09a870769215">roundup_to_unit</a> (size_t size, size_t unit)</td></tr>
 <tr class="separator:a948c3b100c0f089152fe09a870769215"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b99fe4d790002ff8ddf5eb476ee0c77"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a3b99fe4d790002ff8ddf5eb476ee0c77">virtual_addr_to_rva</a> (const ULONGLONG img_base, const DWORD img_size, ULONGLONG callbacks_addr)</td></tr>
+<tr class="separator:a3b99fe4d790002ff8ddf5eb476ee0c77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf43b865a17b89e036a652326f94eebf"><td class="memTemplParams" colspan="2">template&lt;typename FIELD_T &gt; </td></tr>
+<tr class="memitem:abf43b865a17b89e036a652326f94eebf"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#abf43b865a17b89e036a652326f94eebf">fetch_callbacks_list</a> (IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt; DWORD &gt; &amp;callbacks_RVAs)</td></tr>
+<tr class="separator:abf43b865a17b89e036a652326f94eebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ba8cc2acd9a550de489ad87337dd598"><td class="memTemplParams" colspan="2">template&lt;typename FIELD_T &gt; </td></tr>
+<tr class="memitem:a8ba8cc2acd9a550de489ad87337dd598"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598">fetch_callbacks_list</a> (IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks)</td></tr>
+<tr class="separator:a8ba8cc2acd9a550de489ad87337dd598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b4307b5dbe3228c5a8502fffe93aa63"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63">get_kernel32_hndl</a> ()</td></tr>
 <tr class="separator:a9b4307b5dbe3228c5a8502fffe93aa63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd0370b87e95a0755199897a7fb79067"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#afd0370b87e95a0755199897a7fb79067">get_ntdll_hndl</a> ()</td></tr>
@@ -1328,6 +1342,129 @@ Here is the call graph for this function:</div>
 <map name="anamespacepeconv_ae5dff18549576c774f9497630124d851_cgraph" id="anamespacepeconv_ae5dff18549576c774f9497630124d851_cgraph">
 <area shape="rect" title=" " alt="" coords="5,5,173,32"/>
 <area shape="rect" href="namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5" title=" " alt="" coords="221,5,391,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="abf43b865a17b89e036a652326f94eebf" name="abf43b865a17b89e036a652326f94eebf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf43b865a17b89e036a652326f94eebf">&#9670;&nbsp;</a></span>fetch_callbacks_list() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FIELD_T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t peconv::fetch_callbacks_list </td>
+          <td>(</td>
+          <td class="paramtype">IN PVOID&#160;</td>
+          <td class="paramname"><em>modulePtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN size_t&#160;</td>
+          <td class="paramname"><em>moduleSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN DWORD&#160;</td>
+          <td class="paramname"><em>callbacks_rva</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OUT std::vector&lt; DWORD &gt; &amp;&#160;</td>
+          <td class="paramname"><em>callbacks_RVAs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="tls__lookup_8cpp_source.html#l00022">22</a> of file <a class="el" href="tls__lookup_8cpp_source.html">tls_lookup.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_abf43b865a17b89e036a652326f94eebf_cgraph.png" border="0" usemap="#anamespacepeconv_abf43b865a17b89e036a652326f94eebf_cgraph" alt=""/></div>
+<map name="anamespacepeconv_abf43b865a17b89e036a652326f94eebf_cgraph" id="anamespacepeconv_abf43b865a17b89e036a652326f94eebf_cgraph">
+<area shape="rect" title=" " alt="" coords="5,223,191,250"/>
+<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="239,122,399,149"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1181,146,1318,173"/>
+<area shape="rect" href="namespacepeconv.html#a62ffc65b115ea04d0405b9789abdae8b" title=" " alt="" coords="250,275,387,316"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="981,107,1120,134"/>
+<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="447,71,599,98"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="647,21,755,47"/>
+<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="447,122,599,149"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1168,70,1331,97"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1379,70,1564,97"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="803,5,933,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a8ba8cc2acd9a550de489ad87337dd598" name="a8ba8cc2acd9a550de489ad87337dd598"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ba8cc2acd9a550de489ad87337dd598">&#9670;&nbsp;</a></span>fetch_callbacks_list() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename FIELD_T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t peconv::fetch_callbacks_list </td>
+          <td>(</td>
+          <td class="paramtype">IN PVOID&#160;</td>
+          <td class="paramname"><em>modulePtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN size_t&#160;</td>
+          <td class="paramname"><em>moduleSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN DWORD&#160;</td>
+          <td class="paramname"><em>callbacks_rva</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OUT std::vector&lt; ULONGLONG &gt; &amp;&#160;</td>
+          <td class="paramname"><em>tls_callbacks</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="tls__parser_8cpp_source.html#l00010">10</a> of file <a class="el" href="tls__parser_8cpp_source.html">tls_parser.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_a8ba8cc2acd9a550de489ad87337dd598_cgraph.png" border="0" usemap="#anamespacepeconv_a8ba8cc2acd9a550de489ad87337dd598_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a8ba8cc2acd9a550de489ad87337dd598_cgraph" id="anamespacepeconv_a8ba8cc2acd9a550de489ad87337dd598_cgraph">
+<area shape="rect" title=" " alt="" coords="5,173,191,199"/>
+<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="239,122,399,149"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1181,158,1318,185"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="981,107,1120,134"/>
+<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="447,71,599,98"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="647,21,755,47"/>
+<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="447,122,599,149"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1168,82,1331,109"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1379,82,1564,109"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="803,5,933,47"/>
 </map>
 </div>
 
@@ -4386,6 +4523,68 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="ae0b5f4877627bc9a2dd939016d543212" name="ae0b5f4877627bc9a2dd939016d543212"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0b5f4877627bc9a2dd939016d543212">&#9670;&nbsp;</a></span>list_tls_callbacks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t peconv::list_tls_callbacks </td>
+          <td>(</td>
+          <td class="paramtype">IN PVOID&#160;</td>
+          <td class="paramname"><em>modulePtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN size_t&#160;</td>
+          <td class="paramname"><em>moduleSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OUT std::vector&lt; ULONGLONG &gt; &amp;&#160;</td>
+          <td class="paramname"><em>tls_callbacks</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >A function listing RVAs of all TLS callbacks that are present in the given module. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">modulePtr</td><td>: pointer to the buffer with the PE in a Virtual format, relocated to the load base </td></tr>
+    <tr><td class="paramname">moduleSize</td><td>: size of the given module (if 0 given, the imageSize from the PE headers will be used) </td></tr>
+    <tr><td class="paramname">tls_callbacks</td><td>: a vector of TLS callbacks addresses (as given in the TLS table) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="tls__parser_8cpp_source.html#l00052">52</a> of file <a class="el" href="tls__parser_8cpp_source.html">tls_parser.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_ae0b5f4877627bc9a2dd939016d543212_cgraph.png" border="0" usemap="#anamespacepeconv_ae0b5f4877627bc9a2dd939016d543212_cgraph" alt=""/></div>
+<map name="anamespacepeconv_ae0b5f4877627bc9a2dd939016d543212_cgraph" id="anamespacepeconv_ae0b5f4877627bc9a2dd939016d543212_cgraph">
+<area shape="rect" title=" " alt="" coords="5,178,176,204"/>
+<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="224,76,384,103"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="632,127,740,154"/>
+<area shape="rect" href="namespacepeconv.html#a62ffc65b115ea04d0405b9789abdae8b" title=" " alt="" coords="235,229,373,270"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="967,76,1105,103"/>
+<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="432,26,584,52"/>
+<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="432,76,584,103"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1153,128,1316,155"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1166,76,1303,103"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1364,128,1549,155"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="788,128,919,169"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a160928436b4c34309ed3c2da10f8dc53" name="a160928436b4c34309ed3c2da10f8dc53"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a160928436b4c34309ed3c2da10f8dc53">&#9670;&nbsp;</a></span>load_delayed_imports()</h2>
 
@@ -6351,6 +6550,69 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a0e2ff10a8a87a03dcdb0e2e029406c6b" name="a0e2ff10a8a87a03dcdb0e2e029406c6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e2ff10a8a87a03dcdb0e2e029406c6b">&#9670;&nbsp;</a></span>run_tls_callbacks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t peconv::run_tls_callbacks </td>
+          <td>(</td>
+          <td class="paramtype">IN PVOID&#160;</td>
+          <td class="paramname"><em>modulePtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN size_t&#160;</td>
+          <td class="paramname"><em>moduleSize</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN DWORD&#160;</td>
+          <td class="paramname"><em>dwReason</em> = <code>DLL_PROCESS_ATTACH</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >A function running all the TLS callbacks that are present in the given module, one by one. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">modulePtr</td><td>: pointer to the buffer with the PE in a Virtual format, relocated to the load base </td></tr>
+    <tr><td class="paramname">moduleSize</td><td>: size of the given module (if 0 given, the imageSize from the PE headers will be used) </td></tr>
+    <tr><td class="paramname">dwReason</td><td>: a parameter (dwReason) that will be passed to the callback function </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="tls__parser_8cpp_source.html#l00084">84</a> of file <a class="el" href="tls__parser_8cpp_source.html">tls_parser.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_a0e2ff10a8a87a03dcdb0e2e029406c6b_cgraph.png" border="0" usemap="#anamespacepeconv_a0e2ff10a8a87a03dcdb0e2e029406c6b_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a0e2ff10a8a87a03dcdb0e2e029406c6b_cgraph" id="anamespacepeconv_a0e2ff10a8a87a03dcdb0e2e029406c6b_cgraph">
+<area shape="rect" title=" " alt="" coords="5,147,176,174"/>
+<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="443,89,603,115"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1385,158,1522,185"/>
+<area shape="rect" href="namespacepeconv.html#ae0b5f4877627bc9a2dd939016d543212" title=" " alt="" coords="224,122,395,149"/>
+<area shape="rect" href="namespacepeconv.html#a62ffc65b115ea04d0405b9789abdae8b" title=" " alt="" coords="454,148,591,189"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1185,107,1324,134"/>
+<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="651,71,803,98"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="851,21,959,47"/>
+<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="651,122,803,149"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1372,82,1535,109"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1583,82,1768,109"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1007,5,1137,47"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a1b2f6b38a8631d42d6a7919f41de7e01" name="a1b2f6b38a8631d42d6a7919f41de7e01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1b2f6b38a8631d42d6a7919f41de7e01">&#9670;&nbsp;</a></span>set_main_module_in_peb()</h2>
 
@@ -6672,6 +6934,94 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a3b99fe4d790002ff8ddf5eb476ee0c77" name="a3b99fe4d790002ff8ddf5eb476ee0c77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b99fe4d790002ff8ddf5eb476ee0c77">&#9670;&nbsp;</a></span>virtual_addr_to_rva() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DWORD peconv::virtual_addr_to_rva </td>
+          <td>(</td>
+          <td class="paramtype">const ULONGLONG&#160;</td>
+          <td class="paramname"><em>img_base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const DWORD&#160;</td>
+          <td class="paramname"><em>img_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ULONGLONG&#160;</td>
+          <td class="paramname"><em>callbacks_addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="tls__lookup_8cpp_source.html#l00009">9</a> of file <a class="el" href="tls__lookup_8cpp_source.html">tls_lookup.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a62ffc65b115ea04d0405b9789abdae8b" name="a62ffc65b115ea04d0405b9789abdae8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62ffc65b115ea04d0405b9789abdae8b">&#9670;&nbsp;</a></span>virtual_addr_to_rva() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool peconv::virtual_addr_to_rva </td>
+          <td>(</td>
+          <td class="paramtype">IN const ULONGLONG&#160;</td>
+          <td class="paramname"><em>imgBase</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN const DWORD&#160;</td>
+          <td class="paramname"><em>imgSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN ULONGLONG&#160;</td>
+          <td class="paramname"><em>virtualAddr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OUT DWORD &amp;&#160;</td>
+          <td class="paramname"><em>outRVA</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >A helper function, normalizing virtual addresses. It automatically detects if the given virtual_addr is VA or RVA, and converts it into RVA </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">imgBase</td><td>: the base address to which the module was relocated </td></tr>
+    <tr><td class="paramname">imgSize</td><td>: the size of the image </td></tr>
+    <tr><td class="paramname">virtualAddr</td><td>: the virtual address (RVA or VA) that we want to convert (within the module described by imgBase and imgSize) </td></tr>
+    <tr><td class="paramname">outRVA</td><td>: the output of the conversion (RVA) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the conversion was successful, false otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="tls__parser_8cpp_source.html#l00035">35</a> of file <a class="el" href="tls__parser_8cpp_source.html">tls_parser.cpp</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a id="af7fbbf3b5b2c890138c9d66318ecf526" name="af7fbbf3b5b2c890138c9d66318ecf526"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7fbbf3b5b2c890138c9d66318ecf526">&#9670;&nbsp;</a></span>g_kernel32Hndl</h2>
@@ -6741,7 +7091,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 4 2022 15:29:32 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue Jan 4 2022 17:37:10 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
