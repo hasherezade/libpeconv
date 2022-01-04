@@ -25,6 +25,7 @@ set (srcs
 	test_found_base.cpp
 	test_fix_dotnet.cpp
 	test_format_detect.cpp
+	test_tls_callbacks.cpp
 )
 
 set (hdrs
@@ -43,6 +44,7 @@ set (hdrs
 	test_found_base.h
 	test_fix_dotnet.h
 	test_format_detect.h
+	test_tls_callbacks.h
 	resource.h
 	shellcodes.h
 	shellc32.h
@@ -62,6 +64,7 @@ add_subdirectory ( test_case1 )
 add_subdirectory ( test_case3 )
 add_subdirectory ( test_case4 )
 add_subdirectory ( test_case5 )
+add_subdirectory ( test_case6 )
 
 #install
 INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT ${PROJECT_NAME} )
@@ -152,3 +155,9 @@ set_tests_properties (TestDetectMode32 PROPERTIES FAIL_REGULAR_EXPRESSION "Faile
 add_test (TestDetectMode64 tests 16 ${CMAKE_INSTALL_PREFIX}/test_case3_64.exe )
 set_tests_properties (TestDetectMode64 PROPERTIES PASS_REGULAR_EXPRESSION "Test passed")
 set_tests_properties (TestDetectMode64 PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")
+
+
+# 17) test running TLS callbacks
+add_test (TestTLSCallbacks tests 17 ${CMAKE_INSTALL_PREFIX}/test_case6.exe )
+set_tests_properties (TestTLSCallbacks PROPERTIES PASS_REGULAR_EXPRESSION "Password: NR7YcqGFUn0")
+set_tests_properties (TestTLSCallbacks PROPERTIES FAIL_REGULAR_EXPRESSION "Failed")

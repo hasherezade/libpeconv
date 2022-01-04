@@ -27,4 +27,4 @@
 #include "peconv/load_config_util.h"
 #include "peconv/peb_lookup.h"
 #include "peconv/find_base.h"
-
+#include "peconv/tls_parser.h"
