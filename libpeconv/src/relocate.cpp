@@ -118,8 +118,6 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
     IMAGE_BASE_RELOCATION* reloc = NULL;
 
     DWORD parsedSize = 0;
-    DWORD validBlocks = 0;
-	bool NoBlocks = true;	
     while (parsedSize < maxSize) {
         reloc = (IMAGE_BASE_RELOCATION*)(relocAddr + parsedSize + (ULONG_PTR)modulePtr);
         if (!validate_ptr(modulePtr, moduleSize, reloc, sizeof(IMAGE_BASE_RELOCATION))) {
@@ -140,18 +138,14 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
             return false;
         }
         if (!is_empty_reloc_block(block, entriesNum, page, modulePtr, moduleSize)) {
-            if (process_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b, callback)) {
-                validBlocks++;
-				NoBlocks = false;
-            }
-            else {
+            if (!process_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b, callback)) {
                 // the block was malformed
                 return false;
             }
         }
         parsedSize += reloc->SizeOfBlock;
     }
-    return (NoBlocks || validBlocks != 0);
+    return true;
 }
 
 bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, ULONGLONG oldBase)
