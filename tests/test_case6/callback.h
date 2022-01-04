@@ -90,7 +90,8 @@ void NTAPI tls_callback1(PVOID DllHandle, DWORD dwReason, PVOID arg)
     g_pass_mutex = CreateMutexA(NULL, TRUE, NULL);
     WaitForSingleObject(g_pass_mutex, INFINITE);
     //copy to global:
-    memcpy(g_Pass, pass, 10);
+    const size_t size = sizeof(pass) > sizeof(g_Pass) ? sizeof(g_Pass) : sizeof(pass);
+    memcpy(g_Pass, pass, size);
     ReleaseMutex(g_pass_mutex);
 
     std::cout << __FUNCTION__ << ": TLS callback: finished\n";
