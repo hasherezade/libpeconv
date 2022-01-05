@@ -39,4 +39,8 @@ namespace peconv {
     */
     BYTE* load_pe_executable(const char *filename, OUT size_t &v_size, t_function_resolver* import_resolver=NULL);
 
+#ifdef _WIN64
+    bool setup_exceptions(IN BYTE *modulePtr, IN size_t moduleSize);
+#endif
+
 };// namespace peconv
