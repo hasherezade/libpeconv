@@ -26,6 +26,7 @@ set (srcs
 	test_fix_dotnet.cpp
 	test_format_detect.cpp
 	test_tls_callbacks.cpp
+	test_exceptions.cpp
 )
 
 set (hdrs
@@ -45,6 +46,7 @@ set (hdrs
 	test_fix_dotnet.h
 	test_format_detect.h
 	test_tls_callbacks.h
+	test_exceptions.h
 	resource.h
 	shellcodes.h
 	shellc32.h
@@ -65,6 +67,7 @@ add_subdirectory ( test_case3 )
 add_subdirectory ( test_case4 )
 add_subdirectory ( test_case5 )
 add_subdirectory ( test_case6 )
+add_subdirectory ( test_case7 )
 
 #install
 INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT ${PROJECT_NAME} )
