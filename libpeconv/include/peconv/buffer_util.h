@@ -7,6 +7,11 @@
 
 #include <windows.h>
 
+#define MAX_DWORD 0xffffffff
+#define MAX_WORD 0xffff
+#define MASK_TO_DWORD(val) ((val < MAX_DWORD) ? (val & MAX_DWORD) : MAX_DWORD)
+#define MASK_TO_WORD(val) ((val < MAX_WORD) ? (val & MAX_WORD) : MAX_WORD)
+
 namespace peconv {
 
     /** 

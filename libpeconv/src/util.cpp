@@ -150,7 +150,7 @@ bool peconv::is_mem_accessible(LPCVOID areaStart, SIZE_T areaSize, DWORD dwAcces
 bool peconv::is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)
 {
 #ifdef USE_OLD_BADPTR // classic IsBadReadPtr is much faster than the version using VirtualQuery
-    return IsBadReadPtr(areaStart, areaSize);
+    return (IsBadReadPtr(areaStart, areaSize)) ? true : false;
 #else
     const DWORD dwReadRights = PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY;
     bool isAccessible = peconv::is_mem_accessible(areaStart, areaSize, dwReadRights);

@@ -71,9 +71,9 @@ peconv::ALIGNED_BUF peconv::read_from_file(IN const char *in_path, IN OUT size_t
 #endif
         return nullptr;
     }
-    size_t r_size = static_cast<size_t>(GetFileSize(file, 0));
+    DWORD r_size = GetFileSize(file, 0);
     if (read_size != 0 && read_size <= r_size) {
-        r_size = read_size;
+        r_size = MASK_TO_DWORD(read_size);
     }
     PBYTE buffer = peconv::alloc_pe_buffer(r_size, PAGE_READWRITE);
     if (buffer == nullptr) {
