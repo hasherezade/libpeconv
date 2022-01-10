@@ -92,14 +92,6 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a7d467c1d283fdfa1f2081ba1e0d01b6e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pe__hdrs__helper_8h.html#a7d467c1d283fdfa1f2081ba1e0d01b6e">PAGE_SIZE</a>&#160;&#160;&#160;0x1000</td></tr>
 <tr class="separator:a7d467c1d283fdfa1f2081ba1e0d01b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6966065b527fa9cd37c73ac00255590f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pe__hdrs__helper_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>&#160;&#160;&#160;0xffffffff</td></tr>
-<tr class="separator:a6966065b527fa9cd37c73ac00255590f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95b015e2f596dc86ea9220be04427e1a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pe__hdrs__helper_8h.html#a95b015e2f596dc86ea9220be04427e1a">MAX_WORD</a>&#160;&#160;&#160;0xffff</td></tr>
-<tr class="separator:a95b015e2f596dc86ea9220be04427e1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa26768a6583c35dd045af63f9207edd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pe__hdrs__helper_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a>(val)&#160;&#160;&#160;((val &lt; <a class="el" href="pe__hdrs__helper_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>) ? (val &amp; <a class="el" href="pe__hdrs__helper_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>) : <a class="el" href="pe__hdrs__helper_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>)</td></tr>
-<tr class="separator:aaa26768a6583c35dd045af63f9207edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b697bc33c89771cfb9813059957b230"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pe__hdrs__helper_8h.html#a0b697bc33c89771cfb9813059957b230">MASK_TO_WORD</a>(val)&#160;&#160;&#160;((val &lt; <a class="el" href="pe__hdrs__helper_8h.html#a95b015e2f596dc86ea9220be04427e1a">MAX_WORD</a>) ? (val &amp; <a class="el" href="pe__hdrs__helper_8h.html#a95b015e2f596dc86ea9220be04427e1a">MAX_WORD</a>) : <a class="el" href="pe__hdrs__helper_8h.html#a95b015e2f596dc86ea9220be04427e1a">MAX_WORD</a>)</td></tr>
-<tr class="separator:a0b697bc33c89771cfb9813059957b230"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -183,78 +175,6 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aaa26768a6583c35dd045af63f9207edd" name="aaa26768a6583c35dd045af63f9207edd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa26768a6583c35dd045af63f9207edd">&#9670;&nbsp;</a></span>MASK_TO_DWORD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASK_TO_DWORD</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">val</td><td>)</td>
-          <td>&#160;&#160;&#160;((val &lt; <a class="el" href="pe__hdrs__helper_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>) ? (val &amp; <a class="el" href="pe__hdrs__helper_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>) : <a class="el" href="pe__hdrs__helper_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8h_source.html#l00017">17</a> of file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
-
-</div>
-</div>
-<a id="a0b697bc33c89771cfb9813059957b230" name="a0b697bc33c89771cfb9813059957b230"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b697bc33c89771cfb9813059957b230">&#9670;&nbsp;</a></span>MASK_TO_WORD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MASK_TO_WORD</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">val</td><td>)</td>
-          <td>&#160;&#160;&#160;((val &lt; <a class="el" href="pe__hdrs__helper_8h.html#a95b015e2f596dc86ea9220be04427e1a">MAX_WORD</a>) ? (val &amp; <a class="el" href="pe__hdrs__helper_8h.html#a95b015e2f596dc86ea9220be04427e1a">MAX_WORD</a>) : <a class="el" href="pe__hdrs__helper_8h.html#a95b015e2f596dc86ea9220be04427e1a">MAX_WORD</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8h_source.html#l00018">18</a> of file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
-
-</div>
-</div>
-<a id="a6966065b527fa9cd37c73ac00255590f" name="a6966065b527fa9cd37c73ac00255590f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6966065b527fa9cd37c73ac00255590f">&#9670;&nbsp;</a></span>MAX_DWORD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MAX_DWORD&#160;&#160;&#160;0xffffffff</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8h_source.html#l00015">15</a> of file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
-
-</div>
-</div>
-<a id="a95b015e2f596dc86ea9220be04427e1a" name="a95b015e2f596dc86ea9220be04427e1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95b015e2f596dc86ea9220be04427e1a">&#9670;&nbsp;</a></span>MAX_WORD</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MAX_WORD&#160;&#160;&#160;0xffff</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="pe__hdrs__helper_8h_source.html#l00016">16</a> of file <a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>.</p>
-
-</div>
-</div>
 <a id="a7d467c1d283fdfa1f2081ba1e0d01b6e" name="a7d467c1d283fdfa1f2081ba1e0d01b6e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7d467c1d283fdfa1f2081ba1e0d01b6e">&#9670;&nbsp;</a></span>PAGE_SIZE</h2>
 
@@ -274,7 +194,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 10 2022 00:20:10 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Mon Jan 10 2022 00:52:37 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
