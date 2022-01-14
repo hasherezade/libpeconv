@@ -37,7 +37,7 @@ var searchData=
   ['forwarder_5fname_5flen_34',['forwarder_name_len',['../namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c',1,'peconv']]],
   ['forwarders_5flookup_35',['forwarders_lookup',['../classpeconv_1_1_exports_mapper.html#acebdb97e38e5ff1eb265336c02119981',1,'peconv::ExportsMapper']]],
   ['free_5faligned_36',['free_aligned',['../namespacepeconv.html#a0e37c28aa6d21070a623054c52126531',1,'peconv']]],
-  ['free_5ffile_37',['free_file',['../namespacepeconv.html#a575dbd38068abc24fff93883b526215b',1,'peconv']]],
+  ['free_5ffile_37',['free_file',['../namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842',1,'peconv']]],
   ['free_5fpe_5fbuffer_38',['free_pe_buffer',['../namespacepeconv.html#a839f04fa06f311e3270a4305421ad35f',1,'peconv']]],
   ['free_5fresource_5fdata_39',['free_resource_data',['../namespacepeconv.html#aa6eeac8478ddecca9169342322ef8011',1,'peconv']]],
   ['free_5funaligned_40',['free_unaligned',['../namespacepeconv.html#afdb790b678572d608be3675ced9b777a',1,'peconv']]],

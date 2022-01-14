@@ -26,7 +26,7 @@ var searchData=
   ['formatname_23',['formatName',['../classpeconv_1_1_exported_func.html#adb7ea698345ad68032fd15dc038dad26',1,'peconv::ExportedFunc']]],
   ['forwarder_5fname_5flen_24',['forwarder_name_len',['../namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c',1,'peconv']]],
   ['free_5faligned_25',['free_aligned',['../namespacepeconv.html#a0e37c28aa6d21070a623054c52126531',1,'peconv']]],
-  ['free_5ffile_26',['free_file',['../namespacepeconv.html#a575dbd38068abc24fff93883b526215b',1,'peconv']]],
+  ['free_5ffile_26',['free_file',['../namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842',1,'peconv']]],
   ['free_5fpe_5fbuffer_27',['free_pe_buffer',['../namespacepeconv.html#a839f04fa06f311e3270a4305421ad35f',1,'peconv']]],
   ['free_5fresource_5fdata_28',['free_resource_data',['../namespacepeconv.html#aa6eeac8478ddecca9169342322ef8011',1,'peconv']]],
   ['free_5funaligned_29',['free_unaligned',['../namespacepeconv.html#afdb790b678572d608be3675ced9b777a',1,'peconv']]]
