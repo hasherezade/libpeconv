@@ -72,7 +72,7 @@ BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool exec
         return NULL;
     }
     BYTE* mappedPE = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
-    free_pe_buffer(dllRawData);
+    free_file(dllRawData);
     return mappedPE;
 }
 
