@@ -123,12 +123,12 @@ $(function() {
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="comment">//if the image was loaded at its default base, relocate_module will return always true (because relocating is already done)</span></div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="keywordflow">if</span> (relocate &amp;&amp; !<a class="code hl_function" href="namespacepeconv.html#ab35521cbdafa0310a0d7e9d1525beed8">relocate_module</a>(mappedDLL, v_size, (ULONGLONG)mappedDLL)) {</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <span class="comment">// relocating was required, but it failed - thus, the full PE image is useless</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            printf(<span class="stringliteral">&quot;Could not relocate the module!&quot;</span>);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            std::cerr &lt;&lt; <span class="stringliteral">&quot;[!] Could not relocate the module!\n&quot;</span>;</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            <a class="code hl_function" href="namespacepeconv.html#a839f04fa06f311e3270a4305421ad35f">free_pe_buffer</a>(mappedDLL, v_size);</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            mappedDLL = NULL;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        }</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        printf(<span class="stringliteral">&quot;Could not allocate memory at the desired base!\n&quot;</span>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;[!] Could not allocate memory at the desired base!\n&quot;</span>;</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">return</span> mappedDLL;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
@@ -152,7 +152,7 @@ $(function() {
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>{</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    BYTE* loaded_pe = <a class="code hl_function" href="namespacepeconv.html#a7731531c07531385db3c749676dd702f">load_pe_module</a>(dllRawData, r_size, v_size, <span class="keyword">true</span>, <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordflow">if</span> (!loaded_pe) {</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        printf(<span class="stringliteral">&quot;[-] Loading failed!\n&quot;</span>);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;[-] Loading failed!\n&quot;</span>;</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#if _DEBUG</span></div>
@@ -179,7 +179,7 @@ $(function() {
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    BYTE* loaded_pe = <a class="code hl_function" href="namespacepeconv.html#a7731531c07531385db3c749676dd702f">load_pe_module</a>(my_path, v_size, <span class="keyword">true</span>, <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">if</span> (!loaded_pe) {</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>         printf(<span class="stringliteral">&quot;Loading failed!\n&quot;</span>);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>         printf(<span class="stringliteral">&quot;[-] Loading failed!\n&quot;</span>);</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#if _DEBUG</span></div>
@@ -220,7 +220,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 14 2022 19:04:47 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Fri Jan 14 2022 19:13:45 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
