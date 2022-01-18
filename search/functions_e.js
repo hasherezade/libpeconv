@@ -13,8 +13,9 @@ var searchData=
   ['redirect_5fto_5flocal64_10',['redirect_to_local64',['../namespacepeconv.html#ad2db9ff90abb684282d89b6e22c6b39a',1,'peconv']]],
   ['relocate_5fmodule_11',['relocate_module',['../namespacepeconv.html#ab35521cbdafa0310a0d7e9d1525beed8',1,'peconv']]],
   ['relocblockcallback_12',['RelocBlockCallback',['../classpeconv_1_1_reloc_block_callback.html#a660477672175a10f6650b41af345124d',1,'peconv::RelocBlockCallback']]],
-  ['replace_5ftarget_13',['replace_target',['../namespacepeconv.html#ab5141d4b76a42b9e0498381c2f29bfee',1,'peconv']]],
-  ['resolve_5ffunc_14',['resolve_func',['../classpeconv_1_1export__based__resolver.html#aee9dfbf0bfd458b4ad8bb3ad9c13bb85',1,'peconv::export_based_resolver::resolve_func()'],['../classpeconv_1_1hooking__func__resolver.html#afb89d14990f16bd9459741a0822c93dc',1,'peconv::hooking_func_resolver::resolve_func()'],['../classpeconv_1_1default__func__resolver.html#a0c962c78cbbeb72018094ad6218979d7',1,'peconv::default_func_resolver::resolve_func()'],['../classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159',1,'peconv::t_function_resolver::resolve_func()']]],
-  ['roundup_5fto_5funit_15',['roundup_to_unit',['../namespacepeconv.html#a948c3b100c0f089152fe09a870769215',1,'peconv']]],
-  ['run_5ftls_5fcallbacks_16',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]]
+  ['remove_5fextension_13',['remove_extension',['../namespacepeconv.html#a5ad4f94ce51afe5f447a4ff1954a81d9',1,'peconv']]],
+  ['replace_5ftarget_14',['replace_target',['../namespacepeconv.html#ab5141d4b76a42b9e0498381c2f29bfee',1,'peconv']]],
+  ['resolve_5ffunc_15',['resolve_func',['../classpeconv_1_1export__based__resolver.html#aee9dfbf0bfd458b4ad8bb3ad9c13bb85',1,'peconv::export_based_resolver::resolve_func()'],['../classpeconv_1_1hooking__func__resolver.html#afb89d14990f16bd9459741a0822c93dc',1,'peconv::hooking_func_resolver::resolve_func()'],['../classpeconv_1_1default__func__resolver.html#a0c962c78cbbeb72018094ad6218979d7',1,'peconv::default_func_resolver::resolve_func()'],['../classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159',1,'peconv::t_function_resolver::resolve_func()']]],
+  ['roundup_5fto_5funit_16',['roundup_to_unit',['../namespacepeconv.html#a948c3b100c0f089152fe09a870769215',1,'peconv']]],
+  ['run_5ftls_5fcallbacks_17',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]]
 ];
