@@ -115,6 +115,70 @@ public:
 
 //---
 
+class CollectImportsCallback : public ImportThunksCallback
+{
+public:
+    CollectImportsCallback(BYTE* _modulePtr, size_t _moduleSize, std::map<DWORD, ExportedFunc*> &_thunkToFunc)
+        : ImportThunksCallback(_modulePtr, _moduleSize), thunkToFunc(_thunkToFunc)
+    {
+    }
+
+    virtual bool processThunks(LPSTR lib_name, ULONG_PTR origFirstThunkPtr, ULONG_PTR firstThunkPtr)
+    {
+        if (this->is64b) {
+            IMAGE_THUNK_DATA64* desc = reinterpret_cast<IMAGE_THUNK_DATA64*>(origFirstThunkPtr);
+            ULONGLONG* call_via = reinterpret_cast<ULONGLONG*>(firstThunkPtr);
+            return processThunks_tpl<ULONGLONG, IMAGE_THUNK_DATA64>(lib_name, desc, call_via, IMAGE_ORDINAL_FLAG64);
+
+        }
+        else {
+
+            IMAGE_THUNK_DATA32* desc = reinterpret_cast<IMAGE_THUNK_DATA32*>(origFirstThunkPtr);
+            DWORD* call_via = reinterpret_cast<DWORD*>(firstThunkPtr);
+            return processThunks_tpl<DWORD, IMAGE_THUNK_DATA32>(lib_name, desc, call_via, IMAGE_ORDINAL_FLAG32);
+        }
+    }
+
+protected:
+    template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
+    bool processThunks_tpl(LPSTR lib_name, T_IMAGE_THUNK_DATA* desc, T_FIELD* call_via, T_FIELD ordinal_flag)
+    {
+        if (call_via == nullptr) {
+            return false;
+        }
+        bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
+        ExportedFunc *func = nullptr;
+
+        if (is_by_ord) {
+            T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
+#ifdef _DEBUG
+            std::cout << "raw ordinal: " << std::hex << raw_ordinal << std::endl;
+#endif
+            func = new ExportedFunc(lib_name, raw_ordinal);
+        }
+        else {
+            PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
+            LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
+            WORD ordinal = by_name->Hint;
+#ifdef _DEBUG
+            std::cout << "name: " << func_name << std::endl;
+#endif
+            func = new ExportedFunc(lib_name, func_name, ordinal);
+        }
+        if (!func) {
+            return false;
+        }
+        DWORD rva = MASK_TO_DWORD((ULONG_PTR)call_via - (ULONG_PTR)modulePtr);
+        thunkToFunc[rva] = func;
+        return true;
+    }
+
+    std::map<DWORD, ExportedFunc*> &thunkToFunc;
+};
+
+
+//---
+
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
 bool process_imp_functions_tpl(BYTE* modulePtr, size_t module_size, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, IN ImportThunksCallback *callback)
 {
@@ -310,6 +374,12 @@ bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
 bool peconv::collect_thunks(IN BYTE* modulePtr, IN SIZE_T moduleSize, OUT std::set<DWORD>& thunk_rvas)
 {
     CollectThunksCallback collector(modulePtr, moduleSize, thunk_rvas);
+    return peconv::process_import_table(modulePtr, moduleSize, &collector);
+}
+
+bool peconv::collect_imports(IN BYTE* modulePtr, IN SIZE_T moduleSize, OUT ImportsCollection &collection)
+{
+    CollectImportsCallback collector(modulePtr, moduleSize, collection.thunkToFunc);
     return peconv::process_import_table(modulePtr, moduleSize, &collector);
 }
 

@@ -10,6 +10,7 @@
 
 #include "pe_hdrs_helper.h"
 #include "function_resolver.h"
+#include "exports_mapper.h"
 
 namespace peconv {
 
@@ -38,6 +39,31 @@ namespace peconv {
         BYTE* modulePtr;
         size_t moduleSize;
         bool is64b;
+    };
+
+
+    struct ImportsCollection
+    {
+    public:
+        ImportsCollection() {};
+        ~ImportsCollection()
+        {
+            std::map<DWORD, peconv::ExportedFunc*>::iterator itr;
+            for (itr = thunkToFunc.begin(); itr != thunkToFunc.end(); ++itr) {
+                peconv::ExportedFunc* exp = itr->second;
+                if (!exp) continue;
+                delete exp;
+            }
+
+            thunkToFunc.clear();
+        }
+
+        size_t size()
+        {
+            return thunkToFunc.size();
+        }
+
+        std::map<DWORD, peconv::ExportedFunc*> thunkToFunc;
     };
 
     /**
@@ -72,5 +98,7 @@ namespace peconv {
     * Collects all the Import Thunks RVAs (via which Imports are called)
     */
     bool collect_thunks(IN BYTE* modulePtr, IN SIZE_T moduleSize, OUT std::set<DWORD>& thunk_rvas);
+
+    bool collect_imports(IN BYTE* modulePtr, IN SIZE_T moduleSize, OUT ImportsCollection &collection);
 
 }; // namespace peconv
