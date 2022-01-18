@@ -81,12 +81,15 @@ $(function() {
 <code>#include &lt;set&gt;</code><br />
 <code>#include &quot;<a class="el" href="pe__hdrs__helper_8h_source.html">pe_hdrs_helper.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="function__resolver_8h_source.html">function_resolver.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>&quot;</code><br />
 </div>
 <p><a href="imports__loader_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_import_thunks_callback.html">peconv::ImportThunksCallback</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpeconv_1_1_imports_collection.html">peconv::ImportsCollection</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -106,6 +109,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac67dbb3e437d06f60e0eb3cfcf567e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cd71ea9bdeb9fbfd04a0a75037034dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a8cd71ea9bdeb9fbfd04a0a75037034dc">peconv::collect_thunks</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, OUT std::set&lt; DWORD &gt; &amp;thunk_rvas)</td></tr>
 <tr class="separator:a8cd71ea9bdeb9fbfd04a0a75037034dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb2b5bd101b42677d1455d9c567ce447"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aeb2b5bd101b42677d1455d9c567ce447">peconv::collect_imports</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, OUT <a class="el" href="structpeconv_1_1_imports_collection.html">ImportsCollection</a> &amp;collection)</td></tr>
+<tr class="separator:aeb2b5bd101b42677d1455d9c567ce447"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Parsing and filling the Import Table. </p>
@@ -114,7 +119,7 @@ Functions</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 14 2022 19:13:45 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue Jan 18 2022 18:49:23 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

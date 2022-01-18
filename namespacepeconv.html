@@ -105,6 +105,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imported_dll_coverage.html">ImportedDllCoverage</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpeconv_1_1_imports_collection.html">ImportsCollection</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_imports_uneraser.html">ImportsUneraser</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_import_thunks_callback.html">ImportThunksCallback</a></td></tr>
@@ -246,6 +248,8 @@ Functions</h2></td></tr>
 <tr class="separator:ac67dbb3e437d06f60e0eb3cfcf567e90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cd71ea9bdeb9fbfd04a0a75037034dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a8cd71ea9bdeb9fbfd04a0a75037034dc">collect_thunks</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, OUT std::set&lt; DWORD &gt; &amp;thunk_rvas)</td></tr>
 <tr class="separator:a8cd71ea9bdeb9fbfd04a0a75037034dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb2b5bd101b42677d1455d9c567ce447"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aeb2b5bd101b42677d1455d9c567ce447">collect_imports</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, OUT <a class="el" href="structpeconv_1_1_imports_collection.html">ImportsCollection</a> &amp;collection)</td></tr>
+<tr class="separator:aeb2b5bd101b42677d1455d9c567ce447"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f40e0e53ef6ac8104faf550e5b41bf5"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a2f40e0e53ef6ac8104faf550e5b41bf5">get_load_config_ptr</a> (BYTE *buffer, size_t buf_size)</td></tr>
 <tr class="separator:a2f40e0e53ef6ac8104faf550e5b41bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31644522ca0b80875ee60e71a68540c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacepeconv.html#afb17360c7076dbaebd8629b02b7f3614">t_load_config_ver</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a31644522ca0b80875ee60e71a68540c1">get_load_config_version</a> (BYTE *buffer, size_t buf_size, BYTE *ld_config_ptr)</td></tr>
@@ -884,6 +888,63 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="aeb2b5bd101b42677d1455d9c567ce447" name="aeb2b5bd101b42677d1455d9c567ce447"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb2b5bd101b42677d1455d9c567ce447">&#9670;&nbsp;</a></span>collect_imports()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool peconv::collect_imports </td>
+          <td>(</td>
+          <td class="paramtype">IN BYTE *&#160;</td>
+          <td class="paramname"><em>modulePtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IN SIZE_T&#160;</td>
+          <td class="paramname"><em>moduleSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">OUT <a class="el" href="structpeconv_1_1_imports_collection.html">ImportsCollection</a> &amp;&#160;</td>
+          <td class="paramname"><em>collection</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00380">380</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacepeconv_aeb2b5bd101b42677d1455d9c567ce447_cgraph.png" border="0" usemap="#anamespacepeconv_aeb2b5bd101b42677d1455d9c567ce447_cgraph" alt=""/></div>
+<map name="anamespacepeconv_aeb2b5bd101b42677d1455d9c567ce447_cgraph" id="anamespacepeconv_aeb2b5bd101b42677d1455d9c567ce447_cgraph">
+<area shape="rect" title=" " alt="" coords="5,244,164,271"/>
+<area shape="rect" href="namespacepeconv.html#a48b50ca71aff05c2edfca1ff816db197" title=" " alt="" coords="212,237,371,278"/>
+<area shape="rect" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " alt="" coords="631,209,775,250"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1426,300,1563,327"/>
+<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="419,107,579,133"/>
+<area shape="rect" href="imports__loader_8cpp.html#a5d800d31ea01e77114afee0804cdef68" title=" " alt="" coords="655,275,750,301"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1227,115,1365,141"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="827,161,935,188"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1413,140,1576,167"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1624,140,1809,167"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1015,158,1146,199"/>
+<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="627,107,779,133"/>
+<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="627,5,779,32"/>
+<area shape="rect" href="namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="983,275,1179,301"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a8cd71ea9bdeb9fbfd04a0a75037034dc" name="a8cd71ea9bdeb9fbfd04a0a75037034dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8cd71ea9bdeb9fbfd04a0a75037034dc">&#9670;&nbsp;</a></span>collect_thunks()</h2>
 
@@ -917,7 +978,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Collects all the Import Thunks RVAs (via which Imports are called) </p>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00310">310</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00374">374</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1891,7 +1952,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Convert the function in a format: DLL_name.function_name into a normalized form (DLL name in lowercase). </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00081">81</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00094">94</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1922,7 +1983,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Check if the pointer redirects to a forwarder - if so, return the length, otherwise return 0. </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00022">22</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00035">35</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -2595,7 +2656,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Get the function name from the string in a format: DLL_name.function_name </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00050">50</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00063">63</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -3758,7 +3819,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Checks if the given PE has a valid import table. </p>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00270">270</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00334">334</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -4058,7 +4119,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Check if the given string is in a format typical for storing ordinals (#[ordinal]) </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00068">68</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00081">81</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -4398,7 +4459,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Checks if the given lib_name is a valid DLL name. A valid name must contain printable characters. Empty name is also acceptable (may have been erased). </p>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00253">253</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00317">317</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -4726,7 +4787,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>: true if loading all functions succeeded, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00228">228</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00292">292</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5276,7 +5337,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Get the ordinal value from the ordinal string (in a format #[ordinal]) </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00074">74</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00087">87</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5306,7 +5367,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Convert ordinal value to the ordinal string (in a format #[ordinal]) </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00060">60</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00073">73</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -5641,7 +5702,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>: true if processing succeeded, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00209">209</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="imports__loader_8cpp_source.html#l00273">273</a> of file <a class="el" href="imports__loader_8cpp_source.html">imports_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -7095,7 +7156,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 14 2022 19:13:46 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue Jan 18 2022 18:49:24 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
