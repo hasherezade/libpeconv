@@ -151,18 +151,12 @@ protected:
 
         if (is_by_ord) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
-#ifdef _DEBUG
-            std::cout << "raw ordinal: " << std::hex << raw_ordinal << std::endl;
-#endif
             func = new ExportedFunc(lib_name, raw_ordinal);
         }
         else {
             PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
             LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
             WORD ordinal = by_name->Hint;
-#ifdef _DEBUG
-            std::cout << "name: " << func_name << std::endl;
-#endif
             func = new ExportedFunc(lib_name, func_name, ordinal);
         }
         if (!func) {
