@@ -29,8 +29,6 @@ std::string peconv::get_dll_shortname(const std::string& str)
     size_t new_len = ext_pos - separator_pos;
     std::string name = str.substr(separator_pos, new_len);
     std::transform(name.begin(), name.end(), name.begin(), tolower);
-
-    //std::cout << "Name: [" << str << "] Short name: [" << name << "]\n";
     return name;
 }
 
@@ -165,29 +163,29 @@ std::string ExportedFunc::formatName(std::string name)
 
 bool ExportedFunc::isTheSameFuncName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
 {
-	if (!func1.isByOrdinal && !func1.isByOrdinal) {
-		if (func1.funcName == func2.funcName) {
-			return true;
-		}
-	}
-	if (func1.funcOrdinal == func2.funcOrdinal) {
-		return true;
-	}
-	return false;
+    if (!func1.isByOrdinal && !func1.isByOrdinal) {
+        if (func1.funcName == func2.funcName) {
+            return true;
+        }
+    }
+    if (func1.funcOrdinal == func2.funcOrdinal) {
+        return true;
+    }
+    return false;
 }
 
 
 bool ExportedFunc::isTheSameFunc(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
 {
-	if (!peconv::ExportedFunc::isTheSameFuncName(func1, func2)) {
-		return false;
-	}
-	const std::string func1_short = peconv::get_dll_shortname(func1.libName);
-	const std::string func2_short = peconv::get_dll_shortname(func2.libName);
-	if (func1_short.compare(func2_short) == 0) {
-		return true;
-	}
-	return false;
+    if (!peconv::ExportedFunc::isTheSameFuncName(func1, func2)) {
+        return false;
+    }
+    const std::string func1_short = peconv::get_dll_shortname(func1.libName);
+    const std::string func2_short = peconv::get_dll_shortname(func2.libName);
+    if (func1_short.compare(func2_short) == 0) {
+        return true;
+    }
+    return false;
 }
 
 
