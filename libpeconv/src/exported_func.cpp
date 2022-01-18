@@ -10,11 +10,22 @@ using namespace peconv;
 std::string peconv::get_dll_shortname(const std::string& str)
 {
     std::size_t len = str.length();
-    std::size_t found = str.find_last_of("/\\");
-    std::size_t ext = str.find_last_of('.');
-    if (ext >= len) return "";
-
-    std::string name = str.substr(found+1, ext - (found+1));
+    size_t ext_pos = len;
+    size_t separator_pos = 0;
+    for (size_t k = len; k != 0; k--) {
+        size_t i = k - 1;
+        char c = str[i];
+        // search first '.' from the end:
+        if (c == '.' && ext_pos == len) {
+            ext_pos = i;
+        }
+        // search first path separator from the end:
+        if (c == '\\' || c == '/') {
+            separator_pos = k;
+            break;
+        }
+    }
+    std::string name = str.substr(separator_pos, ext_pos);
     std::transform(name.begin(), name.end(), name.begin(), tolower);
     return name;
 }
@@ -150,16 +161,31 @@ std::string ExportedFunc::formatName(std::string name)
 
 bool ExportedFunc::isTheSameFuncName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
 {
-    if (!func1.isByOrdinal && !func1.isByOrdinal) {
-        if (func1.funcName == func2.funcName) {
-            return true;
-        }
-    }
-    if (func1.funcOrdinal == func2.funcOrdinal) {
-        return true;
-    }
-    return false;
+	if (!func1.isByOrdinal && !func1.isByOrdinal) {
+		if (func1.funcName == func2.funcName) {
+			return true;
+		}
+	}
+	if (func1.funcOrdinal == func2.funcOrdinal) {
+		return true;
+	}
+	return false;
 }
+
+
+bool ExportedFunc::isTheSameFunc(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
+{
+	if (!peconv::ExportedFunc::isTheSameFuncName(func1, func2)) {
+		return false;
+	}
+	const std::string func1_short = peconv::get_dll_shortname(func1.libName);
+	const std::string func2_short = peconv::get_dll_shortname(func2.libName);
+	if (func1_short.compare(func2_short) == 0) {
+		return true;
+	}
+	return false;
+}
+
 
 std::string ExportedFunc::toString() const
 {
