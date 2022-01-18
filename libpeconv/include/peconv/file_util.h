@@ -52,4 +52,14 @@ namespace peconv {
     */
     std::string get_directory_name(IN const std::string full_path);
 
+    /**
+    Find a position of possible file extension. If not found, gives string length.
+    */
+    size_t find_extension_pos(IN const std::string str);
+
+    /**
+    If the file name comes with an extension, remove it
+    */
+    std::string remove_extension(IN const std::string full_path);
+
 }; //namespace peconv
