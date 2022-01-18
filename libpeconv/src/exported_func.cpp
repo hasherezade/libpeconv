@@ -10,6 +10,7 @@ using namespace peconv;
 std::string peconv::get_dll_shortname(const std::string& str)
 {
     std::size_t len = str.length();
+
     size_t ext_pos = len;
     size_t separator_pos = 0;
     for (size_t k = len; k != 0; k--) {
@@ -25,8 +26,11 @@ std::string peconv::get_dll_shortname(const std::string& str)
             break;
         }
     }
-    std::string name = str.substr(separator_pos, ext_pos);
+    size_t new_len = ext_pos - separator_pos;
+    std::string name = str.substr(separator_pos, new_len);
     std::transform(name.begin(), name.end(), name.begin(), tolower);
+
+    //std::cout << "Name: [" << str << "] Short name: [" << name << "]\n";
     return name;
 }
 
