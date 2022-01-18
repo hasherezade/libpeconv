@@ -54,7 +54,6 @@ namespace peconv {
                 if (!exp) continue;
                 delete exp;
             }
-
             thunkToFunc.clear();
         }
 

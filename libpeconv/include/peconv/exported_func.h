@@ -58,7 +58,7 @@ namespace peconv {
         */
         static std::string formatName(std::string name);
 
-        static bool isTheSameFunc(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2);
+        static bool isTheSameFuncName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2);
 
         std::string libName;
         std::string funcName;
