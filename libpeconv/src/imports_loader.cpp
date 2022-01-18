@@ -220,7 +220,7 @@ bool process_imp_functions_tpl(BYTE* modulePtr, size_t module_size, LPSTR lib_na
 bool process_dlls(BYTE* modulePtr, size_t module_size, IMAGE_IMPORT_DESCRIPTOR *first_desc, IN ImportThunksCallback *callback)
 {
     bool isAllFilled = true;
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
     std::cout << "---IMP---" << std::endl;
 #endif
     const bool is64 = is64bit((BYTE*)modulePtr);
@@ -244,7 +244,7 @@ bool process_dlls(BYTE* modulePtr, size_t module_size, IMAGE_IMPORT_DESCRIPTOR *
         if (thunk_addr == NULL) {
             thunk_addr = lib_desc->FirstThunk;
         }
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
         std::cout << "Imported Lib: " << std::hex << lib_desc->FirstThunk << " : " << std::hex << lib_desc->OriginalFirstThunk << " : " << lib_desc->Name << std::endl;
 #endif
         size_t all_solved = false;
@@ -258,7 +258,7 @@ bool process_dlls(BYTE* modulePtr, size_t module_size, IMAGE_IMPORT_DESCRIPTOR *
             isAllFilled = false;
         }
     }
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
     printf("---------\n");
 #endif
     return isAllFilled;

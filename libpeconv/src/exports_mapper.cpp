@@ -57,7 +57,7 @@ size_t ExportsMapper::make_ord_lookup_tables(
     for (DWORD i = 0; i < functCount; i++) {
         DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         if (*recordRVA == 0) {
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
             std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)recordRVA - (BYTE*)modulePtr<< "(ord)\n";
 #endif
             //skip if the function RVA is 0 (empty export)
@@ -176,7 +176,7 @@ bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const
 ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE modulePtr, ULONGLONG moduleBase, size_t moduleSize, ExportedFunc &currFunc, DWORD callRVA)
 {
     if (add_forwarded(currFunc, callRVA, (BYTE*)modulePtr, moduleSize)) {
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
         char* fPtr = (char*)modulePtr + callRVA;
         std::cout << "FWD " << currFunc.toString() << " -> " << fPtr << "\n";
 #endif
@@ -228,7 +228,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
         if (*funcRVA == 0) {
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
             std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)funcRVA - (BYTE*)modulePtr << "(name)\n";
 #endif
             //skip if the function RVA is 0 (empty export)
