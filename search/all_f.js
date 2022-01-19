@@ -21,7 +21,7 @@ var searchData=
   ['relocs_18',['relocs',['../classpeconv_1_1_collect_code_relocs.html#ae861abb78c929f3d272e96b9bd2b30de',1,'peconv::CollectCodeRelocs']]],
   ['remote_5fpe_5freader_2ecpp_19',['remote_pe_reader.cpp',['../remote__pe__reader_8cpp.html',1,'']]],
   ['remote_5fpe_5freader_2eh_20',['remote_pe_reader.h',['../remote__pe__reader_8h.html',1,'']]],
-  ['remove_5fextension_21',['remove_extension',['../namespacepeconv.html#a5ad4f94ce51afe5f447a4ff1954a81d9',1,'peconv']]],
+  ['remove_5fmodule_5fextension_21',['remove_module_extension',['../namespacepeconv.html#ae513f73ec5b5b15a365a5a7ccc094365',1,'peconv']]],
   ['replace_5ftarget_22',['replace_target',['../namespacepeconv.html#ab5141d4b76a42b9e0498381c2f29bfee',1,'peconv']]],
   ['reserved_23',['Reserved',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___c_o_d_e___i_n_t_e_g_r_i_t_y___w10.html#a96a89f97dc8596b855d4ee986f23e97c',1,'peconv::_IMAGE_LOAD_CONFIG_CODE_INTEGRITY_W10']]],
   ['reserved2_24',['Reserved2',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html#a356962fd89ee6d725dd02735d3682aed',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W10::Reserved2()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w10.html#aeb6106eeb8bf2e7bb3b59e5981773e7a',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W10::Reserved2()']]],
