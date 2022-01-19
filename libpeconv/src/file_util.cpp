@@ -179,7 +179,7 @@ size_t peconv::find_extension_pos(IN const std::string str)
     return ext_pos;
 }
 
-std::string peconv::remove_extension(IN const std::string str)
+std::string peconv::remove_module_extension(IN const std::string str)
 {
     size_t len = str.length();
     size_t ext_pos = find_extension_pos(str);

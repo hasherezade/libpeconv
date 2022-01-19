@@ -58,8 +58,8 @@ namespace peconv {
     size_t find_extension_pos(IN const std::string str);
 
     /**
-    If the file name comes with an extension, remove it
+    If the file name comes with an extension, remove it. Assume that extension is no longer than 3 and consists of latin characters.
     */
-    std::string remove_extension(IN const std::string full_path);
+    std::string remove_module_extension(IN const std::string full_path);
 
 }; //namespace peconv
