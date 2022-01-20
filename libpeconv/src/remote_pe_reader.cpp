@@ -361,7 +361,9 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, LPVOID start_addr, con
             break;
         }
         if (sec_vsize > 0 && !read_remote_memory(processHandle, LPVOID((ULONG_PTR)start_addr + sec_va), buffer + sec_va, sec_vsize)) {
-            std::cerr << "[-] Failed to read the module section " << i <<" : at: " << std::hex << (ULONG_PTR)start_addr + sec_va << std::endl;
+#ifdef _DEBUG
+            std::cerr << "[-] [" << std::hex << start_addr << "] Failed to read the module section " << i <<" : at: " << std::hex << (ULONG_PTR)start_addr + sec_va << std::endl;
+#endif
         }
         // update the end of the read area:
         size_t new_end = sec_va + sec_vsize;
