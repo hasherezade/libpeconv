@@ -196,13 +196,17 @@ ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE module
     return ExportsMapper::RES_MAPPED;
 }
 
-size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
+
+size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t module_size, ULONGLONG moduleBase)
 {
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
     if (exp == NULL) {
         return 0;
     }
-    size_t module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(modulePtr));
+    if (module_size == 0) {
+        module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(modulePtr));
+        if (module_size == 0) return 0;
+    }
     if (!is_valid_export_table(exp, modulePtr, module_size)) {
         return 0;
     }

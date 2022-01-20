@@ -27,9 +27,21 @@ namespace peconv {
         Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
         \param moduleName : name of the DLL
         \param modulePtr : buffer containing the DLL in a Virtual format
+        \param moduleSize : size of the DLL buffer. If moduleSize == 0, the ImageSize from the PE headers will be used.
         \param moduleBase : a base address to which the given DLL was relocated
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase);
+        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t moduleSize, ULONGLONG moduleBase);
+
+        /**
+        Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
+        \param moduleName : name of the DLL
+        \param modulePtr : buffer containing the DLL in a Virtual format
+        \param moduleBase : a base address to which the given DLL was relocated
+        */
+        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
+        {
+            return add_to_lookup(moduleName, modulePtr, 0, moduleBase);
+        }
 
         /**
         Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
