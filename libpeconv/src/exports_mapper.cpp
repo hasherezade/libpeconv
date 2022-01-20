@@ -210,11 +210,11 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, s
     if (!is_valid_export_table(exp, modulePtr, module_size)) {
         return 0;
     }
-
-    DllInfo info(moduleBase, module_size, moduleName);
+    const bool is64b = peconv::is64bit(reinterpret_cast<const PBYTE>(modulePtr));
+    DllInfo info(moduleBase, module_size, is64b, moduleName);
     dll_base_to_info[moduleBase] = info;
 
-    std::string dllName = get_dll_shortname(moduleName);
+    const std::string dllName = info.shortName;
     this->dll_shortname_to_base[dllName].insert(moduleBase);
 
     std::map<PDWORD, DWORD> va_to_ord;
@@ -270,4 +270,40 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, s
     std::cout << "Finished exports parsing, mapped: "<< mapped_ctr << " forwarded: " << forwarded_ctr  << std::endl;
 #endif
     return mapped_ctr;
+}
+
+size_t ExportsMapper::get_dll_paths(IN std::string short_name, OUT std::set<std::string>& paths) const
+{
+    std::map<std::string, std::set<ULONGLONG>>::const_iterator itr = this->dll_shortname_to_base.find(short_name);
+    if (itr == this->dll_shortname_to_base.end()) {
+        return 0;
+    }
+    size_t added = 0;
+    const std::set<ULONGLONG>& bases = itr->second;
+    std::set<ULONGLONG>::const_iterator bItr;
+    for (bItr = bases.begin(); bItr != bases.end(); ++bItr) {
+        ULONGLONG base = *bItr;
+        const std::string path = get_dll_path(base);
+        paths.insert(path);
+        added++;
+    }
+    return added;
+}
+
+std::string ExportsMapper::get_dll_path(std::string short_name) const
+{
+    std::map<std::string, std::set<ULONGLONG>>::const_iterator itr = this->dll_shortname_to_base.find(short_name);
+    if (itr == this->dll_shortname_to_base.end()) {
+        return "";
+    }
+    const std::set<ULONGLONG>& bases = itr->second;
+    std::set<ULONGLONG>::const_iterator bItr;
+    for (bItr = bases.begin(); bItr != bases.end(); ++bItr) {
+        ULONGLONG base = *bItr;
+        const std::string path = get_dll_path(base);
+        if (path.length()) {
+            return path;
+        }
+    }
+    return "";
 }

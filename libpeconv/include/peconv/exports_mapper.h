@@ -21,15 +21,16 @@ namespace peconv {
 
     struct DllInfo {
         DllInfo()
-            : moduleBase(0), moduelSize(0)
+            : moduleBase(0), moduelSize(0), is64b(false)
         {
         }
 
-        DllInfo(ULONGLONG _moduleBase, size_t _moduelSize, std::string _moduleName)
+        DllInfo(ULONGLONG _moduleBase, size_t _moduelSize, bool _is64b, std::string _moduleName)
         {
             moduleBase = _moduleBase;
             moduelSize = _moduelSize;
             moduleName = _moduleName;
+            is64b = _is64b;
             shortName = get_dll_shortname(moduleName);
         }
 
@@ -39,6 +40,7 @@ namespace peconv {
             moduelSize = other.moduelSize;
             moduleName = other.moduleName;
             shortName = other.shortName;
+            is64b = other.is64b;
         }
 
         bool operator<(const DllInfo &other) const
@@ -51,6 +53,7 @@ namespace peconv {
         size_t moduelSize;
         std::string moduleName;
         std::string shortName;
+        bool is64b;
 
         friend class ExportsMapper;
     };
@@ -118,25 +121,14 @@ namespace peconv {
         }
 
         /**
-        Retrieve the full path of the DLL with the given short name.
+        Retrieve the paths of the DLL with the given short name.
         */
-        std::string get_dll_path(std::string short_name) const
-        {
-            std::map<std::string, std::set<ULONGLONG>>::const_iterator itr = this->dll_shortname_to_base.find(short_name);
-            if (itr == this->dll_shortname_to_base.end()) {
-                return "";
-            }
-            const std::set<ULONGLONG>& bases = itr->second;
-            std::set<ULONGLONG>::const_iterator bItr;
-            for (bItr = bases.begin(); bItr != bases.end(); ++bItr) {
-                ULONGLONG base = *bItr;
-                const std::string path = get_dll_path(base);
-                if (path.length()) {
-                    return path;
-                }
-            }
-            return "";
-        }
+        size_t get_dll_paths(IN std::string short_name, OUT std::set<std::string>& paths) const;
+
+        /**
+        Retrieve the path of the DLL with the given short name. If multiple paths are mapped to the same short name, it retrieves the first one.
+        */
+        std::string get_dll_path(std::string short_name) const;
 
         /**
         Retrieve the full name of the DLL (including the extension) using its short name (without the extension).
