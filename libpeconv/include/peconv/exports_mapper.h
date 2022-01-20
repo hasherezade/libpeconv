@@ -19,6 +19,42 @@
 
 namespace peconv {
 
+    struct DllInfo {
+        DllInfo()
+            : moduleBase(0), moduelSize(0)
+        {
+        }
+
+        DllInfo(ULONGLONG _moduleBase, size_t _moduelSize, std::string _moduleName)
+        {
+            moduleBase = _moduleBase;
+            moduelSize = _moduelSize;
+            moduleName = _moduleName;
+            shortName = get_dll_shortname(moduleName);
+        }
+
+        DllInfo(DllInfo &other)
+        {
+            moduleBase = other.moduleBase;
+            moduelSize = other.moduelSize;
+            moduleName = other.moduleName;
+            shortName = other.shortName;
+        }
+
+        bool operator<(const DllInfo &other) const
+        {
+            return this->moduleBase < other.moduleBase;
+        }
+
+    protected:
+        ULONGLONG moduleBase;
+        size_t moduelSize;
+        std::string moduleName;
+        std::string shortName;
+
+        friend class ExportsMapper;
+    };
+
     class ExportsMapper {
 
     public:
@@ -69,15 +105,37 @@ namespace peconv {
         }
 
         /**
+        Retrieve the full path of the DLL with the given module base.
+        */
+        std::string get_dll_path(ULONGLONG base) const
+        {
+            std::map<ULONGLONG, DllInfo>::const_iterator found =  this->dll_base_to_info.find(base);
+            if (found == this->dll_base_to_info.end()) { // no DLL found at this base
+                return "";
+            }
+            const DllInfo& info = found->second;
+            return info.moduleName;
+        }
+
+        /**
         Retrieve the full path of the DLL with the given short name.
         */
         std::string get_dll_path(std::string short_name) const
         {
-            std::map<std::string, std::string>::const_iterator found = this->dll_shortname_to_path.find(short_name);
-            if (found == dll_shortname_to_path.end()) {
+            std::map<std::string, std::set<ULONGLONG>>::const_iterator itr = this->dll_shortname_to_base.find(short_name);
+            if (itr == this->dll_shortname_to_base.end()) {
                 return "";
             }
-            return found->second;
+            const std::set<ULONGLONG>& bases = itr->second;
+            std::set<ULONGLONG>::const_iterator bItr;
+            for (bItr = bases.begin(); bItr != bases.end(); ++bItr) {
+                ULONGLONG base = *bItr;
+                const std::string path = get_dll_path(base);
+                if (path.length()) {
+                    return path;
+                }
+            }
+            return "";
         }
 
         /**
@@ -144,9 +202,11 @@ namespace peconv {
         std::map<ExportedFunc, ULONGLONG> func_to_va;
         
         /**
-        A map associating DLL shortname with the full path to the DLL.
+        A map associating DLL shortname with the base(s) at which it was mapped
         */
-        std::map<std::string, std::string> dll_shortname_to_path;
+        std::map<std::string, std::set<ULONGLONG>> dll_shortname_to_base;
+
+        std::map<ULONGLONG, DllInfo> dll_base_to_info;
     };
 
 }; //namespace peconv
