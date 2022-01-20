@@ -108,6 +108,26 @@ namespace peconv {
         }
 
         /**
+        Retrieve the base of the DLL containing the given function. If not found, returns 0.
+        */
+        ULONGLONG find_dll_base_by_func_va(ULONGLONG func_rva) const
+        {
+            // the first element that is greater than the start address
+            std::map<ULONGLONG, DllInfo>::const_iterator firstGreater = dll_base_to_info.upper_bound(func_rva);
+
+            std::map<ULONGLONG, DllInfo>::const_iterator itr;
+            for (itr = dll_base_to_info.begin(); itr != firstGreater; ++itr) {
+                const DllInfo& module = itr->second;
+
+                if (func_rva >= module.moduleBase && func_rva <= (module.moduleBase + module.moduelSize)) {
+                    // Address found in module:
+                    return module.moduleBase;
+                }
+            }
+            return 0;
+        }
+
+        /**
         Retrieve the full path of the DLL with the given module base.
         */
         std::string get_dll_path(ULONGLONG base) const
@@ -121,14 +141,14 @@ namespace peconv {
         }
 
         /**
-        Retrieve the paths of the DLL with the given short name.
-        */
-        size_t get_dll_paths(IN std::string short_name, OUT std::set<std::string>& paths) const;
-
-        /**
         Retrieve the path of the DLL with the given short name. If multiple paths are mapped to the same short name, it retrieves the first one.
         */
         std::string get_dll_path(std::string short_name) const;
+
+        /**
+        Retrieve the paths of the DLL with the given short name.
+        */
+        size_t get_dll_paths(IN std::string short_name, OUT std::set<std::string>& paths) const;
 
         /**
         Retrieve the full name of the DLL (including the extension) using its short name (without the extension).
