@@ -80,8 +80,10 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a66bec297143444676b938fea64a5dc31"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_exports_mapper.html#a66bec297143444676b938fea64a5dc31">add_to_lookup</a> (std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)</td></tr>
-<tr class="separator:a66bec297143444676b938fea64a5dc31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a591acd077a24b6da3d74d524963d1201"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_exports_mapper.html#a591acd077a24b6da3d74d524963d1201">add_to_lookup</a> (std::string moduleName, HMODULE modulePtr, size_t moduleSize, ULONGLONG moduleBase)</td></tr>
+<tr class="separator:a591acd077a24b6da3d74d524963d1201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a468c16f23b12f93c9974e8f54d1ecd83"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_exports_mapper.html#a468c16f23b12f93c9974e8f54d1ecd83">add_to_lookup</a> (std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)</td></tr>
+<tr class="separator:a468c16f23b12f93c9974e8f54d1ecd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a698397923acaf76c8dfe0d2767842248"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_exports_mapper.html#a698397923acaf76c8dfe0d2767842248">add_to_lookup</a> (std::string moduleName, HMODULE modulePtr)</td></tr>
 <tr class="separator:a698397923acaf76c8dfe0d2767842248"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd3da76f6e3a129ac3bb1d0b0214da45"><td class="memItemLeft" align="right" valign="top">const std::set&lt; <a class="el" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_exports_mapper.html#acd3da76f6e3a129ac3bb1d0b0214da45">find_exports_by_va</a> (ULONGLONG va) const</td></tr>
@@ -118,7 +120,7 @@ Protected Attributes</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00022">22</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a698397923acaf76c8dfe0d2767842248" name="a698397923acaf76c8dfe0d2767842248"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a698397923acaf76c8dfe0d2767842248">&#9670;&nbsp;</a></span>add_to_lookup() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a698397923acaf76c8dfe0d2767842248">&#9670;&nbsp;</a></span>add_to_lookup() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -158,14 +160,14 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00041">41</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00053">53</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classpeconv_1_1_exports_mapper_a698397923acaf76c8dfe0d2767842248_cgraph.png" border="0" usemap="#aclasspeconv_1_1_exports_mapper_a698397923acaf76c8dfe0d2767842248_cgraph" alt=""/></div>
 <map name="aclasspeconv_1_1_exports_mapper_a698397923acaf76c8dfe0d2767842248_cgraph" id="aclasspeconv_1_1_exports_mapper_a698397923acaf76c8dfe0d2767842248_cgraph">
 <area shape="rect" title=" " alt="" coords="5,191,161,232"/>
-<area shape="rect" href="classpeconv_1_1_exports_mapper.html#a66bec297143444676b938fea64a5dc31" title=" " alt="" coords="209,191,365,232"/>
+<area shape="rect" href="classpeconv_1_1_exports_mapper.html#a591acd077a24b6da3d74d524963d1201" title=" " alt="" coords="209,191,365,232"/>
 <area shape="rect" href="namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="413,55,589,82"/>
 <area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="436,107,567,148"/>
 <area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="421,173,581,199"/>
@@ -184,14 +186,89 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a66bec297143444676b938fea64a5dc31" name="a66bec297143444676b938fea64a5dc31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66bec297143444676b938fea64a5dc31">&#9670;&nbsp;</a></span>add_to_lookup() <span class="overload">[2/2]</span></h2>
+<a id="a591acd077a24b6da3d74d524963d1201" name="a591acd077a24b6da3d74d524963d1201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a591acd077a24b6da3d74d524963d1201">&#9670;&nbsp;</a></span>add_to_lookup() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">size_t ExportsMapper::add_to_lookup </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>moduleName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HMODULE&#160;</td>
+          <td class="paramname"><em>modulePtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>moduleSize</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ULONGLONG&#160;</td>
+          <td class="paramname"><em>moduleBase</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">moduleName</td><td>: name of the DLL </td></tr>
+    <tr><td class="paramname">modulePtr</td><td>: buffer containing the DLL in a Virtual format </td></tr>
+    <tr><td class="paramname">moduleSize</td><td>: size of the DLL buffer. If moduleSize == 0, the ImageSize from the PE headers will be used. </td></tr>
+    <tr><td class="paramname">moduleBase</td><td>: a base address to which the given DLL was relocated </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8cpp_source.html#l00200">200</a> of file <a class="el" href="exports__mapper_8cpp_source.html">exports_mapper.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classpeconv_1_1_exports_mapper_a591acd077a24b6da3d74d524963d1201_cgraph.png" border="0" usemap="#aclasspeconv_1_1_exports_mapper_a591acd077a24b6da3d74d524963d1201_cgraph" alt=""/></div>
+<map name="aclasspeconv_1_1_exports_mapper_a591acd077a24b6da3d74d524963d1201_cgraph" id="aclasspeconv_1_1_exports_mapper_a591acd077a24b6da3d74d524963d1201_cgraph">
+<area shape="rect" title=" " alt="" coords="5,191,161,232"/>
+<area shape="rect" href="namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="209,55,385,82"/>
+<area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="232,107,363,148"/>
+<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="217,173,377,199"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1202,223,1339,250"/>
+<area shape="rect" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280" title=" " alt="" coords="255,325,340,351"/>
+<area shape="rect" href="exports__mapper_8cpp.html#a3550d9ab7af1ae0df7860be7560f3487" title=" " alt="" coords="633,274,776,301"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1003,107,1141,134"/>
+<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="433,122,585,149"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="651,21,759,47"/>
+<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="433,71,585,98"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1189,67,1352,94"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1400,67,1585,94"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="824,5,955,47"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a468c16f23b12f93c9974e8f54d1ecd83" name="a468c16f23b12f93c9974e8f54d1ecd83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a468c16f23b12f93c9974e8f54d1ecd83">&#9670;&nbsp;</a></span>add_to_lookup() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t peconv::ExportsMapper::add_to_lookup </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>moduleName</em>, </td>
@@ -214,6 +291,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p >Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded). </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -224,26 +306,27 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8cpp_source.html#l00199">199</a> of file <a class="el" href="exports__mapper_8cpp_source.html">exports_mapper.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00041">41</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classpeconv_1_1_exports_mapper_a66bec297143444676b938fea64a5dc31_cgraph.png" border="0" usemap="#aclasspeconv_1_1_exports_mapper_a66bec297143444676b938fea64a5dc31_cgraph" alt=""/></div>
-<map name="aclasspeconv_1_1_exports_mapper_a66bec297143444676b938fea64a5dc31_cgraph" id="aclasspeconv_1_1_exports_mapper_a66bec297143444676b938fea64a5dc31_cgraph">
+<div class="center"><img src="classpeconv_1_1_exports_mapper_a468c16f23b12f93c9974e8f54d1ecd83_cgraph.png" border="0" usemap="#aclasspeconv_1_1_exports_mapper_a468c16f23b12f93c9974e8f54d1ecd83_cgraph" alt=""/></div>
+<map name="aclasspeconv_1_1_exports_mapper_a468c16f23b12f93c9974e8f54d1ecd83_cgraph" id="aclasspeconv_1_1_exports_mapper_a468c16f23b12f93c9974e8f54d1ecd83_cgraph">
 <area shape="rect" title=" " alt="" coords="5,191,161,232"/>
-<area shape="rect" href="namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="209,55,385,82"/>
-<area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="232,107,363,148"/>
-<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="217,173,377,199"/>
-<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1202,223,1339,250"/>
-<area shape="rect" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280" title=" " alt="" coords="255,325,340,351"/>
-<area shape="rect" href="exports__mapper_8cpp.html#a3550d9ab7af1ae0df7860be7560f3487" title=" " alt="" coords="633,274,776,301"/>
-<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1003,107,1141,134"/>
-<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="433,122,585,149"/>
-<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="651,21,759,47"/>
-<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="433,71,585,98"/>
-<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1189,67,1352,94"/>
-<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1400,67,1585,94"/>
-<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="824,5,955,47"/>
+<area shape="rect" href="classpeconv_1_1_exports_mapper.html#a591acd077a24b6da3d74d524963d1201" title=" " alt="" coords="209,191,365,232"/>
+<area shape="rect" href="namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="413,55,589,82"/>
+<area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="436,107,567,148"/>
+<area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="421,173,581,199"/>
+<area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="1406,223,1543,250"/>
+<area shape="rect" href="exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280" title=" " alt="" coords="459,325,544,351"/>
+<area shape="rect" href="exports__mapper_8cpp.html#a3550d9ab7af1ae0df7860be7560f3487" title=" " alt="" coords="837,274,980,301"/>
+<area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1207,107,1345,134"/>
+<area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="637,122,789,149"/>
+<area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="855,21,963,47"/>
+<area shape="rect" href="namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="637,71,789,98"/>
+<area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="1393,67,1556,94"/>
+<area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1604,67,1789,94"/>
+<area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1028,5,1159,47"/>
 </map>
 </div>
 
@@ -284,7 +367,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Add a function and a VA into a mutual mapping. </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00113">113</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00125">125</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 
 </div>
 </div>
@@ -313,7 +396,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Find an Exported Function that can be mapped to the given VA, </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00085">85</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00097">97</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -351,7 +434,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Find the set of Exported Functions that can be mapped to the given VA. Includes forwarders, and function aliases. </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00049">49</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00061">61</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 
 </div>
 </div>
@@ -380,7 +463,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Retrieve the full name of the DLL (including the extension) using its short name (without the extension). </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00074">74</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00086">86</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -419,7 +502,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Retrieve the full path of the DLL with the given short name. </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00062">62</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00074">74</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 
 </div>
 </div>
@@ -485,7 +568,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >A map associating DLL shortname with the full path to the DLL. </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00137">137</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00149">149</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 
 </div>
 </div>
@@ -510,7 +593,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >A map associating an exported functions with its forwarders. </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00127">127</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00139">139</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 
 </div>
 </div>
@@ -535,7 +618,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >A map associating an exported functions with its VA. </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00132">132</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00144">144</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 
 </div>
 </div>
@@ -560,7 +643,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >A map associating VA of the function with the related exports. </p>
 
-<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00122">122</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exports__mapper_8h_source.html#l00134">134</a> of file <a class="el" href="exports__mapper_8h_source.html">exports_mapper.h</a>.</p>
 
 </div>
 </div>
@@ -571,7 +654,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 20 2022 10:49:21 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Thu Jan 20 2022 16:25:23 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
