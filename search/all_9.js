@@ -24,7 +24,7 @@ var searchData=
   ['inmemoryordermodulelist_21',['InMemoryOrderModuleList',['../struct___l_d_r___m_o_d_u_l_e.html#aa16b1120d4366b1311fa733830225bb2',1,'_LDR_MODULE']]],
   ['insert_22',['insert',['../classpeconv_1_1_imps_not_covered.html#a3ea258bced47b906abb1011834d2aea3',1,'peconv::ImpsNotCovered']]],
   ['is64_23',['is64',['../classpeconv_1_1_imports_uneraser.html#a9c7708c1a04f5cfac817b62a1bdd14d3',1,'peconv::ImportsUneraser']]],
-  ['is64b_24',['is64b',['../classpeconv_1_1_import_thunks_callback.html#a24c7bd6867753f01d3c66fd0e4192251',1,'peconv::ImportThunksCallback']]],
+  ['is64b_24',['is64b',['../classpeconv_1_1_import_thunks_callback.html#a24c7bd6867753f01d3c66fd0e4192251',1,'peconv::ImportThunksCallback::is64b()'],['../structpeconv_1_1_dll_info.html#aabde720ed16612d2c6667836aa7345c9',1,'peconv::DllInfo::is64b()']]],
   ['is64bit_25',['is64bit',['../namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f',1,'peconv::is64bit()'],['../classpeconv_1_1_reloc_block_callback.html#a923acb1a8bd23569338ed57e0167ffb4',1,'peconv::RelocBlockCallback::is64bit()']]],
   ['is_5fbad_5fread_5fptr_26',['is_bad_read_ptr',['../namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056',1,'peconv']]],
   ['is_5fdot_5fnet_27',['is_dot_net',['../namespacepeconv.html#a2c8d2fca647e1d8a2b86fc85f702e135',1,'peconv']]],
