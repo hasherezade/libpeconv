@@ -230,8 +230,6 @@ Functions</h2></td></tr>
 <tr class="separator:a791341c79814efbdbdd70244e6a7f306"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecabdab99c950ec3b3f90588edc1dd9e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e">find_extension_pos</a> (IN const std::string str)</td></tr>
 <tr class="separator:aecabdab99c950ec3b3f90588edc1dd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae513f73ec5b5b15a365a5a7ccc094365"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae513f73ec5b5b15a365a5a7ccc094365">remove_module_extension</a> (IN const std::string full_path)</td></tr>
-<tr class="separator:ae513f73ec5b5b15a365a5a7ccc094365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3955bdf94d7090239822a8c93e467d20"><td class="memItemLeft" align="right" valign="top">ULONGLONG&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a3955bdf94d7090239822a8c93e467d20">find_base_candidate</a> (IN BYTE *module_ptr, IN size_t module_size)</td></tr>
 <tr class="separator:a3955bdf94d7090239822a8c93e467d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38e3da47a207cd5ed9cfdd4c2a650db0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a38e3da47a207cd5ed9cfdd4c2a650db0">fix_imports</a> (IN OUT PVOID modulePtr, IN size_t moduleSize, IN const <a class="el" href="classpeconv_1_1_exports_mapper.html">peconv::ExportsMapper</a> &amp;exportsMap, OUT OPTIONAL <a class="el" href="classpeconv_1_1_imps_not_covered.html">peconv::ImpsNotCovered</a> *notCovered)</td></tr>
@@ -413,8 +411,10 @@ Functions</h2></td></tr>
 <tr class="separator:a1c5650dbaaff41bf24cb94bd2ed60dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad22870e562a1bf1a8972c0f1ba88056"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">is_bad_read_ptr</a> (LPCVOID areaStart, SIZE_T areaSize)</td></tr>
 <tr class="separator:aad22870e562a1bf1a8972c0f1ba88056"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e3dae2996e62173d159cf6822f8bd9b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a2e3dae2996e62173d159cf6822f8bd9b">is_extension</a> (std::string ext)</td></tr>
-<tr class="separator:a2e3dae2996e62173d159cf6822f8bd9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dc7f1b1fa88e581e94c3d4ef4f87d44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a7dc7f1b1fa88e581e94c3d4ef4f87d44">is_valid_extension</a> (const std::string &amp;ext)</td></tr>
+<tr class="separator:a7dc7f1b1fa88e581e94c3d4ef4f87d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5c3e28a7fe44a96e52fb9e1252e5349"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ad5c3e28a7fe44a96e52fb9e1252e5349">remove_module_extension</a> (IN const std::string str)</td></tr>
+<tr class="separator:ad5c3e28a7fe44a96e52fb9e1252e5349"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d3bc9bbb499d00f44e357050910116d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d">is_pointer_in_ntdll</a> (LPVOID lpAddress)</td></tr>
 <tr class="separator:a7d3bc9bbb499d00f44e357050910116d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a498ab6676d1cac055878ab0be6cbcbb8"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">nt_protect</a> (LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpflOldProtect)</td></tr>
@@ -1821,7 +1821,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Find a position of possible file extension. If not found, gives string length. </p>
 
-<p class="definition">Definition at line <a class="el" href="file__util_8cpp_source.html#l00167">167</a> of file <a class="el" href="file__util_8cpp_source.html">file_util.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="file__util_8cpp_source.html#l00150">150</a> of file <a class="el" href="file__util_8cpp_source.html">file_util.cpp</a>.</p>
 
 </div>
 </div>
@@ -1981,7 +1981,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Convert the function in a format: DLL_name.function_name into a normalized form (DLL name in lowercase). </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00094">94</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00095">95</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -2012,7 +2012,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Check if the pointer redirects to a forwarder - if so, return the length, otherwise return 0. </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00035">35</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00036">36</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -2372,7 +2372,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >get the DLL name without the extension </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00010">10</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00012">12</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -2685,7 +2685,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Get the function name from the string in a format: DLL_name.function_name </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00063">63</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00064">64</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -4051,26 +4051,6 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a2e3dae2996e62173d159cf6822f8bd9b" name="a2e3dae2996e62173d159cf6822f8bd9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e3dae2996e62173d159cf6822f8bd9b">&#9670;&nbsp;</a></span>is_extension()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool peconv::is_extension </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>ext</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="file__util_8cpp_source.html#l00152">152</a> of file <a class="el" href="file__util_8cpp_source.html">file_util.cpp</a>.</p>
-
-</div>
-</div>
 <a id="a1c5650dbaaff41bf24cb94bd2ed60dcb" name="a1c5650dbaaff41bf24cb94bd2ed60dcb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1c5650dbaaff41bf24cb94bd2ed60dcb">&#9670;&nbsp;</a></span>is_mem_accessible()</h2>
 
@@ -4168,7 +4148,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Check if the given string is in a format typical for storing ordinals (#[ordinal]) </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00081">81</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00082">82</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -4472,6 +4452,26 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="945,15,1076,57"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a7dc7f1b1fa88e581e94c3d4ef4f87d44" name="a7dc7f1b1fa88e581e94c3d4ef4f87d44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dc7f1b1fa88e581e94c3d4ef4f87d44">&#9670;&nbsp;</a></span>is_valid_extension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool peconv::is_valid_extension </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>ext</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00180">180</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -5386,7 +5386,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Get the ordinal value from the ordinal string (in a format #[ordinal]) </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00087">87</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00088">88</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -5416,7 +5416,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p >Convert ordinal value to the ordinal string (in a format #[ordinal]) </p>
 
-<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00073">73</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00074">74</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 
 </div>
 </div>
@@ -6584,8 +6584,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ae513f73ec5b5b15a365a5a7ccc094365" name="ae513f73ec5b5b15a365a5a7ccc094365"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae513f73ec5b5b15a365a5a7ccc094365">&#9670;&nbsp;</a></span>remove_module_extension()</h2>
+<a id="ad5c3e28a7fe44a96e52fb9e1252e5349" name="ad5c3e28a7fe44a96e52fb9e1252e5349"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5c3e28a7fe44a96e52fb9e1252e5349">&#9670;&nbsp;</a></span>remove_module_extension()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6594,22 +6594,21 @@ Here is the call graph for this function:</div>
           <td class="memname">std::string peconv::remove_module_extension </td>
           <td>(</td>
           <td class="paramtype">IN const std::string&#160;</td>
-          <td class="paramname"><em>full_path</em></td><td>)</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >If the file name comes with an extension, remove it. Assume that extension is no longer than 3 and consists of latin characters. </p>
 
-<p class="definition">Definition at line <a class="el" href="file__util_8cpp_source.html#l00182">182</a> of file <a class="el" href="file__util_8cpp_source.html">file_util.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exported__func_8cpp_source.html#l00194">194</a> of file <a class="el" href="exported__func_8cpp_source.html">exported_func.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_ae513f73ec5b5b15a365a5a7ccc094365_cgraph.png" border="0" usemap="#anamespacepeconv_ae513f73ec5b5b15a365a5a7ccc094365_cgraph" alt=""/></div>
-<map name="anamespacepeconv_ae513f73ec5b5b15a365a5a7ccc094365_cgraph" id="anamespacepeconv_ae513f73ec5b5b15a365a5a7ccc094365_cgraph">
+<div class="center"><img src="namespacepeconv_ad5c3e28a7fe44a96e52fb9e1252e5349_cgraph.png" border="0" usemap="#anamespacepeconv_ad5c3e28a7fe44a96e52fb9e1252e5349_cgraph" alt=""/></div>
+<map name="anamespacepeconv_ad5c3e28a7fe44a96e52fb9e1252e5349_cgraph" id="anamespacepeconv_ad5c3e28a7fe44a96e52fb9e1252e5349_cgraph">
 <area shape="rect" title=" " alt="" coords="5,23,168,65"/>
 <area shape="rect" href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e" title=" " alt="" coords="216,5,396,32"/>
-<area shape="rect" href="namespacepeconv.html#a2e3dae2996e62173d159cf6822f8bd9b" title=" " alt="" coords="235,56,377,83"/>
+<area shape="rect" href="namespacepeconv.html#a7dc7f1b1fa88e581e94c3d4ef4f87d44" title=" " alt="" coords="218,56,394,83"/>
 </map>
 </div>
 
@@ -7236,7 +7235,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 20 2022 19:18:55 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Fri Jan 21 2022 11:10:39 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

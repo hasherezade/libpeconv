@@ -1,5 +1,9 @@
 <map id="peconv::ExportedFunc::isTheSameFunc" name="peconv::ExportedFunc::isTheSameFunc">
-<area shape="rect" id="node1" title="Compares functions&#39; names. If function is defined by an ordinal, compares ordinals...." alt="" coords="5,27,155,69"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="203,5,379,32"/>
-<area shape="rect" id="node3" href="$classpeconv_1_1_exported_func.html#acc64cb06fe9b6f40f57114ee7ce708f2" title="Compares functions&#39; names. If function is defined by an ordinal, compares ordinals...." alt="" coords="211,57,370,98"/>
+<area shape="rect" id="node1" title="Compares functions&#39; names. If function is defined by an ordinal, compares ordinals...." alt="" coords="5,61,155,102"/>
+<area shape="rect" id="node2" href="$classpeconv_1_1_exported_func.html#a9fe05237f9609778a0f69bf784af7ef5" title="Compares functions&#39; DLL names." alt="" coords="207,27,357,69"/>
+<area shape="rect" id="node7" href="$classpeconv_1_1_exported_func.html#acc64cb06fe9b6f40f57114ee7ce708f2" title="Compares functions&#39; names. If function is defined by an ordinal, compares ordinals...." alt="" coords="203,93,361,134"/>
+<area shape="rect" id="node3" href="$namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc" title=" " alt="" coords="415,5,566,32"/>
+<area shape="rect" id="node4" href="$namespacepeconv.html#ad5c3e28a7fe44a96e52fb9e1252e5349" title=" " alt="" coords="409,57,572,98"/>
+<area shape="rect" id="node5" href="$namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e" title=" " alt="" coords="620,39,800,65"/>
+<area shape="rect" id="node6" href="$namespacepeconv.html#a7dc7f1b1fa88e581e94c3d4ef4f87d44" title=" " alt="" coords="622,89,798,116"/>
 </map>
