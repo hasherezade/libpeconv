@@ -1,16 +1,17 @@
 #include "peconv/exported_func.h"
 
+#include <string>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include "peconv/file_util.h"
 
 using namespace peconv;
 
 std::string peconv::get_dll_shortname(const std::string& str)
 {
     std::size_t len = str.length();
-
     size_t ext_pos = len;
     size_t separator_pos = 0;
     for (size_t k = len; k != 0; k--) {
@@ -26,7 +27,7 @@ std::string peconv::get_dll_shortname(const std::string& str)
             break;
         }
     }
-    size_t new_len = ext_pos - separator_pos;
+    const size_t new_len = ext_pos - separator_pos;
     std::string name = str.substr(separator_pos, new_len);
     std::transform(name.begin(), name.end(), name.begin(), tolower);
     return name;
@@ -174,20 +175,63 @@ bool ExportedFunc::isTheSameFuncName(const peconv::ExportedFunc& func1, const pe
     return false;
 }
 
+namespace peconv
+{
+    bool is_valid_extension(const std::string &ext)
+    {
+        if (ext.length() > 3) {
+            //probably not an extension
+            return false;
+        }
+        for (size_t j = 0; j < ext.length(); j++) {
+            if (!isalpha(ext[j])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    std::string remove_module_extension(IN const std::string str)
+    {
+        size_t len = str.length();
+        size_t ext_pos = find_extension_pos(str);
+        if (ext_pos == len) {
+            return str;
+        }
+        std::string ext = str.substr(ext_pos + 1);
+        if (is_valid_extension(ext)) {
+            std::string  str1 = str.substr(0, ext_pos);
+            return str1;
+        }
+        return str;
+    }
+}; //namespace peconv
+
+bool ExportedFunc::isTheSameDllName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
+{
+    const std::string file1 = peconv::get_file_name(func1.libName);
+    const std::string file2 = peconv::get_file_name(func2.libName);
+    if (file1 == file2) {
+        return true;
+    }
+    const std::string short1 = peconv::remove_module_extension(file1);
+    const std::string short2 = peconv::remove_module_extension(file2);
+    if (short1 == short2) {
+        return true;
+    }
+    return false;
+}
 
 bool ExportedFunc::isTheSameFunc(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
 {
     if (!peconv::ExportedFunc::isTheSameFuncName(func1, func2)) {
         return false;
     }
-    const std::string func1_short = peconv::get_dll_shortname(func1.libName);
-    const std::string func2_short = peconv::get_dll_shortname(func2.libName);
-    if (func1_short.compare(func2_short) == 0) {
-        return true;
+    if (!isTheSameDllName(func1, func2)) {
+        return false;
     }
     return false;
 }
-
 
 std::string ExportedFunc::toString() const
 {

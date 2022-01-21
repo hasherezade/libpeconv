@@ -147,23 +147,6 @@ std::string peconv::get_directory_name(IN const std::string str)
     return str.substr(0, found);
 }
 
-namespace peconv
-{
-    bool is_extension(std::string ext)
-    {
-        if (ext.length() > 3) {
-            //probably not an extension
-            return false;
-        }
-        for (size_t j = 0; j < ext.length(); j++) {
-            if (!isalpha(ext[j])) {
-                return false;
-            }
-        }
-        return true;
-    }
-}; //namespace peconv
-
 size_t peconv::find_extension_pos(IN const std::string str)
 {
     size_t len = str.length();
@@ -177,27 +160,4 @@ size_t peconv::find_extension_pos(IN const std::string str)
         }
     }
     return ext_pos;
-}
-
-std::string peconv::remove_module_extension(IN const std::string str)
-{
-    size_t len = str.length();
-    size_t ext_pos = find_extension_pos(str);
-    if (ext_pos == len) {
-        return str;
-    }
-    std::string ext = str.substr(ext_pos + 1);
-    if (ext.length() > 3) {
-        //probably not an extension
-        return str;
-    }
-    for (size_t j = 0; j < ext.length(); j++) {
-        if (!isalpha(ext[j])) {
-        }
-    }
-    if (is_extension(ext)) {
-        std::string  str1 = str.substr(0, ext_pos);
-        return str1;
-    }
-    return str;
 }
