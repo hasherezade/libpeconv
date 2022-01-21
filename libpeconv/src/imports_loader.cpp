@@ -146,18 +146,20 @@ protected:
         if (call_via == nullptr) {
             return false;
         }
+
+        const std::string short_name = peconv::get_dll_shortname(lib_name);
         bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
         ExportedFunc *func = nullptr;
 
         if (is_by_ord) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
-            func = new ExportedFunc(lib_name, raw_ordinal);
+            func = new ExportedFunc(short_name, raw_ordinal);
         }
         else {
             PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
             LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
             WORD ordinal = by_name->Hint;
-            func = new ExportedFunc(lib_name, func_name, ordinal);
+            func = new ExportedFunc(short_name, func_name, ordinal);
         }
         if (!func) {
             return false;
