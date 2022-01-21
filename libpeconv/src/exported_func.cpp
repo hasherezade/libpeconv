@@ -230,7 +230,7 @@ bool ExportedFunc::isTheSameFunc(const peconv::ExportedFunc& func1, const peconv
     if (!isTheSameDllName(func1, func2)) {
         return false;
     }
-    return false;
+    return true;
 }
 
 std::string ExportedFunc::toString() const
