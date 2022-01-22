@@ -5,7 +5,7 @@ var searchData=
   ['importsuneraser_2',['ImportsUneraser',['../classpeconv_1_1_imports_uneraser.html#a407d30983cdf6d92701a79a2258966b2',1,'peconv::ImportsUneraser']]],
   ['importthunkscallback_3',['ImportThunksCallback',['../classpeconv_1_1_import_thunks_callback.html#aed2b499a0dff6531e498f6d2093bfcde',1,'peconv::ImportThunksCallback']]],
   ['impsnotcovered_4',['ImpsNotCovered',['../classpeconv_1_1_imps_not_covered.html#abe850516b0b3fa9079be76ed718bb797',1,'peconv::ImpsNotCovered']]],
-  ['insert_5',['insert',['../classpeconv_1_1_imps_not_covered.html#a3ea258bced47b906abb1011834d2aea3',1,'peconv::ImpsNotCovered']]],
+  ['insert_5',['insert',['../classpeconv_1_1_imps_not_covered.html#a5abe95c73aa50614579587d3c18cc18f',1,'peconv::ImpsNotCovered']]],
   ['is64bit_6',['is64bit',['../namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f',1,'peconv']]],
   ['is_5fbad_5fread_5fptr_7',['is_bad_read_ptr',['../namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056',1,'peconv']]],
   ['is_5fdot_5fnet_8',['is_dot_net',['../namespacepeconv.html#a2c8d2fca647e1d8a2b86fc85f702e135',1,'peconv']]],
