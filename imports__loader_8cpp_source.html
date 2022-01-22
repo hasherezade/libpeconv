@@ -217,12 +217,12 @@ $(function() {
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        }</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keyword">const</span> std::string short_name = <a class="code hl_function" href="namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad">peconv::get_dll_shortname</a>(lib_name);</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordtype">bool</span> is_by_ord = (desc-&gt;u1.Ordinal &amp; ordinal_flag) != 0;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> is_by_ord = (desc-&gt;u1.Ordinal &amp; ordinal_flag) != 0;</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <a class="code hl_class" href="classpeconv_1_1_exported_func.html">ExportedFunc</a> *func = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keywordflow">if</span> (is_by_ord) {</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            T_FIELD raw_ordinal = desc-&gt;u1.Ordinal &amp; (~ordinal_flag);</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            func = <span class="keyword">new</span> <a class="code hl_class" href="classpeconv_1_1_exported_func.html">ExportedFunc</a>(short_name, raw_ordinal);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            func = <span class="keyword">new</span> <a class="code hl_class" href="classpeconv_1_1_exported_func.html">ExportedFunc</a>(short_name, IMAGE_ORDINAL64(raw_ordinal));</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        }</div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)<a class="code hl_variable" href="classpeconv_1_1_import_thunks_callback.html#a757fffb4a19309ab49bbb3f3c64369f0">modulePtr</a> + desc-&gt;u1.AddressOfData);</div>
@@ -233,7 +233,7 @@ $(function() {
 <div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">if</span> (!func) {</div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        }</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        DWORD rva = <a class="code hl_define" href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a>((ULONG_PTR)call_via - (ULONG_PTR)<a class="code hl_variable" href="classpeconv_1_1_import_thunks_callback.html#a757fffb4a19309ab49bbb3f3c64369f0">modulePtr</a>);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keyword">const</span> DWORD rva = <a class="code hl_define" href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a>((ULONG_PTR)call_via - (ULONG_PTR)<a class="code hl_variable" href="classpeconv_1_1_import_thunks_callback.html#a757fffb4a19309ab49bbb3f3c64369f0">modulePtr</a>);</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <a class="code hl_variable" href="class_collect_imports_callback.html#add98c45d9d9bcb95f04a0d340967ba16">thunkToFunc</a>[rva] = func;</div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    }</div>
@@ -491,7 +491,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 22 2022 19:19:47 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Sat Jan 22 2022 21:01:31 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
