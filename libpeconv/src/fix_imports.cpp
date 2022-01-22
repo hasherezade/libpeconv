@@ -204,12 +204,12 @@ size_t ImportedDllCoverage::mapAddressesToFunctions(const std::string &dll)
     return coveredCount;
 }
 
-void ImpsNotCovered::insert(ULONGLONG thunk, ULONGLONG searchedAddr)
+void ImpsNotCovered::insert(DWORD thunkRVA, ULONGLONG searchedAddr)
 {
 #ifdef _DEBUG
     std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
 #endif
-    thunkToAddr[thunk] = searchedAddr;
+    thunkToAddr[thunkRVA] = searchedAddr;
 }
 
 

@@ -36,9 +36,9 @@ namespace peconv {
         */
         size_t count() { return thunkToAddr.size();  }
 
-        void insert(ULONGLONG thunk, ULONGLONG searchedAddr);
+        void insert(DWORD thunkRVA, ULONGLONG searchedAddr);
 
-        std::map<ULONGLONG, ULONGLONG> thunkToAddr; //addresses of not recovered functions with their thunks (call_via)
+        std::map<DWORD, ULONGLONG> thunkToAddr; //addresses of not recovered functions with their thunks (call_via)
     };
 
     /**
