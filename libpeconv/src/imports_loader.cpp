@@ -148,12 +148,12 @@ protected:
         }
 
         const std::string short_name = peconv::get_dll_shortname(lib_name);
-        bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
+        const bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
         ExportedFunc *func = nullptr;
 
         if (is_by_ord) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
-            func = new ExportedFunc(short_name, raw_ordinal);
+            func = new ExportedFunc(short_name, IMAGE_ORDINAL64(raw_ordinal));
         }
         else {
             PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
@@ -164,7 +164,7 @@ protected:
         if (!func) {
             return false;
         }
-        DWORD rva = MASK_TO_DWORD((ULONG_PTR)call_via - (ULONG_PTR)modulePtr);
+        const DWORD rva = MASK_TO_DWORD((ULONG_PTR)call_via - (ULONG_PTR)modulePtr);
         thunkToFunc[rva] = func;
         return true;
     }
