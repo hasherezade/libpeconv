@@ -1,4 +1,4 @@
-cmake_minimum_required ( VERSION 2.8...3.21 )
+cmake_minimum_required ( VERSION 3.0 )
 project (run_pe)
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
