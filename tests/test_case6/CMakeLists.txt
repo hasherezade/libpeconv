@@ -1,7 +1,7 @@
 cmake_minimum_required ( VERSION 3.0 )
 project (test_case6)
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
 
 set (srcs
 	main.cpp
