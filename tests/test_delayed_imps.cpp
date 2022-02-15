@@ -34,7 +34,7 @@ namespace test9 {
     }
 };
 
-int tests::replace_delayed_imps(char *path)
+int tests::replace_delayed_imps(LPCTSTR path)
 {
     if (path == NULL) {
         std::cerr << "Supply the path to the app" << std::endl;

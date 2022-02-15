@@ -17,10 +17,10 @@ NTSTATUS (NTAPI *ntdll_ZwAllocateVirtualMemory)(
 ) = NULL;
 
 //For now this is for manual tests only:
-int tests::test_ntdll(char *path)
+int tests::test_ntdll(LPCTSTR path)
 {
-    CHAR ntdllPath[MAX_PATH];
-    ExpandEnvironmentStrings("%SystemRoot%\\system32\\ntdll.dll", ntdllPath, MAX_PATH);
+    TCHAR ntdllPath[MAX_PATH];
+    ExpandEnvironmentStrings(TEXT("%SystemRoot%\\system32\\ntdll.dll"), ntdllPath, MAX_PATH);
 
     size_t v_size = 0;
     // NTDLL does not need any imports, so we can load it by load_pe_module

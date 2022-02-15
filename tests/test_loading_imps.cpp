@@ -22,10 +22,10 @@ int tests::deploy_self_ex(peconv::t_function_resolver* func_resolver)
         printf("First iteration: marker not found\n");
     }
 
-    char my_path[MAX_PATH] = { 0 };
-    GetModuleFileNameA(NULL, my_path, MAX_PATH);
+    TCHAR my_path[MAX_PATH] = { 0 };
+    GetModuleFileName(NULL, my_path, MAX_PATH);
     size_t v_size = 0;
-    printf("Module: %s\n", my_path);
+    std::tcout << TEXT("Module: ") << my_path << std::endl;
     // Load the current executable from the file with the help of libpeconv:
     BYTE* loaded_pe = peconv::load_pe_executable(my_path, v_size, func_resolver);
     ULONGLONG ep = peconv::get_entry_point_rva(loaded_pe) + (ULONGLONG) loaded_pe;

@@ -6,8 +6,8 @@ using namespace peconv;
 
 int tests::load_self()
 {
-    char my_path[MAX_PATH] = { 0 };
-    GetModuleFileNameA(NULL, my_path, MAX_PATH);
+    TCHAR my_path[MAX_PATH] = { 0 };
+    GetModuleFileName(NULL, my_path, MAX_PATH);
     size_t v_size = 0;
     std::cout << "Module: " << my_path << "\n";
     // Load the current executable from the file with the help of libpeconv:

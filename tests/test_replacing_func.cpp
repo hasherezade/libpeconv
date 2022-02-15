@@ -48,7 +48,7 @@ namespace test8 {
 
 };
 
-int tests::replace_func_testcase(char *path)
+int tests::replace_func_testcase(LPCTSTR path)
 {
 
     if (path == NULL) {

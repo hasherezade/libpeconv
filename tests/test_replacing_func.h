@@ -4,6 +4,6 @@
 
 namespace tests {
 
-    int replace_func_testcase(char *path);
+    int replace_func_testcase(LPCTSTR path);
 
 }; //namespace tests

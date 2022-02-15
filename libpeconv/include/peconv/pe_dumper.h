@@ -37,7 +37,8 @@ namespace peconv {
     \param dump_mode : specifies in which format the PE should be dumped. If the mode was set to PE_DUMP_AUTO, it autodetects mode and returns the detected one.
     \param exportsMap : optional. If exportsMap is supplied, it will try to recover destroyed import table of the PE, basing on the supplied map of exported functions.
     */
-    bool dump_pe(IN const char *outputFilePath,
+    bool dump_pe(
+        IN LPCTSTR outputFilePath,
         IN OUT BYTE* buffer,
         IN size_t buffer_size,
         IN const ULONGLONG module_base,

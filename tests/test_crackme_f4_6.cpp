@@ -36,9 +36,9 @@ namespace test6 {
     public:
         FlagLoader(int _id) : id(_id) {}
 
-        virtual bool load_next_char(const char *path) = 0;
+        virtual bool load_next_char(LPCTSTR path) = 0;
 
-        bool load_flag(const char *path)
+        bool load_flag(LPCTSTR path)
         {
             memset(test6::g_flagBuf, 0, sizeof(test6::g_flagBuf));
 
@@ -64,7 +64,7 @@ namespace test6 {
     public:
         FlagLoader1(int _id) : FlagLoader(_id) {}
 
-        virtual bool load_next_char(const char *path)
+        virtual bool load_next_char(LPCTSTR path)
         {
             size_t v_size = 0;
             peconv::hooking_func_resolver my_res;
@@ -117,7 +117,7 @@ namespace test6 {
     public:
         FlagLoader2(int _id) : FlagLoader(_id) {}
 
-        virtual bool load_next_char(const char *path)
+        virtual bool load_next_char(LPCTSTR path)
         {
             peconv::hooking_func_resolver my_res;
             my_res.add_hook("MessageBoxA", (FARPROC)&my_MessageBoxA);
@@ -176,13 +176,13 @@ namespace test6 {
 
 }; //namespace test6
 
-int tests::decode_crackme_f4_6(char *path)
+int tests::decode_crackme_f4_6(LPCTSTR path)
 {
 #ifndef _WIN64
     printf("Compile the loader as 64bit!\n");
     return 0;
 #endif
-    char default_path[] = "payload.dll";
+    TCHAR default_path[] = TEXT("payload.dll");
     if (!path) {
         path = default_path;
     }

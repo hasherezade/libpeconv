@@ -7,7 +7,7 @@ using namespace peconv;
 #include <string>
 #include <map>
 
-int tests::test_load_with_tls_callbacks(char *path)
+int tests::test_load_with_tls_callbacks(LPCTSTR path)
 {
 
     if (path == NULL) {
