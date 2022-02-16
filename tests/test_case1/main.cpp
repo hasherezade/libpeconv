@@ -6,15 +6,15 @@ int popup_message1()
     SYSTEMTIME SystemTime;
     GetSystemTime(&SystemTime);
 
-    TCHAR pszDate[200];
-    GetDateFormat( LOCALE_USER_DEFAULT, DATE_LONGDATE, &SystemTime, NULL, pszDate, 200 );
+    char pszDate[200];
+    GetDateFormatA( LOCALE_USER_DEFAULT, DATE_LONGDATE, &SystemTime, NULL, pszDate, 200 );
 
-    return MessageBox(NULL, pszDate, TEXT("Test Case 1"), MB_OK);
+    return MessageBoxA(NULL, pszDate, "Test Case 1", MB_OK);
 }
 
 int popup_message2()
 {
-    return MessageBox(NULL, TEXT("Checking wide strings"), TEXT("Test Case 1"), MB_OK);
+    return MessageBoxW(NULL, L"Checking wide strings", L"Test Case 1", MB_OK);
 }
 
 int main()
