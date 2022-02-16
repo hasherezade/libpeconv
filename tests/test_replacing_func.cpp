@@ -55,7 +55,7 @@ int tests::replace_func_testcase(LPCTSTR path)
         std::cerr << "Supply the path to the app" << std::endl;
         return -1;
     }
-    std::cout << "Trying to load: " << path << std::endl;
+    std::tcout << TEXT("Trying to load: ") << path << std::endl;
     size_t v_size = 0;
 
     peconv::hooking_func_resolver my_res;
