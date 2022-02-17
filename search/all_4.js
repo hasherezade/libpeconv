@@ -14,9 +14,9 @@ var searchData=
   ['dllname_11',['dllName',['../classpeconv_1_1_imported_dll_coverage.html#a44db2fbbbabe6c82883f95e17ec8d261',1,'peconv::ImportedDllCoverage']]],
   ['dllnamerva_12',['DllNameRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a41772447f7cf6e943380a3ab637f04e0',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
   ['dummystructname_13',['DUMMYSTRUCTNAME',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ace1adcb2ead68fb07fea29ab863d1acd',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
-  ['dump_5fpe_14',['dump_pe',['../namespacepeconv.html#a3fcbd8235d3f9bbbde2caa1a091387bc',1,'peconv']]],
-  ['dump_5fremote_5fpe_15',['dump_remote_pe',['../namespacepeconv.html#ab9b563b890d81c5edd86c0dcd0cf5150',1,'peconv']]],
-  ['dump_5fto_5ffile_16',['dump_to_file',['../namespacepeconv.html#ab42b47b407565497fe16772d66b02606',1,'peconv']]],
+  ['dump_5fpe_14',['dump_pe',['../namespacepeconv.html#acb3587307ee056dcf13186b9ae1f94f1',1,'peconv']]],
+  ['dump_5fremote_5fpe_15',['dump_remote_pe',['../namespacepeconv.html#a2f68743f2f7493f8c6c3491f5b097b97',1,'peconv']]],
+  ['dump_5fto_5ffile_16',['dump_to_file',['../namespacepeconv.html#a0a81fabc3be65a8b23b97a20a5496484',1,'peconv']]],
   ['dynamicvaluereloctable_17',['DynamicValueRelocTable',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w10.html#a0c39228c1e2ceebbdf67a0e34a744f0f',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W10::DynamicValueRelocTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html#a3c06781f5fe882e18df98c999a64f48d',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W10::DynamicValueRelocTable()']]],
   ['dynamicvaluereloctableoffset_18',['DynamicValueRelocTableOffset',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w10.html#abcd9f367b8d40e6892494e42da3dbbf6',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W10::DynamicValueRelocTableOffset()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html#af0d178fc88b6f060141b4a01483808ae',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W10::DynamicValueRelocTableOffset()']]],
   ['dynamicvaluereloctablesection_19',['DynamicValueRelocTableSection',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w10.html#a3f44f1ae201eb89a5d4b393135041b9f',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W10::DynamicValueRelocTableSection()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html#a8334206d547a428e3f7d72bdd024f969',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W10::DynamicValueRelocTableSection()']]]

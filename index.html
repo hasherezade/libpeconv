@@ -96,7 +96,7 @@ $(function() {
 <div class="line">    BYTE* my_pe = <a class="code hl_function" href="namespacepeconv.html#a59b0b9f9daf4ccf3e35c5e337cfaed4e">peconv::load_pe_executable</a>(pe_path, v_size);</div>
 <div class="line"><span class="preprocessor">#else</span></div>
 <div class="line">    <span class="keywordtype">size_t</span> bufsize = 0;</div>
-<div class="line">    BYTE *buffer = <a class="code hl_function" href="namespacepeconv.html#aa0ea3c0c35b7c51ab4506630315252aa">peconv::load_file</a>(pe_path, bufsize);</div>
+<div class="line">    BYTE *buffer = <a class="code hl_function" href="namespacepeconv.html#a245487a080f79725e2fb61c21045ea7b">peconv::load_file</a>(pe_path, bufsize);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// if the file is NOT dropped on the disk, you can load it directly from a memory buffer:</span></div>
 <div class="line">    BYTE* my_pe = <a class="code hl_function" href="namespacepeconv.html#a59b0b9f9daf4ccf3e35c5e337cfaed4e">peconv::load_pe_executable</a>(buffer, bufsize, v_size);</div>
@@ -126,8 +126,8 @@ $(function() {
 <div class="ttc" id="anamespacepeconv_html_a0e2ff10a8a87a03dcdb0e2e029406c6b"><div class="ttname"><a href="namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b">peconv::run_tls_callbacks</a></div><div class="ttdeci">size_t run_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize=0, IN DWORD dwReason=DLL_PROCESS_ATTACH)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00084">tls_parser.cpp:84</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a12d3fa7eccb95cafc6d2be997965e97c"><div class="ttname"><a href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a></div><div class="ttdeci">DWORD get_entry_point_rva(IN const BYTE *pe_buffer)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00171">pe_hdrs_helper.cpp:171</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a1b2f6b38a8631d42d6a7919f41de7e01"><div class="ttname"><a href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">peconv::set_main_module_in_peb</a></div><div class="ttdeci">bool set_main_module_in_peb(HMODULE hModule)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00159">peb_lookup.cpp:159</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a59b0b9f9daf4ccf3e35c5e337cfaed4e"><div class="ttname"><a href="namespacepeconv.html#a59b0b9f9daf4ccf3e35c5e337cfaed4e">peconv::load_pe_executable</a></div><div class="ttdeci">BYTE * load_pe_executable(BYTE *dllRawData, size_t r_size, OUT size_t &amp;v_size, t_function_resolver *import_resolver=NULL)</div><div class="ttdef"><b>Definition:</b> <a href="pe__loader_8cpp_source.html#l00079">pe_loader.cpp:79</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_aa0ea3c0c35b7c51ab4506630315252aa"><div class="ttname"><a href="namespacepeconv.html#aa0ea3c0c35b7c51ab4506630315252aa">peconv::load_file</a></div><div class="ttdeci">peconv::UNALIGNED_BUF load_file(IN const char *filename, OUT size_t &amp;r_size)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00011">file_util.cpp:11</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a245487a080f79725e2fb61c21045ea7b"><div class="ttname"><a href="namespacepeconv.html#a245487a080f79725e2fb61c21045ea7b">peconv::load_file</a></div><div class="ttdeci">peconv::UNALIGNED_BUF load_file(IN LPCTSTR filename, OUT size_t &amp;r_size)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00011">file_util.cpp:11</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a59b0b9f9daf4ccf3e35c5e337cfaed4e"><div class="ttname"><a href="namespacepeconv.html#a59b0b9f9daf4ccf3e35c5e337cfaed4e">peconv::load_pe_executable</a></div><div class="ttdeci">BYTE * load_pe_executable(BYTE *dllRawData, size_t r_size, OUT size_t &amp;v_size, t_function_resolver *import_resolver=NULL)</div><div class="ttdef"><b>Definition:</b> <a href="pe__loader_8cpp_source.html#l00080">pe_loader.cpp:80</a></div></div>
 <div class="ttc" id="apeconv_8h_html"><div class="ttname"><a href="peconv_8h.html">peconv.h</a></div><div class="ttdoc">Master include file, including everything else.</div></div>
 </div><!-- fragment --><h2>Read more</h2>
 <ul>
@@ -141,7 +141,7 @@ $(function() {
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 14 2022 03:24:50 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
+Generated on Thu Feb 17 2022 00:54:29 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
 </small></address>
 </body>
 </html>
