@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libPeConv: libpeconv/include/unicode.h Source File</title>
+<title>libPeConv: libpeconv/include/peconv/unicode.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,26 +63,28 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_0967e0f2f9550a0457eea072dbf2c2dc.html">libpeconv</a></li><li class="navelem"><a class="el" href="dir_710da80bdc3300874944b1903bcc1810.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_0967e0f2f9550a0457eea072dbf2c2dc.html">libpeconv</a></li><li class="navelem"><a class="el" href="dir_710da80bdc3300874944b1903bcc1810.html">include</a></li><li class="navelem"><a class="el" href="dir_000faea2dca25aba610ab4c1bfc2a0aa.html">peconv</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle"><div class="title">unicode.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="unicode_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifdef UNICODE</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define tcout wcout</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define tcerr wcerr</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#define tstring wstring</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="unicode_8h.html#a9dc663685880add2dd82ca7244f20c62">    6</a></span><span class="preprocessor">#define tcout cout</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="unicode_8h.html#abe1214f7c35638b159d0d8bc791a7bf5">    7</a></span><span class="preprocessor">#define tcerr cerr</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="unicode_8h.html#ae5d59c80151fb6bca8c486086a1ed05b">    8</a></span><span class="preprocessor">#define tstring string</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#endif </span><span class="comment">// UNICODE</span></div>
+<a href="unicode_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#ifdef UNICODE</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#define tcout wcout</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#define tcerr wcerr</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#define tstring wstring</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="unicode_8h.html#a9dc663685880add2dd82ca7244f20c62">    8</a></span><span class="preprocessor">#define tcout cout</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="unicode_8h.html#abe1214f7c35638b159d0d8bc791a7bf5">    9</a></span><span class="preprocessor">#define tcerr cerr</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="unicode_8h.html#ae5d59c80151fb6bca8c486086a1ed05b">   10</a></span><span class="preprocessor">#define tstring string</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#endif </span><span class="comment">// UNICODE</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 17 2022 00:54:28 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
+Generated on Thu Feb 17 2022 01:22:41 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
 </small></address>
 </body>
 </html>
