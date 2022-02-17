@@ -1,7 +1,7 @@
 var searchData=
 [
   ['fetch_5falloc_5fbase_0',['fetch_alloc_base',['../namespacepeconv.html#ae5dff18549576c774f9497630124d851',1,'peconv']]],
-  ['fetch_5fcallbacks_5flist_1',['fetch_callbacks_list',['../namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598',1,'peconv::fetch_callbacks_list(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks)'],['../namespacepeconv.html#abf43b865a17b89e036a652326f94eebf',1,'peconv::fetch_callbacks_list(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt; DWORD &gt; &amp;callbacks_RVAs)']]],
+  ['fetch_5fcallbacks_5flist_1',['fetch_callbacks_list',['../namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598',1,'peconv']]],
   ['fetch_5ffile_5fhdr_2',['fetch_file_hdr',['../pe__hdrs__helper_8cpp.html#a00518686793ddc0f408a17dfaeaea0db',1,'pe_hdrs_helper.cpp']]],
   ['fetch_5fopt_5fhdr_3',['fetch_opt_hdr',['../pe__hdrs__helper_8cpp.html#ac183c9b8abf9da22f9ddbc8ce62565e1',1,'pe_hdrs_helper.cpp']]],
   ['fetch_5fregion_5finfo_4',['fetch_region_info',['../namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5',1,'peconv']]],
@@ -11,7 +11,7 @@ var searchData=
   ['file_5futil_2ecpp_8',['file_util.cpp',['../file__util_8cpp.html',1,'']]],
   ['file_5futil_2eh_9',['file_util.h',['../file__util_8h.html',1,'']]],
   ['fillimportnames_10',['fillImportNames',['../classpeconv_1_1_imports_uneraser.html#a7cad74ed8f91eb309a03e6e7ca8af247',1,'peconv::ImportsUneraser']]],
-  ['fillimportthunks_11',['FillImportThunks',['../class_fill_import_thunks.html#a05e6f526fae8589bcbbbfb0a0141b9a1',1,'FillImportThunks::FillImportThunks()'],['../class_fill_import_thunks.html',1,'FillImportThunks']]],
+  ['fillimportthunks_11',['FillImportThunks',['../class_fill_import_thunks.html',1,'FillImportThunks'],['../class_fill_import_thunks.html#a05e6f526fae8589bcbbbfb0a0141b9a1',1,'FillImportThunks::FillImportThunks()']]],
   ['find_5faddresses_5fto_5ffill_12',['find_addresses_to_fill',['../fix__imports_8cpp.html#ab60595ca007731229053fef3f4b677d0',1,'fix_imports.cpp']]],
   ['find_5falignment_5fcave_13',['find_alignment_cave',['../namespacepeconv.html#a52ed5ac63150ed6c4d7e5a53b9d7b717',1,'peconv']]],
   ['find_5fbase_2ecpp_14',['find_base.cpp',['../find__base_8cpp.html',1,'']]],

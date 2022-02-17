@@ -1,7 +1,7 @@
 var searchData=
 [
   ['fetch_5falloc_5fbase_0',['fetch_alloc_base',['../namespacepeconv.html#ae5dff18549576c774f9497630124d851',1,'peconv']]],
-  ['fetch_5fcallbacks_5flist_1',['fetch_callbacks_list',['../namespacepeconv.html#abf43b865a17b89e036a652326f94eebf',1,'peconv::fetch_callbacks_list(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt; DWORD &gt; &amp;callbacks_RVAs)'],['../namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598',1,'peconv::fetch_callbacks_list(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks)']]],
+  ['fetch_5fcallbacks_5flist_1',['fetch_callbacks_list',['../namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598',1,'peconv']]],
   ['fetch_5ffile_5fhdr_2',['fetch_file_hdr',['../pe__hdrs__helper_8cpp.html#a00518686793ddc0f408a17dfaeaea0db',1,'pe_hdrs_helper.cpp']]],
   ['fetch_5fopt_5fhdr_3',['fetch_opt_hdr',['../pe__hdrs__helper_8cpp.html#ac183c9b8abf9da22f9ddbc8ce62565e1',1,'pe_hdrs_helper.cpp']]],
   ['fetch_5fregion_5finfo_4',['fetch_region_info',['../namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5',1,'peconv']]],
