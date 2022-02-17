@@ -4,6 +4,6 @@
 
 namespace tests {
 
-    int imports_mix(const char *my_path);
+    int imports_mix(LPCTSTR my_path);
 
 }; //namespace tests

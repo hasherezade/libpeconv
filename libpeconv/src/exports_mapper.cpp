@@ -57,7 +57,7 @@ size_t ExportsMapper::make_ord_lookup_tables(
     for (DWORD i = 0; i < functCount; i++) {
         DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         if (*recordRVA == 0) {
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
             std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)recordRVA - (BYTE*)modulePtr<< "(ord)\n";
 #endif
             //skip if the function RVA is 0 (empty export)
@@ -176,7 +176,7 @@ bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const
 ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE modulePtr, ULONGLONG moduleBase, size_t moduleSize, ExportedFunc &currFunc, DWORD callRVA)
 {
     if (add_forwarded(currFunc, callRVA, (BYTE*)modulePtr, moduleSize)) {
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
         char* fPtr = (char*)modulePtr + callRVA;
         std::cout << "FWD " << currFunc.toString() << " -> " << fPtr << "\n";
 #endif
@@ -196,18 +196,26 @@ ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE module
     return ExportsMapper::RES_MAPPED;
 }
 
-size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
+
+size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t module_size, ULONGLONG moduleBase)
 {
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
     if (exp == NULL) {
         return 0;
     }
-    size_t module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(modulePtr));
+    if (module_size == 0) {
+        module_size = peconv::get_image_size(reinterpret_cast<const PBYTE>(modulePtr));
+        if (module_size == 0) return 0;
+    }
     if (!is_valid_export_table(exp, modulePtr, module_size)) {
         return 0;
     }
-    std::string dllName = get_dll_shortname(moduleName);
-    this->dll_shortname_to_path[dllName] = moduleName;
+    const bool is64b = peconv::is64bit(reinterpret_cast<const PBYTE>(modulePtr));
+    DllInfo info(moduleBase, module_size, is64b, moduleName);
+    dll_base_to_info[moduleBase] = info;
+
+    const std::string dllName = info.shortName;
+    this->dll_shortname_to_base[dllName].insert(moduleBase);
 
     std::map<PDWORD, DWORD> va_to_ord;
     size_t functCount = make_ord_lookup_tables(modulePtr, module_size, va_to_ord);
@@ -228,7 +236,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
         WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
         if (*funcRVA == 0) {
-#ifdef _DEBUG
+#ifdef _DEBUG_EX
             std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)funcRVA - (BYTE*)modulePtr << "(name)\n";
 #endif
             //skip if the function RVA is 0 (empty export)
@@ -262,4 +270,40 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, U
     std::cout << "Finished exports parsing, mapped: "<< mapped_ctr << " forwarded: " << forwarded_ctr  << std::endl;
 #endif
     return mapped_ctr;
+}
+
+size_t ExportsMapper::get_dll_paths(IN std::string short_name, OUT std::set<std::string>& paths) const
+{
+    std::map<std::string, std::set<ULONGLONG>>::const_iterator itr = this->dll_shortname_to_base.find(short_name);
+    if (itr == this->dll_shortname_to_base.end()) {
+        return 0;
+    }
+    size_t added = 0;
+    const std::set<ULONGLONG>& bases = itr->second;
+    std::set<ULONGLONG>::const_iterator bItr;
+    for (bItr = bases.begin(); bItr != bases.end(); ++bItr) {
+        ULONGLONG base = *bItr;
+        const std::string path = get_dll_path(base);
+        paths.insert(path);
+        added++;
+    }
+    return added;
+}
+
+std::string ExportsMapper::get_dll_path(std::string short_name) const
+{
+    std::map<std::string, std::set<ULONGLONG>>::const_iterator itr = this->dll_shortname_to_base.find(short_name);
+    if (itr == this->dll_shortname_to_base.end()) {
+        return "";
+    }
+    const std::set<ULONGLONG>& bases = itr->second;
+    std::set<ULONGLONG>::const_iterator bItr;
+    for (bItr = bases.begin(); bItr != bases.end(); ++bItr) {
+        ULONGLONG base = *bItr;
+        const std::string path = get_dll_path(base);
+        if (path.length()) {
+            return path;
+        }
+    }
+    return "";
 }

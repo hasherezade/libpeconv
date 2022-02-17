@@ -58,6 +58,15 @@ namespace peconv {
         */
         static std::string formatName(std::string name);
 
+        //! Compares functions' names. If function is defined by an ordinal, compares ordinals. Does not include the DLL name in the comparison.
+        static bool isTheSameFuncName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2);
+
+        //! Compares functions' DLL names.
+        static bool isTheSameDllName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2);
+
+        //! Compares functions' names. If function is defined by an ordinal, compares ordinals. Includes the DLL name in the comparison.
+        static bool isTheSameFunc(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2);
+
         std::string libName;
         std::string funcName;
         DWORD funcOrdinal;

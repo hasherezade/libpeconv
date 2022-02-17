@@ -4,6 +4,6 @@
 
 namespace tests {
 
-    int replace_delayed_imps(char *path);
+    int replace_delayed_imps(LPCTSTR path);
 
 }; //namespace tests

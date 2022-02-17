@@ -8,9 +8,9 @@
 #endif
 
 //load file content using MapViewOfFile
-peconv::ALIGNED_BUF peconv::load_file(IN const char *filename, OUT size_t &read_size)
+peconv::ALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_size)
 {
-    HANDLE file = CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if(file == INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
         std::cerr << "Could not open file!" << std::endl;
@@ -45,7 +45,7 @@ peconv::ALIGNED_BUF peconv::load_file(IN const char *filename, OUT size_t &read_
         CloseHandle(file);
         return nullptr;
     }
-    peconv::ALIGNED_BUF localCopyAddress = peconv::alloc_aligned(r_size, PAGE_READWRITE);
+    peconv::UNALIGNED_BUF localCopyAddress = peconv::alloc_unaligned(r_size);
     if (localCopyAddress != nullptr) {
         memcpy(localCopyAddress, dllRawData, r_size);
         read_size = r_size;
@@ -62,20 +62,20 @@ peconv::ALIGNED_BUF peconv::load_file(IN const char *filename, OUT size_t &read_
 }
 
 //load file content using ReadFile
-peconv::ALIGNED_BUF peconv::read_from_file(IN const char *in_path, IN OUT size_t &read_size)
+peconv::ALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &read_size)
 {
-    HANDLE file = CreateFileA(in_path, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE file = CreateFile(in_path, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if (file == INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
         std::cerr << "Cannot open the file for reading!" << std::endl;
 #endif
         return nullptr;
     }
-    size_t r_size = static_cast<size_t>(GetFileSize(file, 0));
+    DWORD r_size = GetFileSize(file, 0);
     if (read_size != 0 && read_size <= r_size) {
-        r_size = read_size;
+        r_size = MASK_TO_DWORD(read_size);
     }
-    PBYTE buffer = peconv::alloc_pe_buffer(r_size, PAGE_READWRITE);
+    peconv::UNALIGNED_BUF buffer = peconv::alloc_unaligned(r_size);
     if (buffer == nullptr) {
 #ifdef _DEBUG
         std::cerr << "Allocation has failed!" << std::endl;
@@ -87,7 +87,7 @@ peconv::ALIGNED_BUF peconv::read_from_file(IN const char *in_path, IN OUT size_t
 #ifdef _DEBUG
         std::cerr << "Reading failed!" << std::endl;
 #endif
-        peconv::free_pe_buffer(buffer, r_size);
+        peconv::free_file(buffer);
         buffer = nullptr;
         read_size = 0;
     } else {
@@ -98,11 +98,11 @@ peconv::ALIGNED_BUF peconv::read_from_file(IN const char *in_path, IN OUT size_t
 }
 
 //save the given buffer into a file
-bool peconv::dump_to_file(IN const char *out_path, IN PBYTE dump_data, IN size_t dump_size)
+bool peconv::dump_to_file(IN LPCTSTR out_path, IN PBYTE dump_data, IN size_t dump_size)
 {
     if (!out_path || !dump_data || !dump_size) return false;
 
-    HANDLE file = CreateFileA(out_path, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE file = CreateFile(out_path, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
     if (file == INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
         std::cerr << "Cannot open the file for writing!" << std::endl;
@@ -124,9 +124,9 @@ bool peconv::dump_to_file(IN const char *out_path, IN PBYTE dump_data, IN size_t
 }
 
 //free the buffer allocated by load_file/read_from_file
-void peconv::free_file(IN peconv::ALIGNED_BUF buffer)
+void peconv::free_file(IN peconv::UNALIGNED_BUF buffer)
 {
-    peconv::free_aligned(buffer);
+    peconv::free_unaligned(buffer);
 }
 
 std::string peconv::get_file_name(IN const std::string str)
@@ -145,4 +145,19 @@ std::string peconv::get_directory_name(IN const std::string str)
         return "";
     }
     return str.substr(0, found);
+}
+
+size_t peconv::find_extension_pos(IN const std::string str)
+{
+    size_t len = str.length();
+    size_t ext_pos = len;
+    for (size_t k = len; k != 0; k--) {
+        size_t i = k - 1;
+        char c = str[i];
+        if (c == '.') {
+            ext_pos = i;
+            break;
+        }
+    }
+    return ext_pos;
 }

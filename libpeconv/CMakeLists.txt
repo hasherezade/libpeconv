@@ -70,6 +70,7 @@ set (hdrs
 	include/peconv/peb_lookup.h
 	include/peconv/tls_parser.h
 	include/peconv/exceptions_parser.h
+	include/peconv/unicode.h
 	src/fix_dot_net_ep.h #not in API
 )
 

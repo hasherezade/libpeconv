@@ -205,7 +205,8 @@ bool ImportsUneraser::fillImportNames(
         if (found_itr == addr_to_func.end() || found_itr->second.size() == 0) {
             //not found, move on
             if (notCovered) {
-                notCovered->insert((call_via_ptr - modulePtr), searchedAddr);
+                const DWORD thunkRVA = MASK_TO_DWORD((ULONG_PTR)call_via_ptr - (ULONG_PTR)modulePtr);
+                notCovered->insert(thunkRVA, searchedAddr);
             }
             continue;
         }

@@ -1,20 +1,34 @@
 #include "peconv/exported_func.h"
 
+#include <string>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include "peconv/file_util.h"
 
 using namespace peconv;
 
 std::string peconv::get_dll_shortname(const std::string& str)
 {
     std::size_t len = str.length();
-    std::size_t found = str.find_last_of("/\\");
-    std::size_t ext = str.find_last_of('.');
-    if (ext >= len) return "";
-
-    std::string name = str.substr(found+1, ext - (found+1));
+    size_t ext_pos = len;
+    size_t separator_pos = 0;
+    for (size_t k = len; k != 0; k--) {
+        size_t i = k - 1;
+        char c = str[i];
+        // search first '.' from the end:
+        if (c == '.' && ext_pos == len) {
+            ext_pos = i;
+        }
+        // search first path separator from the end:
+        if (c == '\\' || c == '/') {
+            separator_pos = k;
+            break;
+        }
+    }
+    const size_t new_len = ext_pos - separator_pos;
+    std::string name = str.substr(separator_pos, new_len);
     std::transform(name.begin(), name.end(), name.begin(), tolower);
     return name;
 }
@@ -146,6 +160,77 @@ std::string ExportedFunc::formatName(std::string name)
     }
     std::transform(name.begin(), name.end(), name.begin(), tolower);
     return name;
+}
+
+bool ExportedFunc::isTheSameFuncName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
+{
+    if (!func1.isByOrdinal && !func1.isByOrdinal) {
+        if (func1.funcName == func2.funcName) {
+            return true;
+        }
+    }
+    if (func1.funcOrdinal == func2.funcOrdinal) {
+        return true;
+    }
+    return false;
+}
+
+namespace peconv
+{
+    bool is_valid_extension(const std::string &ext)
+    {
+        if (ext.length() > 3) {
+            //probably not an extension
+            return false;
+        }
+        for (size_t j = 0; j < ext.length(); j++) {
+            if (!isalpha(ext[j])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    std::string remove_module_extension(IN const std::string str)
+    {
+        size_t len = str.length();
+        size_t ext_pos = find_extension_pos(str);
+        if (ext_pos == len) {
+            return str;
+        }
+        std::string ext = str.substr(ext_pos + 1);
+        if (is_valid_extension(ext)) {
+            std::string  str1 = str.substr(0, ext_pos);
+            return str1;
+        }
+        return str;
+    }
+}; //namespace peconv
+
+bool ExportedFunc::isTheSameDllName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
+{
+    const std::string file1 = peconv::get_file_name(func1.libName);
+    const std::string file2 = peconv::get_file_name(func2.libName);
+    if (file1 == file2) {
+        return true;
+    }
+    const std::string short1 = peconv::remove_module_extension(file1);
+    const std::string short2 = peconv::remove_module_extension(file2);
+    if (short1 == short2) {
+        return true;
+    }
+    return false;
+}
+
+bool ExportedFunc::isTheSameFunc(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
+{
+    if (!peconv::ExportedFunc::isTheSameFuncName(func1, func2)) {
+        return false;
+    }
+    if (!isTheSameDllName(func1, func2)) {
+        return false;
+    }
+    return true;
 }
 
 std::string ExportedFunc::toString() const

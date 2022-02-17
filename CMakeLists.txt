@@ -1,8 +1,9 @@
-cmake_minimum_required ( VERSION 2.8...3.21 )
+cmake_minimum_required ( VERSION 3.0 )
 
 project ( peconv )
 option(PECONV_BUILD_TESTING "enable testing for peconv" ON)
-option(PECONV_LIB_INSTALL "Enable install" ON )
+option(PECONV_LIB_INSTALL "Enable install" ON)
+option(PECONV_UNICODE "Enable Unicode" OFF)
 
 # modules:
 set ( M_PECONV_LIB "libpeconv" )
@@ -14,6 +15,11 @@ set ( M_RUN_PE "run_pe" )
 set ( PECONV_DIR "${CMAKE_SOURCE_DIR}/${M_PECONV_LIB}" CACHE PATH "PEConvLib main path" )
 set ( UNMAPPER_DIR "${CMAKE_SOURCE_DIR}/${M_PE_UNMAPPER}" CACHE PATH "PEUnmapper main path" )
 set ( RUNPE_DIR "${CMAKE_SOURCE_DIR}/${M_RUN_PE}" CACHE PATH "RunPE main path" )
+
+# enable unicode support
+if(PECONV_UNICODE)
+	add_definitions (-DUNICODE -D_UNICODE)
+endif()
 
 # Add sub-directories
 #

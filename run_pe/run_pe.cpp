@@ -5,7 +5,7 @@
 
 using namespace peconv;
 
-bool create_suspended_process(IN const char* path, IN const char* cmdLine, OUT PROCESS_INFORMATION &pi)
+bool create_suspended_process(IN LPCTSTR path, IN LPCTSTR cmdLine, OUT PROCESS_INFORMATION &pi)
 {
     STARTUPINFO si;
     memset(&si, 0, sizeof(STARTUPINFO));
@@ -13,9 +13,9 @@ bool create_suspended_process(IN const char* path, IN const char* cmdLine, OUT P
 
     memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 
-    if (!CreateProcessA(
+    if (!CreateProcess(
             path,
-            (LPSTR)cmdLine,
+            (LPTSTR) cmdLine,
             NULL, //lpProcessAttributes
             NULL, //lpThreadAttributes
             FALSE, //bInheritHandles
@@ -231,7 +231,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
     return true;
 }
 
-bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, const char *targetPath)
+bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, LPCTSTR targetPath)
 {
     if (!payload_buf) {
         return false;
@@ -260,7 +260,7 @@ bool is_target_compatibile(BYTE *payload_buf, size_t payload_size, const char *t
     return true;
 }
 
-bool run_pe(IN const char *payloadPath, IN const char *targetPath, IN const char *cmdLine)
+bool run_pe(IN LPCTSTR payloadPath, IN LPCTSTR targetPath, IN LPCTSTR cmdLine)
 {
     //1. Load the payload:
     size_t payloadImageSize = 0;

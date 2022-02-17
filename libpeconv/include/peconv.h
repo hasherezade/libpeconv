@@ -29,3 +29,4 @@
 #include "peconv/find_base.h"
 #include "peconv/tls_parser.h"
 #include "peconv/exceptions_parser.h"
+#include "peconv/unicode.h"

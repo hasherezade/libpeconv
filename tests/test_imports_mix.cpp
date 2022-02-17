@@ -2,7 +2,7 @@
 
 using namespace peconv;
 
-int tests::imports_mix(const char *my_path)
+int tests::imports_mix(LPCTSTR my_path)
 {
     size_t v_size = 0;
     std::cout << "Module: " << my_path << "\n";

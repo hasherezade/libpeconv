@@ -82,13 +82,13 @@ int DLL_API test_checksum3()
     GetSystemTime(&SystemTime);
 
     TCHAR pszDate[200];
-    GetDateFormatA(LOCALE_USER_DEFAULT, DATE_LONGDATE, &SystemTime, NULL, pszDate, 200);
+    GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &SystemTime, NULL, pszDate, 200);
 
     wchar_t teststr[] = L"Time func checksum";
     DWORD checks = calc_checksum((BYTE*)teststr, sizeof(teststr), true);
     std::cout << "Checks 3: " << std::hex << checks << std::endl;
 #ifdef SHOW_MSGBOX
-    MessageBoxA(NULL, pszDate, "Test Case 5", MB_OK);
+    MessageBox(NULL, pszDate, TEXT("Test Case 5"), MB_OK);
 #endif
     return checks;
 }

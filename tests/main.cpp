@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
+#include <tchar.h>
 
 #include "test_loading.h"
 #include "test_loading_imps.h"
@@ -19,7 +20,7 @@
 #include "test_tls_callbacks.h"
 #include "test_exceptions.h"
 
-int make_test(int test_id, char *test_arg)
+int make_test(int test_id, LPCTSTR test_arg)
 {
     switch (test_id) {
         case 1:  return tests::load_self();
@@ -57,7 +58,7 @@ void print_banner()
     printf("---------------\n");
 }
 
-int main(int argc, char *argv[])
+int _tmain(int argc, LPCTSTR argv[])
 {
     print_banner();
     if (argc < 2) {
@@ -65,10 +66,10 @@ int main(int argc, char *argv[])
         return 0;
     }
     
-    int test_id = atoi(argv[1]);
+    int test_id = _tstoi(argv[1]);
     printf("Test ID: %d\n", test_id);
 
-    char *test_arg = NULL; 
+    LPCTSTR test_arg = NULL; 
     if (argc > 2) {
         test_arg = argv[2];
     }

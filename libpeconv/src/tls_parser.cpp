@@ -83,7 +83,7 @@ size_t peconv::list_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, OUT 
 
 size_t peconv::run_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD dwReason)
 {
-    const size_t img_size = peconv::get_image_size((BYTE*)modulePtr);
+    const DWORD img_size = peconv::get_image_size((BYTE*)modulePtr);
     if (moduleSize == 0) {
         moduleSize = img_size;
     }

@@ -1,1 +1,5 @@
 docs
+*.bak
+.vs
+out
+*.aps

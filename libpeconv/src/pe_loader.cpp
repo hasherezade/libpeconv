@@ -6,6 +6,7 @@
 #include "peconv/function_resolver.h"
 #include "peconv/exports_lookup.h"
 
+#include <tchar.h>
 #include <iostream>
 
 using namespace peconv;
@@ -51,17 +52,17 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
         //if the image was loaded at its default base, relocate_module will return always true (because relocating is already done)
         if (relocate && !relocate_module(mappedDLL, v_size, (ULONGLONG)mappedDLL)) {
             // relocating was required, but it failed - thus, the full PE image is useless
-            printf("Could not relocate the module!");
+            std::cerr << "[!] Could not relocate the module!\n";
             free_pe_buffer(mappedDLL, v_size);
             mappedDLL = NULL;
         }
     } else {
-        printf("Could not allocate memory at the desired base!\n");
+        std::cerr << "[!] Could not allocate memory at the desired base!\n";
     }
     return mappedDLL;
 }
 
-BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool executable, bool relocate)
+BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executable, bool relocate)
 {
     size_t r_size = 0;
     BYTE *dllRawData = load_file(filename, r_size);
@@ -72,7 +73,7 @@ BYTE* peconv::load_pe_module(const char *filename, OUT size_t &v_size, bool exec
         return NULL;
     }
     BYTE* mappedPE = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
-    free_pe_buffer(dllRawData);
+    free_file(dllRawData);
     return mappedPE;
 }
 
@@ -80,7 +81,7 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
 {
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true);
     if (!loaded_pe) {
-        printf("[-] Loading failed!\n");
+        std::cerr << "[-] Loading failed!\n";
         return NULL;
     }
 #if _DEBUG
@@ -100,14 +101,14 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
 }
 
 
-BYTE* peconv::load_pe_executable(const char *my_path, OUT size_t &v_size, t_function_resolver* import_resolver)
+BYTE* peconv::load_pe_executable(LPCTSTR my_path, OUT size_t &v_size, t_function_resolver* import_resolver)
 {
 #if _DEBUG
-    printf("Module: %s\n", my_path);
+    _tprintf(TEXT("Module: %s\n"), my_path);
 #endif
     BYTE* loaded_pe = load_pe_module(my_path, v_size, true, true);
     if (!loaded_pe) {
-         printf("Loading failed!\n");
+         printf("[-] Loading failed!\n");
         return NULL;
     }
 #if _DEBUG
