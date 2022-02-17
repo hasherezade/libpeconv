@@ -12,7 +12,7 @@ void printFromat(bool isRaw)
     }
 }
 
-int tests::check_pe_format(const char *my_path)
+int tests::check_pe_format(LPCTSTR my_path)
 {
     size_t pe_size = 0;
     std::cout << "Module: " << my_path << "\n";

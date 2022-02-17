@@ -1,11 +1,11 @@
-#include "test_hooking_imps.h"
-
 #include "peconv.h"
 using namespace peconv;
 
 #include <iostream>
 #include <string>
 #include <map>
+
+#include "test_hooking_imps.h"
 
 namespace test5 {
     int _stdcall my_MessageBoxA(
@@ -31,14 +31,14 @@ namespace test5 {
     }
 };
 
-int tests::hook_testcase(char *path)
+int tests::hook_testcase(LPCTSTR path)
 {
 
     if (path == NULL) {
         std::cerr << "Supply the path to the app" << std::endl;
         return -1;
     }
-    std::cout << "Trying to load: " << path << std::endl;
+    std::tcout << TEXT("Trying to load: ") << path << std::endl;
     size_t v_size = 0;
 
 

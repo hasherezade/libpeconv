@@ -4,6 +4,6 @@
 
 namespace tests {
 
-    int imp_list(char *path);
+    int imp_list(LPCTSTR path);
 
 }; //namespace tests

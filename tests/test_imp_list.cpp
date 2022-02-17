@@ -54,10 +54,10 @@ bool list_imports(IN BYTE* modulePtr, IN size_t moduleSize)
     return peconv::process_import_table(modulePtr, moduleSize, &callback);
 }
 
-int tests::imp_list(char *my_path)
+int tests::imp_list(LPCTSTR my_path)
 {
     size_t v_size = 0;
-    std::cout << "Module: " << my_path << "\n";
+    std::tcout << TEXT("Module: ") << my_path << ("\n");
     // Load the current executable from the file with the help of libpeconv:
     BYTE* loaded_pe = load_pe_module(my_path, v_size, true, true);
     if (!loaded_pe) {

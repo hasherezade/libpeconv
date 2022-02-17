@@ -4,6 +4,6 @@
 
 namespace tests {
 
-    int hook_testcase(char *path);
+    int hook_testcase(LPCTSTR path);
 
 }; //namespace tests

@@ -63,6 +63,11 @@ int tests::hook_self_local()
     HMODULE kernel32_lib = LoadLibraryA("kernel32.dll");
     PatchBackup backup;
 
+    if ((user32_lib == nullptr) || (kernel32_lib == nullptr)) {
+        std::cout << "Failed!";
+        return -5;
+    }
+
     peconv::redirect_to_local(GetProcAddress(user32_lib, "MessageBoxA"), &test11::my_MessageBoxA);
     peconv::redirect_to_local(GetProcAddress(kernel32_lib, "GetModuleFileNameA"), &test11::my_GetModuleFileNameA, &backup);
     peconv::redirect_to_local(rand, &test11::my_rand);

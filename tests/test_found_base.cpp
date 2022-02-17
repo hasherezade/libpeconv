@@ -1,12 +1,12 @@
-#include "test_found_base.h"
 #include <windows.h>
 #include <iostream>
 #include <peconv.h>
 #include <peconv\find_base.h>
+#include "test_found_base.h"
 
 using namespace peconv;
 
-int tests::load_and_check_base(const char *path)
+int tests::load_and_check_base(LPCTSTR path)
 {
     if (!path) {
         return -1;

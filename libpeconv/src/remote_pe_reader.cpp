@@ -384,7 +384,8 @@ DWORD peconv::get_remote_image_size(IN const HANDLE processHandle, IN LPVOID sta
     return peconv::get_image_size(hdr_buffer);
 }
 
-bool peconv::dump_remote_pe(IN const char *out_path, 
+bool peconv::dump_remote_pe(
+    IN LPCTSTR out_path,
     IN const HANDLE processHandle, 
     IN LPVOID start_addr,
     IN OUT t_pe_dump_mode &dump_mode, 

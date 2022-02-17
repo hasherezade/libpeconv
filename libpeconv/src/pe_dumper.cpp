@@ -23,7 +23,8 @@ t_pe_dump_mode peconv::detect_dump_mode(IN const BYTE* buffer, IN size_t mod_siz
     return default_mode;
 }
 
-bool peconv::dump_pe(IN const char *out_path,
+bool peconv::dump_pe(
+    IN LPCTSTR out_path,
     IN OUT BYTE *buffer, IN size_t mod_size,
     IN const ULONGLONG start_addr,
     IN OUT t_pe_dump_mode &dump_mode,

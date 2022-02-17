@@ -18,7 +18,7 @@ namespace peconv {
     The actual read size is returned back in read_size.
     Automatically allocates a buffer of the required size.
     */
-    peconv::UNALIGNED_BUF load_file(IN const char *filename, OUT size_t &r_size);
+    peconv::UNALIGNED_BUF load_file(IN LPCTSTR filename, OUT size_t &r_size);
 
     /**
     Reads a raw content of the file with the given path. 
@@ -26,7 +26,7 @@ namespace peconv {
     The actual read size is returned back in read_size.
     Automatically allocates a buffer of the required size.
     */
-    peconv::UNALIGNED_BUF read_from_file(IN const char *path, IN OUT size_t &read_size);
+    peconv::UNALIGNED_BUF read_from_file(IN LPCTSTR path, IN OUT size_t &read_size);
 
     /**
     Writes a buffer of bytes into a file of given path.
@@ -35,7 +35,7 @@ namespace peconv {
     \param dump_size : the size of data to be dumped (in bytes)
     \return true if succeeded, false if failed
     */
-    bool dump_to_file(IN const char *path, IN PBYTE dump_data, IN size_t dump_size);
+    bool dump_to_file(IN LPCTSTR path, IN PBYTE dump_data, IN size_t dump_size);
 
     /**
     Free the buffer allocated by load_file/read_from_file

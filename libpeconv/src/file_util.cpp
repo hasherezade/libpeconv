@@ -8,9 +8,9 @@
 #endif
 
 //load file content using MapViewOfFile
-peconv::ALIGNED_BUF peconv::load_file(IN const char *filename, OUT size_t &read_size)
+peconv::ALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_size)
 {
-    HANDLE file = CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if(file == INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
         std::cerr << "Could not open file!" << std::endl;
@@ -62,9 +62,9 @@ peconv::ALIGNED_BUF peconv::load_file(IN const char *filename, OUT size_t &read_
 }
 
 //load file content using ReadFile
-peconv::ALIGNED_BUF peconv::read_from_file(IN const char *in_path, IN OUT size_t &read_size)
+peconv::ALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &read_size)
 {
-    HANDLE file = CreateFileA(in_path, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE file = CreateFile(in_path, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if (file == INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
         std::cerr << "Cannot open the file for reading!" << std::endl;
@@ -98,11 +98,11 @@ peconv::ALIGNED_BUF peconv::read_from_file(IN const char *in_path, IN OUT size_t
 }
 
 //save the given buffer into a file
-bool peconv::dump_to_file(IN const char *out_path, IN PBYTE dump_data, IN size_t dump_size)
+bool peconv::dump_to_file(IN LPCTSTR out_path, IN PBYTE dump_data, IN size_t dump_size)
 {
     if (!out_path || !dump_data || !dump_size) return false;
 
-    HANDLE file = CreateFileA(out_path, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    HANDLE file = CreateFile(out_path, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
     if (file == INVALID_HANDLE_VALUE) {
 #ifdef _DEBUG
         std::cerr << "Cannot open the file for writing!" << std::endl;

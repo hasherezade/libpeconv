@@ -67,10 +67,10 @@ int DLL_API test_checksum4()
 
 int DLL_API test_checksum5()
 {
-    wchar_t teststr[] = L"Yet another checksum test: 5";
+    TCHAR teststr[] = TEXT("Yet another checksum test: 5");
     DWORD checks = calc_checksum((BYTE*)teststr, sizeof(teststr), true);
 #ifdef SHOW_MSGBOX
-    MessageBoxW(NULL, teststr, L"Test Case 5", MB_OK);
+    MessageBox(NULL, teststr, TEXT("Test Case 5"), MB_OK);
 #endif
     std::cout << "Checks 5: " << std::hex << checks << std::endl;
     return checks;
@@ -82,13 +82,13 @@ int DLL_API test_checksum3()
     GetSystemTime(&SystemTime);
 
     TCHAR pszDate[200];
-    GetDateFormatA(LOCALE_USER_DEFAULT, DATE_LONGDATE, &SystemTime, NULL, pszDate, 200);
+    GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &SystemTime, NULL, pszDate, 200);
 
     wchar_t teststr[] = L"Time func checksum";
     DWORD checks = calc_checksum((BYTE*)teststr, sizeof(teststr), true);
     std::cout << "Checks 3: " << std::hex << checks << std::endl;
 #ifdef SHOW_MSGBOX
-    MessageBoxA(NULL, pszDate, "Test Case 5", MB_OK);
+    MessageBox(NULL, pszDate, TEXT("Test Case 5"), MB_OK);
 #endif
     return checks;
 }

@@ -71,7 +71,7 @@ set (hdrs
 	src/fix_dot_net_ep.h #not in API
 )
 
-add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )
+add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs}  "include/unicode.h")
 
 if(PECONV_LIB_INSTALL)
 	include(GNUInstallDirs)
