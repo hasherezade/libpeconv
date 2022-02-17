@@ -3,7 +3,7 @@ cmake_minimum_required ( VERSION 3.0 )
 project ( peconv )
 option(PECONV_BUILD_TESTING "enable testing for peconv" ON)
 option(PECONV_LIB_INSTALL "Enable install" ON)
-option(PECONV_UNICODE "Enable Unicode" ON)
+option(PECONV_UNICODE "Enable Unicode" OFF)
 
 # modules:
 set ( M_PECONV_LIB "libpeconv" )
