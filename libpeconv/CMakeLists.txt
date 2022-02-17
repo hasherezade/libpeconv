@@ -68,10 +68,11 @@ set (hdrs
 	include/peconv/find_base.h
 	include/peconv/peb_lookup.h
 	include/peconv/tls_parser.h
+	include/peconv/unicode.h
 	src/fix_dot_net_ep.h #not in API
 )
 
-add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs}  "include/unicode.h")
+add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )
 
 if(PECONV_LIB_INSTALL)
 	include(GNUInstallDirs)
