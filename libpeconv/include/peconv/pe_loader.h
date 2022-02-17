@@ -39,11 +39,4 @@ namespace peconv {
     */
     BYTE* load_pe_executable(const char *filename, OUT size_t &v_size, t_function_resolver* import_resolver=NULL);
 
-#ifdef _WIN64
-    /**
-    Allows to activate the Exception table from the manually loaded module. Works only for 64-bit PEs.
-    */
-    bool setup_exceptions(IN BYTE *modulePtr, IN size_t moduleSize);
-#endif
-
 };// namespace peconv
