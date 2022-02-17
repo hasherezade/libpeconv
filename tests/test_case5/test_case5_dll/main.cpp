@@ -67,10 +67,10 @@ int DLL_API test_checksum4()
 
 int DLL_API test_checksum5()
 {
-    TCHAR teststr[] = TEXT("Yet another checksum test: 5");
+    wchar_t teststr[] = L"Yet another checksum test: 5";
     DWORD checks = calc_checksum((BYTE*)teststr, sizeof(teststr), true);
 #ifdef SHOW_MSGBOX
-    MessageBox(NULL, teststr, TEXT("Test Case 5"), MB_OK);
+    MessageBoxW(NULL, teststr, L"Test Case 5", MB_OK);
 #endif
     std::cout << "Checks 5: " << std::hex << checks << std::endl;
     return checks;
