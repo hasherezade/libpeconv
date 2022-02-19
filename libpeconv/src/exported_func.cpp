@@ -164,7 +164,7 @@ std::string ExportedFunc::formatName(std::string name)
 
 bool ExportedFunc::isTheSameFuncName(const peconv::ExportedFunc& func1, const peconv::ExportedFunc& func2)
 {
-    if (!func1.isByOrdinal && !func1.isByOrdinal) {
+    if (!func1.isByOrdinal && !func2.isByOrdinal) {
         if (func1.funcName == func2.funcName) {
             return true;
         }
