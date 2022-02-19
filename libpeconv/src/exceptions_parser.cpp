@@ -2,6 +2,10 @@
 
 #include "peconv/pe_hdrs_helper.h"
 
+#ifdef _DEBUG
+#include <iostream>
+#endif
+
 #ifdef _WIN64
 bool peconv::setup_exceptions(IN BYTE* modulePtr, IN size_t moduleSize)
 {
