@@ -36,6 +36,7 @@ set (srcs
 	src/find_base.cpp
 	src/peb_lookup.cpp
 	src/tls_parser.cpp
+	src/exceptions_parser.cpp
 )
 
 set (hdrs
@@ -68,6 +69,7 @@ set (hdrs
 	include/peconv/find_base.h
 	include/peconv/peb_lookup.h
 	include/peconv/tls_parser.h
+	include/peconv/exceptions_parser.h
 	include/peconv/unicode.h
 	src/fix_dot_net_ep.h #not in API
 )

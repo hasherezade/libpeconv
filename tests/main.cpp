@@ -18,6 +18,7 @@
 #include "test_fix_dotnet.h"
 #include "test_format_detect.h"
 #include "test_tls_callbacks.h"
+#include "test_exceptions.h"
 
 int make_test(int test_id, LPCTSTR test_arg)
 {
@@ -45,6 +46,7 @@ int make_test(int test_id, LPCTSTR test_arg)
         case 15: return tests::check_finding_jumps();
         case 16: return tests::check_pe_format(test_arg);
         case 17: return tests::test_load_with_tls_callbacks(test_arg);
+        case 18: return tests::test_load_with_exception_table(test_arg);
     }
     return -1;
 }
