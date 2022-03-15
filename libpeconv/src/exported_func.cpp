@@ -64,7 +64,7 @@ size_t peconv::forwarder_name_len(BYTE* fPtr)
 std::string peconv::get_func_name(const std::string& str)
 {
     std::size_t len = str.length();
-    std::size_t ext = str.find_last_of(".");
+    std::size_t ext = str.find_last_of('.');
     if (ext >= len) return "";
 
     std::string name = str.substr(ext+1, len - (ext+1));
@@ -104,11 +104,9 @@ std::string peconv::format_dll_func(const std::string& str)
 }
 
 ExportedFunc::ExportedFunc(std::string libName, std::string funcName, DWORD funcOrdinal)
+    : libName(ExportedFunc::formatName(libName)), funcName(funcName),
+    funcOrdinal(funcOrdinal), isByOrdinal(false)
 {
-    this->libName = ExportedFunc::formatName(libName);
-    this->funcName = funcName;
-    this->funcOrdinal = funcOrdinal;
-    this->isByOrdinal = false;
 }
 
 ExportedFunc::ExportedFunc(std::string libName, DWORD funcOrdinal)
@@ -132,7 +130,7 @@ ExportedFunc::ExportedFunc(const std::string &forwarderName)
     std::string func_name_str =  get_func_name(forwarderName);
     if (func_name_str.length() < 2) {
         this->funcOrdinal = -1;
-        this->funcName = "";
+        this->funcName.clear();
         this->isByOrdinal = false;
 #ifdef _DEBUG
         std::cerr << "Invalid function data" << std::endl;
@@ -143,10 +141,10 @@ ExportedFunc::ExportedFunc(const std::string &forwarderName)
         // it is an ordinal in a string form, i.e.: "COMBASE.#110"
         this->funcOrdinal = peconv::ordinal_string_to_val(func_name_str);
         this->isByOrdinal = true;
-        this->funcName = "";
+        this->funcName.clear();
         //std::cout << "[O] Adding forwarded func: " << forwarderName << " parsed: " << this->toString() << std::endl;
     } else {
-        this->funcName = func_name_str;
+        this->funcName = std::move(func_name_str);
         this->isByOrdinal = false;
         this->funcOrdinal = 0;
         //std::cout << "[N] Adding forwarded func:" << this->toString() << std::endl;
@@ -155,7 +153,7 @@ ExportedFunc::ExportedFunc(const std::string &forwarderName)
 
 std::string ExportedFunc::formatName(std::string name)
 {
-    if (name.length() == 0 || name.length() == 0) {
+    if (name.length() == 0) {
         return "";
     }
     std::transform(name.begin(), name.end(), name.begin(), tolower);

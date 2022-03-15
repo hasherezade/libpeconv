@@ -28,8 +28,8 @@ namespace peconv {
     class ImpsNotCovered
     {
     public:
-        ImpsNotCovered() {}
-        ~ImpsNotCovered() {}
+        ImpsNotCovered() = default;
+        ~ImpsNotCovered() = default;
         
         /*
         Number of stored records

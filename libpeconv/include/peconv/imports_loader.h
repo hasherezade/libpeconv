@@ -45,7 +45,7 @@ namespace peconv {
     struct ImportsCollection
     {
     public:
-        ImportsCollection() {};
+        ImportsCollection() = default;
         ~ImportsCollection()
         {
             std::map<DWORD, peconv::ExportedFunc*>::iterator itr;

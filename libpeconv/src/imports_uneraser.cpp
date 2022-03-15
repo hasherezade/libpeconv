@@ -4,7 +4,7 @@
 
 using namespace peconv;
 
-LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
+LPVOID search_name(const std::string& name, const char* modulePtr, size_t moduleSize)
 {
     const char* namec = name.c_str();
     const size_t searched_len =  name.length() + 1; // with terminating NULL

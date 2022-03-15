@@ -197,7 +197,7 @@ ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE module
 }
 
 
-size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t module_size, ULONGLONG moduleBase)
+size_t ExportsMapper::add_to_lookup(const std::string& moduleName, HMODULE modulePtr, size_t module_size, ULONGLONG moduleBase)
 {
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
     if (exp == NULL) {

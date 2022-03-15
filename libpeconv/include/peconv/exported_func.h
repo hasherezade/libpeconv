@@ -124,7 +124,7 @@ namespace peconv {
 
         bool isValid() const
         {
-            return (funcName != "" || funcOrdinal != -1);
+            return (!funcName.empty() || funcOrdinal != -1);
         }
     };
 
