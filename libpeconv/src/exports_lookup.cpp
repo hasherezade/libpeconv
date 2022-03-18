@@ -23,7 +23,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 #define TO_LOWERCASE(c1) c1 = (c1 <= 'Z' && c1 >= 'A') ? c1 = (c1 - 'A') + 'a': c1;
 #endif
 
-bool is_wanted_func(LPSTR curr_name, LPSTR wanted_name)
+bool is_wanted_func(LPCSTR curr_name, LPCSTR wanted_name)
 {
     if (curr_name == NULL || wanted_name == NULL) return false;
 
@@ -42,7 +42,7 @@ bool is_wanted_func(LPSTR curr_name, LPSTR wanted_name)
     return true;
 }
 
-bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPSTR func_name)
+bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPCSTR func_name)
 {
     ULONGLONG base = exp->Base;
     ULONGLONG max_ord = base + exp->NumberOfFunctions;
@@ -97,7 +97,7 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
 }
 
 //WARNING: doesn't work for the forwarded functions.
-FARPROC peconv::get_exported_func(PVOID modulePtr, LPSTR wanted_name)
+FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
 {
     IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
     if (exp == NULL) return NULL;

@@ -14,7 +14,7 @@ namespace peconv {
     \param module_name : (optional) the name of the DLL loaded within the current process. If not set, the main module of the current process is used.
     \return the handle of the DLL with given name, or, if the name was not given, the handle of the main module of the current process.
     */
-    HMODULE get_module_via_peb(IN OPTIONAL LPWSTR module_name = nullptr);
+    HMODULE get_module_via_peb(IN OPTIONAL LPCWSTR module_name = nullptr);
 
 
     /**
