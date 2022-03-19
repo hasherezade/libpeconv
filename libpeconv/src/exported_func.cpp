@@ -155,7 +155,7 @@ ExportedFunc::ExportedFunc(const std::string &forwarderName)
 
 std::string ExportedFunc::formatName(std::string name)
 {
-    if (name.length() == 0 || name.length() == 0) {
+    if (name.length() == 0) {
         return "";
     }
     std::transform(name.begin(), name.end(), name.begin(), tolower);
