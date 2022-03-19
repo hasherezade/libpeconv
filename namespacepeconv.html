@@ -210,8 +210,8 @@ Functions</h2></td></tr>
 <tr class="separator:aebdd26f6be0dbfb719b0e21733f08a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb8774d18c6104ffeeeee028b5244fd7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#adb8774d18c6104ffeeeee028b5244fd7">format_dll_func</a> (const std::string &amp;str)</td></tr>
 <tr class="separator:adb8774d18c6104ffeeeee028b5244fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81fd743876afa97b45eb997d814bad11"><td class="memItemLeft" align="right" valign="top">FARPROC&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11">get_exported_func</a> (PVOID modulePtr, LPSTR wanted_name)</td></tr>
-<tr class="separator:a81fd743876afa97b45eb997d814bad11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ac87630e82d6426e789ee4137293b3b"><td class="memItemLeft" align="right" valign="top">FARPROC&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b">get_exported_func</a> (PVOID modulePtr, LPCSTR wanted_name)</td></tr>
+<tr class="separator:a8ac87630e82d6426e789ee4137293b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64636ff99131cfb84f7aeded13ef1ff5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a64636ff99131cfb84f7aeded13ef1ff5">get_exported_names</a> (PVOID modulePtr, std::vector&lt; std::string &gt; &amp;names_list)</td></tr>
 <tr class="separator:a64636ff99131cfb84f7aeded13ef1ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2726d823cfba9619cdf3d0c2013f519b"><td class="memItemLeft" align="right" valign="top">LPSTR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a2726d823cfba9619cdf3d0c2013f519b">read_dll_name</a> (HMODULE modulePtr)</td></tr>
@@ -353,8 +353,8 @@ Functions</h2></td></tr>
 <tr class="separator:a76c6ce4daf3e2f7bfadda595a5113505"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addf8f50c27775ed2fa84c33450e0ec7e"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#addf8f50c27775ed2fa84c33450e0ec7e">pe_realign_raw_to_virtual</a> (IN const BYTE *payload, IN size_t in_size, IN ULONGLONG loadBase, OUT size_t &amp;outputSize)</td></tr>
 <tr class="separator:addf8f50c27775ed2fa84c33450e0ec7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab47119fd997003e3db87a61a293a835e"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">get_module_via_peb</a> (IN OPTIONAL LPWSTR module_name=nullptr)</td></tr>
-<tr class="separator:ab47119fd997003e3db87a61a293a835e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08bdcab9a1b9ec7607f19cb51b89424e"><td class="memItemLeft" align="right" valign="top">HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e">get_module_via_peb</a> (IN OPTIONAL LPCWSTR module_name=nullptr)</td></tr>
+<tr class="separator:a08bdcab9a1b9ec7607f19cb51b89424e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1fda7041e960e41247f5861abcffd7a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a">get_module_size_via_peb</a> (IN OPTIONAL HMODULE hModule=nullptr)</td></tr>
 <tr class="separator:aa1fda7041e960e41247f5861abcffd7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b2f6b38a8631d42d6a7919f41de7e01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">set_main_module_in_peb</a> (HMODULE hModule)</td></tr>
@@ -2411,8 +2411,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a81fd743876afa97b45eb997d814bad11" name="a81fd743876afa97b45eb997d814bad11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81fd743876afa97b45eb997d814bad11">&#9670;&nbsp;</a></span>get_exported_func()</h2>
+<a id="a8ac87630e82d6426e789ee4137293b3b" name="a8ac87630e82d6426e789ee4137293b3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ac87630e82d6426e789ee4137293b3b">&#9670;&nbsp;</a></span>get_exported_func()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2426,7 +2426,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">LPSTR&#160;</td>
+          <td class="paramtype">LPCSTR&#160;</td>
           <td class="paramname"><em>wanted_name</em>&#160;</td>
         </tr>
         <tr>
@@ -2442,15 +2442,15 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_a81fd743876afa97b45eb997d814bad11_cgraph.png" border="0" usemap="#anamespacepeconv_a81fd743876afa97b45eb997d814bad11_cgraph" alt=""/></div>
-<map name="anamespacepeconv_a81fd743876afa97b45eb997d814bad11_cgraph" id="anamespacepeconv_a81fd743876afa97b45eb997d814bad11_cgraph">
+<div class="center"><img src="namespacepeconv_a8ac87630e82d6426e789ee4137293b3b_cgraph.png" border="0" usemap="#anamespacepeconv_a8ac87630e82d6426e789ee4137293b3b_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a8ac87630e82d6426e789ee4137293b3b_cgraph" id="anamespacepeconv_a8ac87630e82d6426e789ee4137293b3b_cgraph">
 <area shape="rect" title=" " alt="" coords="5,126,181,153"/>
 <area shape="rect" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="440,13,627,39"/>
 <area shape="rect" href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="247,38,374,65"/>
 <area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="245,89,376,131"/>
 <area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="229,155,392,182"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="272,206,349,233"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="254,257,367,283"/>
+<area shape="rect" href="exports__lookup_8cpp.html#ab08a594888bf912d28aff4d1e318d134" title=" " alt="" coords="272,206,349,233"/>
+<area shape="rect" href="exports__lookup_8cpp.html#a2838923ec0ddb8dc8bed2aea71687809" title=" " alt="" coords="254,257,367,283"/>
 <area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="441,155,626,182"/>
 </map>
 </div>
@@ -2987,8 +2987,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ab47119fd997003e3db87a61a293a835e" name="ab47119fd997003e3db87a61a293a835e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab47119fd997003e3db87a61a293a835e">&#9670;&nbsp;</a></span>get_module_via_peb()</h2>
+<a id="a08bdcab9a1b9ec7607f19cb51b89424e" name="a08bdcab9a1b9ec7607f19cb51b89424e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08bdcab9a1b9ec7607f19cb51b89424e">&#9670;&nbsp;</a></span>get_module_via_peb()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2996,7 +2996,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">HMODULE peconv::get_module_via_peb </td>
           <td>(</td>
-          <td class="paramtype">IN OPTIONAL LPWSTR&#160;</td>
+          <td class="paramtype">IN OPTIONAL LPCWSTR&#160;</td>
           <td class="paramname"><em>module_name</em> = <code>nullptr</code></td><td>)</td>
           <td></td>
         </tr>
@@ -3014,11 +3014,11 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_ab47119fd997003e3db87a61a293a835e_cgraph.png" border="0" usemap="#anamespacepeconv_ab47119fd997003e3db87a61a293a835e_cgraph" alt=""/></div>
-<map name="anamespacepeconv_ab47119fd997003e3db87a61a293a835e_cgraph" id="anamespacepeconv_ab47119fd997003e3db87a61a293a835e_cgraph">
+<div class="center"><img src="namespacepeconv_a08bdcab9a1b9ec7607f19cb51b89424e_cgraph.png" border="0" usemap="#anamespacepeconv_a08bdcab9a1b9ec7607f19cb51b89424e_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a08bdcab9a1b9ec7607f19cb51b89424e_cgraph" id="anamespacepeconv_a08bdcab9a1b9ec7607f19cb51b89424e_cgraph">
 <area shape="rect" title=" " alt="" coords="5,23,143,65"/>
 <area shape="rect" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="222,5,290,32"/>
-<area shape="rect" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="191,56,321,83"/>
+<area shape="rect" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="191,56,321,83"/>
 <area shape="rect" href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="369,56,468,83"/>
 </map>
 </div>
@@ -4321,10 +4321,10 @@ Here is the call graph for this function:</div>
 <map name="anamespacepeconv_a7d3bc9bbb499d00f44e357050910116d_cgraph" id="anamespacepeconv_a7d3bc9bbb499d00f44e357050910116d_cgraph">
 <area shape="rect" title=" " alt="" coords="5,71,132,112"/>
 <area shape="rect" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="180,5,317,47"/>
-<area shape="rect" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="180,71,317,112"/>
+<area shape="rect" href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e" title=" " alt="" coords="180,71,317,112"/>
 <area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="180,137,317,163"/>
 <area shape="rect" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="397,21,465,47"/>
-<area shape="rect" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="365,78,496,105"/>
+<area shape="rect" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="365,78,496,105"/>
 <area shape="rect" href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="544,78,643,105"/>
 </map>
 </div>
@@ -5285,17 +5285,17 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="namespacepeconv_a498ab6676d1cac055878ab0be6cbcbb8_cgraph.png" border="0" usemap="#anamespacepeconv_a498ab6676d1cac055878ab0be6cbcbb8_cgraph" alt=""/></div>
 <map name="anamespacepeconv_a498ab6676d1cac055878ab0be6cbcbb8_cgraph" id="anamespacepeconv_a498ab6676d1cac055878ab0be6cbcbb8_cgraph">
 <area shape="rect" title=" " alt="" coords="5,235,133,261"/>
-<area shape="rect" href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="181,159,357,185"/>
-<area shape="rect" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="201,303,338,345"/>
+<area shape="rect" href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b" title=" " alt="" coords="181,159,357,185"/>
+<area shape="rect" href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e" title=" " alt="" coords="201,303,338,345"/>
 <area shape="rect" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="616,16,803,43"/>
 <area shape="rect" href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="423,41,550,68"/>
 <area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="421,93,552,134"/>
 <area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="405,159,568,185"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="448,209,525,236"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="430,260,543,287"/>
+<area shape="rect" href="exports__lookup_8cpp.html#ab08a594888bf912d28aff4d1e318d134" title=" " alt="" coords="448,209,525,236"/>
+<area shape="rect" href="exports__lookup_8cpp.html#a2838923ec0ddb8dc8bed2aea71687809" title=" " alt="" coords="430,260,543,287"/>
 <area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="617,159,802,185"/>
 <area shape="rect" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="453,311,521,337"/>
-<area shape="rect" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="421,361,552,388"/>
+<area shape="rect" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="421,361,552,388"/>
 <area shape="rect" href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="660,361,759,388"/>
 </map>
 </div>
@@ -6284,19 +6284,19 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="363,210,511,251"/>
 <area shape="rect" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="373,159,501,185"/>
 <area shape="rect" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="578,57,715,98"/>
-<area shape="rect" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="578,122,715,163"/>
+<area shape="rect" href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e" title=" " alt="" coords="578,122,715,163"/>
 <area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="578,5,715,32"/>
 <area shape="rect" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="830,64,898,91"/>
-<area shape="rect" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="799,115,929,141"/>
+<area shape="rect" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="799,115,929,141"/>
 <area shape="rect" href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="1037,115,1136,141"/>
 <area shape="rect" href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="573,297,721,338"/>
-<area shape="rect" href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="559,245,735,272"/>
+<area shape="rect" href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b" title=" " alt="" coords="559,245,735,272"/>
 <area shape="rect" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="993,191,1180,217"/>
 <area shape="rect" href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="801,216,927,243"/>
 <area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="799,267,929,309"/>
 <area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="783,333,945,360"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="825,384,903,411"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="807,435,921,461"/>
+<area shape="rect" href="exports__lookup_8cpp.html#ab08a594888bf912d28aff4d1e318d134" title=" " alt="" coords="825,384,903,411"/>
+<area shape="rect" href="exports__lookup_8cpp.html#a2838923ec0ddb8dc8bed2aea71687809" title=" " alt="" coords="807,435,921,461"/>
 <area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="994,333,1179,360"/>
 </map>
 </div>
@@ -6355,19 +6355,19 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="184,238,332,279"/>
 <area shape="rect" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="194,187,322,213"/>
 <area shape="rect" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="399,57,537,98"/>
-<area shape="rect" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="399,122,537,163"/>
+<area shape="rect" href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e" title=" " alt="" coords="399,122,537,163"/>
 <area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="399,5,537,32"/>
 <area shape="rect" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="651,64,719,91"/>
-<area shape="rect" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="620,115,751,141"/>
+<area shape="rect" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="620,115,751,141"/>
 <area shape="rect" href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="859,115,957,141"/>
 <area shape="rect" href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="394,293,542,334"/>
-<area shape="rect" href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="380,241,556,268"/>
+<area shape="rect" href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b" title=" " alt="" coords="380,241,556,268"/>
 <area shape="rect" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="815,292,1001,319"/>
 <area shape="rect" href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="622,317,749,344"/>
 <area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="620,369,751,410"/>
 <area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="604,435,767,461"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="647,165,724,192"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="629,216,742,243"/>
+<area shape="rect" href="exports__lookup_8cpp.html#ab08a594888bf912d28aff4d1e318d134" title=" " alt="" coords="647,165,724,192"/>
+<area shape="rect" href="exports__lookup_8cpp.html#a2838923ec0ddb8dc8bed2aea71687809" title=" " alt="" coords="629,216,742,243"/>
 <area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="815,435,1001,461"/>
 </map>
 </div>
@@ -6426,19 +6426,19 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="classpeconv_1_1_patch_backup.html#ae7cbd7fcc0b50d3aa32756c505eeb8e2" title=" " alt="" coords="184,238,332,279"/>
 <area shape="rect" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8" title=" " alt="" coords="194,187,322,213"/>
 <area shape="rect" href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="399,57,537,98"/>
-<area shape="rect" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e" title=" " alt="" coords="399,122,537,163"/>
+<area shape="rect" href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e" title=" " alt="" coords="399,122,537,163"/>
 <area shape="rect" href="namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="399,5,537,32"/>
 <area shape="rect" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="651,64,719,91"/>
-<area shape="rect" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b" title=" " alt="" coords="620,115,751,141"/>
+<area shape="rect" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="620,115,751,141"/>
 <area shape="rect" href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="859,115,957,141"/>
 <area shape="rect" href="classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="394,293,542,334"/>
-<area shape="rect" href="namespacepeconv.html#a81fd743876afa97b45eb997d814bad11" title=" " alt="" coords="380,241,556,268"/>
+<area shape="rect" href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b" title=" " alt="" coords="380,241,556,268"/>
 <area shape="rect" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c" title=" " alt="" coords="815,292,1001,319"/>
 <area shape="rect" href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b" title=" " alt="" coords="622,317,749,344"/>
 <area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="620,369,751,410"/>
 <area shape="rect" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="604,435,767,461"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a82111c6ddd5ada9573e83780d12586f5" title=" " alt="" coords="647,165,724,192"/>
-<area shape="rect" href="exports__lookup_8cpp.html#a65a5f4a1988104ac6de0e0b36c109a43" title=" " alt="" coords="629,216,742,243"/>
+<area shape="rect" href="exports__lookup_8cpp.html#ab08a594888bf912d28aff4d1e318d134" title=" " alt="" coords="647,165,724,192"/>
+<area shape="rect" href="exports__lookup_8cpp.html#a2838923ec0ddb8dc8bed2aea71687809" title=" " alt="" coords="629,216,742,243"/>
 <area shape="rect" href="namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="815,435,1001,461"/>
 </map>
 </div>
@@ -7132,7 +7132,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 19 2022 11:48:56 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
+Generated on Sat Mar 19 2022 22:01:40 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
 </small></address>
 </body>
 </html>

@@ -139,17 +139,17 @@ $(function() {
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">return</span> c1;</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b">   70</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b">is_wanted_module</a>(LPWSTR curr_name, LPWSTR wanted_name)</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7">   70</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7">is_wanted_module</a>(LPCWSTR curr_name, LPCWSTR wanted_name)</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>{</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">if</span> (wanted_name == NULL || curr_name == NULL) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    WCHAR *curr_end_ptr = curr_name;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    LPCWSTR curr_end_ptr = curr_name;</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">while</span> (*curr_end_ptr != L<span class="charliteral">&#39;\0&#39;</span>) {</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        curr_end_ptr++;</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">if</span> (curr_end_ptr == curr_name) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    WCHAR *wanted_end_ptr = wanted_name;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    LPCWSTR wanted_end_ptr = wanted_name;</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">while</span> (*wanted_end_ptr != L<span class="charliteral">&#39;\0&#39;</span>) {</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        wanted_end_ptr++;</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
@@ -166,7 +166,7 @@ $(function() {
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>}</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">   97</a></span>HMODULE <a class="code hl_function" href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">peconv::get_module_via_peb</a>(IN OPTIONAL LPWSTR module_name)</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e">   97</a></span>HMODULE <a class="code hl_function" href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e">peconv::get_module_via_peb</a>(IN OPTIONAL LPCWSTR module_name)</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>{</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    PPEB peb = <a class="code hl_function" href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a>();</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">if</span> (!peb) {</div>
@@ -187,7 +187,7 @@ $(function() {
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">if</span> (curr_module == NULL || curr_module-&gt;<a class="code hl_variable" href="struct___l_d_r___m_o_d_u_l_e.html#ac1e771f5736a9d5d9a5d41cc94161587">BaseAddress</a> == NULL) {</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        }</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b">is_wanted_module</a>(curr_module-&gt;<a class="code hl_variable" href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">BaseDllName</a>.Buffer, module_name)) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7">is_wanted_module</a>(curr_module-&gt;<a class="code hl_variable" href="struct___l_d_r___m_o_d_u_l_e.html#ac813c217c168d0c584fd083ba07a6c78">BaseDllName</a>.Buffer, module_name)) {</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="keywordflow">return</span> (HMODULE)(curr_module-&gt;<a class="code hl_variable" href="struct___l_d_r___m_o_d_u_l_e.html#ac1e771f5736a9d5d9a5d41cc94161587">BaseAddress</a>);</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        }</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        curr_module = (<a class="code hl_typedef" href="peb__lookup_8cpp.html#a27abfabc1173f89eb02464af4efce9e7">PLDR_MODULE</a>)curr_module-&gt;<a class="code hl_variable" href="struct___l_d_r___m_o_d_u_l_e.html#a1034b510d0307a0158f51e67c526cfda">InLoadOrderModuleList</a>.Flink;</div>
@@ -253,11 +253,11 @@ $(function() {
 <div class="ttc" id="aclass_section_locker_html_ab6e725b899702cf9c3fe0f068ab64520"><div class="ttname"><a href="class_section_locker.html#ab6e725b899702cf9c3fe0f068ab64520">SectionLocker::~SectionLocker</a></div><div class="ttdeci">~SectionLocker()</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00013">peb_lookup.cpp:13</a></div></div>
 <div class="ttc" id="aclass_section_locker_html_ad19c0b987a04832ef86726eda536d834"><div class="ttname"><a href="class_section_locker.html#ad19c0b987a04832ef86726eda536d834">SectionLocker::section</a></div><div class="ttdeci">RTL_CRITICAL_SECTION &amp; section</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00019">peb_lookup.cpp:19</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a06362b6f7168eb7debde0e75cbffbf1a"><div class="ttname"><a href="namespacepeconv.html#a06362b6f7168eb7debde0e75cbffbf1a">peconv::get_main_module_via_peb</a></div><div class="ttdeci">HMODULE get_main_module_via_peb()</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00170">peb_lookup.cpp:170</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a08bdcab9a1b9ec7607f19cb51b89424e"><div class="ttname"><a href="namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e">peconv::get_module_via_peb</a></div><div class="ttdeci">HMODULE get_module_via_peb(IN OPTIONAL LPCWSTR module_name=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00097">peb_lookup.cpp:97</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a1b2f6b38a8631d42d6a7919f41de7e01"><div class="ttname"><a href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">peconv::set_main_module_in_peb</a></div><div class="ttdeci">bool set_main_module_in_peb(HMODULE hModule)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00159">peb_lookup.cpp:159</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_aa1fda7041e960e41247f5861abcffd7a"><div class="ttname"><a href="namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a">peconv::get_module_size_via_peb</a></div><div class="ttdeci">size_t get_module_size_via_peb(IN OPTIONAL HMODULE hModule=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00128">peb_lookup.cpp:128</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_ab47119fd997003e3db87a61a293a835e"><div class="ttname"><a href="namespacepeconv.html#ab47119fd997003e3db87a61a293a835e">peconv::get_module_via_peb</a></div><div class="ttdeci">HMODULE get_module_via_peb(IN OPTIONAL LPWSTR module_name=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00097">peb_lookup.cpp:97</a></div></div>
-<div class="ttc" id="apeb__lookup_8cpp_html_a0ced3a8c81ab02e70578ea1d1ee70e6b"><div class="ttname"><a href="peb__lookup_8cpp.html#a0ced3a8c81ab02e70578ea1d1ee70e6b">is_wanted_module</a></div><div class="ttdeci">bool is_wanted_module(LPWSTR curr_name, LPWSTR wanted_name)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00070">peb_lookup.cpp:70</a></div></div>
 <div class="ttc" id="apeb__lookup_8cpp_html_a27abfabc1173f89eb02464af4efce9e7"><div class="ttname"><a href="peb__lookup_8cpp.html#a27abfabc1173f89eb02464af4efce9e7">PLDR_MODULE</a></div><div class="ttdeci">struct _LDR_MODULE * PLDR_MODULE</div></div>
+<div class="ttc" id="apeb__lookup_8cpp_html_a3cb1a384046ad80f9c877466aa1ccbe7"><div class="ttname"><a href="peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7">is_wanted_module</a></div><div class="ttdeci">bool is_wanted_module(LPCWSTR curr_name, LPCWSTR wanted_name)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00070">peb_lookup.cpp:70</a></div></div>
 <div class="ttc" id="apeb__lookup_8cpp_html_a7f86e7558b841ac9e5a6374758a3f71c"><div class="ttname"><a href="peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c">get_peb</a></div><div class="ttdeci">PPEB get_peb()</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00041">peb_lookup.cpp:41</a></div></div>
 <div class="ttc" id="apeb__lookup_8cpp_html_aef56d6318074c8c7b7bf2cd5ad2ee649"><div class="ttname"><a href="peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649">to_lowercase</a></div><div class="ttdeci">WCHAR to_lowercase(WCHAR c1)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00062">peb_lookup.cpp:62</a></div></div>
 <div class="ttc" id="apeb__lookup_8cpp_html_af2f5b3d0301120cc8f2ba9cc188ef38d"><div class="ttname"><a href="peb__lookup_8cpp.html#af2f5b3d0301120cc8f2ba9cc188ef38d">LDR_MODULE</a></div><div class="ttdeci">struct _LDR_MODULE LDR_MODULE</div></div>
@@ -280,7 +280,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 19 2022 11:48:55 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
+Generated on Sat Mar 19 2022 22:01:40 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
 </small></address>
 </body>
 </html>
