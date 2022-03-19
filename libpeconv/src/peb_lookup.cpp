@@ -71,13 +71,13 @@ bool is_wanted_module(LPCWSTR curr_name, LPCWSTR wanted_name)
 {
     if (wanted_name == NULL || curr_name == NULL) return false;
 
-    auto *curr_end_ptr = curr_name;
+    LPCWSTR curr_end_ptr = curr_name;
     while (*curr_end_ptr != L'\0') {
         curr_end_ptr++;
     }
     if (curr_end_ptr == curr_name) return false;
 
-    auto*wanted_end_ptr = wanted_name;
+    LPCWSTR wanted_end_ptr = wanted_name;
     while (*wanted_end_ptr != L'\0') {
         wanted_end_ptr++;
     }
