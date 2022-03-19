@@ -20,7 +20,7 @@ namespace peconv {
     Gets the function address by the name. Uses Export Table lookup.
     WARNING: doesn't work for the forwarded functions.
     */
-    FARPROC get_exported_func(PVOID modulePtr, LPSTR wanted_name);
+    FARPROC get_exported_func(PVOID modulePtr, LPCSTR wanted_name);
 
     /**
     Gets list of all the functions from a given module that are exported by names.

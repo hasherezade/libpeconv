@@ -67,17 +67,17 @@ inline WCHAR to_lowercase(WCHAR c1)
     return c1;
 }
 
-bool is_wanted_module(LPWSTR curr_name, LPWSTR wanted_name)
+bool is_wanted_module(LPCWSTR curr_name, LPCWSTR wanted_name)
 {
     if (wanted_name == NULL || curr_name == NULL) return false;
 
-    WCHAR *curr_end_ptr = curr_name;
+    LPCWSTR curr_end_ptr = curr_name;
     while (*curr_end_ptr != L'\0') {
         curr_end_ptr++;
     }
     if (curr_end_ptr == curr_name) return false;
 
-    WCHAR *wanted_end_ptr = wanted_name;
+    LPCWSTR wanted_end_ptr = wanted_name;
     while (*wanted_end_ptr != L'\0') {
         wanted_end_ptr++;
     }
@@ -94,7 +94,7 @@ bool is_wanted_module(LPWSTR curr_name, LPWSTR wanted_name)
     return true;
 }
 
-HMODULE peconv::get_module_via_peb(IN OPTIONAL LPWSTR module_name)
+HMODULE peconv::get_module_via_peb(IN OPTIONAL LPCWSTR module_name)
 {
     PPEB peb = get_peb();
     if (!peb) {
