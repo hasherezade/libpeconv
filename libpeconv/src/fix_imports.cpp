@@ -234,7 +234,9 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
 
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR) modulePtr);
         if (!validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
-            printf("[-] Invalid descriptor pointer!\n");
+#ifdef _DEBUG
+            std::cout << "[-] Invalid descriptor pointer!\n";
+#endif
             return false;
         }
         parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
