@@ -14,7 +14,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 
     BYTE* payload_nt_hdr = get_nt_hdrs(payload, payload_size);
     if (payload_nt_hdr == NULL) {
-        std::cerr << "Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
+        std::cerr << "[-] Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
     }
 
@@ -55,16 +55,24 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
         if (new_end > raw_end) raw_end = new_end;
 
         if ((next_sec->VirtualAddress + sec_size) > payload_size) {
+#ifdef _DEBUG
             std::cerr << "[!] Virtual section size is out ouf bounds: " << std::hex << sec_size << std::endl;
+#endif
             sec_size = (payload_size > next_sec->VirtualAddress) ? SIZE_T(payload_size - next_sec->VirtualAddress) : 0;
+#ifdef _DEBUG
             std::cerr << "[!] Truncated to maximal size: " << std::hex << sec_size << ", buffer size: " << payload_size << std::endl;
+#endif
         }
         if (next_sec->VirtualAddress > payload_size && sec_size != 0) {
+#ifdef _DEBUG
             std::cerr << "[-] VirtualAddress of section is out ouf bounds: " << std::hex << next_sec->VirtualAddress << std::endl;
+#endif
             return false;
         }
         if (next_sec->PointerToRawData + sec_size > payload_size) {
+#ifdef _DEBUG
             std::cerr << "[-] Raw section size is out ouf bounds: " << std::hex << sec_size << std::endl;
+#endif
             return false;
         }
 #ifdef _DEBUG
@@ -72,12 +80,16 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 #endif
         //validate source:
         if (!peconv::validate_ptr(payload, payload_size, section_mapped, sec_size)) {
+#ifdef _DEBUG
             std::cerr << "[-] Section " << i << ":  out ouf bounds, skipping... " << std::endl;
+#endif
             continue;
         }
         //validate destination:
         if (!peconv::validate_ptr(destAddress, payload_size, section_raw_ptr, sec_size)) {
+#ifdef _DEBUG
             std::cerr << "[-] Section " << i << ":  out ouf bounds, skipping... " << std::endl;
+#endif
             continue;
         }
         memcpy(section_raw_ptr, section_mapped, sec_size);
@@ -94,7 +106,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
     if (hdrsSize == 0) {
         hdrsSize = first_raw;
 #ifdef _DEBUG
-        std::cout << "hdrsSize not filled, using calculated size: " << std::hex << hdrsSize << "\n";
+        std::cout << "[!] hdrsSize not filled, using calculated size: " << std::hex << hdrsSize << "\n";
 #endif
     }
     if (!validate_ptr(payload, payload_size, payload, hdrsSize)) {
