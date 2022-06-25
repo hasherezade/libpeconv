@@ -95,7 +95,9 @@ namespace peconv {
         if (last_success_size) {
             read_size = 0;
             memset(buffer, 0, buffer_size);
-            ReadProcessMemory(processHandle, start_addr, buffer, last_success_size, &read_size);
+            if (ReadProcessMemory(processHandle, start_addr, buffer, last_success_size, &read_size)) {
+            	return read_size;
+            }
             return read_size;
         }
         return 0;
