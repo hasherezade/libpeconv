@@ -109,11 +109,11 @@ std::string find_covering_dll(std::set<ULONGLONG> &addresses, const peconv::Expo
         if (resultSet.size() > 0) {
             //found intersection, overwrite the main set
             reserveDllSet = mainDllsSet; // move the current to the reserve
-            mainDllsSet = resultSet;
+            mainDllsSet = std::move(resultSet);
             continue;
         }
         // no intersection found with any of the sets:
-        reserveDllSet = currDllNames; //set is as a reserved DLL: to be used if it will reoccur
+        reserveDllSet = std::move(currDllNames); //set is as a reserved DLL: to be used if it will reoccur
     }
     if (mainDllsSet.size() > 0) {
         const std::string main_dll = *(mainDllsSet.begin());

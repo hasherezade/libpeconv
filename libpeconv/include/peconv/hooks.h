@@ -80,7 +80,7 @@ namespace peconv {
         \param name : a name of the function that will be replaced
         \param function : an address of the replacement function
         */
-        void add_hook(std::string name, FARPROC function)
+        void add_hook(const std::string& name, FARPROC function)
         {
             hooks_map[name] = function;
         }

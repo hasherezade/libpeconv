@@ -21,26 +21,20 @@ namespace peconv {
 
     struct DllInfo {
         DllInfo()
-            : moduleBase(0), moduelSize(0), is64b(false)
+            : moduleBase(0), moduleSize(0), is64b(false)
         {
         }
 
-        DllInfo(ULONGLONG _moduleBase, size_t _moduelSize, bool _is64b, std::string _moduleName)
+        DllInfo(ULONGLONG _moduleBase, size_t _moduleSize, bool _is64b, std::string _moduleName)
+            : moduleBase(_moduleBase), moduleName(_moduleName), moduleSize(_moduleSize),
+            is64b(_is64b), shortName(get_dll_shortname(moduleName))
         {
-            moduleBase = _moduleBase;
-            moduelSize = _moduelSize;
-            moduleName = _moduleName;
-            is64b = _is64b;
-            shortName = get_dll_shortname(moduleName);
         }
 
         DllInfo(DllInfo &other)
+            : moduleBase(other.moduleBase), moduleSize(other.moduleSize), moduleName(other.moduleName),
+            shortName(other.shortName), is64b(other.is64b)
         {
-            moduleBase = other.moduleBase;
-            moduelSize = other.moduelSize;
-            moduleName = other.moduleName;
-            shortName = other.shortName;
-            is64b = other.is64b;
         }
 
         bool operator<(const DllInfo &other) const
@@ -50,7 +44,7 @@ namespace peconv {
 
     protected:
         ULONGLONG moduleBase;
-        size_t moduelSize;
+        size_t moduleSize;
         std::string moduleName;
         std::string shortName;
         bool is64b;
@@ -69,7 +63,7 @@ namespace peconv {
         \param moduleSize : size of the DLL buffer. If moduleSize == 0, the ImageSize from the PE headers will be used.
         \param moduleBase : a base address to which the given DLL was relocated
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t moduleSize, ULONGLONG moduleBase);
+        size_t add_to_lookup(const std::string& moduleName, HMODULE modulePtr, size_t moduleSize, ULONGLONG moduleBase);
 
         /**
         Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
@@ -77,7 +71,7 @@ namespace peconv {
         \param modulePtr : buffer containing the DLL in a Virtual format
         \param moduleBase : a base address to which the given DLL was relocated
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
+        size_t add_to_lookup(const std::string& moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
         {
             return add_to_lookup(moduleName, modulePtr, 0, moduleBase);
         }
@@ -89,7 +83,7 @@ namespace peconv {
         \param moduleName : name of the DLL
         \param modulePtr : buffer containing the DLL in a Virtual format. 
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr) 
+        size_t add_to_lookup(const std::string& moduleName, HMODULE modulePtr) 
         {
             return add_to_lookup(moduleName, modulePtr, reinterpret_cast<ULONGLONG>(modulePtr));
         }
@@ -119,7 +113,7 @@ namespace peconv {
             for (itr = dll_base_to_info.begin(); itr != firstGreater; ++itr) {
                 const DllInfo& module = itr->second;
 
-                if (func_rva >= module.moduleBase && func_rva <= (module.moduleBase + module.moduelSize)) {
+                if (func_rva >= module.moduleBase && func_rva <= (module.moduleBase + module.moduleSize)) {
                     // Address found in module:
                     return module.moduleBase;
                 }
@@ -153,7 +147,7 @@ namespace peconv {
         /**
         Retrieve the full name of the DLL (including the extension) using its short name (without the extension).
         */
-        std::string get_dll_fullname(std::string short_name) const
+        std::string get_dll_fullname(const std::string& short_name) const
         {
             std::string dll_path = get_dll_path(short_name);
             if (dll_path.length() == 0) return "";
