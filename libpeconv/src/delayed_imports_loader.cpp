@@ -100,6 +100,9 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
 
 bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_function_resolver* func_resolver)
 {
+    if (!peconv::get_directory_entry(modulePtr, IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT)) {
+        return true; // nothing to resolve
+    }
     const bool is_64bit = peconv::is64bit(modulePtr);
     bool is_loader64 = false;
 #ifdef _WIN64
