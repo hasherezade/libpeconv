@@ -123,6 +123,7 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
 #ifdef _DEBUG
     std::cout << "OK, table_size = " << table_size << std::endl;
 #endif
+    bool is_ok = true;
     size_t max_count = table_size / sizeof(IMAGE_DELAYLOAD_DESCRIPTOR);
     for (size_t i = 0; i < max_count; i++) {
         IMAGE_DELAYLOAD_DESCRIPTOR *desc = &first_desc[i];
@@ -141,18 +142,18 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
 #endif
         if (is_64bit) {
 #ifdef _WIN64
-            parse_delayed_desc<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver);
+            is_ok = parse_delayed_desc<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver);
 #else
             return false;
 #endif
         }
         else {
 #ifndef _WIN64
-            parse_delayed_desc<DWORD, IMAGE_THUNK_DATA32>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver);
+            is_ok = parse_delayed_desc<DWORD, IMAGE_THUNK_DATA32>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver);
 #else
             return false;
 #endif
         }
     }
-    return true;
+    return is_ok;
 }
