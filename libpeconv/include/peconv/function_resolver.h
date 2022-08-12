@@ -19,7 +19,7 @@ namespace peconv {
         \param lib_name : the name of the DLL
         \return Virtual Address of the exported function
         */
-        virtual FARPROC resolve_func(LPSTR lib_name, LPSTR func_name) = 0;
+        virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name) = 0;
     };
 
     /**
@@ -33,7 +33,7 @@ namespace peconv {
         \param lib_name : the name of the DLL
         \return Virtual Address of the exported function
         */
-        virtual FARPROC resolve_func(LPSTR lib_name, LPSTR func_name);
+        virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name);
     };
 
 }; //namespace peconv

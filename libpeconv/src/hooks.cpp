@@ -78,11 +78,11 @@ bool PatchBackup::applyBackup()
     return true;
 }
 
-FARPROC peconv::hooking_func_resolver::resolve_func(LPSTR lib_name, LPSTR func_name)
+FARPROC peconv::hooking_func_resolver::resolve_func(LPCSTR lib_name, LPCSTR func_name)
 {
     //the name may be ordinal rather than string, so check if it is a valid pointer:
     if (!peconv::is_bad_read_ptr(func_name, 1)) {
-        std::map<std::string, FARPROC>::iterator itr = hooks_map.find(func_name);
+        std::map<std::string, FARPROC>::const_iterator itr = hooks_map.find(func_name);
         if (itr != hooks_map.end()) {
             FARPROC hook = itr->second;
 #ifdef _DEBUG
@@ -91,7 +91,17 @@ FARPROC peconv::hooking_func_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
             return hook;
         }
     }
-    return peconv::default_func_resolver::resolve_func(lib_name, func_name);
+    // resolve eventual replacement DLLs
+    std::string lib_name_str = peconv::is_bad_read_ptr(lib_name, 1) ? "": lib_name;
+    std::map<std::string, std::string>::const_iterator itr2 = this->dll_replacements_map.find(lib_name_str);
+    if (itr2 != dll_replacements_map.end()) {
+        const std::string &name = itr2->second;
+#ifdef _DEBUG
+        std::cout << ">>>>>>Replacing DLL: " << lib_name_str << " by: " << name << std::endl;
+#endif
+        lib_name_str = name;
+    }
+    return peconv::default_func_resolver::resolve_func(lib_name_str.c_str(), func_name);
 }
 
 size_t peconv::redirect_to_local64(void *ptr, ULONGLONG new_offset, PatchBackup* backup)
