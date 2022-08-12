@@ -57,8 +57,8 @@ int main(int argc, char *argv[])
     peconv::set_main_module_in_peb((HMODULE)my_pe);
     
     // load delayed imports (if present):
-    const ULONGLONG loadBase = (ULONGLONG)g_Payload;
-    peconv::load_delayed_imports(g_Payload, loadBase);
+    const ULONGLONG load_base = (ULONGLONG)my_pe;
+    peconv::load_delayed_imports(my_pe, load_base);
   
     // if needed, you can run TLS callbacks before the Entry Point:
     peconv::run_tls_callbacks(my_pe, v_size);
