@@ -80,9 +80,19 @@ namespace peconv {
         \param name : a name of the function that will be replaced
         \param function : an address of the replacement function
         */
-        void add_hook(std::string name, FARPROC function)
+        void add_hook(const std::string &name, FARPROC function)
         {
             hooks_map[name] = function;
+        }
+
+        /**
+        Define a DLL that will be replaced.
+        \param dll_name : a name of the DLL to be replaced
+        \param new_dll  : a name of the new DLL that will be loaded instead
+        */
+        void replace_dll(std::string dll_name, const std::string &new_dll)
+        {
+            dll_replacements_map[dll_name] = new_dll;
         }
 
         /**
@@ -91,10 +101,11 @@ namespace peconv {
         \param lib_name : the name of the DLL
         \return Virtual Address of the exported function, or the address of the replacement function.
         */
-        virtual FARPROC resolve_func(LPSTR lib_name, LPSTR func_name);
+        virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name);
 
     private:
         std::map<std::string, FARPROC> hooks_map;
+        std::map<std::string, std::string> dll_replacements_map;
     };
 
     /**
