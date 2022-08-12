@@ -56,6 +56,10 @@ int main(int argc, char *argv[])
     // if the loaded PE needs to access resources, you may need to connect it to the PEB:
     peconv::set_main_module_in_peb((HMODULE)my_pe);
     
+    // load delayed imports (if present):
+    const ULONGLONG loadBase = (ULONGLONG)g_Payload;
+    peconv::load_delayed_imports(g_Payload, loadBase);
+  
     // if needed, you can run TLS callbacks before the Entry Point:
     peconv::run_tls_callbacks(my_pe, v_size);
 	
@@ -73,6 +77,7 @@ int main(int argc, char *argv[])
 }
 
 ```
+_See also: https://github.com/hasherezade/libpeconv_tpl/blob/master/project_template/main.cpp_
 
 ### Read more
 +   [Wiki](https://github.com/hasherezade/libpeconv/wiki)
