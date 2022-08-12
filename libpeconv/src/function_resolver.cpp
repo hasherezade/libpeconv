@@ -6,12 +6,22 @@ FARPROC peconv::default_func_resolver::resolve_func(LPSTR lib_name, LPSTR func_n
 {
     HMODULE libBasePtr = LoadLibraryA(lib_name);
     if (libBasePtr == NULL) {
-        std::cerr << "Could not load the library!" << std::endl;
+        std::cerr << "Could not load the library: " << lib_name << std::endl;
         return NULL;
     }
     FARPROC hProc = GetProcAddress(libBasePtr, func_name);
     if (hProc == NULL) {
-        std::cerr << "Could not load the function!" << std::endl;
+        ULONGLONG func_val = (ULONGLONG)func_name;
+        //is only the first WORD filled?
+        bool is_ord = (func_val & (0x0FFFF)) == func_val;
+        std::cerr << "Could not load the function: " << lib_name << ".";
+        if (is_ord) {
+            std::cerr << std::hex << "0x" << func_val;
+        }
+        else {
+            std::cerr << func_name;
+        }
+        std::cerr << std::endl;
         return NULL;
     }
     return hProc;
