@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['add_5fhook_0',['add_hook',['../classpeconv_1_1hooking__func__resolver.html#a89d7be039ca86e2a3df5c37884ebd7ee',1,'peconv::hooking_func_resolver']]],
+  ['add_5fhook_0',['add_hook',['../classpeconv_1_1hooking__func__resolver.html#a3ddedbef125aab53b2d0115bd952eff6',1,'peconv::hooking_func_resolver']]],
   ['add_5fto_5flookup_1',['add_to_lookup',['../classpeconv_1_1_exports_mapper.html#a591acd077a24b6da3d74d524963d1201',1,'peconv::ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t moduleSize, ULONGLONG moduleBase)'],['../classpeconv_1_1_exports_mapper.html#a468c16f23b12f93c9974e8f54d1ecd83',1,'peconv::ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)'],['../classpeconv_1_1_exports_mapper.html#a698397923acaf76c8dfe0d2767842248',1,'peconv::ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr)']]],
   ['addresses_2',['addresses',['../classpeconv_1_1_imported_dll_coverage.html#ab3f8575995b216c18a86085791fdf16d',1,'peconv::ImportedDllCoverage']]],
   ['addrtofunc_3',['addrToFunc',['../classpeconv_1_1_imported_dll_coverage.html#aba9ec06f5ab9e18f8078bdeada9ed4fb',1,'peconv::ImportedDllCoverage']]],

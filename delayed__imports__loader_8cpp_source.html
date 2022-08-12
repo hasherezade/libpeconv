@@ -137,7 +137,7 @@ $(function() {
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            std::cout &lt;&lt; std::hex &lt;&lt; <span class="stringliteral">&quot;ord: &quot;</span> &lt;&lt; raw_ordinal &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            hProc = func_resolver-&gt;<a class="code hl_function" href="classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159">resolve_func</a>(lib_name, MAKEINTRESOURCEA(raw_ordinal));</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            hProc = func_resolver-&gt;<a class="code hl_function" href="classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a">resolve_func</a>(lib_name, MAKEINTRESOURCEA(raw_ordinal));</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            ULONGLONG name_rva = thunk_va-&gt;u1.AddressOfData;</div>
@@ -152,7 +152,7 @@ $(function() {
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            std::cout &lt;&lt; func_name &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            hProc = func_resolver-&gt;<a class="code hl_function" href="classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159">resolve_func</a>(lib_name, func_name);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            hProc = func_resolver-&gt;<a class="code hl_function" href="classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a">resolve_func</a>(lib_name, func_name);</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        }</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">if</span> (hProc) {</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <span class="comment">//rather than loading it via proxy function, we just overwrite the thunk like normal IAT:</span></div>
@@ -234,7 +234,7 @@ $(function() {
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>}</div>
 <div class="ttc" id="aclasspeconv_1_1default__func__resolver_html"><div class="ttname"><a href="classpeconv_1_1default__func__resolver.html">peconv::default_func_resolver</a></div><div class="ttdef"><b>Definition:</b> <a href="function__resolver_8h_source.html#l00028">function_resolver.h:28</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1t__function__resolver_html"><div class="ttname"><a href="classpeconv_1_1t__function__resolver.html">peconv::t_function_resolver</a></div><div class="ttdef"><b>Definition:</b> <a href="function__resolver_8h_source.html#l00014">function_resolver.h:14</a></div></div>
-<div class="ttc" id="aclasspeconv_1_1t__function__resolver_html_a0dbe49233eb550ee84f073128a977159"><div class="ttname"><a href="classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159">peconv::t_function_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPSTR lib_name, LPSTR func_name)=0</div></div>
+<div class="ttc" id="aclasspeconv_1_1t__function__resolver_html_a0dcc8b13e870d2d3789c77db543b7e1a"><div class="ttname"><a href="classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a">peconv::t_function_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)=0</div></div>
 <div class="ttc" id="adelayed__imports__loader_8cpp_html_aff1f2d4d14e511192d1deaedecd70558"><div class="ttname"><a href="delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558">parse_delayed_desc</a></div><div class="ttdeci">bool parse_delayed_desc(BYTE *modulePtr, const size_t moduleSize, const ULONGLONG img_base, LPSTR lib_name, const T_FIELD ordinal_flag, IMAGE_DELAYLOAD_DESCRIPTOR *desc, peconv::t_function_resolver *func_resolver)</div><div class="ttdef"><b>Definition:</b> <a href="delayed__imports__loader_8cpp_source.html#l00026">delayed_imports_loader.cpp:26</a></div></div>
 <div class="ttc" id="adelayed__imports__loader_8h_html"><div class="ttname"><a href="delayed__imports__loader_8h.html">delayed_imports_loader.h</a></div><div class="ttdoc">Parsing and filling the Delayload Import Table.</div></div>
 <div class="ttc" id="adelayed__imports__loader_8h_html_a065243bc869b818aae0d5af571fe9329"><div class="ttname"><a href="delayed__imports__loader_8h.html#a065243bc869b818aae0d5af571fe9329">IMAGE_DELAYLOAD_DESCRIPTOR</a></div><div class="ttdeci">struct _IMAGE_DELAYLOAD_DESCRIPTOR IMAGE_DELAYLOAD_DESCRIPTOR</div></div>
@@ -253,7 +253,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Aug 12 2022 04:34:49 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
+Generated on Fri Aug 12 2022 17:15:33 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
 </small></address>
 </body>
 </html>

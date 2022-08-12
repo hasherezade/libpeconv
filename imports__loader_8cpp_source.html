@@ -124,7 +124,7 @@ $(function() {
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;raw ordinal: &quot;</span> &lt;&lt; std::hex &lt;&lt; raw_ordinal &lt;&lt; std::endl;</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            hProc = <a class="code hl_variable" href="class_fill_import_thunks.html#addf45ec78fe007d44258b559981f4609">funcResolver</a>-&gt;<a class="code hl_function" href="classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159">resolve_func</a>(lib_name, MAKEINTRESOURCEA(raw_ordinal));</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            hProc = <a class="code hl_variable" href="class_fill_import_thunks.html#addf45ec78fe007d44258b559981f4609">funcResolver</a>-&gt;<a class="code hl_function" href="classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a">resolve_func</a>(lib_name, MAKEINTRESOURCEA(raw_ordinal));</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        }</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">else</span> {</div>
@@ -133,7 +133,7 @@ $(function() {
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            std::cout &lt;&lt; <span class="stringliteral">&quot;name: &quot;</span> &lt;&lt; func_name &lt;&lt; std::endl;</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            hProc = this-&gt;<a class="code hl_variable" href="class_fill_import_thunks.html#addf45ec78fe007d44258b559981f4609">funcResolver</a>-&gt;<a class="code hl_function" href="classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159">resolve_func</a>(lib_name, func_name);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            hProc = this-&gt;<a class="code hl_variable" href="class_fill_import_thunks.html#addf45ec78fe007d44258b559981f4609">funcResolver</a>-&gt;<a class="code hl_function" href="classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a">resolve_func</a>(lib_name, func_name);</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        }</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">if</span> (!hProc) {</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#ifdef _DEBUG</span></div>
@@ -471,7 +471,7 @@ $(function() {
 <div class="ttc" id="aclasspeconv_1_1_import_thunks_callback_html_a757fffb4a19309ab49bbb3f3c64369f0"><div class="ttname"><a href="classpeconv_1_1_import_thunks_callback.html#a757fffb4a19309ab49bbb3f3c64369f0">peconv::ImportThunksCallback::modulePtr</a></div><div class="ttdeci">BYTE * modulePtr</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8h_source.html#l00039">imports_loader.h:39</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1default__func__resolver_html"><div class="ttname"><a href="classpeconv_1_1default__func__resolver.html">peconv::default_func_resolver</a></div><div class="ttdef"><b>Definition:</b> <a href="function__resolver_8h_source.html#l00028">function_resolver.h:28</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1t__function__resolver_html"><div class="ttname"><a href="classpeconv_1_1t__function__resolver.html">peconv::t_function_resolver</a></div><div class="ttdef"><b>Definition:</b> <a href="function__resolver_8h_source.html#l00014">function_resolver.h:14</a></div></div>
-<div class="ttc" id="aclasspeconv_1_1t__function__resolver_html_a0dbe49233eb550ee84f073128a977159"><div class="ttname"><a href="classpeconv_1_1t__function__resolver.html#a0dbe49233eb550ee84f073128a977159">peconv::t_function_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPSTR lib_name, LPSTR func_name)=0</div></div>
+<div class="ttc" id="aclasspeconv_1_1t__function__resolver_html_a0dcc8b13e870d2d3789c77db543b7e1a"><div class="ttname"><a href="classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a">peconv::t_function_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)=0</div></div>
 <div class="ttc" id="aimports__loader_8cpp_html_a5d800d31ea01e77114afee0804cdef68"><div class="ttname"><a href="imports__loader_8cpp.html#a5d800d31ea01e77114afee0804cdef68">process_dlls</a></div><div class="ttdeci">bool process_dlls(BYTE *modulePtr, size_t module_size, IMAGE_IMPORT_DESCRIPTOR *first_desc, IN ImportThunksCallback *callback)</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8cpp_source.html#l00222">imports_loader.cpp:222</a></div></div>
 <div class="ttc" id="aimports__loader_8cpp_html_aed075f185dfb45800e2086d507f725ab"><div class="ttname"><a href="imports__loader_8cpp.html#aed075f185dfb45800e2086d507f725ab">process_imp_functions_tpl</a></div><div class="ttdeci">bool process_imp_functions_tpl(BYTE *modulePtr, size_t module_size, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, IN ImportThunksCallback *callback)</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8cpp_source.html#l00179">imports_loader.cpp:179</a></div></div>
 <div class="ttc" id="aimports__loader_8h_html"><div class="ttname"><a href="imports__loader_8h.html">imports_loader.h</a></div><div class="ttdoc">Parsing and filling the Import Table.</div></div>
@@ -491,7 +491,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Aug 12 2022 04:34:49 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
+Generated on Fri Aug 12 2022 17:15:33 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.4
 </small></address>
 </body>
 </html>
