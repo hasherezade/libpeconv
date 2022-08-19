@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 }
 
 ```
-_See also: https://github.com/hasherezade/libpeconv_tpl/blob/master/project_template/main.cpp_
+*See also: https://github.com/hasherezade/libpeconv_tpl/blob/master/project_template/main.cpp*
 
 ### Read more
 +   [Wiki](https://github.com/hasherezade/libpeconv/wiki)
