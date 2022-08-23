@@ -34,7 +34,7 @@ namespace peconv {
             shortName = get_dll_shortname(moduleName);
         }
 
-        DllInfo(DllInfo &other)
+        DllInfo(const DllInfo &other)
         {
             moduleBase = other.moduleBase;
             moduelSize = other.moduelSize;
