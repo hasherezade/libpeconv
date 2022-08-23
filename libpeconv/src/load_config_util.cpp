@@ -19,7 +19,9 @@ BYTE* peconv::get_load_config_ptr(BYTE* buffer, size_t buf_size)
 
 peconv::t_load_config_ver peconv::get_load_config_version(BYTE* buffer, size_t buf_size, BYTE* ld_config_ptr)
 {
-    if (!buffer || !buf_size || !ld_config_ptr) peconv::LOAD_CONFIG_NONE;
+    if (!buffer || !buf_size || !ld_config_ptr) {
+        return peconv::LOAD_CONFIG_NONE;
+    }
     bool is64b = peconv::is64bit(buffer);
 
     if (!peconv::validate_ptr(buffer, buf_size, ld_config_ptr, sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W7))) {
