@@ -6,21 +6,25 @@
 // validate pointer:
 //
 
-bool peconv::validate_ptr(IN const void* buffer_bgn, IN SIZE_T buffer_size, IN const void* field_bgn, IN SIZE_T field_size)
+bool peconv::validate_ptr(IN const void* buffer_bgn, IN size_t buffer_size, IN const void* field_bgn, IN size_t field_size)
 {
     if (buffer_bgn == nullptr || field_bgn == nullptr) {
         return false;
     }
     BYTE* _start = (BYTE*)buffer_bgn;
-    BYTE* _end = _start + buffer_size;
-
     BYTE* _field_start = (BYTE*)field_bgn;
-    BYTE* _field_end = (BYTE*)field_bgn + field_size;
-
     if (_field_start < _start) {
         return false;
     }
-    if (_field_end > _end) {
+    size_t start_delta =  (ULONG_PTR)_field_start - (ULONG_PTR)_start;
+    size_t area_size = start_delta + field_size;
+    if (area_size > buffer_size) {
+        return false;
+    }
+    if (area_size < field_size || area_size < start_delta) {
+#ifdef _DEBUG
+        std::cout << "Integer Overflow, limit exceeded! start_delta: " << start_delta << " field_size: " << field_size << " area_size: " << area_size << "\n";
+#endif
         return false;
     }
     return true;

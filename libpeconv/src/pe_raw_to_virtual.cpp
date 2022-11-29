@@ -38,7 +38,6 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
 
     DWORD first_raw = 0;
     //copy all the sections, one by one:
-    SIZE_T raw_end = 0;
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
         PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONGLONG)secptr + (IMAGE_SIZEOF_SECTION_HEADER * i));
         if (!validate_ptr((const LPVOID)payload, destBufferSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) {
@@ -49,8 +48,7 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
         }
         LPVOID section_mapped = destBuffer + next_sec->VirtualAddress;
         LPVOID section_raw_ptr = (BYTE*)payload +  next_sec->PointerToRawData;
-        SIZE_T sec_size = next_sec->SizeOfRawData;
-        raw_end = next_sec->SizeOfRawData + next_sec->PointerToRawData;
+        size_t sec_size = next_sec->SizeOfRawData;
         
         if ((next_sec->VirtualAddress + sec_size) > destBufferSize) {
             std::cerr << "[!] Virtual section size is out ouf bounds: " << std::hex << sec_size << std::endl;

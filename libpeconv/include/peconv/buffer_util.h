@@ -26,9 +26,9 @@ namespace peconv {
     */
     bool validate_ptr(
         IN const void* buffer_bgn, 
-        IN SIZE_T buffer_size,
+        IN size_t buffer_size,
         IN const void* field_bgn,
-        IN SIZE_T field_size
+        IN size_t field_size
     );
 
 //-----------------------------------------------------------------------------------
