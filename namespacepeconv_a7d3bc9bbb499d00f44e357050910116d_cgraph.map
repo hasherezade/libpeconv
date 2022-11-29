@@ -1,9 +1,9 @@
 <map id="peconv::is_pointer_in_ntdll" name="peconv::is_pointer_in_ntdll">
-<area shape="rect" id="node1" title=" " alt="" coords="5,71,132,112"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " alt="" coords="180,5,317,47"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e" title=" " alt="" coords="180,71,317,112"/>
-<area shape="rect" id="node7" href="$namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="180,137,317,163"/>
-<area shape="rect" id="node3" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="397,21,465,47"/>
-<area shape="rect" id="node5" href="$peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="365,78,496,105"/>
-<area shape="rect" id="node6" href="$peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="544,78,643,105"/>
+<area shape="rect" id="node1" title=" " coords="5,69,132,109"/>
+<area shape="rect" id="node2" href="$namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a" title=" " coords="180,5,317,45"/>
+<area shape="rect" id="node4" href="$namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e" title=" " coords="180,69,317,109"/>
+<area shape="rect" id="node7" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " coords="180,134,317,159"/>
+<area shape="rect" id="node3" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " coords="397,21,465,46"/>
+<area shape="rect" id="node5" href="$peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " coords="365,77,496,102"/>
+<area shape="rect" id="node6" href="$peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " coords="544,77,643,102"/>
 </map>

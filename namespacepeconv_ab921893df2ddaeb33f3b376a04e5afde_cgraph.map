@@ -1,34 +1,34 @@
 <map id="peconv::detect_dump_mode" name="peconv::detect_dump_mode">
-<area shape="rect" id="node1" title=" " alt="" coords="5,124,189,151"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#abadc792662f4eacb9a9f5453ed977816" title=" " alt="" coords="415,175,577,202"/>
-<area shape="rect" id="node20" href="$namespacepeconv.html#a3046d1cdda885f782e5ef1497123a515" title=" " alt="" coords="237,87,367,114"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c" title=" " alt="" coords="861,184,1024,211"/>
-<area shape="rect" id="node8" href="$namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f" title=" " alt="" coords="1089,25,1233,66"/>
-<area shape="rect" id="node13" href="$namespacepeconv.html#a2666035d7df89e33d188628064720a68" title=" " alt="" coords="655,413,784,454"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="1957,491,2095,518"/>
-<area shape="rect" id="node7" href="$namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="2185,783,2322,810"/>
-<area shape="rect" id="node11" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="1538,438,1646,464"/>
-<area shape="rect" id="node5" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="2172,464,2335,491"/>
-<area shape="rect" id="node6" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="2383,464,2568,491"/>
-<area shape="rect" id="node9" href="$namespacepeconv.html#a30c642b479e9bd27a66332b73d65cabb" title=" " alt="" coords="1307,188,1443,215"/>
-<area shape="rect" id="node10" href="$pe__hdrs__helper_8cpp.html#a00518686793ddc0f408a17dfaeaea0db" title=" " alt="" coords="1757,188,1856,215"/>
-<area shape="rect" id="node12" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="1741,426,1872,468"/>
-<area shape="rect" id="node14" href="$namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554" title=" " alt="" coords="877,442,1008,484"/>
-<area shape="rect" id="node19" href="$namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4" title=" " alt="" coords="877,391,1009,418"/>
-<area shape="rect" id="node15" href="$namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="1081,492,1241,519"/>
-<area shape="rect" id="node18" href="$namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c" title=" " alt="" coords="1072,391,1251,418"/>
-<area shape="rect" id="node16" href="$namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="1299,492,1451,519"/>
-<area shape="rect" id="node17" href="$namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " alt="" coords="1299,543,1451,570"/>
-<area shape="rect" id="node21" href="$pe__mode__detector_8cpp.html#aee0b670cbdb261635a8cc5f8f33cb9da" title=" " alt="" coords="443,411,549,438"/>
-<area shape="rect" id="node32" href="$pe__mode__detector_8cpp.html#affdcfe22d38288937ec5fa936e708118" title=" " alt="" coords="659,32,780,59"/>
-<area shape="rect" id="node22" href="$namespacepeconv.html#a198072d398d03570087df34a76d3454d" title=" " alt="" coords="1077,990,1245,1032"/>
-<area shape="rect" id="node25" href="$namespacepeconv.html#ae2bb52d5cf4b94ee5db2e3003f8b0d1b" title=" " alt="" coords="625,502,813,544"/>
-<area shape="rect" id="node30" href="$pe__mode__detector_8cpp.html#a5835ce4cee47662b28c07b2c280cd4ae" title=" " alt="" coords="653,290,786,316"/>
-<area shape="rect" id="node23" href="$namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " alt="" coords="1303,696,1447,737"/>
-<area shape="rect" id="node24" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="1928,976,2124,1003"/>
-<area shape="rect" id="node26" href="$namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb" title=" " alt="" coords="1072,730,1251,772"/>
-<area shape="rect" id="node27" href="$relocate_8cpp.html#a8d5cd17d6da3200a78291b6000d37ac2" title=" " alt="" coords="1733,808,1880,835"/>
-<area shape="rect" id="node28" href="$relocate_8cpp.html#a093b755c4e9d6081fda4f19ff3bc19ec" title=" " alt="" coords="1304,867,1445,894"/>
-<area shape="rect" id="node29" href="$classpeconv_1_1_reloc_block_callback.html#ac5f7dfc42d843ee4c369afad0f8b0f8f" title=" " alt="" coords="1499,860,1685,901"/>
-<area shape="rect" id="node31" href="$namespacepeconv.html#ace098126c7ee99b1f0a37ea0b5a15332" title=" " alt="" coords="1299,290,1450,316"/>
+<area shape="rect" id="node1" title=" " coords="5,101,189,126"/>
+<area shape="rect" id="node2" href="$namespacepeconv.html#abadc792662f4eacb9a9f5453ed977816" title=" " coords="415,152,577,177"/>
+<area shape="rect" id="node20" href="$namespacepeconv.html#a3046d1cdda885f782e5ef1497123a515" title=" " coords="237,64,367,89"/>
+<area shape="rect" id="node3" href="$namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c" title=" " coords="861,184,1024,209"/>
+<area shape="rect" id="node8" href="$namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f" title=" " coords="1089,24,1233,64"/>
+<area shape="rect" id="node13" href="$namespacepeconv.html#a2666035d7df89e33d188628064720a68" title=" " coords="655,410,784,450"/>
+<area shape="rect" id="node4" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " coords="1957,488,2095,513"/>
+<area shape="rect" id="node7" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " coords="2185,777,2322,802"/>
+<area shape="rect" id="node11" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " coords="1538,434,1646,460"/>
+<area shape="rect" id="node5" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " coords="2172,461,2335,486"/>
+<area shape="rect" id="node6" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " coords="2383,461,2568,486"/>
+<area shape="rect" id="node9" href="$namespacepeconv.html#a30c642b479e9bd27a66332b73d65cabb" title=" " coords="1307,186,1443,212"/>
+<area shape="rect" id="node10" href="$pe__hdrs__helper_8cpp.html#a00518686793ddc0f408a17dfaeaea0db" title=" " coords="1757,186,1856,212"/>
+<area shape="rect" id="node12" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " coords="1741,424,1872,464"/>
+<area shape="rect" id="node14" href="$namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554" title=" " coords="877,439,1008,479"/>
+<area shape="rect" id="node19" href="$namespacepeconv.html#a76d1db39dd42b8bf9443e503b02314b4" title=" " coords="877,389,1009,414"/>
+<area shape="rect" id="node15" href="$namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " coords="1081,490,1241,516"/>
+<area shape="rect" id="node18" href="$namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c" title=" " coords="1072,389,1251,414"/>
+<area shape="rect" id="node16" href="$namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " coords="1299,490,1451,516"/>
+<area shape="rect" id="node17" href="$namespacepeconv.html#a72becdae00f88e7627ee820b464e4127" title=" " coords="1299,540,1451,565"/>
+<area shape="rect" id="node21" href="$pe__mode__detector_8cpp.html#aee0b670cbdb261635a8cc5f8f33cb9da" title=" " coords="443,382,549,408"/>
+<area shape="rect" id="node32" href="$pe__mode__detector_8cpp.html#affdcfe22d38288937ec5fa936e708118" title=" " coords="659,32,780,57"/>
+<area shape="rect" id="node22" href="$namespacepeconv.html#a198072d398d03570087df34a76d3454d" title=" " coords="1077,983,1245,1023"/>
+<area shape="rect" id="node25" href="$namespacepeconv.html#ae2bb52d5cf4b94ee5db2e3003f8b0d1b" title=" " coords="625,499,813,539"/>
+<area shape="rect" id="node30" href="$pe__mode__detector_8cpp.html#a5835ce4cee47662b28c07b2c280cd4ae" title=" " coords="653,288,786,313"/>
+<area shape="rect" id="node23" href="$namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " coords="1303,691,1447,731"/>
+<area shape="rect" id="node24" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " coords="1928,968,2124,993"/>
+<area shape="rect" id="node26" href="$namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb" title=" " coords="1072,719,1251,759"/>
+<area shape="rect" id="node27" href="$relocate_8cpp.html#a8d5cd17d6da3200a78291b6000d37ac2" title=" " coords="1733,802,1880,828"/>
+<area shape="rect" id="node28" href="$relocate_8cpp.html#a093b755c4e9d6081fda4f19ff3bc19ec" title=" " coords="1304,860,1445,885"/>
+<area shape="rect" id="node29" href="$classpeconv_1_1_reloc_block_callback.html#ac5f7dfc42d843ee4c369afad0f8b0f8f" title=" " coords="1499,852,1685,892"/>
+<area shape="rect" id="node31" href="$namespacepeconv.html#ace098126c7ee99b1f0a37ea0b5a15332" title=" " coords="1299,288,1450,313"/>
 </map>

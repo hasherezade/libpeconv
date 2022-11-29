@@ -1,9 +1,9 @@
 <map id="peconv::get_file_characteristics" name="peconv::get_file_characteristics">
-<area shape="rect" id="node1" title=" " alt="" coords="5,27,208,53"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="591,5,729,32"/>
-<area shape="rect" id="node6" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="256,52,364,79"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="777,56,940,83"/>
-<area shape="rect" id="node5" href="$namespacepeconv.html#a02f2984cee1eddb5e883917f2c231016" title=" " alt="" coords="790,5,927,32"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="988,56,1173,83"/>
-<area shape="rect" id="node7" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="412,49,543,90"/>
+<area shape="rect" id="node1" title=" " coords="5,27,208,52"/>
+<area shape="rect" id="node2" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " coords="591,5,729,31"/>
+<area shape="rect" id="node6" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " coords="256,52,364,77"/>
+<area shape="rect" id="node3" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " coords="777,55,940,80"/>
+<area shape="rect" id="node5" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " coords="790,5,927,31"/>
+<area shape="rect" id="node4" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " coords="988,55,1173,80"/>
+<area shape="rect" id="node7" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " coords="412,49,543,89"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="peconv::ExportsMapper::get_dll_fullname" name="peconv::ExportsMapper::get_dll_fullname">
-<area shape="rect" id="node1" title=" " alt="" coords="5,35,161,76"/>
-<area shape="rect" id="node2" href="$classpeconv_1_1_exports_mapper.html#a704e6c6c2518105b3361c18cb5fac7cd" title=" " alt="" coords="209,5,365,47"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc" title=" " alt="" coords="212,71,363,98"/>
+<area shape="rect" id="node1" title=" " coords="5,35,161,75"/>
+<area shape="rect" id="node2" href="$classpeconv_1_1_exports_mapper.html#a704e6c6c2518105b3361c18cb5fac7cd" title=" " coords="209,5,365,45"/>
+<area shape="rect" id="node3" href="$namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc" title=" " coords="212,70,363,95"/>
 </map>
