@@ -35,12 +35,13 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
         hdrsSize = payload_nt_hdr32->OptionalHeader.SizeOfHeaders;
         secptr = (LPVOID)((ULONGLONG)&(payload_nt_hdr32->OptionalHeader) + fileHdr->SizeOfOptionalHeader);
     }
-
     DWORD first_raw = 0;
     //copy all the sections, one by one:
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
-        PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONGLONG)secptr + (IMAGE_SIZEOF_SECTION_HEADER * i));
-        if (!validate_ptr((const LPVOID)payload, destBufferSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) {
+        PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONGLONG)secptr + ((ULONGLONG)IMAGE_SIZEOF_SECTION_HEADER * i));
+        if (!validate_ptr((const LPVOID)payload, payloadSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER) // check if fits in the source size
+            || !validate_ptr((const LPVOID)payload, destBufferSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) // check if fits in the destination size
+        {
             return false;
         }
         if (next_sec->PointerToRawData == 0 || next_sec->SizeOfRawData == 0) {
