@@ -1,7 +1,7 @@
 <map id="peconv::ImportedDllCoverage::findCoveringDll" name="peconv::ImportedDllCoverage::findCoveringDll">
-<area shape="rect" id="node1" title=" " coords="5,35,196,75"/>
-<area shape="rect" id="node2" href="$fix__imports_8cpp.html#a1080df55d905f4d4aec10316c73b90d4" title=" " coords="244,42,363,67"/>
-<area shape="rect" id="node3" href="$fix__imports_8cpp.html#a82f1c6a19687d40afd4a8c273409efc3" title=" " coords="411,5,557,45"/>
-<area shape="rect" id="node5" href="$fix__imports_8cpp.html#abd22483a197ab4821587ac0089d6c308" title=" " coords="413,70,555,95"/>
-<area shape="rect" id="node4" href="$classpeconv_1_1_exports_mapper.html#acd3da76f6e3a129ac3bb1d0b0214da45" title=" " coords="605,5,761,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,35,196,75"/>
+<area shape="rect" id="node2" href="$fix__imports_8cpp.html#a1080df55d905f4d4aec10316c73b90d4" title=" " alt="" coords="244,42,363,67"/>
+<area shape="rect" id="node3" href="$fix__imports_8cpp.html#a82f1c6a19687d40afd4a8c273409efc3" title=" " alt="" coords="411,5,557,45"/>
+<area shape="rect" id="node5" href="$fix__imports_8cpp.html#abd22483a197ab4821587ac0089d6c308" title=" " alt="" coords="413,70,555,95"/>
+<area shape="rect" id="node4" href="$classpeconv_1_1_exports_mapper.html#acd3da76f6e3a129ac3bb1d0b0214da45" title=" " alt="" coords="605,5,761,45"/>
 </map>

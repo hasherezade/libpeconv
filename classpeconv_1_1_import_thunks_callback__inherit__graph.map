@@ -1,7 +1,7 @@
 <map id="peconv::ImportThunksCallback" name="peconv::ImportThunksCallback">
-<area shape="rect" id="node1" title=" " coords="243,5,443,31"/>
-<area shape="rect" id="node2" href="$class_collect_imports_callback.html" title=" " coords="5,79,161,104"/>
-<area shape="rect" id="node3" href="$class_collect_thunks_callback.html" title=" " coords="186,79,341,104"/>
-<area shape="rect" id="node4" href="$class_fill_import_thunks.html" title=" " coords="365,79,484,104"/>
-<area shape="rect" id="node5" href="$class_list_import_names.html" title=" " coords="509,79,631,104"/>
+<area shape="rect" id="node1" title=" " alt="" coords="243,5,443,31"/>
+<area shape="rect" id="node2" href="$class_collect_imports_callback.html" title=" " alt="" coords="5,79,161,104"/>
+<area shape="rect" id="node3" href="$class_collect_thunks_callback.html" title=" " alt="" coords="186,79,341,104"/>
+<area shape="rect" id="node4" href="$class_fill_import_thunks.html" title=" " alt="" coords="365,79,484,104"/>
+<area shape="rect" id="node5" href="$class_list_import_names.html" title=" " alt="" coords="509,79,631,104"/>
 </map>

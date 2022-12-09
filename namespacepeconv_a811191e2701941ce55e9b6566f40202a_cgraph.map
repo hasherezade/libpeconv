@@ -1,8 +1,8 @@
 <map id="peconv::read_remote_area" name="peconv::read_remote_area">
-<area shape="rect" id="node1" title=" " coords="5,63,180,88"/>
-<area shape="rect" id="node2" href="$remote__pe__reader_8cpp.html#ad61b7aa751015bcc6c8bf66b6df2faee" title=" " coords="438,5,569,31"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5" title=" " coords="419,120,588,145"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#a61af7b5278d087f90ac2c42b94ec7332" title=" " coords="228,55,371,95"/>
-<area shape="rect" id="node5" href="$namespacepeconv.html#a72999faa615c567ccac8b9389697d6a9" title=" " coords="432,55,575,95"/>
-<area shape="rect" id="node6" href="$namespacepeconv.html#ab650ce67e446fe3ece6ced8fe56a912f" title=" " coords="636,63,839,88"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,63,180,88"/>
+<area shape="rect" id="node2" href="$remote__pe__reader_8cpp.html#ad61b7aa751015bcc6c8bf66b6df2faee" title=" " alt="" coords="438,5,569,31"/>
+<area shape="rect" id="node3" href="$namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5" title=" " alt="" coords="419,120,588,145"/>
+<area shape="rect" id="node4" href="$namespacepeconv.html#a61af7b5278d087f90ac2c42b94ec7332" title=" " alt="" coords="228,55,371,95"/>
+<area shape="rect" id="node5" href="$namespacepeconv.html#a72999faa615c567ccac8b9389697d6a9" title=" " alt="" coords="432,55,575,95"/>
+<area shape="rect" id="node6" href="$namespacepeconv.html#ab650ce67e446fe3ece6ced8fe56a912f" title=" " alt="" coords="636,63,839,88"/>
 </map>
