@@ -28,8 +28,6 @@ add_subdirectory ( libpeconv )
 set ( PECONV_LIB $<TARGET_FILE:libpeconv> CACHE PATH "PEConvLib library path" )
 
 #demos:
-add_subdirectory ( pe_unmapper )
-add_dependencies ( pe_unmapper libpeconv )
 
 add_subdirectory ( run_pe )
 add_dependencies ( run_pe libpeconv )
