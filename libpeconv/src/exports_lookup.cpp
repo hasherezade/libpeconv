@@ -139,7 +139,9 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
         return (FARPROC) fPtr; //return the pointer to the found function
     }
     //function not found
+#ifdef _DEBUG
     std::cerr << "Function not found!" << std::endl;
+#endif
     return NULL;
 }
 
