@@ -1,4 +1,5 @@
 <map id="peconv::set_main_module_in_peb" name="peconv::set_main_module_in_peb">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,177,45"/>
-<area shape="rect" id="node2" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="225,13,293,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,177,46"/>
+<area shape="rect" id="Node000002" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="225,13,292,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,23,209,23,209,28,177,28"/>
 </map>

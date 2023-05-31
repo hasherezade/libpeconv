@@ -1,5 +1,7 @@
 <map id="peconv::format_dll_func" name="peconv::format_dll_func">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,164,56"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="212,5,388,31"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#a7351d7d28b671aaf7d4cf26ab411cb2b" title=" " alt="" coords="221,55,379,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,164,56"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="212,5,387,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,31,197,28,197,33,165,37"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#a7351d7d28b671aaf7d4cf26ab411cb2b" title=" " alt="" coords="220,55,379,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,50,206,54,205,60,164,55"/>
 </map>

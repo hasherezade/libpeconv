@@ -1,4 +1,5 @@
 <map id="peconv::is_bad_read_ptr" name="peconv::is_bad_read_ptr">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,168,31"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="216,5,401,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,167,31"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="215,5,399,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,16,199,16,199,21,167,21"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="process_reloc_block" name="process_reloc_block">
-<area shape="rect" id="node1" title=" " alt="" coords="5,42,147,67"/>
-<area shape="rect" id="node2" href="$classpeconv_1_1_reloc_block_callback.html#ac5f7dfc42d843ee4c369afad0f8b0f8f" title=" " alt="" coords="195,5,381,45"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="219,70,357,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,146,68"/>
+<area shape="rect" id="Node000002" href="$classpeconv_1_1_reloc_block_callback.html#ac5f7dfc42d843ee4c369afad0f8b0f8f" title=" " alt="" coords="194,5,379,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,43,178,38,179,43,147,48"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="218,70,355,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="147,62,204,69,203,75,146,67"/>
 </map>

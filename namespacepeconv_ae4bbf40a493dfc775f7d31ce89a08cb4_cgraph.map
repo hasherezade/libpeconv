@@ -1,5 +1,7 @@
 <map id="peconv::fetch_region_size" name="peconv::fetch_region_size">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,176,56"/>
-<area shape="rect" id="node2" href="$remote__pe__reader_8cpp.html#ad61b7aa751015bcc6c8bf66b6df2faee" title=" " alt="" coords="243,5,374,31"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5" title=" " alt="" coords="224,55,393,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,176,56"/>
+<area shape="rect" id="Node000002" href="$remote__pe__reader_8cpp.html#ad61b7aa751015bcc6c8bf66b6df2faee" title=" " alt="" coords="243,5,373,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,31,229,25,229,30,176,36"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5" title=" " alt="" coords="224,55,392,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,50,209,54,209,59,176,56"/>
 </map>

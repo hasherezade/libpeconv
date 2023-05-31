@@ -1,4 +1,5 @@
 <map id="peconv::get_dotnet_hdr" name="peconv::get_dotnet_hdr">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,161,31"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="209,5,347,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,161,31"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="209,5,345,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,16,194,16,194,21,161,21"/>
 </map>

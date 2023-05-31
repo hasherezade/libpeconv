@@ -1,6 +1,9 @@
 <map id="peconv::default_func_resolver" name="peconv::default_func_resolver">
-<area shape="rect" id="node1" title=" " alt="" coords="93,93,235,133"/>
-<area shape="rect" id="node3" href="$classpeconv_1_1export__based__resolver.html" title=" " alt="" coords="5,181,152,221"/>
-<area shape="rect" id="node4" href="$classpeconv_1_1hooking__func__resolver.html" title=" " alt="" coords="176,181,323,221"/>
-<area shape="rect" id="node2" href="$classpeconv_1_1t__function__resolver.html" title=" " alt="" coords="101,5,227,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="94,94,234,135"/>
+<area shape="rect" id="Node000003" href="$classpeconv_1_1export__based__resolver.html" title=" " alt="" coords="5,183,152,223"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="136,147,100,184,96,180,132,144"/>
+<area shape="rect" id="Node000004" href="$classpeconv_1_1hooking__func__resolver.html" title=" " alt="" coords="176,183,322,223"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="195,144,232,180,228,184,191,147"/>
+<area shape="rect" id="Node000002" href="$classpeconv_1_1t__function__resolver.html" title=" " alt="" coords="101,5,227,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,61,167,94,161,94,161,61"/>
 </map>

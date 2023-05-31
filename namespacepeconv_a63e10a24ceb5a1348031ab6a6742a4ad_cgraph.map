@@ -1,10 +1,19 @@
 <map id="peconv::get_type_directory" name="peconv::get_type_directory">
-<area shape="rect" id="node1" title=" " alt="" coords="5,27,180,52"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " alt="" coords="228,19,372,59"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="755,5,893,31"/>
-<area shape="rect" id="node7" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="420,52,528,77"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="941,55,1104,80"/>
-<area shape="rect" id="node6" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="954,5,1091,31"/>
-<area shape="rect" id="node5" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1152,55,1337,80"/>
-<area shape="rect" id="node8" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="576,49,707,89"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,180,52"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68" title=" " alt="" coords="228,19,371,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,37,213,37,213,42,180,42"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="753,5,890,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="371,34,738,19,738,24,371,39"/>
+<area shape="rect" id="Node000007" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="419,52,526,78"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="372,47,405,52,404,58,371,53"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="938,55,1099,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="877,29,951,48,950,53,875,34"/>
+<area shape="rect" id="Node000006" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="951,5,1087,31"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="890,16,936,16,936,21,890,21"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1147,55,1332,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1100,65,1132,65,1132,70,1100,70"/>
+<area shape="rect" id="Node000008" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="574,49,705,89"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="527,63,560,64,559,70,527,69"/>
+<area shape="poly" id="edge8_Node000008_Node000003" title=" " alt="" coords="704,48,758,33,759,38,706,53"/>
+<area shape="poly" id="edge9_Node000008_Node000004" title=" " alt="" coords="705,66,923,65,923,71,705,71"/>
 </map>

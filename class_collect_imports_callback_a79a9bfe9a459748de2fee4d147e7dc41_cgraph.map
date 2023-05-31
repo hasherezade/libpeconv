@@ -1,4 +1,5 @@
 <map id="CollectImportsCallback::processThunks_tpl" name="CollectImportsCallback::processThunks_tpl">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,161,45"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="209,13,385,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,161,46"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="209,13,384,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,23,194,23,194,28,161,28"/>
 </map>

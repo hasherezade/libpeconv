@@ -1,9 +1,15 @@
 <map id="peconv::ExportedFunc::isTheSameFunc" name="peconv::ExportedFunc::isTheSameFunc">
-<area shape="rect" id="node1" title="Compares functions&#39; names. If function is defined by an ordinal, compares ordinals...." alt="" coords="5,58,155,98"/>
-<area shape="rect" id="node2" href="$classpeconv_1_1_exported_func.html#a9fe05237f9609778a0f69bf784af7ef5" title="Compares functions&#39; DLL names." alt="" coords="207,26,357,66"/>
-<area shape="rect" id="node7" href="$classpeconv_1_1_exported_func.html#acc64cb06fe9b6f40f57114ee7ce708f2" title="Compares functions&#39; names. If function is defined by an ordinal, compares ordinals...." alt="" coords="203,90,361,130"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc" title=" " alt="" coords="415,5,566,31"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#ad5c3e28a7fe44a96e52fb9e1252e5349" title=" " alt="" coords="409,55,572,95"/>
-<area shape="rect" id="node5" href="$namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e" title=" " alt="" coords="620,37,800,63"/>
-<area shape="rect" id="node6" href="$namespacepeconv.html#a7dc7f1b1fa88e581e94c3d4ef4f87d44" title=" " alt="" coords="622,87,798,112"/>
+<area shape="rect" id="Node000001" title="Compares functions&#39; names. If function is defined by an ordinal, compares ordinals...." alt="" coords="5,59,154,100"/>
+<area shape="rect" id="Node000002" href="$classpeconv_1_1_exported_func.html#a9fe05237f9609778a0f69bf784af7ef5" title="Compares functions&#39; DLL names." alt="" coords="206,26,355,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,65,192,58,192,63,155,70"/>
+<area shape="rect" id="Node000007" href="$classpeconv_1_1_exported_func.html#acc64cb06fe9b6f40f57114ee7ce708f2" title="Compares functions&#39; names. If function is defined by an ordinal, compares ordinals...." alt="" coords="202,91,359,132"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="154,89,187,94,186,99,154,94"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc" title=" " alt="" coords="413,5,562,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="355,33,398,28,399,33,355,39"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#ad5c3e28a7fe44a96e52fb9e1252e5349" title=" " alt="" coords="407,55,568,96"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="355,54,392,59,392,65,355,59"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e" title=" " alt="" coords="616,37,796,63"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="568,63,601,60,602,65,569,69"/>
+<area shape="rect" id="Node000006" href="$namespacepeconv.html#a7dc7f1b1fa88e581e94c3d4ef4f87d44" title=" " alt="" coords="618,87,794,112"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="569,82,603,86,603,91,568,87"/>
 </map>

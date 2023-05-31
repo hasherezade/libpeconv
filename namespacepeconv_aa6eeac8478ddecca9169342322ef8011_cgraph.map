@@ -1,4 +1,5 @@
 <map id="peconv::free_resource_data" name="peconv::free_resource_data">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,187,31"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#a0e37c28aa6d21070a623054c52126531" title=" " alt="" coords="235,5,375,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,186,31"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#a0e37c28aa6d21070a623054c52126531" title=" " alt="" coords="234,5,373,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,16,219,16,219,21,186,21"/>
 </map>

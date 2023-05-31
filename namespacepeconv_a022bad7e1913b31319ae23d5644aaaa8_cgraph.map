@@ -1,6 +1,9 @@
 <map id="peconv::get_process_id" name="peconv::get_process_id">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,164,56"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63" title=" " alt="" coords="212,5,387,31"/>
-<area shape="rect" id="node3" href="$util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8" title=" " alt="" coords="229,55,370,80"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#afd0370b87e95a0755199897a7fb79067" title=" " alt="" coords="435,55,585,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,163,56"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#a9b4307b5dbe3228c5a8502fffe93aa63" title=" " alt="" coords="211,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,32,195,28,196,33,163,37"/>
+<area shape="rect" id="Node000003" href="$util_8cpp.html#ab5f3f23e0f2678c1a145e0e0f7a3a7f8" title=" " alt="" coords="228,55,368,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,50,213,55,213,61,162,55"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#afd0370b87e95a0755199897a7fb79067" title=" " alt="" coords="433,55,582,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="368,65,418,65,418,70,368,70"/>
 </map>

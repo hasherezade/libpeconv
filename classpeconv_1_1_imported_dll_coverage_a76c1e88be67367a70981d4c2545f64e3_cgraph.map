@@ -1,7 +1,11 @@
 <map id="peconv::ImportedDllCoverage::mapAddressesToFunctions" name="peconv::ImportedDllCoverage::mapAddressesToFunctions">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,196,77"/>
-<area shape="rect" id="node2" href="$fix__imports_8cpp.html#a74171b2288c9c2be504ca00f18f352d8" title=" " alt="" coords="244,45,436,70"/>
-<area shape="rect" id="node3" href="$classpeconv_1_1_exported_func.html#af723125e547c1e1459dbcd0a4ac02d0a" title=" " alt="" coords="484,37,633,77"/>
-<area shape="rect" id="node4" href="$classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd" title=" " alt="" coords="681,5,831,45"/>
-<area shape="rect" id="node5" href="$namespacepeconv.html#a2fe6bfa1e17c0b4a1efcb195b482565e" title=" " alt="" coords="693,69,819,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,196,79"/>
+<area shape="rect" id="Node000002" href="$fix__imports_8cpp.html#a74171b2288c9c2be504ca00f18f352d8" title=" " alt="" coords="244,46,435,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,56,228,56,228,62,196,62"/>
+<area shape="rect" id="Node000003" href="$classpeconv_1_1_exported_func.html#af723125e547c1e1459dbcd0a4ac02d0a" title=" " alt="" coords="483,39,631,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="435,56,469,56,469,62,435,62"/>
+<area shape="rect" id="Node000004" href="$classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd" title=" " alt="" coords="679,5,828,46"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="631,44,664,38,665,43,632,49"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#a2fe6bfa1e17c0b4a1efcb195b482565e" title=" " alt="" coords="691,71,816,111"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="632,68,676,76,676,81,631,74"/>
 </map>

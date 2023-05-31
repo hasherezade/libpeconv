@@ -1,6 +1,9 @@
 <map id="peconv::get_module_via_peb" name="peconv::get_module_via_peb">
-<area shape="rect" id="node1" title=" " alt="" coords="5,23,143,63"/>
-<area shape="rect" id="node2" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="222,5,290,31"/>
-<area shape="rect" id="node3" href="$peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="191,55,321,80"/>
-<area shape="rect" id="node4" href="$peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="369,55,468,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,142,64"/>
+<area shape="rect" id="Node000002" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="221,5,288,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,31,206,22,207,27,143,37"/>
+<area shape="rect" id="Node000003" href="$peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7" title=" " alt="" coords="190,55,319,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,50,175,54,174,60,142,55"/>
+<area shape="rect" id="Node000004" href="$peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="367,55,465,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="319,65,352,65,352,70,319,70"/>
 </map>

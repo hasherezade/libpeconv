@@ -1,5 +1,7 @@
 <map id="peconv::ExportedFunc::nameToString" name="peconv::ExportedFunc::nameToString">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,155,77"/>
-<area shape="rect" id="node2" href="$classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd" title=" " alt="" coords="203,5,352,45"/>
-<area shape="rect" id="node3" href="$namespacepeconv.html#a2fe6bfa1e17c0b4a1efcb195b482565e" title=" " alt="" coords="214,69,341,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,154,79"/>
+<area shape="rect" id="Node000002" href="$classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd" title=" " alt="" coords="202,5,350,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,44,186,38,187,43,155,49"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#a2fe6bfa1e17c0b4a1efcb195b482565e" title=" " alt="" coords="213,71,339,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,68,199,76,198,81,154,74"/>
 </map>

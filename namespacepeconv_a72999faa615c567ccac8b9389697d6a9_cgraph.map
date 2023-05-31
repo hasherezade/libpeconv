@@ -1,4 +1,5 @@
 <map id="peconv::read_remote_memory" name="peconv::read_remote_memory">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,148,45"/>
-<area shape="rect" id="node2" href="$namespacepeconv.html#ab650ce67e446fe3ece6ced8fe56a912f" title=" " alt="" coords="196,13,399,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,147,46"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#ab650ce67e446fe3ece6ced8fe56a912f" title=" " alt="" coords="195,13,396,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,23,179,23,179,28,147,28"/>
 </map>

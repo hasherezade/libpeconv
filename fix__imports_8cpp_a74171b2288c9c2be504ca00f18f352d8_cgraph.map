@@ -1,6 +1,9 @@
 <map id="map_addresses_to_functions" name="map_addresses_to_functions">
-<area shape="rect" id="node1" title=" " alt="" coords="5,45,197,70"/>
-<area shape="rect" id="node2" href="$classpeconv_1_1_exported_func.html#af723125e547c1e1459dbcd0a4ac02d0a" title=" " alt="" coords="245,37,395,77"/>
-<area shape="rect" id="node3" href="$classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd" title=" " alt="" coords="443,5,592,45"/>
-<area shape="rect" id="node4" href="$namespacepeconv.html#a2fe6bfa1e17c0b4a1efcb195b482565e" title=" " alt="" coords="454,69,581,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,46,197,72"/>
+<area shape="rect" id="Node000002" href="$classpeconv_1_1_exported_func.html#af723125e547c1e1459dbcd0a4ac02d0a" title=" " alt="" coords="245,39,393,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,56,230,56,230,62,197,62"/>
+<area shape="rect" id="Node000003" href="$classpeconv_1_1_exported_func.html#a757f8be3c6b0a7a4b983c8824d663ffd" title=" " alt="" coords="441,5,589,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="393,44,426,38,427,43,394,49"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#a2fe6bfa1e17c0b4a1efcb195b482565e" title=" " alt="" coords="453,71,578,111"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="394,68,438,76,437,81,393,74"/>
 </map>
