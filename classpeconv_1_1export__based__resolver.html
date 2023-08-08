@@ -97,16 +97,16 @@ Inheritance diagram for peconv::export_based_resolver:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aee9dfbf0bfd458b4ad8bb3ad9c13bb85"><td class="memItemLeft" align="right" valign="top">virtual FARPROC&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1export__based__resolver.html#aee9dfbf0bfd458b4ad8bb3ad9c13bb85">resolve_func</a> (LPSTR lib_name, LPSTR func_name)</td></tr>
-<tr class="separator:aee9dfbf0bfd458b4ad8bb3ad9c13bb85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a755d6ec00caf462bcd084a32d33e64f1"><td class="memItemLeft" align="right" valign="top">virtual FARPROC&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1">resolve_func</a> (LPCSTR lib_name, LPCSTR func_name)</td></tr>
+<tr class="separator:a755d6ec00caf462bcd084a32d33e64f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Function resolver using Export Table lookup. </p>
 
 <p class="definition">Definition at line <a class="el" href="exports__lookup_8h_source.html#l00033">33</a> of file <a class="el" href="exports__lookup_8h_source.html">exports_lookup.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aee9dfbf0bfd458b4ad8bb3ad9c13bb85" name="aee9dfbf0bfd458b4ad8bb3ad9c13bb85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee9dfbf0bfd458b4ad8bb3ad9c13bb85">&#9670;&#160;</a></span>resolve_func()</h2>
+<a id="a755d6ec00caf462bcd084a32d33e64f1" name="a755d6ec00caf462bcd084a32d33e64f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a755d6ec00caf462bcd084a32d33e64f1">&#9670;&#160;</a></span>resolve_func()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -117,13 +117,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">FARPROC peconv::export_based_resolver::resolve_func </td>
           <td>(</td>
-          <td class="paramtype">LPSTR&#160;</td>
+          <td class="paramtype">LPCSTR&#160;</td>
           <td class="paramname"><em>lib_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">LPSTR&#160;</td>
+          <td class="paramtype">LPCSTR&#160;</td>
           <td class="paramname"><em>func_name</em>&#160;</td>
         </tr>
         <tr>
@@ -147,12 +147,14 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Virtual Address of the exported function </dd></dl>
 
+<p>Reimplemented from <a class="el" href="classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03">peconv::default_func_resolver</a>.</p>
+
 <p class="definition">Definition at line <a class="el" href="exports__lookup_8cpp_source.html#l00148">148</a> of file <a class="el" href="exports__lookup_8cpp_source.html">exports_lookup.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classpeconv_1_1export__based__resolver_aee9dfbf0bfd458b4ad8bb3ad9c13bb85_cgraph.png" border="0" usemap="#aclasspeconv_1_1export__based__resolver_aee9dfbf0bfd458b4ad8bb3ad9c13bb85_cgraph" alt=""/></div>
-<map name="aclasspeconv_1_1export__based__resolver_aee9dfbf0bfd458b4ad8bb3ad9c13bb85_cgraph" id="aclasspeconv_1_1export__based__resolver_aee9dfbf0bfd458b4ad8bb3ad9c13bb85_cgraph">
+<div class="center"><img src="classpeconv_1_1export__based__resolver_a755d6ec00caf462bcd084a32d33e64f1_cgraph.png" border="0" usemap="#aclasspeconv_1_1export__based__resolver_a755d6ec00caf462bcd084a32d33e64f1_cgraph" alt=""/></div>
+<map name="aclasspeconv_1_1export__based__resolver_a755d6ec00caf462bcd084a32d33e64f1_cgraph" id="aclasspeconv_1_1export__based__resolver_a755d6ec00caf462bcd084a32d33e64f1_cgraph">
 <area shape="rect" title=" " alt="" coords="5,223,160,264"/>
 <area shape="rect" href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b" title=" " alt="" coords="208,156,383,182"/>
 <area shape="poly" title=" " alt="" coords="142,220,242,185,244,190,144,225"/>
@@ -186,7 +188,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 31 2023 13:31:26 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7
+Generated on Tue Aug 8 2023 18:37:41 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7
 </small></address>
 </body>
 </html>
