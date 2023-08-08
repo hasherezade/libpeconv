@@ -145,7 +145,7 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
     return NULL;
 }
 
-FARPROC peconv::export_based_resolver::resolve_func(LPSTR lib_name, LPSTR func_name)
+FARPROC peconv::export_based_resolver::resolve_func(LPCSTR lib_name, LPCSTR func_name)
 {
     HMODULE libBasePtr = LoadLibraryA(lib_name);
     if (libBasePtr == NULL) {
