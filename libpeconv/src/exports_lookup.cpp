@@ -84,13 +84,13 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
     DWORD funcNamesListRVA = exp->AddressOfNames;
 
     //go through names:
+    DWORD* nameRVAs = (DWORD*)(funcNamesListRVA + (ULONG_PTR)modulePtr);
     SIZE_T i = 0;
     for (i = 0; i < namesCount; i++) {
-        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
-       
-        LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
-        if (peconv::is_bad_read_ptr(name, 1)) break; // this shoudld not happen. maybe the PE file is corrupt?
-
+        DWORD nameRVA = nameRVAs[i];
+        if (!nameRVA) continue;
+        LPSTR name = (LPSTR)(nameRVA + (BYTE*) modulePtr);
+        if (peconv::is_bad_read_ptr(name, 1)) break; // this should not happen. maybe the PE file is corrupt?
         names_list.push_back(name);
     }
     return i;
