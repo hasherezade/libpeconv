@@ -163,13 +163,13 @@ $(function() {
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    DWORD funcNamesListRVA = exp-&gt;AddressOfNames;</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">//go through names:</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    SIZE_T i = 0;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">for</span> (i = 0; i &lt; namesCount; i++) {</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(DWORD));</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>       </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(name, 1)) <span class="keywordflow">break</span>; <span class="comment">// this shoudld not happen. maybe the PE file is corrupt?</span></div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    DWORD* nameRVAs = (DWORD*)(funcNamesListRVA + (ULONG_PTR)modulePtr);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    SIZE_T i = 0;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">for</span> (i = 0; i &lt; namesCount; i++) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        DWORD nameRVA = nameRVAs[i];</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">if</span> (!nameRVA) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        LPSTR name = (LPSTR)(nameRVA + (BYTE*) modulePtr);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(name, 1)) <span class="keywordflow">break</span>; <span class="comment">// this should not happen. maybe the PE file is corrupt?</span></div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        names_list.push_back(name);</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">return</span> i;</div>
@@ -291,7 +291,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 8 2023 18:37:41 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7
+Generated on Fri Aug 18 2023 21:10:13 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7
 </small></address>
 </body>
 </html>
