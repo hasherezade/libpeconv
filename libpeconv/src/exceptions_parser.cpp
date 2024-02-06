@@ -48,7 +48,7 @@ bool peconv::setup_exceptions(IN BYTE* modulePtr, IN size_t moduleSize)
         // none of the exceptions was valid
         return false;
     }
-    if (RtlAddFunctionTable(exceptions_list, i, (ULONG_PTR)modulePtr)) {
+    if (RtlAddFunctionTable(exceptions_list, (DWORD)i, (ULONG_PTR)modulePtr)) {
         return true;
     }
     return false;
