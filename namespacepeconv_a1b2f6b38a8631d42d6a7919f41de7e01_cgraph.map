@@ -1,5 +1,16 @@
 <map id="peconv::set_main_module_in_peb" name="peconv::set_main_module_in_peb">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,177,46"/>
-<area shape="rect" id="Node000002" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="225,13,292,39"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,23,209,23,209,28,177,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,177,64"/>
+<area shape="rect" id="Node000002" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="225,5,292,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,28,209,23,209,28,177,33"/>
+<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="340,31,479,56"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="177,41,324,41,324,46,177,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="293,21,325,27,324,32,292,26"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="527,5,723,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="479,41,560,31,561,37,480,46"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="771,31,907,56"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="480,41,755,41,755,46,480,46"/>
+<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="548,106,702,147"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="447,54,557,97,555,102,445,59"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="527,23,474,30,474,25,527,18"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="724,27,755,31,755,36,723,32"/>
 </map>

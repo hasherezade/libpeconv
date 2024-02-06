@@ -1,7 +1,19 @@
 <map id="peconv::format_dll_func" name="peconv::format_dll_func">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,164,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,164,82"/>
 <area shape="rect" id="Node000002" href="$namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="212,5,387,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,31,197,28,197,33,165,37"/>
-<area shape="rect" id="Node000003" href="$namespacepeconv.html#a7351d7d28b671aaf7d4cf26ab411cb2b" title=" " alt="" coords="220,55,379,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,50,206,54,205,60,164,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,53,226,33,228,38,143,58"/>
+<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="435,56,574,82"/>
+<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="164,66,420,66,420,72,164,72"/>
+<area shape="rect" id="Node000007" href="$namespacepeconv.html#a7351d7d28b671aaf7d4cf26ab411cb2b" title=" " alt="" coords="220,107,379,132"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="143,80,228,100,226,105,142,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="355,29,436,49,434,54,354,34"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="622,31,818,56"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="574,67,655,57,656,62,575,72"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="866,56,1002,82"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="575,66,850,66,850,72,575,72"/>
+<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="643,131,797,172"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="542,80,652,123,650,128,540,85"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="622,49,569,56,569,50,622,43"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="819,52,850,56,850,62,818,58"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="354,103,434,83,436,88,355,109"/>
 </map>

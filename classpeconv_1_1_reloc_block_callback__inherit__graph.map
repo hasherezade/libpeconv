@@ -1,7 +1,7 @@
 <map id="peconv::RelocBlockCallback" name="peconv::RelocBlockCallback">
 <area shape="rect" id="Node000001" title=" " alt="" coords="72,5,257,31"/>
 <area shape="rect" id="Node000002" href="$class_apply_reloc_callback.html" title=" " alt="" coords="5,79,142,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,42,90,81,87,77,136,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,43,90,81,87,77,135,39"/>
 <area shape="rect" id="Node000003" href="$classpeconv_1_1_collect_code_relocs.html" title=" " alt="" coords="165,79,345,105"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,38,241,77,238,81,189,42"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,39,241,77,238,81,190,43"/>
 </map>

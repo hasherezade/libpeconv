@@ -1,5 +1,16 @@
 <map id="is_wanted_module" name="is_wanted_module">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,135,31"/>
-<area shape="rect" id="Node000002" href="$peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="183,5,281,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,16,168,16,168,21,135,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,135,56"/>
+<area shape="rect" id="Node000002" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="329,31,468,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,41,314,41,314,46,135,46"/>
+<area shape="rect" id="Node000006" href="$peb__lookup_8cpp.html#aef56d6318074c8c7b7bf2cd5ad2ee649" title=" " alt="" coords="183,56,281,82"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="136,51,168,56,167,61,135,56"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="516,5,712,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="468,41,549,31,550,37,469,46"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="760,31,896,56"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="469,41,744,41,744,46,469,46"/>
+<area shape="rect" id="Node000005" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="537,106,691,147"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="436,54,546,97,544,102,434,59"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="516,23,463,30,463,25,516,18"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="713,27,744,31,744,36,712,32"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="281,59,313,54,314,59,282,64"/>
 </map>

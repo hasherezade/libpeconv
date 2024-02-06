@@ -1,5 +1,11 @@
 <map id="peconv::is_valid_import_name" name="peconv::is_valid_import_name">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,201,31"/>
-<area shape="rect" id="Node000002" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="249,5,385,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,16,233,16,233,21,201,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,20,201,45"/>
+<area shape="rect" id="Node000002" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="249,20,388,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,39,233,38,233,44,201,44"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="445,70,581,96"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="175,43,249,55,430,74,429,79,248,60,174,48"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="248,27,216,26,217,21,248,21"/>
+<area shape="rect" id="Node000003" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="436,5,590,46"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="388,27,420,26,421,31,389,33"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="371,43,447,63,446,68,370,48"/>
 </map>

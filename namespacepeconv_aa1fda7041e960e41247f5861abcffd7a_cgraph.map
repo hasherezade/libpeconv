@@ -1,5 +1,16 @@
 <map id="peconv::get_module_size_via_peb" name="peconv::get_module_size_via_peb">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,142,46"/>
-<area shape="rect" id="Node000002" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="190,13,257,39"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,23,175,23,175,28,142,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,142,64"/>
+<area shape="rect" id="Node000002" href="$peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c" title=" " alt="" coords="190,5,257,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,29,174,24,175,29,142,35"/>
+<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="305,31,444,56"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="142,41,289,41,289,46,142,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="258,21,290,27,289,32,257,26"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="492,5,688,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="444,41,525,31,526,37,445,46"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="736,31,872,56"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="445,41,720,41,720,46,445,46"/>
+<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="513,106,667,147"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="412,54,522,97,520,102,410,59"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="492,23,439,30,439,25,492,18"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="689,27,720,31,720,36,688,32"/>
 </map>

@@ -1,5 +1,15 @@
 <map id="peconv::DllInfo::DllInfo" name="peconv::DllInfo::DllInfo">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,155,31"/>
-<area shape="rect" id="Node000002" href="$namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="203,5,378,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,16,188,16,188,21,155,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,155,56"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#aec77b235ab2a6e9f565b1d93828220ad" title=" " alt="" coords="203,31,378,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,41,187,41,187,46,155,46"/>
+<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="426,31,565,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="378,41,411,41,411,46,378,46"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="613,5,809,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="565,41,646,31,647,37,566,46"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="857,31,993,56"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="566,41,841,41,841,46,566,46"/>
+<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="634,106,788,147"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="533,54,643,97,641,102,531,59"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="613,23,560,30,560,25,613,18"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="810,27,841,31,841,36,809,32"/>
 </map>

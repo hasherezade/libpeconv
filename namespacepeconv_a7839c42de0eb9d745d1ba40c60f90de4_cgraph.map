@@ -1,5 +1,14 @@
 <map id="peconv::get_dotnet_hdr" name="peconv::get_dotnet_hdr">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,161,31"/>
-<area shape="rect" id="Node000002" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="209,5,345,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,16,194,16,194,21,161,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,113,161,139"/>
+<area shape="rect" id="Node000002" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="209,56,348,82"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,110,216,84,218,89,130,115"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="639,56,776,82"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="128,137,215,159,332,177,396,181,462,180,527,172,590,156,617,143,643,127,683,91,687,95,646,131,620,148,592,161,528,177,462,185,396,187,331,182,214,164,127,142"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="396,5,591,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="347,58,448,33,449,39,349,64"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="349,66,624,66,624,72,349,72"/>
+<area shape="rect" id="Node000005" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="417,106,571,147"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="330,80,402,99,401,104,329,85"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="399,34,324,54,322,49,398,29"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="552,29,636,49,635,54,550,34"/>
 </map>

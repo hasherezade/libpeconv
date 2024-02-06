@@ -1,24 +1,40 @@
 <map id="peconv::get_optional_hdr" name="peconv::get_optional_hdr">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,107,170,132"/>
-<area shape="rect" id="Node000002" href="$namespacepeconv.html#a30c642b479e9bd27a66332b73d65cabb" title=" " alt="" coords="218,56,353,82"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,103,218,83,219,88,141,109"/>
-<area shape="rect" id="Node000005" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="735,107,872,132"/>
-<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="170,117,720,117,720,122,170,122"/>
-<area shape="rect" id="Node000008" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="401,157,508,183"/>
-<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="171,129,218,136,387,159,386,164,217,141,170,134"/>
-<area shape="rect" id="Node000003" href="$pe__hdrs__helper_8cpp.html#a00518686793ddc0f408a17dfaeaea0db" title=" " alt="" coords="572,5,671,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,55,401,48,557,24,558,30,401,53,354,60"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="354,70,506,81,687,98,721,103,720,108,686,103,506,86,353,75"/>
-<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="310,80,421,147,418,152,307,85"/>
-<area shape="rect" id="Node000004" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="933,83,1069,108"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="672,26,920,77,919,82,671,31"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="872,109,917,103,918,108,873,114"/>
-<area shape="rect" id="Node000006" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="920,132,1081,158"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="873,126,905,130,905,135,872,131"/>
-<area shape="rect" id="Node000007" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1129,132,1314,158"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1082,142,1114,142,1114,148,1082,148"/>
-<area shape="rect" id="Node000009" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="556,157,687,197"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="509,170,542,171,541,176,509,175"/>
-<area shape="poly" id="edge10_Node000009_Node000005" title=" " alt="" coords="686,154,745,135,747,140,688,159"/>
-<area shape="poly" id="edge11_Node000009_Node000006" title=" " alt="" coords="687,169,905,150,905,156,687,174"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,269,170,295"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#a30c642b479e9bd27a66332b73d65cabb" title=" " alt="" coords="218,244,353,270"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,269,202,265,203,270,170,274"/>
+<area shape="rect" id="Node000004" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="1362,212,1501,238"/>
+<area shape="poly" id="edge26_Node000001_Node000004" title=" " alt="" coords="97,267,146,212,183,175,228,137,278,102,333,73,392,52,453,45,805,45,952,50,1011,57,1066,67,1177,101,1315,153,1361,176,1401,201,1398,205,1359,180,1313,158,1175,106,1065,72,1010,62,951,55,805,50,453,50,393,58,335,78,281,107,231,142,187,179,150,215,101,271"/>
+<area shape="rect" id="Node000008" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="735,339,872,364"/>
+<area shape="poly" id="edge24_Node000001_Node000008" title=" " alt="" coords="164,293,218,302,309,318,401,330,571,342,719,348,719,353,570,348,401,335,309,323,217,307,163,298"/>
+<area shape="rect" id="Node000011" href="$namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="401,295,508,320"/>
+<area shape="poly" id="edge25_Node000001_Node000011" title=" " alt="" coords="170,285,385,300,385,305,170,290"/>
+<area shape="rect" id="Node000003" href="$pe__hdrs__helper_8cpp.html#a00518686793ddc0f408a17dfaeaea0db" title=" " alt="" coords="1172,5,1271,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="292,242,332,186,363,154,400,128,457,103,506,94,620,96,805,96,905,89,1003,73,1093,53,1164,33,1165,38,1094,58,1004,78,905,94,805,101,620,101,506,99,459,108,402,132,367,158,336,189,296,245"/>
+<area shape="poly" id="edge23_Node000002_Node000004" title=" " alt="" coords="309,241,363,214,439,183,527,157,574,149,620,146,1002,146,1104,152,1206,167,1297,186,1371,205,1370,210,1296,191,1205,172,1104,157,1002,151,620,151,575,154,529,162,441,188,365,219,312,246"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="354,260,509,280,632,305,739,332,738,337,631,310,508,285,353,265"/>
+<area shape="poly" id="edge17_Node000002_Node000011" title=" " alt="" coords="332,268,396,287,395,292,330,273"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1272,26,1294,35,1315,48,1351,83,1381,123,1421,197,1416,199,1377,126,1347,87,1312,52,1292,40,1270,31"/>
+<area shape="rect" id="Node000006" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="1792,237,1929,263"/>
+<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="1272,18,1364,26,1485,45,1551,60,1618,79,1684,103,1746,133,1775,153,1802,177,1843,223,1839,226,1798,180,1772,157,1743,138,1681,108,1616,84,1550,65,1484,50,1363,31,1271,23"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="1549,212,1744,238"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1501,231,1533,231,1533,236,1501,236"/>
+<area shape="poly" id="edge8_Node000004_Node000006" title=" " alt="" coords="1484,236,1549,248,1668,254,1777,252,1777,258,1668,259,1549,253,1483,241"/>
+<area shape="rect" id="Node000007" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="1570,147,1724,188"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="1482,209,1554,189,1555,195,1483,214"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="1548,219,1516,219,1516,213,1548,213"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1745,234,1777,238,1776,243,1745,239"/>
+<area shape="poly" id="edge15_Node000008_Node000004" title=" " alt="" coords="872,350,962,347,1073,339,1194,321,1255,307,1313,290,1359,269,1399,244,1402,249,1362,274,1315,295,1256,312,1195,326,1074,344,962,353,873,355"/>
+<area shape="poly" id="edge16_Node000008_Node000006" title=" " alt="" coords="872,352,920,354,1001,356,1081,354,1278,340,1473,315,1645,288,1778,264,1779,269,1646,293,1473,321,1279,345,1081,359,1001,361,920,359,872,358"/>
+<area shape="rect" id="Node000009" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="920,263,1081,288"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="838,336,950,292,952,297,840,341"/>
+<area shape="poly" id="edge14_Node000009_Node000004" title=" " alt="" coords="1082,282,1192,285,1253,282,1313,273,1355,260,1392,243,1394,248,1357,265,1314,278,1254,287,1192,291,1082,287"/>
+<area shape="rect" id="Node000010" href="$namespacepeconv.html#a1c5650dbaaff41bf24cb94bd2ed60dcb" title=" " alt="" coords="1129,237,1314,263"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="1082,264,1113,260,1114,265,1082,269"/>
+<area shape="poly" id="edge13_Node000010_Node000004" title=" " alt="" coords="1314,236,1346,232,1347,238,1315,242"/>
+<area shape="poly" id="edge22_Node000011_Node000004" title=" " alt="" coords="497,318,604,349,669,363,735,374,808,379,894,379,1079,367,1237,349,1313,336,1342,318,1369,295,1410,249,1414,252,1373,299,1345,322,1315,341,1238,354,1080,372,894,384,808,384,734,379,668,369,603,354,496,323"/>
+<area shape="rect" id="Node000012" href="$namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b" title=" " alt="" coords="556,186,687,227"/>
+<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="476,292,572,233,575,237,479,296"/>
+<area shape="poly" id="edge21_Node000012_Node000004" title=" " alt="" coords="687,205,1347,220,1346,226,687,210"/>
+<area shape="poly" id="edge19_Node000012_Node000008" title=" " alt="" coords="662,225,688,243,739,285,781,325,777,329,735,289,685,247,659,229"/>
+<area shape="poly" id="edge20_Node000012_Node000009" title=" " alt="" coords="688,215,912,257,911,262,687,221"/>
 </map>

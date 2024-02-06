@@ -1,5 +1,16 @@
 <map id="peconv::fetch_alloc_base" name="peconv::fetch_alloc_base">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,173,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,173,56"/>
 <area shape="rect" id="Node000002" href="$namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5" title=" " alt="" coords="221,5,389,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,16,206,16,206,21,173,21"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,31,205,27,205,33,173,36"/>
+<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="437,31,576,56"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="173,41,422,41,422,46,173,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="390,26,422,30,422,36,389,31"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="624,5,820,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="576,41,657,31,658,37,577,46"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="868,31,1004,56"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="577,41,852,41,852,46,577,46"/>
+<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="645,106,799,147"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="544,54,654,97,652,102,542,59"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="624,23,571,30,571,25,624,18"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="821,27,852,31,852,36,820,32"/>
 </map>

@@ -1,7 +1,19 @@
 <map id="peconv::fetch_region_size" name="peconv::fetch_region_size">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,176,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,176,82"/>
 <area shape="rect" id="Node000002" href="$remote__pe__reader_8cpp.html#ad61b7aa751015bcc6c8bf66b6df2faee" title=" " alt="" coords="243,5,373,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,31,229,25,229,30,176,36"/>
-<area shape="rect" id="Node000003" href="$namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5" title=" " alt="" coords="224,55,392,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,50,209,54,209,59,176,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,53,234,32,236,38,149,58"/>
+<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="440,56,579,82"/>
+<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="176,66,424,66,424,72,176,72"/>
+<area shape="rect" id="Node000007" href="$namespacepeconv.html#a7b9e429997159865eff7c7b7099ba1b5" title=" " alt="" coords="224,107,392,132"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="149,80,236,100,234,105,148,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,29,442,49,440,54,361,34"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="627,31,823,56"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="579,67,660,57,661,62,580,72"/>
+<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="871,56,1007,82"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="580,66,855,66,855,72,580,72"/>
+<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="648,131,802,172"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="547,80,657,123,655,128,545,85"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="627,49,574,56,574,50,627,43"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="824,52,855,56,855,62,823,58"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="361,103,440,83,442,89,363,109"/>
 </map>

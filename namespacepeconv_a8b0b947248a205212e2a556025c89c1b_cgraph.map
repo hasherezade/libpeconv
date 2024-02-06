@@ -1,4 +1,14 @@
 <map id="peconv::get_current_module_handle" name="peconv::get_current_module_handle">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,29,140,70"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,29,45,20,49,11,58,5,73,3,88,5,97,12,94,16,86,10,72,8,60,10,53,14,50,20,51,28"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="37,29,35,19,41,10,54,5,73,3,93,5,105,11,102,16,91,10,72,8,55,10,45,15,41,20,42,28"/>
+<area shape="rect" id="Node000002" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="188,37,327,63"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="140,47,172,47,172,52,140,52"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="375,12,570,37"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="327,47,408,37,409,43,327,53"/>
+<area shape="rect" id="Node000004" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="618,37,755,63"/>
+<area shape="poly" id="edge7_Node000002_Node000004" title=" " alt="" coords="328,47,603,47,603,52,328,52"/>
+<area shape="rect" id="Node000005" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="396,112,550,153"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="294,61,404,103,402,108,292,66"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="375,30,322,37,321,31,374,24"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="571,33,603,37,602,42,571,39"/>
 </map>
