@@ -91,8 +91,10 @@ BOOL update_remote_entry_point(PROCESS_INFORMATION &pi, ULONGLONG entry_point_va
         return FALSE;
     }
     // 2. Set the new Entry Point in the context:
-#if defined(_WIN64)
+#if defined(_M_AMD64)
     context.Rcx = entry_point_va;
+#elif defined(_M_ARM64)
+    context.X23 = entry_point_va;
 #else
     context.Eax = static_cast<DWORD>(entry_point_va);
 #endif
@@ -123,14 +125,15 @@ ULONGLONG get_remote_peb_addr(PROCESS_INFORMATION &pi, bool is32bit)
     if (!GetThreadContext(pi.hThread, &context)) {
         return 0;
     }
-#if defined(_WIN64)
+#if defined(_M_AMD64)
     PEB_addr = context.Rdx;
+#elif defined(_M_ARM64)
+    PEB_addr = context.X23;
 #else
     PEB_addr = context.Ebx;
 #endif
     return PEB_addr;
 }
-
 inline ULONGLONG get_img_base_peb_offset(bool is32bit)
 {
 /*
