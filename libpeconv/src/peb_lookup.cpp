@@ -1,5 +1,4 @@
 #include "ntddk.h"
-
 #ifdef _DEBUG
 #include <iostream>
 #endif
@@ -46,12 +45,12 @@ inline PPEB get_peb()
 #if defined(_M_AMD64)
     return (PPEB)__readgsqword(0x60);
 #elif defined(_M_ARM64)
-    PPEB peb = *(PPEB*)(__getReg(18) + 0x60);
+    PPEB peb = (PPEB)(*(__getReg(18) + 0x60));
     #ifdef _DEBUG
     std::cout << "[+] ARM64 TEB: " << __getReg(18) << " PEB: " <<  peb << "\n";
     #endif
     return peb;
-#elif defined(_M_I386)
+#else
     return (PPEB)__readfsdword(0x30);
 /*
 //alternative way to fetch it:
