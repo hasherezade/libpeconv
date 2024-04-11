@@ -33,7 +33,11 @@ bool peconv::setup_exceptions(IN BYTE* modulePtr, IN size_t moduleSize)
     for (i = 0; i < except_max_count; i++) {
         RUNTIME_FUNCTION next_func = exceptions_list[i];
         BYTE* start_ptr = next_func.BeginAddress + modulePtr;
+#if defined(_M_AMD64)
         size_t func_size = next_func.EndAddress - next_func.BeginAddress;
+#elif defined(_M_ARM64)
+        size_t func_size = next_func.FunctionLength;
+#endif
         if (!validate_ptr(modulePtr, moduleSize, start_ptr, func_size)) {
             break;
         }

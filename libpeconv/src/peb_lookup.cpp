@@ -1,5 +1,7 @@
 #include "ntddk.h"
-
+#ifdef _DEBUG
+#include <iostream>
+#endif
 #include <peconv/peb_lookup.h>
 
 class SectionLocker {
@@ -40,8 +42,14 @@ typedef struct _LDR_MODULE {
 
 inline PPEB get_peb()
 {
-#if defined(_WIN64)
+#if defined(_M_AMD64)
     return (PPEB)__readgsqword(0x60);
+#elif defined(_M_ARM64)
+    PPEB peb = (PPEB)(*(__getReg(18) + 0x60));
+    #ifdef _DEBUG
+    std::cout << "[+] ARM64 TEB: " << __getReg(18) << " PEB: " <<  peb << "\n";
+    #endif
+    return peb;
 #else
     return (PPEB)__readfsdword(0x30);
 /*
