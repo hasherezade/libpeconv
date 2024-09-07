@@ -58,7 +58,10 @@ bool peconv::dump_pe(
             unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)start_addr, out_size, false);
         }
         else if (dump_mode == peconv::PE_DUMP_REALIGN) {
-            unmapped_module = peconv::pe_realign_raw_to_virtual(buffer, mod_size, (ULONGLONG)start_addr, out_size);
+            // relocate to the original base
+            const ULONGLONG hdr_base = peconv::get_image_base(buffer);
+            peconv::update_image_base(buffer, (ULONGLONG)start_addr);
+            unmapped_module = peconv::pe_realign_raw_to_virtual(buffer, mod_size, (ULONGLONG)hdr_base, out_size);
         }
         // unmap the PE file (convert from the Virtual Format into Raw Format)
         if (unmapped_module) {
