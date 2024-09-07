@@ -1,16 +1,5 @@
 <map id="peconv::read_remote_memory" name="peconv::read_remote_memory">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,147,64"/>
-<area shape="rect" id="Node000002" href="$namespacepeconv.html#ab650ce67e446fe3ece6ced8fe56a912f" title=" " alt="" coords="195,5,396,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,33,179,29,179,34,147,38"/>
-<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="444,31,583,56"/>
-<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="147,41,428,41,428,46,147,46"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="397,27,429,31,429,36,396,33"/>
-<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="631,5,827,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="583,41,664,31,665,37,584,46"/>
-<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="875,31,1011,56"/>
-<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="584,41,859,41,859,46,584,46"/>
-<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="652,106,806,147"/>
-<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="551,54,661,97,659,102,549,59"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="631,23,578,30,578,25,631,18"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="828,27,859,31,859,36,827,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,147,46"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#ab650ce67e446fe3ece6ced8fe56a912f" title=" " alt="" coords="195,13,396,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,23,179,23,179,28,147,28"/>
 </map>

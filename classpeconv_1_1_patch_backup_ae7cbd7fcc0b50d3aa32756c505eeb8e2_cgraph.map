@@ -1,15 +1,5 @@
 <map id="peconv::PatchBackup::makeBackup" name="peconv::PatchBackup::makeBackup">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,153,75"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,153,46"/>
 <area shape="rect" id="Node000002" href="$classpeconv_1_1_patch_backup.html#aaccf3b9f197d416432e2d692b588fc04" title=" " alt="" coords="201,5,348,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,41,185,36,186,42,154,47"/>
-<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="205,70,344,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,63,190,68,189,73,153,68"/>
-<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="396,45,591,71"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="344,81,427,71,428,76,345,86"/>
-<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="639,70,776,96"/>
-<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="344,80,624,80,624,86,344,86"/>
-<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="417,145,571,186"/>
-<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="312,94,425,137,423,142,310,99"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="396,63,340,70,339,65,395,57"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="592,67,624,70,623,76,592,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,23,185,23,185,28,153,28"/>
 </map>

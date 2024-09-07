@@ -1,14 +1,7 @@
 <map id="process_reloc_block" name="process_reloc_block">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,113,146,139"/>
-<area shape="rect" id="Node000002" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="194,56,333,82"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,110,204,84,205,89,121,115"/>
-<area shape="rect" id="Node000004" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="624,56,761,82"/>
-<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="120,137,206,158,321,177,384,181,449,180,514,172,575,156,602,143,628,127,668,91,672,95,631,131,605,148,577,161,514,177,449,185,384,186,320,182,205,164,119,142"/>
-<area shape="rect" id="Node000003" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="381,5,576,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="332,58,433,33,434,39,334,64"/>
-<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="334,66,609,66,609,71,334,71"/>
-<area shape="rect" id="Node000005" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="402,106,556,146"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="315,80,387,99,386,104,314,85"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="384,34,309,54,307,49,383,29"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="537,29,621,49,620,54,535,34"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,146,68"/>
+<area shape="rect" id="Node000002" href="$classpeconv_1_1_reloc_block_callback.html#ac5f7dfc42d843ee4c369afad0f8b0f8f" title=" " alt="" coords="194,5,379,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,43,177,38,178,43,147,48"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="218,70,354,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="147,62,203,69,203,75,146,67"/>
 </map>

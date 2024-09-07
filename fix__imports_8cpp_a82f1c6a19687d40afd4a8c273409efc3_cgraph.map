@@ -1,15 +1,5 @@
 <map id="get_all_dlls_exporting_function" name="get_all_dlls_exporting_function">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,151,75"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,151,46"/>
 <area shape="rect" id="Node000002" href="$classpeconv_1_1_exports_mapper.html#acd3da76f6e3a129ac3bb1d0b0214da45" title=" " alt="" coords="199,5,354,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,42,183,37,184,42,151,47"/>
-<area shape="rect" id="Node000003" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="207,70,346,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,63,192,68,191,74,151,68"/>
-<area shape="rect" id="Node000004" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="402,45,597,71"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="346,81,433,71,433,76,347,86"/>
-<area shape="rect" id="Node000005" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="645,70,782,96"/>
-<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="347,80,629,80,629,86,347,86"/>
-<area shape="rect" id="Node000006" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="423,145,577,186"/>
-<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="315,94,429,137,427,142,313,99"/>
-<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="402,62,343,70,342,65,401,57"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="598,67,630,70,629,76,598,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,23,183,23,183,28,151,28"/>
 </map>

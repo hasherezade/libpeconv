@@ -1,18 +1,8 @@
 <map id="parse_resource_entry" name="parse_resource_entry">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,107,151,132"/>
-<area shape="rect" id="Node000002" href="$delayed__imports__loader_8cpp.html#aff1f2d4d14e511192d1deaedecd70558" title=" " alt="" coords="378,56,517,82"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,103,198,92,362,72,363,78,199,97,137,109"/>
-<area shape="rect" id="Node000004" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="809,56,945,82"/>
-<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="123,130,237,159,313,173,397,184,487,191,580,189,671,178,760,156,787,143,812,127,852,91,856,95,815,131,789,148,762,161,672,184,580,195,487,196,397,190,312,178,236,164,122,136"/>
-<area shape="rect" id="Node000006" href="$resource__parser_8cpp.html#aa8cc2300e2c0aa30b4c3b465fc3306cb" title=" " alt="" coords="199,107,330,132"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="151,126,183,126,183,131,151,131"/>
-<area shape="rect" id="Node000003" href="$namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90" title=" " alt="" coords="565,5,761,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="517,58,617,33,618,39,518,64"/>
-<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="518,66,793,66,793,72,518,72"/>
-<area shape="rect" id="Node000005" href="$classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a" title=" " alt="" coords="586,106,740,147"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="500,80,571,99,570,104,498,85"/>
-<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="568,34,493,54,492,49,567,29"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="721,29,805,49,804,54,720,34"/>
-<area shape="poly" id="edge9_Node000006_Node000001" title=" " alt="" coords="199,114,166,113,166,108,199,108"/>
-<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="313,103,383,84,385,89,314,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,151,31"/>
+<area shape="rect" id="Node000002" href="$resource__parser_8cpp.html#aa8cc2300e2c0aa30b4c3b465fc3306cb" title=" " alt="" coords="201,5,332,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,24,186,24,186,30,151,30"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="199,55,335,80"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="131,29,201,48,199,53,130,34"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="201,12,166,12,166,7,201,7"/>
 </map>
