@@ -31,7 +31,7 @@ namespace peconv {
     }
 };
 
-BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate)
+BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate, ULONGLONG desired_base)
 {
     if (!peconv::get_nt_hdrs(dllRawData, r_size)) {
         return NULL;
@@ -39,8 +39,7 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
     if (peconv::get_sections_count(dllRawData, r_size) == 0) {
         return load_no_sec_pe(dllRawData, r_size, v_size, executable);
     }
-    // by default, allow to load the PE at any base:
-    ULONGLONG desired_base = NULL;
+    // by default, allow to load the PE at the supplied base
     // if relocating is required, but the PE has no relocation table...
     if (relocate && !has_relocations(dllRawData)) {
         // ...enforce loading the PE image at its default base (so that it will need no relocations)
@@ -62,7 +61,7 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
     return mappedDLL;
 }
 
-BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executable, bool relocate)
+BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executable, bool relocate, ULONGLONG desired_base)
 {
     size_t r_size = 0;
     BYTE *dllRawData = load_file(filename, r_size);
@@ -72,14 +71,14 @@ BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executab
 #endif
         return NULL;
     }
-    BYTE* mappedPE = load_pe_module(dllRawData, r_size, v_size, executable, relocate);
+    BYTE* mappedPE = load_pe_module(dllRawData, r_size, v_size, executable, relocate, desired_base);
     free_file(dllRawData);
     return mappedPE;
 }
 
-BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver)
+BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver, ULONGLONG desired_base)
 {
-    BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true);
+    BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true, desired_base);
     if (!loaded_pe) {
         std::cerr << "[-] Loading failed!\n";
         return NULL;
