@@ -353,14 +353,14 @@ Functions</h2></td></tr>
 <tr class="separator:ae868d124a8e0597ca7fa27adf77e2255"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfdae754cddaa01f3babd7ef20314859" id="r_adfdae754cddaa01f3babd7ef20314859"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfdae754cddaa01f3babd7ef20314859">is_valid_sectons_alignment</a> (IN const BYTE *buffer, IN const SIZE_T buffer_size, IN bool is_raw)</td></tr>
 <tr class="separator:adfdae754cddaa01f3babd7ef20314859"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65bf231f732012360a43195bb67fbaeb" id="r_a65bf231f732012360a43195bb67fbaeb"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65bf231f732012360a43195bb67fbaeb">load_pe_module</a> (BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, bool executable, bool relocate)</td></tr>
-<tr class="separator:a65bf231f732012360a43195bb67fbaeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e5aabba1ba4a48a321c9ccccf082cd5" id="r_a8e5aabba1ba4a48a321c9ccccf082cd5"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e5aabba1ba4a48a321c9ccccf082cd5">load_pe_module</a> (LPCTSTR filename, OUT size_t &amp;v_size, bool executable, bool relocate)</td></tr>
-<tr class="separator:a8e5aabba1ba4a48a321c9ccccf082cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f22b6dd1ca4236e35406211291c7d52" id="r_a1f22b6dd1ca4236e35406211291c7d52"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f22b6dd1ca4236e35406211291c7d52">load_pe_executable</a> (BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *import_resolver=NULL)</td></tr>
-<tr class="separator:a1f22b6dd1ca4236e35406211291c7d52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa04c96dfe68d1132d58182c640df845b" id="r_aa04c96dfe68d1132d58182c640df845b"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa04c96dfe68d1132d58182c640df845b">load_pe_executable</a> (LPCTSTR filename, OUT size_t &amp;v_size, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *import_resolver=NULL)</td></tr>
-<tr class="separator:aa04c96dfe68d1132d58182c640df845b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56414c3a478de2c62412a9719bc288f3" id="r_a56414c3a478de2c62412a9719bc288f3"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56414c3a478de2c62412a9719bc288f3">load_pe_module</a> (BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, bool executable, bool relocate, ULONGLONG desired_base=0)</td></tr>
+<tr class="separator:a56414c3a478de2c62412a9719bc288f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08cb543e3dfe330ccbdca4d5597ffd9e" id="r_a08cb543e3dfe330ccbdca4d5597ffd9e"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08cb543e3dfe330ccbdca4d5597ffd9e">load_pe_module</a> (LPCTSTR filename, OUT size_t &amp;v_size, bool executable, bool relocate, ULONGLONG desired_base=0)</td></tr>
+<tr class="separator:a08cb543e3dfe330ccbdca4d5597ffd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9188ac7453ec3be9af39b5141954cd9f" id="r_a9188ac7453ec3be9af39b5141954cd9f"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9188ac7453ec3be9af39b5141954cd9f">load_pe_executable</a> (BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *import_resolver=nullptr, ULONGLONG desired_base=0)</td></tr>
+<tr class="separator:a9188ac7453ec3be9af39b5141954cd9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cf122f43c3a45620d8112b5b4098bbb" id="r_a6cf122f43c3a45620d8112b5b4098bbb"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6cf122f43c3a45620d8112b5b4098bbb">load_pe_executable</a> (LPCTSTR filename, OUT size_t &amp;v_size, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *import_resolver=nullptr)</td></tr>
+<tr class="separator:a6cf122f43c3a45620d8112b5b4098bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3046d1cdda885f782e5ef1497123a515" id="r_a3046d1cdda885f782e5ef1497123a515"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3046d1cdda885f782e5ef1497123a515">is_pe_raw</a> (IN const BYTE *pe_buffer, IN size_t pe_size)</td></tr>
 <tr class="separator:a3046d1cdda885f782e5ef1497123a515"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf10a852b5e7a96b643148eb9ee00827" id="r_aaf10a852b5e7a96b643148eb9ee00827"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf10a852b5e7a96b643148eb9ee00827">is_pe_raw_eq_virtual</a> (IN const BYTE *pe_buffer, IN size_t pe_size)</td></tr>
@@ -5786,8 +5786,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a1f22b6dd1ca4236e35406211291c7d52" name="a1f22b6dd1ca4236e35406211291c7d52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f22b6dd1ca4236e35406211291c7d52">&#9670;&#160;</a></span>load_pe_executable() <span class="overload">[1/2]</span></h2>
+<a id="a9188ac7453ec3be9af39b5141954cd9f" name="a9188ac7453ec3be9af39b5141954cd9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9188ac7453ec3be9af39b5141954cd9f">&#9670;&#160;</a></span>load_pe_executable() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5810,18 +5810,23 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *</td>          <td class="paramname"><span class="paramname"><em>import_resolver</em></span><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *</td>          <td class="paramname"><span class="paramname"><em>import_resolver</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ULONGLONG</td>          <td class="paramname"><span class="paramname"><em>desired_base</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Loads full PE from the raw buffer in a way in which it can be directly executed: remaps to virual format, applies relocations, loads imports. Allows for supplying custom function resolver. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__loader_8cpp_source.html#l00080">80</a> of file <a class="el" href="pe__loader_8cpp_source.html">pe_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__loader_8cpp_source.html#l00079">79</a> of file <a class="el" href="pe__loader_8cpp_source.html">pe_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_a1f22b6dd1ca4236e35406211291c7d52_cgraph.png" border="0" usemap="#anamespacepeconv_a1f22b6dd1ca4236e35406211291c7d52_cgraph" alt=""/></div>
-<map name="anamespacepeconv_a1f22b6dd1ca4236e35406211291c7d52_cgraph" id="anamespacepeconv_a1f22b6dd1ca4236e35406211291c7d52_cgraph">
+<div class="center"><img src="namespacepeconv_a9188ac7453ec3be9af39b5141954cd9f_cgraph.png" border="0" usemap="#anamespacepeconv_a9188ac7453ec3be9af39b5141954cd9f_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a9188ac7453ec3be9af39b5141954cd9f_cgraph" id="anamespacepeconv_a9188ac7453ec3be9af39b5141954cd9f_cgraph">
 <area shape="rect" title=" " alt="" coords="5,439,189,465"/>
 <area shape="rect" href="namespacepeconv.html#a839f04fa06f311e3270a4305421ad35f" title=" " alt="" coords="454,414,606,440"/>
 <area shape="poly" title=" " alt="" coords="189,444,439,430,439,435,189,450"/>
@@ -5829,7 +5834,7 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="129,436,896,111,898,116,131,441"/>
 <area shape="rect" href="namespacepeconv.html#af1c15af4855b4953de9e7b0001c67e49" title=" " alt="" coords="458,465,602,490"/>
 <area shape="poly" title=" " alt="" coords="189,455,443,470,443,475,189,460"/>
-<area shape="rect" href="namespacepeconv.html#a65bf231f732012360a43195bb67fbaeb" title=" " alt="" coords="237,706,400,732"/>
+<area shape="rect" href="namespacepeconv.html#a56414c3a478de2c62412a9719bc288f3" title=" " alt="" coords="237,706,400,732"/>
 <area shape="poly" title=" " alt="" coords="111,464,299,692,294,696,107,467"/>
 <area shape="rect" href="namespacepeconv.html#a0e37c28aa6d21070a623054c52126531" title=" " alt="" coords="672,350,812,376"/>
 <area shape="poly" title=" " alt="" coords="575,411,682,378,683,383,576,416"/>
@@ -5939,8 +5944,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="aa04c96dfe68d1132d58182c640df845b" name="aa04c96dfe68d1132d58182c640df845b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa04c96dfe68d1132d58182c640df845b">&#9670;&#160;</a></span>load_pe_executable() <span class="overload">[2/2]</span></h2>
+<a id="a6cf122f43c3a45620d8112b5b4098bbb" name="a6cf122f43c3a45620d8112b5b4098bbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cf122f43c3a45620d8112b5b4098bbb">&#9670;&#160;</a></span>load_pe_executable() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5958,24 +5963,24 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *</td>          <td class="paramname"><span class="paramname"><em>import_resolver</em></span><span class="paramdefsep"> = </span><span class="paramdefval">NULL</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *</td>          <td class="paramname"><span class="paramname"><em>import_resolver</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Loads full PE from file in a way in which it can be directly executed: remaps to virtual format, applies relocations, loads imports. Allows for supplying custom function resolver. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__loader_8cpp_source.html#l00104">104</a> of file <a class="el" href="pe__loader_8cpp_source.html">pe_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__loader_8cpp_source.html#l00103">103</a> of file <a class="el" href="pe__loader_8cpp_source.html">pe_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_aa04c96dfe68d1132d58182c640df845b_cgraph.png" border="0" usemap="#anamespacepeconv_aa04c96dfe68d1132d58182c640df845b_cgraph" alt=""/></div>
-<map name="anamespacepeconv_aa04c96dfe68d1132d58182c640df845b_cgraph" id="anamespacepeconv_aa04c96dfe68d1132d58182c640df845b_cgraph">
+<div class="center"><img src="namespacepeconv_a6cf122f43c3a45620d8112b5b4098bbb_cgraph.png" border="0" usemap="#anamespacepeconv_a6cf122f43c3a45620d8112b5b4098bbb_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a6cf122f43c3a45620d8112b5b4098bbb_cgraph" id="anamespacepeconv_a6cf122f43c3a45620d8112b5b4098bbb_cgraph">
 <area shape="rect" title=" " alt="" coords="5,386,189,411"/>
 <area shape="rect" href="namespacepeconv.html#a839f04fa06f311e3270a4305421ad35f" title=" " alt="" coords="454,335,606,361"/>
 <area shape="poly" title=" " alt="" coords="188,382,236,376,439,354,440,359,237,381,188,388"/>
 <area shape="rect" href="namespacepeconv.html#af1c15af4855b4953de9e7b0001c67e49" title=" " alt="" coords="458,384,602,410"/>
 <area shape="poly" title=" " alt="" coords="189,396,443,395,443,400,189,401"/>
-<area shape="rect" href="namespacepeconv.html#a65bf231f732012360a43195bb67fbaeb" title=" " alt="" coords="237,612,400,638"/>
+<area shape="rect" href="namespacepeconv.html#a56414c3a478de2c62412a9719bc288f3" title=" " alt="" coords="237,612,400,638"/>
 <area shape="poly" title=" " alt="" coords="113,410,296,599,292,603,109,413"/>
 <area shape="rect" href="namespacepeconv.html#a0e37c28aa6d21070a623054c52126531" title=" " alt="" coords="672,244,812,270"/>
 <area shape="poly" title=" " alt="" coords="554,332,602,307,659,280,678,273,680,278,661,285,604,311,556,337"/>
@@ -6082,8 +6087,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a65bf231f732012360a43195bb67fbaeb" name="a65bf231f732012360a43195bb67fbaeb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65bf231f732012360a43195bb67fbaeb">&#9670;&#160;</a></span>load_pe_module() <span class="overload">[1/2]</span></h2>
+<a id="a56414c3a478de2c62412a9719bc288f3" name="a56414c3a478de2c62412a9719bc288f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56414c3a478de2c62412a9719bc288f3">&#9670;&#160;</a></span>load_pe_module() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6111,7 +6116,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>relocate</em></span>&#160;)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>relocate</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ULONGLONG</td>          <td class="paramname"><span class="paramname"><em>desired_base</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -6121,8 +6131,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_a65bf231f732012360a43195bb67fbaeb_cgraph.png" border="0" usemap="#anamespacepeconv_a65bf231f732012360a43195bb67fbaeb_cgraph" alt=""/></div>
-<map name="anamespacepeconv_a65bf231f732012360a43195bb67fbaeb_cgraph" id="anamespacepeconv_a65bf231f732012360a43195bb67fbaeb_cgraph">
+<div class="center"><img src="namespacepeconv_a56414c3a478de2c62412a9719bc288f3_cgraph.png" border="0" usemap="#anamespacepeconv_a56414c3a478de2c62412a9719bc288f3_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a56414c3a478de2c62412a9719bc288f3_cgraph" id="anamespacepeconv_a56414c3a478de2c62412a9719bc288f3_cgraph">
 <area shape="rect" title=" " alt="" coords="5,530,169,555"/>
 <area shape="rect" href="namespacepeconv.html#a839f04fa06f311e3270a4305421ad35f" title=" " alt="" coords="223,230,374,255"/>
 <area shape="poly" title=" " alt="" coords="95,528,277,267,282,270,100,531"/>
@@ -6213,8 +6223,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a8e5aabba1ba4a48a321c9ccccf082cd5" name="a8e5aabba1ba4a48a321c9ccccf082cd5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e5aabba1ba4a48a321c9ccccf082cd5">&#9670;&#160;</a></span>load_pe_module() <span class="overload">[2/2]</span></h2>
+<a id="a08cb543e3dfe330ccbdca4d5597ffd9e" name="a08cb543e3dfe330ccbdca4d5597ffd9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08cb543e3dfe330ccbdca4d5597ffd9e">&#9670;&#160;</a></span>load_pe_module() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6237,24 +6247,29 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>relocate</em></span>&#160;)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>relocate</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ULONGLONG</td>          <td class="paramname"><span class="paramname"><em>desired_base</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <p>Reads PE from the given file into memory and maps it into vitual format. (Automatic raw to virtual conversion). If the executable flag is true, the PE file is loaded into executable memory. If the relocate flag is true, applies relocations. Does not load imports. Automatically allocates buffer of the needed size (the size is returned in outputSize). The buffer can be freed by the function free_pe_buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="pe__loader_8cpp_source.html#l00065">65</a> of file <a class="el" href="pe__loader_8cpp_source.html">pe_loader.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="pe__loader_8cpp_source.html#l00064">64</a> of file <a class="el" href="pe__loader_8cpp_source.html">pe_loader.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_a8e5aabba1ba4a48a321c9ccccf082cd5_cgraph.png" border="0" usemap="#anamespacepeconv_a8e5aabba1ba4a48a321c9ccccf082cd5_cgraph" alt=""/></div>
-<map name="anamespacepeconv_a8e5aabba1ba4a48a321c9ccccf082cd5_cgraph" id="anamespacepeconv_a8e5aabba1ba4a48a321c9ccccf082cd5_cgraph">
+<div class="center"><img src="namespacepeconv_a08cb543e3dfe330ccbdca4d5597ffd9e_cgraph.png" border="0" usemap="#anamespacepeconv_a08cb543e3dfe330ccbdca4d5597ffd9e_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a08cb543e3dfe330ccbdca4d5597ffd9e_cgraph" id="anamespacepeconv_a08cb543e3dfe330ccbdca4d5597ffd9e_cgraph">
 <area shape="rect" title=" " alt="" coords="5,93,169,119"/>
 <area shape="rect" href="namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842" title=" " alt="" coords="241,19,356,44"/>
 <area shape="poly" title=" " alt="" coords="125,90,244,48,246,53,127,95"/>
 <area shape="rect" href="namespacepeconv.html#a245487a080f79725e2fb61c21045ea7b" title=" " alt="" coords="240,93,356,119"/>
 <area shape="poly" title=" " alt="" coords="169,104,224,104,224,109,169,109"/>
-<area shape="rect" href="namespacepeconv.html#a65bf231f732012360a43195bb67fbaeb" title=" " alt="" coords="217,469,380,495"/>
+<area shape="rect" href="namespacepeconv.html#a56414c3a478de2c62412a9719bc288f3" title=" " alt="" coords="217,469,380,495"/>
 <area shape="poly" title=" " alt="" coords="98,118,285,454,280,457,93,121"/>
 <area shape="rect" href="namespacepeconv.html#afdb790b678572d608be3675ced9b777a" title=" " alt="" coords="434,5,587,31"/>
 <area shape="poly" title=" " alt="" coords="356,25,418,21,418,27,356,31"/>
@@ -8596,7 +8611,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Sep 7 2024 00:22:53 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Tue Oct 22 2024 00:42:43 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

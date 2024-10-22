@@ -110,14 +110,14 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a65bf231f732012360a43195bb67fbaeb" id="r_a65bf231f732012360a43195bb67fbaeb"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a65bf231f732012360a43195bb67fbaeb">peconv::load_pe_module</a> (BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, bool executable, bool relocate)</td></tr>
-<tr class="separator:a65bf231f732012360a43195bb67fbaeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e5aabba1ba4a48a321c9ccccf082cd5" id="r_a8e5aabba1ba4a48a321c9ccccf082cd5"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a8e5aabba1ba4a48a321c9ccccf082cd5">peconv::load_pe_module</a> (LPCTSTR filename, OUT size_t &amp;v_size, bool executable, bool relocate)</td></tr>
-<tr class="separator:a8e5aabba1ba4a48a321c9ccccf082cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f22b6dd1ca4236e35406211291c7d52" id="r_a1f22b6dd1ca4236e35406211291c7d52"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a1f22b6dd1ca4236e35406211291c7d52">peconv::load_pe_executable</a> (BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *import_resolver=NULL)</td></tr>
-<tr class="separator:a1f22b6dd1ca4236e35406211291c7d52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa04c96dfe68d1132d58182c640df845b" id="r_aa04c96dfe68d1132d58182c640df845b"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aa04c96dfe68d1132d58182c640df845b">peconv::load_pe_executable</a> (LPCTSTR filename, OUT size_t &amp;v_size, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *import_resolver=NULL)</td></tr>
-<tr class="separator:aa04c96dfe68d1132d58182c640df845b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56414c3a478de2c62412a9719bc288f3" id="r_a56414c3a478de2c62412a9719bc288f3"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a56414c3a478de2c62412a9719bc288f3">peconv::load_pe_module</a> (BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, bool executable, bool relocate, ULONGLONG desired_base=0)</td></tr>
+<tr class="separator:a56414c3a478de2c62412a9719bc288f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08cb543e3dfe330ccbdca4d5597ffd9e" id="r_a08cb543e3dfe330ccbdca4d5597ffd9e"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a08cb543e3dfe330ccbdca4d5597ffd9e">peconv::load_pe_module</a> (LPCTSTR filename, OUT size_t &amp;v_size, bool executable, bool relocate, ULONGLONG desired_base=0)</td></tr>
+<tr class="separator:a08cb543e3dfe330ccbdca4d5597ffd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9188ac7453ec3be9af39b5141954cd9f" id="r_a9188ac7453ec3be9af39b5141954cd9f"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a9188ac7453ec3be9af39b5141954cd9f">peconv::load_pe_executable</a> (BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *import_resolver=nullptr, ULONGLONG desired_base=0)</td></tr>
+<tr class="separator:a9188ac7453ec3be9af39b5141954cd9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cf122f43c3a45620d8112b5b4098bbb" id="r_a6cf122f43c3a45620d8112b5b4098bbb"><td class="memItemLeft" align="right" valign="top">BYTE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a6cf122f43c3a45620d8112b5b4098bbb">peconv::load_pe_executable</a> (LPCTSTR filename, OUT size_t &amp;v_size, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *import_resolver=nullptr)</td></tr>
+<tr class="separator:a6cf122f43c3a45620d8112b5b4098bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Loading PE from a file with the help of the custom loader. </p>
@@ -126,7 +126,7 @@ Functions</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Sep 7 2024 00:22:53 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Tue Oct 22 2024 00:42:43 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>
