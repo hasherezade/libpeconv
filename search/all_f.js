@@ -33,8 +33,9 @@ var searchData=
   ['resource_5fparser_2eh_30',['resource_parser.h',['../resource__parser_8h.html',1,'']]],
   ['resource_5futil_2ecpp_31',['resource_util.cpp',['../resource__util_8cpp.html',1,'']]],
   ['resource_5futil_2eh_32',['resource_util.h',['../resource__util_8h.html',1,'']]],
-  ['roundup_5fto_5funit_33',['roundup_to_unit',['../namespacepeconv.html#a948c3b100c0f089152fe09a870769215',1,'peconv']]],
-  ['rt_5frcdata_5fa_34',['RT_RCDATA_A',['../namespacepeconv.html#af8a1e1c9f135f6fe168fc358a772e729',1,'peconv']]],
-  ['run_5ftls_5fcallbacks_35',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]],
-  ['rvabased_36',['RvaBased',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ae09d0c654249e95a2473a3c4e84f7ab9',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
+  ['round_5fup_5fto_5funit_33',['round_up_to_unit',['../namespacepeconv.html#aa23826a6fbe891dc3ee7fec6671d5cce',1,'peconv']]],
+  ['roundup_5fto_5funit_34',['roundup_to_unit',['../namespacepeconv.html#a948c3b100c0f089152fe09a870769215',1,'peconv']]],
+  ['rt_5frcdata_5fa_35',['RT_RCDATA_A',['../namespacepeconv.html#af8a1e1c9f135f6fe168fc358a772e729',1,'peconv']]],
+  ['run_5ftls_5fcallbacks_36',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]],
+  ['rvabased_37',['RvaBased',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ae09d0c654249e95a2473a3c4e84f7ab9',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
 ];
