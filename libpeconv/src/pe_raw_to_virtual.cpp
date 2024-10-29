@@ -64,10 +64,15 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
             std::cerr << "[-] Raw section size is out ouf bounds: " << std::hex << sec_size << std::endl;
             return false;
         }
+
         // validate source:
         if (!validate_ptr((const LPVOID)payload, payloadSize, section_raw_ptr, sec_size)) {
-            std::cerr << "[-] Section " << i << ":  out ouf bounds, skipping... " << std::endl;
-            continue;
+            if (next_sec->PointerToRawData > payloadSize) {
+                std::cerr << "[-] Section " << i << ":  out ouf bounds, skipping... " << std::endl;
+                continue;
+            }
+            // trim section
+            sec_size = payloadSize - (next_sec->PointerToRawData);
         }
         // validate destination:
         if (!peconv::validate_ptr(destBuffer, destBufferSize, section_mapped, sec_size)) {
@@ -110,7 +115,7 @@ BYTE* peconv::pe_raw_to_virtual(
     }
     DWORD payloadImageSize = 0;
 
-    bool is64 = is64bit(payload);
+    const bool is64 = is64bit(payload);
     if (is64) {
         IMAGE_NT_HEADERS64* payload_nt_hdr = (IMAGE_NT_HEADERS64*)nt_hdr;
         payloadImageSize = payload_nt_hdr->OptionalHeader.SizeOfImage;
@@ -119,9 +124,9 @@ BYTE* peconv::pe_raw_to_virtual(
         IMAGE_NT_HEADERS32* payload_nt_hdr = (IMAGE_NT_HEADERS32*)nt_hdr;
         payloadImageSize = payload_nt_hdr->OptionalHeader.SizeOfImage;
     }
+    payloadImageSize = peconv::round_up_to_unit(payloadImageSize, (DWORD)PAGE_SIZE);
 
     DWORD protect = executable ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
-
     //first we will prepare the payload image in the local memory, so that it will be easier to edit it, apply relocations etc.
     //when it will be ready, we will copy it into the space reserved in the target process
     BYTE* localCopyAddress = alloc_pe_buffer(payloadImageSize, protect, desired_base);

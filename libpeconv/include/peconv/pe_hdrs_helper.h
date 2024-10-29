@@ -18,6 +18,20 @@ namespace peconv {
     */
     const ULONGLONG MAX_HEADER_SIZE = PAGE_SIZE;
 
+    template <typename INT_TYPE>
+    INT_TYPE round_up_to_unit(const INT_TYPE size, const INT_TYPE unit)
+    {
+        if (unit == 0) {
+            return size;
+        }
+        INT_TYPE units_count = size / unit;
+        INT_TYPE rounded_size = units_count * unit;
+        if (rounded_size < size) {
+            rounded_size += unit;
+        }
+        return rounded_size;
+    }
+
     /**
     Fetch image size from headers.
     */
