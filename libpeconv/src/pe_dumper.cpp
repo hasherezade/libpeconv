@@ -6,7 +6,6 @@
 #include "peconv/file_util.h"
 #include "peconv/pe_mode_detector.h"
 #include "fix_dot_net_ep.h"
-
 #include <iostream>
 
 using namespace peconv;
@@ -55,15 +54,17 @@ bool peconv::dump_pe(
             fix_dot_net_ep(buffer, mod_size);
         }
         const ULONGLONG hdr_base = peconv::get_image_base(buffer);
-        if (dump_mode != peconv::PE_DUMP_VIRTUAL) {
-            // relocate to the original base
+        ULONGLONG target_base = start_addr;
+        if (dump_mode != peconv::PE_DUMP_VIRTUAL && peconv::has_relocations(buffer)) {
+            // enforce relocation to the original base
+            target_base = hdr_base;
             peconv::update_image_base(buffer, (ULONGLONG)start_addr);
         }
         if (dump_mode == peconv::PE_DUMP_UNMAP) {
-            unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)hdr_base, out_size, false);
+            unmapped_module = pe_virtual_to_raw(buffer, mod_size, (ULONGLONG)target_base, out_size, false);
         }
         else if (dump_mode == peconv::PE_DUMP_REALIGN) {
-            unmapped_module = peconv::pe_realign_raw_to_virtual(buffer, mod_size, (ULONGLONG)hdr_base, out_size);
+            unmapped_module = peconv::pe_realign_raw_to_virtual(buffer, mod_size, (ULONGLONG)target_base, out_size);
         }
         // unmap the PE file (convert from the Virtual Format into Raw Format)
         if (unmapped_module) {
