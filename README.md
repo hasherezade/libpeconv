@@ -19,6 +19,8 @@ LibPeConv can be used for creating PE binders, as it allows to load a PE directl
 
 As well it can help you in dumping PEs from the memory, and rebuilding their IATs.
 
+WARNING: applications that use [MUI are not supported](https://github.com/hasherezade/libpeconv/issues/44).
+
 ### Basic example
 
 *The simplest usecase*: use libPeConv to manually load and run an EXE of you choice.
