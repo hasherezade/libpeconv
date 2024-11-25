@@ -97,6 +97,7 @@ $(function(){ initResizable(false); });
 <p>Not only it allows for loading PE files, but also for customizing of some steps, i.e. IAT hooking (by providing custom IAT resolvers), and functions redirection. Yet, it is NOT focused on inline hooking and should not be confused with libraries such as MS Detours or MinHook.</p>
 <p>LibPeConv can be used for creating PE binders, as it allows to load a PE directly from the resource, and integrate it as if it was a local code.</p>
 <p>As well it can help you in dumping PEs from the memory, and rebuilding their IATs.</p>
+<p>WARNING: applications that use <a href="https://github.com/hasherezade/libpeconv/issues/44">MUI are not supported</a>.</p>
 <h2>Basic example</h2>
 <p><em>The simplest usecase</em>: use libPeConv to manually load and run an EXE of you choice.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
@@ -171,7 +172,7 @@ $(function(){ initResizable(false); });
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 2 2024 22:08:24 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Mon Nov 25 2024 21:37:51 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>
