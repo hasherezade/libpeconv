@@ -9,7 +9,6 @@ using namespace peconv;
 
 int tests::test_load_with_exception_table(LPCTSTR path)
 {
-#ifdef _WIN64
     if (path == NULL) {
         std::cerr << "Supply the path to the app" << std::endl;
         return -1;
@@ -43,6 +42,5 @@ int tests::test_load_with_exception_table(LPCTSTR path)
         std::wcout << "Exception captured by the caller" << std::endl;
     }
     peconv::free_pe_buffer(loaded_pe, v_size);
-#endif
     return 0;
 }
