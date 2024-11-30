@@ -3,3 +3,4 @@ docs
 .vs
 out
 *.aps
+/CMakeSettings.json
