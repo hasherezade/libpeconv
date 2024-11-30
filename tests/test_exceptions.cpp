@@ -9,7 +9,6 @@ using namespace peconv;
 
 int tests::test_load_with_exception_table(LPCTSTR path)
 {
-#ifdef _WIN64
     if (path == NULL) {
         std::cerr << "Supply the path to the app" << std::endl;
         return -1;
@@ -35,7 +34,7 @@ int tests::test_load_with_exception_table(LPCTSTR path)
         peconv::run_tls_callbacks(loaded_pe, v_size);
 
         ULONGLONG ep_exp_offset = (ULONGLONG)loaded_pe + peconv::get_entry_point_rva(loaded_pe);
-        void(_cdecl *ep_func)() = (void(_cdecl *)()) (ep_exp_offset);
+        void(_cdecl * ep_func)() = (void(_cdecl*)()) (ep_exp_offset);
         std::wcout << "Calling entry point:" << std::endl;
         ep_func();
     }
@@ -43,6 +42,5 @@ int tests::test_load_with_exception_table(LPCTSTR path)
         std::wcout << "Exception captured by the caller" << std::endl;
     }
     peconv::free_pe_buffer(loaded_pe, v_size);
-#endif
     return 0;
 }
