@@ -9,5 +9,13 @@ var searchData=
   ['_5fimage_5fload_5fconfig_5fdir64_5fw10_6',['_IMAGE_LOAD_CONFIG_DIR64_W10',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html',1,'peconv']]],
   ['_5fimage_5fload_5fconfig_5fdir64_5fw7_7',['_IMAGE_LOAD_CONFIG_DIR64_W7',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w7.html',1,'peconv']]],
   ['_5fimage_5fload_5fconfig_5fdir64_5fw8_8',['_IMAGE_LOAD_CONFIG_DIR64_W8',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w8.html',1,'peconv']]],
-  ['_5fldr_5fmodule_9',['_LDR_MODULE',['../struct___l_d_r___m_o_d_u_l_e.html',1,'']]]
+  ['_5fldr_5fdata_5ftable_5fentry_5fwin8_9',['_LDR_DATA_TABLE_ENTRY_WIN8',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html',1,'details']]],
+  ['_5fldr_5fddag_5fnode_5fwin8_10',['_LDR_DDAG_NODE_WIN8',['../structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html',1,'details']]],
+  ['_5fldr_5fmodule_11',['_LDR_MODULE',['../struct___l_d_r___m_o_d_u_l_e.html',1,'']]],
+  ['_5fntversion_12',['_NtVersion',['../structdetails_1_1___nt_version.html',1,'details']]],
+  ['_5frtl_5finverted_5ffunction_5ftable_5f64_13',['_RTL_INVERTED_FUNCTION_TABLE_64',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e__64.html',1,'details']]],
+  ['_5frtl_5finverted_5ffunction_5ftable_5fentry_5f64_14',['_RTL_INVERTED_FUNCTION_TABLE_ENTRY_64',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y__64.html',1,'details']]],
+  ['_5frtl_5finverted_5ffunction_5ftable_5fentry_5fwin7_5f32_15',['_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html',1,'details']]],
+  ['_5frtl_5finverted_5ffunction_5ftable_5fwin7_5f32_16',['_RTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___w_i_n7__32.html',1,'details']]],
+  ['_5fsearch_5fcontext_17',['_SEARCH_CONTEXT',['../structdetails_1_1___s_e_a_r_c_h___c_o_n_t_e_x_t.html',1,'details']]]
 ];

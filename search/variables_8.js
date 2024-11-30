@@ -1,12 +1,23 @@
 var searchData=
 [
-  ['importaddresstablerva_0',['ImportAddressTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a9413645cefe8b211394712da017d804e',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
-  ['importnametablerva_1',['ImportNameTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a99cbde6c5d2737f60329a78a296eec6a',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
-  ['ininitializationordermodulelist_2',['InInitializationOrderModuleList',['../struct___l_d_r___m_o_d_u_l_e.html#afa60b7b3ededc8a73d787b4a91293669',1,'_LDR_MODULE']]],
-  ['inloadordermodulelist_3',['InLoadOrderModuleList',['../struct___l_d_r___m_o_d_u_l_e.html#a1034b510d0307a0158f51e67c526cfda',1,'_LDR_MODULE']]],
-  ['inmemoryordermodulelist_4',['InMemoryOrderModuleList',['../struct___l_d_r___m_o_d_u_l_e.html#aa16b1120d4366b1311fa733830225bb2',1,'_LDR_MODULE']]],
-  ['is64_5',['is64',['../classpeconv_1_1_imports_uneraser.html#a9c7708c1a04f5cfac817b62a1bdd14d3',1,'peconv::ImportsUneraser']]],
-  ['is64b_6',['is64b',['../structpeconv_1_1_dll_info.html#aabde720ed16612d2c6667836aa7345c9',1,'peconv::DllInfo::is64b'],['../classpeconv_1_1_import_thunks_callback.html#a24c7bd6867753f01d3c66fd0e4192251',1,'peconv::ImportThunksCallback::is64b']]],
-  ['is64bit_7',['is64bit',['../classpeconv_1_1_reloc_block_callback.html#a923acb1a8bd23569338ed57e0167ffb4',1,'peconv::RelocBlockCallback']]],
-  ['isbyordinal_8',['isByOrdinal',['../classpeconv_1_1_exported_func.html#acdf2023a9e4c12283c29b6e9d7e52cef',1,'peconv::ExportedFunc']]]
+  ['imagebase_0',['ImageBase',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y__64.html#a3efda6992f3011970059fa4c154a5601',1,'details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_64::ImageBase'],['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html#a04e37603136384c1c895f4618d88d09a',1,'details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32::ImageBase']]],
+  ['imagedll_1',['ImageDll',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a176558a4461ad9c6cbf901c6a8deb5f1',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['imagesize_2',['ImageSize',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y__64.html#a163b641118348d6a9087dea56796f20f',1,'details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_64::ImageSize'],['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html#a587fd01146438db698961ab1266cdbc2',1,'details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32::ImageSize']]],
+  ['importaddresstablerva_3',['ImportAddressTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a9413645cefe8b211394712da017d804e',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
+  ['importnametablerva_4',['ImportNameTableRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a99cbde6c5d2737f60329a78a296eec6a',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
+  ['incomingdependencies_5',['IncomingDependencies',['../structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#a0fed1be1f27ba68d4089cceaf925cf55',1,'details::_LDR_DDAG_NODE_WIN8']]],
+  ['inexceptiontable_6',['InExceptionTable',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#aa016024e9cef7d5f9b1241fe339faa05',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['inindexes_7',['InIndexes',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#af8b91037af5a38bed4ae6b56d217d8ac',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['ininitializationorderlinks_8',['InInitializationOrderLinks',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a05b78a9599a9bd49a0ef0ed0859b9bf2',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['ininitializationordermodulelist_9',['InInitializationOrderModuleList',['../struct___l_d_r___m_o_d_u_l_e.html#afa60b7b3ededc8a73d787b4a91293669',1,'_LDR_MODULE']]],
+  ['inlegacylists_10',['InLegacyLists',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a77810b7f6551fc39b39c720d2efdeddf',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['inloadorderlinks_11',['InLoadOrderLinks',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a68e079f98326c161e0a9624a18d2a38d',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['inloadordermodulelist_12',['InLoadOrderModuleList',['../struct___l_d_r___m_o_d_u_l_e.html#a1034b510d0307a0158f51e67c526cfda',1,'_LDR_MODULE']]],
+  ['inmemoryorderlinks_13',['InMemoryOrderLinks',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#afe2b75a535e7a9e1b73fe7c3d469be2c',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['inmemoryordermodulelist_14',['InMemoryOrderModuleList',['../struct___l_d_r___m_o_d_u_l_e.html#aa16b1120d4366b1311fa733830225bb2',1,'_LDR_MODULE']]],
+  ['inprogresslinks_15',['InProgressLinks',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#acac83a7cfdabeafc2ab5c704f7b0ecdf',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['is64_16',['is64',['../classpeconv_1_1_imports_uneraser.html#a9c7708c1a04f5cfac817b62a1bdd14d3',1,'peconv::ImportsUneraser']]],
+  ['is64b_17',['is64b',['../structpeconv_1_1_dll_info.html#aabde720ed16612d2c6667836aa7345c9',1,'peconv::DllInfo::is64b'],['../classpeconv_1_1_import_thunks_callback.html#a24c7bd6867753f01d3c66fd0e4192251',1,'peconv::ImportThunksCallback::is64b']]],
+  ['is64bit_18',['is64bit',['../classpeconv_1_1_reloc_block_callback.html#a923acb1a8bd23569338ed57e0167ffb4',1,'peconv::RelocBlockCallback']]],
+  ['isbyordinal_19',['isByOrdinal',['../classpeconv_1_1_exported_func.html#acdf2023a9e4c12283c29b6e9d7e52cef',1,'peconv::ExportedFunc']]]
 ];

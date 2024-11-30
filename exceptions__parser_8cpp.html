@@ -89,17 +89,171 @@ $(function(){ initResizable(false); });
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle"><div class="title">exceptions_parser.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="exceptions__parser_8h_source.html">peconv/exceptions_parser.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pe__hdrs__helper_8h_source.html">peconv/pe_hdrs_helper.h</a>&quot;</code><br />
+<code>#include &quot;ntddk.h&quot;</code><br />
 </div>
 <p><a href="exceptions__parser_8cpp_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1___s_e_a_r_c_h___c_o_n_t_e_x_t.html">details::_SEARCH_CONTEXT</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1___nt_version.html">details::_NtVersion</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y__64.html">details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_64</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e__64.html">details::_RTL_INVERTED_FUNCTION_TABLE_64</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html">details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___w_i_n7__32.html">details::_RTL_INVERTED_FUNCTION_TABLE_WIN7_32</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html">details::_LDR_DDAG_NODE_WIN8</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html">details::_LDR_DATA_TABLE_ENTRY_WIN8</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html">details</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a01057430741d6e6e045593444299f820" id="r_a01057430741d6e6e045593444299f820"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01057430741d6e6e045593444299f820">RTL_VERIFY_FLAGS_MAJOR_VERSION</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a01057430741d6e6e045593444299f820"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b71d08b07a42ea352505949f1450ab3" id="r_a5b71d08b07a42ea352505949f1450ab3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b71d08b07a42ea352505949f1450ab3">RTL_VERIFY_FLAGS_MINOR_VERSION</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a5b71d08b07a42ea352505949f1450ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25b9de2e8d0b5e4eea6a7c072cbfa550" id="r_a25b9de2e8d0b5e4eea6a7c072cbfa550"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25b9de2e8d0b5e4eea6a7c072cbfa550">RTL_VERIFY_FLAGS_BUILD_NUMBERS</a>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a25b9de2e8d0b5e4eea6a7c072cbfa550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4622797023d28152c31e7ca01dc31f17" id="r_a4622797023d28152c31e7ca01dc31f17"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4622797023d28152c31e7ca01dc31f17">RTL_VERIFY_FLAGS_DEFAULT</a>&#160;&#160;&#160;<a class="el" href="#a01057430741d6e6e045593444299f820">RTL_VERIFY_FLAGS_MAJOR_VERSION</a>|<a class="el" href="#a5b71d08b07a42ea352505949f1450ab3">RTL_VERIFY_FLAGS_MINOR_VERSION</a>|<a class="el" href="#a25b9de2e8d0b5e4eea6a7c072cbfa550">RTL_VERIFY_FLAGS_BUILD_NUMBERS</a></td></tr>
+<tr class="separator:a4622797023d28152c31e7ca01dc31f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:af13eb90133f48a59320637e92f141dd8" id="r_af13eb90133f48a59320637e92f141dd8"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___s_e_a_r_c_h___c_o_n_t_e_x_t.html">details::_SEARCH_CONTEXT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#af13eb90133f48a59320637e92f141dd8">details::SEARCH_CONTEXT</a></td></tr>
+<tr class="separator:af13eb90133f48a59320637e92f141dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4165492c7f6d93ffd8cde2db65cf881d" id="r_a4165492c7f6d93ffd8cde2db65cf881d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___s_e_a_r_c_h___c_o_n_t_e_x_t.html">details::_SEARCH_CONTEXT</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a4165492c7f6d93ffd8cde2db65cf881d">details::PSEARCH_CONTEXT</a></td></tr>
+<tr class="separator:a4165492c7f6d93ffd8cde2db65cf881d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0ac640009535eda798fd68e20481950" id="r_af0ac640009535eda798fd68e20481950"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___nt_version.html">details::_NtVersion</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#af0ac640009535eda798fd68e20481950">details::NtVersion</a></td></tr>
+<tr class="separator:af0ac640009535eda798fd68e20481950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05fa064ce5fa6ef7e2de51215d3f2af7" id="r_a05fa064ce5fa6ef7e2de51215d3f2af7"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___nt_version.html">details::_NtVersion</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a05fa064ce5fa6ef7e2de51215d3f2af7">details::PNtVersion</a></td></tr>
+<tr class="separator:a05fa064ce5fa6ef7e2de51215d3f2af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac178823fe92759758f5f676cdb71df4f" id="r_ac178823fe92759758f5f676cdb71df4f"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y__64.html">details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#ac178823fe92759758f5f676cdb71df4f">details::RTL_INVERTED_FUNCTION_TABLE_ENTRY_64</a></td></tr>
+<tr class="separator:ac178823fe92759758f5f676cdb71df4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa847cfc99905f8cb0556e094bd2b5866" id="r_aa847cfc99905f8cb0556e094bd2b5866"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y__64.html">details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_64</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#aa847cfc99905f8cb0556e094bd2b5866">details::PRTL_INVERTED_FUNCTION_TABLE_ENTRY_64</a></td></tr>
+<tr class="separator:aa847cfc99905f8cb0556e094bd2b5866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d05ed3511f0c84f81cbe5ebc4bd1aa8" id="r_a8d05ed3511f0c84f81cbe5ebc4bd1aa8"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e__64.html">details::_RTL_INVERTED_FUNCTION_TABLE_64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a8d05ed3511f0c84f81cbe5ebc4bd1aa8">details::RTL_INVERTED_FUNCTION_TABLE_64</a></td></tr>
+<tr class="separator:a8d05ed3511f0c84f81cbe5ebc4bd1aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa077c8f7c545bfa8f62c10fb80beed" id="r_aafa077c8f7c545bfa8f62c10fb80beed"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e__64.html">details::_RTL_INVERTED_FUNCTION_TABLE_64</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#aafa077c8f7c545bfa8f62c10fb80beed">details::PRTL_INVERTED_FUNCTION_TABLE_64</a></td></tr>
+<tr class="separator:aafa077c8f7c545bfa8f62c10fb80beed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a393b80a69f3986b86b68cfe280fb3d" id="r_a7a393b80a69f3986b86b68cfe280fb3d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html">details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a7a393b80a69f3986b86b68cfe280fb3d">details::RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32</a></td></tr>
+<tr class="separator:a7a393b80a69f3986b86b68cfe280fb3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48dd2289bb47ac1784800e35a08ce9ee" id="r_a48dd2289bb47ac1784800e35a08ce9ee"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html">details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a48dd2289bb47ac1784800e35a08ce9ee">details::PRTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32</a></td></tr>
+<tr class="separator:a48dd2289bb47ac1784800e35a08ce9ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21654e4aca03fea0149d5277fdba3fc0" id="r_a21654e4aca03fea0149d5277fdba3fc0"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___w_i_n7__32.html">details::_RTL_INVERTED_FUNCTION_TABLE_WIN7_32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a21654e4aca03fea0149d5277fdba3fc0">details::RTL_INVERTED_FUNCTION_TABLE_WIN7_32</a></td></tr>
+<tr class="separator:a21654e4aca03fea0149d5277fdba3fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4dda31124e5c23a9f5857f04eff36fd" id="r_ad4dda31124e5c23a9f5857f04eff36fd"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___w_i_n7__32.html">details::_RTL_INVERTED_FUNCTION_TABLE_WIN7_32</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#ad4dda31124e5c23a9f5857f04eff36fd">details::PRTL_INVERTED_FUNCTION_TABLE_WIN7_32</a></td></tr>
+<tr class="separator:ad4dda31124e5c23a9f5857f04eff36fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92b23df19318d05c24dd47611a46122f" id="r_a92b23df19318d05c24dd47611a46122f"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacedetails.html#a21654e4aca03fea0149d5277fdba3fc0">RTL_INVERTED_FUNCTION_TABLE_WIN7_32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a92b23df19318d05c24dd47611a46122f">details::_RTL_INVERTED_FUNCTION_TABLE</a></td></tr>
+<tr class="separator:a92b23df19318d05c24dd47611a46122f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a0339b25c178c76df3963e381115568" id="r_a0a0339b25c178c76df3963e381115568"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacedetails.html#a21654e4aca03fea0149d5277fdba3fc0">RTL_INVERTED_FUNCTION_TABLE_WIN7_32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a0a0339b25c178c76df3963e381115568">details::RTL_INVERTED_FUNCTION_TABLE</a></td></tr>
+<tr class="separator:a0a0339b25c178c76df3963e381115568"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37a054818ec6e1d69a9bbf7bfb2ab3f4" id="r_a37a054818ec6e1d69a9bbf7bfb2ab3f4"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespacedetails.html#a21654e4aca03fea0149d5277fdba3fc0">RTL_INVERTED_FUNCTION_TABLE_WIN7_32</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a37a054818ec6e1d69a9bbf7bfb2ab3f4">details::PRTL_INVERTED_FUNCTION_TABLE</a></td></tr>
+<tr class="separator:a37a054818ec6e1d69a9bbf7bfb2ab3f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac355166c90a3ec8defd33b05ada28f8f" id="r_ac355166c90a3ec8defd33b05ada28f8f"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html">_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#ac355166c90a3ec8defd33b05ada28f8f">details::_RTL_INVERTED_FUNCTION_TABLE_ENTRY</a></td></tr>
+<tr class="separator:ac355166c90a3ec8defd33b05ada28f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a201528d04a3fb4d0aa839c59a10c3c87" id="r_a201528d04a3fb4d0aa839c59a10c3c87"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html">_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a201528d04a3fb4d0aa839c59a10c3c87">details::RTL_INVERTED_FUNCTION_TABLE_ENTRY</a></td></tr>
+<tr class="separator:a201528d04a3fb4d0aa839c59a10c3c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8fefdbed86b2ff0e914ae0446611e2c" id="r_af8fefdbed86b2ff0e914ae0446611e2c"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html">_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#af8fefdbed86b2ff0e914ae0446611e2c">details::PRTL_INVERTED_FUNCTION_TABLE_ENTRY</a></td></tr>
+<tr class="separator:af8fefdbed86b2ff0e914ae0446611e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c279c494d8b7117202a2bd678f41c1d" id="r_a0c279c494d8b7117202a2bd678f41c1d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html">details::_LDR_DDAG_NODE_WIN8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a0c279c494d8b7117202a2bd678f41c1d">details::LDR_DDAG_NODE_WIN8</a></td></tr>
+<tr class="separator:a0c279c494d8b7117202a2bd678f41c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae696ad8bccea1b0ee31e4397022dc6c1" id="r_ae696ad8bccea1b0ee31e4397022dc6c1"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html">details::_LDR_DDAG_NODE_WIN8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#ae696ad8bccea1b0ee31e4397022dc6c1">details::PLDR_DDAG_NODE_WIN8</a></td></tr>
+<tr class="separator:ae696ad8bccea1b0ee31e4397022dc6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bfb342752d9af2aa7800a758e04703f" id="r_a0bfb342752d9af2aa7800a758e04703f"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html">details::_LDR_DATA_TABLE_ENTRY_WIN8</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a0bfb342752d9af2aa7800a758e04703f">details::LDR_DATA_TABLE_ENTRY_WIN8</a></td></tr>
+<tr class="separator:a0bfb342752d9af2aa7800a758e04703f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab96a7d65a1487a5b16c39878b81ab16d" id="r_ab96a7d65a1487a5b16c39878b81ab16d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html">details::_LDR_DATA_TABLE_ENTRY_WIN8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#ab96a7d65a1487a5b16c39878b81ab16d">details::PLDR_DATA_TABLE_ENTRY_WIN8</a></td></tr>
+<tr class="separator:ab96a7d65a1487a5b16c39878b81ab16d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a25b9de2e8d0b5e4eea6a7c072cbfa550" name="a25b9de2e8d0b5e4eea6a7c072cbfa550"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25b9de2e8d0b5e4eea6a7c072cbfa550">&#9670;&#160;</a></span>RTL_VERIFY_FLAGS_BUILD_NUMBERS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTL_VERIFY_FLAGS_BUILD_NUMBERS&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00013">13</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4622797023d28152c31e7ca01dc31f17" name="a4622797023d28152c31e7ca01dc31f17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4622797023d28152c31e7ca01dc31f17">&#9670;&#160;</a></span>RTL_VERIFY_FLAGS_DEFAULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTL_VERIFY_FLAGS_DEFAULT&#160;&#160;&#160;<a class="el" href="#a01057430741d6e6e045593444299f820">RTL_VERIFY_FLAGS_MAJOR_VERSION</a>|<a class="el" href="#a5b71d08b07a42ea352505949f1450ab3">RTL_VERIFY_FLAGS_MINOR_VERSION</a>|<a class="el" href="#a25b9de2e8d0b5e4eea6a7c072cbfa550">RTL_VERIFY_FLAGS_BUILD_NUMBERS</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00014">14</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a01057430741d6e6e045593444299f820" name="a01057430741d6e6e045593444299f820"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01057430741d6e6e045593444299f820">&#9670;&#160;</a></span>RTL_VERIFY_FLAGS_MAJOR_VERSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTL_VERIFY_FLAGS_MAJOR_VERSION&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00011">11</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a5b71d08b07a42ea352505949f1450ab3" name="a5b71d08b07a42ea352505949f1450ab3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b71d08b07a42ea352505949f1450ab3">&#9670;&#160;</a></span>RTL_VERIFY_FLAGS_MINOR_VERSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RTL_VERIFY_FLAGS_MINOR_VERSION&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00012">12</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 25 2024 21:37:51 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Nov 30 2024 16:30:31 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>
