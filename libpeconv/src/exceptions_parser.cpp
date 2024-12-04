@@ -1,10 +1,15 @@
 #include "peconv/exceptions_parser.h"
 
 #include "peconv/pe_hdrs_helper.h"
+#include "peconv/util.h"
 #include "ntddk.h"
 
 #ifdef _DEBUG
 #include <iostream>
+#endif
+
+#ifndef min
+#define min(a,b) (((a) < (b)) ? (a) : (b))
 #endif
 
 namespace details {
@@ -157,7 +162,7 @@ namespace details {
         _In_ ULONG BuildNumber
     ) {
         NtVersion version{};
-        RtlSecureZeroMemory(&version, sizeof NtVersion);
+        RtlSecureZeroMemory(&version, sizeof(NtVersion));
         RtlCurrentVersion(&version);
         if (version.MajorVersion == MajorVersion) {
             if (version.MinorVersion == MinorVersion) return version.BuildNumber >= BuildNumber;
@@ -173,7 +178,7 @@ namespace details {
         _In_ BYTE Flags
     ) {
         NtVersion version{};
-        RtlSecureZeroMemory(&version, sizeof NtVersion);
+        RtlSecureZeroMemory(&version, sizeof(NtVersion));
         RtlCurrentVersion(&version);
         if (version.MajorVersion == MajorVersion &&
             ((Flags & RTL_VERIFY_FLAGS_MINOR_VERSION) ? version.MinorVersion == MinorVersion : true) &&
@@ -211,7 +216,7 @@ namespace details {
     }
 #endif
 
-    static __forceinline bool IsModuleUnloaded(PLDR_DATA_TABLE_ENTRY entry) {
+    static PECONV_FORCEINLINE bool IsModuleUnloaded(PLDR_DATA_TABLE_ENTRY entry) {
         if (RtlIsWindowsVersionOrGreater(6, 2, 0)) { // Windows 8+
             return PLDR_DATA_TABLE_ENTRY_WIN8(entry)->DdagNode->State == LdrModulesUnloaded;
         }
@@ -227,11 +232,17 @@ namespace details {
 
         NTSTATUS status = STATUS_SUCCESS;
 
+#ifdef _MSC_VER
+#define RtlFindMemoryBlockFromModuleSection__leave __leave
+#else
+#define RtlFindMemoryBlockFromModuleSection__leave return status
+#endif
+
 #ifdef _DEBUG
         std::cout << "Searching in section " << SectionName << " in module " << ModuleHandle << std::endl;
 #endif
 
-        __try {
+        PECONV_TRY_EXCEPT_BLOCK_START
 
             //
             // checks if no search pattern and length are provided
@@ -241,7 +252,7 @@ namespace details {
                 SearchContext->Result = nullptr;
                 SearchContext->MemoryBlockSize = 0;
                 status = STATUS_INVALID_PARAMETER;
-                __leave;
+                RtlFindMemoryBlockFromModuleSection__leave;
             }
 
             if (SearchContext->Result) {
@@ -273,12 +284,12 @@ namespace details {
                         SearchContext->Result = nullptr;
                         SearchContext->MemoryBlockSize = 0;
                         status = STATUS_NOT_FOUND;
-                        __leave;
+                        RtlFindMemoryBlockFromModuleSection__leave;
                     }
                 }
                 else {
                     status = STATUS_INVALID_PARAMETER_1;
-                    __leave;
+                    RtlFindMemoryBlockFromModuleSection__leave;
                 }
             }
 
@@ -289,7 +300,7 @@ namespace details {
             LPBYTE end = SearchContext->Result + SearchContext->MemoryBlockSize - SearchContext->PatternSize;
             while (SearchContext->Result <= end) {
                 if (RtlCompareMemory(SearchContext->SearchPattern, SearchContext->Result, SearchContext->PatternSize) == SearchContext->PatternSize) {
-                    __leave;
+                    RtlFindMemoryBlockFromModuleSection__leave;
                 }
 
                 ++SearchContext->Result;
@@ -304,7 +315,7 @@ namespace details {
             SearchContext->MemoryBlockSize = 0;
             status = STATUS_NOT_FOUND;
         }
-        __except (EXCEPTION_EXECUTE_HANDLER) {
+        PECONV_TRY_EXCEPT_BLOCK_END
             status = GetExceptionCode();
         }
 
@@ -356,7 +367,7 @@ namespace details {
         SEARCH_CONTEXT SearchContext{};
         SearchContext.SearchPattern = reinterpret_cast<LPBYTE>(&entry);
         SearchContext.PatternSize = sizeof(entry);
-        RtlSecureZeroMemory(&entry, sizeof entry);
+        RtlSecureZeroMemory(&entry, sizeof(entry));
 
         // Windows 8
         if (RtlVerifyVersion(6, 2, 0, RTL_VERIFY_FLAGS_MAJOR_VERSION | RTL_VERIFY_FLAGS_MINOR_VERSION)) {
@@ -421,7 +432,7 @@ namespace details {
         auto NtdllHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(RtlImageNtHeader(hNtdll));
         PIMAGE_NT_HEADERS ModuleHeaders = nullptr;
         _RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32 entry{};
-        RtlSecureZeroMemory(&entry, sizeof entry);
+        RtlSecureZeroMemory(&entry, sizeof(entry));
         LPCSTR lpSectionName = ".data";
         SEARCH_CONTEXT SearchContext{
         };
