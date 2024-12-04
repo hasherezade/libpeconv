@@ -93,12 +93,14 @@ $(function(){ initResizable(false); });
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">exceptions_parser.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="exceptions__parser_8h_source.html">peconv/exceptions_parser.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pe__hdrs__helper_8h_source.html">peconv/pe_hdrs_helper.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="util_8h_source.html">peconv/util.h</a>&quot;</code><br />
 <code>#include &quot;ntddk.h&quot;</code><br />
 </div>
 <p><a href="exceptions__parser_8cpp_source.html">Go to the source code of this file.</a></p>
@@ -129,6 +131,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ac6afabdc09a49a433ee19d8a9486056d" id="r_ac6afabdc09a49a433ee19d8a9486056d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6afabdc09a49a433ee19d8a9486056d">min</a>(a,  b)</td></tr>
+<tr class="separator:ac6afabdc09a49a433ee19d8a9486056d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01057430741d6e6e045593444299f820" id="r_a01057430741d6e6e045593444299f820"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01057430741d6e6e045593444299f820">RTL_VERIFY_FLAGS_MAJOR_VERSION</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a01057430741d6e6e045593444299f820"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b71d08b07a42ea352505949f1450ab3" id="r_a5b71d08b07a42ea352505949f1450ab3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b71d08b07a42ea352505949f1450ab3">RTL_VERIFY_FLAGS_MINOR_VERSION</a>&#160;&#160;&#160;1</td></tr>
@@ -137,6 +141,8 @@ Macros</h2></td></tr>
 <tr class="separator:a25b9de2e8d0b5e4eea6a7c072cbfa550"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4622797023d28152c31e7ca01dc31f17" id="r_a4622797023d28152c31e7ca01dc31f17"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4622797023d28152c31e7ca01dc31f17">RTL_VERIFY_FLAGS_DEFAULT</a>&#160;&#160;&#160;<a class="el" href="#a01057430741d6e6e045593444299f820">RTL_VERIFY_FLAGS_MAJOR_VERSION</a>|<a class="el" href="#a5b71d08b07a42ea352505949f1450ab3">RTL_VERIFY_FLAGS_MINOR_VERSION</a>|<a class="el" href="#a25b9de2e8d0b5e4eea6a7c072cbfa550">RTL_VERIFY_FLAGS_BUILD_NUMBERS</a></td></tr>
 <tr class="separator:a4622797023d28152c31e7ca01dc31f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afad636e519d50590859c2ad4076b6d82" id="r_afad636e519d50590859c2ad4076b6d82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afad636e519d50590859c2ad4076b6d82">RtlFindMemoryBlockFromModuleSection__leave</a>&#160;&#160;&#160;return <a class="el" href="#a9611b3a00430a86619b5923de30f9fdb">status</a></td></tr>
+<tr class="separator:afad636e519d50590859c2ad4076b6d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -184,8 +190,39 @@ Typedefs</h2></td></tr>
 <tr class="separator:a0bfb342752d9af2aa7800a758e04703f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab96a7d65a1487a5b16c39878b81ab16d" id="r_ab96a7d65a1487a5b16c39878b81ab16d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html">details::_LDR_DATA_TABLE_ENTRY_WIN8</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#ab96a7d65a1487a5b16c39878b81ab16d">details::PLDR_DATA_TABLE_ENTRY_WIN8</a></td></tr>
 <tr class="separator:ab96a7d65a1487a5b16c39878b81ab16d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a6c7d6f72279485724bcc6581a70eb8d6" id="r_a6c7d6f72279485724bcc6581a70eb8d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="util_8h.html#ade026644fa93062708668acfae05c105">PECONV_TRY_EXCEPT_BLOCK_END</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedetails.html#a6c7d6f72279485724bcc6581a70eb8d6">details::status</a> = GetExceptionCode()</td></tr>
+<tr class="separator:a6c7d6f72279485724bcc6581a70eb8d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9611b3a00430a86619b5923de30f9fdb" id="r_a9611b3a00430a86619b5923de30f9fdb"><td class="memItemLeft" align="right" valign="top">return&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9611b3a00430a86619b5923de30f9fdb">status</a></td></tr>
+<tr class="separator:a9611b3a00430a86619b5923de30f9fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ac6afabdc09a49a433ee19d8a9486056d" name="ac6afabdc09a49a433ee19d8a9486056d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6afabdc09a49a433ee19d8a9486056d">&#9670;&#160;</a></span>min</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define min</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">(((a) &lt; (b)) ? (a) : (b))</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00012">12</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a25b9de2e8d0b5e4eea6a7c072cbfa550" name="a25b9de2e8d0b5e4eea6a7c072cbfa550"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a25b9de2e8d0b5e4eea6a7c072cbfa550">&#9670;&#160;</a></span>RTL_VERIFY_FLAGS_BUILD_NUMBERS</h2>
 
@@ -198,7 +235,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00013">13</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00018">18</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
 
 </div>
 </div>
@@ -214,7 +251,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00014">14</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00019">19</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
 
 </div>
 </div>
@@ -230,7 +267,7 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00011">11</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00016">16</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
 
 </div>
 </div>
@@ -246,14 +283,45 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00012">12</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00017">17</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afad636e519d50590859c2ad4076b6d82" name="afad636e519d50590859c2ad4076b6d82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afad636e519d50590859c2ad4076b6d82">&#9670;&#160;</a></span>RtlFindMemoryBlockFromModuleSection__leave</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RtlFindMemoryBlockFromModuleSection__leave&#160;&#160;&#160;return <a class="el" href="#a9611b3a00430a86619b5923de30f9fdb">status</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a9611b3a00430a86619b5923de30f9fdb" name="a9611b3a00430a86619b5923de30f9fdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9611b3a00430a86619b5923de30f9fdb">&#9670;&#160;</a></span>status</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">return status</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="exceptions__parser_8cpp_source.html#l00322">322</a> of file <a class="el" href="exceptions__parser_8cpp_source.html">exceptions_parser.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2024 16:30:31 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Wed Dec 4 2024 22:26:33 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

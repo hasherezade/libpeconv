@@ -14,5 +14,6 @@ var searchData=
   ['snapcontext_11',['SnapContext',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a73559375c3355b53caadc94284132056',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['sourceptr_12',['sourcePtr',['../classpeconv_1_1_patch_backup.html#a3f0d04d49b9942f135ff9068ee750ced',1,'peconv::PatchBackup']]],
   ['state_13',['State',['../structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#ab61099de881b08bb14a9ad301621cc21',1,'details::_LDR_DDAG_NODE_WIN8']]],
-  ['switchbackcontext_14',['SwitchBackContext',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a8ae8d711294f22d1b0c041a83dae1e42',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]]
+  ['status_14',['status',['../namespacedetails.html#a6c7d6f72279485724bcc6581a70eb8d6',1,'details::status'],['../exceptions__parser_8cpp.html#a9611b3a00430a86619b5923de30f9fdb',1,'status:&#160;exceptions_parser.cpp']]],
+  ['switchbackcontext_15',['SwitchBackContext',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a8ae8d711294f22d1b0c041a83dae1e42',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]]
 ];

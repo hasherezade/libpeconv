@@ -136,8 +136,8 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                OUT PDWORD)) proc;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        SIZE_T protect_size = dwSize;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        NTSTATUS status = _NtProtectVirtualMemory(GetCurrentProcess(), &amp;lpAddress, &amp;protect_size, flNewProtect, lpflOldProtect);</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">if</span> (status != S_OK) {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        NTSTATUS <a class="code hl_variable" href="exceptions__parser_8cpp.html#a9611b3a00430a86619b5923de30f9fdb">status</a> = _NtProtectVirtualMemory(GetCurrentProcess(), &amp;lpAddress, &amp;protect_size, flNewProtect, lpflOldProtect);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="exceptions__parser_8cpp.html#a9611b3a00430a86619b5923de30f9fdb">status</a> != S_OK) {</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">return</span> FALSE;</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        }</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keywordflow">return</span> TRUE;</div>
@@ -358,6 +358,7 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aclasspeconv_1_1_patch_backup_html_af1d324a838c4de3201a1cd3dac36eb98"><div class="ttname"><a href="classpeconv_1_1_patch_backup.html#af1d324a838c4de3201a1cd3dac36eb98">peconv::PatchBackup::isBackup</a></div><div class="ttdeci">bool isBackup()</div><div class="ttdef"><b>Definition</b> <a href="hooks_8h_source.html#l00060">hooks.h:60</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1default__func__resolver_html_a066a70803ac85bb73123dab8ed29ec03"><div class="ttname"><a href="classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03">peconv::default_func_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)</div><div class="ttdef"><b>Definition</b> <a href="function__resolver_8cpp_source.html#l00005">function_resolver.cpp:5</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1hooking__func__resolver_html_a4cb032fb05921aaad82490af691096b6"><div class="ttname"><a href="classpeconv_1_1hooking__func__resolver.html#a4cb032fb05921aaad82490af691096b6">peconv::hooking_func_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)</div><div class="ttdef"><b>Definition</b> <a href="#l00081">hooks.cpp:81</a></div></div>
+<div class="ttc" id="aexceptions__parser_8cpp_html_a9611b3a00430a86619b5923de30f9fdb"><div class="ttname"><a href="exceptions__parser_8cpp.html#a9611b3a00430a86619b5923de30f9fdb">status</a></div><div class="ttdeci">return status</div><div class="ttdef"><b>Definition</b> <a href="exceptions__parser_8cpp_source.html#l00322">exceptions_parser.cpp:322</a></div></div>
 <div class="ttc" id="ahooks_8cpp_html_a57569380a053fc3b1b44fd5b7f8d8904"><div class="ttname"><a href="hooks_8cpp.html#a57569380a053fc3b1b44fd5b7f8d8904">get_jmp_delta</a></div><div class="ttdeci">long long int get_jmp_delta(ULONGLONG currVA, int instrLen, ULONGLONG destVA)</div><div class="ttdef"><b>Definition</b> <a href="#l00186">hooks.cpp:186</a></div></div>
 <div class="ttc" id="ahooks_8cpp_html_af48839ae565817ce546c278c526e3030"><div class="ttname"><a href="hooks_8cpp.html#af48839ae565817ce546c278c526e3030">is_valid_delta</a></div><div class="ttdeci">bool is_valid_delta(long long int delta)</div><div class="ttdef"><b>Definition</b> <a href="#l00192">hooks.cpp:192</a></div></div>
 <div class="ttc" id="ahooks_8h_html"><div class="ttname"><a href="hooks_8h.html">hooks.h</a></div><div class="ttdoc">Functions related to hooking the loaded PE. Reditecting/replacing a functions with another.</div></div>
@@ -378,7 +379,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2024 16:30:31 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Wed Dec 4 2024 22:26:33 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

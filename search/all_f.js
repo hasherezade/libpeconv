@@ -54,6 +54,7 @@ var searchData=
   ['rtl_5fverify_5fflags_5fdefault_51',['RTL_VERIFY_FLAGS_DEFAULT',['../exceptions__parser_8cpp.html#a4622797023d28152c31e7ca01dc31f17',1,'exceptions_parser.cpp']]],
   ['rtl_5fverify_5fflags_5fmajor_5fversion_52',['RTL_VERIFY_FLAGS_MAJOR_VERSION',['../exceptions__parser_8cpp.html#a01057430741d6e6e045593444299f820',1,'exceptions_parser.cpp']]],
   ['rtl_5fverify_5fflags_5fminor_5fversion_53',['RTL_VERIFY_FLAGS_MINOR_VERSION',['../exceptions__parser_8cpp.html#a5b71d08b07a42ea352505949f1450ab3',1,'exceptions_parser.cpp']]],
-  ['run_5ftls_5fcallbacks_54',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]],
-  ['rvabased_55',['RvaBased',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ae09d0c654249e95a2473a3c4e84f7ab9',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
+  ['rtlfindmemoryblockfrommodulesection_5f_5fleave_54',['RtlFindMemoryBlockFromModuleSection__leave',['../exceptions__parser_8cpp.html#afad636e519d50590859c2ad4076b6d82',1,'exceptions_parser.cpp']]],
+  ['run_5ftls_5fcallbacks_55',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]],
+  ['rvabased_56',['RvaBased',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ae09d0c654249e95a2473a3c4e84f7ab9',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
 ];
