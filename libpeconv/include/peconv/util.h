@@ -8,6 +8,17 @@
 #include "file_util.h"
 #include "resource_util.h"
 
+#ifdef _MSC_VER
+#define PECONV_FORCEINLINE __forceinline
+#define PECONV_TRY_EXCEPT_BLOCK_START __try {
+#define PECONV_TRY_EXCEPT_BLOCK_END __except (EXCEPTION_EXECUTE_HANDLER) {
+#else
+#define PECONV_FORCEINLINE __attribute__((always_inline)) inline
+#define PECONV_TRY_EXCEPT_BLOCK_START try {
+#define PECONV_TRY_EXCEPT_BLOCK_END catch (...) {
+#endif
+
+
 namespace peconv {
     /**
     Checks if the given buffer is fully filled with the specified character.
@@ -15,7 +26,7 @@ namespace peconv {
     \param cave_size : size of the buffer to be checked
     \param padding_char : the required character
     */
-    bool is_padding(const BYTE *cave_ptr, size_t cave_size, const BYTE padding_char);
+    bool is_padding(const BYTE* cave_ptr, size_t cave_size, const BYTE padding_char);
 
     /**
     Wrapper for GetProcessId - for a backward compatibility with old versions of Windows
@@ -38,4 +49,3 @@ namespace peconv {
     */
     bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize);
 };
-

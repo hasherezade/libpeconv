@@ -1,10 +1,15 @@
 #include "peconv/exceptions_parser.h"
+#include "peconv/util.h"
 
 #include "peconv/pe_hdrs_helper.h"
 #include "ntddk.h"
 
 #ifdef _DEBUG
 #include <iostream>
+#endif
+
+#ifndef min
+#define min(a,b) (((a) < (b)) ? (a) : (b))
 #endif
 
 namespace details {
@@ -157,7 +162,7 @@ namespace details {
         _In_ ULONG BuildNumber
     ) {
         NtVersion version{};
-        RtlSecureZeroMemory(&version, sizeof NtVersion);
+        RtlSecureZeroMemory(&version, sizeof(NtVersion));
         RtlCurrentVersion(&version);
         if (version.MajorVersion == MajorVersion) {
             if (version.MinorVersion == MinorVersion) return version.BuildNumber >= BuildNumber;
@@ -173,7 +178,7 @@ namespace details {
         _In_ BYTE Flags
     ) {
         NtVersion version{};
-        RtlSecureZeroMemory(&version, sizeof NtVersion);
+        RtlSecureZeroMemory(&version, sizeof(NtVersion));
         RtlCurrentVersion(&version);
         if (version.MajorVersion == MajorVersion &&
             ((Flags & RTL_VERIFY_FLAGS_MINOR_VERSION) ? version.MinorVersion == MinorVersion : true) &&
@@ -211,7 +216,7 @@ namespace details {
     }
 #endif
 
-    static __forceinline bool IsModuleUnloaded(PLDR_DATA_TABLE_ENTRY entry) {
+    static PECONV_FORCEINLINE bool IsModuleUnloaded(PLDR_DATA_TABLE_ENTRY entry) {
         if (RtlIsWindowsVersionOrGreater(6, 2, 0)) { // Windows 8+
             return PLDR_DATA_TABLE_ENTRY_WIN8(entry)->DdagNode->State == LdrModulesUnloaded;
         }
@@ -226,12 +231,17 @@ namespace details {
         _Inout_ PSEARCH_CONTEXT SearchContext) {
 
         NTSTATUS status = STATUS_SUCCESS;
+#ifdef _MSC_VER
+#define RtlFindMemoryBlockFromModuleSection__leave __leave
+#else
+#define RtlFindMemoryBlockFromModuleSection__leave return status
+#endif
 
 #ifdef _DEBUG
         std::cout << "Searching in section " << SectionName << " in module " << ModuleHandle << std::endl;
 #endif
 
-        __try {
+        PECONV_TRY_EXCEPT_BLOCK_START
 
             //
             // checks if no search pattern and length are provided
@@ -241,74 +251,74 @@ namespace details {
                 SearchContext->Result = nullptr;
                 SearchContext->MemoryBlockSize = 0;
                 status = STATUS_INVALID_PARAMETER;
-                __leave;
+                RtlFindMemoryBlockFromModuleSection__leave;
             }
 
-            if (SearchContext->Result) {
-                ++SearchContext->Result;
-                --SearchContext->MemoryBlockSize;
+        if (SearchContext->Result) {
+            ++SearchContext->Result;
+            --SearchContext->MemoryBlockSize;
+        }
+        else {
+
+            //
+            // if it is the first search, find the length and start address of the specified section
+            //
+
+            auto headers = reinterpret_cast<PIMAGE_NT_HEADERS>(RtlImageNtHeader(ModuleHandle));
+            PIMAGE_SECTION_HEADER section = nullptr;
+
+            if (headers) {
+                section = IMAGE_FIRST_SECTION(headers);
+                for (WORD i = 0; i < headers->FileHeader.NumberOfSections; ++i) {
+                    if (!_strnicmp(SectionName, reinterpret_cast<LPCSTR>(section->Name), 8)) {
+                        SearchContext->Result = reinterpret_cast<LPBYTE>(ModuleHandle) + section->VirtualAddress;
+                        SearchContext->MemoryBlockSize = section->Misc.VirtualSize;
+                        break;
+                    }
+
+                    ++section;
+                }
+
+                if (!SearchContext->Result || !SearchContext->MemoryBlockSize || SearchContext->MemoryBlockSize < SearchContext->PatternSize) {
+                    SearchContext->Result = nullptr;
+                    SearchContext->MemoryBlockSize = 0;
+                    status = STATUS_NOT_FOUND;
+                    RtlFindMemoryBlockFromModuleSection__leave;
+                }
             }
             else {
-
-                //
-                // if it is the first search, find the length and start address of the specified section
-                //
-
-                auto headers = reinterpret_cast<PIMAGE_NT_HEADERS>(RtlImageNtHeader(ModuleHandle));
-                PIMAGE_SECTION_HEADER section = nullptr;
-
-                if (headers) {
-                    section = IMAGE_FIRST_SECTION(headers);
-                    for (WORD i = 0; i < headers->FileHeader.NumberOfSections; ++i) {
-                        if (!_strnicmp(SectionName, reinterpret_cast<LPCSTR>(section->Name), 8)) {
-                            SearchContext->Result = reinterpret_cast<LPBYTE>(ModuleHandle) + section->VirtualAddress;
-                            SearchContext->MemoryBlockSize = section->Misc.VirtualSize;
-                            break;
-                        }
-
-                        ++section;
-                    }
-
-                    if (!SearchContext->Result || !SearchContext->MemoryBlockSize || SearchContext->MemoryBlockSize < SearchContext->PatternSize) {
-                        SearchContext->Result = nullptr;
-                        SearchContext->MemoryBlockSize = 0;
-                        status = STATUS_NOT_FOUND;
-                        __leave;
-                    }
-                }
-                else {
-                    status = STATUS_INVALID_PARAMETER_1;
-                    __leave;
-                }
+                status = STATUS_INVALID_PARAMETER_1;
+                RtlFindMemoryBlockFromModuleSection__leave;
             }
-
-            //
-            // perform a linear search on the pattern
-            //
-
-            LPBYTE end = SearchContext->Result + SearchContext->MemoryBlockSize - SearchContext->PatternSize;
-            while (SearchContext->Result <= end) {
-                if (RtlCompareMemory(SearchContext->SearchPattern, SearchContext->Result, SearchContext->PatternSize) == SearchContext->PatternSize) {
-                    __leave;
-                }
-
-                ++SearchContext->Result;
-                --SearchContext->MemoryBlockSize;
-            }
-
-            //
-            // if the search fails, clear the output parameters
-            //
-
-            SearchContext->Result = nullptr;
-            SearchContext->MemoryBlockSize = 0;
-            status = STATUS_NOT_FOUND;
-        }
-        __except (EXCEPTION_EXECUTE_HANDLER) {
-            status = GetExceptionCode();
         }
 
-        return status;
+        //
+        // perform a linear search on the pattern
+        //
+
+        LPBYTE end = SearchContext->Result + SearchContext->MemoryBlockSize - SearchContext->PatternSize;
+        while (SearchContext->Result <= end) {
+            if (RtlCompareMemory(SearchContext->SearchPattern, SearchContext->Result, SearchContext->PatternSize) == SearchContext->PatternSize) {
+                RtlFindMemoryBlockFromModuleSection__leave;
+            }
+
+            ++SearchContext->Result;
+            --SearchContext->MemoryBlockSize;
+        }
+
+        //
+        // if the search fails, clear the output parameters
+        //
+
+        SearchContext->Result = nullptr;
+        SearchContext->MemoryBlockSize = 0;
+        status = STATUS_NOT_FOUND;
+    }
+    PECONV_TRY_EXCEPT_BLOCK_END
+        status = GetExceptionCode();
+}
+
+return status;
     }
 
     static NTSTATUS RtlProtectMrdata(_In_ ULONG Protect, PRTL_INVERTED_FUNCTION_TABLE mrdata) {
