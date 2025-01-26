@@ -2,8 +2,10 @@
 
 #include <peconv.h>
 #include <iostream>
+#include "patch_ntdll.h"
 
 using namespace peconv;
+extern bool g_PatchRequired;
 
 bool create_suspended_process(IN LPCTSTR path, IN LPCTSTR cmdLine, OUT PROCESS_INFORMATION &pi)
 {
@@ -221,13 +223,16 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
         std::cout << "Writing to the remote process failed!\n";
         return false;
     }
-#ifdef _DEBUG
+
     printf("Loaded at: %p\n", loaded_pe);
-#endif
+
     //5. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
     if (!redirect_to_payload(loaded_pe, remoteBase, pi, is32bit)) {
         std::cerr << "Redirecting failed!\n";
         return false;
+    }
+    if (g_PatchRequired && !apply_ntdll_patch(pi.hProcess)) {
+        std::cout << "ERROR: failed to apply the required patch on NTDLL\n";
     }
     //6. Resume the thread and let the payload run:
     ResumeThread(pi.hThread);
@@ -273,7 +278,6 @@ bool run_pe(IN LPCTSTR payloadPath, IN LPCTSTR targetPath, IN LPCTSTR cmdLine)
         std::cerr << "Loading failed!\n";
         return false;
     }
-
     // Get the payload's architecture and check if it is compatibile with the loader:
     const WORD payload_arch = get_nt_hdr_architecture(loaded_pe);
     if (payload_arch != IMAGE_NT_OPTIONAL_HDR32_MAGIC && payload_arch != IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
@@ -308,7 +312,6 @@ bool run_pe(IN LPCTSTR payloadPath, IN LPCTSTR targetPath, IN LPCTSTR cmdLine)
     
     //3. Perform the actual RunPE:
     bool isOk = _run_pe(loaded_pe, payloadImageSize, pi, is32bit_payload);
-
     //4. Cleanup:
     if (!isOk) { //if injection failed, kill the process
         terminate_process(pi.dwProcessId);
