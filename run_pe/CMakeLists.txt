@@ -11,10 +11,12 @@ include_directories ( ${PECONV_DIR}/include )
 set (srcs
 	main.cpp
 	run_pe.cpp
+	patch_ntdll.cpp
 )
 
 set (hdrs
 	run_pe.h
+	patch_ntdll.h
 )
 
 add_executable ( ${PROJECT_NAME} ${hdrs} ${srcs} )
