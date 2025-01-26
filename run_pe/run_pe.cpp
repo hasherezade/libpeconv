@@ -224,7 +224,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
         return false;
     }
 
-    printf("Loaded at: %p\n", loaded_pe);
+    printf("Loaded at: %p\n", remoteBase);
 
     //5. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
     if (!redirect_to_payload(loaded_pe, remoteBase, pi, is32bit)) {
@@ -234,6 +234,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
     if (!is32bit && g_PatchRequired && !apply_ntdll_patch(pi.hProcess, remoteBase)) {
         std::cout << "ERROR: failed to apply the required patch on NTDLL\n";
     }
+    std::cout << "Resuming the process: " << std::dec << pi.dwProcessId << std::endl;
     //6. Resume the thread and let the payload run:
     ResumeThread(pi.hThread);
     return true;

@@ -43,26 +43,40 @@ bool apply_ntdll_patch(HANDLE hProcess, LPVOID module_ptr)
         return false;
     }
 
+    // prepare the patch to be applied on ZwQueryVirtualMemory:
+
     BYTE stub_buffer_patched[stub_size] = { 0 };
     ::memcpy(stub_buffer_patched, stub_buffer_orig, stub_size);
 
+    const BYTE jump_back[] = { 0xFF, 0x25, 0xF2, 0xFF, 0xFF, 0xFF };
+
+    ::memcpy(stub_buffer_patched, &patch_space, sizeof(LPVOID));
+    ::memset(stub_buffer_patched + pos, 0x90, syscall_pattern_full);
+    ::memcpy(stub_buffer_patched + pos, jump_back, sizeof(jump_back));
+
+    // prepare the trampoline:
+
     const BYTE jump_to_contnue[] = { 0xFF, 0x25, 0xEA, 0xFF, 0xFF, 0xFF };
     ULONG_PTR _ZwQueryVirtualMemory_continue = (ULONG_PTR)_ZwQueryVirtualMemory + syscall_pattern_full;
+
+    BYTE func_patch[] = {
+        0x49, 0x83, 0xF8, 0x0E, //cmp r8,0xE -> is MEMORY_INFORMATION_CLASS == MemoryImageExtensionInformation?
+        0x75, 0x22, // jne [continue to function]
+        0x48, 0x3B, 0x15, 0x0B, 0x00, 0x00, 0x00, // cmp rdx,qword ptr ds:[addr] -> is ImageBase == module_ptr ?
+        0x75, 0x19, // jne [continue to function]
+        0xB8, 0xBB, 0x00, 0x00, 0xC0, // mov eax,C00000BB -> STATUS_NOT_SUPPORTED
+        0xC3 //ret
+    };
+
     BYTE stub_buffer_trampoline[stub_size * 2] = { 0 };
-    ::memset(stub_buffer_trampoline, 0x90, sizeof(stub_buffer_trampoline));
+    ::memcpy(stub_buffer_trampoline, func_patch, sizeof(func_patch));
+
     ::memcpy(stub_buffer_trampoline + stub_size, stub_buffer_orig, stub_size);
     ::memcpy(stub_buffer_trampoline + stub_size - sizeof(LPVOID), &module_ptr, sizeof(LPVOID));
     ::memcpy(stub_buffer_trampoline + stub_size, &_ZwQueryVirtualMemory_continue, sizeof(LPVOID));
     ::memcpy(stub_buffer_trampoline + stub_size + pos + syscall_pattern_full, jump_to_contnue, sizeof(jump_to_contnue));
 
-    BYTE mini_patch[] = { 0x49, 0x83, 0xF8, 0x0E, 0x75, 0x22, 0x48, 0x3B, 0x15, 0x0B, 0x00, 0x00, 0x00, 0x75, 0x19, 0xB8, 0xBB, 0x00, 0x00, 0xC0, 0xC3 };
-    ::memcpy(stub_buffer_trampoline, mini_patch, sizeof(mini_patch));
-
-    const BYTE jump_back[] = { 0xFF, 0x25, 0xF2, 0xFF, 0xFF, 0xFF };
-    ::memcpy(stub_buffer_patched, &patch_space, sizeof(LPVOID));
-    ::memset(stub_buffer_patched + pos, 0x90, syscall_pattern_full);
-    ::memcpy(stub_buffer_patched + pos, jump_back, sizeof(jump_back));
-
+    const SIZE_T trampoline_full_size = stub_size + pos + syscall_pattern_full + sizeof(jump_to_contnue);
 
     if (!WriteProcessMemory(hProcess, (LPVOID)stub_ptr, stub_buffer_patched, stub_size, &out_bytes) || out_bytes != stub_size) {
         return false;
@@ -70,7 +84,7 @@ bool apply_ntdll_patch(HANDLE hProcess, LPVOID module_ptr)
     if (!VirtualProtectEx(hProcess, (LPVOID)stub_ptr, stub_size, oldProtect, &oldProtect)) {
         return false;
     }
-    if (!WriteProcessMemory(hProcess, (LPVOID)patch_space, stub_buffer_trampoline, sizeof(stub_buffer_trampoline), &out_bytes) || out_bytes != sizeof(stub_buffer_trampoline)) {
+    if (!WriteProcessMemory(hProcess, (LPVOID)patch_space, stub_buffer_trampoline, trampoline_full_size, &out_bytes) || out_bytes != trampoline_full_size) {
         return false;
     }
     if (!VirtualProtectEx(hProcess, (LPVOID)patch_space, stub_size, PAGE_EXECUTE_READ, &oldProtect)) {
