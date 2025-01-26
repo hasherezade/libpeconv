@@ -231,7 +231,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
         std::cerr << "Redirecting failed!\n";
         return false;
     }
-    if (!is32bit && g_PatchRequired && !apply_ntdll_patch(pi.hProcess, remoteBase)) {
+    if (!is32bit && g_PatchRequired && !apply_ntdll_patch64(pi.hProcess, remoteBase)) {
         std::cout << "ERROR: failed to apply the required patch on NTDLL\n";
     }
     std::cout << "Resuming the process: " << std::dec << pi.dwProcessId << std::endl;

@@ -1,8 +1,11 @@
 #include "patch_ntdll.h"
 #include <peconv.h>
 
-bool apply_ntdll_patch(HANDLE hProcess, LPVOID module_ptr)
+bool apply_ntdll_patch64(HANDLE hProcess, LPVOID module_ptr)
 {
+#ifndef _WIN64
+    return false;
+#else
     HMODULE hNtdll = GetModuleHandleA("ntdll");
     if (!hNtdll) return false; // should never happen
 
@@ -27,7 +30,7 @@ bool apply_ntdll_patch(HANDLE hProcess, LPVOID module_ptr)
     if (!ReadProcessMemory(hProcess, (LPVOID)stub_ptr, stub_buffer_orig, stub_size, &out_bytes) || out_bytes != stub_size) {
         return false;
     }
-    const BYTE nop_pattern[sizeof(LPVOID)] = {0x0F, 0x1F, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00};
+    const BYTE nop_pattern[] = {0x0F, 0x1F, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00};
     if (::memcmp(stub_buffer_orig, nop_pattern, sizeof(nop_pattern)) != 0) {
         return false;
     }
@@ -91,4 +94,5 @@ bool apply_ntdll_patch(HANDLE hProcess, LPVOID module_ptr)
         return false;
     }
     return true;
+#endif
 }
