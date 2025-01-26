@@ -20,7 +20,7 @@ var searchData=
   ['dllnamerva_17',['DllNameRVA',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a41772447f7cf6e943380a3ab637f04e0',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
   ['dontcallforthreads_18',['DontCallForThreads',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a3588920de7b5d426f56d3f386cf0d90f',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['dontrelocate_19',['DontRelocate',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a36eda9454960adeed3a5a77cd1610faa',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
-  ['dummystructname_20',['DUMMYSTRUCTNAME',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ace1adcb2ead68fb07fea29ab863d1acd',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
+  ['dummystructname_20',['DUMMYSTRUCTNAME',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#aef21c1f80b3cb7a6d9b8f3677269fb3e',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]],
   ['dump_5fpe_21',['dump_pe',['../namespacepeconv.html#acb3587307ee056dcf13186b9ae1f94f1',1,'peconv']]],
   ['dump_5fremote_5fpe_22',['dump_remote_pe',['../namespacepeconv.html#a2f68743f2f7493f8c6c3491f5b097b97',1,'peconv']]],
   ['dump_5fto_5ffile_23',['dump_to_file',['../namespacepeconv.html#a0a81fabc3be65a8b23b97a20a5496484',1,'peconv']]],

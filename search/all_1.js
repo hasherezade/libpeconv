@@ -13,5 +13,5 @@ var searchData=
   ['applybackup_10',['applyBackup',['../classpeconv_1_1_patch_backup.html#a39e33bcc6a1558a6768357ddf4ffbb50',1,'peconv::PatchBackup']]],
   ['applyreloccallback_11',['ApplyRelocCallback',['../class_apply_reloc_callback.html',1,'ApplyRelocCallback'],['../class_apply_reloc_callback.html#a09cde4a31ccf84a41b1343cd8ce0d646',1,'ApplyRelocCallback::ApplyRelocCallback()']]],
   ['associatevaandfunc_12',['associateVaAndFunc',['../classpeconv_1_1_exports_mapper.html#a6af4b7af3e750b72615c33969a27ef72',1,'peconv::ExportsMapper']]],
-  ['attributes_13',['Attributes',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a33f1b4a9ceedd55888721a086fd60dd1',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
+  ['attributes_13',['Attributes',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ac1dabea4e06aadd9b5d2c0e9e2dd2db3',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
 ];

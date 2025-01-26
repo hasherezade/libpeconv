@@ -21,5 +21,5 @@ var searchData=
   ['exports_5fmapper_2ecpp_18',['exports_mapper.cpp',['../exports__mapper_8cpp.html',1,'']]],
   ['exports_5fmapper_2eh_19',['exports_mapper.h',['../exports__mapper_8h.html',1,'']]],
   ['exportsmap_20',['exportsMap',['../classpeconv_1_1_imported_dll_coverage.html#a5b4a9e6f8b119f00a54f4dd94b8501ba',1,'peconv::ImportedDllCoverage']]],
-  ['exportsmapper_21',['ExportsMapper',['../classpeconv_1_1_exports_mapper.html',1,'peconv::ExportsMapper'],['../structpeconv_1_1_dll_info.html#abfa6f1446aef475e2b7246cfa13c6837',1,'peconv::DllInfo::ExportsMapper']]]
+  ['exportsmapper_21',['ExportsMapper',['../classpeconv_1_1_exports_mapper.html',1,'peconv::ExportsMapper'],['../structpeconv_1_1_dll_info.html#abfa6f1446aef475e2b7246cfa13c6837',1,'peconv::DllInfo::ExportsMapper()']]]
 ];
