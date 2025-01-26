@@ -231,11 +231,9 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
         std::cerr << "Redirecting failed!\n";
         return false;
     }
-    if (g_PatchRequired && !apply_ntdll_patch(pi.hProcess)) {
+    if (!is32bit && g_PatchRequired && !apply_ntdll_patch(pi.hProcess, remoteBase)) {
         std::cout << "ERROR: failed to apply the required patch on NTDLL\n";
     }
-    std::cout << "Press any key to resume the created process: " << std::dec << pi.dwProcessId << std::endl;
-    system("pause");
     //6. Resume the thread and let the payload run:
     ResumeThread(pi.hThread);
     return true;

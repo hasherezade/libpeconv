@@ -64,6 +64,8 @@ int _tmain(int argc, LPTSTR argv[])
     if (!isOk) {
         std::cerr << "Failed!\n";
     }
-    system("pause");
+    else {
+        std::cout << "Done!\n";
+    }
     return isOk ? 0 : (-1);
 }
