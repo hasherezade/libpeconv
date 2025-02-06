@@ -1,12 +1,53 @@
 #include "patch_ntdll.h"
 #include <peconv.h>
 
-bool patch_hotpaching_func64(HANDLE hProcess)
+bool patch_NtManageHotPatch32(HANDLE hProcess)
 {
     HMODULE hNtdll = GetModuleHandleA("ntdll");
     if (!hNtdll) return false; // should never happen
 
+    DWORD oldProtect = 0;
     const SIZE_T stub_size = 0x20;
+
+    const BYTE hotpatch_patch[] = {
+        0xB8, 0xBB, 0x00, 0x00, 0xC0, // mov eax,C00000BB -> STATUS_NOT_SUPPORTED
+        0xC2, 0x10, 0x00 // ret 10h
+    };
+    ULONG_PTR _NtManageHotPatch = (ULONG_PTR)GetProcAddress(hNtdll, "NtManageHotPatch");
+    if (!_NtManageHotPatch) {
+        return false;
+    }
+    ULONG_PTR stub_ptr = (ULONG_PTR)_NtManageHotPatch;
+
+    if (!VirtualProtectEx(hProcess, (LPVOID)stub_ptr, stub_size, PAGE_READWRITE, &oldProtect)) {
+        return false;
+    }
+    BYTE stub_buffer_orig[stub_size] = { 0 };
+    SIZE_T out_bytes = 0;
+    if (!ReadProcessMemory(hProcess, (LPVOID)stub_ptr, stub_buffer_orig, stub_size, &out_bytes) || out_bytes != stub_size) {
+        return false;
+    }
+    // confirm it is a valid syscall stub:
+    if (stub_buffer_orig[0] != 0xB8) {
+        return false;
+    }
+    if (!WriteProcessMemory(hProcess, (LPVOID)stub_ptr, hotpatch_patch, sizeof(hotpatch_patch), &out_bytes) || out_bytes != sizeof(hotpatch_patch)) {
+        return false;
+    }
+    if (!VirtualProtectEx(hProcess, (LPVOID)stub_ptr, stub_size, oldProtect, &oldProtect)) {
+        return false;
+    }
+    return true;
+}
+
+bool patch_NtManageHotPatch64(HANDLE hProcess)
+{
+    HMODULE hNtdll = GetModuleHandleA("ntdll");
+    if (!hNtdll) return false; // should never happen
+
+    DWORD oldProtect = 0;
+    const SIZE_T stub_size = 0x20;
+
     const BYTE hotpatch_patch[] = {
         0xB8, 0xBB, 0x00, 0x00, 0xC0, // mov eax,C00000BB -> STATUS_NOT_SUPPORTED
         0xC3 //ret
@@ -25,7 +66,7 @@ bool patch_hotpaching_func64(HANDLE hProcess)
         return false;
     }
     ULONG_PTR stub_ptr = (ULONG_PTR)_NtManageHotPatch;
-    DWORD oldProtect = 0;
+
     if (!VirtualProtectEx(hProcess, (LPVOID)stub_ptr, stub_size, PAGE_READWRITE, &oldProtect)) {
         return false;
     }
@@ -47,7 +88,7 @@ bool patch_hotpaching_func64(HANDLE hProcess)
     return true;
 }
 
-bool apply_ntdll_patch64(HANDLE hProcess, LPVOID module_ptr)
+bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
 {
 #ifndef _WIN64
     return false;
@@ -56,6 +97,7 @@ bool apply_ntdll_patch64(HANDLE hProcess, LPVOID module_ptr)
     if (!hNtdll) return false; // should never happen
 
     ULONGLONG pos = 8;
+    DWORD oldProtect = 0;
     const SIZE_T stub_size = 0x20;
 
     ULONG_PTR _ZwQueryVirtualMemory = (ULONG_PTR)GetProcAddress(hNtdll, "ZwQueryVirtualMemory");
@@ -64,7 +106,6 @@ bool apply_ntdll_patch64(HANDLE hProcess, LPVOID module_ptr)
     }
     ULONG_PTR stub_ptr = (ULONG_PTR)_ZwQueryVirtualMemory - pos;
 
-    DWORD oldProtect = 0;
     if (!VirtualProtectEx(hProcess, (LPVOID)stub_ptr, stub_size, PAGE_READWRITE, &oldProtect)) {
         return false;
     }
@@ -138,9 +179,6 @@ bool apply_ntdll_patch64(HANDLE hProcess, LPVOID module_ptr)
         return false;
     }
     if (!VirtualProtectEx(hProcess, (LPVOID)patch_space, stub_size, PAGE_EXECUTE_READ, &oldProtect)) {
-        return false;
-    }
-    if (!patch_hotpaching_func64(hProcess)) {
         return false;
     }
     return true;

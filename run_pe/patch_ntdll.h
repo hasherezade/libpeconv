@@ -2,4 +2,6 @@
 
 #include <windows.h>
 
-bool apply_ntdll_patch64(HANDLE hProcess, LPVOID module_ptr);
+bool patch_NtManageHotPatch32(HANDLE hProcess);
+bool patch_NtManageHotPatch64(HANDLE hProcess);
+bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr);
