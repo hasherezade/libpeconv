@@ -2,4 +2,4 @@
 
 #include <windows.h>
 
-bool apply_ntdll_patch64(HANDLE hProcess, LPVOID module_ptr);
+bool apply_ntdll_patch(HANDLE hProcess, LPVOID module_ptr);
