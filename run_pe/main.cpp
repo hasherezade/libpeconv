@@ -37,12 +37,10 @@ int _tmain(int argc, LPTSTR argv[])
 {
     LPTSTR payload_path = NULL;
     LPTSTR target_path = NULL;
-#ifdef _WIN64
     if (isWindows1124H2OrLater()) {
         std::cout << "WARNING: Executing RunPE on Windows11 24H2 or above requires patching NTDLL.ZwQueryVirtualMemory\n";
         g_PatchRequired = true;
     }
-#endif //_WIN64
     if (argc < 3) {
         std::tcout << TEXT("[ run_pe v") << version << TEXT(" ]\n")
             << TEXT("Args: <payload_path> <target_path>\n");
