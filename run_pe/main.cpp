@@ -3,7 +3,8 @@
 #include <tchar.h>
 #include "run_pe.h"
 
-LPCTSTR version = TEXT("0.1.9");
+LPCTSTR version = TEXT("0.2");
+
 bool g_PatchRequired = false;
 
 bool isWindows1124H2OrLater()

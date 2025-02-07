@@ -310,11 +310,13 @@ bool run_pe(IN LPCTSTR payloadPath, IN LPCTSTR targetPath, IN LPCTSTR cmdLine)
         free_pe_buffer(loaded_pe, payloadImageSize);
         return false;
     }
+    if (g_PatchRequired) {
 #ifndef _WIN64
-    patch_NtManageHotPatch32(pi.hProcess);
+        patch_NtManageHotPatch32(pi.hProcess);
 #else
-    patch_NtManageHotPatch64(pi.hProcess);
+        patch_NtManageHotPatch64(pi.hProcess);
 #endif
+    }
     //3. Perform the actual RunPE:
     bool isOk = _run_pe(loaded_pe, payloadImageSize, pi, is32bit_payload);
     //4. Cleanup:
