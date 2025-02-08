@@ -14,7 +14,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 
     BYTE* payload_nt_hdr = get_nt_hdrs(payload, payload_size);
     if (payload_nt_hdr == NULL) {
-        std::cerr << "[-] Invalid payload: " << std::hex << (ULONGLONG) payload << std::endl;
+        std::cerr << "[-] Invalid PE: " << std::hex << (ULONGLONG) payload << std::endl;
         return false;
     }
 
