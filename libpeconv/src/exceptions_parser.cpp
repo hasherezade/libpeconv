@@ -161,8 +161,7 @@ namespace details {
         _In_ ULONG MinorVersion,
         _In_ ULONG BuildNumber
     ) {
-        NtVersion version{};
-        RtlSecureZeroMemory(&version, sizeof(NtVersion));
+        NtVersion version = { 0 };
         RtlCurrentVersion(&version);
         if (version.MajorVersion == MajorVersion) {
             if (version.MinorVersion == MinorVersion) return version.BuildNumber >= BuildNumber;
@@ -177,8 +176,7 @@ namespace details {
         _In_ ULONG BuildNumber,
         _In_ BYTE Flags
     ) {
-        NtVersion version{};
-        RtlSecureZeroMemory(&version, sizeof(NtVersion));
+        NtVersion version = { 0 };
         RtlCurrentVersion(&version);
         if (version.MajorVersion == MajorVersion &&
             ((Flags & RTL_VERIFY_FLAGS_MINOR_VERSION) ? version.MinorVersion == MinorVersion : true) &&
@@ -331,7 +329,7 @@ namespace details {
         ULONG old;
 
         if (!MrdataBase) {
-            MEMORY_BASIC_INFORMATION mbi{};
+            MEMORY_BASIC_INFORMATION mbi= { 0 };
             status = NtQueryVirtualMemory(NtCurrentProcess(), mrdata, MemoryBasicInformation, &mbi, sizeof(mbi), nullptr);
             if (!NT_SUCCESS(status))return status;
             MrdataBase = mbi.BaseAddress;
@@ -362,9 +360,9 @@ namespace details {
         if (!hNtdll) return nullptr;
         auto NtdllHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(RtlImageNtHeader(hNtdll));
         PIMAGE_NT_HEADERS ModuleHeaders = nullptr;
-        _RTL_INVERTED_FUNCTION_TABLE_ENTRY_64 entry{};
+        _RTL_INVERTED_FUNCTION_TABLE_ENTRY_64 entry = { 0 };
         PIMAGE_DATA_DIRECTORY dir = nullptr;
-        SEARCH_CONTEXT SearchContext{};
+        SEARCH_CONTEXT SearchContext= { 0 };
         SearchContext.SearchPattern = reinterpret_cast<LPBYTE>(&entry);
         SearchContext.PatternSize = sizeof(entry);
         RtlSecureZeroMemory(&entry, sizeof(entry));
@@ -491,7 +489,7 @@ namespace details {
         ULONG CurrentSize = InvertedTable->Count;
         PIMAGE_RUNTIME_FUNCTION_ENTRY FunctionTable = nullptr;
         ULONG SizeOfTable = 0;
-        bool IsWin8OrGreater = RtlIsWindowsVersionOrGreater(6, 2, 0);
+        BOOL IsWin8OrGreater = RtlIsWindowsVersionOrGreater(6, 2, 0);
         ULONG Index = static_cast<ULONG>(IsWin8OrGreater);
 
         if (CurrentSize != InvertedTable->MaxCount) {
@@ -590,7 +588,7 @@ namespace details {
 #ifdef _DEBUG
         std::cout << "Found exception table: " << std::hex << table << std::endl;
 #endif
-        bool need_virtual_protect = RtlIsWindowsVersionOrGreater(6, 3, 0);
+        BOOL need_virtual_protect = RtlIsWindowsVersionOrGreater(6, 3, 0);
         // Windows 8.1 and above require to set PAGE_READWRITE protection
 #ifdef _DEBUG
         std::cout << "Need virtual protect: " << std::boolalpha << need_virtual_protect << std::endl;
@@ -621,5 +619,5 @@ bool peconv::setup_exceptions(IN BYTE* modulePtr, IN size_t moduleSize)
         }
         moduleSize = img_size;
     }
-    return NT_SUCCESS(details::RtlInsertInvertedFunctionTable(modulePtr, moduleSize));
+    return NT_SUCCESS(details::RtlInsertInvertedFunctionTable(modulePtr, (ULONG)moduleSize)) ? true : false;
 }

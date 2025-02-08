@@ -3582,24 +3582,24 @@ extern "C" {
         NTSTATUS
         NTAPI
         NtQueryVirtualMemory(
-            _In_ HANDLE ProcessHandle,
-            _In_opt_ PVOID BaseAddress,
-            _In_ MEMORY_INFORMATION_CLASS MemoryInformationClass,
-            _Out_writes_bytes_(MemoryInformationLength) PVOID MemoryInformation,
-            _In_ SIZE_T MemoryInformationLength,
-            _Out_opt_ PSIZE_T ReturnLength
+            IN HANDLE ProcessHandle,
+            IN OPTIONAL PVOID BaseAddress,
+            IN MEMORY_INFORMATION_CLASS MemoryInformationClass,
+            OUT PVOID MemoryInformation,
+            IN SIZE_T MemoryInformationLength,
+            OUT OPTIONAL PSIZE_T ReturnLength
         );
 
     NTSYSCALLAPI
         NTSTATUS
         NTAPI
         ZwQueryVirtualMemory(
-            _In_ HANDLE ProcessHandle,
-            _In_opt_ PVOID BaseAddress,
-            _In_ MEMORY_INFORMATION_CLASS MemoryInformationClass,
-            _Out_writes_bytes_(MemoryInformationLength) PVOID MemoryInformation,
-            _In_ SIZE_T MemoryInformationLength,
-            _Out_opt_ PSIZE_T ReturnLength
+            IN HANDLE ProcessHandle,
+            IN OPTIONAL  PVOID BaseAddress,
+            IN MEMORY_INFORMATION_CLASS MemoryInformationClass,
+            OUT OPTIONAL PVOID MemoryInformation,
+            IN SIZE_T MemoryInformationLength,
+            OUT OPTIONAL PSIZE_T ReturnLength
         );
 
 
