@@ -109,7 +109,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    BYTE* payload_nt_hdr = <a class="code hl_function" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3">get_nt_hdrs</a>(payload, payloadSize);</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordflow">if</span> (payload_nt_hdr == NULL) {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;Invalid payload: &quot;</span> &lt;&lt; std::hex &lt;&lt; (ULONGLONG) payload &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;Invalid PE: &quot;</span> &lt;&lt; std::hex &lt;&lt; (ULONGLONG) payload &lt;&lt; std::endl;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    }</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
@@ -207,7 +207,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="comment">//check payload:</span></div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    BYTE* nt_hdr = <a class="code hl_function" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3">get_nt_hdrs</a>(payload);</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">if</span> (nt_hdr == NULL) {</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;Invalid payload: &quot;</span> &lt;&lt; std::hex &lt;&lt; (ULONGLONG) payload &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;Invalid PE: &quot;</span> &lt;&lt; std::hex &lt;&lt; (ULONGLONG) payload &lt;&lt; std::endl;</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    }</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    DWORD payloadImageSize = 0;</div>
@@ -255,7 +255,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 7 2025 01:06:31 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
+Generated on Sat Feb 8 2025 18:35:06 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
 </small></address>
 </div><!-- doc-content -->
 </body>
