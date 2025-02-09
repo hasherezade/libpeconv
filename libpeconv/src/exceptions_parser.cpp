@@ -429,15 +429,14 @@ namespace details {
         HMODULE hModule = nullptr, hNtdll = GetModuleHandleW(L"ntdll.dll");
         auto NtdllHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(RtlImageNtHeader(hNtdll));
         PIMAGE_NT_HEADERS ModuleHeaders = nullptr;
-        _RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32 entry{};
+        _RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32 entry = { 0 };
         RtlSecureZeroMemory(&entry, sizeof(entry));
         LPCSTR lpSectionName = ".data";
-        SEARCH_CONTEXT SearchContext{
-        };
+        SEARCH_CONTEXT SearchContext = { 0 };
         SearchContext.SearchPattern = reinterpret_cast<LPBYTE>(&entry);
         SearchContext.PatternSize = sizeof(entry);
         PLIST_ENTRY ListHead = &NtCurrentPeb()->Ldr->InMemoryOrderModuleList,
-            ListEntry = ListHead->Flink;
+        ListEntry = ListHead->Flink;
         PLDR_DATA_TABLE_ENTRY CurEntry = nullptr;
         DWORD SEHTable, SEHCount;
         BYTE Offset = 0x20;	//sizeof(_RTL_INVERTED_FUNCTION_TABLE_ENTRY)*2
@@ -471,7 +470,7 @@ namespace details {
         entry.SEHandlerCount = SEHCount;
 
         while (NT_SUCCESS(RtlFindMemoryBlockFromModuleSection(hNtdll, lpSectionName, &SearchContext))) {
-            PRTL_INVERTED_FUNCTION_TABLE_WIN7_32 tab = decltype(tab)(SearchContext.Result - Offset);
+            PRTL_INVERTED_FUNCTION_TABLE_WIN7_32 tab = reinterpret_cast<decltype(tab)>(SearchContext.Result - Offset);
 
             //Note: Same memory layout for RTL_INVERTED_FUNCTION_TABLE_ENTRY in Windows 10 x86 and x64.
             if (RtlIsWindowsVersionOrGreater(6, 2, 0) && tab->MaxCount == 0x200 && !tab->NextEntrySEHandlerTableEncoded) return tab;
@@ -523,7 +522,7 @@ namespace details {
 
 #else
         DWORD ptr = 0, count = 0;
-        bool IsWin8OrGreater = RtlIsWindowsVersionOrGreater(6, 2, 0);
+        BOOL IsWin8OrGreater = RtlIsWindowsVersionOrGreater(6, 2, 0);
         ULONG Index = IsWin8OrGreater ? 1 : 0;
 
         if (InvertedTable->Count == InvertedTable->MaxCount) {
