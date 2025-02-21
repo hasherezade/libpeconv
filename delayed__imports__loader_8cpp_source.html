@@ -138,7 +138,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    T_FIELD* record_va = (T_FIELD*)((ULONGLONG)modulePtr + iat_addr);</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    T_IMAGE_THUNK_DATA* thunk_va = (T_IMAGE_THUNK_DATA*)((ULONGLONG)modulePtr + thunk_addr);</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">for</span> (; *record_va != NULL &amp;&amp; thunk_va != NULL; record_va++, thunk_va++) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">for</span> (; (*record_va) &amp;&amp; thunk_va; record_va++, thunk_va++) {</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">peconv::validate_ptr</a>(modulePtr, moduleSize, record_va, <span class="keyword">sizeof</span>(T_FIELD))) {</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
@@ -230,7 +230,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; max_count; i++) {</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <a class="code hl_typedef" href="delayed__imports__loader_8h.html#a065243bc869b818aae0d5af571fe9329">IMAGE_DELAYLOAD_DESCRIPTOR</a> *desc = &amp;first_desc[i];</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, module_size, desc, <span class="keyword">sizeof</span>(<a class="code hl_typedef" href="delayed__imports__loader_8h.html#a065243bc869b818aae0d5af571fe9329">IMAGE_DELAYLOAD_DESCRIPTOR</a>))) <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordflow">if</span> (desc-&gt;<a class="code hl_variable" href="struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a41772447f7cf6e943380a3ab637f04e0">DllNameRVA</a> == NULL) {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordflow">if</span> (!desc-&gt;<a class="code hl_variable" href="struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a41772447f7cf6e943380a3ab637f04e0">DllNameRVA</a>) {</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        }</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        ULONGLONG dll_name_rva = desc-&gt;<a class="code hl_variable" href="struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#a41772447f7cf6e943380a3ab637f04e0">DllNameRVA</a>;</div>
@@ -280,7 +280,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 9 2025 21:45:15 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
+Generated on Fri Feb 21 2025 00:40:10 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
 </small></address>
 </div><!-- doc-content -->
 </body>

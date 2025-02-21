@@ -121,7 +121,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        FIELD_T *thunk_val = <span class="keyword">reinterpret_cast&lt;</span>FIELD_T*<span class="keyword">&gt;</span>(thunk_ptr);</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        FIELD_T *call_via_val = <span class="keyword">reinterpret_cast&lt;</span>FIELD_T*<span class="keyword">&gt;</span>(call_via_ptr);</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keywordflow">if</span> (*call_via_val == 0) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keywordflow">if</span> ((*call_via_val) == 0) {</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <span class="comment">//nothing to fill, probably the last record</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        }</div>
@@ -328,14 +328,14 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>{</div>
 <div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordtype">bool</span> skip_bound = <span class="keyword">false</span>; <span class="comment">// skip boud imports?</span></div>
 <div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    IMAGE_DATA_DIRECTORY *importsDir = <a class="code hl_function" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68">peconv::get_directory_entry</a>((<span class="keyword">const</span> BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordflow">if</span> (importsDir == NULL) {</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordflow">if</span> (!importsDir) {</div>
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="comment">// done! no imports -&gt; nothing to fix</span></div>
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    }</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keywordtype">bool</span> is64 = <a class="code hl_function" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f">peconv::is64bit</a>((BYTE*)modulePtr);</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    DWORD maxSize = importsDir-&gt;Size;</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    DWORD impAddr = importsDir-&gt;VirtualAddress;</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    IMAGE_IMPORT_DESCRIPTOR* lib_desc = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    DWORD parsedSize = 0;</div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="preprocessor">#ifdef _DEBUG</span></div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    printf(<span class="stringliteral">&quot;---IMP---\n&quot;</span>);</div>
@@ -351,7 +351,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        }</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        parsedSize += <span class="keyword">sizeof</span>(IMAGE_IMPORT_DESCRIPTOR);</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        <span class="keywordflow">if</span> (lib_desc-&gt;OriginalFirstThunk == NULL &amp;&amp; lib_desc-&gt;FirstThunk == NULL) {</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        <span class="keywordflow">if</span> (!lib_desc-&gt;OriginalFirstThunk &amp;&amp; !lib_desc-&gt;FirstThunk) {</div>
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        }</div>
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> is_bound = (lib_desc-&gt;TimeDateStamp == (-1));</div>
@@ -455,7 +455,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 9 2025 21:45:15 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
+Generated on Fri Feb 21 2025 00:40:10 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
 </small></address>
 </div><!-- doc-content -->
 </body>

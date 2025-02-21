@@ -5,7 +5,7 @@ var searchData=
   ['parse_5fresource_5fentry_2',['parse_resource_entry',['../resource__parser_8cpp.html#a381ec8bd63afd2eebee73048ea8ee25c',1,'resource_parser.cpp']]],
   ['parse_5fresources_3',['parse_resources',['../namespacepeconv.html#a54589cd2372630c0c29ac743d868abaa',1,'peconv']]],
   ['patchbackup_4',['PatchBackup',['../classpeconv_1_1_patch_backup.html#acb4026e44214f135f34c9053725607bd',1,'peconv::PatchBackup']]],
-  ['pe_5fraw_5fto_5fvirtual_5',['pe_raw_to_virtual',['../namespacepeconv.html#aa1700ed9ad374834ca6b2b07f146ad0b',1,'peconv']]],
+  ['pe_5fraw_5fto_5fvirtual_5',['pe_raw_to_virtual',['../namespacepeconv.html#aaee505c65c971ad02b8072986dba5894',1,'peconv']]],
   ['pe_5frealign_5fraw_5fto_5fvirtual_6',['pe_realign_raw_to_virtual',['../namespacepeconv.html#addf8f50c27775ed2fa84c33450e0ec7e',1,'peconv']]],
   ['pe_5fvirtual_5fto_5fraw_7',['pe_virtual_to_raw',['../namespacepeconv.html#a76c6ce4daf3e2f7bfadda595a5113505',1,'peconv']]],
   ['print_5ffunc_5fto_5fva_8',['print_func_to_va',['../classpeconv_1_1_exports_mapper.html#aa0bf5547e3b177ced7ac2997d46cf357',1,'peconv::ExportsMapper']]],

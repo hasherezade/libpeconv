@@ -196,7 +196,7 @@ $(function(){ initResizable(false); });
 <div class="foldopen" id="foldopen00094" data-start="{" data-end="}">
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="class_collect_thunks_callback.html#a189e21e91623b9e0ebe733ab47d180fa">   94</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_collect_thunks_callback.html#a189e21e91623b9e0ebe733ab47d180fa">processThunks</a>(LPSTR libName, ULONG_PTR origFirstThunkPtr, ULONG_PTR va)</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    {</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordflow">if</span> (va == NULL) {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordflow">if</span> (!va) {</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// invalid thunk</span></div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        }</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keyword">const</span> ULONGLONG module_base = <span class="keyword">reinterpret_cast&lt;</span>ULONGLONG<span class="keyword">&gt;</span>(this-&gt;<a class="code hl_variable" href="class_collect_thunks_callback.html#aab2176f9327c81242bd1f4608ce9b319">vBuf</a>);</div>
@@ -254,7 +254,7 @@ $(function(){ initResizable(false); });
 <div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="class_collect_imports_callback.html#a79a9bfe9a459748de2fee4d147e7dc41">  144</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_collect_imports_callback.html#a79a9bfe9a459748de2fee4d147e7dc41">processThunks_tpl</a>(LPSTR lib_name, T_IMAGE_THUNK_DATA* desc, T_FIELD* call_via, T_FIELD ordinal_flag)</div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    {</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">if</span> (call_via == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">if</span> (!call_via) {</div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        }</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
@@ -313,7 +313,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, module_size, desc, <span class="keyword">sizeof</span>(T_IMAGE_THUNK_DATA))) {</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        }</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keywordflow">if</span> (desc-&gt;u1.Function == NULL) {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keywordflow">if</span> (!desc-&gt;u1.Function) {</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        }</div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        T_FIELD ordinal_flag = (<span class="keyword">sizeof</span>(T_FIELD) == <span class="keyword">sizeof</span>(ULONGLONG)) ? IMAGE_ORDINAL_FLAG64 : IMAGE_ORDINAL_FLAG32;</div>
@@ -349,7 +349,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, module_size, lib_desc, <span class="keyword">sizeof</span>(IMAGE_IMPORT_DESCRIPTOR))) {</div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        }</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <span class="keywordflow">if</span> (lib_desc-&gt;OriginalFirstThunk == NULL &amp;&amp; lib_desc-&gt;FirstThunk == NULL) {</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <span class="keywordflow">if</span> (!lib_desc-&gt;OriginalFirstThunk &amp;&amp; !lib_desc-&gt;FirstThunk) {</div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        }</div>
 <div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc-&gt;Name);</div>
@@ -359,7 +359,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        }</div>
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>        DWORD call_via = lib_desc-&gt;FirstThunk;</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        DWORD thunk_addr = lib_desc-&gt;OriginalFirstThunk;</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        <span class="keywordflow">if</span> (thunk_addr == NULL) {</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        <span class="keywordflow">if</span> (!thunk_addr) {</div>
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>            thunk_addr = lib_desc-&gt;FirstThunk;</div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        }</div>
 <div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="preprocessor">#ifdef _DEBUG_EX</span></div>
@@ -454,11 +454,11 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a198072d398d03570087df34a76d3454d">  330</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacepeconv.html#a198072d398d03570087df34a76d3454d">peconv::has_valid_import_table</a>(<span class="keyword">const</span> PBYTE modulePtr, <span class="keywordtype">size_t</span> moduleSize)</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>{</div>
 <div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    IMAGE_DATA_DIRECTORY *importsDir = <a class="code hl_function" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68">get_directory_entry</a>((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);</div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    <span class="keywordflow">if</span> (importsDir == NULL) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    <span class="keywordflow">if</span> (!importsDir) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    <span class="keyword">const</span> DWORD impAddr = importsDir-&gt;VirtualAddress;</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    IMAGE_IMPORT_DESCRIPTOR* lib_desc = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    DWORD parsedSize = 0;</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="keywordtype">size_t</span> valid_records = 0;</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
@@ -469,7 +469,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>        }</div>
 <div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>        parsedSize += <span class="keyword">sizeof</span>(IMAGE_IMPORT_DESCRIPTOR);</div>
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        <span class="keywordflow">if</span> (lib_desc-&gt;OriginalFirstThunk == NULL &amp;&amp; lib_desc-&gt;FirstThunk == NULL) {</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        <span class="keywordflow">if</span> (!lib_desc-&gt;OriginalFirstThunk &amp;&amp; !lib_desc-&gt;FirstThunk) {</div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        }</div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>        LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc-&gt;Name);</div>
@@ -477,7 +477,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span> </div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>        DWORD call_via = lib_desc-&gt;FirstThunk;</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>        DWORD thunk_addr = lib_desc-&gt;OriginalFirstThunk;</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        <span class="keywordflow">if</span> (thunk_addr == NULL) thunk_addr = lib_desc-&gt;FirstThunk;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        <span class="keywordflow">if</span> (!thunk_addr) thunk_addr = lib_desc-&gt;FirstThunk;</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        DWORD *thunks = (DWORD*)((ULONGLONG)modulePtr + thunk_addr);</div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">peconv::validate_ptr</a>(modulePtr, moduleSize, thunks, <span class="keyword">sizeof</span>(DWORD))) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -551,7 +551,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 9 2025 21:45:15 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
+Generated on Fri Feb 21 2025 00:40:10 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
 </small></address>
 </div><!-- doc-content -->
 </body>

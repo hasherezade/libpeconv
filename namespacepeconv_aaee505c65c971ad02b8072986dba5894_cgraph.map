@@ -1,6 +1,6 @@
 <map id="peconv::pe_raw_to_virtual" name="peconv::pe_raw_to_virtual">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,107,177,132"/>
-<area shape="rect" id="Node000002" href="$namespacepeconv.html#a92647f207ca261ca38ff516943501dd1" title=" " alt="" coords="231,5,387,31"/>
+<area shape="rect" id="Node000002" href="$namespacepeconv.html#a501c82f7c14aebcb035dec5b11c3c34c" title=" " alt="" coords="231,5,387,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,104,224,48,255,35,257,40,226,53,117,109"/>
 <area shape="rect" id="Node000004" href="$namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="812,105,949,131"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="150,130,225,142,383,150,540,147,683,137,796,126,796,131,683,143,541,152,383,155,224,147,150,136"/>
@@ -10,7 +10,7 @@
 <area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="106,131,156,181,189,210,226,236,251,249,249,254,223,240,186,214,152,185,102,135"/>
 <area shape="rect" id="Node000011" href="$pe__raw__to__virtual_8cpp.html#aa36f9f164cf7634ae71609daf64770cd" title=" " alt="" coords="230,107,388,132"/>
 <area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="177,117,214,117,214,122,177,122"/>
-<area shape="rect" id="Node000003" href="$namespacepeconv.html#a3df24248b3c8c9be64db51a405486923" title=" " alt="" coords="441,5,585,31"/>
+<area shape="rect" id="Node000003" href="$namespacepeconv.html#aa4310a0701987f6873228d20524f4ef5" title=" " alt="" coords="441,5,585,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="388,16,426,16,426,21,388,21"/>
 <area shape="rect" id="Node000005" href="$namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056" title=" " alt="" coords="997,81,1158,107"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="949,107,981,103,982,108,950,112"/>

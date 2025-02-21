@@ -252,7 +252,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        IMAGE_NT_HEADERS32* nt_headers64 = (IMAGE_NT_HEADERS32*)nt_headers;</div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        peDir = &amp;(nt_headers64-&gt;OptionalHeader.DataDirectory[dir_id]);</div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    }</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordflow">if</span> (!allow_empty &amp;&amp; peDir-&gt;VirtualAddress == NULL) {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordflow">if</span> (!allow_empty &amp;&amp; !peDir-&gt;VirtualAddress) {</div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    }</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordflow">return</span> peDir;</div>
@@ -604,7 +604,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>    <span class="keywordflow">if</span> (!payload) <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span> </div>
 <div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>    BYTE* payload_nt_hdr = <a class="code hl_function" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3">get_nt_hdrs</a>(payload);</div>
-<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    <span class="keywordflow">if</span> (payload_nt_hdr == NULL) {</div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    <span class="keywordflow">if</span> (!payload_nt_hdr) {</div>
 <div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>        <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>    }</div>
 <div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> is64b = <a class="code hl_function" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f">is64bit</a>(payload);</div>
@@ -771,7 +771,7 @@ $(function(){ initResizable(false); });
 <div class="foldopen" id="foldopen00605" data-start="{" data-end="}">
 <div class="line"><a id="l00605" name="l00605"></a><span class="lineno"><a class="line" href="namespacepeconv.html#adfdae754cddaa01f3babd7ef20314859">  605</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacepeconv.html#adfdae754cddaa01f3babd7ef20314859">peconv::is_valid_sectons_alignment</a>(IN <span class="keyword">const</span> BYTE* payload, IN <span class="keyword">const</span> SIZE_T payload_size, IN <span class="keywordtype">bool</span> is_raw)</div>
 <div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>{</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>    <span class="keywordflow">if</span> (payload == NULL) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>    <span class="keywordflow">if</span> (!payload) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span> </div>
 <div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>    <span class="keyword">const</span> DWORD my_align = <a class="code hl_function" href="namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c">peconv::get_sec_alignment</a>(payload, is_raw);</div>
 <div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>    <span class="keywordflow">if</span> (my_align == 0) {</div>
@@ -859,7 +859,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 9 2025 21:45:15 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
+Generated on Fri Feb 21 2025 00:40:10 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
 </small></address>
 </div><!-- doc-content -->
 </body>

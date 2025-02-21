@@ -104,14 +104,14 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* namec = name.c_str();</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">const</span> <span class="keywordtype">size_t</span> searched_len =  name.length() + 1; <span class="comment">// with terminating NULL</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* found_ptr = std::search(modulePtr, modulePtr + moduleSize, namec, namec + searched_len);</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keywordflow">if</span> (found_ptr == NULL) {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keywordflow">if</span> (!found_ptr) {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    }</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">size_t</span> o = found_ptr - modulePtr;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordflow">if</span> (o &lt; moduleSize) {</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>       <span class="keywordflow">return</span> (LPVOID)(found_ptr);</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    }</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
 </div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
@@ -170,7 +170,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    std::map&lt;ULONGLONG, std::set&lt;ExportedFunc&gt;&gt; &amp;addr_to_func</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>)</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>{</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">if</span> (call_via_ptr == NULL || <a class="code hl_variable" href="classpeconv_1_1_imports_uneraser.html#a82f4dd310c98cffc49e7ab2fb7d92aee">modulePtr</a> == NULL || lib_desc == NULL) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">if</span> (!call_via_ptr || !<a class="code hl_variable" href="classpeconv_1_1_imports_uneraser.html#a82f4dd310c98cffc49e7ab2fb7d92aee">modulePtr</a> || !lib_desc) {</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">//malformed input</span></div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    IMAGE_DATA_DIRECTORY *importsDir = <a class="code hl_function" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68">get_directory_entry</a>((BYTE*)<a class="code hl_variable" href="classpeconv_1_1_imports_uneraser.html#a82f4dd310c98cffc49e7ab2fb7d92aee">modulePtr</a>, IMAGE_DIRECTORY_ENTRY_IMPORT);</div>
@@ -275,23 +275,23 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    OUT OPTIONAL <a class="code hl_class" href="classpeconv_1_1_imps_not_covered.html">ImpsNotCovered</a>* notCovered</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>)</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>{</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordflow">if</span> (lib_desc == NULL) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordflow">if</span> (!lib_desc) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    FIELD_T call_via = lib_desc-&gt;FirstThunk;</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="keywordflow">if</span> (call_via == NULL) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="keywordflow">if</span> (!call_via) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">size_t</span> processed_imps = 0;</div>
 <div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <span class="keywordtype">size_t</span> recovered_imps = 0;</div>
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    FIELD_T thunk_addr = lib_desc-&gt;OriginalFirstThunk;</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">if</span> (thunk_addr == NULL) {</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">if</span> (!thunk_addr) {</div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        thunk_addr = call_via;</div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    }</div>
 <div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    BYTE* call_via_ptr = (BYTE*)((ULONGLONG)<a class="code hl_variable" href="classpeconv_1_1_imports_uneraser.html#a82f4dd310c98cffc49e7ab2fb7d92aee">modulePtr</a> + call_via);</div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    BYTE* thunk_ptr = (BYTE*)((ULONGLONG)<a class="code hl_variable" href="classpeconv_1_1_imports_uneraser.html#a82f4dd310c98cffc49e7ab2fb7d92aee">modulePtr</a> + thunk_addr);</div>
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordflow">for</span> (;</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        call_via_ptr != NULL &amp;&amp; thunk_ptr != NULL;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        call_via_ptr &amp;&amp; thunk_ptr;</div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        call_via_ptr += <span class="keyword">sizeof</span>(FIELD_T), thunk_ptr += <span class="keyword">sizeof</span>(FIELD_T)</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        )</div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    {</div>
@@ -302,7 +302,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        }</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        IMAGE_THUNK_DATA_T* desc = (IMAGE_THUNK_DATA_T*)thunk_ptr;</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        <span class="keywordflow">if</span> (desc-&gt;u1.Function == NULL) {</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        <span class="keywordflow">if</span> (!desc-&gt;u1.Function) {</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        }</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        ULONGLONG searchedAddr = ULONGLONG(*call_via_val);</div>
@@ -378,7 +378,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 9 2025 21:45:15 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
+Generated on Fri Feb 21 2025 00:40:10 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
 </small></address>
 </div><!-- doc-content -->
 </body>
