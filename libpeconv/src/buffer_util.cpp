@@ -53,11 +53,11 @@ void peconv::free_unaligned(peconv::UNALIGNED_BUF section_buffer)
 // alloc/free aligned buffers:
 //
 
-peconv::ALIGNED_BUF peconv::alloc_aligned(size_t buffer_size, DWORD protect, ULONGLONG desired_base)
+peconv::ALIGNED_BUF peconv::alloc_aligned(size_t buffer_size, DWORD protect, void* desired_base)
 {
     if (!buffer_size) return NULL;
 
-    ALIGNED_BUF buf = (ALIGNED_BUF) VirtualAlloc((LPVOID) desired_base, buffer_size, MEM_COMMIT | MEM_RESERVE, protect);
+    ALIGNED_BUF buf = (ALIGNED_BUF) VirtualAlloc(desired_base, buffer_size, MEM_COMMIT | MEM_RESERVE, protect);
     return buf;
 }
 
@@ -79,7 +79,7 @@ bool peconv::free_aligned(peconv::ALIGNED_BUF buffer, size_t buffer_size)
 //
 
 // allocate a buffer for PE module:
-peconv::ALIGNED_BUF peconv::alloc_pe_buffer(size_t buffer_size, DWORD protect, ULONGLONG desired_base)
+peconv::ALIGNED_BUF peconv::alloc_pe_buffer(size_t buffer_size, DWORD protect, void* desired_base)
 {
     return alloc_aligned(buffer_size, protect, desired_base);
 }

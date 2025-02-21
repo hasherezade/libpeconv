@@ -143,7 +143,7 @@ IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(IN const BYTE *pe_buffer, IN D
         IMAGE_NT_HEADERS32* nt_headers64 = (IMAGE_NT_HEADERS32*)nt_headers;
         peDir = &(nt_headers64->OptionalHeader.DataDirectory[dir_id]);
     }
-    if (!allow_empty && peDir->VirtualAddress == NULL) {
+    if (!allow_empty && !peDir->VirtualAddress) {
         return nullptr;
     }
     return peDir;
@@ -457,7 +457,7 @@ WORD peconv::get_subsystem(IN const BYTE* payload)
     if (!payload) return 0;
 
     BYTE* payload_nt_hdr = get_nt_hdrs(payload);
-    if (payload_nt_hdr == NULL) {
+    if (!payload_nt_hdr) {
         return 0;
     }
     const bool is64b = is64bit(payload);
@@ -604,7 +604,7 @@ DWORD peconv::calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool 
 
 bool peconv::is_valid_sectons_alignment(IN const BYTE* payload, IN const SIZE_T payload_size, IN bool is_raw)
 {
-    if (payload == NULL) return false;
+    if (!payload) return false;
 
     const DWORD my_align = peconv::get_sec_alignment(payload, is_raw);
     if (my_align == 0) {

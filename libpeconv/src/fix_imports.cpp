@@ -26,7 +26,7 @@ size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modul
         }
         FIELD_T *thunk_val = reinterpret_cast<FIELD_T*>(thunk_ptr);
         FIELD_T *call_via_val = reinterpret_cast<FIELD_T*>(call_via_ptr);
-        if (*call_via_val == 0) {
+        if ((*call_via_val) == 0) {
             //nothing to fill, probably the last record
             break;
         }
@@ -217,14 +217,14 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
 {
     bool skip_bound = false; // skip boud imports?
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
-    if (importsDir == NULL) {
+    if (!importsDir) {
         return true; // done! no imports -> nothing to fix
     }
     bool is64 = peconv::is64bit((BYTE*)modulePtr);
     DWORD maxSize = importsDir->Size;
     DWORD impAddr = importsDir->VirtualAddress;
 
-    IMAGE_IMPORT_DESCRIPTOR* lib_desc = NULL;
+    IMAGE_IMPORT_DESCRIPTOR* lib_desc = nullptr;
     DWORD parsedSize = 0;
 #ifdef _DEBUG
     printf("---IMP---\n");
@@ -240,7 +240,7 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
             return false;
         }
         parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
-        if (lib_desc->OriginalFirstThunk == NULL && lib_desc->FirstThunk == NULL) {
+        if (!lib_desc->OriginalFirstThunk && !lib_desc->FirstThunk) {
             break;
         }
         const bool is_bound = (lib_desc->TimeDateStamp == (-1));

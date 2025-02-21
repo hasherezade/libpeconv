@@ -14,16 +14,16 @@ using namespace peconv;
 namespace peconv {
     BYTE* load_no_sec_pe(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable)
     {
-        ULONGLONG desired_base = 0;
+        ULONG_PTR desired_base = 0;
         size_t out_size = (r_size < PAGE_SIZE) ? PAGE_SIZE : r_size;
         if (executable) {
             desired_base = get_image_base(dllRawData);
             out_size = peconv::get_image_size(dllRawData);
         }
         DWORD protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
-        BYTE* mappedPE = peconv::alloc_pe_buffer(out_size, protect, desired_base);
+        BYTE* mappedPE = peconv::alloc_pe_buffer(out_size, protect, reinterpret_cast<void*>(desired_base));
         if (!mappedPE) {
-            return NULL;
+            return nullptr;
         }
         memcpy(mappedPE, dllRawData, r_size);
         v_size = out_size;
@@ -31,10 +31,10 @@ namespace peconv {
     }
 };
 
-BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate, ULONGLONG desired_base)
+BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable, bool relocate, ULONG_PTR desired_base)
 {
     if (!peconv::get_nt_hdrs(dllRawData, r_size)) {
-        return NULL;
+        return nullptr;
     }
     if (peconv::get_sections_count(dllRawData, r_size) == 0) {
         return load_no_sec_pe(dllRawData, r_size, v_size, executable);
@@ -53,7 +53,7 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
             // relocating was required, but it failed - thus, the full PE image is useless
             std::cerr << "[!] Could not relocate the module!\n";
             free_pe_buffer(mappedDLL, v_size);
-            mappedDLL = NULL;
+            mappedDLL = nullptr;
         }
     } else {
         std::cerr << "[!] Could not allocate memory at the desired base!\n";
@@ -61,7 +61,7 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
     return mappedDLL;
 }
 
-BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executable, bool relocate, ULONGLONG desired_base)
+BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executable, bool relocate, ULONG_PTR desired_base)
 {
     size_t r_size = 0;
     BYTE *dllRawData = load_file(filename, r_size);
@@ -69,19 +69,19 @@ BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executab
 #ifdef _DEBUG
         std::cerr << "Cannot load the file: " << filename << std::endl;
 #endif
-        return NULL;
+        return nullptr;
     }
     BYTE* mappedPE = load_pe_module(dllRawData, r_size, v_size, executable, relocate, desired_base);
     free_file(dllRawData);
     return mappedPE;
 }
 
-BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver, ULONGLONG desired_base)
+BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver, ULONG_PTR desired_base)
 {
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true, desired_base);
     if (!loaded_pe) {
         std::cerr << "[-] Loading failed!\n";
-        return NULL;
+        return nullptr;
     }
 #if _DEBUG
     printf("Loaded at: %p\n", loaded_pe);
@@ -116,7 +116,7 @@ BYTE* peconv::load_pe_executable(LPCTSTR my_path, OUT size_t &v_size, t_function
     if (!load_imports(loaded_pe, import_resolver)) {
         printf("[-] Loading imports failed!");
         free_pe_buffer(loaded_pe, v_size);
-        return NULL;
+        return nullptr;
     }
     return loaded_pe;
 }

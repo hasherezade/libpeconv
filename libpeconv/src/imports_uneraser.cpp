@@ -9,14 +9,14 @@ LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
     const char* namec = name.c_str();
     const size_t searched_len =  name.length() + 1; // with terminating NULL
     const char* found_ptr = std::search(modulePtr, modulePtr + moduleSize, namec, namec + searched_len);
-    if (found_ptr == NULL) {
-        return NULL;
+    if (!found_ptr) {
+        return nullptr;
     }
     size_t o = found_ptr - modulePtr;
     if (o < moduleSize) {
        return (LPVOID)(found_ptr);
     }
-    return NULL;
+    return nullptr;
 }
 
 bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string &found_name)
@@ -69,7 +69,7 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
     std::map<ULONGLONG, std::set<ExportedFunc>> &addr_to_func
 )
 {
-    if (call_via_ptr == NULL || modulePtr == NULL || lib_desc == NULL) {
+    if (!call_via_ptr || !modulePtr || !lib_desc) {
         return false; //malformed input
     }
     IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
@@ -170,23 +170,23 @@ bool ImportsUneraser::fillImportNames(
     OUT OPTIONAL ImpsNotCovered* notCovered
 )
 {
-    if (lib_desc == NULL) return false;
+    if (!lib_desc) return false;
 
     FIELD_T call_via = lib_desc->FirstThunk;
-    if (call_via == NULL) return false;
+    if (!call_via) return false;
 
     size_t processed_imps = 0;
     size_t recovered_imps = 0;
 
     FIELD_T thunk_addr = lib_desc->OriginalFirstThunk;
-    if (thunk_addr == NULL) {
+    if (!thunk_addr) {
         thunk_addr = call_via;
     }
 
     BYTE* call_via_ptr = (BYTE*)((ULONGLONG)modulePtr + call_via);
     BYTE* thunk_ptr = (BYTE*)((ULONGLONG)modulePtr + thunk_addr);
     for (;
-        call_via_ptr != NULL && thunk_ptr != NULL;
+        call_via_ptr && thunk_ptr;
         call_via_ptr += sizeof(FIELD_T), thunk_ptr += sizeof(FIELD_T)
         )
     {
@@ -197,7 +197,7 @@ bool ImportsUneraser::fillImportNames(
             break;
         }
         IMAGE_THUNK_DATA_T* desc = (IMAGE_THUNK_DATA_T*)thunk_ptr;
-        if (desc->u1.Function == NULL) {
+        if (!desc->u1.Function) {
             break;
         }
         ULONGLONG searchedAddr = ULONGLONG(*call_via_val);

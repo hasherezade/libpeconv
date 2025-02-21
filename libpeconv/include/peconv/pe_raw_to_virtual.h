@@ -24,7 +24,7 @@ namespace peconv {
         IN size_t rawPeSize,
         OUT size_t &outputSize,
         IN OPTIONAL bool executable = true,
-        IN OPTIONAL ULONGLONG desired_base = 0
+        IN OPTIONAL ULONG_PTR desired_base = 0
     );
 
 }; // namespace peconv

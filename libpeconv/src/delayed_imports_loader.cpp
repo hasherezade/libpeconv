@@ -41,7 +41,7 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
     T_FIELD* record_va = (T_FIELD*)((ULONGLONG)modulePtr + iat_addr);
     T_IMAGE_THUNK_DATA* thunk_va = (T_IMAGE_THUNK_DATA*)((ULONGLONG)modulePtr + thunk_addr);
 
-    for (; *record_va != NULL && thunk_va != NULL; record_va++, thunk_va++) {
+    for (; (*record_va) && thunk_va; record_va++, thunk_va++) {
         if (!peconv::validate_ptr(modulePtr, moduleSize, record_va, sizeof(T_FIELD))) {
             return false;
         }
@@ -131,7 +131,7 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
     for (size_t i = 0; i < max_count; i++) {
         IMAGE_DELAYLOAD_DESCRIPTOR *desc = &first_desc[i];
         if (!validate_ptr(modulePtr, module_size, desc, sizeof(IMAGE_DELAYLOAD_DESCRIPTOR))) break;
-        if (desc->DllNameRVA == NULL) {
+        if (!desc->DllNameRVA) {
             break;
         }
         ULONGLONG dll_name_rva = desc->DllNameRVA;

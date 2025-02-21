@@ -66,7 +66,7 @@ namespace peconv {
     /**
     Allocates a buffer of a virtual memory (using VirtualAlloc).  Can be used in the cases when the buffer have to be aligned to the beginning of a page.
     */
-    ALIGNED_BUF alloc_aligned(size_t buffer_size, DWORD protect, ULONGLONG desired_base=NULL);
+    ALIGNED_BUF alloc_aligned(size_t buffer_size, DWORD protect, void* desired_base=nullptr);
 
     /**
     Frees buffer allocated by alloc_aligned.
@@ -78,7 +78,7 @@ namespace peconv {
     /**
     Allocates an aligned buffer for a PE file.
     */
-    ALIGNED_BUF alloc_pe_buffer(size_t buffer_size, DWORD protect, ULONGLONG desired_base=NULL);
+    ALIGNED_BUF alloc_pe_buffer(size_t buffer_size, DWORD protect, void* desired_base=nullptr);
 
     /**
     Free the memory allocated with alloc_pe_buffer.
