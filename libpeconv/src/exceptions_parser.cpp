@@ -470,7 +470,7 @@ namespace details {
                 );
         }
         ModuleHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(RtlImageNtHeader(hModule));
-        if (!hModule || !ModuleHeaders || !hNtdll || !NtdllHeaders)return nullptr;
+        if (!hModule || !ModuleHeaders || !hNtdll || !NtdllHeaders) return nullptr;
 
         RtlCaptureImageExceptionValues(hModule, &SEHTable, &SEHCount);
 
