@@ -492,7 +492,7 @@ namespace details {
         while (NT_SUCCESS(RtlFindMemoryBlockFromModuleSection(hNtdll, lpSectionName, &SearchContext))) {
             PRTL_INVERTED_FUNCTION_TABLE_WIN7_32 tab = reinterpret_cast<decltype(tab)>(SearchContext.Result - Offset);
 
-            //Note: Same memory layout for RTL_INVERTED_FUNCTION_TABLE_ENTRY in Windows 10 x86 and x64.
+            //Note: Same memory layout for RTL_INVERTED_FUNCTION_TABLE_ENTRY in Windows 8 x86 and x64.
             if (RtlIsWindowsVersionOrGreater(6, 2, 0) && tab->MaxCount == 0x200 && !tab->NextEntrySEHandlerTableEncoded) return tab;
             else if (tab->MaxCount == 0x200 && !tab->Overflow) return tab;
         }
