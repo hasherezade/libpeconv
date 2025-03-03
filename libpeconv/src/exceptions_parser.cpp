@@ -1,3 +1,5 @@
+// Original RtlInsertInvertedFunctionTable implementation: https://github.com/bb107/MemoryModulePP
+
 #include "peconv/exceptions_parser.h"
 
 #include "peconv/pe_hdrs_helper.h"
@@ -26,6 +28,7 @@ namespace details {
         SIZE_T MemoryBlockSize;
 
     } SEARCH_CONTEXT, * PSEARCH_CONTEXT;
+
     typedef struct _NtVersion {
         ULONG MajorVersion;
         ULONG MinorVersion;
@@ -46,14 +49,21 @@ namespace details {
         RTL_INVERTED_FUNCTION_TABLE_ENTRY_64 Entries[0x200];
     } RTL_INVERTED_FUNCTION_TABLE_64, * PRTL_INVERTED_FUNCTION_TABLE_64;
 
-    //	The correct data structure should be this.
-    //
-    typedef struct _RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32 {
+    /*	The correct data structure for Win8+ 32 should be this.*/
+     typedef struct _RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32 {
         PVOID EntrySEHandlerTableEncoded;
+	    PVOID ImageBase;
+	    ULONG ImageSize;
+	    ULONG SEHandlerCount;
+    } RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32, * PRTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32;
+   
+    typedef struct _RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32 {
         PVOID ImageBase;
         ULONG ImageSize;
         ULONG SEHandlerCount;
+        PVOID EntrySEHandlerTableEncoded;
     } RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32, * PRTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32;
+    
     typedef struct _RTL_INVERTED_FUNCTION_TABLE_WIN7_32 {
         ULONG Count;
         ULONG MaxCount;
@@ -464,10 +474,20 @@ namespace details {
 
         RtlCaptureImageExceptionValues(hModule, &SEHTable, &SEHCount);
 
-        entry.EntrySEHandlerTableEncoded = RtlEncodeSystemPointer(reinterpret_cast<PVOID>(SEHTable));
-        entry.ImageBase = reinterpret_cast<PVOID>(hModule);
-        entry.ImageSize = ModuleHeaders->OptionalHeader.SizeOfImage;
-        entry.SEHandlerCount = SEHCount;
+        if (RtlIsWindowsVersionOrGreater(6, 2, 0)) {
+            //memory layout is same as x64
+            auto entry2 = reinterpret_cast<PRTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32>(&entry);
+            entry2->EntrySEHandlerTableEncoded = RtlEncodeSystemPointer(reinterpret_cast<PVOID>(SEHTable));
+            entry2->ImageBase = reinterpret_cast<PVOID>(hModule);
+            entry2->ImageSize = ModuleHeaders->OptionalHeader.SizeOfImage;
+            entry2->SEHandlerCount = SEHCount;
+        }
+        else {
+            entry.EntrySEHandlerTableEncoded = RtlEncodeSystemPointer(reinterpret_cast<PVOID>(SEHTable));
+            entry.ImageBase = reinterpret_cast<PVOID>(hModule);
+            entry.ImageSize = ModuleHeaders->OptionalHeader.SizeOfImage;
+            entry.SEHandlerCount = SEHCount;
+        }
 
         while (NT_SUCCESS(RtlFindMemoryBlockFromModuleSection(hNtdll, lpSectionName, &SearchContext))) {
             PRTL_INVERTED_FUNCTION_TABLE_WIN7_32 tab = reinterpret_cast<decltype(tab)>(SearchContext.Result - Offset);
@@ -552,9 +572,9 @@ namespace details {
         RtlCaptureImageExceptionValues(ImageBase, &ptr, &count);
         if (IsWin8OrGreater) {
             //memory layout is same as x64
-            auto entry = reinterpret_cast<PRTL_INVERTED_FUNCTION_TABLE_ENTRY_64>(&InvertedTable->Entries[Index]);
-            entry->ExceptionDirectory = reinterpret_cast<PIMAGE_RUNTIME_FUNCTION_ENTRY>(RtlEncodeSystemPointer(reinterpret_cast<PVOID>(ptr)));
-            entry->ExceptionDirectorySize = count;
+            auto entry = reinterpret_cast<PRTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32>(&InvertedTable->Entries[Index]);
+            entry->EntrySEHandlerTableEncoded = RtlEncodeSystemPointer(reinterpret_cast<PVOID>(ptr));
+            entry->SEHandlerCount = count;
             entry->ImageBase = ImageBase;
             entry->ImageSize = SizeOfImage;
         }
