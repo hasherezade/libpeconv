@@ -5,5 +5,6 @@ var searchData=
   ['rtl_5finverted_5ffunction_5ftable_5fentry_2',['RTL_INVERTED_FUNCTION_TABLE_ENTRY',['../namespacedetails.html#a201528d04a3fb4d0aa839c59a10c3c87',1,'details']]],
   ['rtl_5finverted_5ffunction_5ftable_5fentry_5f64_3',['RTL_INVERTED_FUNCTION_TABLE_ENTRY_64',['../namespacedetails.html#ac178823fe92759758f5f676cdb71df4f',1,'details']]],
   ['rtl_5finverted_5ffunction_5ftable_5fentry_5fwin7_5f32_4',['RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32',['../namespacedetails.html#a7a393b80a69f3986b86b68cfe280fb3d',1,'details']]],
-  ['rtl_5finverted_5ffunction_5ftable_5fwin7_5f32_5',['RTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../namespacedetails.html#a21654e4aca03fea0149d5277fdba3fc0',1,'details']]]
+  ['rtl_5finverted_5ffunction_5ftable_5fentry_5fwin8_5fplus_5f32_5',['RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32',['../namespacedetails.html#a77d5fa9dd6b8d59dd027d159a648b5ab',1,'details']]],
+  ['rtl_5finverted_5ffunction_5ftable_5fwin7_5f32_6',['RTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../namespacedetails.html#a21654e4aca03fea0149d5277fdba3fc0',1,'details']]]
 ];

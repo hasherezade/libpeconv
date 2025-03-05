@@ -16,6 +16,7 @@ var searchData=
   ['_5frtl_5finverted_5ffunction_5ftable_5f64_13',['_RTL_INVERTED_FUNCTION_TABLE_64',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e__64.html',1,'details']]],
   ['_5frtl_5finverted_5ffunction_5ftable_5fentry_5f64_14',['_RTL_INVERTED_FUNCTION_TABLE_ENTRY_64',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y__64.html',1,'details']]],
   ['_5frtl_5finverted_5ffunction_5ftable_5fentry_5fwin7_5f32_15',['_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n7__32.html',1,'details']]],
-  ['_5frtl_5finverted_5ffunction_5ftable_5fwin7_5f32_16',['_RTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___w_i_n7__32.html',1,'details']]],
-  ['_5fsearch_5fcontext_17',['_SEARCH_CONTEXT',['../structdetails_1_1___s_e_a_r_c_h___c_o_n_t_e_x_t.html',1,'details']]]
+  ['_5frtl_5finverted_5ffunction_5ftable_5fentry_5fwin8_5fplus_5f32_16',['_RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___e_n_t_r_y___w_i_n8___p_l_u_s__32.html',1,'details']]],
+  ['_5frtl_5finverted_5ffunction_5ftable_5fwin7_5f32_17',['_RTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../structdetails_1_1___r_t_l___i_n_v_e_r_t_e_d___f_u_n_c_t_i_o_n___t_a_b_l_e___w_i_n7__32.html',1,'details']]],
+  ['_5fsearch_5fcontext_18',['_SEARCH_CONTEXT',['../structdetails_1_1___s_e_a_r_c_h___c_o_n_t_e_x_t.html',1,'details']]]
 ];

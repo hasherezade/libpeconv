@@ -65,6 +65,7 @@ var searchData=
   ['prtl_5finverted_5ffunction_5ftable_5fentry_62',['PRTL_INVERTED_FUNCTION_TABLE_ENTRY',['../namespacedetails.html#af8fefdbed86b2ff0e914ae0446611e2c',1,'details']]],
   ['prtl_5finverted_5ffunction_5ftable_5fentry_5f64_63',['PRTL_INVERTED_FUNCTION_TABLE_ENTRY_64',['../namespacedetails.html#aa847cfc99905f8cb0556e094bd2b5866',1,'details']]],
   ['prtl_5finverted_5ffunction_5ftable_5fentry_5fwin7_5f32_64',['PRTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32',['../namespacedetails.html#a48dd2289bb47ac1784800e35a08ce9ee',1,'details']]],
-  ['prtl_5finverted_5ffunction_5ftable_5fwin7_5f32_65',['PRTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../namespacedetails.html#ad4dda31124e5c23a9f5857f04eff36fd',1,'details']]],
-  ['psearch_5fcontext_66',['PSEARCH_CONTEXT',['../namespacedetails.html#a4165492c7f6d93ffd8cde2db65cf881d',1,'details']]]
+  ['prtl_5finverted_5ffunction_5ftable_5fentry_5fwin8_5fplus_5f32_65',['PRTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32',['../namespacedetails.html#a82bf4de4593fabc203aa54181062f61b',1,'details']]],
+  ['prtl_5finverted_5ffunction_5ftable_5fwin7_5f32_66',['PRTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../namespacedetails.html#ad4dda31124e5c23a9f5857f04eff36fd',1,'details']]],
+  ['psearch_5fcontext_67',['PSEARCH_CONTEXT',['../namespacedetails.html#a4165492c7f6d93ffd8cde2db65cf881d',1,'details']]]
 ];

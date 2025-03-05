@@ -49,12 +49,13 @@ var searchData=
   ['rtl_5finverted_5ffunction_5ftable_5fentry_46',['RTL_INVERTED_FUNCTION_TABLE_ENTRY',['../namespacedetails.html#a201528d04a3fb4d0aa839c59a10c3c87',1,'details']]],
   ['rtl_5finverted_5ffunction_5ftable_5fentry_5f64_47',['RTL_INVERTED_FUNCTION_TABLE_ENTRY_64',['../namespacedetails.html#ac178823fe92759758f5f676cdb71df4f',1,'details']]],
   ['rtl_5finverted_5ffunction_5ftable_5fentry_5fwin7_5f32_48',['RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN7_32',['../namespacedetails.html#a7a393b80a69f3986b86b68cfe280fb3d',1,'details']]],
-  ['rtl_5finverted_5ffunction_5ftable_5fwin7_5f32_49',['RTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../namespacedetails.html#a21654e4aca03fea0149d5277fdba3fc0',1,'details']]],
-  ['rtl_5fverify_5fflags_5fbuild_5fnumbers_50',['RTL_VERIFY_FLAGS_BUILD_NUMBERS',['../exceptions__parser_8cpp.html#a25b9de2e8d0b5e4eea6a7c072cbfa550',1,'exceptions_parser.cpp']]],
-  ['rtl_5fverify_5fflags_5fdefault_51',['RTL_VERIFY_FLAGS_DEFAULT',['../exceptions__parser_8cpp.html#a4622797023d28152c31e7ca01dc31f17',1,'exceptions_parser.cpp']]],
-  ['rtl_5fverify_5fflags_5fmajor_5fversion_52',['RTL_VERIFY_FLAGS_MAJOR_VERSION',['../exceptions__parser_8cpp.html#a01057430741d6e6e045593444299f820',1,'exceptions_parser.cpp']]],
-  ['rtl_5fverify_5fflags_5fminor_5fversion_53',['RTL_VERIFY_FLAGS_MINOR_VERSION',['../exceptions__parser_8cpp.html#a5b71d08b07a42ea352505949f1450ab3',1,'exceptions_parser.cpp']]],
-  ['rtlfindmemoryblockfrommodulesection_5f_5fleave_54',['RtlFindMemoryBlockFromModuleSection__leave',['../exceptions__parser_8cpp.html#afad636e519d50590859c2ad4076b6d82',1,'exceptions_parser.cpp']]],
-  ['run_5ftls_5fcallbacks_55',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]],
-  ['rvabased_56',['RvaBased',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ae09d0c654249e95a2473a3c4e84f7ab9',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
+  ['rtl_5finverted_5ffunction_5ftable_5fentry_5fwin8_5fplus_5f32_49',['RTL_INVERTED_FUNCTION_TABLE_ENTRY_WIN8_PLUS_32',['../namespacedetails.html#a77d5fa9dd6b8d59dd027d159a648b5ab',1,'details']]],
+  ['rtl_5finverted_5ffunction_5ftable_5fwin7_5f32_50',['RTL_INVERTED_FUNCTION_TABLE_WIN7_32',['../namespacedetails.html#a21654e4aca03fea0149d5277fdba3fc0',1,'details']]],
+  ['rtl_5fverify_5fflags_5fbuild_5fnumbers_51',['RTL_VERIFY_FLAGS_BUILD_NUMBERS',['../exceptions__parser_8cpp.html#a25b9de2e8d0b5e4eea6a7c072cbfa550',1,'exceptions_parser.cpp']]],
+  ['rtl_5fverify_5fflags_5fdefault_52',['RTL_VERIFY_FLAGS_DEFAULT',['../exceptions__parser_8cpp.html#a4622797023d28152c31e7ca01dc31f17',1,'exceptions_parser.cpp']]],
+  ['rtl_5fverify_5fflags_5fmajor_5fversion_53',['RTL_VERIFY_FLAGS_MAJOR_VERSION',['../exceptions__parser_8cpp.html#a01057430741d6e6e045593444299f820',1,'exceptions_parser.cpp']]],
+  ['rtl_5fverify_5fflags_5fminor_5fversion_54',['RTL_VERIFY_FLAGS_MINOR_VERSION',['../exceptions__parser_8cpp.html#a5b71d08b07a42ea352505949f1450ab3',1,'exceptions_parser.cpp']]],
+  ['rtlfindmemoryblockfrommodulesection_5f_5fleave_55',['RtlFindMemoryBlockFromModuleSection__leave',['../exceptions__parser_8cpp.html#afad636e519d50590859c2ad4076b6d82',1,'exceptions_parser.cpp']]],
+  ['run_5ftls_5fcallbacks_56',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]],
+  ['rvabased_57',['RvaBased',['../struct___i_m_a_g_e___d_e_l_a_y_l_o_a_d___d_e_s_c_r_i_p_t_o_r.html#ae09d0c654249e95a2473a3c4e84f7ab9',1,'_IMAGE_DELAYLOAD_DESCRIPTOR']]]
 ];
