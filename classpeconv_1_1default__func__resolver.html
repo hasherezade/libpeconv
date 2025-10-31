@@ -91,6 +91,7 @@ $(function(){ initResizable(false); });
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classpeconv_1_1default__func__resolver-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">peconv::default_func_resolver Class Reference</div></div>
 </div><!--header-->
@@ -116,12 +117,63 @@ Inheritance diagram for peconv::default_func_resolver:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a066a70803ac85bb73123dab8ed29ec03" id="r_a066a70803ac85bb73123dab8ed29ec03"><td class="memItemLeft" align="right" valign="top">virtual FARPROC&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a066a70803ac85bb73123dab8ed29ec03">resolve_func</a> (LPCSTR lib_name, LPCSTR func_name)</td></tr>
 <tr class="separator:a066a70803ac85bb73123dab8ed29ec03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a842ddd885f90f119e104530b8b9c9306" id="r_a842ddd885f90f119e104530b8b9c9306"><td class="memItemLeft" align="right" valign="top">virtual HMODULE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a842ddd885f90f119e104530b8b9c9306">load_library</a> (LPCSTR lib_name)</td></tr>
+<tr class="separator:a842ddd885f90f119e104530b8b9c9306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a63e2ea2268b94e7207abfc668936863c" id="r_a63e2ea2268b94e7207abfc668936863c"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, HMODULE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63e2ea2268b94e7207abfc668936863c">nameToModule</a></td></tr>
+<tr class="separator:a63e2ea2268b94e7207abfc668936863c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A default functions resolver, using LoadLibraryA and GetProcAddress. </p>
 
-<p class="definition">Definition at line <a class="el" href="function__resolver_8h_source.html#l00028">28</a> of file <a class="el" href="function__resolver_8h_source.html">function_resolver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="function__resolver_8h_source.html#l00030">30</a> of file <a class="el" href="function__resolver_8h_source.html">function_resolver.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a842ddd885f90f119e104530b8b9c9306" name="a842ddd885f90f119e104530b8b9c9306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a842ddd885f90f119e104530b8b9c9306">&#9670;&#160;</a></span>load_library()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">HMODULE peconv::default_func_resolver::load_library </td>
+          <td>(</td>
+          <td class="paramtype">LPCSTR</td>          <td class="paramname"><span class="paramname"><em>lib_name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Load the DLL using LoadLibraryA. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lib_name</td><td>: the name of the DLL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>base of the loaded module </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="function__resolver_8cpp_source.html#l00016">16</a> of file <a class="el" href="function__resolver_8cpp_source.html">function_resolver.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classpeconv_1_1default__func__resolver_a842ddd885f90f119e104530b8b9c9306_cgraph.png" border="0" usemap="#aclasspeconv_1_1default__func__resolver_a842ddd885f90f119e104530b8b9c9306_cgraph" alt=""/></div>
+<map name="aclasspeconv_1_1default__func__resolver_a842ddd885f90f119e104530b8b9c9306_cgraph" id="aclasspeconv_1_1default__func__resolver_a842ddd885f90f119e104530b8b9c9306_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,151,46"/>
+<area shape="rect" href="namespaceutil.html#ac04cf3add027bdbb868e971d13d4fee6" title=" " alt="" coords="199,13,318,38"/>
+<area shape="poly" title=" " alt="" coords="151,23,183,23,183,28,151,28"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a066a70803ac85bb73123dab8ed29ec03" name="a066a70803ac85bb73123dab8ed29ec03"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a066a70803ac85bb73123dab8ed29ec03">&#9670;&#160;</a></span>resolve_func()</h2>
 
@@ -161,7 +213,36 @@ Public Member Functions</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1">peconv::export_based_resolver</a>, and <a class="el" href="classpeconv_1_1hooking__func__resolver.html#a4cb032fb05921aaad82490af691096b6">peconv::hooking_func_resolver</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="function__resolver_8cpp_source.html#l00005">5</a> of file <a class="el" href="function__resolver_8cpp_source.html">function_resolver.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="function__resolver_8cpp_source.html#l00036">36</a> of file <a class="el" href="function__resolver_8cpp_source.html">function_resolver.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classpeconv_1_1default__func__resolver_a066a70803ac85bb73123dab8ed29ec03_cgraph.png" border="0" usemap="#aclasspeconv_1_1default__func__resolver_a066a70803ac85bb73123dab8ed29ec03_cgraph" alt=""/></div>
+<map name="aclasspeconv_1_1default__func__resolver_a066a70803ac85bb73123dab8ed29ec03_cgraph" id="aclasspeconv_1_1default__func__resolver_a066a70803ac85bb73123dab8ed29ec03_cgraph">
+<area shape="rect" title=" " alt="" coords="5,5,160,46"/>
+<area shape="rect" href="classpeconv_1_1default__func__resolver.html#a842ddd885f90f119e104530b8b9c9306" title=" " alt="" coords="208,5,353,46"/>
+<area shape="poly" title=" " alt="" coords="160,23,192,23,192,28,160,28"/>
+<area shape="rect" href="namespaceutil.html#ac04cf3add027bdbb868e971d13d4fee6" title=" " alt="" coords="401,13,520,38"/>
+<area shape="poly" title=" " alt="" coords="353,23,385,23,385,28,353,28"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a63e2ea2268b94e7207abfc668936863c" name="a63e2ea2268b94e7207abfc668936863c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63e2ea2268b94e7207abfc668936863c">&#9670;&#160;</a></span>nameToModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, HMODULE&gt; peconv::default_func_resolver::nameToModule</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="function__resolver_8h_source.html#l00047">47</a> of file <a class="el" href="function__resolver_8h_source.html">function_resolver.h</a>.</p>
 
 </div>
 </div>
@@ -172,7 +253,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Oct 28 2025 00:35:25 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
+Generated on Fri Oct 31 2025 16:34:06 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
 </small></address>
 </div><!-- doc-content -->
 </body>

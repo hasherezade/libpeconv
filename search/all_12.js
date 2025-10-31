@@ -9,6 +9,7 @@ var searchData=
   ['update_5fimage_5fbase_6',['update_image_base',['../namespacepeconv.html#a386f3e2c4274a475f157124b5d116b36',1,'peconv']]],
   ['update_5fimage_5fsize_7',['update_image_size',['../namespacepeconv.html#ab7f00436adb92e08a80bdbad79352b69',1,'peconv']]],
   ['use_5fold_5fbadptr_8',['USE_OLD_BADPTR',['../util_8cpp.html#a1b2751b7d8faf8a3c964c061854785c8',1,'util.cpp']]],
-  ['util_2ecpp_9',['util.cpp',['../util_8cpp.html',1,'']]],
-  ['util_2eh_10',['util.h',['../util_8h.html',1,'']]]
+  ['util_9',['util',['../namespaceutil.html',1,'']]],
+  ['util_2ecpp_10',['util.cpp',['../util_8cpp.html',1,'']]],
+  ['util_2eh_11',['util.h',['../util_8h.html',1,'']]]
 ];
