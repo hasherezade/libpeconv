@@ -39,8 +39,9 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
     //copy all the sections, one by one:
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
         PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONG_PTR)secptr + ((ULONG_PTR)IMAGE_SIZEOF_SECTION_HEADER * i));
+        const PIMAGE_SECTION_HEADER next_sec_dest = ((ULONG_PTR)next_sec - (ULONG_PTR)payload) + (ULONG_PTR)destBuffer;
         if (!validate_ptr(static_cast<const void*>(payload), payloadSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER) // check if fits in the source size
-            || !validate_ptr(static_cast<const void*>(payload), destBufferSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) // check if fits in the destination size
+            || !validate_ptr(static_cast<const void*>(destBuffer), destBufferSize, next_sec_dest, IMAGE_SIZEOF_SECTION_HEADER)) // check if fits in the destination size
         {
             return false;
         }
