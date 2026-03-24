@@ -312,22 +312,25 @@ bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
 // A valid name must contain printable characters. Empty name is also acceptable (may have been erased)
 bool peconv::is_valid_import_name(const PBYTE modulePtr, const size_t moduleSize, LPSTR lib_name)
 {
-    while (true) {
+    bool is_terminated = false;
+    for (size_t i = 0; i < MAX_PATH; i++) {
         if (!peconv::validate_ptr(modulePtr, moduleSize, lib_name, sizeof(char))) {
             return false;
         }
         char next_char = *lib_name;
-        if (next_char == '\0') break;
-
-        if (next_char <= 0x20 || next_char >= 0x7E) {
+        if (next_char == '\0') {
+            is_terminated = true;
+            break;
+        }
+        if (next_char < 0x20 || next_char >= 0x7E) {
             return false;
         }
         lib_name++;
     }
-    return true;
+    return is_terminated;
 }
 
-namespace peconv
+namespace
 {
     template <typename FIELD_T>
     bool _has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
@@ -342,7 +345,11 @@ namespace peconv
         size_t valid_records = 0;
 
         while (true) { //size of the import table doesn't matter
-            lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR)modulePtr);
+            const ULONG_PTR offset = (ULONG_PTR)impAddr + parsedSize;
+            if (offset < (ULONG_PTR)impAddr) { // make sure no overflow happened
+                return false;
+            }
+            lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(offset + (ULONG_PTR)modulePtr);
             if (!peconv::validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
                 return false;
             }
