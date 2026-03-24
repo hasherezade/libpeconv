@@ -3,7 +3,6 @@
 #include <peconv/relocate.h>
 #include <set>
 #include <map>
-#include <iostream>
 
 namespace peconv {
 

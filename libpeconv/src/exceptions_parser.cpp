@@ -6,9 +6,7 @@
 #include "peconv/util.h"
 #include "ntddk.h"
 
-#ifdef _DEBUG
-#include <iostream>
-#endif
+#include "peconv/logger.h"
 
 #ifndef min
 #define min(a,b) (((a) < (b)) ? (a) : (b))
@@ -246,9 +244,7 @@ namespace details {
 #define RtlFindMemoryBlockFromModuleSection__leave return status
 #endif
 
-#ifdef _DEBUG
-        std::cout << "Searching in section " << SectionName << " in module " << ModuleHandle << std::endl;
-#endif
+        LOG_DEBUG("Searching in section %s in module %p.", SectionName, ModuleHandle);
 
         PECONV_TRY_EXCEPT_BLOCK_START
 
@@ -532,9 +528,7 @@ namespace details {
             InvertedTable->Entries[Index].ImageSize = SizeOfImage;
             InvertedTable->Entries[Index].ExceptionDirectorySize = SizeOfTable;
             InvertedTable->Count++;
-#ifdef _DEBUG
-            std::cout << "Exception table was set! " << std::endl;
-#endif
+            LOG_DEBUG("Exception table was set.");
         }
         else {
             IsWin8OrGreater ? (InvertedTable->Overflow = TRUE) : (InvertedTable->Epoch = TRUE);
@@ -585,9 +579,7 @@ namespace details {
             InvertedTable->Entries[Index].ImageSize = SizeOfImage;
             InvertedTable->Entries[Index].SEHandlerCount = count;
         }
-#ifdef _DEBUG
-        std::cout << "Exception table was set! " << std::endl;
-#endif
+        LOG_DEBUG("Exception table was set.");
         ++InvertedTable->Count;
 #endif
         return;
@@ -599,19 +591,13 @@ namespace details {
     ) {
         auto table = reinterpret_cast<PRTL_INVERTED_FUNCTION_TABLE>(RtlFindInvertedFunctionTable());
         if (!table) {
-#ifdef _DEBUG
-            std::cout << "Exception table not found! " << std::endl;
-#endif
+            LOG_DEBUG("Exception table not found.");
             return STATUS_NOT_SUPPORTED;
         }
-#ifdef _DEBUG
-        std::cout << "Found exception table: " << std::hex << table << std::endl;
-#endif
+        LOG_DEBUG("Found exception table: %p.", table);
         BOOL need_virtual_protect = RtlIsWindowsVersionOrGreater(6, 3, 0);
         // Windows 8.1 and above require to set PAGE_READWRITE protection
-#ifdef _DEBUG
-        std::cout << "Need virtual protect: " << std::boolalpha << need_virtual_protect << std::endl;
-#endif
+        LOG_DEBUG("Need virtual protect: %s.", need_virtual_protect ? "true" : "false");
         NTSTATUS status;
 
         if (need_virtual_protect) {

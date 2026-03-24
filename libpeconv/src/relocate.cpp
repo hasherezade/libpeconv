@@ -2,7 +2,7 @@
 
 #include "peconv/pe_hdrs_helper.h"
 #include <stdio.h>
-#include <iostream>
+#include "peconv/logger.h"
 
 using namespace peconv;
 
@@ -76,21 +76,21 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
         }
         if (type != RELOC_32BIT_FIELD && type != RELOC_64BIT_FIELD) {
             if (callback) { //print debug messages only if the callback function was set
-                printf("[-] Not supported relocations format at %d: %d\n", (int)i, (int)type);
+                LOG_ERROR("Not supported relocation format at %d: %d.", (int)i, (int)type);
             }
             return false;
         }
         DWORD reloc_field = page + offset;
         if (reloc_field >= moduleSize) {
             if (callback) { //print debug messages only if the callback function was set
-                printf("[-] Malformed field: %lx\n", reloc_field);
+                LOG_ERROR("Malformed reloc field: 0x%lx.", reloc_field);
             }
             return false;
         }
         if (callback) {
             bool isOk = callback->processRelocField(((ULONG_PTR)modulePtr + reloc_field));
             if (!isOk) {
-                std::cout << "[-] Failed processing reloc field at: " << std::hex << reloc_field << "\n";
+                LOG_ERROR("Failed processing reloc field at: 0x%lx.", reloc_field);
                 return false;
             }
         }
@@ -103,13 +103,11 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
 {
     IMAGE_DATA_DIRECTORY* relocDir = peconv::get_directory_entry((const BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_BASERELOC);
     if (relocDir == NULL) {
-#ifdef _DEBUG
-        std::cout << "[!] WARNING: no relocation table found!\n";
-#endif
+        LOG_DEBUG("No relocation table found.");
         return false;
     }
     if (!validate_ptr(modulePtr, moduleSize, relocDir, sizeof(IMAGE_DATA_DIRECTORY))) {
-        std::cerr << "[!] Invalid relocDir pointer\n";
+        LOG_ERROR("Invalid relocDir pointer.");
         return false;
     }
     DWORD maxSize = relocDir->Size;
@@ -122,9 +120,7 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
     while (parsedSize < maxSize) {
         reloc = (IMAGE_BASE_RELOCATION*)(relocAddr + parsedSize + (ULONG_PTR)modulePtr);
         if (!validate_ptr(modulePtr, moduleSize, reloc, sizeof(IMAGE_BASE_RELOCATION))) {
-#ifdef _DEBUG
-            std::cerr << "[-] Invalid address of relocations\n";
-#endif
+            LOG_ERROR("Invalid address of relocations.");
             return false;
         }
         if (reloc->SizeOfBlock == 0) {
@@ -135,7 +131,7 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
 
         BASE_RELOCATION_ENTRY* block = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)reloc + sizeof(DWORD) + sizeof(DWORD));
         if (!validate_ptr(modulePtr, moduleSize, block, sizeof(BASE_RELOCATION_ENTRY))) {
-            std::cerr << "[-] Invalid address of relocations block\n";
+            LOG_ERROR("Invalid address of relocations block.");
             return false;
         }
         if (!is_empty_reloc_block(block, entriesNum, page, modulePtr, moduleSize)) {
@@ -164,22 +160,15 @@ bool peconv::relocate_module(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ULONGL
     if (oldBase == 0) {
         oldBase = get_image_base(modulePtr);
     }
-#ifdef _DEBUG
-    printf("New Base: %llx\n", newBase);
-    printf("Old Base: %llx\n", oldBase);
-#endif
+    LOG_DEBUG("New Base: 0x%llx Old Base: 0x%llx.", (unsigned long long)newBase, (unsigned long long)oldBase);
     if (newBase == oldBase) {
-#ifdef _DEBUG
-        printf("Nothing to relocate! oldBase is the same as the newBase!\n");
-#endif
+        LOG_DEBUG("Nothing to relocate: oldBase equals newBase.");
         return true; //nothing to relocate
     }
     if (apply_relocations(modulePtr, moduleSize, newBase, oldBase)) {
         return true;
     }
-#ifdef _DEBUG
-    printf("Could not relocate the module!\n");
-#endif
+    LOG_ERROR("Could not relocate the module.");
     return false;
 }
 

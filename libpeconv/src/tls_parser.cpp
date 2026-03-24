@@ -1,7 +1,7 @@
 #include "peconv/tls_parser.h"
 
 #include "peconv/pe_hdrs_helper.h"
-#include <iostream>
+#include "peconv/logger.h"
 
 namespace peconv {
 
@@ -63,14 +63,10 @@ size_t peconv::list_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, OUT 
 
     ULONGLONG callbacks_addr = tls_dir->AddressOfCallBacks;
     if (!callbacks_addr) return 0;
-#ifdef _DEBUG
-    std::cout << "TLS Callbacks Table: " << std::hex << callbacks_addr << std::endl;
-#endif
+    LOG_DEBUG("TLS Callbacks Table: 0x%llx.", (unsigned long long)callbacks_addr);
     DWORD callbacks_rva = 0;
     if (!virtual_addr_to_rva(img_base, img_size, callbacks_addr, callbacks_rva)) return 0;
-#ifdef _DEBUG
-    std::cout << "TLS Callbacks RVA: " << std::hex << callbacks_rva << std::endl;
-#endif
+    LOG_DEBUG("TLS Callbacks RVA: 0x%llx.", (unsigned long long)callbacks_rva);
     size_t counter = 0;
     if (peconv::is64bit((BYTE*)modulePtr)) {
         counter = fetch_callbacks_list<ULONGLONG>(modulePtr, moduleSize, callbacks_rva, tls_callbacks);
@@ -101,18 +97,14 @@ size_t peconv::run_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, IN DW
             // keeping only addresses that are in the current PE scope
             continue;
         }
-#ifdef _DEBUG
-        std::cout << std::hex << "TLS RVA:" << rva << std::endl;
-#endif
+        LOG_DEBUG("TLS RVA: 0x%llx.", (unsigned long long)rva);
         ULONG_PTR callback_va = rva + (ULONG_PTR)modulePtr;
         if (!validate_ptr(modulePtr, moduleSize, (BYTE*)callback_va, sizeof(BYTE))) {
             // make sure that the address is valid
             continue;
         }
         void(NTAPI *callback_func)(PVOID DllHandle, DWORD dwReason, PVOID) = (void(NTAPI *)(PVOID, DWORD, PVOID)) (callback_va);
-#ifdef _DEBUG
-        std::cout << "Calling TLS callback[" << i << "]:" << std::endl;
-#endif
+        LOG_DEBUG("Calling TLS callback[%zu].", i);
         callback_func(modulePtr, dwReason, NULL);
     }
     return i;

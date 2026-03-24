@@ -1,7 +1,7 @@
 #include "peconv/exports_lookup.h"
 #include "peconv/util.h"
 
-#include <iostream>
+#include "peconv/logger.h"
 
 /*
 typedef struct _IMAGE_EXPORT_DIRECTORY {
@@ -66,7 +66,7 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
         DWORD ordinal = ordBase + i;
         if (ordinal == wanted_ordinal) {
             if (peconv::forwarder_name_len(fPtr) > 1) {
-                std::cerr << "[!] Forwarded function: ["<< wanted_ordinal << " -> "<< fPtr << "] cannot be resolved!" << std::endl;
+                LOG_WARNING("Forwarded function: [%lu -> %p] cannot be resolved.", wanted_ordinal, fPtr);
                 return NULL; // this function is forwarded, cannot be resolved
             }
             return (FARPROC) fPtr; //return the pointer to the found function
@@ -109,14 +109,12 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
     DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
 
     if (is_ordinal(exp, wanted_name)) {
-#ifdef _DEBUG
-        std::cerr << "[*] Getting function by ordinal" << std::endl;
-#endif
+        LOG_DEBUG("Getting function by ordinal.");
         const DWORD ordinal = MASK_TO_DWORD((ULONG_PTR)wanted_name);
         return get_export_by_ord(modulePtr, exp, ordinal);
     }
     if (peconv::is_bad_read_ptr(wanted_name, 1)) {
-        std::cerr << "[-] Invalid pointer to the name" << std::endl;
+        LOG_ERROR("Invalid pointer to the name.");
         return NULL;
     }
 
@@ -133,15 +131,13 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
             continue; //this is not the function we are looking for
         }
         if (forwarder_name_len(fPtr) > 1) {
-            std::cerr << "[!] Forwarded function: ["<< name << " -> "<< fPtr << "] cannot be resolved!" << std::endl;
+            LOG_WARNING("Forwarded function: [%s -> %p] cannot be resolved.", name, fPtr);
             return NULL; // this function is forwarded, cannot be resolved
         }
         return (FARPROC) fPtr; //return the pointer to the found function
     }
     //function not found
-#ifdef _DEBUG
-    std::cerr << "Function not found!" << std::endl;
-#endif
+    LOG_DEBUG("Function not found.");
     return NULL;
 }
 
@@ -149,32 +145,23 @@ FARPROC peconv::export_based_resolver::resolve_func(LPCSTR lib_name, LPCSTR func
 {
     HMODULE libBasePtr = LoadLibraryA(lib_name);
     if (libBasePtr == NULL) {
-        std::cerr << "Could not load the library!" << std::endl;
+        LOG_ERROR("Could not load the library.");
         return NULL;
     }
 
     FARPROC hProc = get_exported_func(libBasePtr, func_name);
 
     if (hProc == NULL) {
-#ifdef _DEBUG
         if (!peconv::is_bad_read_ptr(func_name, 1)) {
-            std::cerr << "[!] Cound not get the function: "<< func_name <<" from exports!" << std::endl;
+            LOG_WARNING("Could not get function: %s from exports, falling back to default resolver.", func_name);
         } else {
-            std::cerr << "[!] Cound not get the function: "<< MASK_TO_DWORD((ULONG_PTR)func_name) <<" from exports!" << std::endl;
+            LOG_WARNING("Could not get function ordinal: 0x%lx from exports, falling back to default resolver.", (unsigned long)MASK_TO_DWORD((ULONG_PTR)func_name));
         }
-        std::cerr << "[!] Falling back to the default resolver..." <<std::endl;
-#endif
         hProc = default_func_resolver::resolve_func(lib_name, func_name);
         if (hProc == NULL) {
-            std::cerr << "[-] Loading function from " << lib_name << " failed!" << std::endl;
+            LOG_ERROR("Loading function from %s failed.", lib_name);
         }
     }
-#ifdef _DEBUG
-    FARPROC defaultProc = default_func_resolver::resolve_func(lib_name, func_name);
-    if (hProc != defaultProc) {
-        std::cerr << "[-] Loaded proc is not matching the default one!" << std::endl;
-    }
-#endif
     return hProc;
 }
 

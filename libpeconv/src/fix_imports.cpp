@@ -2,7 +2,7 @@
 #include "peconv/imports_uneraser.h"
 #include "peconv/file_util.h"
 
-#include <iostream>
+#include "peconv/logger.h"
 #include <algorithm>
 
 using namespace peconv;
@@ -50,7 +50,7 @@ std::set<std::string> get_all_dlls_exporting_function(ULONGLONG func_addr, const
     //1. Get all the functions from all accessible DLLs that correspond to this address:
     const std::set<ExportedFunc>* exports_for_va = exportsMap.find_exports_by_va(func_addr);
     if (!exports_for_va) {
-        std::cerr << "Cannot find any DLL exporting: " << std::hex << func_addr << std::endl;
+        LOG_WARNING("Cannot find any DLL exporting: 0x%llx.", (unsigned long long)func_addr);
         return currDllNames; //empty
     }
     //2. Iterate through their DLL names and add them to a set:
@@ -126,15 +126,11 @@ bool ImportedDllCoverage::findCoveringDll()
 {
     std::string found_name = find_covering_dll(this->addresses, this->exportsMap);
     if (found_name.length() == 0) {
-#ifdef _DEBUG
-        std::cerr << "Cannot find a covering DLL" << std::endl;
-#endif
+        LOG_WARNING("Cannot find a covering DLL.");
         return false;
     }
     this->dllName = found_name;
-#ifdef _DEBUG
-    std::cout << "[+] Found DLL name: " << found_name << std::endl;
-#endif
+    LOG_DEBUG("Found DLL name: %s.", found_name.c_str());
     return true;
 }
 
@@ -154,9 +150,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
         const std::set<ExportedFunc>* exports_for_va = exportsMap.find_exports_by_va(searchedAddr);
         if (exports_for_va == nullptr) {
             not_found.insert(searchedAddr);
-#ifdef _DEBUG
-            std::cerr << "Cannot find any DLL exporting: " << std::hex << searchedAddr << std::endl;
-#endif
+            LOG_WARNING("Cannot find any DLL exporting: 0x%llx.", (unsigned long long)searchedAddr);
             continue;
         }
 
@@ -175,9 +169,7 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
         if (addr_to_func.find(searchedAddr) == addr_to_func.end()) {
             const ExportedFunc* func = exportsMap.find_export_by_va(searchedAddr);
             not_found.insert(searchedAddr);
-#ifdef _DEBUG
-            std::cerr << "[WARNING] A function: " << func->toString() << " not found in the covering DLL: " << chosenDll << std::endl;
-#endif
+            LOG_WARNING("Function %s not found in the covering DLL: %s.", func->toString().c_str(), chosenDll.c_str());
         }
     }
     return coveredAddresses.size();
@@ -193,22 +185,17 @@ size_t ImportedDllCoverage::mapAddressesToFunctions(const std::string &dll)
     this->notFound.clear();
 
     const size_t coveredCount = map_addresses_to_functions(this->addresses, dll, this->exportsMap, this->addrToFunc, this->notFound);
-#ifdef _DEBUG
     if (notFound.size()) {
-        std::cout << "[-] Not all addresses are covered! Not found: " << std::dec << notFound.size() << std::endl;
+        LOG_WARNING("Not all addresses are covered! Not found: %zu.", notFound.size());
     } else {
-
-        std::cout << "All covered!" << std::endl;
+        LOG_DEBUG("All addresses covered.");
     }
-#endif
     return coveredCount;
 }
 
 void ImpsNotCovered::insert(DWORD thunkRVA, ULONGLONG searchedAddr)
 {
-#ifdef _DEBUG
-    std::cerr << "[-] Function not recovered: [" << std::hex << searchedAddr << "] " << std::endl;
-#endif
+    LOG_WARNING("Function not recovered: [0x%llx].", (unsigned long long)searchedAddr);
     thunkToAddr[thunkRVA] = searchedAddr;
 }
 
@@ -226,17 +213,13 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
 
     IMAGE_IMPORT_DESCRIPTOR* lib_desc = nullptr;
     DWORD parsedSize = 0;
-#ifdef _DEBUG
-    printf("---IMP---\n");
-#endif
+    LOG_DEBUG("---IMP---");
 
     while (parsedSize < maxSize) {
 
         lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR) modulePtr);
         if (!validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
-#ifdef _DEBUG
-            std::cout << "[-] Invalid descriptor pointer!\n";
-#endif
+            LOG_ERROR("Invalid import descriptor pointer.");
             return false;
         }
         parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
@@ -247,9 +230,7 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
         if (is_bound && skip_bound) {
             continue;
         }
-#ifdef _DEBUG
-        printf("Imported Lib: %x : %x : %x\n", lib_desc->FirstThunk, lib_desc->OriginalFirstThunk, lib_desc->Name);
-#endif
+        LOG_DEBUG("Imported Lib: %x : %x : %x", lib_desc->FirstThunk, lib_desc->OriginalFirstThunk, lib_desc->Name);
         
         std::string lib_name = "";
         if (lib_desc->Name != 0) {
@@ -284,9 +265,7 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
             //could not find a relevant DLL
             continue;
         }
-#ifdef _DEBUG
-        std::cout << lib_name << std::endl;
-#endif
+        LOG_DEBUG("Lib: %s.", lib_name.c_str());
         if (!dllCoverage.mapAddressesToFunctions(lib_name)) {
             // cannot find any functions imported from this DLL
             continue;
@@ -301,8 +280,6 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
             impUneraser.uneraseDllName(lib_desc, dll_with_ext);
         }
     }
-#ifdef _DEBUG
-    std::cout << "---------" << std::endl;
-#endif
+    LOG_DEBUG("---------");
     return true;
 }

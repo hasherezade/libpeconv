@@ -1,6 +1,6 @@
 #include "peconv/buffer_util.h"
 
-#include <iostream>
+#include "peconv/logger.h"
 
 //
 // validate pointer:
@@ -22,9 +22,7 @@ bool peconv::validate_ptr(IN const void* buffer_bgn, IN size_t buffer_size, IN c
         return false;
     }
     if (area_size < field_size || area_size < start_delta) {
-#ifdef _DEBUG
-        std::cout << "Integer Overflow, limit exceeded! start_delta: " << start_delta << " field_size: " << field_size << " area_size: " << area_size << "\n";
-#endif
+        LOG_DEBUG("Integer Overflow, limit exceeded! start_delta: %zu field_size: %zu area_size: %zu", start_delta, field_size, area_size);
         return false;
     }
     return true;
@@ -65,9 +63,7 @@ bool peconv::free_aligned(peconv::ALIGNED_BUF buffer, size_t buffer_size)
 {
     if (buffer == nullptr) return true;
     if (!VirtualFree(buffer, 0, MEM_RELEASE)) {
-#ifdef _DEBUG
-        std::cerr << "Releasing failed" << std::endl;
-#endif
+        LOG_ERROR("VirtualFree failed.");
         return false;
     }
     return true;

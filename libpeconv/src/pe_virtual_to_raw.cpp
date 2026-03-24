@@ -4,7 +4,7 @@
 #include "peconv/pe_hdrs_helper.h"
 #include "peconv/relocate.h"
 
-#include <iostream>
+#include "peconv/logger.h"
 
 using namespace peconv;
 
@@ -14,7 +14,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
 
     BYTE* payload_nt_hdr = get_nt_hdrs(payload, payload_size);
     if (payload_nt_hdr == NULL) {
-        std::cerr << "[-] Invalid PE: " << std::hex << (ULONGLONG) payload << std::endl;
+        LOG_ERROR("Invalid PE at 0x%llx.", (unsigned long long)payload);
         return false;
     }
 
@@ -36,9 +36,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
     }
 
     //copy all the sections, one by one:
-#ifdef _DEBUG
-    std::cout << "Coping sections:" << std::endl;
-#endif
+    LOG_DEBUG("Copying sections.");
     DWORD first_raw = 0;
     SIZE_T raw_end = hdrsSize;
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
@@ -55,41 +53,26 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
         if (new_end > raw_end) raw_end = new_end;
 
         if ((next_sec->VirtualAddress + sec_size) > payload_size) {
-#ifdef _DEBUG
-            std::cerr << "[!] Virtual section size is out ouf bounds: " << std::hex << sec_size << std::endl;
-#endif
             sec_size = (payload_size > next_sec->VirtualAddress) ? SIZE_T(payload_size - next_sec->VirtualAddress) : 0;
-#ifdef _DEBUG
-            std::cerr << "[!] Truncated to maximal size: " << std::hex << sec_size << ", buffer size: " << payload_size << std::endl;
-#endif
+            LOG_WARNING("Section %u: virtual size exceeds buffer, truncating to 0x%zx.", i, sec_size);
         }
         if (next_sec->VirtualAddress > payload_size && sec_size != 0) {
-#ifdef _DEBUG
-            std::cerr << "[-] VirtualAddress of section is out ouf bounds: " << std::hex << next_sec->VirtualAddress << std::endl;
-#endif
+            LOG_ERROR("Section %u: VirtualAddress 0x%lx is out of bounds.", i, next_sec->VirtualAddress);
             return false;
         }
         if (next_sec->PointerToRawData + sec_size > payload_size) {
-#ifdef _DEBUG
-            std::cerr << "[-] Raw section size is out ouf bounds: " << std::hex << sec_size << std::endl;
-#endif
+            LOG_ERROR("Section %u: raw data exceeds buffer (size: 0x%zx).", i, sec_size);
             return false;
         }
-#ifdef _DEBUG
-        std::cout << "[+] " << next_sec->Name  << " to: "  << std::hex <<  section_raw_ptr << std::endl;
-#endif
+        LOG_DEBUG("Section %u: copying to raw offset %p.", i, section_raw_ptr);
         //validate source:
         if (!peconv::validate_ptr(payload, payload_size, section_mapped, sec_size)) {
-#ifdef _DEBUG
-            std::cerr << "[-] Section " << i << ":  out ouf bounds, skipping... " << std::endl;
-#endif
+            LOG_WARNING("Section %u: source out of bounds, skipping.", i);
             continue;
         }
         //validate destination:
         if (!peconv::validate_ptr(destAddress, payload_size, section_raw_ptr, sec_size)) {
-#ifdef _DEBUG
-            std::cerr << "[-] Section " << i << ":  out ouf bounds, skipping... " << std::endl;
-#endif
+            LOG_WARNING("Section %u: destination out of bounds, skipping.", i);
             continue;
         }
         memcpy(section_raw_ptr, section_mapped, sec_size);
@@ -105,9 +88,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
     //copy payload's headers:
     if (hdrsSize == 0) {
         hdrsSize = first_raw;
-#ifdef _DEBUG
-        std::cout << "[!] hdrsSize not filled, using calculated size: " << std::hex << hdrsSize << "\n";
-#endif
+        LOG_DEBUG("SizeOfHeaders not set, using first section raw offset as fallback: 0x%lx.", hdrsSize);
     }
     if (!validate_ptr(payload, payload_size, payload, hdrsSize)) {
         return false;
@@ -143,12 +124,10 @@ BYTE* peconv::pe_virtual_to_raw(
     if (!relocate_module(in_buf, in_size, oldBase, loadBase)) {
         //Failed relocating the module! Changing image base instead...
         if (!update_image_base(in_buf, (ULONGLONG)loadBase)) {
-            std::cerr << "[-] Failed relocating the module!" << std::endl;
+            LOG_ERROR("Failed relocating the module.");
             isOk = false;
         } else {
-#ifdef _DEBUG
-            std::cerr << "[!] WARNING: The module could not be relocated, so the ImageBase has been changed instead!" << std::endl;
-#endif
+            LOG_WARNING("The module could not be relocated, so the ImageBase has been changed instead.");
         }
     }
     SIZE_T raw_size = 0;
@@ -191,12 +170,10 @@ BYTE* peconv::pe_realign_raw_to_virtual(
     if (!relocate_module(out_buf, out_size, oldBase, loadBase)) {
         //Failed relocating the module! Changing image base instead...
         if (!update_image_base(out_buf, (ULONGLONG)loadBase)) {
-            std::cerr << "[-] Failed relocating the module!" << std::endl;
+            LOG_ERROR("Failed relocating the module.");
             isOk = false;
         } else {
-#ifdef _DEBUG
-            std::cerr << "[!] WARNING: The module could not be relocated, so the ImageBase has been changed instead!" << std::endl;
-#endif
+            LOG_WARNING("The module could not be relocated, so the ImageBase has been changed instead.");
         }
     }
     //---

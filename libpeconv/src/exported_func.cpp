@@ -1,10 +1,10 @@
 #include "peconv/exported_func.h"
+#include "peconv/logger.h"
 
 #include <string>
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
-#include <iostream>
 #include "peconv/file_util.h"
 
 using namespace peconv;
@@ -134,9 +134,7 @@ ExportedFunc::ExportedFunc(const std::string &forwarderName)
         this->funcOrdinal = -1;
         this->funcName = "";
         this->isByOrdinal = false;
-#ifdef _DEBUG
-        std::cerr << "Invalid function data" << std::endl;
-#endif
+        LOG_ERROR("Invalid function data.");
         return;
     }
     if (is_ordinal_string(func_name_str)) {

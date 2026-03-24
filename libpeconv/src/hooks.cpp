@@ -1,4 +1,5 @@
 #include "peconv/hooks.h"
+#include "peconv/logger.h"
 #include "peconv.h"
 #include "peconv/peb_lookup.h"
 
@@ -85,9 +86,7 @@ FARPROC peconv::hooking_func_resolver::resolve_func(LPCSTR lib_name, LPCSTR func
         std::map<std::string, FARPROC>::const_iterator itr = hooks_map.find(func_name);
         if (itr != hooks_map.end()) {
             FARPROC hook = itr->second;
-#ifdef _DEBUG
-            std::cout << ">>>>>>Replacing: " << func_name << " by: " << hook << std::endl;
-#endif
+            LOG_DEBUG("Replacing: %s by: %p.", func_name, hook);
             return hook;
         }
     }
@@ -96,9 +95,7 @@ FARPROC peconv::hooking_func_resolver::resolve_func(LPCSTR lib_name, LPCSTR func
     std::map<std::string, std::string>::const_iterator itr2 = this->dll_replacements_map.find(lib_name_str);
     if (itr2 != dll_replacements_map.end()) {
         const std::string &name = itr2->second;
-#ifdef _DEBUG
-        std::cout << ">>>>>>Replacing DLL: " << lib_name_str << " by: " << name << std::endl;
-#endif
+        LOG_DEBUG("Replacing DLL: %s by: %s.", lib_name_str.c_str(), name.c_str());
         lib_name_str = name;
     }
     return peconv::default_func_resolver::resolve_func(lib_name_str.c_str(), func_name);
@@ -114,7 +111,7 @@ size_t peconv::redirect_to_local64(void *ptr, ULONGLONG new_offset, PatchBackup*
     };
     const size_t hook64_size = sizeof(hook_64);
     if (is_pointer_in_ntdll(ptr)) {
-        std::cout << "[WARNING] Patching NTDLL is not allowed because of possible stability issues!\n";
+        LOG_WARNING("Patching NTDLL is not allowed because of possible stability issues.");
         return 0;
     }
     DWORD oldProtect = 0;
@@ -149,7 +146,7 @@ size_t peconv::redirect_to_local32(void *ptr, DWORD new_offset, PatchBackup* bac
     };
     const size_t hook32_size = sizeof(hook_32);
     if (is_pointer_in_ntdll(ptr)) {
-        std::cout << "[WARNING] Patching NTDLL is not allowed because of possible stability issues!\n";
+        LOG_WARNING("Patching NTDLL is not allowed because of possible stability issues.");
         return 0;
     }
     DWORD oldProtect = 0;
@@ -217,9 +214,7 @@ bool peconv::replace_target(BYTE *patch_ptr, ULONGLONG dest_addr)
     if (patch_ptr[0] == OP_JMP || patch_ptr[0] == OP_CALL_DWORD) {
         ULONGLONG delta = get_jmp_delta(ULONGLONG(patch_ptr), 5, dest_addr);
         if (!is_valid_delta(delta)) {
-#ifdef _DEBUG
-            std::cout << "Cannot replace the target: too big delta: " << std::hex << delta << std::endl;
-#endif
+            LOG_WARNING("Cannot replace the target: delta 0x%llx is too large for a DWORD.", (unsigned long long)delta);
             //too big delta, cannot be saved in a DWORD
             return false;
         }

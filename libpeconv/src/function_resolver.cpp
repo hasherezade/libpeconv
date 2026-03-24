@@ -1,6 +1,6 @@
 #include "peconv/function_resolver.h"
 
-#include <iostream>
+#include "peconv/logger.h"
 #include <cctype>
 
 namespace util {
@@ -25,9 +25,7 @@ HMODULE peconv::default_func_resolver::load_library(LPCSTR lib_name)
     }
     const HMODULE mod = LoadLibraryA(lib_name);
     if (mod) {
-#ifdef _DEBUG
-        std::cout << "Loaded the DLL: " << lib_name << " : " << std::hex << mod << std::endl;
-#endif //_DEBUG
+        LOG_DEBUG("Loaded DLL: %s at %p.", lib_name, mod);
         this->nameToModule[modName] = mod;
     }
     return mod;
@@ -37,7 +35,7 @@ FARPROC peconv::default_func_resolver::resolve_func(LPCSTR lib_name, LPCSTR func
 {
     HMODULE libBasePtr = load_library(lib_name);
     if (libBasePtr == NULL) {
-        std::cerr << "Could not load the library: " << lib_name << std::endl;
+        LOG_ERROR("Could not load the library: %s.", lib_name);
         return NULL;
     }
     FARPROC hProc = GetProcAddress(libBasePtr, func_name);
@@ -45,14 +43,11 @@ FARPROC peconv::default_func_resolver::resolve_func(LPCSTR lib_name, LPCSTR func
         ULONGLONG func_val = (ULONGLONG)func_name;
         //is only the first WORD filled?
         bool is_ord = (func_val & (0x0FFFF)) == func_val;
-        std::cerr << "Could not load the function: " << lib_name << ".";
         if (is_ord) {
-            std::cerr << std::hex << "0x" << func_val;
+            LOG_ERROR("Could not load the function: %s.0x%llx.", lib_name, (unsigned long long)func_val);
+        } else {
+            LOG_ERROR("Could not load the function: %s.%s.", lib_name, func_name);
         }
-        else {
-            std::cerr << func_name;
-        }
-        std::cerr << std::endl;
         return NULL;
     }
     return hProc;

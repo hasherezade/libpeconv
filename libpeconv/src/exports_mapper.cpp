@@ -1,6 +1,6 @@
 #include "peconv/exports_mapper.h"
 #include <algorithm>
-#include <iostream>
+#include "peconv/logger.h"
 
 
 using namespace peconv;
@@ -57,9 +57,7 @@ size_t ExportsMapper::make_ord_lookup_tables(
     for (DWORD i = 0; i < functCount; i++) {
         DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         if (*recordRVA == 0) {
-#ifdef _DEBUG_EX
-            std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)recordRVA - (BYTE*)modulePtr<< "(ord)\n";
-#endif
+            LOG_DEBUG("Skipping 0 function address at RVA: 0x%llx (ord).", (unsigned long long)((BYTE*)recordRVA - (BYTE*)modulePtr));
             //skip if the function RVA is 0 (empty export)
             continue;
         }
@@ -78,10 +76,8 @@ size_t ExportsMapper::resolve_forwarders(const ULONGLONG va, ExportedFunc &currF
     //resolve forwarders of this function (if any):
     std::map<ExportedFunc, std::set<ExportedFunc>>::iterator fItr = forwarders_lookup.find(currFunc);
     if (fItr != forwarders_lookup.end()) {
-        //printf("[+] Forwarders (%d):\n", fItr->second.size());
         std::set<ExportedFunc>::iterator sItr;
         for (sItr = fItr->second.begin(); sItr != fItr->second.end(); ++sItr) {
-            //printf("-> %s\n", sItr->c_str());
             associateVaAndFunc(va, *sItr);
             resolved++;
         }
@@ -105,9 +101,7 @@ bool ExportsMapper::add_forwarded(ExportedFunc &currFunc, DWORD callRVA, PBYTE m
 
     ExportedFunc forwarder(forwardedFunc);
     if (!forwarder.isValid()) {
-#ifdef _DEBUG
-        std::cerr << "Skipped invalid forwarder" << std::endl;
-#endif
+        LOG_DEBUG("Skipped invalid forwarder.");
         return false;
     }
     forwarders_lookup[forwarder].insert(currFunc);
@@ -176,19 +170,14 @@ bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const
 ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE modulePtr, ULONGLONG moduleBase, size_t moduleSize, ExportedFunc &currFunc, DWORD callRVA)
 {
     if (add_forwarded(currFunc, callRVA, (BYTE*)modulePtr, moduleSize)) {
-#ifdef _DEBUG_EX
-        char* fPtr = (char*)modulePtr + callRVA;
-        std::cout << "FWD " << currFunc.toString() << " -> " << fPtr << "\n";
-#endif
+        LOG_DEBUG("FWD %s -> %p.", currFunc.toString().c_str(), (char*)modulePtr + callRVA);
         return ExportsMapper::RES_FORWARDED;
     }
 
     ULONGLONG callVa = callRVA + moduleBase;
     if (!peconv::validate_ptr((BYTE*)moduleBase, moduleSize, (BYTE*)callVa, sizeof(ULONGLONG))) {
         // this may happen when the function was forwarded and it is already filled
-#ifdef _DEBUG
-        std::cout << "Validation failed:  " << currFunc.toString() << "\n";
-#endif
+        LOG_DEBUG("Validation failed: %s.", currFunc.toString().c_str());
         return ExportsMapper::RES_INVALID;
     }
     //not forwarded, simple case:
@@ -236,9 +225,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, s
         WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
         if (*funcRVA == 0) {
-#ifdef _DEBUG_EX
-            std::cout << ">>> Skipping 0 function address at RVA:" << std::hex << (BYTE*)funcRVA - (BYTE*)modulePtr << "(name)\n";
-#endif
+            LOG_DEBUG("Skipping 0 function address at RVA: 0x%llx (name).", (unsigned long long)((BYTE*)funcRVA - (BYTE*)modulePtr));
             //skip if the function RVA is 0 (empty export)
             continue;
         }
@@ -266,9 +253,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, s
         if (res == ExportsMapper::RES_FORWARDED) forwarded_ctr++;
         if (res == ExportsMapper::RES_MAPPED) mapped_ctr++;
     }
-#ifdef _DEBUG
-    std::cout << "Finished exports parsing, mapped: "<< mapped_ctr << " forwarded: " << forwarded_ctr  << std::endl;
-#endif
+    LOG_DEBUG("Finished exports parsing, mapped: %zu forwarded: %zu.", mapped_ctr, forwarded_ctr);
     return mapped_ctr;
 }
 

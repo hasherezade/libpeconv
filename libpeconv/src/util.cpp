@@ -1,5 +1,4 @@
 #include "peconv/util.h"
-#include <iostream>
 
 #define USE_OLD_BADPTR
 

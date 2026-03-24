@@ -3,6 +3,17 @@ project ( libpeconv )
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 
+set(PECONV_LOG_VERBOSITY "ERROR" CACHE STRING "Logging verbosity level")
+set_property(CACHE PECONV_LOG_VERBOSITY PROPERTY STRINGS NONE ERROR WARNING DEBUG)
+
+set(_LOG_LEVEL_NONE    0)
+set(_LOG_LEVEL_ERROR   1)
+set(_LOG_LEVEL_WARNING 2)
+set(_LOG_LEVEL_DEBUG   3)
+
+# Output sink
+option(PECONV_LOG_USE_DEBUGOUT "Send log output to OutputDebugString instead of stderr" OFF)
+
 include_directories (
   include
 )
@@ -71,10 +82,23 @@ set (hdrs
 	include/peconv/tls_parser.h
 	include/peconv/exceptions_parser.h
 	include/peconv/unicode.h
+	include/peconv/logger.h
 	src/fix_dot_net_ep.h #not in API
 )
 
 add_library ( ${PROJECT_NAME} STATIC ${hdrs} ${srcs} )
+
+if(DEFINED _LOG_LEVEL_${PECONV_LOG_VERBOSITY})
+    target_compile_definitions(${PROJECT_NAME} PRIVATE
+        LOG_VERBOSITY=${_LOG_LEVEL_${PECONV_LOG_VERBOSITY}}
+    )
+else()
+    message(FATAL_ERROR "Invalid PECONV_LOG_VERBOSITY '${PECONV_LOG_VERBOSITY}'. Choose: NONE ERROR WARNING DEBUG")
+endif()
+
+if(PECONV_LOG_USE_DEBUGOUT)
+    target_compile_definitions( ${PROJECT_NAME} PRIVATE LOG_USE_DEBUGOUT)
+endif()
 
 if(PECONV_LIB_INSTALL)
 	include(GNUInstallDirs)

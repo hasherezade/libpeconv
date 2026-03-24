@@ -6,8 +6,7 @@
 #include "peconv/function_resolver.h"
 #include "peconv/exports_lookup.h"
 
-#include <tchar.h>
-#include <iostream>
+#include "peconv/logger.h"
 
 using namespace peconv;
 
@@ -51,12 +50,12 @@ BYTE* peconv::load_pe_module(BYTE* dllRawData, size_t r_size, OUT size_t &v_size
         //if the image was loaded at its default base, relocate_module will return always true (because relocating is already done)
         if (relocate && !relocate_module(mappedDLL, v_size, (ULONGLONG)mappedDLL)) {
             // relocating was required, but it failed - thus, the full PE image is useless
-            std::cerr << "[!] Could not relocate the module!\n";
+            LOG_ERROR("Could not relocate the module.");
             free_pe_buffer(mappedDLL, v_size);
             mappedDLL = nullptr;
         }
     } else {
-        std::cerr << "[!] Could not allocate memory at the desired base!\n";
+        LOG_ERROR("Could not allocate memory at the desired base.");
     }
     return mappedDLL;
 }
@@ -66,9 +65,7 @@ BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executab
     size_t r_size = 0;
     BYTE *dllRawData = load_file(filename, r_size);
     if (!dllRawData) {
-#ifdef _DEBUG
-        std::cerr << "Cannot load the file: " << filename << std::endl;
-#endif
+        LOG_ERROR("Cannot load the file.");
         return nullptr;
     }
     BYTE* mappedPE = load_pe_module(dllRawData, r_size, v_size, executable, relocate, desired_base);
@@ -80,21 +77,19 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
 {
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true, desired_base);
     if (!loaded_pe) {
-        std::cerr << "[-] Loading failed!\n";
+        LOG_ERROR("Loading failed.");
         return nullptr;
     }
-#if _DEBUG
-    printf("Loaded at: %p\n", loaded_pe);
-#endif
+    LOG_DEBUG("Loaded at: %p.", loaded_pe);
     if (has_valid_import_table(loaded_pe, v_size)) {
         if (!load_imports(loaded_pe, import_resolver)) {
-            printf("[-] Loading imports failed!");
+            LOG_ERROR("Loading imports failed.");
             free_pe_buffer(loaded_pe, v_size);
             return NULL;
         }
     }
     else {
-        printf("[-] PE doesn't have a valid Import Table!\n");
+        LOG_WARNING("PE does not have a valid Import Table.");
     }
     return loaded_pe;
 }
@@ -102,19 +97,14 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
 
 BYTE* peconv::load_pe_executable(LPCTSTR my_path, OUT size_t &v_size, t_function_resolver* import_resolver)
 {
-#if _DEBUG
-    _tprintf(TEXT("Module: %s\n"), my_path);
-#endif
     BYTE* loaded_pe = load_pe_module(my_path, v_size, true, true);
     if (!loaded_pe) {
-         printf("[-] Loading failed!\n");
+        LOG_ERROR("Loading failed.");
         return NULL;
     }
-#if _DEBUG
-    printf("Loaded at: %p\n", loaded_pe);
-#endif
+    LOG_DEBUG("Loaded at: %p.", loaded_pe);
     if (!load_imports(loaded_pe, import_resolver)) {
-        printf("[-] Loading imports failed!");
+        LOG_ERROR("Loading imports failed.");
         free_pe_buffer(loaded_pe, v_size);
         return nullptr;
     }

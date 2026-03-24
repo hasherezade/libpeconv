@@ -1,4 +1,5 @@
 #include "peconv/pe_dumper.h"
+#include "peconv/logger.h"
 
 #include "peconv/pe_hdrs_helper.h"
 #include "peconv/pe_virtual_to_raw.h"
@@ -6,7 +7,6 @@
 #include "peconv/file_util.h"
 #include "peconv/pe_mode_detector.h"
 #include "fix_dot_net_ep.h"
-#include <iostream>
 
 using namespace peconv;
 
@@ -33,7 +33,7 @@ bool peconv::dump_pe(
     // if the exportsMap is supplied, attempt to recover the (destroyed) import table:
     if (exportsMap != nullptr) {
         if (!peconv::fix_imports(buffer, mod_size, *exportsMap, NULL)) {
-            std::cerr << "[-] Unable to fix imports!" << std::endl;
+            LOG_ERROR("Unable to fix imports.");
         }
     }
     if (dump_mode == PE_DUMP_AUTO || dump_mode >= PE_DUMP_MODES_COUNT) {

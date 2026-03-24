@@ -1,6 +1,6 @@
 #include "peconv/remote_pe_reader.h"
 
-#include <iostream>
+#include "peconv/logger.h"
 
 #include "peconv/util.h"
 #include "peconv/fix_imports.h"
@@ -126,24 +126,16 @@ size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT B
         }
         if (last_error == ERROR_PARTIAL_COPY) {
             read_size = peconv::_search_readable_size(processHandle, start_addr, buffer, buffer_size, minimal_size);
-#ifdef _DEBUG
-            std::cout << "peconv::search_readable_size res: " << std::hex << read_size << std::endl;
-#endif
+            LOG_DEBUG("peconv::search_readable_size res: 0x%zx.", read_size);
         }
         break;
     }
 
-#ifdef _DEBUG
     if (read_size == 0) {
-        std::cerr << "[WARNING] Cannot read memory. Last Error : " << last_error << std::endl;
+        LOG_WARNING("Cannot read memory. Last Error: %lu.", last_error);
+    } else if (read_size < buffer_size) {
+        LOG_WARNING("Read size: 0x%zx is smaller than requested: 0x%zx. Last Error: %lu.", (size_t)read_size, buffer_size, last_error);
     }
-    else if (read_size < buffer_size) {
-        std::cerr << "[WARNING] Read size: " << std::hex << read_size
-            << " is smaller than the requested size: " << std::hex << buffer_size
-            << ". Last Error: " << last_error << std::endl;
-
-    }
-#endif
     return static_cast<size_t>(read_size);
 }
 
@@ -173,23 +165,19 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
     // check the access right and eventually try to change it
     if (force_access && !is_accessible) {
         access_changed = VirtualProtectEx(processHandle, start_addr, region_size, PAGE_READONLY, &oldProtect);
-#ifdef _DEBUG
         if (!access_changed) {
             DWORD err = GetLastError();
             if (err != ERROR_ACCESS_DENIED) {
-                std::cerr << "[!] " << std::hex << start_addr << " : " << region_size << " inaccessible area, changing page access failed: " << std::dec << err << "\n";
+                LOG_WARNING("0x%llx : 0x%zx inaccessible area, changing page access failed: %lu.", (unsigned long long)(ULONG_PTR)start_addr, region_size, err);
             }
         }
-#endif
     }
 
     size_t size_read = 0;
     if (is_accessible || access_changed) {
         size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, minimal_size);
         if ((size_read == 0) && (page_info.Protect & PAGE_GUARD)) {
-#ifdef _DEBUG
-            std::cout << "Warning: guarded page, trying to read again..." << std::endl;
-#endif
+            LOG_DEBUG("Guarded page, trying to read again.");
             size_read = peconv::read_remote_memory(processHandle, start_addr, buffer, size_to_read, minimal_size);
         }
     }
@@ -265,11 +253,7 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, LPVOID start_addr, OUT 
     const size_t min_size = nt_offset + nt_size;
 
     if (read_size < min_size) {
-        std::cerr << "[-] [" << std::dec << get_process_id(processHandle) 
-            << " ][" << std::hex << (ULONGLONG) start_addr 
-            << "] Read size: " << std::hex << read_size 
-            << " is smaller that the minimal size:" << get_hdrs_size(buffer) 
-            << std::endl;
+        LOG_ERROR("[PID %lu][0x%llx] Read size: 0x%zx is smaller than the minimal size: 0x%lx.", get_process_id(processHandle), (unsigned long long)(ULONGLONG)start_addr, read_size, get_hdrs_size(buffer));
         return false;
     }
     //reading succeeded and the header passed the checks:
@@ -325,54 +309,48 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID
 size_t peconv::read_remote_pe(const HANDLE processHandle, LPVOID start_addr, const size_t mod_size, OUT BYTE* buffer, const size_t bufferSize)
 {
     if (buffer == nullptr) {
-        std::cerr << "[-] Invalid output buffer: NULL pointer" << std::endl;
+        LOG_ERROR("Invalid output buffer: NULL pointer.");
         return 0;
     }
     if (bufferSize < mod_size || bufferSize < MAX_HEADER_SIZE ) {
-        std::cerr << "[-] Invalid output buffer: too small size!" << std::endl;
+        LOG_ERROR("Invalid output buffer: size too small.");
         return 0;
     }
     // read PE section by section
     PBYTE hdr_buffer = buffer;
     //try to read headers:
     if (!read_remote_pe_header(processHandle, start_addr, hdr_buffer, MAX_HEADER_SIZE)) {
-        std::cerr << "[-] Failed to read the module header" << std::endl;
+        LOG_ERROR("Failed to read the module header.");
         return 0;
     }
     if (!is_valid_sections_hdr_offset(hdr_buffer, MAX_HEADER_SIZE)) {
-        std::cerr << "[-] Sections headers are invalid or atypically aligned" << std::endl;
+        LOG_ERROR("Section headers are invalid or atypically aligned.");
         return 0;
     }
     size_t sections_count = get_sections_count(hdr_buffer, MAX_HEADER_SIZE);
-#ifdef _DEBUG
-    std::cout << "Sections: " << sections_count  << std::endl;
-#endif
+    LOG_DEBUG("Sections: %zu.", sections_count);
     size_t read_size = MAX_HEADER_SIZE;
 
     for (size_t i = 0; i < sections_count; i++) {
         PIMAGE_SECTION_HEADER hdr = get_section_hdr(hdr_buffer, MAX_HEADER_SIZE, i);
         if (!hdr) {
-            std::cerr << "[-] Failed to read the header of section: " << i  << std::endl;
+            LOG_ERROR("Failed to read the header of section: %zu.", i);
             break;
         }
         const DWORD sec_va = hdr->VirtualAddress;
         const DWORD sec_vsize = get_virtual_sec_size(hdr_buffer, hdr, true);
         if (sec_va + sec_vsize > bufferSize) {
-            std::cerr << "[-] No more space in the buffer!" << std::endl;
+            LOG_ERROR("No more space in the buffer.");
             break;
         }
         if (sec_vsize > 0 && !read_remote_memory(processHandle, LPVOID((ULONG_PTR)start_addr + sec_va), buffer + sec_va, sec_vsize)) {
-#ifdef _DEBUG
-            std::cerr << "[-] [" << std::hex << start_addr << "] Failed to read the module section " << i <<" : at: " << std::hex << (ULONG_PTR)start_addr + sec_va << std::endl;
-#endif
+            LOG_WARNING("Failed to read module section %zu at 0x%llx.", i, (unsigned long long)((ULONG_PTR)start_addr + sec_va));
         }
         // update the end of the read area:
         size_t new_end = sec_va + sec_vsize;
         if (new_end > read_size) read_size = new_end;
     }
-#ifdef _DEBUG
-    std::cout << "Total read size: " << read_size << std::endl;
-#endif
+    LOG_DEBUG("Total read size: %zu.", read_size);
     return read_size;
 }
 
@@ -393,21 +371,19 @@ bool peconv::dump_remote_pe(
     IN OPTIONAL peconv::ExportsMapper* exportsMap)
 {
     DWORD mod_size = get_remote_image_size(processHandle, start_addr);
-#ifdef _DEBUG
-    std::cout << "Module Size: " << mod_size  << std::endl;
-#endif
+    LOG_DEBUG("Module size: %u.", mod_size);
     if (mod_size == 0) {
         return false;
     }
     BYTE* buffer = peconv::alloc_pe_buffer(mod_size, PAGE_READWRITE);
     if (buffer == nullptr) {
-        std::cerr << "[-] Failed allocating buffer. Error: " << GetLastError() << std::endl;
+        LOG_ERROR("Failed allocating buffer. Error: %lu.", GetLastError());
         return false;
     }
     //read the module that it mapped in the remote process:
     const size_t read_size = read_remote_pe(processHandle, start_addr, mod_size, buffer, mod_size);
     if (read_size == 0) {
-        std::cerr << "[-] Failed reading module. Error: " << GetLastError() << std::endl;
+        LOG_ERROR("Failed reading module. Error: %lu.", GetLastError());
         peconv::free_pe_buffer(buffer, mod_size);
         buffer = nullptr;
         return false;

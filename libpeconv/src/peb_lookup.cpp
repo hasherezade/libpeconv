@@ -1,7 +1,5 @@
 #include "ntddk.h"
-#ifdef _DEBUG
-#include <iostream>
-#endif
+#include "peconv/logger.h"
 #include <peconv/peb_lookup.h>
 
 class SectionLocker {
@@ -46,9 +44,7 @@ inline PPEB get_peb()
     return (PPEB)__readgsqword(0x60);
 #elif defined(_M_ARM64)
     PPEB peb = (PPEB)(*(__getReg(18) + 0x60));
-    #ifdef _DEBUG
-    std::cout << "[+] ARM64 TEB: " << __getReg(18) << " PEB: " <<  peb << "\n";
-    #endif
+    LOG_DEBUG("ARM64 TEB: %p PEB: %p.", (void*)__getReg(18), peb);
     return peb;
 #else
     return (PPEB)__readfsdword(0x30);

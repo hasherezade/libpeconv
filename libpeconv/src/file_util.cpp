@@ -3,33 +3,25 @@
 #include "peconv/util.h"
 
 #include <fstream>
-#ifdef _DEBUG
-    #include <iostream>
-#endif
+#include "peconv/logger.h"
 
 //load file content using MapViewOfFile
 peconv::UNALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_size)
 {
     HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if(file == INVALID_HANDLE_VALUE) {
-#ifdef _DEBUG
-        std::cerr << "Could not open file!" << std::endl;
-#endif
+        LOG_ERROR("Could not open file.");
         return nullptr;
     }
     HANDLE mapping = CreateFileMapping(file, 0, PAGE_READONLY, 0, 0, 0);
     if (!mapping) {
-#ifdef _DEBUG
-        std::cerr << "Could not create mapping!" << std::endl;
-#endif
+        LOG_ERROR("Could not create file mapping.");
         CloseHandle(file);
         return nullptr;
     }
     BYTE *dllRawData = (BYTE*) MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0);
     if (!dllRawData) {
-#ifdef _DEBUG
-        std::cerr << "Could not map view of file" << std::endl;
-#endif
+        LOG_ERROR("Could not map view of file.");
         CloseHandle(mapping);
         CloseHandle(file);
         return nullptr;
@@ -39,7 +31,7 @@ peconv::UNALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_si
         r_size = read_size;
     }
     if (peconv::is_bad_read_ptr(dllRawData, r_size)) {
-        std::cerr << "[-] Mapping of " << filename << " is invalid!" << std::endl;
+        LOG_ERROR("Mapping is invalid.");
         UnmapViewOfFile(dllRawData);
         CloseHandle(mapping);
         CloseHandle(file);
@@ -51,9 +43,7 @@ peconv::UNALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_si
         read_size = r_size;
     } else {
         read_size = 0;
-#ifdef _DEBUG
-        std::cerr << "Could not allocate memory in the current process" << std::endl;
-#endif
+        LOG_ERROR("Could not allocate memory in the current process.");
     }
     UnmapViewOfFile(dllRawData);
     CloseHandle(mapping);
@@ -66,9 +56,7 @@ peconv::UNALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &
 {
     HANDLE file = CreateFile(in_path, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if (file == INVALID_HANDLE_VALUE) {
-#ifdef _DEBUG
-        std::cerr << "Cannot open the file for reading!" << std::endl;
-#endif
+        LOG_ERROR("Cannot open the file for reading.");
         return nullptr;
     }
     DWORD r_size = GetFileSize(file, 0);
@@ -77,16 +65,12 @@ peconv::UNALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &
     }
     peconv::UNALIGNED_BUF buffer = peconv::alloc_unaligned(r_size);
     if (buffer == nullptr) {
-#ifdef _DEBUG
-        std::cerr << "Allocation has failed!" << std::endl;
-#endif
+        LOG_ERROR("Buffer allocation failed.");
         return nullptr;
     }
     DWORD out_size = 0;
     if (!ReadFile(file, buffer, r_size, &out_size, nullptr)) {
-#ifdef _DEBUG
-        std::cerr << "Reading failed!" << std::endl;
-#endif
+        LOG_ERROR("ReadFile failed.");
         peconv::free_file(buffer);
         buffer = nullptr;
         read_size = 0;
@@ -104,9 +88,7 @@ bool peconv::dump_to_file(IN LPCTSTR out_path, IN PBYTE dump_data, IN size_t dum
 
     HANDLE file = CreateFile(out_path, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
     if (file == INVALID_HANDLE_VALUE) {
-#ifdef _DEBUG
-        std::cerr << "Cannot open the file for writing!" << std::endl;
-#endif
+        LOG_ERROR("Cannot open the file for writing.");
         return false;
     }
     DWORD written_size = 0;
@@ -114,11 +96,9 @@ bool peconv::dump_to_file(IN LPCTSTR out_path, IN PBYTE dump_data, IN size_t dum
     if (WriteFile(file, dump_data, (DWORD) dump_size, &written_size, nullptr)) {
         is_dumped = true;
     }
-#ifdef _DEBUG
     else {
-        std::cerr << "Failed to write to the file : " << out_path << std::endl;
+        LOG_ERROR("Failed to write to the file.");
     }
-#endif
     CloseHandle(file);
     return is_dumped;
 }

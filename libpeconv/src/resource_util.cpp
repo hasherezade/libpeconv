@@ -1,8 +1,6 @@
 #include "peconv/resource_util.h"
 
-#ifdef _DEBUG
-#include <iostream>
-#endif
+#include "peconv/logger.h"
 
 HMODULE peconv::get_current_module_handle()
 {
@@ -21,16 +19,12 @@ peconv::ALIGNED_BUF peconv::load_resource_data(OUT size_t &out_size, int res_id,
     }
     HRSRC res = FindResourceA(hInstance, MAKEINTRESOURCEA(res_id), res_type);
     if (!res) {
-#ifdef _DEBUG
-        std::cerr << "Cannot find resource" << std::endl;
-#endif
+        LOG_ERROR("Cannot find resource.");
         return nullptr;
     }
     HGLOBAL res_handle  = LoadResource(hInstance, res);
     if (res_handle == nullptr) {
-#ifdef _DEBUG
-        std::cerr << "Cannot get resource handle" << std::endl;
-#endif
+        LOG_ERROR("Cannot get resource handle.");
         return nullptr;
     }
     BYTE* res_data = (BYTE*) LockResource(res_handle);
