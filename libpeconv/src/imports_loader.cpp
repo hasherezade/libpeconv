@@ -344,11 +344,13 @@ namespace {
         IMAGE_IMPORT_DESCRIPTOR* lib_desc = nullptr;
         size_t parsedSize = 0;
         size_t valid_records = 0;
-
+        
+        bool is_terminated = false;
         while (parsedSize < moduleSize) { // import table size doesn't matter
 
-            if (maxCount != 0 && valid_records >= maxCount) break; // break when the hardlimit was hit
-
+            if (maxCount != 0 && valid_records >= maxCount) {
+                break; // break when the hardlimit was hit
+            }
             lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)((ULONG_PTR)impAddr + parsedSize + (ULONG_PTR)modulePtr);
             if (!peconv::validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
                 return false;
@@ -356,6 +358,7 @@ namespace {
             parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
 
             if (!lib_desc->OriginalFirstThunk && !lib_desc->FirstThunk) {
+                is_terminated = true;
                 break;
             }
             LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
@@ -373,7 +376,7 @@ namespace {
 
             valid_records++;
         }
-        return (valid_records > 0);
+        return is_terminated && (valid_records > 0);
     }
 };
 
