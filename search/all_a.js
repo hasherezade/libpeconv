@@ -28,5 +28,14 @@ var searchData=
   ['loadreason_25',['LoadReason',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#ac7ffadbd4ecb355db5c3f07ad90812f1',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['loadtime_26',['LoadTime',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#abddd620c75c5f82e9f5a5438a0d03222',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['lockprefixtable_27',['LockPrefixTable',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w10.html#a5a1671209cc9627f43d82d3188417ea6',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W10::LockPrefixTable'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html#a0642a2b4bd7b88693125f3a218b76051',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W10::LockPrefixTable'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w8.html#a3c771689d66148a26411f956a06eb957',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W8::LockPrefixTable'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w8.html#ac8b0ece29ae0d498b6b5b633fc4f499a',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W8::LockPrefixTable'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w7.html#ab9365ad3c4dba3e33d6d9a3ea8592ca0',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W7::LockPrefixTable'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w7.html#abc86dd7101d87a6c0c4eb672a6863199',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W7::LockPrefixTable']]],
-  ['lowestlink_28',['LowestLink',['../structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#abd5e2a211f9ca1f65b1344f850ce2360',1,'details::_LDR_DDAG_NODE_WIN8']]]
+  ['log_5fdebug_28',['LOG_DEBUG',['../logger_8h.html#ac06cfc686322558f590c50eab8622ebd',1,'logger.h']]],
+  ['log_5ferror_29',['LOG_ERROR',['../logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78',1,'logger.h']]],
+  ['log_5flevel_5fdebug_30',['LOG_LEVEL_DEBUG',['../logger_8h.html#a130224df8c6bf22a688e3cb74a45689a',1,'logger.h']]],
+  ['log_5flevel_5ferror_31',['LOG_LEVEL_ERROR',['../logger_8h.html#a742fc70e331d7e568bd893c514756a29',1,'logger.h']]],
+  ['log_5flevel_5fnone_32',['LOG_LEVEL_NONE',['../logger_8h.html#a43dece650f96e7cf2a4e535c9bd4804a',1,'logger.h']]],
+  ['log_5flevel_5fwarning_33',['LOG_LEVEL_WARNING',['../logger_8h.html#af539a66abed2a7a15e3443d70a3cf1e1',1,'logger.h']]],
+  ['log_5fverbosity_34',['LOG_VERBOSITY',['../logger_8h.html#a65533daa2b934c9fb36258439bdbcc4f',1,'logger.h']]],
+  ['log_5fwarning_35',['LOG_WARNING',['../logger_8h.html#afde44945335adc0c0ae2986fea13438f',1,'logger.h']]],
+  ['logger_2eh_36',['logger.h',['../logger_8h.html',1,'']]],
+  ['lowestlink_37',['LowestLink',['../structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#abd5e2a211f9ca1f65b1344f850ce2360',1,'details::_LDR_DDAG_NODE_WIN8']]]
 ];

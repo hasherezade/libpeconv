@@ -82,7 +82,7 @@ $(function() {
 <a href="exports__lookup_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="exports__lookup_8h.html">peconv/exports_lookup.h</a>&quot;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">peconv/util.h</a>&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="logger_8h.html">peconv/logger.h</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">typedef struct _IMAGE_EXPORT_DIRECTORY {</span></div>
@@ -152,7 +152,7 @@ $(function() {
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        DWORD ordinal = ordBase + i;</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">if</span> (ordinal == wanted_ordinal) {</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c">peconv::forwarder_name_len</a>(fPtr) &gt; 1) {</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                std::cerr &lt;&lt; <span class="stringliteral">&quot;[!] Forwarded function: [&quot;</span>&lt;&lt; wanted_ordinal &lt;&lt; <span class="stringliteral">&quot; -&gt; &quot;</span>&lt;&lt; fPtr &lt;&lt; <span class="stringliteral">&quot;] cannot be resolved!&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;Forwarded function: [%lu -&gt; %p] cannot be resolved.&quot;</span>, wanted_ordinal, fPtr);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                <span class="keywordflow">return</span> NULL; <span class="comment">// this function is forwarded, cannot be resolved</span></div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            }</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="keywordflow">return</span> (FARPROC) fPtr; <span class="comment">//return the pointer to the found function</span></div>
@@ -199,110 +199,101 @@ $(function() {
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    DWORD namesOrdsListRVA = exp-&gt;AddressOfNameOrdinals;</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="exports__lookup_8cpp.html#ab08a594888bf912d28aff4d1e318d134">is_ordinal</a>(exp, wanted_name)) {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#ifdef _DEBUG</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;[*] Getting function by ordinal&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keyword">const</span> DWORD ordinal = <a class="code hl_define" href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a>((ULONG_PTR)wanted_name);</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b">get_export_by_ord</a>(modulePtr, exp, ordinal);</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    }</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(wanted_name, 1)) {</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;[-] Invalid pointer to the name&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    }</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="comment">//go through names:</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">for</span> (SIZE_T i = 0; i &lt; namesCount; i++) {</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(DWORD));</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(WORD));</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * <span class="keyword">sizeof</span>(DWORD));</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>       </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); <span class="comment">//pointer to the function</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        </div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="exports__lookup_8cpp.html#a2838923ec0ddb8dc8bed2aea71687809">is_wanted_func</a>(name, wanted_name)) {</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            <span class="keywordflow">continue</span>; <span class="comment">//this is not the function we are looking for</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        }</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c">forwarder_name_len</a>(fPtr) &gt; 1) {</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            std::cerr &lt;&lt; <span class="stringliteral">&quot;[!] Forwarded function: [&quot;</span>&lt;&lt; name &lt;&lt; <span class="stringliteral">&quot; -&gt; &quot;</span>&lt;&lt; fPtr &lt;&lt; <span class="stringliteral">&quot;] cannot be resolved!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            <span class="keywordflow">return</span> NULL; <span class="comment">// this function is forwarded, cannot be resolved</span></div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        }</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keywordflow">return</span> (FARPROC) fPtr; <span class="comment">//return the pointer to the found function</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    }</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="comment">//function not found</span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="preprocessor">#ifdef _DEBUG</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    std::cerr &lt;&lt; <span class="stringliteral">&quot;Function not found!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>}</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Getting function by ordinal.&quot;</span>);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keyword">const</span> DWORD ordinal = <a class="code hl_define" href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a>((ULONG_PTR)wanted_name);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b">get_export_by_ord</a>(modulePtr, exp, ordinal);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    }</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(wanted_name, 1)) {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Invalid pointer to the name.&quot;</span>);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    }</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="comment">//go through names:</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordflow">for</span> (SIZE_T i = 0; i &lt; namesCount; i++) {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(DWORD));</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * <span class="keyword">sizeof</span>(WORD));</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * <span class="keyword">sizeof</span>(DWORD));</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>       </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); <span class="comment">//pointer to the function</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="exports__lookup_8cpp.html#a2838923ec0ddb8dc8bed2aea71687809">is_wanted_func</a>(name, wanted_name)) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="keywordflow">continue</span>; <span class="comment">//this is not the function we are looking for</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c">forwarder_name_len</a>(fPtr) &gt; 1) {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>            <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;Forwarded function: [%s -&gt; %p] cannot be resolved.&quot;</span>, name, fPtr);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <span class="keywordflow">return</span> NULL; <span class="comment">// this function is forwarded, cannot be resolved</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keywordflow">return</span> (FARPROC) fPtr; <span class="comment">//return the pointer to the found function</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="comment">//function not found</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Function not found.&quot;</span>);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>}</div>
 </div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
-<div class="foldopen" id="foldopen00148" data-start="{" data-end="}">
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1">  148</a></span>FARPROC <a class="code hl_function" href="classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1">peconv::export_based_resolver::resolve_func</a>(LPCSTR lib_name, LPCSTR func_name)</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>{</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    HMODULE libBasePtr = LoadLibraryA(lib_name);</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">if</span> (libBasePtr == NULL) {</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;Could not load the library!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    }</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    FARPROC hProc = <a class="code hl_function" href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b">get_exported_func</a>(libBasePtr, func_name);</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keywordflow">if</span> (hProc == NULL) {</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#ifdef _DEBUG</span></div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(func_name, 1)) {</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            std::cerr &lt;&lt; <span class="stringliteral">&quot;[!] Cound not get the function: &quot;</span>&lt;&lt; func_name &lt;&lt;<span class="stringliteral">&quot; from exports!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            std::cerr &lt;&lt; <span class="stringliteral">&quot;[!] Cound not get the function: &quot;</span>&lt;&lt; <a class="code hl_define" href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a>((ULONG_PTR)func_name) &lt;&lt;<span class="stringliteral">&quot; from exports!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        }</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;[!] Falling back to the default resolver...&quot;</span> &lt;&lt;std::endl;</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        hProc = <a class="code hl_function" href="classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03">default_func_resolver::resolve_func</a>(lib_name, func_name);</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">if</span> (hProc == NULL) {</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            std::cerr &lt;&lt; <span class="stringliteral">&quot;[-] Loading function from &quot;</span> &lt;&lt; lib_name &lt;&lt; <span class="stringliteral">&quot; failed!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        }</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    }</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="preprocessor">#ifdef _DEBUG</span></div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    FARPROC defaultProc = <a class="code hl_function" href="classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03">default_func_resolver::resolve_func</a>(lib_name, func_name);</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">if</span> (hProc != defaultProc) {</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        std::cerr &lt;&lt; <span class="stringliteral">&quot;[-] Loaded proc is not matching the default one!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    }</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordflow">return</span> hProc;</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>}</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1">  144</a></span>FARPROC <a class="code hl_function" href="classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1">peconv::export_based_resolver::resolve_func</a>(LPCSTR lib_name, LPCSTR func_name)</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>{</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    HMODULE libBasePtr = LoadLibraryA(lib_name);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">if</span> (libBasePtr == NULL) {</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Could not load the library.&quot;</span>);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    FARPROC hProc = <a class="code hl_function" href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b">get_exported_func</a>(libBasePtr, func_name);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">if</span> (hProc == NULL) {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(func_name, 1)) {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;Could not get function: %s from exports, falling back to default resolver.&quot;</span>, func_name);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;Could not get function ordinal: 0x%lx from exports, falling back to default resolver.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)<a class="code hl_define" href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a>((ULONG_PTR)func_name));</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        }</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        hProc = <a class="code hl_function" href="classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03">default_func_resolver::resolve_func</a>(lib_name, func_name);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        <span class="keywordflow">if</span> (hProc == NULL) {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Loading function from %s failed.&quot;</span>, lib_name);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        }</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    }</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordflow">return</span> hProc;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>}</div>
 </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
-<div class="foldopen" id="foldopen00181" data-start="{" data-end="}">
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a2726d823cfba9619cdf3d0c2013f519b">  181</a></span>LPSTR <a class="code hl_function" href="namespacepeconv.html#a2726d823cfba9619cdf3d0c2013f519b">peconv::read_dll_name</a>(HMODULE modulePtr)</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>{</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    IMAGE_EXPORT_DIRECTORY* exp = <a class="code hl_function" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0">get_export_directory</a>(modulePtr);</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="keywordflow">if</span> (exp == NULL) {</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    }</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    LPSTR module_name = (<span class="keywordtype">char</span>*)((ULONGLONG)modulePtr + exp-&gt;Name);</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(module_name, 1)) {</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    }</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keywordtype">size_t</span> len = <a class="code hl_function" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c">peconv::forwarder_name_len</a>((BYTE*) module_name);</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <span class="keywordflow">if</span> (len &gt; 1) {</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        <span class="keywordflow">return</span> module_name;</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    }</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>}</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="foldopen" id="foldopen00168" data-start="{" data-end="}">
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a2726d823cfba9619cdf3d0c2013f519b">  168</a></span>LPSTR <a class="code hl_function" href="namespacepeconv.html#a2726d823cfba9619cdf3d0c2013f519b">peconv::read_dll_name</a>(HMODULE modulePtr)</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>{</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    IMAGE_EXPORT_DIRECTORY* exp = <a class="code hl_function" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0">get_export_directory</a>(modulePtr);</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordflow">if</span> (exp == NULL) {</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    }</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    LPSTR module_name = (<span class="keywordtype">char</span>*)((ULONGLONG)modulePtr + exp-&gt;Name);</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a>(module_name, 1)) {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    }</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">size_t</span> len = <a class="code hl_function" href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c">peconv::forwarder_name_len</a>((BYTE*) module_name);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <span class="keywordflow">if</span> (len &gt; 1) {</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="keywordflow">return</span> module_name;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    }</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>}</div>
 </div>
 <div class="ttc" id="abuffer__util_8h_html_aaa26768a6583c35dd045af63f9207edd"><div class="ttname"><a href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a></div><div class="ttdeci">#define MASK_TO_DWORD(val)</div><div class="ttdef"><b>Definition</b> <a href="buffer__util_8h_source.html#l00012">buffer_util.h:12</a></div></div>
-<div class="ttc" id="aclasspeconv_1_1default__func__resolver_html_a066a70803ac85bb73123dab8ed29ec03"><div class="ttname"><a href="classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03">peconv::default_func_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)</div><div class="ttdef"><b>Definition</b> <a href="function__resolver_8cpp_source.html#l00036">function_resolver.cpp:36</a></div></div>
-<div class="ttc" id="aclasspeconv_1_1export__based__resolver_html_a755d6ec00caf462bcd084a32d33e64f1"><div class="ttname"><a href="classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1">peconv::export_based_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)</div><div class="ttdef"><b>Definition</b> <a href="#l00148">exports_lookup.cpp:148</a></div></div>
+<div class="ttc" id="aclasspeconv_1_1default__func__resolver_html_a066a70803ac85bb73123dab8ed29ec03"><div class="ttname"><a href="classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03">peconv::default_func_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)</div><div class="ttdef"><b>Definition</b> <a href="function__resolver_8cpp_source.html#l00034">function_resolver.cpp:34</a></div></div>
+<div class="ttc" id="aclasspeconv_1_1export__based__resolver_html_a755d6ec00caf462bcd084a32d33e64f1"><div class="ttname"><a href="classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1">peconv::export_based_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)</div><div class="ttdef"><b>Definition</b> <a href="#l00144">exports_lookup.cpp:144</a></div></div>
 <div class="ttc" id="aexports__lookup_8cpp_html_a2838923ec0ddb8dc8bed2aea71687809"><div class="ttname"><a href="exports__lookup_8cpp.html#a2838923ec0ddb8dc8bed2aea71687809">is_wanted_func</a></div><div class="ttdeci">bool is_wanted_func(LPCSTR curr_name, LPCSTR wanted_name)</div><div class="ttdef"><b>Definition</b> <a href="#l00026">exports_lookup.cpp:26</a></div></div>
 <div class="ttc" id="aexports__lookup_8cpp_html_a7e5285ac601b348d1c928a37ef0a154b"><div class="ttname"><a href="exports__lookup_8cpp.html#a7e5285ac601b348d1c928a37ef0a154b">get_export_by_ord</a></div><div class="ttdeci">FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY *exp, DWORD wanted_ordinal)</div><div class="ttdef"><b>Definition</b> <a href="#l00056">exports_lookup.cpp:56</a></div></div>
 <div class="ttc" id="aexports__lookup_8cpp_html_ab08a594888bf912d28aff4d1e318d134"><div class="ttname"><a href="exports__lookup_8cpp.html#ab08a594888bf912d28aff4d1e318d134">is_ordinal</a></div><div class="ttdeci">bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPCSTR func_name)</div><div class="ttdef"><b>Definition</b> <a href="#l00045">exports_lookup.cpp:45</a></div></div>
 <div class="ttc" id="aexports__lookup_8cpp_html_ad0142b6414aae6a74f5507da6dc85718"><div class="ttname"><a href="exports__lookup_8cpp.html#ad0142b6414aae6a74f5507da6dc85718">TO_LOWERCASE</a></div><div class="ttdeci">#define TO_LOWERCASE(c1)</div><div class="ttdef"><b>Definition</b> <a href="#l00023">exports_lookup.cpp:23</a></div></div>
 <div class="ttc" id="aexports__lookup_8h_html"><div class="ttname"><a href="exports__lookup_8h.html">exports_lookup.h</a></div><div class="ttdoc">Searching specific functions in PE&#39;s Exports Table.</div></div>
-<div class="ttc" id="anamespacepeconv_html_a2726d823cfba9619cdf3d0c2013f519b"><div class="ttname"><a href="namespacepeconv.html#a2726d823cfba9619cdf3d0c2013f519b">peconv::read_dll_name</a></div><div class="ttdeci">LPSTR read_dll_name(HMODULE modulePtr)</div><div class="ttdef"><b>Definition</b> <a href="#l00181">exports_lookup.cpp:181</a></div></div>
+<div class="ttc" id="alogger_8h_html"><div class="ttname"><a href="logger_8h.html">logger.h</a></div></div>
+<div class="ttc" id="alogger_8h_html_ac06cfc686322558f590c50eab8622ebd"><div class="ttname"><a href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a></div><div class="ttdeci">#define LOG_DEBUG(fmt,...)</div><div class="ttdef"><b>Definition</b> <a href="logger_8h_source.html#l00049">logger.h:49</a></div></div>
+<div class="ttc" id="alogger_8h_html_ae6fc70e87e424e7083c63696b8fb9e78"><div class="ttname"><a href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(fmt,...)</div><div class="ttdef"><b>Definition</b> <a href="logger_8h_source.html#l00035">logger.h:35</a></div></div>
+<div class="ttc" id="alogger_8h_html_afde44945335adc0c0ae2986fea13438f"><div class="ttname"><a href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a></div><div class="ttdeci">#define LOG_WARNING(fmt,...)</div><div class="ttdef"><b>Definition</b> <a href="logger_8h_source.html#l00043">logger.h:43</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a2726d823cfba9619cdf3d0c2013f519b"><div class="ttname"><a href="namespacepeconv.html#a2726d823cfba9619cdf3d0c2013f519b">peconv::read_dll_name</a></div><div class="ttdeci">LPSTR read_dll_name(HMODULE modulePtr)</div><div class="ttdef"><b>Definition</b> <a href="#l00168">exports_lookup.cpp:168</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a3b533a103defe4c62fdd1aabae46070c"><div class="ttname"><a href="namespacepeconv.html#a3b533a103defe4c62fdd1aabae46070c">peconv::forwarder_name_len</a></div><div class="ttdeci">size_t forwarder_name_len(BYTE *fPtr)</div><div class="ttdef"><b>Definition</b> <a href="exported__func_8cpp_source.html#l00036">exported_func.cpp:36</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a64636ff99131cfb84f7aeded13ef1ff5"><div class="ttname"><a href="namespacepeconv.html#a64636ff99131cfb84f7aeded13ef1ff5">peconv::get_exported_names</a></div><div class="ttdeci">size_t get_exported_names(PVOID modulePtr, std::vector&lt; std::string &gt; &amp;names_list)</div><div class="ttdef"><b>Definition</b> <a href="#l00078">exports_lookup.cpp:78</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a8ac87630e82d6426e789ee4137293b3b"><div class="ttname"><a href="namespacepeconv.html#a8ac87630e82d6426e789ee4137293b3b">peconv::get_exported_func</a></div><div class="ttdeci">FARPROC get_exported_func(PVOID modulePtr, LPCSTR wanted_name)</div><div class="ttdef"><b>Definition</b> <a href="#l00100">exports_lookup.cpp:100</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_aad22870e562a1bf1a8972c0f1ba88056"><div class="ttname"><a href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a></div><div class="ttdeci">bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)</div><div class="ttdef"><b>Definition</b> <a href="util_8cpp_source.html#l00150">util.cpp:150</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_ade9f80c0751d090dd6212d1f74241bf0"><div class="ttname"><a href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0">peconv::get_export_directory</a></div><div class="ttdeci">IMAGE_EXPORT_DIRECTORY * get_export_directory(IN HMODULE modulePtr)</div><div class="ttdef"><b>Definition</b> <a href="pe__hdrs__helper_8cpp_source.html#l00482">pe_hdrs_helper.cpp:482</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_aad22870e562a1bf1a8972c0f1ba88056"><div class="ttname"><a href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a></div><div class="ttdeci">bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)</div><div class="ttdef"><b>Definition</b> <a href="util_8cpp_source.html#l00149">util.cpp:149</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_ade9f80c0751d090dd6212d1f74241bf0"><div class="ttname"><a href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0">peconv::get_export_directory</a></div><div class="ttdeci">IMAGE_EXPORT_DIRECTORY * get_export_directory(IN HMODULE modulePtr)</div><div class="ttdef"><b>Definition</b> <a href="pe__hdrs__helper_8cpp_source.html#l00480">pe_hdrs_helper.cpp:480</a></div></div>
 <div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Miscellaneous utility functions.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
