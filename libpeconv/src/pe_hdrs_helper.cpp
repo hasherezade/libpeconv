@@ -140,8 +140,8 @@ IMAGE_DATA_DIRECTORY* peconv::get_directory_entry(IN const BYTE *pe_buffer, IN D
         peDir = &(nt_headers64->OptionalHeader.DataDirectory[dir_id]);
     }
     else {
-        IMAGE_NT_HEADERS32* nt_headers64 = (IMAGE_NT_HEADERS32*)nt_headers;
-        peDir = &(nt_headers64->OptionalHeader.DataDirectory[dir_id]);
+        IMAGE_NT_HEADERS32* nt_headers32 = (IMAGE_NT_HEADERS32*)nt_headers;
+        peDir = &(nt_headers32->OptionalHeader.DataDirectory[dir_id]);
     }
     if (!allow_empty && !peDir->VirtualAddress) {
         return nullptr;
@@ -602,7 +602,7 @@ DWORD peconv::calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool 
     return module_end;
 }
 
-bool peconv::is_valid_sectons_alignment(IN const BYTE* payload, IN const SIZE_T payload_size, IN bool is_raw)
+bool peconv::is_valid_sections_alignment(IN const BYTE* payload, IN const SIZE_T payload_size, IN bool is_raw)
 {
     if (!payload) return false;
 

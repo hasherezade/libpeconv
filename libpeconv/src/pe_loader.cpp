@@ -11,7 +11,7 @@
 
 using namespace peconv;
 
-namespace peconv {
+namespace {
     BYTE* load_no_sec_pe(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, bool executable)
     {
         ULONG_PTR desired_base = 0;

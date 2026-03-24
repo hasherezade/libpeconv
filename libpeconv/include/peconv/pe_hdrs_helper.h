@@ -243,6 +243,6 @@ namespace peconv {
     \param buffer_size : the size of the given buffer
     \param is_raw : If true, the Raw alignment is checked. If false, the Virtual alignment is checked.
     */
-    bool is_valid_sectons_alignment(IN const BYTE* buffer, IN const SIZE_T buffer_size, IN bool is_raw);
+    bool is_valid_sections_alignment(IN const BYTE* buffer, IN const SIZE_T buffer_size, IN bool is_raw);
 
 }; // namespace peconv

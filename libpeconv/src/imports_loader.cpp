@@ -249,7 +249,7 @@ bool process_dlls(BYTE* modulePtr, size_t module_size, IMAGE_IMPORT_DESCRIPTOR *
 #ifdef _DEBUG_EX
         std::cout << "Imported Lib: " << std::hex << lib_desc->FirstThunk << " : " << std::hex << lib_desc->OriginalFirstThunk << " : " << lib_desc->Name << std::endl;
 #endif
-        size_t all_solved = false;
+        bool all_solved = false;
         if (is64) {
             all_solved = process_imp_functions_tpl<ULONGLONG, IMAGE_THUNK_DATA64>(modulePtr, module_size, lib_name, call_via, thunk_addr, callback);
         }

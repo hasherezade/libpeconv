@@ -28,7 +28,7 @@ namespace peconv {
     BYTE* load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executable, bool relocate, ULONG_PTR desired_base = 0);
 
     /**
-    Loads full PE from the raw buffer in a way in which it can be directly executed: remaps to virual format, applies relocations, loads imports.
+    Loads full PE from the raw buffer in a way in which it can be directly executed: remaps to virtual format, applies relocations, loads imports.
     Allows for supplying custom function resolver.
     */
     BYTE* load_pe_executable(BYTE* payload_raw, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver = nullptr, ULONG_PTR desired_base = 0);
