@@ -330,26 +330,26 @@ bool peconv::is_valid_import_name(const PBYTE modulePtr, const size_t moduleSize
     return is_terminated;
 }
 
-namespace
-{
+namespace {
     template <typename FIELD_T>
-    bool _has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
+    bool _has_valid_import_table(const PBYTE modulePtr, size_t moduleSize, size_t maxCount = 0)
     {
         IMAGE_DATA_DIRECTORY* importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
         if (!importsDir) return false;
 
         const DWORD impAddr = importsDir->VirtualAddress;
-
+        if (impAddr == 0 || impAddr >= moduleSize) {
+            return false;
+        }
         IMAGE_IMPORT_DESCRIPTOR* lib_desc = nullptr;
-        DWORD parsedSize = 0;
+        size_t parsedSize = 0;
         size_t valid_records = 0;
 
-        while (true) { //size of the import table doesn't matter
-            const ULONG_PTR offset = (ULONG_PTR)impAddr + parsedSize;
-            if (offset < (ULONG_PTR)impAddr) { // make sure no overflow happened
-                return false;
-            }
-            lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(offset + (ULONG_PTR)modulePtr);
+        while (parsedSize < moduleSize) { // import table size doesn't matter
+
+            if (maxCount != 0 && valid_records >= maxCount) break; // break when the hardlimit was hit
+
+            lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)((ULONG_PTR)impAddr + parsedSize + (ULONG_PTR)modulePtr);
             if (!peconv::validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
                 return false;
             }
@@ -377,12 +377,12 @@ namespace
     }
 };
 
-bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
+bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize, size_t maxCount)
 {
     if (peconv::is64bit(modulePtr)) {
-        return _has_valid_import_table<ULONGLONG>(modulePtr, moduleSize);
+        return _has_valid_import_table<ULONGLONG>(modulePtr, moduleSize, maxCount);
     }
-    return _has_valid_import_table<DWORD>(modulePtr, moduleSize);
+    return _has_valid_import_table<DWORD>(modulePtr, moduleSize, maxCount);
 }
 
 bool peconv::collect_thunks(IN BYTE* modulePtr, IN SIZE_T moduleSize, OUT std::set<DWORD>& thunk_rvas)

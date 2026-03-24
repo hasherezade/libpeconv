@@ -85,7 +85,7 @@ namespace peconv {
     /**
     Checks if the given PE has a valid import table.
     */
-    bool has_valid_import_table(const PBYTE modulePtr, size_t moduleSize);
+    bool has_valid_import_table(const PBYTE modulePtr, size_t moduleSize, size_t max_count = 0);
 
     /**
     Checks if the given lib_name is a valid DLL name.
