@@ -8,7 +8,7 @@
 #endif
 
 //load file content using MapViewOfFile
-peconv::ALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_size)
+peconv::UNALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_size)
 {
     HANDLE file = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if(file == INVALID_HANDLE_VALUE) {
@@ -62,7 +62,7 @@ peconv::ALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_size
 }
 
 //load file content using ReadFile
-peconv::ALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &read_size)
+peconv::UNALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &read_size)
 {
     HANDLE file = CreateFile(in_path, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if (file == INVALID_HANDLE_VALUE) {
