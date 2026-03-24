@@ -327,44 +327,55 @@ bool peconv::is_valid_import_name(const PBYTE modulePtr, const size_t moduleSize
     return true;
 }
 
+namespace peconv
+{
+    template <typename FIELD_T>
+    bool _has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
+    {
+        IMAGE_DATA_DIRECTORY* importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
+        if (!importsDir) return false;
+
+        const DWORD impAddr = importsDir->VirtualAddress;
+
+        IMAGE_IMPORT_DESCRIPTOR* lib_desc = nullptr;
+        DWORD parsedSize = 0;
+        size_t valid_records = 0;
+
+        while (true) { //size of the import table doesn't matter
+            lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR)modulePtr);
+            if (!peconv::validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
+                return false;
+            }
+            parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
+
+            if (!lib_desc->OriginalFirstThunk && !lib_desc->FirstThunk) {
+                break;
+            }
+            LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
+            if (!is_valid_import_name(modulePtr, moduleSize, lib_name)) return false;
+
+            DWORD call_via = lib_desc->FirstThunk;
+            DWORD thunk_addr = lib_desc->OriginalFirstThunk;
+            if (!thunk_addr) thunk_addr = lib_desc->FirstThunk;
+
+            FIELD_T* thunks = (FIELD_T*)((ULONGLONG)modulePtr + thunk_addr);
+            if (!peconv::validate_ptr(modulePtr, moduleSize, thunks, sizeof(FIELD_T))) return false;
+
+            FIELD_T* callers = (FIELD_T*)((ULONGLONG)modulePtr + call_via);
+            if (!peconv::validate_ptr(modulePtr, moduleSize, callers, sizeof(FIELD_T))) return false;
+
+            valid_records++;
+        }
+        return (valid_records > 0);
+    }
+};
+
 bool peconv::has_valid_import_table(const PBYTE modulePtr, size_t moduleSize)
 {
-    IMAGE_DATA_DIRECTORY *importsDir = get_directory_entry((BYTE*)modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
-    if (!importsDir) return false;
-
-    const DWORD impAddr = importsDir->VirtualAddress;
-
-    IMAGE_IMPORT_DESCRIPTOR* lib_desc = nullptr;
-    DWORD parsedSize = 0;
-    size_t valid_records = 0;
-
-    while (true) { //size of the import table doesn't matter
-        lib_desc = (IMAGE_IMPORT_DESCRIPTOR*)(impAddr + parsedSize + (ULONG_PTR)modulePtr);
-        if (!peconv::validate_ptr(modulePtr, moduleSize, lib_desc, sizeof(IMAGE_IMPORT_DESCRIPTOR))) {
-            return false;
-        }
-        parsedSize += sizeof(IMAGE_IMPORT_DESCRIPTOR);
-
-        if (!lib_desc->OriginalFirstThunk && !lib_desc->FirstThunk) {
-            break;
-        }
-        LPSTR lib_name = (LPSTR)((ULONGLONG)modulePtr + lib_desc->Name);
-        if (!is_valid_import_name(modulePtr, moduleSize, lib_name)) return false;
-
-        DWORD call_via = lib_desc->FirstThunk;
-        DWORD thunk_addr = lib_desc->OriginalFirstThunk;
-        if (!thunk_addr) thunk_addr = lib_desc->FirstThunk;
-
-        DWORD *thunks = (DWORD*)((ULONGLONG)modulePtr + thunk_addr);
-        if (!peconv::validate_ptr(modulePtr, moduleSize, thunks, sizeof(DWORD))) return false;
-
-        DWORD *callers = (DWORD*)((ULONGLONG)modulePtr + call_via);
-        if (!peconv::validate_ptr(modulePtr, moduleSize, callers, sizeof(DWORD))) return false;
-
-        valid_records++;
+    if (peconv::is64bit(modulePtr)) {
+        return _has_valid_import_table<ULONGLONG>(modulePtr, moduleSize);
     }
-
-    return (valid_records > 0);
+    return _has_valid_import_table<DWORD>(modulePtr, moduleSize);
 }
 
 bool peconv::collect_thunks(IN BYTE* modulePtr, IN SIZE_T moduleSize, OUT std::set<DWORD>& thunk_rvas)
