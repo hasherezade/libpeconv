@@ -71,7 +71,8 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
         DWORD offset = entry->Offset;
         DWORD type = entry->Type;
         if (type == 0) {
-            break;
+            entry = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)entry + sizeof(WORD));
+            continue;  // skip padding
         }
         if (type != RELOC_32BIT_FIELD && type != RELOC_64BIT_FIELD) {
             if (callback) { //print debug messages only if the callback function was set

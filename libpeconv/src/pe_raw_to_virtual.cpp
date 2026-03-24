@@ -39,9 +39,11 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
     //copy all the sections, one by one:
     for (WORD i = 0; i < fileHdr->NumberOfSections; i++) {
         PIMAGE_SECTION_HEADER next_sec = (PIMAGE_SECTION_HEADER)((ULONG_PTR)secptr + ((ULONG_PTR)IMAGE_SIZEOF_SECTION_HEADER * i));
-        if (!validate_ptr(static_cast<const void*>(payload), payloadSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER) // check if fits in the source size
-            || !validate_ptr(static_cast<const void*>(payload), destBufferSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) // check if fits in the destination size
-        {
+        if (!validate_ptr(static_cast<const void*>(payload), payloadSize, next_sec, IMAGE_SIZEOF_SECTION_HEADER)) { // check if fits in the source size
+            return false;
+        }
+        const BYTE* next_sec_dest = destBuffer + (reinterpret_cast<const BYTE*>(next_sec) - payload);
+        if (!validate_ptr(static_cast<const void*>(destBuffer), destBufferSize, next_sec_dest, IMAGE_SIZEOF_SECTION_HEADER)) { // check if fits in the destination size
             return false;
         }
         if (next_sec->PointerToRawData == 0 || next_sec->SizeOfRawData == 0) {
@@ -52,12 +54,12 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
         size_t sec_size = next_sec->SizeOfRawData;
         
         if ((next_sec->VirtualAddress + sec_size) > destBufferSize) {
-            std::cerr << "[!] Virtual section size is out ouf bounds: " << std::hex << sec_size << std::endl;
+            std::cerr << "[!] Virtual section size is out of bounds: " << std::hex << sec_size << std::endl;
             sec_size = (destBufferSize > next_sec->VirtualAddress) ? SIZE_T(destBufferSize - next_sec->VirtualAddress) : 0;
             std::cerr << "[!] Truncated to maximal size: " << std::hex << sec_size << ", buffer size:" << destBufferSize << std::endl;
         }
         if (next_sec->VirtualAddress >= destBufferSize && sec_size != 0) {
-            std::cerr << "[-] VirtualAddress of section is out ouf bounds: " << std::hex << next_sec->VirtualAddress << std::endl;
+            std::cerr << "[-] VirtualAddress of section is out of bounds: " << std::hex << next_sec->VirtualAddress << std::endl;
             return false;
         }
         if (next_sec->PointerToRawData + sec_size > destBufferSize) {
