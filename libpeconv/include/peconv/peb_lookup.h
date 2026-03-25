@@ -37,4 +37,3 @@ namespace peconv {
     */
     HMODULE get_main_module_via_peb();
 };
-

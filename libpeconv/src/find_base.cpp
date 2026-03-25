@@ -92,7 +92,7 @@ ULONGLONG peconv::find_base_candidate(IN BYTE* modulePtr, IN size_t moduleSize)
     const ULONGLONG mask = ~ULONGLONG(0xFFFF);
     std::map<ULONGLONG, size_t>base_candidates;
 
-    std::set<ULONGLONG>::iterator itr = relocs.begin();
+    std::set<ULONGLONG>::iterator itr;
     
     for (itr = relocs.begin(); itr != relocs.end(); ++itr) {
         const ULONGLONG guessed_base = (*itr) & mask;
