@@ -60,11 +60,16 @@ peconv::UNALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &
         return nullptr;
     }
     DWORD r_size = GetFileSize(file, 0);
+    if (r_size == INVALID_FILE_SIZE) {
+        LOG_ERROR("Cannot retrieve file size.");
+        CloseHandle(file);
+        return nullptr;
+    }
     if (read_size != 0 && read_size <= r_size) {
         r_size = MASK_TO_DWORD(read_size);
     }
     peconv::UNALIGNED_BUF buffer = peconv::alloc_unaligned(r_size);
-    if (buffer == nullptr) {
+    if (!buffer) {
         CloseHandle(file);
         LOG_ERROR("Buffer allocation failed.");
         return nullptr;
