@@ -192,22 +192,22 @@ $(function() {
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        }</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        base_candidates[guessed_base]++;</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    }</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    ULONGLONG most_freqent = 0;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    ULONGLONG most_frequent = 0;</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordtype">size_t</span> max_freq = 0;</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    std::map&lt;ULONGLONG, size_t&gt;::iterator mapItr;</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">for</span> (mapItr = base_candidates.begin(); mapItr != base_candidates.end(); ++mapItr) {</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">if</span> (mapItr-&gt;second &gt;= max_freq) {</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            most_freqent = mapItr-&gt;first;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            most_frequent = mapItr-&gt;first;</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            max_freq = mapItr-&gt;second;</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        }</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    }</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordflow">for</span> (itr = relocs.begin(); itr != relocs.end(); ++itr) {</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        ULONGLONG first = *itr;</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        ULONGLONG first_base = first &amp; mask;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordflow">if</span> (first_base &gt; most_freqent) {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordflow">if</span> (first_base &gt; most_frequent) {</div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        }</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        ULONGLONG delta = most_freqent - first_base;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        ULONGLONG delta = most_frequent - first_base;</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordflow">if</span> (delta &lt; moduleSize) {</div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            <span class="keywordflow">return</span> first_base;</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        }</div>
