@@ -58,19 +58,29 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
     SIZE_T functCount = exp->NumberOfFunctions;
     DWORD funcsListRVA = exp->AddressOfFunctions;
     DWORD ordBase = exp->Base;
+    
+    const size_t modSize = peconv::get_image_size((BYTE*)modulePtr);
 
     //go through names:
     for (DWORD i = 0; i < functCount; i++) {
-        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
-        BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); //pointer to the function
         DWORD ordinal = ordBase + i;
-        if (ordinal == wanted_ordinal) {
-            if (peconv::forwarder_name_len(fPtr) > 1) {
-                LOG_WARNING("Forwarded function: [%lu -> %p] cannot be resolved.", wanted_ordinal, fPtr);
-                return NULL; // this function is forwarded, cannot be resolved
-            }
-            return (FARPROC) fPtr; //return the pointer to the found function
+        if (ordinal != wanted_ordinal) continue;
+
+        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
+        if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, funcRVA, sizeof(DWORD))) {
+            LOG_ERROR("Invalid RVA of exported function");
+            return NULL;
         }
+        BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); //pointer to the function
+        if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, fPtr, 1)) {
+            LOG_ERROR("Invalid pointer to exported function");
+            return NULL;
+        }
+        if (peconv::forwarder_name_len(fPtr) > 1) {
+            LOG_WARNING("Forwarded function: [%lu -> %p] cannot be resolved.", wanted_ordinal, fPtr);
+            return NULL; // this function is forwarded, cannot be resolved
+        }
+        return (FARPROC) fPtr; //return the pointer to the found function
     }
     return NULL;
 }
@@ -117,7 +127,7 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
         LOG_ERROR("Invalid pointer to the name.");
         return NULL;
     }
-
+    const size_t modSize = peconv::get_image_size((BYTE*)modulePtr);
     //go through names:
     for (SIZE_T i = 0; i < namesCount; i++) {
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
@@ -125,10 +135,17 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
        
         LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
-        BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); //pointer to the function
-        
+        if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, name, 1)) {
+            LOG_ERROR("Invalid pointer to exported function name");
+            return NULL;
+        }
         if (!is_wanted_func(name, wanted_name)) {
             continue; //this is not the function we are looking for
+        }
+        BYTE* fPtr = (BYTE*)modulePtr + (*funcRVA); //pointer to the function
+        if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, (LPVOID)fPtr, 1)) {
+            LOG_ERROR("Invalid pointer to exported function");
+            return NULL;
         }
         if (forwarder_name_len(fPtr) > 1) {
             LOG_WARNING("Forwarded function: [%s -> %p] cannot be resolved.", name, fPtr);
