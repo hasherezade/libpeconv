@@ -21,14 +21,14 @@ namespace peconv {
 
     struct DllInfo {
         DllInfo()
-            : moduleBase(0), moduelSize(0), is64b(false)
+            : moduleBase(0), moduleSize(0), is64b(false)
         {
         }
 
         DllInfo(ULONGLONG _moduleBase, size_t _moduelSize, bool _is64b, std::string _moduleName)
         {
             moduleBase = _moduleBase;
-            moduelSize = _moduelSize;
+            moduleSize = _moduelSize;
             moduleName = _moduleName;
             is64b = _is64b;
             shortName = get_dll_shortname(moduleName);
@@ -37,7 +37,7 @@ namespace peconv {
         DllInfo(const DllInfo &other)
         {
             moduleBase = other.moduleBase;
-            moduelSize = other.moduelSize;
+            moduleSize = other.moduleSize;
             moduleName = other.moduleName;
             shortName = other.shortName;
             is64b = other.is64b;
@@ -50,7 +50,7 @@ namespace peconv {
 
     protected:
         ULONGLONG moduleBase;
-        size_t moduelSize;
+        size_t moduleSize;
         std::string moduleName;
         std::string shortName;
         bool is64b;
@@ -119,7 +119,7 @@ namespace peconv {
             for (itr = dll_base_to_info.begin(); itr != firstGreater; ++itr) {
                 const DllInfo& module = itr->second;
 
-                if (func_rva >= module.moduleBase && func_rva <= (module.moduleBase + module.moduelSize)) {
+                if (func_rva >= module.moduleBase && func_rva <= (module.moduleBase + module.moduleSize)) {
                     // Address found in module:
                     return module.moduleBase;
                 }

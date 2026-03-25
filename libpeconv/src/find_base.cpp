@@ -102,22 +102,22 @@ ULONGLONG peconv::find_base_candidate(IN BYTE* modulePtr, IN size_t moduleSize)
         }
         base_candidates[guessed_base]++;
     }
-    ULONGLONG most_freqent = 0;
+    ULONGLONG most_frequent = 0;
     size_t max_freq = 0;
     std::map<ULONGLONG, size_t>::iterator mapItr;
     for (mapItr = base_candidates.begin(); mapItr != base_candidates.end(); ++mapItr) {
         if (mapItr->second >= max_freq) {
-            most_freqent = mapItr->first;
+            most_frequent = mapItr->first;
             max_freq = mapItr->second;
         }
     }
     for (itr = relocs.begin(); itr != relocs.end(); ++itr) {
         ULONGLONG first = *itr;
         ULONGLONG first_base = first & mask;
-        if (first_base > most_freqent) {
+        if (first_base > most_frequent) {
             break;
         }
-        ULONGLONG delta = most_freqent - first_base;
+        ULONGLONG delta = most_frequent - first_base;
         if (delta < moduleSize) {
             return first_base;
         }
