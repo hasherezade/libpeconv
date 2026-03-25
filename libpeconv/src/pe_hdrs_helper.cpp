@@ -547,7 +547,7 @@ DWORD peconv::get_virtual_sec_size(IN const BYTE* pe_hdr, IN const PIMAGE_SECTIO
         return 0;
     }
     if (!rounded) {
-        return sec_hdr->Misc.VirtualSize;;
+        return sec_hdr->Misc.VirtualSize;
     }
     //TODO: calculate real size, round up to Virtual Alignment
     DWORD alignment = peconv::get_sec_alignment((const PBYTE)pe_hdr, false);
