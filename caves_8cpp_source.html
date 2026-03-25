@@ -102,17 +102,17 @@ $(function() {
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    DWORD virtual_size = (DWORD)moduleSize - section_hdr-&gt;VirtualAddress;</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordflow">if</span> (raw_size &gt;= virtual_size) {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Last section&#39;s raw_size: 0x%lx &gt;= virtual_size: 0x%lx&quot;</span>, raw_size, virtual_size);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Last section&#39;s raw_size: 0x%lx &gt;= virtual_size: 0x%lx&quot;</span>, raw_size, virtual_size);</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    }</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    DWORD cave_size = virtual_size - raw_size;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordflow">if</span> (cave_size &lt; minimal_size) {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Cave is too small.&quot;</span>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Cave is too small.&quot;</span>);</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    PBYTE cave_ptr = modulePtr + section_hdr-&gt;VirtualAddress + section_hdr-&gt;SizeOfRawData;</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, cave_ptr, minimal_size)) {</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Invalid cave pointer.&quot;</span>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Invalid cave pointer.&quot;</span>);</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    section_hdr-&gt;SizeOfRawData += minimal_size; <span class="comment">//book this cave</span></div>
@@ -139,23 +139,23 @@ $(function() {
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        DWORD new_size = div * alignment;</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        DWORD cave_size = new_size - section_hdr-&gt;SizeOfRawData;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">if</span> (cave_size &lt; minimal_size) {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Cave is too small.&quot;</span>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Cave is too small.&quot;</span>);</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        }</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        DWORD sec_start = section_hdr-&gt;PointerToRawData;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">if</span> (sec_start == 0) <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        DWORD sec_end = sec_start + section_hdr-&gt;SizeOfRawData;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Section: 0x%lx : 0x%lx&quot;</span>, sec_start, sec_end);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Section: 0x%lx : 0x%lx&quot;</span>, sec_start, sec_end);</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        PBYTE cave_ptr = modulePtr + sec_end;</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, cave_ptr, minimal_size)) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Invalid cave pointer.&quot;</span>);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Invalid cave pointer.&quot;</span>);</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        }</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        section_hdr-&gt;SizeOfRawData += minimal_size; <span class="comment">//book this cave</span></div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">return</span> cave_ptr;</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Cave not found.&quot;</span>);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Cave not found.&quot;</span>);</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>}</div>
 </div>
@@ -176,12 +176,12 @@ $(function() {
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">if</span> (sec_start == 0) <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        DWORD sec_end = sec_start + section_hdr-&gt;SizeOfRawData;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Section: 0x%lx : 0x%lx&quot;</span>, sec_start, sec_end);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Section: 0x%lx : 0x%lx&quot;</span>, sec_start, sec_end);</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="comment">//offset from the end of the section:</span></div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordtype">size_t</span> cave_offset = section_hdr-&gt;SizeOfRawData - minimal_size;</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        PBYTE cave_ptr = modulePtr + sec_start + cave_offset;</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, cave_ptr, minimal_size)) {</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Invalid cave pointer.&quot;</span>);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Invalid cave pointer.&quot;</span>);</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        }</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordtype">bool</span> found = <span class="keyword">false</span>;</div>
@@ -198,13 +198,13 @@ $(function() {
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            <span class="keywordflow">return</span> cave_ptr;</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        }</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    }</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Cave not found.&quot;</span>);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Cave not found.&quot;</span>);</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
 </div>
 <div class="ttc" id="acaves_8h_html"><div class="ttname"><a href="caves_8h.html">caves.h</a></div><div class="ttdoc">Functions related to finding caves in the loaded PE file.</div></div>
 <div class="ttc" id="alogger_8h_html"><div class="ttname"><a href="logger_8h.html">logger.h</a></div></div>
-<div class="ttc" id="alogger_8h_html_ac06cfc686322558f590c50eab8622ebd"><div class="ttname"><a href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a></div><div class="ttdeci">#define LOG_DEBUG(fmt,...)</div><div class="ttdef"><b>Definition</b> <a href="logger_8h_source.html#l00049">logger.h:49</a></div></div>
+<div class="ttc" id="alogger_8h_html_ae69d735f8291bd2aff230fe6ffb4d4b3"><div class="ttname"><a href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(fmt,...)</div><div class="ttdef"><b>Definition</b> <a href="logger_8h_source.html#l00050">logger.h:50</a></div></div>
 <div class="ttc" id="anamespacepeconv_html"><div class="ttname"><a href="namespacepeconv.html">peconv</a></div><div class="ttdef"><b>Definition</b> <a href="buffer__util_8h_source.html#l00015">buffer_util.h:15</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a52ed5ac63150ed6c4d7e5a53b9d7b717"><div class="ttname"><a href="namespacepeconv.html#a52ed5ac63150ed6c4d7e5a53b9d7b717">peconv::find_alignment_cave</a></div><div class="ttdeci">PBYTE find_alignment_cave(BYTE *modulePtr, size_t moduleSize, const DWORD cave_size, const DWORD req_charact=IMAGE_SCN_MEM_READ)</div><div class="ttdef"><b>Definition</b> <a href="#l00040">caves.cpp:40</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a60041cfbfa7fda6a21d76d1ae9a3a8d5"><div class="ttname"><a href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">peconv::validate_ptr</a></div><div class="ttdeci">bool validate_ptr(IN const void *buffer_bgn, IN size_t buffer_size, IN const void *field_bgn, IN size_t field_size)</div><div class="ttdef"><b>Definition</b> <a href="buffer__util_8cpp_source.html#l00009">buffer_util.cpp:9</a></div></div>
