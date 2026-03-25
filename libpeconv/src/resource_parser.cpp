@@ -69,7 +69,7 @@ bool peconv::parse_resources(BYTE* modulePtr, t_on_res_entry_found on_entry)
         return false;
     }
     IMAGE_RESOURCE_DIRECTORY *res_dir = (IMAGE_RESOURCE_DIRECTORY*)(dir->VirtualAddress + (ULONGLONG)modulePtr);
-    if (!peconv::validate_ptr(modulePtr, module_size, res_dir, sizeof(IMAGE_DEBUG_DIRECTORY))) {
+    if (!peconv::validate_ptr(modulePtr, module_size, res_dir, sizeof(IMAGE_RESOURCE_DIRECTORY))) {
         return false;
     }
     return parse_resource_dir(modulePtr, module_size, nullptr, res_dir, res_dir, on_entry);

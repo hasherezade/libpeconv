@@ -26,7 +26,7 @@ BYTE* peconv::get_nt_hdrs(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_si
     const LONG kMaxOffset = 1024;
     LONG pe_offset = idh->e_lfanew;
 
-    if (pe_offset > kMaxOffset) return nullptr;
+    if (pe_offset < 0 || pe_offset > kMaxOffset) return nullptr;
 
     IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32 *)(pe_buffer + pe_offset);
     if (buffer_size != 0) {

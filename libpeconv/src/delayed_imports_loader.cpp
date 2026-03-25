@@ -41,14 +41,16 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
     T_FIELD* record_va = (T_FIELD*)((ULONGLONG)modulePtr + iat_addr);
     T_IMAGE_THUNK_DATA* thunk_va = (T_IMAGE_THUNK_DATA*)((ULONGLONG)modulePtr + thunk_addr);
 
-    for (; (*record_va) && thunk_va; record_va++, thunk_va++) {
+    for ( ; ; record_va++, thunk_va++) {
         if (!peconv::validate_ptr(modulePtr, moduleSize, record_va, sizeof(T_FIELD))) {
             return false;
         }
-        if (!peconv::validate_ptr(modulePtr, moduleSize, thunk_va, sizeof(T_FIELD))) {
+        if (!peconv::validate_ptr(modulePtr, moduleSize, thunk_va, sizeof(T_IMAGE_THUNK_DATA))) {
             return false;
         }
-
+        if ((*record_va) == 0) {
+            break; // null terminator: end of table, normal exit
+        }
         T_FIELD iat_va = *record_va;
         ULONGLONG iat_rva = (ULONGLONG)iat_va;
         if (iat_va > img_base) iat_rva -= img_base; // it may be either RVA or VA

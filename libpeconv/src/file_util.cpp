@@ -65,6 +65,7 @@ peconv::UNALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &
     }
     peconv::UNALIGNED_BUF buffer = peconv::alloc_unaligned(r_size);
     if (buffer == nullptr) {
+        CloseHandle(file);
         LOG_ERROR("Buffer allocation failed.");
         return nullptr;
     }
