@@ -2,10 +2,11 @@
 #include <stdio.h>
 
 // Verbosity levels
-#define LOG_LEVEL_NONE    0
-#define LOG_LEVEL_ERROR   1
-#define LOG_LEVEL_WARNING 2
-#define LOG_LEVEL_DEBUG   3
+#define LOG_LEVEL_NONE    0 // silent
+#define LOG_LEVEL_ERROR   1 // something broke
+#define LOG_LEVEL_WARNING 2 // something looks wrong
+#define LOG_LEVEL_INFO    3 // notable operational events
+#define LOG_LEVEL_DEBUG   4 // detailed tracing, noisy
 
 #ifndef LOG_VERBOSITY
 #  define LOG_VERBOSITY LOG_LEVEL_ERROR
@@ -41,6 +42,12 @@
 #  define LOG_WARNING(fmt, ...) _LOG("WARNING", fmt, ##__VA_ARGS__)
 #else
 #  define LOG_WARNING(fmt, ...) do {} while(0)
+#endif
+
+#if LOG_VERBOSITY >= LOG_LEVEL_INFO
+#  define LOG_INFO(fmt, ...)    _LOG("INFO",    fmt, ##__VA_ARGS__)
+#else
+#  define LOG_INFO(fmt, ...)    do {} while(0)
 #endif
 
 #if LOG_VERBOSITY >= LOG_LEVEL_DEBUG

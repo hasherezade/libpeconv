@@ -78,7 +78,7 @@ bool is_hdr_virtual_align(const BYTE* pe_buffer, size_t pe_size)
     return false;
 }
 
-bool sec_hdrs_erased(IN const BYTE* pe_buffer, IN size_t pe_size, bool is_raw)
+bool is_sec_hdrs_erased(IN const BYTE* pe_buffer, IN size_t pe_size, bool is_raw)
 {
     const size_t count = peconv::get_sections_count(pe_buffer, pe_size);
     for (size_t i = 0; i < count; i++) {
@@ -112,18 +112,18 @@ bool is_pe_mapped(IN const BYTE* pe_buffer, IN size_t pe_size)
 {
     size_t v_score = 0;
     if (peconv::has_valid_import_table((const PBYTE)pe_buffer, pe_size)) {
-        LOG_DEBUG("Valid Import Table found.");
+        LOG_INFO("Valid Import Table found.");
         v_score++;
     }
     if (peconv::has_valid_relocation_table((const PBYTE)pe_buffer, pe_size)) {
-        LOG_DEBUG("Valid Relocations Table found.");
+        LOG_INFO("Valid Relocations Table found.");
         v_score++;
     }
     if (is_hdr_virtual_align(pe_buffer, pe_size)) {
-        LOG_DEBUG("Header virtual alignment OK.");
+        LOG_INFO("Header virtual alignment OK.");
         v_score++;
     }
-    LOG_DEBUG("TOTAL v_score: %zu.", v_score);
+    LOG_INFO("TOTAL v_score: %zu.", v_score);
     if (v_score > 0) {
         return true;
     }
@@ -139,8 +139,8 @@ bool peconv::is_pe_raw(IN const BYTE* pe_buffer, IN size_t pe_size)
        // it has artefacts typical for a PE in a virtual alignment
         return false;
     }
-    if (sec_hdrs_erased(pe_buffer, pe_size, true)) {
-        LOG_DEBUG("Raw alignment is erased.");
+    if (is_sec_hdrs_erased(pe_buffer, pe_size, true)) {
+        LOG_INFO("Raw alignment is erased.");
         // the raw alignment of the sections is erased
         return false;
     }

@@ -137,7 +137,7 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
         return (FARPROC) fPtr; //return the pointer to the found function
     }
     //function not found
-    LOG_DEBUG("Function not found.");
+    LOG_WARNING("Function not found.");
     return NULL;
 }
 

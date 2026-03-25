@@ -528,7 +528,7 @@ namespace details {
             InvertedTable->Entries[Index].ImageSize = SizeOfImage;
             InvertedTable->Entries[Index].ExceptionDirectorySize = SizeOfTable;
             InvertedTable->Count++;
-            LOG_DEBUG("Exception table was set.");
+            LOG_INFO("Exception table was set.");
         }
         else {
             IsWin8OrGreater ? (InvertedTable->Overflow = TRUE) : (InvertedTable->Epoch = TRUE);
@@ -591,10 +591,10 @@ namespace details {
     ) {
         auto table = reinterpret_cast<PRTL_INVERTED_FUNCTION_TABLE>(RtlFindInvertedFunctionTable());
         if (!table) {
-            LOG_DEBUG("Exception table not found.");
+            LOG_INFO("Exception table not found.");
             return STATUS_NOT_SUPPORTED;
         }
-        LOG_DEBUG("Found exception table: %p.", table);
+        LOG_INFO("Found exception table: %p.", table);
         BOOL need_virtual_protect = RtlIsWindowsVersionOrGreater(6, 3, 0);
         // Windows 8.1 and above require to set PAGE_READWRITE protection
         LOG_DEBUG("Need virtual protect: %s.", need_virtual_protect ? "true" : "false");

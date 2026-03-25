@@ -34,7 +34,7 @@ bool parse_resource_entry(BYTE* modulePtr, const size_t moduleSize,
     LOG_DEBUG("Entry is a directory.");
     //else: it is a next level directory
     DWORD offset = entry->OffsetToDirectory;
-    LOG_DEBUG("Offset: %zu.", offset);
+    LOG_DEBUG("Offset: 0x%x.", offset);
     IMAGE_RESOURCE_DIRECTORY *next_dir = (IMAGE_RESOURCE_DIRECTORY*)(offset + (ULONGLONG)upper_dir);
     if (!peconv::validate_ptr(modulePtr, moduleSize, next_dir, sizeof(IMAGE_RESOURCE_DIRECTORY))) {
         return false;

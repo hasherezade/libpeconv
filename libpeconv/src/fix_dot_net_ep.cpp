@@ -102,7 +102,7 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
     }
 
     DWORD ep_rva = peconv::get_entry_point_rva(pe_buffer);
-    LOG_DEBUG(".NET payload may require Entry Point correction. Current EP: 0x%lx", (unsigned long)ep_rva);
+    LOG_INFO(".NET payload may require Entry Point correction. Current EP: 0x%lx", (unsigned long)ep_rva);
     PIMAGE_SECTION_HEADER sec_hdr = peconv::get_section_hdr(pe_buffer, pe_buffer_size, 0);
     if (!sec_hdr) {
         return false;
@@ -122,7 +122,7 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
     }
     size_t offset = (ULONG_PTR)jump_ptr - (ULONG_PTR)pe_buffer;
     peconv::update_entry_point_rva(pe_buffer, static_cast<DWORD>(offset));
-    LOG_DEBUG("Found possible Entry Point: 0x%lx", (unsigned long)offset);
+    LOG_INFO("Found possible Entry Point: 0x%lx", (unsigned long)offset);
     return true;
 }
 

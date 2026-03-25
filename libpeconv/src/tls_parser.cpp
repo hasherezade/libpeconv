@@ -104,7 +104,7 @@ size_t peconv::run_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, IN DW
             continue;
         }
         void(NTAPI *callback_func)(PVOID DllHandle, DWORD dwReason, PVOID) = (void(NTAPI *)(PVOID, DWORD, PVOID)) (callback_va);
-        LOG_DEBUG("Calling TLS callback[%zu].", i);
+        LOG_INFO("Calling TLS callback[%zu].", i);
         callback_func(modulePtr, dwReason, NULL);
     }
     return i;

@@ -22,7 +22,7 @@ bool peconv::validate_ptr(IN const void* buffer_bgn, IN size_t buffer_size, IN c
         return false;
     }
     if (area_size < field_size || area_size < start_delta) {
-        LOG_DEBUG("Integer Overflow, limit exceeded! start_delta: %zu field_size: %zu area_size: %zu", start_delta, field_size, area_size);
+        LOG_WARNING("Integer Overflow, limit exceeded! start_delta: %zu field_size: %zu area_size: %zu", start_delta, field_size, area_size);
         return false;
     }
     return true;

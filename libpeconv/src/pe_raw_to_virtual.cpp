@@ -89,7 +89,7 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
     //copy payload's headers:
     if (hdrsSize == 0) {
         hdrsSize= first_raw;
-        LOG_DEBUG("SizeOfHeaders not set, using first section raw offset as fallback: 0x%lx.", hdrsSize);
+        LOG_INFO("SizeOfHeaders not set, using first section raw offset as fallback: 0x%lx.", hdrsSize);
     }
     if (!validate_ptr((const LPVOID)payload, destBufferSize, (const LPVOID)payload, hdrsSize)) {
         return false;

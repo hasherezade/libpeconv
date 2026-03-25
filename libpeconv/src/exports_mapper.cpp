@@ -57,7 +57,7 @@ size_t ExportsMapper::make_ord_lookup_tables(
     for (DWORD i = 0; i < functCount; i++) {
         DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         if (*recordRVA == 0) {
-            LOG_DEBUG("Skipping 0 function address at RVA: 0x%llx (ord).", (unsigned long long)((BYTE*)recordRVA - (BYTE*)modulePtr));
+            LOG_INFO("Skipping 0 function address at RVA: 0x%llx (ord).", (unsigned long long)((BYTE*)recordRVA - (BYTE*)modulePtr));
             //skip if the function RVA is 0 (empty export)
             continue;
         }
@@ -101,7 +101,7 @@ bool ExportsMapper::add_forwarded(ExportedFunc &currFunc, DWORD callRVA, PBYTE m
 
     ExportedFunc forwarder(forwardedFunc);
     if (!forwarder.isValid()) {
-        LOG_DEBUG("Skipped invalid forwarder.");
+        LOG_INFO("Skipped invalid forwarder.");
         return false;
     }
     forwarders_lookup[forwarder].insert(currFunc);
@@ -177,7 +177,7 @@ ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE module
     ULONGLONG callVa = callRVA + moduleBase;
     if (!peconv::validate_ptr((BYTE*)moduleBase, moduleSize, (BYTE*)callVa, sizeof(ULONGLONG))) {
         // this may happen when the function was forwarded and it is already filled
-        LOG_DEBUG("Validation failed: %s.", currFunc.toString().c_str());
+        LOG_INFO("Validation failed: %s.", currFunc.toString().c_str());
         return ExportsMapper::RES_INVALID;
     }
     //not forwarded, simple case:
