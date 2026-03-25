@@ -129,12 +129,12 @@ ExportedFunc::ExportedFunc(const ExportedFunc& other)
 ExportedFunc::ExportedFunc(const std::string &forwarderName)
 {
     this->libName = get_dll_shortname(forwarderName);
-    std::string func_name_str =  get_func_name(forwarderName);
+    const std::string func_name_str = get_func_name(forwarderName);
     if (func_name_str.length() < 2) {
         this->funcOrdinal = -1;
         this->funcName = "";
         this->isByOrdinal = false;
-        LOG_ERROR("Invalid function data.");
+        LOG_WARNING("Invalid function name: %s from forwarder: %s", func_name_str.c_str(), forwarderName.c_str());
         return;
     }
     if (is_ordinal_string(func_name_str)) {
