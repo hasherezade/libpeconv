@@ -39,6 +39,7 @@ namespace peconv {
         {
             if (buffer) {
                 delete[] buffer;
+                buffer = nullptr;
                 bufferSize = 0;
                 sourcePtr = nullptr;
             }
