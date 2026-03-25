@@ -109,26 +109,15 @@ size_t peconv::read_remote_memory(HANDLE processHandle, LPVOID start_addr, OUT B
         return 0;
     }
     memset(buffer, 0, buffer_size);
-
-    SIZE_T read_size = 0;
     DWORD last_error = ERROR_SUCCESS;
 
-    while (buffer_size > 0)
-    {
-        if (ReadProcessMemory(processHandle, start_addr, buffer, buffer_size, &read_size)) {
-            break;
-        }
+    SIZE_T read_size = 0;
+    if (!ReadProcessMemory(processHandle, start_addr, buffer, buffer_size, &read_size)) {
         last_error = GetLastError();
-        if (last_error != ERROR_SUCCESS) {
-            if (read_size == 0 && (last_error != ERROR_PARTIAL_COPY)) {
-                break; // break
-            }
-        }
         if (last_error == ERROR_PARTIAL_COPY) {
             read_size = peconv::_search_readable_size(processHandle, start_addr, buffer, buffer_size, minimal_size);
             LOG_DEBUG("peconv::search_readable_size res: 0x%zx.", read_size);
         }
-        break;
     }
 
     if (read_size == 0) {
