@@ -73,6 +73,22 @@ BYTE* peconv::load_pe_module(LPCTSTR filename, OUT size_t &v_size, bool executab
     return mappedPE;
 }
 
+namespace
+{
+    bool validate_and_load_imports(BYTE* loaded_pe, const size_t v_size, t_function_resolver* import_resolver)
+    {
+        if (!has_valid_import_table(loaded_pe, v_size)) {
+            LOG_WARNING("PE does not have a valid Import Table.");
+            return true; // nothing to load, use as is
+        }
+        if (load_imports(loaded_pe, import_resolver)) {
+            return true;
+        }
+        LOG_ERROR("Loading imports failed.");
+        return false;
+    }
+};
+
 BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_size, t_function_resolver* import_resolver, ULONG_PTR desired_base)
 {
     BYTE* loaded_pe = load_pe_module(dllRawData, r_size, v_size, true, true, desired_base);
@@ -81,15 +97,9 @@ BYTE* peconv::load_pe_executable(BYTE* dllRawData, size_t r_size, OUT size_t &v_
         return nullptr;
     }
     LOG_DEBUG("Loaded at: %p.", loaded_pe);
-    if (has_valid_import_table(loaded_pe, v_size)) {
-        if (!load_imports(loaded_pe, import_resolver)) {
-            LOG_ERROR("Loading imports failed.");
-            free_pe_buffer(loaded_pe, v_size);
-            return NULL;
-        }
-    }
-    else {
-        LOG_WARNING("PE does not have a valid Import Table.");
+    if (!validate_and_load_imports(loaded_pe, v_size, import_resolver)) {
+        free_pe_buffer(loaded_pe, v_size);
+        return NULL;
     }
     return loaded_pe;
 }
@@ -103,10 +113,9 @@ BYTE* peconv::load_pe_executable(LPCTSTR my_path, OUT size_t &v_size, t_function
         return NULL;
     }
     LOG_DEBUG("Loaded at: %p.", loaded_pe);
-    if (!load_imports(loaded_pe, import_resolver)) {
-        LOG_ERROR("Loading imports failed.");
+    if (!validate_and_load_imports(loaded_pe, v_size, import_resolver)) {
         free_pe_buffer(loaded_pe, v_size);
-        return nullptr;
+        return NULL;
     }
     return loaded_pe;
 }
