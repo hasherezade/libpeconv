@@ -6,7 +6,7 @@ using namespace peconv;
 
 #include "peconv/logger.h"
 
-PBYTE peconv::find_ending_cave(BYTE*modulePtr, size_t moduleSize, const DWORD minimal_size, const DWORD req_charact)
+PBYTE peconv::find_ending_cave(BYTE*modulePtr, size_t moduleSize, const DWORD minimal_size, const DWORD req_charact, bool reserve)
 {
     size_t sec_count = peconv::get_sections_count(modulePtr, moduleSize);
     if (sec_count == 0) return nullptr;
@@ -33,11 +33,13 @@ PBYTE peconv::find_ending_cave(BYTE*modulePtr, size_t moduleSize, const DWORD mi
         LOG_INFO("Invalid cave pointer.");
         return nullptr;
     }
-    section_hdr->SizeOfRawData += minimal_size; //book this cave
+    if (reserve) {
+        section_hdr->SizeOfRawData += minimal_size; //book this cave
+    }
     return cave_ptr;
 }
 
-PBYTE peconv::find_alignment_cave(BYTE* modulePtr, size_t moduleSize, const DWORD minimal_size, const DWORD req_charact)
+PBYTE peconv::find_alignment_cave(BYTE* modulePtr, size_t moduleSize, const DWORD minimal_size, const DWORD req_charact, bool reserve)
 {
     DWORD alignment = peconv::get_sec_alignment(modulePtr, true);
     if (alignment == 0) return nullptr;
@@ -68,7 +70,9 @@ PBYTE peconv::find_alignment_cave(BYTE* modulePtr, size_t moduleSize, const DWOR
             LOG_INFO("Invalid cave pointer.");
             continue;
         }
-        section_hdr->SizeOfRawData += minimal_size; //book this cave
+        if (reserve) {
+            section_hdr->SizeOfRawData += minimal_size; //book this cave
+        }
         return cave_ptr;
     }
     LOG_INFO("Cave not found.");
