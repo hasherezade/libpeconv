@@ -25,16 +25,20 @@ bool patch_NtManageHotPatch32(HANDLE hProcess)
     BYTE stub_buffer_orig[stub_size] = { 0 };
     SIZE_T out_bytes = 0;
     if (!ReadProcessMemory(hProcess, stub_ptr, stub_buffer_orig, stub_size, &out_bytes) || out_bytes != stub_size) {
+        VirtualFreeEx(hProcess, stub_ptr, stub_size, MEM_RELEASE);
         return false;
     }
     // confirm it is a valid syscall stub:
     if (stub_buffer_orig[0] != 0xB8) {
+        VirtualFreeEx(hProcess, stub_ptr, stub_size, MEM_RELEASE);
         return false;
     }
     if (!WriteProcessMemory(hProcess, stub_ptr, hotpatch_patch, sizeof(hotpatch_patch), &out_bytes) || out_bytes != sizeof(hotpatch_patch)) {
+        VirtualFreeEx(hProcess, stub_ptr, stub_size, MEM_RELEASE);
         return false;
     }
     if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, oldProtect, &oldProtect)) {
+        VirtualFreeEx(hProcess, stub_ptr, stub_size, MEM_RELEASE);
         return false;
     }
     FlushInstructionCache(hProcess, stub_ptr, sizeof(hotpatch_patch));
