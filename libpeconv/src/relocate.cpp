@@ -57,6 +57,23 @@ bool is_empty_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD
     return true;
 }
 
+namespace {
+    template <typename FIELD_T>
+    bool _validate_reloc_field(PVOID modulePtr, SIZE_T moduleSize, const DWORD reloc_field)
+    {
+        const ULONG_PTR reloc_ptr = (ULONG_PTR)modulePtr + reloc_field;
+        return peconv::validate_ptr(modulePtr, moduleSize, (LPVOID)reloc_ptr, sizeof(FIELD_T));
+    }
+
+    bool validate_reloc_field(PVOID modulePtr, SIZE_T moduleSize, bool is64bit, const DWORD reloc_field)
+    {
+        if (is64bit) {
+            return _validate_reloc_field<ULONGLONG>(modulePtr, moduleSize, reloc_field);
+        }
+        return _validate_reloc_field<DWORD>(modulePtr, moduleSize, reloc_field);
+    }
+};
+
 bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD page, PVOID modulePtr, SIZE_T moduleSize, bool is64bit, RelocBlockCallback *callback)
 {
     if (entriesNum == 0) {
@@ -80,8 +97,8 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
             }
             return false;
         }
-        DWORD reloc_field = page + offset;
-        if (reloc_field >= moduleSize) {
+        const DWORD reloc_field = page + offset;
+        if (validate_reloc_field(modulePtr, moduleSize, is64bit, reloc_field)) {
             if (callback) { //print debug messages only if the callback function was set
                 LOG_ERROR("Malformed reloc field: 0x%lx.", reloc_field);
             }

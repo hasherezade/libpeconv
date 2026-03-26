@@ -1,10 +1,9 @@
 #include "peconv/caves.h"
 #include "peconv/pe_hdrs_helper.h"
 #include "peconv/util.h"
+#include "peconv/logger.h"
 
 using namespace peconv;
-
-#include "peconv/logger.h"
 
 PBYTE peconv::find_ending_cave(BYTE*modulePtr, size_t moduleSize, const DWORD minimal_size, const DWORD req_charact, bool reserve)
 {
