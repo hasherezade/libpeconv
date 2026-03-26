@@ -25,20 +25,16 @@ bool patch_NtManageHotPatch32(HANDLE hProcess)
     BYTE stub_buffer_orig[stub_size] = { 0 };
     SIZE_T out_bytes = 0;
     if (!ReadProcessMemory(hProcess, stub_ptr, stub_buffer_orig, stub_size, &out_bytes) || out_bytes != stub_size) {
-        VirtualFreeEx(hProcess, stub_ptr, stub_size, MEM_RELEASE);
         return false;
     }
     // confirm it is a valid syscall stub:
     if (stub_buffer_orig[0] != 0xB8) {
-        VirtualFreeEx(hProcess, stub_ptr, stub_size, MEM_RELEASE);
         return false;
     }
     if (!WriteProcessMemory(hProcess, stub_ptr, hotpatch_patch, sizeof(hotpatch_patch), &out_bytes) || out_bytes != sizeof(hotpatch_patch)) {
-        VirtualFreeEx(hProcess, stub_ptr, stub_size, MEM_RELEASE);
         return false;
     }
     if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, oldProtect, &oldProtect)) {
-        VirtualFreeEx(hProcess, stub_ptr, stub_size, MEM_RELEASE);
         return false;
     }
     FlushInstructionCache(hProcess, stub_ptr, sizeof(hotpatch_patch));
@@ -113,8 +109,10 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
     LPVOID stub_ptr = (LPVOID)((ULONG_PTR)_ZwQueryVirtualMemory - pos);
 
     if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, PAGE_READWRITE, &oldProtect)) {
+        LOG_ERROR("Failed protecting memory at: %p", stub_ptr);
         return false;
     }
+
     LPVOID patch_space = VirtualAllocEx(hProcess, 0, 0x1000, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     if (!patch_space) {
         return false;
@@ -122,10 +120,12 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
     BYTE stub_buffer_orig[stub_size] = { 0 };
     SIZE_T out_bytes = 0;
     if (!ReadProcessMemory(hProcess, stub_ptr, stub_buffer_orig, stub_size, &out_bytes) || out_bytes != stub_size) {
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
         return false;
     }
     const BYTE nop_pattern[] = {0x0F, 0x1F, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00};
     if (::memcmp(stub_buffer_orig, nop_pattern, sizeof(nop_pattern)) != 0) {
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
         return false;
     }
 
@@ -137,6 +137,7 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
         0xB8, 0xFF, 0x00, 0x00, 0x00 // mov eax,[syscall ID]
     };
     if (::memcmp(stub_buffer_orig + pos, syscall_fill_pattern, syscall_pattern_start) != 0) {
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
         return false;
     }
 
@@ -176,15 +177,19 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
     const SIZE_T trampoline_full_size = stub_size + pos + syscall_pattern_full + sizeof(jump_to_contnue);
 
     if (!WriteProcessMemory(hProcess, stub_ptr, stub_buffer_patched, stub_size, &out_bytes) || out_bytes != stub_size) {
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
         return false;
     }
     if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, oldProtect, &oldProtect)) {
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
         return false;
     }
     if (!WriteProcessMemory(hProcess, patch_space, stub_buffer_trampoline, trampoline_full_size, &out_bytes) || out_bytes != trampoline_full_size) {
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
         return false;
     }
     if (!VirtualProtectEx(hProcess, patch_space, stub_size, PAGE_EXECUTE_READ, &oldProtect)) {
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
         return false;
     }
     FlushInstructionCache(hProcess, stub_ptr, stub_size);

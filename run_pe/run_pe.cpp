@@ -311,11 +311,15 @@ bool run_pe(IN LPCTSTR payloadPath, IN LPCTSTR targetPath, IN LPCTSTR cmdLine)
         return false;
     }
     if (g_PatchRequired) {
+        bool isPatched = false;
 #ifndef _WIN64
-        patch_NtManageHotPatch32(pi.hProcess);
+        isPatched = patch_NtManageHotPatch32(pi.hProcess);
 #else
-        patch_NtManageHotPatch64(pi.hProcess);
+        isPatched = patch_NtManageHotPatch64(pi.hProcess);
 #endif
+        if (!isPatched) {
+            std::cerr << "Patching NTDLL failed!\n";
+        }
     }
     //3. Perform the actual RunPE:
     bool isOk = _run_pe(loaded_pe, payloadImageSize, pi, is32bit_payload);
