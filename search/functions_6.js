@@ -48,6 +48,5 @@ var searchData=
   ['get_5fsections_5fcount_45',['get_sections_count',['../namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f',1,'peconv']]],
   ['get_5fsubsystem_46',['get_subsystem',['../namespacepeconv.html#aeafb7e52c8601e080c7852fdaa6eb904',1,'peconv']]],
   ['get_5ftype_5fdirectory_47',['get_type_directory',['../namespacepeconv.html#a63e10a24ceb5a1348031ab6a6742a4ad',1,'peconv']]],
-  ['get_5fvirtual_5fsec_5fsize_48',['get_virtual_sec_size',['../namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554',1,'peconv']]],
-  ['getcodesection_49',['getCodeSection',['../classpeconv_1_1_collect_code_relocs.html#a906087f418ab4af6b61accb14d2eade0',1,'peconv::CollectCodeRelocs']]]
+  ['get_5fvirtual_5fsec_5fsize_48',['get_virtual_sec_size',['../namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554',1,'peconv']]]
 ];
