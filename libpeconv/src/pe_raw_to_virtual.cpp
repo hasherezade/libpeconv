@@ -133,7 +133,7 @@ BYTE* peconv::pe_raw_to_virtual(
         LOG_ERROR("Could not allocate memory in the current process.");
         return NULL;
     }
-    //printf("Allocated local memory: %p size: %x\n", localCopyAddress, payloadImageSize);
+    LOG_DEBUG("Allocated local memory: %p size: %x", localCopyAddress, payloadImageSize);
     if (!sections_raw_to_virtual(payload, in_size, localCopyAddress, payloadImageSize)) {
         LOG_ERROR("Could not copy PE file into virtual buffer.");
         return nullptr;
