@@ -4,9 +4,9 @@
 #include <set>
 #include <map>
 
-namespace peconv {
+namespace {
 
-    class CollectCodeRelocs : public RelocBlockCallback
+    class CollectCodeRelocs : public peconv::RelocBlockCallback
     {
     public:
         CollectCodeRelocs(BYTE *pe_buffer, size_t buffer_size, IN bool _is64bit, OUT std::set<ULONGLONG> &_relocs)
@@ -77,7 +77,7 @@ ULONGLONG peconv::find_base_candidate(IN BYTE* modulePtr, IN size_t moduleSize)
 
     bool is64 = peconv::is64bit(modulePtr);
     std::set<ULONGLONG> relocs;
-    peconv::CollectCodeRelocs callback(modulePtr, moduleSize, is64, relocs);
+    CollectCodeRelocs callback(modulePtr, moduleSize, is64, relocs);
     if (!peconv::process_relocation_table(modulePtr, moduleSize, &callback)) {
         return 0;
     }
@@ -85,7 +85,7 @@ ULONGLONG peconv::find_base_candidate(IN BYTE* modulePtr, IN size_t moduleSize)
         return 0;
     }
 
-    PIMAGE_SECTION_HEADER hdr = peconv::CollectCodeRelocs::getCodeSection(modulePtr, moduleSize);
+    PIMAGE_SECTION_HEADER hdr = CollectCodeRelocs::getCodeSection(modulePtr, moduleSize);
     if (!hdr) {
         return 0;
     }
