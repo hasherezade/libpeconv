@@ -23,21 +23,38 @@ IMAGE_DELAYLOAD_DESCRIPTOR* peconv::get_delayed_imps(IN const BYTE* modulePtr, I
 }
 
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
-bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize, 
-    const ULONGLONG img_base, 
-    LPSTR lib_name, 
-    const T_FIELD ordinal_flag, 
-    IMAGE_DELAYLOAD_DESCRIPTOR *desc, 
+bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
+    const ULONGLONG img_base,
+    LPSTR lib_name,
+    const T_FIELD ordinal_flag,
+    IMAGE_DELAYLOAD_DESCRIPTOR* desc,
     peconv::t_function_resolver* func_resolver
 )
 {
-    ULONGLONG iat_addr = desc->ImportAddressTableRVA;
-    
-    if (iat_addr > img_base) iat_addr -= img_base; // it may be either RVA or VA
+    if (!peconv::validate_ptr(modulePtr, moduleSize, desc, sizeof(IMAGE_DELAYLOAD_DESCRIPTOR))) {
+        LOG_ERROR("Invalid IMAGE_DELAYLOAD_DESCRIPTOR");
+        return false;
+    }
+    ULONGLONG iat_addr = desc->ImportAddressTableRVA; // it may be either RVA or VA
+    ULONGLONG thunk_addr = desc->ImportNameTableRVA;// it may be either RVA or VA
 
-    ULONGLONG thunk_addr = desc->ImportNameTableRVA;
-    if (thunk_addr > img_base) thunk_addr -= img_base; // it may be either RVA or VA
-
+    const bool used_rva = desc->Attributes.RvaBased != 0;
+    LOG_INFO("Delay load Imports use RVA?: %d", used_rva);
+    if (!used_rva) {
+        if (iat_addr < img_base) {
+            LOG_ERROR("Invalid VA: 0x%llx cannot convert safely", iat_addr);
+            return false;
+        }
+        if (thunk_addr < img_base) {
+            LOG_ERROR("Invalid VA: 0x%llx cannot convert safely", thunk_addr);
+            return false;
+        }
+        iat_addr -= img_base;// convert VA to RVA
+        thunk_addr -= img_base;// convert VA to RVA
+    }
+    if (iat_addr > moduleSize || thunk_addr > moduleSize) {
+        return false;
+    }
     T_FIELD* record_va = (T_FIELD*)((ULONGLONG)modulePtr + iat_addr);
     T_IMAGE_THUNK_DATA* thunk_va = (T_IMAGE_THUNK_DATA*)((ULONGLONG)modulePtr + thunk_addr);
 
@@ -51,11 +68,17 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
         if ((*record_va) == 0) {
             break; // null terminator: end of table, normal exit
         }
-        T_FIELD iat_va = *record_va;
-        ULONGLONG iat_rva = (ULONGLONG)iat_va;
-        if (iat_va > img_base) iat_rva -= img_base; // it may be either RVA or VA
+        ULONGLONG iat_rva = (ULONGLONG)(*record_va);// it may be either RVA or VA
+        if (!used_rva) {
+            if (iat_rva < img_base) {
+                LOG_ERROR("Invalid VA: 0x%llx cannot convert safely", iat_rva);
+                return false;
+            }
+            iat_rva -= img_base;// convert VA to RVA
+        }
         LOG_DEBUG("IAT RVA: 0x%llx", (unsigned long long)iat_rva);
-        T_FIELD* iat_record_ptr = (T_FIELD*)((ULONGLONG)modulePtr + iat_rva);
+        const T_FIELD* iat_record_ptr = (T_FIELD*)((ULONGLONG)modulePtr + iat_rva);
+        // validate resolved IAT entry lies within module bounds
         if (!peconv::validate_ptr(modulePtr, moduleSize, iat_record_ptr, sizeof(T_FIELD))) {
             return false;
         }
@@ -63,28 +86,40 @@ bool parse_delayed_desc(BYTE* modulePtr, const size_t moduleSize,
         if (thunk_va->u1.Ordinal & ordinal_flag) {
             T_FIELD raw_ordinal = thunk_va->u1.Ordinal & (~ordinal_flag);
             LOG_DEBUG("ord: 0x%llx", (unsigned long long)raw_ordinal);
-            hProc = func_resolver->resolve_func(lib_name, MAKEINTRESOURCEA(raw_ordinal));
+            if (func_resolver) {
+                hProc = func_resolver->resolve_func(lib_name, MAKEINTRESOURCEA(raw_ordinal));
+            }
         }
         else {
             ULONGLONG name_rva = thunk_va->u1.AddressOfData;
-            if (name_rva > img_base) {
-                name_rva -= img_base;
+            if (!used_rva) {
+                if (name_rva < img_base) {
+                    LOG_ERROR("Invalid VA: 0x%llx cannot convert safely", name_rva);
+                    return false;
+                }
+                name_rva -= img_base;// convert VA to RVA
             }
             PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + name_rva);
+            if (!peconv::validate_ptr(modulePtr, moduleSize, by_name, sizeof(IMAGE_IMPORT_BY_NAME))) {
+                LOG_ERROR("Invalid pointer to IMAGE_IMPORT_BY_NAME");
+                return false;
+            }
             LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
             if (!peconv::is_valid_import_name(modulePtr, moduleSize, func_name)) {
                 continue;
             }
             LOG_DEBUG("func: %s", func_name);
-            hProc = func_resolver->resolve_func(lib_name, func_name);
+            if (func_resolver) {
+                hProc = func_resolver->resolve_func(lib_name, func_name);
+            }
         }
         if (hProc) {
             //rather than loading it via proxy function, we just overwrite the thunk like normal IAT:
             *record_va = (T_FIELD) hProc;
-            LOG_DEBUG("[OK]");
+            LOG_DEBUG("Delayload Function resolved");
         }
         else {
-            LOG_DEBUG("[NOPE]");
+            LOG_DEBUG("Delayload Function not resolved");
         }
     }
     return true;
