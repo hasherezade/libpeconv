@@ -1,8 +1,12 @@
 /**
-* @file
-* @brief   Master include file, including everything else.
-*/
-
+ * @file    peconv.h
+ * @brief   Master include for LibPEConv.
+ * @author  Hasherezade
+ * @date    2026-03-26
+ *
+ * @copyright 2017-2026, Hasherezade
+ * @license BSD 2-Clause License (see LICENSE file)
+ */
 #pragma once
 
 #include "peconv/buffer_util.h"
