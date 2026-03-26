@@ -152,9 +152,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a0e37c28aa6d21070a623054c52126531" id="r_a0e37c28aa6d21070a623054c52126531"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0e37c28aa6d21070a623054c52126531">free_aligned</a> (<a class="el" href="#a4389e097c30b01568bf10f4d07a50b42">ALIGNED_BUF</a> buffer, size_t buffer_size=0)</td></tr>
 <tr class="memitem:a501c82f7c14aebcb035dec5b11c3c34c" id="r_a501c82f7c14aebcb035dec5b11c3c34c"><td class="memItemLeft"><a class="el" href="#a4389e097c30b01568bf10f4d07a50b42">ALIGNED_BUF</a>&#160;</td><td class="memItemRight"><a class="el" href="#a501c82f7c14aebcb035dec5b11c3c34c">alloc_pe_buffer</a> (size_t buffer_size, DWORD protect, void *desired_base=nullptr)</td></tr>
 <tr class="memitem:a839f04fa06f311e3270a4305421ad35f" id="r_a839f04fa06f311e3270a4305421ad35f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a839f04fa06f311e3270a4305421ad35f">free_pe_buffer</a> (<a class="el" href="#a4389e097c30b01568bf10f4d07a50b42">ALIGNED_BUF</a> buffer, size_t buffer_size=0)</td></tr>
-<tr class="memitem:a8305069df7f35087b9b45db686417009" id="r_a8305069df7f35087b9b45db686417009"><td class="memItemLeft">PBYTE&#160;</td><td class="memItemRight"><a class="el" href="#a8305069df7f35087b9b45db686417009">find_ending_cave</a> (BYTE *module_ptr, size_t module_size, const DWORD cave_size, const DWORD cave_charact=IMAGE_SCN_MEM_READ)</td></tr>
-<tr class="memitem:a52ed5ac63150ed6c4d7e5a53b9d7b717" id="r_a52ed5ac63150ed6c4d7e5a53b9d7b717"><td class="memItemLeft">PBYTE&#160;</td><td class="memItemRight"><a class="el" href="#a52ed5ac63150ed6c4d7e5a53b9d7b717">find_alignment_cave</a> (BYTE *modulePtr, size_t moduleSize, const DWORD cave_size, const DWORD req_charact=IMAGE_SCN_MEM_READ)</td></tr>
-<tr class="memitem:ac11803cf089141d58e14abf908fadf17" id="r_ac11803cf089141d58e14abf908fadf17"><td class="memItemLeft">PBYTE&#160;</td><td class="memItemRight"><a class="el" href="#ac11803cf089141d58e14abf908fadf17">find_padding_cave</a> (BYTE *modulePtr, size_t moduleSize, const size_t minimal_size, const DWORD req_charact=IMAGE_SCN_MEM_READ)</td></tr>
+<tr class="memitem:a4bc6f62abfa72cbf82b57182f7f6da98" id="r_a4bc6f62abfa72cbf82b57182f7f6da98"><td class="memItemLeft">PBYTE&#160;</td><td class="memItemRight"><a class="el" href="#a4bc6f62abfa72cbf82b57182f7f6da98">find_ending_cave</a> (BYTE *module_ptr, size_t module_size, const DWORD cave_size, const DWORD req_charact=IMAGE_SCN_MEM_READ, bool reserve=true)</td></tr>
+<tr class="memitem:ae1ccfbc30b6fe65f9579f5124175fc1a" id="r_ae1ccfbc30b6fe65f9579f5124175fc1a"><td class="memItemLeft">PBYTE&#160;</td><td class="memItemRight"><a class="el" href="#ae1ccfbc30b6fe65f9579f5124175fc1a">find_alignment_cave</a> (BYTE *module_ptr, size_t module_size, const DWORD cave_size, const DWORD req_charact=IMAGE_SCN_MEM_READ, bool reserve=true)</td></tr>
+<tr class="memitem:a0c85d5fd2de8de4892e5fc5c223df2b1" id="r_a0c85d5fd2de8de4892e5fc5c223df2b1"><td class="memItemLeft">PBYTE&#160;</td><td class="memItemRight"><a class="el" href="#a0c85d5fd2de8de4892e5fc5c223df2b1">find_padding_cave</a> (BYTE *module_ptr, size_t module_size, const size_t minimal_size, const DWORD req_charact=IMAGE_SCN_MEM_READ)</td></tr>
 <tr class="memitem:afb2695290e03223da4b59dd0f875a130" id="r_afb2695290e03223da4b59dd0f875a130"><td class="memItemLeft"><a class="el" href="delayed__imports__loader_8h.html#a065243bc869b818aae0d5af571fe9329">IMAGE_DELAYLOAD_DESCRIPTOR</a> *&#160;</td><td class="memItemRight"><a class="el" href="#afb2695290e03223da4b59dd0f875a130">get_delayed_imps</a> (IN const BYTE *modulePtr, IN const size_t moduleSize, OUT size_t &amp;dir_size)</td></tr>
 <tr class="memitem:a160928436b4c34309ed3c2da10f8dc53" id="r_a160928436b4c34309ed3c2da10f8dc53"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a160928436b4c34309ed3c2da10f8dc53">load_delayed_imports</a> (BYTE *modulePtr, const ULONGLONG moduleBase, <a class="el" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a> *func_resolver=nullptr)</td></tr>
 <tr class="memitem:a7db1dbecb3ece690697e6172045baab4" id="r_a7db1dbecb3ece690697e6172045baab4"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a7db1dbecb3ece690697e6172045baab4">setup_exceptions</a> (IN BYTE *modulePtr, IN size_t moduleSize)</td></tr>
@@ -1193,7 +1193,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="classpeconv_1_1_imports_uneraser.html#a7cad74ed8f91eb309a03e6e7ca8af247" title=" " alt="" coords="868,189,1034,229"/>
 <area shape="poly" title=" " alt="" coords="796,209,853,208,853,213,796,214"/>
 <area shape="poly" title=" " alt="" coords="796,287,975,305,1080,312,1185,314,1596,314,1682,309,1752,304,1785,306,1818,314,1852,331,1888,356,1924,394,1953,438,1975,486,1991,535,2010,628,2016,699,2011,700,2005,629,1986,536,1970,487,1949,440,1920,397,1885,360,1849,335,1816,319,1784,311,1752,309,1682,315,1596,320,1185,320,1080,317,974,310,796,292"/>
-<area shape="rect" href="namespacepeconv.html#a8305069df7f35087b9b45db686417009" title=" " alt="" coords="867,406,1036,431"/>
+<area shape="rect" href="namespacepeconv.html#a4bc6f62abfa72cbf82b57182f7f6da98" title=" " alt="" coords="867,406,1036,431"/>
 <area shape="poly" title=" " alt="" coords="785,297,809,308,874,350,926,393,923,397,871,355,806,313,782,302"/>
 <area shape="rect" href="classpeconv_1_1_imports_uneraser.html#a1d9a2f83300fef33a1a57c993aed1e0a" title=" " alt="" coords="1720,239,1886,280"/>
 <area shape="poly" title=" " alt="" coords="796,272,974,267,1185,264,1398,264,1704,260,1704,265,1398,269,1185,269,975,272,796,278"/>
@@ -1664,8 +1664,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a52ed5ac63150ed6c4d7e5a53b9d7b717" name="a52ed5ac63150ed6c4d7e5a53b9d7b717"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52ed5ac63150ed6c4d7e5a53b9d7b717">&#9670;&#160;</a></span>find_alignment_cave()</h2>
+<a id="ae1ccfbc30b6fe65f9579f5124175fc1a" name="ae1ccfbc30b6fe65f9579f5124175fc1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1ccfbc30b6fe65f9579f5124175fc1a">&#9670;&#160;</a></span>find_alignment_cave()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1673,12 +1673,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">PBYTE peconv::find_alignment_cave </td>
           <td>(</td>
-          <td class="paramtype">BYTE *</td>          <td class="paramname"><span class="paramname"><em>modulePtr</em></span>, </td>
+          <td class="paramtype">BYTE *</td>          <td class="paramname"><span class="paramname"><em>module_ptr</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>moduleSize</em></span>, </td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_size</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1688,18 +1688,33 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const DWORD</td>          <td class="paramname"><span class="paramname"><em>req_charact</em></span><span class="paramdefsep"> = </span><span class="paramdefval">IMAGE_SCN_MEM_READ</span>&#160;)</td>
+          <td class="paramtype">const DWORD</td>          <td class="paramname"><span class="paramname"><em>req_charact</em></span><span class="paramdefsep"> = </span><span class="paramdefval">IMAGE_SCN_MEM_READ</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reserve</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Finds cave in the difference between the original raw size, and the raw size rounded to the aligmnent </p>
+<p>Finds cave in the difference between the original raw size, and the raw size rounded to the aligmnent </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">module_ptr</td><td>: the module where the cave should be searched </td></tr>
+    <tr><td class="paramname">module_size</td><td>: the size of the module </td></tr>
+    <tr><td class="paramname">cave_size</td><td>: required minimal size of the available cave </td></tr>
+    <tr><td class="paramname">req_charact</td><td>: required characteristics of the cave </td></tr>
+    <tr><td class="paramname">reserve</td><td>: if true: modify the header of the section containing the cave to include the cave into its size </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to the start of the cave </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="caves_8cpp_source.html#l00040">40</a> of file <a class="el" href="caves_8cpp_source.html">caves.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="caves_8cpp_source.html#l00042">42</a> of file <a class="el" href="caves_8cpp_source.html">caves.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_a52ed5ac63150ed6c4d7e5a53b9d7b717_cgraph.png" border="0" usemap="#anamespacepeconv_a52ed5ac63150ed6c4d7e5a53b9d7b717_cgraph" loading="lazy" alt=""/></div>
-<map name="anamespacepeconv_a52ed5ac63150ed6c4d7e5a53b9d7b717_cgraph" id="anamespacepeconv_a52ed5ac63150ed6c4d7e5a53b9d7b717_cgraph">
+<div class="center"><img src="namespacepeconv_ae1ccfbc30b6fe65f9579f5124175fc1a_cgraph.png" border="0" usemap="#anamespacepeconv_ae1ccfbc30b6fe65f9579f5124175fc1a_cgraph" loading="lazy" alt=""/></div>
+<map name="anamespacepeconv_ae1ccfbc30b6fe65f9579f5124175fc1a_cgraph" id="anamespacepeconv_ae1ccfbc30b6fe65f9579f5124175fc1a_cgraph">
 <area shape="rect" title=" " alt="" coords="5,156,193,181"/>
 <area shape="rect" href="namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c" title=" " alt="" coords="641,57,820,82"/>
 <area shape="poly" title=" " alt="" coords="142,152,240,126,342,106,445,92,626,73,626,79,446,97,343,112,241,131,143,157"/>
@@ -1854,8 +1869,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a8305069df7f35087b9b45db686417009" name="a8305069df7f35087b9b45db686417009"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8305069df7f35087b9b45db686417009">&#9670;&#160;</a></span>find_ending_cave()</h2>
+<a id="a4bc6f62abfa72cbf82b57182f7f6da98" name="a4bc6f62abfa72cbf82b57182f7f6da98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bc6f62abfa72cbf82b57182f7f6da98">&#9670;&#160;</a></span>find_ending_cave()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1878,18 +1893,33 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const DWORD</td>          <td class="paramname"><span class="paramname"><em>cave_charact</em></span><span class="paramdefsep"> = </span><span class="paramdefval">IMAGE_SCN_MEM_READ</span>&#160;)</td>
+          <td class="paramtype">const DWORD</td>          <td class="paramname"><span class="paramname"><em>req_charact</em></span><span class="paramdefsep"> = </span><span class="paramdefval">IMAGE_SCN_MEM_READ</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>reserve</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Finds cave at the end of the image (extend last section's raw size without extending the full image size) </p>
+<p>Finds cave at the end of the image </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">module_ptr</td><td>: the module where the cave should be searched </td></tr>
+    <tr><td class="paramname">module_size</td><td>: the size of the module </td></tr>
+    <tr><td class="paramname">cave_size</td><td>: required minimal size of the available cave </td></tr>
+    <tr><td class="paramname">req_charact</td><td>: required characteristics of the cave </td></tr>
+    <tr><td class="paramname">reserve</td><td>: if true: modify the header of the section containing the cave to include the cave into its size </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to the start of the cave </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="caves_8cpp_source.html#l00009">9</a> of file <a class="el" href="caves_8cpp_source.html">caves.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_a8305069df7f35087b9b45db686417009_cgraph.png" border="0" usemap="#anamespacepeconv_a8305069df7f35087b9b45db686417009_cgraph" loading="lazy" alt=""/></div>
-<map name="anamespacepeconv_a8305069df7f35087b9b45db686417009_cgraph" id="anamespacepeconv_a8305069df7f35087b9b45db686417009_cgraph">
+<div class="center"><img src="namespacepeconv_a4bc6f62abfa72cbf82b57182f7f6da98_cgraph.png" border="0" usemap="#anamespacepeconv_a4bc6f62abfa72cbf82b57182f7f6da98_cgraph" loading="lazy" alt=""/></div>
+<map name="anamespacepeconv_a4bc6f62abfa72cbf82b57182f7f6da98_cgraph" id="anamespacepeconv_a4bc6f62abfa72cbf82b57182f7f6da98_cgraph">
 <area shape="rect" title=" " alt="" coords="5,172,175,197"/>
 <area shape="rect" href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c" title=" " alt="" coords="223,172,384,197"/>
 <area shape="poly" title=" " alt="" coords="175,182,207,182,207,187,175,187"/>
@@ -1952,8 +1982,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ac11803cf089141d58e14abf908fadf17" name="ac11803cf089141d58e14abf908fadf17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac11803cf089141d58e14abf908fadf17">&#9670;&#160;</a></span>find_padding_cave()</h2>
+<a id="a0c85d5fd2de8de4892e5fc5c223df2b1" name="a0c85d5fd2de8de4892e5fc5c223df2b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c85d5fd2de8de4892e5fc5c223df2b1">&#9670;&#160;</a></span>find_padding_cave()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1961,12 +1991,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">PBYTE peconv::find_padding_cave </td>
           <td>(</td>
-          <td class="paramtype">BYTE *</td>          <td class="paramname"><span class="paramname"><em>modulePtr</em></span>, </td>
+          <td class="paramtype">BYTE *</td>          <td class="paramname"><span class="paramname"><em>module_ptr</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>moduleSize</em></span>, </td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>module_size</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1982,12 +2012,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p>Finds cave at the end of the section, that comes from a NULL padding or INT3 padding </p>
 
-<p class="definition">Definition at line <a class="el" href="caves_8cpp_source.html#l00078">78</a> of file <a class="el" href="caves_8cpp_source.html">caves.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="caves_8cpp_source.html#l00082">82</a> of file <a class="el" href="caves_8cpp_source.html">caves.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_ac11803cf089141d58e14abf908fadf17_cgraph.png" border="0" usemap="#anamespacepeconv_ac11803cf089141d58e14abf908fadf17_cgraph" loading="lazy" alt=""/></div>
-<map name="anamespacepeconv_ac11803cf089141d58e14abf908fadf17_cgraph" id="anamespacepeconv_ac11803cf089141d58e14abf908fadf17_cgraph">
+<div class="center"><img src="namespacepeconv_a0c85d5fd2de8de4892e5fc5c223df2b1_cgraph.png" border="0" usemap="#anamespacepeconv_a0c85d5fd2de8de4892e5fc5c223df2b1_cgraph" loading="lazy" alt=""/></div>
+<map name="anamespacepeconv_a0c85d5fd2de8de4892e5fc5c223df2b1_cgraph" id="anamespacepeconv_a0c85d5fd2de8de4892e5fc5c223df2b1_cgraph">
 <area shape="rect" title=" " alt="" coords="5,246,182,272"/>
 <area shape="rect" href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c" title=" " alt="" coords="230,220,391,246"/>
 <area shape="poly" title=" " alt="" coords="182,246,214,242,215,247,182,251"/>
@@ -2128,7 +2158,7 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="832,304,892,302,892,308,832,310"/>
 <area shape="poly" title=" " alt="" coords="1837,575,1863,593,1905,641,1939,695,1965,746,1982,788,1977,790,1960,748,1934,697,1901,644,1860,597,1834,579"/>
 <area shape="poly" title=" " alt="" coords="325,968,402,1001,505,1038,624,1068,685,1077,746,1080,1565,1080,1652,1083,1722,1085,1754,1081,1787,1072,1821,1056,1860,1033,1884,1013,1905,990,1939,938,1963,886,1979,843,1984,845,1968,888,1944,941,1909,994,1887,1017,1863,1037,1824,1061,1788,1077,1755,1086,1722,1090,1652,1089,1565,1086,746,1086,684,1082,623,1073,504,1043,400,1006,322,973"/>
-<area shape="rect" href="namespacepeconv.html#a8305069df7f35087b9b45db686417009" title=" " alt="" coords="434,658,603,684"/>
+<area shape="rect" href="namespacepeconv.html#a4bc6f62abfa72cbf82b57182f7f6da98" title=" " alt="" coords="434,658,603,684"/>
 <area shape="poly" title=" " alt="" coords="297,927,495,694,499,697,301,930"/>
 <area shape="rect" href="classpeconv_1_1_imports_uneraser.html#a1d9a2f83300fef33a1a57c993aed1e0a" title=" " alt="" coords="1481,1005,1647,1046"/>
 <area shape="poly" title=" " alt="" coords="364,962,539,987,642,997,746,1000,1159,1000,1321,1005,1466,1014,1465,1020,1321,1010,1158,1006,746,1006,642,1002,539,992,363,968"/>
