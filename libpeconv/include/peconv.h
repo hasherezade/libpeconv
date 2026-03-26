@@ -7,6 +7,7 @@
 
 #include "peconv/buffer_util.h"
 #include "peconv/util.h"
+#include "peconv/logger.h"
 #include "peconv/pe_hdrs_helper.h"
 #include "peconv/pe_mode_detector.h"
 #include "peconv/pe_raw_to_virtual.h"
