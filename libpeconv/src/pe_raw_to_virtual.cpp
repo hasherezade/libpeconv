@@ -131,11 +131,12 @@ BYTE* peconv::pe_raw_to_virtual(
     BYTE* localCopyAddress = alloc_pe_buffer(payloadImageSize, protect, reinterpret_cast<void*>(desired_base));
     if (!localCopyAddress) {
         LOG_ERROR("Could not allocate memory in the current process.");
-        return NULL;
+        return nullptr;
     }
     LOG_DEBUG("Allocated local memory: %p size: %x", localCopyAddress, payloadImageSize);
     if (!sections_raw_to_virtual(payload, in_size, localCopyAddress, payloadImageSize)) {
         LOG_ERROR("Could not copy PE file into virtual buffer.");
+        peconv::free_pe_buffer(localCopyAddress);
         return nullptr;
     }
     out_size = payloadImageSize;
