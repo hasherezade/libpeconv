@@ -58,19 +58,11 @@ bool is_empty_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD
 }
 
 namespace {
-    template <typename FIELD_T>
-    bool _validate_reloc_field(PVOID modulePtr, SIZE_T moduleSize, const DWORD reloc_field)
-    {
-        const ULONG_PTR reloc_ptr = (ULONG_PTR)modulePtr + reloc_field;
-        return peconv::validate_ptr(modulePtr, moduleSize, (LPVOID)reloc_ptr, sizeof(FIELD_T));
-    }
-
     bool validate_reloc_field(PVOID modulePtr, SIZE_T moduleSize, bool is64bit, const DWORD reloc_field)
     {
-        if (is64bit) {
-            return _validate_reloc_field<ULONGLONG>(modulePtr, moduleSize, reloc_field);
-        }
-        return _validate_reloc_field<DWORD>(modulePtr, moduleSize, reloc_field);
+        const size_t field_width = is64bit ? sizeof(ULONGLONG) : sizeof(DWORD);
+        const ULONG_PTR reloc_ptr = (ULONG_PTR)modulePtr + reloc_field;
+        return peconv::validate_ptr(modulePtr, moduleSize, (LPVOID)reloc_ptr, field_width);
     }
 };
 
