@@ -1,9 +1,0 @@
-<map id="parse_resource_dir" name="parse_resource_dir">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,137,31"/>
-<area shape="rect" id="Node000002" href="$resource__parser_8cpp.html#a381ec8bd63afd2eebee73048ea8ee25c" title=" " alt="" coords="185,5,330,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,24,169,24,169,30,137,29"/>
-<area shape="rect" id="Node000003" href="$namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="378,31,514,56"/>
-<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="122,29,185,41,277,46,363,45,363,51,277,52,184,46,121,34"/>
-<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="184,12,152,12,152,7,184,7"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="331,25,363,30,363,35,330,31"/>
-</map>

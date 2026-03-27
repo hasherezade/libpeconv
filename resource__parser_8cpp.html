@@ -76,8 +76,6 @@ $(function() {
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">resource_parser.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -86,127 +84,6 @@ $(function() {
 <code>#include &quot;<a class="el" href="logger_8h_source.html">peconv/logger.h</a>&quot;</code><br />
 </div>
 <p><a href="resource__parser_8cpp_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:aa8cc2300e2c0aa30b4c3b465fc3306cb" id="r_aa8cc2300e2c0aa30b4c3b465fc3306cb"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa8cc2300e2c0aa30b4c3b465fc3306cb">parse_resource_dir</a> (BYTE *modulePtr, const size_t moduleSize, IMAGE_RESOURCE_DIRECTORY_ENTRY *root_dir, const IMAGE_RESOURCE_DIRECTORY *upper_dir, IMAGE_RESOURCE_DIRECTORY *curr_dir, <a class="el" href="namespacepeconv.html#a560c5d74b75ea1236756b249ca4af996">peconv::t_on_res_entry_found</a> on_entry)</td></tr>
-<tr class="memitem:a381ec8bd63afd2eebee73048ea8ee25c" id="r_a381ec8bd63afd2eebee73048ea8ee25c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a381ec8bd63afd2eebee73048ea8ee25c">parse_resource_entry</a> (BYTE *modulePtr, const size_t moduleSize, IMAGE_RESOURCE_DIRECTORY_ENTRY *root_dir, const IMAGE_RESOURCE_DIRECTORY *upper_dir, IMAGE_RESOURCE_DIRECTORY_ENTRY *entry, <a class="el" href="namespacepeconv.html#a560c5d74b75ea1236756b249ca4af996">peconv::t_on_res_entry_found</a> on_entry)</td></tr>
-</table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="aa8cc2300e2c0aa30b4c3b465fc3306cb" name="aa8cc2300e2c0aa30b4c3b465fc3306cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8cc2300e2c0aa30b4c3b465fc3306cb">&#9670;&#160;</a></span>parse_resource_dir()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool parse_resource_dir </td>
-          <td>(</td>
-          <td class="paramtype">BYTE *</td>          <td class="paramname"><span class="paramname"><em>modulePtr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>moduleSize</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IMAGE_RESOURCE_DIRECTORY_ENTRY *</td>          <td class="paramname"><span class="paramname"><em>root_dir</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const IMAGE_RESOURCE_DIRECTORY *</td>          <td class="paramname"><span class="paramname"><em>upper_dir</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IMAGE_RESOURCE_DIRECTORY *</td>          <td class="paramname"><span class="paramname"><em>curr_dir</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacepeconv.html#a560c5d74b75ea1236756b249ca4af996">peconv::t_on_res_entry_found</a></td>          <td class="paramname"><span class="paramname"><em>on_entry</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="resource__parser_8cpp_source.html#l00045">45</a> of file <a class="el" href="resource__parser_8cpp_source.html">resource_parser.cpp</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="resource__parser_8cpp_aa8cc2300e2c0aa30b4c3b465fc3306cb_cgraph.png" border="0" usemap="#aresource__parser_8cpp_aa8cc2300e2c0aa30b4c3b465fc3306cb_cgraph" loading="lazy" alt=""/></div>
-<map name="aresource__parser_8cpp_aa8cc2300e2c0aa30b4c3b465fc3306cb_cgraph" id="aresource__parser_8cpp_aa8cc2300e2c0aa30b4c3b465fc3306cb_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,137,31"/>
-<area shape="rect" href="resource__parser_8cpp.html#a381ec8bd63afd2eebee73048ea8ee25c" title=" " alt="" coords="185,5,330,31"/>
-<area shape="poly" title=" " alt="" coords="137,24,169,24,169,30,137,29"/>
-<area shape="rect" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="378,31,514,56"/>
-<area shape="poly" title=" " alt="" coords="122,29,185,41,277,46,363,45,363,51,277,52,184,46,121,34"/>
-<area shape="poly" title=" " alt="" coords="184,12,152,12,152,7,184,7"/>
-<area shape="poly" title=" " alt="" coords="331,25,363,30,363,35,330,31"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a381ec8bd63afd2eebee73048ea8ee25c" name="a381ec8bd63afd2eebee73048ea8ee25c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a381ec8bd63afd2eebee73048ea8ee25c">&#9670;&#160;</a></span>parse_resource_entry()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool parse_resource_entry </td>
-          <td>(</td>
-          <td class="paramtype">BYTE *</td>          <td class="paramname"><span class="paramname"><em>modulePtr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const size_t</td>          <td class="paramname"><span class="paramname"><em>moduleSize</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IMAGE_RESOURCE_DIRECTORY_ENTRY *</td>          <td class="paramname"><span class="paramname"><em>root_dir</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const IMAGE_RESOURCE_DIRECTORY *</td>          <td class="paramname"><span class="paramname"><em>upper_dir</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IMAGE_RESOURCE_DIRECTORY_ENTRY *</td>          <td class="paramname"><span class="paramname"><em>entry</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacepeconv.html#a560c5d74b75ea1236756b249ca4af996">peconv::t_on_res_entry_found</a></td>          <td class="paramname"><span class="paramname"><em>on_entry</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="resource__parser_8cpp_source.html#l00012">12</a> of file <a class="el" href="resource__parser_8cpp_source.html">resource_parser.cpp</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="resource__parser_8cpp_a381ec8bd63afd2eebee73048ea8ee25c_cgraph.png" border="0" usemap="#aresource__parser_8cpp_a381ec8bd63afd2eebee73048ea8ee25c_cgraph" loading="lazy" alt=""/></div>
-<map name="aresource__parser_8cpp_a381ec8bd63afd2eebee73048ea8ee25c_cgraph" id="aresource__parser_8cpp_a381ec8bd63afd2eebee73048ea8ee25c_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,151,31"/>
-<area shape="rect" href="resource__parser_8cpp.html#aa8cc2300e2c0aa30b4c3b465fc3306cb" title=" " alt="" coords="199,5,330,31"/>
-<area shape="poly" title=" " alt="" coords="151,24,183,24,183,30,151,30"/>
-<area shape="rect" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="378,31,514,56"/>
-<area shape="poly" title=" " alt="" coords="132,29,199,41,283,46,363,45,363,50,283,51,198,46,131,34"/>
-<area shape="poly" title=" " alt="" coords="199,12,166,12,166,7,199,7"/>
-<area shape="poly" title=" " alt="" coords="331,25,363,29,362,35,330,30"/>
-</map>
-</div>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
