@@ -126,10 +126,12 @@ size_t peconv::redirect_to_local64(void *ptr, ULONGLONG new_offset, PatchBackup*
     if (backup != nullptr) {
         backup->makeBackup((BYTE*)ptr, hook64_size);
     }
-    memcpy(hook_64 + 2, &new_offset, sizeof(ULONGLONG));
-    memcpy(ptr, hook_64, hook64_size);
+    ::memcpy(hook_64 + 2, &new_offset, sizeof(ULONGLONG));
+    ::memcpy(ptr, hook_64, hook64_size);
 
-    nt_protect((LPVOID)ptr, hook64_size, oldProtect, &oldProtect);
+    if (!nt_protect((LPVOID)ptr, hook64_size, oldProtect, &oldProtect)) {
+        LOG_WARNING("Failed to restore protection of region: %p", ptr);
+    }
 
     //flush cache:
     FlushInstructionCache(GetCurrentProcess(), ptr, hook64_size);
@@ -164,7 +166,9 @@ size_t peconv::redirect_to_local32(void *ptr, DWORD new_offset, PatchBackup* bac
     memcpy(hook_32 + 1, &new_offset, sizeof(DWORD));
     memcpy(ptr, hook_32, hook32_size);
 
-    nt_protect((LPVOID)ptr, hook32_size, oldProtect, &oldProtect);
+    if (!nt_protect((LPVOID)ptr, hook32_size, oldProtect, &oldProtect)) {
+        LOG_WARNING("Failed to restore protection of region: %p", ptr);
+    }
 
     //flush cache:
     FlushInstructionCache(GetCurrentProcess(), ptr, hook32_size);

@@ -172,7 +172,9 @@ size_t peconv::read_remote_region(HANDLE processHandle, LPVOID start_addr, OUT B
     }
     // if the access rights were changed, change it back:
     if (access_changed) {
-        VirtualProtectEx(processHandle, start_addr, region_size, oldProtect, &oldProtect);
+        if (!VirtualProtectEx(processHandle, start_addr, region_size, oldProtect, &oldProtect)) {
+            LOG_WARNING("Failed to restore protection of region: %p", start_addr);
+        }
     }
     return size_read;
 }
