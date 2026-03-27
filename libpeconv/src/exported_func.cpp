@@ -173,7 +173,7 @@ bool ExportedFunc::isTheSameFuncName(const peconv::ExportedFunc& func1, const pe
     return false;
 }
 
-namespace peconv
+namespace
 {
     bool is_valid_extension(const std::string &ext)
     {
@@ -212,8 +212,8 @@ bool ExportedFunc::isTheSameDllName(const peconv::ExportedFunc& func1, const pec
     if (file1 == file2) {
         return true;
     }
-    const std::string short1 = peconv::remove_module_extension(file1);
-    const std::string short2 = peconv::remove_module_extension(file2);
+    const std::string short1 = remove_module_extension(file1);
+    const std::string short2 = remove_module_extension(file2);
     if (short1 == short2) {
         return true;
     }

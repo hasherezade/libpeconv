@@ -1,5 +1,7 @@
 #include "peconv/exports_mapper.h"
 #include <algorithm>
+
+#include "peconv/util.h"
 #include "peconv/logger.h"
 
 
@@ -192,7 +194,7 @@ ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE module
 size_t ExportsMapper::add_to_lookup(const std::string& moduleName, HMODULE modulePtr, size_t module_size, ULONGLONG moduleBase)
 {
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
-    if (exp == NULL) {
+    if (!exp) {
         return 0;
     }
     if (module_size == 0) {
@@ -233,8 +235,8 @@ size_t ExportsMapper::add_to_lookup(const std::string& moduleName, HMODULE modul
             continue;
         }
 
-        LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
-        if (!peconv::validate_ptr(modulePtr, module_size, name, sizeof(char))) {
+        const LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
+        if (!is_valid_string(modulePtr, module_size, name)) {
             break;
         }
         DWORD funcOrd = get_ordinal(funcRVA, va_to_ord);

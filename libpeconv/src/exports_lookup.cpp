@@ -23,69 +23,72 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 #define TO_LOWERCASE(c1) c1 = (c1 <= 'Z' && c1 >= 'A') ? c1 = (c1 - 'A') + 'a': c1;
 #endif
 
-bool is_wanted_func(LPCSTR curr_name, LPCSTR wanted_name)
-{
-    if (curr_name == NULL || wanted_name == NULL) return false;
+namespace {
 
-    size_t wanted_name_len = strlen(wanted_name);
-    size_t curr_name_len = strlen(curr_name);
+    bool is_wanted_func(LPCSTR curr_name, LPCSTR wanted_name)
+    {
+        if (curr_name == NULL || wanted_name == NULL) return false;
 
-    if (curr_name_len != wanted_name_len) return false;
+        size_t wanted_name_len = strlen(wanted_name);
+        size_t curr_name_len = strlen(curr_name);
 
-    for (size_t i = 0; i < wanted_name_len; i++) {
-        char c1 = curr_name[i];
-        char c2 = wanted_name[i];
-        TO_LOWERCASE(c1);
-        TO_LOWERCASE(c2);
-        if (c1 != c2) return false;
-    }
-    return true;
-}
+        if (curr_name_len != wanted_name_len) return false;
 
-bool is_ordinal(IMAGE_EXPORT_DIRECTORY *exp, LPCSTR func_name)
-{
-    ULONGLONG base = exp->Base;
-    ULONGLONG max_ord = base + exp->NumberOfFunctions;
-    ULONGLONG name_ptr_val = (ULONGLONG)func_name;
-    if (name_ptr_val >= base && name_ptr_val < max_ord) {
+        for (size_t i = 0; i < wanted_name_len; i++) {
+            char c1 = curr_name[i];
+            char c2 = wanted_name[i];
+            TO_LOWERCASE(c1);
+            TO_LOWERCASE(c2);
+            if (c1 != c2) return false;
+        }
         return true;
     }
-    return false;
-}
 
-FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wanted_ordinal)
-{
-    SIZE_T functCount = exp->NumberOfFunctions;
-    DWORD funcsListRVA = exp->AddressOfFunctions;
-    DWORD ordBase = exp->Base;
-    
-    const size_t modSize = peconv::get_image_size((BYTE*)modulePtr);
-
-    //go through names:
-    for (DWORD i = 0; i < functCount; i++) {
-        DWORD ordinal = ordBase + i;
-        if (ordinal != wanted_ordinal) continue;
-
-        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
-        if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, funcRVA, sizeof(DWORD))) {
-            LOG_ERROR("Invalid RVA of exported function");
-            return NULL;
+    bool is_ordinal(IMAGE_EXPORT_DIRECTORY* exp, LPCSTR func_name)
+    {
+        ULONGLONG base = exp->Base;
+        ULONGLONG max_ord = base + exp->NumberOfFunctions;
+        ULONGLONG name_ptr_val = (ULONGLONG)func_name;
+        if (name_ptr_val >= base && name_ptr_val < max_ord) {
+            return true;
         }
-        BYTE* fPtr = (BYTE*) modulePtr + (*funcRVA); //pointer to the function
-        if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, fPtr, 1)) {
-            LOG_ERROR("Invalid pointer to exported function");
-            return NULL;
-        }
-        if (peconv::forwarder_name_len(fPtr) > 1) {
-            LOG_WARNING("Forwarded function: [%lu -> %p] cannot be resolved.", wanted_ordinal, fPtr);
-            return NULL; // this function is forwarded, cannot be resolved
-        }
-        return (FARPROC) fPtr; //return the pointer to the found function
+        return false;
     }
-    return NULL;
-}
 
-size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &names_list)
+    FARPROC get_export_by_ord(LPVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wanted_ordinal)
+    {
+        SIZE_T functCount = exp->NumberOfFunctions;
+        DWORD funcsListRVA = exp->AddressOfFunctions;
+        DWORD ordBase = exp->Base;
+
+        const size_t modSize = peconv::get_image_size((BYTE*)modulePtr);
+
+        //go through names:
+        for (DWORD i = 0; i < functCount; i++) {
+            DWORD ordinal = ordBase + i;
+            if (ordinal != wanted_ordinal) continue;
+
+            DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + i * sizeof(DWORD));
+            if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, funcRVA, sizeof(DWORD))) {
+                LOG_ERROR("Invalid RVA of exported function");
+                return NULL;
+            }
+            BYTE* fPtr = (BYTE*)modulePtr + (*funcRVA); //pointer to the function
+            if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, fPtr, 1)) {
+                LOG_ERROR("Invalid pointer to exported function");
+                return NULL;
+            }
+            if (peconv::forwarder_name_len(fPtr) > 1) {
+                LOG_WARNING("Forwarded function: [%lu -> %p] cannot be resolved.", wanted_ordinal, fPtr);
+                return NULL; // this function is forwarded, cannot be resolved
+            }
+            return (FARPROC)fPtr; //return the pointer to the found function
+        }
+        return NULL;
+    }
+};
+
+size_t peconv::get_exported_names(LPVOID modulePtr, std::vector<std::string> &names_list)
 {
     const size_t modSize = peconv::get_image_size((const BYTE*)modulePtr);
     if (!modSize) return 0;
@@ -108,7 +111,7 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
             continue;
         }
         LPSTR name = (LPSTR)(nameRVA + (BYTE*) modulePtr);
-        if (!validate_ptr(modulePtr, modSize, name, 1)) {
+        if (!is_valid_string(modulePtr, modSize, name)) {
             break;// this should not happen. maybe the PE file is corrupt?
         }
         names_list.push_back(name);
@@ -117,7 +120,7 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
 }
 
 //WARNING: doesn't work for the forwarded functions.
-FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
+FARPROC peconv::get_exported_func(LPVOID modulePtr, LPCSTR wanted_name)
 {
     const size_t modSize = peconv::get_image_size((const BYTE*)modulePtr);
     if (!modSize) return nullptr;

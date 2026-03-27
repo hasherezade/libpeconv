@@ -48,4 +48,24 @@ namespace peconv {
     \param areaSize : The size of the memory block, in bytes. If this parameter is zero, the return value is true (bad pointer).
     */
     bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize);
+
+    /**
+    Verifies if the string of specific type is within the given buffer and NULL terminated.
+    */
+    template <typename CHAR_T>
+    bool is_valid_string(LPVOID modulePtr, const size_t moduleSize, const CHAR_T* name_ptr)
+    {
+        bool is_terminated = false;
+        size_t i = 0;
+        for (; i < MAX_PATH; i++) {
+            if (!peconv::validate_ptr(modulePtr, moduleSize, &name_ptr[i], sizeof(CHAR_T))) {
+                return false;
+            }
+            if (name_ptr[i] == 0) {
+                is_terminated = true;
+                break;
+            }
+        }
+        return is_terminated && (i > 1) ? true : false;
+    }
 };
