@@ -40,9 +40,10 @@ bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const st
     if (lib_desc->Name != 0) {
         name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
     }
-    if (!name_ptr || !validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
+    const size_t dll_len = dll_name.length();
+    if (!name_ptr || !validate_ptr(modulePtr, moduleSize, name_ptr, dll_len)) {
         //try to get the cave:
-        const DWORD cave_size = DWORD(dll_name.length() + 1 + 5); //ending null + padding
+        const DWORD cave_size = DWORD(dll_len + 1 + 5); //ending null + padding
         const PBYTE ptr = find_ending_cave(modulePtr, moduleSize, cave_size);
         if (!ptr) {
             LOG_ERROR("Cannot save the DLL name: %s.", dll_name.c_str());
@@ -79,43 +80,49 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         //nothing to fill, probably the last record
         return false;
     }
-    ULONGLONG searchedAddr = ULONGLONG(*call_via_val);
-    bool is_name_saved = false;
+    const ULONGLONG searchedAddr = ULONGLONG(*call_via_val);
 
-    FIELD_T lastOrdinal = 0; //store also ordinal of the matching function
-    std::set<ExportedFunc>::iterator funcname_itr = addr_to_func[searchedAddr].begin();
-
-    for (funcname_itr = addr_to_func[searchedAddr].begin(); 
-        funcname_itr != addr_to_func[searchedAddr].end(); 
-        ++funcname_itr) 
-    {
-        const ExportedFunc &found_func = *funcname_itr;
-        lastOrdinal = found_func.funcOrdinal;
-
-        const char* names_start = ((const char*) modulePtr + impAddr);
-        const size_t remaining_size = moduleSize - (names_start - (const char*)modulePtr);
-        BYTE* found_ptr = (BYTE*) search_name(found_func.funcName, names_start, remaining_size);
-        if (!found_ptr) {
-            //name not found in the binary
-            //TODO: maybe it is imported by ordinal?
-            continue;
-        }
-        if (funcname_itr != addr_to_func[searchedAddr].begin()) {
-            LOG_DEBUG(">[*][0x%llx] %s.", (unsigned long long)searchedAddr, found_func.toString().c_str());
-        }
-        const ULONGLONG name_offset = (ULONGLONG)found_ptr - (ULONGLONG)modulePtr;
-        LOG_DEBUG("Found the name at: 0x%llx.", (unsigned long long) name_offset);
-        if (name_offset < sizeof(WORD)) {
-            continue;
-        }
-        const ULONGLONG imp_rva = name_offset - sizeof(WORD); // subtract the size of Hint
-        const PIMAGE_IMPORT_BY_NAME imp_field = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(imp_rva);
-        ::memcpy(thunk_ptr, &imp_field, sizeof(FIELD_T));
-        LOG_DEBUG("Wrote found to offset: %p.", call_via_ptr);
-        is_name_saved = true;
-        break;
+    auto found = addr_to_func.find(searchedAddr);
+    if (found == addr_to_func.end()) {
+        LOG_WARNING("No mapped export mapped to the given address: 0x%llx.", (unsigned long long)searchedAddr);
+        return false;
     }
-    //name not found or could not be saved - fill the ordinal instead:
+    auto exportsWithAddr = found->second;
+    bool is_name_saved = false;
+    FIELD_T lastOrdinal = 0; //store also ordinal of the matching function
+
+    std::set<ExportedFunc>::iterator funcname_itr;
+    for (funcname_itr = exportsWithAddr.begin();
+        funcname_itr != exportsWithAddr.end();
+        ++funcname_itr)
+    {
+            const ExportedFunc& found_func = *funcname_itr;
+            lastOrdinal = found_func.funcOrdinal;
+
+            const char* names_start = ((const char*)modulePtr + impAddr);
+            const size_t remaining_size = moduleSize - (names_start - (const char*)modulePtr);
+            BYTE* found_ptr = (BYTE*)search_name(found_func.funcName, names_start, remaining_size);
+            if (!found_ptr) {
+                //name not found in the binary
+                //TODO: maybe it is imported by ordinal?
+                continue;
+            }
+            if (funcname_itr != exportsWithAddr.begin()) {
+                LOG_DEBUG(">[*][0x%llx] %s.", (unsigned long long)searchedAddr, found_func.toString().c_str());
+            }
+            const ULONGLONG name_offset = (ULONGLONG)found_ptr - (ULONGLONG)modulePtr;
+            LOG_DEBUG("Found the name at: 0x%llx.", (unsigned long long) name_offset);
+            if (name_offset < sizeof(WORD)) {
+                continue;
+            }
+            const ULONGLONG imp_rva = name_offset - sizeof(WORD); // subtract the size of Hint
+            const PIMAGE_IMPORT_BY_NAME imp_field = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(imp_rva);
+            ::memcpy(thunk_ptr, &imp_field, sizeof(FIELD_T));
+            LOG_DEBUG("Wrote found to offset: %p.", call_via_ptr);
+            is_name_saved = true;
+            break;
+    }
+    // name not found or could not be saved - fill the ordinal instead:
     if (!is_name_saved && lastOrdinal != 0) {
         LOG_DEBUG("Filling ordinal: 0x%llx.", (unsigned long long)lastOrdinal);
         FIELD_T ord_thunk = lastOrdinal | ordinal_flag;

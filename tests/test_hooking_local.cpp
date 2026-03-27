@@ -49,7 +49,7 @@ namespace test11 {
         size_t to_copy = strlen(fake_name);
         if (to_copy < nSize) to_copy = nSize;
 
-        memcpy(lpFilename, fake_name, to_copy);
+        ::memcpy(lpFilename, fake_name, to_copy);
         return to_copy;
     }
 };

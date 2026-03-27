@@ -2,6 +2,7 @@
 #include "peconv/imports_loader.h"
 #include "peconv/relocate.h"
 #include "peconv/logger.h"
+#include "peconv/util.h"
 
 #include <unordered_set>
 
@@ -208,7 +209,7 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
             dll_name_rva -= moduleBase;
         }
         char* dll_name = (char*)((ULONGLONG) modulePtr + dll_name_rva);
-        if (!validate_ptr(modulePtr, module_size, dll_name, sizeof(char))) continue;
+        if (!is_valid_string(modulePtr, module_size, dll_name)) continue;
         LOG_DEBUG("Processing delayed imports for: %s", dll_name);
         if (is_64bit) {
 #ifdef _WIN64

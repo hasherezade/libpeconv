@@ -3,6 +3,8 @@
 #include "peconv/file_util.h"
 
 #include "peconv/logger.h"
+#include "peconv/util.h"
+
 #include <algorithm>
 
 using namespace peconv;
@@ -240,8 +242,8 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
         std::string lib_name = "";
         if (lib_desc->Name != 0) {
             LPSTR name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
-            if (validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
-                lib_name = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
+            if (is_valid_string(modulePtr, moduleSize, name_ptr)) {
+                lib_name = name_ptr;
             }
         }
 
