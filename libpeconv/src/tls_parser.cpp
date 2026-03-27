@@ -13,9 +13,6 @@ namespace peconv {
         if (!validate_ptr(modulePtr, moduleSize, callbacks_list_ptr, sizeof(FIELD_T))) {
             return 0;
         }
-
-        const ULONGLONG img_base = (ULONGLONG)modulePtr;
-        const DWORD img_size = peconv::get_image_size((BYTE*)modulePtr);
         size_t counter = 0;
         for (FIELD_T *next_callback = callbacks_list_ptr; 
             validate_ptr(modulePtr, moduleSize, next_callback, sizeof(FIELD_T));
