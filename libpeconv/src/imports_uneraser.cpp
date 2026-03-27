@@ -94,21 +94,24 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         lastOrdinal = found_func.funcOrdinal;
 
         const char* names_start = ((const char*) modulePtr + impAddr);
-        BYTE* found_ptr = (BYTE*) search_name(found_func.funcName, names_start, moduleSize - (names_start - (const char*)modulePtr));
+        const size_t remaining_size = moduleSize - (names_start - (const char*)modulePtr);
+        BYTE* found_ptr = (BYTE*) search_name(found_func.funcName, names_start, remaining_size);
         if (!found_ptr) {
             //name not found in the binary
             //TODO: maybe it is imported by ordinal?
             continue;
         }
-        
-        const ULONGLONG name_offset = (ULONGLONG)found_ptr - (ULONGLONG)modulePtr;
         if (funcname_itr != addr_to_func[searchedAddr].begin()) {
             LOG_DEBUG(">[*][0x%llx] %s.", (unsigned long long)searchedAddr, found_func.toString().c_str());
         }
-        LOG_DEBUG("Found the name at: 0x%llx.", (unsigned long long)name_offset);
-        PIMAGE_IMPORT_BY_NAME imp_field = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(name_offset - sizeof(WORD)); // substract the size of Hint
-        //TODO: validate more...
-        memcpy(thunk_ptr, &imp_field, sizeof(FIELD_T));
+        const ULONGLONG name_offset = (ULONGLONG)found_ptr - (ULONGLONG)modulePtr;
+        LOG_DEBUG("Found the name at: 0x%llx.", (unsigned long long) name_offset);
+        if (name_offset < sizeof(WORD)) {
+            continue;
+        }
+        const ULONGLONG imp_rva = name_offset - sizeof(WORD); // subtract the size of Hint
+        const PIMAGE_IMPORT_BY_NAME imp_field = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(imp_rva);
+        ::memcpy(thunk_ptr, &imp_field, sizeof(FIELD_T));
         LOG_DEBUG("Wrote found to offset: %p.", call_via_ptr);
         is_name_saved = true;
         break;
