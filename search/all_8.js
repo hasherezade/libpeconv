@@ -3,7 +3,7 @@ var searchData=
   ['has_5frelocations_0',['has_relocations',['../namespacepeconv.html#a0b3a6cb6bb1f0b3ac8b2b4556d491d65',1,'peconv']]],
   ['has_5fvalid_5fimport_5ftable_1',['has_valid_import_table',['../namespacepeconv.html#a00d1fbc4c949f157b2dfec167d872f5c',1,'peconv']]],
   ['has_5fvalid_5frelocation_5ftable_2',['has_valid_relocation_table',['../namespacepeconv.html#ae2bb52d5cf4b94ee5db2e3003f8b0d1b',1,'peconv']]],
-  ['hashlinks_3',['HashLinks',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a9fee87c135971c3eebcb26c22b27ae9b',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['hashlinks_3',['HashLinks',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#af63c48834ea27471725b0e7807d96b54',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['hooking_5ffunc_5fresolver_4',['hooking_func_resolver',['../classpeconv_1_1hooking__func__resolver.html',1,'peconv']]],
   ['hooks_2ecpp_5',['hooks.cpp',['../hooks_8cpp.html',1,'']]],
   ['hooks_2eh_6',['hooks.h',['../hooks_8h.html',1,'']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ntversion_0',['NtVersion',['../namespacedetails.html#af0ac640009535eda798fd68e20481950',1,'details']]]
+  ['ntversion_0',['NtVersion',['../namespacepeconv.html#a38f5d9f74c260cafec175556b07b5ae4',1,'peconv']]]
 ];

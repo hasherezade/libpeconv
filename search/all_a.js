@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['ldr_5fdata_5ftable_5fentry_5fwin8_0',['LDR_DATA_TABLE_ENTRY_WIN8',['../namespacedetails.html#a0bfb342752d9af2aa7800a758e04703f',1,'details']]],
-  ['ldr_5fddag_5fnode_5fwin8_1',['LDR_DDAG_NODE_WIN8',['../namespacedetails.html#a0c279c494d8b7117202a2bd678f41c1d',1,'details']]],
+  ['ldr_5fdata_5ftable_5fentry_5fwin8_0',['LDR_DATA_TABLE_ENTRY_WIN8',['../namespacepeconv.html#ae551e7c1c4155d64536f8020dc0e8e0c',1,'peconv']]],
+  ['ldr_5fddag_5fnode_5fwin8_1',['LDR_DDAG_NODE_WIN8',['../namespacepeconv.html#af7d31512804e1e7623c9132c70a17079',1,'peconv']]],
   ['ldr_5fmodule_2',['LDR_MODULE',['../peb__lookup_8cpp.html#af2f5b3d0301120cc8f2ba9cc188ef38d',1,'peb_lookup.cpp']]],
   ['libname_3',['libName',['../classpeconv_1_1_exported_func.html#af1d0cc6562b7ee535ad0f77c590638f3',1,'peconv::ExportedFunc']]],
   ['libpeconv_4',['libPeConv',['../index.html',1,'']]],
@@ -22,11 +22,11 @@ var searchData=
   ['load_5fpe_5fexecutable_19',['load_pe_executable',['../namespacepeconv.html#a6cf122f43c3a45620d8112b5b4098bbb',1,'peconv::load_pe_executable(LPCTSTR filename, OUT size_t &amp;v_size, t_function_resolver *import_resolver=nullptr)'],['../namespacepeconv.html#ae8a6d6ea0644694b6a43b65c733cfb50',1,'peconv::load_pe_executable(BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, t_function_resolver *import_resolver=nullptr, ULONG_PTR desired_base=0)']]],
   ['load_5fpe_5fmodule_20',['load_pe_module',['../namespacepeconv.html#ac111c03a3769a4b3bb4704ec4a862164',1,'peconv::load_pe_module(LPCTSTR filename, OUT size_t &amp;v_size, bool executable, bool relocate, ULONG_PTR desired_base=0)'],['../namespacepeconv.html#a8f8b908f989e1b155e6aa89fe8efa2b7',1,'peconv::load_pe_module(BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, bool executable, bool relocate, ULONG_PTR desired_base=0)']]],
   ['load_5fresource_5fdata_21',['load_resource_data',['../namespacepeconv.html#ad782d788d02265853c8f2e3084dd95ad',1,'peconv']]],
-  ['loadcount_22',['LoadCount',['../struct___l_d_r___m_o_d_u_l_e.html#aca0ffd55c95c4efcf419690a32abd6e6',1,'_LDR_MODULE::LoadCount()'],['../structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#a54b2d2e62417bcab61cb875fd702e6cb',1,'details::_LDR_DDAG_NODE_WIN8::LoadCount()']]],
-  ['loadinprogress_23',['LoadInProgress',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a2e2964173698371205d20d489ea4600c',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
-  ['loadnotificationssent_24',['LoadNotificationsSent',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a9bedd4499f4725f4af060a9abe54237a',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
-  ['loadreason_25',['LoadReason',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#ac7ffadbd4ecb355db5c3f07ad90812f1',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
-  ['loadtime_26',['LoadTime',['../structdetails_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#abddd620c75c5f82e9f5a5438a0d03222',1,'details::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['loadcount_22',['LoadCount',['../struct___l_d_r___m_o_d_u_l_e.html#aca0ffd55c95c4efcf419690a32abd6e6',1,'_LDR_MODULE::LoadCount()'],['../structpeconv_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#ab3c2136d4da954977ffa9efb625662c1',1,'peconv::_LDR_DDAG_NODE_WIN8::LoadCount()']]],
+  ['loadinprogress_23',['LoadInProgress',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a0a3e3606f98d251d6277989d97139fbe',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['loadnotificationssent_24',['LoadNotificationsSent',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a5e3ef9fb1dc5e58341e8cd4a4b2e6df2',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['loadreason_25',['LoadReason',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a894d555f6a30f5aa016c5dc08b25f4c9',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],
+  ['loadtime_26',['LoadTime',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a38a0181cabe23c06d22f3b80561dd359',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['lockprefixtable_27',['LockPrefixTable',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html#a0642a2b4bd7b88693125f3a218b76051',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W10::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w10.html#a5a1671209cc9627f43d82d3188417ea6',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W10::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w7.html#abc86dd7101d87a6c0c4eb672a6863199',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W7::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w7.html#ab9365ad3c4dba3e33d6d9a3ea8592ca0',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W7::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w8.html#ac8b0ece29ae0d498b6b5b633fc4f499a',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W8::LockPrefixTable()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w8.html#a3c771689d66148a26411f956a06eb957',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W8::LockPrefixTable()']]],
   ['log_5fdebug_28',['LOG_DEBUG',['../logger_8h.html#ac06cfc686322558f590c50eab8622ebd',1,'logger.h']]],
   ['log_5ferror_29',['LOG_ERROR',['../logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78',1,'logger.h']]],
@@ -39,5 +39,5 @@ var searchData=
   ['log_5fverbosity_36',['LOG_VERBOSITY',['../logger_8h.html#a65533daa2b934c9fb36258439bdbcc4f',1,'logger.h']]],
   ['log_5fwarning_37',['LOG_WARNING',['../logger_8h.html#afde44945335adc0c0ae2986fea13438f',1,'logger.h']]],
   ['logger_2eh_38',['logger.h',['../logger_8h.html',1,'']]],
-  ['lowestlink_39',['LowestLink',['../structdetails_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#abd5e2a211f9ca1f65b1344f850ce2360',1,'details::_LDR_DDAG_NODE_WIN8']]]
+  ['lowestlink_39',['LowestLink',['../structpeconv_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#a80b0bb932a7cae7394c8f55c9fff19a1',1,'peconv::_LDR_DDAG_NODE_WIN8']]]
 ];
