@@ -76,7 +76,8 @@ bool parse_delayed_desc(
     }
 
     // Helper to convert VA -> RVA if the address is in relocation table
-    auto convert_va_to_rva = [&](ULONGLONG& addr) -> bool {
+    auto convert_va_to_rva = [&](ULONGLONG& addr) -> bool
+    {
         if (reloc_values.find(addr) != reloc_values.end()) {
             if (addr < img_base) {
                 LOG_ERROR("Invalid VA: 0x%llx cannot convert safely", addr);
@@ -194,6 +195,19 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
     CollectRelocs callback(modulePtr, module_size, peconv::is64bit(modulePtr), reloc_values);
     process_relocation_table(modulePtr, module_size, &callback);
 
+    // Helper to convert VA -> RVA if the address is in relocation table
+    auto convert_va_to_rva = [&](ULONGLONG& addr) -> bool
+    {
+        if (reloc_values.find(addr) != reloc_values.end()) {
+            if (addr < moduleBase) {
+                LOG_ERROR("Invalid VA: 0x%llx cannot convert safely", addr);
+                return false;
+            }
+            addr -= moduleBase;
+        }
+        return true;
+    };
+
     LOG_DEBUG("Delay-import table found, table_size = %zu bytes.", table_size);
     bool is_ok = true;
     size_t max_count = table_size / sizeof(IMAGE_DELAYLOAD_DESCRIPTOR);
@@ -204,9 +218,10 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
             break;
         }
         ULONGLONG dll_name_rva = desc->DllNameRVA;
-        if (dll_name_rva > moduleBase) {
-            dll_name_rva -= moduleBase;
+        if (!convert_va_to_rva(dll_name_rva)) {
+            return false;
         }
+
         char* dll_name = (char*)((ULONGLONG) modulePtr + dll_name_rva);
         if (!is_valid_string(modulePtr, module_size, dll_name)) continue;
         LOG_DEBUG("Processing delayed imports for: %s", dll_name);
