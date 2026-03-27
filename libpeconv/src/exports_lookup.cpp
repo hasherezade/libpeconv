@@ -78,7 +78,7 @@ namespace {
                 LOG_ERROR("Invalid pointer to exported function");
                 return NULL;
             }
-            if (peconv::forwarder_name_len(fPtr) > 1) {
+            if (peconv::is_valid_string(modulePtr, modSize, fPtr) && peconv::forwarder_name_len(fPtr) > 1) {
                 LOG_WARNING("Forwarded function: [%lu -> %p] cannot be resolved.", wanted_ordinal, fPtr);
                 return NULL; // this function is forwarded, cannot be resolved
             }
@@ -94,7 +94,9 @@ size_t peconv::get_exported_names(LPVOID modulePtr, std::vector<std::string> &na
     if (!modSize) return 0;
 
     IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
-    if (!exp) return 0;
+    if (!exp || !validate_ptr(modulePtr, modSize, exp, sizeof(IMAGE_EXPORT_DIRECTORY))) {
+        return 0;
+    }
 
     SIZE_T namesCount = exp->NumberOfNames;
     DWORD funcNamesListRVA = exp->AddressOfNames;
@@ -126,7 +128,9 @@ FARPROC peconv::get_exported_func(LPVOID modulePtr, LPCSTR wanted_name)
     if (!modSize) return nullptr;
 
     IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
-    if (!exp) return nullptr;
+    if (!exp || !validate_ptr(modulePtr, modSize, exp, sizeof(IMAGE_EXPORT_DIRECTORY))) {
+        return nullptr;
+    }
 
     SIZE_T namesCount = exp->NumberOfNames;
 
@@ -139,7 +143,7 @@ FARPROC peconv::get_exported_func(LPVOID modulePtr, LPCSTR wanted_name)
         const DWORD ordinal = MASK_TO_DWORD((ULONG_PTR)wanted_name);
         return get_export_by_ord(modulePtr, exp, ordinal);
     }
-    if (peconv::is_bad_read_ptr(wanted_name, 1)) {
+    if (!is_valid_string(modulePtr, modSize, wanted_name)) {
         LOG_ERROR("Invalid pointer to the name.");
         return nullptr;
     }
@@ -171,7 +175,7 @@ FARPROC peconv::get_exported_func(LPVOID modulePtr, LPCSTR wanted_name)
             LOG_ERROR("Invalid pointer to exported function");
             return NULL;
         }
-        if (forwarder_name_len(fPtr) > 1) {
+        if (is_valid_string(modulePtr, modSize, fPtr) && forwarder_name_len(fPtr) > 1) {
             LOG_WARNING("Forwarded function: [%s -> %p] cannot be resolved.", name, fPtr);
             return nullptr; // this function is forwarded, cannot be resolved
         }
@@ -184,22 +188,17 @@ FARPROC peconv::get_exported_func(LPVOID modulePtr, LPCSTR wanted_name)
 
 FARPROC peconv::export_based_resolver::resolve_func(LPCSTR lib_name, LPCSTR func_name)
 {
-    HMODULE libBasePtr = LoadLibraryA(lib_name);
+    HMODULE libBasePtr = load_library(lib_name);
     if (libBasePtr == NULL) {
         LOG_ERROR("Could not load the library.");
         return NULL;
     }
 
     FARPROC hProc = get_exported_func(libBasePtr, func_name);
-
-    if (hProc == NULL) {
-        if (!peconv::is_bad_read_ptr(func_name, 1)) {
-            LOG_WARNING("Could not get function: %s from exports, falling back to default resolver.", func_name);
-        } else {
-            LOG_WARNING("Could not get function ordinal: 0x%lx from exports, falling back to default resolver.", (unsigned long)MASK_TO_DWORD((ULONG_PTR)func_name));
-        }
+    if (!hProc) {
+        LOG_WARNING("Could could not get function from exports. Falling back to the default resolver.");
         hProc = default_func_resolver::resolve_func(lib_name, func_name);
-        if (hProc == NULL) {
+        if (!hProc) {
             LOG_ERROR("Loading function from %s failed.", lib_name);
         }
     }
@@ -208,17 +207,17 @@ FARPROC peconv::export_based_resolver::resolve_func(LPCSTR lib_name, LPCSTR func
 
 LPSTR peconv::read_dll_name(HMODULE modulePtr)
 {
+    const size_t modSize = peconv::get_image_size((const BYTE*)modulePtr);
+    if (!modSize) {
+        return nullptr;
+    }
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
-    if (exp == NULL) {
-        return NULL;
+    if (!exp || !validate_ptr(modulePtr, modSize, exp, sizeof(IMAGE_EXPORT_DIRECTORY))) {
+        return nullptr;
     }
-    LPSTR module_name = (char*)((ULONGLONG)modulePtr + exp->Name);
-    if (peconv::is_bad_read_ptr(module_name, 1)) {
-        return NULL;
-    }
-    size_t len = peconv::forwarder_name_len((BYTE*) module_name);
-    if (len > 1) {
+    const LPSTR module_name = (char*)((ULONGLONG)modulePtr + exp->Name);
+    if (is_valid_string(modulePtr, modSize, module_name) && forwarder_name_len((BYTE*)module_name) > 1) {
         return module_name;
     }
-    return NULL;
+    return nullptr;
 }
