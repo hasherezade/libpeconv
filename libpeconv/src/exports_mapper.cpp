@@ -33,15 +33,6 @@ void ExportsMapper::print_func_to_va(std::stringstream &stream) const
     }
 }
 
-ULONGLONG rebase_va(ULONGLONG va, ULONGLONG currBase, ULONGLONG targetBase)
-{
-    if (currBase == targetBase) {
-        return va;
-    }
-    ULONGLONG rva =  va - (ULONGLONG) currBase;
-    return rva + targetBase;
-}
-
 size_t ExportsMapper::make_ord_lookup_tables(
     PVOID modulePtr, 
     size_t moduleSize,
