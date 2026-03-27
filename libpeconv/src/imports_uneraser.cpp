@@ -143,6 +143,10 @@ bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T
         return true;
     }
     PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
+    if (!validate_ptr(modulePtr, moduleSize, by_name, sizeof(IMAGE_IMPORT_BY_NAME))) {
+        LOG_ERROR("Invalid pointer to IMAGE_IMPORT_BY_NAME.");
+        return false;
+    }
     LPSTR func_name_ptr = reinterpret_cast<LPSTR>(by_name->Name);
     std::string found_name = foundFunc.funcName;
     // try to save the found name under the pointer:
