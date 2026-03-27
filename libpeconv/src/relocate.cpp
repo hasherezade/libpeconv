@@ -119,9 +119,9 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
         LOG_ERROR("Invalid relocDir pointer.");
         return false;
     }
-    DWORD maxSize = relocDir->Size;
-    DWORD relocAddr = relocDir->VirtualAddress;
-    bool is64b = is64bit((BYTE*)modulePtr);
+    const DWORD maxSize = relocDir->Size;
+    const DWORD relocAddr = relocDir->VirtualAddress;
+    const bool is64b = is64bit((BYTE*)modulePtr);
 
     IMAGE_BASE_RELOCATION* reloc = NULL;
 
@@ -150,7 +150,12 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
                 return false;
             }
         }
-        parsedSize += reloc->SizeOfBlock;
+        const DWORD _newParsedSize = parsedSize + reloc->SizeOfBlock;
+        if (_newParsedSize < parsedSize) {
+            LOG_ERROR("Invalid SizeOfBlock: DWORD overflow.");
+            return false;
+        }
+        parsedSize = _newParsedSize;
     }
     return true;
 }
