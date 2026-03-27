@@ -203,7 +203,7 @@ namespace peconv {
     /**
     Change section aligmenent in headers. Depending on the flag, it sets either Raw Alignment or Virtual Alignment.
     */
-    bool set_sec_alignment(IN OUT BYTE* pe_buffer, IN bool is_raw, IN DWORD new_alignment);
+    bool set_sec_alignment(IN OUT BYTE* pe_buffer, IN const bool is_raw, IN const DWORD new_alignment);
 
     /**
     Get size of virtual section from the headers (optionaly rounds it up to the Virtual Alignment)
@@ -220,7 +220,7 @@ namespace peconv {
     \param pe_size : size of the given PE
     \param is_raw : If true, give the section with the highest Raw offset. If false, give the section with the highest Virtual offset.
     */
-    PIMAGE_SECTION_HEADER get_last_section(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw);
+    PIMAGE_SECTION_HEADER get_last_section(IN const PBYTE pe_buffer, IN const size_t pe_size, IN const bool is_raw);
 
     /**
     Calculate full PE size (raw or virtual) using information from sections' headers. WARNING: it drops an overlay.
@@ -230,8 +230,8 @@ namespace peconv {
     */
     DWORD calc_pe_size(
         IN const PBYTE pe_buffer,
-        IN size_t pe_size,
-        IN bool is_raw
+        IN const size_t pe_size,
+        IN const bool is_raw
     );
 
     /**
@@ -240,6 +240,6 @@ namespace peconv {
     \param buffer_size : the size of the given buffer
     \param is_raw : If true, the Raw alignment is checked. If false, the Virtual alignment is checked.
     */
-    bool is_valid_sections_alignment(IN const BYTE* buffer, IN const SIZE_T buffer_size, IN bool is_raw);
+    bool is_valid_sections_alignment(IN const BYTE* buffer, IN const SIZE_T buffer_size, IN const bool is_raw);
 
 }; // namespace peconv
