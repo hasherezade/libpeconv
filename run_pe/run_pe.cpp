@@ -212,6 +212,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
     //2. Relocate the payload (local copy) to the Remote Base:
     if (!relocate_module(loaded_pe, payloadImageSize, (ULONGLONG) remoteBase)) {
         std::cout << "Could not relocate the module!\n";
+        VirtualFreeEx(pi.hProcess, remoteBase, 0, MEM_RELEASE);
         return false;
     }
     //3. Update the image base of the payload (local copy) to the Remote Base:
@@ -221,6 +222,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
     SIZE_T written = 0;
     if (!WriteProcessMemory(pi.hProcess, remoteBase, loaded_pe, payloadImageSize, &written)) {
         std::cout << "Writing to the remote process failed!\n";
+        VirtualFreeEx(pi.hProcess, remoteBase, 0, MEM_RELEASE);
         return false;
     }
 
@@ -229,6 +231,7 @@ bool _run_pe(BYTE *loaded_pe, size_t payloadImageSize, PROCESS_INFORMATION &pi, 
     //5. Redirect the remote structures to the injected payload (EntryPoint and ImageBase must be changed):
     if (!redirect_to_payload(loaded_pe, remoteBase, pi, is32bit)) {
         std::cerr << "Redirecting failed!\n";
+        VirtualFreeEx(pi.hProcess, remoteBase, 0, MEM_RELEASE);
         return false;
     }
     if (!is32bit && g_PatchRequired && !patch_ZwQueryVirtualMemory(pi.hProcess, remoteBase)) {
