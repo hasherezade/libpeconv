@@ -87,8 +87,11 @@ FARPROC get_export_by_ord(PVOID modulePtr, IMAGE_EXPORT_DIRECTORY* exp, DWORD wa
 
 size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &names_list)
 {
+    const size_t modSize = peconv::get_image_size((const BYTE*)modulePtr);
+    if (!modSize) return 0;
+
     IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
-    if (exp == 0) return 0;
+    if (!exp) return 0;
 
     SIZE_T namesCount = exp->NumberOfNames;
     DWORD funcNamesListRVA = exp->AddressOfNames;
@@ -97,10 +100,17 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
     DWORD* nameRVAs = (DWORD*)(funcNamesListRVA + (ULONG_PTR)modulePtr);
     SIZE_T i = 0;
     for (i = 0; i < namesCount; i++) {
+        if (!validate_ptr(modulePtr, modSize, &nameRVAs[i], sizeof(DWORD))) {
+            break;// this should not happen. maybe the PE file is corrupt?
+        }
         DWORD nameRVA = nameRVAs[i];
-        if (!nameRVA) continue;
+        if (!nameRVA) {
+            continue;
+        }
         LPSTR name = (LPSTR)(nameRVA + (BYTE*) modulePtr);
-        if (peconv::is_bad_read_ptr(name, 1)) break; // this should not happen. maybe the PE file is corrupt?
+        if (!validate_ptr(modulePtr, modSize, name, 1)) {
+            break;// this should not happen. maybe the PE file is corrupt?
+        }
         names_list.push_back(name);
     }
     return i;
@@ -109,8 +119,11 @@ size_t peconv::get_exported_names(PVOID modulePtr, std::vector<std::string> &nam
 //WARNING: doesn't work for the forwarded functions.
 FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
 {
+    const size_t modSize = peconv::get_image_size((const BYTE*)modulePtr);
+    if (!modSize) return nullptr;
+
     IMAGE_EXPORT_DIRECTORY* exp = peconv::get_export_directory((HMODULE) modulePtr);
-    if (exp == NULL) return NULL;
+    if (!exp) return nullptr;
 
     SIZE_T namesCount = exp->NumberOfNames;
 
@@ -125,37 +138,45 @@ FARPROC peconv::get_exported_func(PVOID modulePtr, LPCSTR wanted_name)
     }
     if (peconv::is_bad_read_ptr(wanted_name, 1)) {
         LOG_ERROR("Invalid pointer to the name.");
-        return NULL;
+        return nullptr;
     }
-    const size_t modSize = peconv::get_image_size((BYTE*)modulePtr);
     //go through names:
     for (SIZE_T i = 0; i < namesCount; i++) {
         DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
         WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*) modulePtr + i * sizeof(WORD));
+        if (!validate_ptr(modulePtr, modSize, nameRVA, sizeof(DWORD)) 
+            || !validate_ptr(modulePtr, modSize, nameIndex, sizeof(WORD)))
+        {
+            LOG_ERROR("Invalid pointer to exported name RVA or index");
+            return nullptr;
+        }
         DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + (*nameIndex) * sizeof(DWORD));
-       
+        if (!validate_ptr(modulePtr, modSize, funcRVA, sizeof(DWORD))) {
+            LOG_ERROR("Invalid pointer to exported function RVA");
+            return nullptr;
+        }
         LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
-        if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, name, 1)) {
+        if (!peconv::validate_ptr(modulePtr, modSize, name, 1)) {
             LOG_ERROR("Invalid pointer to exported function name");
-            return NULL;
+            return nullptr;
         }
         if (!is_wanted_func(name, wanted_name)) {
             continue; //this is not the function we are looking for
         }
         BYTE* fPtr = (BYTE*)modulePtr + (*funcRVA); //pointer to the function
-        if (!peconv::validate_ptr((LPVOID)modulePtr, modSize, (LPVOID)fPtr, 1)) {
+        if (!peconv::validate_ptr(modulePtr, modSize, (LPVOID)fPtr, 1)) {
             LOG_ERROR("Invalid pointer to exported function");
             return NULL;
         }
         if (forwarder_name_len(fPtr) > 1) {
             LOG_WARNING("Forwarded function: [%s -> %p] cannot be resolved.", name, fPtr);
-            return NULL; // this function is forwarded, cannot be resolved
+            return nullptr; // this function is forwarded, cannot be resolved
         }
         return (FARPROC) fPtr; //return the pointer to the found function
     }
     //function not found
     LOG_WARNING("Function not found.");
-    return NULL;
+    return nullptr;
 }
 
 FARPROC peconv::export_based_resolver::resolve_func(LPCSTR lib_name, LPCSTR func_name)
