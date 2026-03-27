@@ -286,6 +286,7 @@ bool run_pe(IN LPCTSTR payloadPath, IN LPCTSTR targetPath, IN LPCTSTR cmdLine)
     const WORD payload_arch = get_nt_hdr_architecture(loaded_pe);
     if (payload_arch != IMAGE_NT_OPTIONAL_HDR32_MAGIC && payload_arch != IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
         std::cerr << "Not supported paylad architecture!\n";
+        peconv::free_pe_buffer(loaded_pe);
         return false;
     }
     const bool is32bit_payload = !peconv::is64bit(loaded_pe);
@@ -293,12 +294,14 @@ bool run_pe(IN LPCTSTR payloadPath, IN LPCTSTR targetPath, IN LPCTSTR cmdLine)
     if (!is32bit_payload) {
         std::cerr << "Incompatibile payload architecture!\n"
             << "Only 32 bit payloads can be injected from 32bit loader!\n";
+        peconv::free_pe_buffer(loaded_pe);
         return false;
     }
 #endif
     // 2. Prepare the taget
     if (targetPath == NULL) {
         std::cerr << "No target supplied!\n";
+        peconv::free_pe_buffer(loaded_pe);
         return false;
     }
     if (!is_target_compatibile(loaded_pe, payloadImageSize, targetPath)) {
