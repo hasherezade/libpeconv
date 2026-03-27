@@ -721,78 +721,85 @@ $(function() {
 <div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>        PIMAGE_SECTION_HEADER sec = <a class="code hl_function" href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c">peconv::get_section_hdr</a>(pe_buffer, pe_size, i);</div>
 <div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>        <span class="keywordflow">if</span> (!sec) <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span> </div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>        <span class="keywordtype">size_t</span> new_end = is_raw ? (sec-&gt;PointerToRawData + sec-&gt;SizeOfRawData) : (sec-&gt;VirtualAddress + sec-&gt;Misc.VirtualSize);</div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>        <span class="keywordflow">if</span> (new_end &gt; module_end) {</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>            module_end = new_end;</div>
-<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>            last_sec = sec;</div>
-<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>        }</div>
-<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>    }</div>
-<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>    <span class="keywordflow">return</span> last_sec;</div>
-<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>}</div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> raw_end = sec-&gt;PointerToRawData + sec-&gt;SizeOfRawData;</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> virt_end = sec-&gt;VirtualAddress + sec-&gt;Misc.VirtualSize;</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>        <span class="keywordflow">if</span> (raw_end &lt; sec-&gt;PointerToRawData || virt_end &lt; sec-&gt;VirtualAddress) {</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>            <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;Wrap on section [%lld] size: exceeding DWORD value&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)i);</div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>        }</div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> new_end = is_raw ? raw_end : virt_end;</div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>        <span class="keywordflow">if</span> (new_end &gt; module_end) {</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>            module_end = new_end;</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>            last_sec = sec;</div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>        }</div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>    }</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>    <span class="keywordflow">return</span> last_sec;</div>
+<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>}</div>
 </div>
-<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span> </div>
-<div class="foldopen" id="foldopen00583" data-start="{" data-end="}">
-<div class="line"><a id="l00583" name="l00583"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">  583</a></span>DWORD <a class="code hl_function" href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">peconv::calc_pe_size</a>(IN <span class="keyword">const</span> PBYTE pe_buffer, IN <span class="keywordtype">size_t</span> pe_size, IN <span class="keywordtype">bool</span> is_raw)</div>
-<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>{</div>
-<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>    DWORD module_end = <a class="code hl_function" href="namespacepeconv.html#ace098126c7ee99b1f0a37ea0b5a15332">peconv::get_hdrs_size</a>(pe_buffer);</div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>    <span class="keyword">const</span> <span class="keywordtype">size_t</span> sections_count = <a class="code hl_function" href="namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f">peconv::get_sections_count</a>(pe_buffer, pe_size);</div>
-<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>    <span class="keywordflow">if</span> (sections_count == 0) {</div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>        <span class="keywordflow">return</span> module_end;</div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>    }</div>
-<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>    <span class="comment">//walk through sections</span></div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; sections_count; i++) {</div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>        PIMAGE_SECTION_HEADER sec = <a class="code hl_function" href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c">peconv::get_section_hdr</a>(pe_buffer, pe_size, i);</div>
-<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>        <span class="keywordflow">if</span> (!sec) <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span> </div>
-<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>        DWORD new_end = is_raw ? (sec-&gt;PointerToRawData + sec-&gt;SizeOfRawData) : (sec-&gt;VirtualAddress + sec-&gt;Misc.VirtualSize);</div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>        <span class="keywordflow">if</span> (new_end &gt; module_end) module_end = new_end;</div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>    }</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>    <span class="keywordflow">return</span> module_end;</div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>}</div>
-</div>
+<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span> </div>
+<div class="foldopen" id="foldopen00589" data-start="{" data-end="}">
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">  589</a></span>DWORD <a class="code hl_function" href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">peconv::calc_pe_size</a>(IN <span class="keyword">const</span> PBYTE pe_buffer, IN <span class="keywordtype">size_t</span> pe_size, IN <span class="keywordtype">bool</span> is_raw)</div>
+<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>{</div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>    DWORD module_end = <a class="code hl_function" href="namespacepeconv.html#ace098126c7ee99b1f0a37ea0b5a15332">peconv::get_hdrs_size</a>(pe_buffer);</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>    <span class="keyword">const</span> <span class="keywordtype">size_t</span> sections_count = <a class="code hl_function" href="namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f">peconv::get_sections_count</a>(pe_buffer, pe_size);</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>    <span class="keywordflow">if</span> (sections_count == 0) {</div>
+<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>        <span class="keywordflow">return</span> module_end;</div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>    }</div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>    <span class="comment">//walk through sections</span></div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; sections_count; i++) {</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>        PIMAGE_SECTION_HEADER sec = <a class="code hl_function" href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c">peconv::get_section_hdr</a>(pe_buffer, pe_size, i);</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>        <span class="keywordflow">if</span> (!sec) <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span> </div>
-<div class="foldopen" id="foldopen00601" data-start="{" data-end="}">
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a5a85dd002830f2044ccfa27ddf997cfb">  601</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacepeconv.html#a5a85dd002830f2044ccfa27ddf997cfb">peconv::is_valid_sections_alignment</a>(IN <span class="keyword">const</span> BYTE* payload, IN <span class="keyword">const</span> SIZE_T payload_size, IN <span class="keywordtype">bool</span> is_raw)</div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>{</div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>    <span class="keywordflow">if</span> (!payload) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span> </div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>    <span class="keyword">const</span> DWORD my_align = <a class="code hl_function" href="namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c">peconv::get_sec_alignment</a>(payload, is_raw);</div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>    <span class="keywordflow">if</span> (my_align == 0) {</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Section alignment cannot be 0.&quot;</span>);</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>    }</div>
-<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>    <span class="keyword">const</span> <span class="keywordtype">size_t</span> sections_count = <a class="code hl_function" href="namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f">peconv::get_sections_count</a>(payload, payload_size);</div>
-<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>    <span class="keywordflow">if</span> (sections_count == 0) {</div>
-<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>        <span class="comment">//no sections</span></div>
-<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>    }</div>
-<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; sections_count; i++) {</div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>        PIMAGE_SECTION_HEADER next_sec = <a class="code hl_function" href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c">peconv::get_section_hdr</a>(payload, payload_size, i);</div>
-<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>        <span class="keywordflow">if</span> (!next_sec) <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">//the number of the sections in header is out of scope</span></div>
-<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span> </div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>        <span class="keyword">const</span> DWORD next_sec_addr = is_raw ? (next_sec-&gt;PointerToRawData) : (next_sec-&gt;VirtualAddress);</div>
-<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span> </div>
-<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>        SIZE_T sec_size = is_raw ? next_sec-&gt;SizeOfRawData : next_sec-&gt;Misc.VirtualSize;</div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>        <span class="keywordflow">if</span> (sec_size == 0) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>        <span class="keywordflow">if</span> (next_sec-&gt;Misc.VirtualSize == 0) {</div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>            <span class="keywordflow">continue</span>; <span class="comment">// if the VirtualSize == 0 the section will not be mapped anyways</span></div>
-<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>        }</div>
-<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>        <span class="keywordflow">if</span> (next_sec_addr == 0) {</div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>            <span class="comment">//if cannot be 0 if the size is not 0</span></div>
-<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>        }</div>
-<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span> </div>
-<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>        <span class="comment">//check only if raw_align is non-zero</span></div>
-<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>        <span class="keywordflow">if</span> (next_sec_addr % my_align != 0) {</div>
-<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>            <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Section is misaligned.&quot;</span>);</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">//misaligned</span></div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>        DWORD new_end = is_raw ? (sec-&gt;PointerToRawData + sec-&gt;SizeOfRawData) : (sec-&gt;VirtualAddress + sec-&gt;Misc.VirtualSize);</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>        <span class="keywordflow">if</span> (new_end &gt; module_end) module_end = new_end;</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>    }</div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>    <span class="keywordflow">return</span> module_end;</div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>}</div>
+</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span> </div>
+<div class="foldopen" id="foldopen00607" data-start="{" data-end="}">
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a5a85dd002830f2044ccfa27ddf997cfb">  607</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacepeconv.html#a5a85dd002830f2044ccfa27ddf997cfb">peconv::is_valid_sections_alignment</a>(IN <span class="keyword">const</span> BYTE* payload, IN <span class="keyword">const</span> SIZE_T payload_size, IN <span class="keywordtype">bool</span> is_raw)</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>{</div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>    <span class="keywordflow">if</span> (!payload) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span> </div>
+<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>    <span class="keyword">const</span> DWORD my_align = <a class="code hl_function" href="namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c">peconv::get_sec_alignment</a>(payload, is_raw);</div>
+<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>    <span class="keywordflow">if</span> (my_align == 0) {</div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Section alignment cannot be 0.&quot;</span>);</div>
+<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>    }</div>
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>    <span class="keyword">const</span> <span class="keywordtype">size_t</span> sections_count = <a class="code hl_function" href="namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f">peconv::get_sections_count</a>(payload, payload_size);</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>    <span class="keywordflow">if</span> (sections_count == 0) {</div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>        <span class="comment">//no sections</span></div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>    }</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; sections_count; i++) {</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>        PIMAGE_SECTION_HEADER next_sec = <a class="code hl_function" href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c">peconv::get_section_hdr</a>(payload, payload_size, i);</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>        <span class="keywordflow">if</span> (!next_sec) <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">//the number of the sections in header is out of scope</span></div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span> </div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>        <span class="keyword">const</span> DWORD next_sec_addr = is_raw ? (next_sec-&gt;PointerToRawData) : (next_sec-&gt;VirtualAddress);</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span> </div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>        SIZE_T sec_size = is_raw ? next_sec-&gt;SizeOfRawData : next_sec-&gt;Misc.VirtualSize;</div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>        <span class="keywordflow">if</span> (sec_size == 0) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>        <span class="keywordflow">if</span> (next_sec-&gt;Misc.VirtualSize == 0) {</div>
+<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>            <span class="keywordflow">continue</span>; <span class="comment">// if the VirtualSize == 0 the section will not be mapped anyways</span></div>
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>        }</div>
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>        <span class="keywordflow">if</span> (next_sec_addr == 0) {</div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>            <span class="comment">//if cannot be 0 if the size is not 0</span></div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>        }</div>
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>    }</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>}</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span> </div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>        <span class="comment">//check only if raw_align is non-zero</span></div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>        <span class="keywordflow">if</span> (next_sec_addr % my_align != 0) {</div>
+<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>            <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Section is misaligned.&quot;</span>);</div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">//misaligned</span></div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>        }</div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>    }</div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>}</div>
 </div>
 <div class="ttc" id="alogger_8h_html"><div class="ttname"><a href="logger_8h.html">logger.h</a></div></div>
 <div class="ttc" id="alogger_8h_html_ac06cfc686322558f590c50eab8622ebd"><div class="ttname"><a href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a></div><div class="ttdeci">#define LOG_DEBUG(fmt,...)</div><div class="ttdef"><b>Definition</b> <a href="logger_8h_source.html#l00056">logger.h:56</a></div></div>
+<div class="ttc" id="alogger_8h_html_afde44945335adc0c0ae2986fea13438f"><div class="ttname"><a href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a></div><div class="ttdeci">#define LOG_WARNING(fmt,...)</div><div class="ttdef"><b>Definition</b> <a href="logger_8h_source.html#l00044">logger.h:44</a></div></div>
 <div class="ttc" id="anamespacepeconv_html"><div class="ttname"><a href="namespacepeconv.html">peconv</a></div><div class="ttdef"><b>Definition</b> <a href="buffer__util_8h_source.html#l00015">buffer_util.h:15</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a004e65e7a4fa036bfc18dcf4091b985d"><div class="ttname"><a href="namespacepeconv.html#a004e65e7a4fa036bfc18dcf4091b985d">peconv::update_entry_point_rva</a></div><div class="ttdeci">bool update_entry_point_rva(IN OUT BYTE *pe_buffer, IN DWORD ep)</div><div class="ttdef"><b>Definition</b> <a href="#l00187">pe_hdrs_helper.cpp:187</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a02b851a59c1ad626a8b737b9c3d7e89c"><div class="ttname"><a href="namespacepeconv.html#a02b851a59c1ad626a8b737b9c3d7e89c">peconv::set_sec_alignment</a></div><div class="ttdeci">bool set_sec_alignment(IN OUT BYTE *pe_buffer, IN bool is_raw, IN DWORD new_alignment)</div><div class="ttdef"><b>Definition</b> <a href="#l00527">pe_hdrs_helper.cpp:527</a></div></div>
@@ -807,7 +814,7 @@ $(function() {
 <div class="ttc" id="anamespacepeconv_html_a3fa674b54bb5428890869defc92564e6"><div class="ttname"><a href="namespacepeconv.html#a3fa674b54bb5428890869defc92564e6">peconv::is_valid_sections_hdr_offset</a></div><div class="ttdeci">bool is_valid_sections_hdr_offset(IN const BYTE *buffer, IN const size_t buffer_size)</div><div class="ttdef"><b>Definition</b> <a href="#l00324">pe_hdrs_helper.cpp:324</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a413347caca570436e87a5dedc988660d"><div class="ttname"><a href="namespacepeconv.html#a413347caca570436e87a5dedc988660d">peconv::get_image_base</a></div><div class="ttdeci">ULONGLONG get_image_base(IN const BYTE *pe_buffer)</div><div class="ttdef"><b>Definition</b> <a href="#l00150">pe_hdrs_helper.cpp:150</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a50340048ed7d755cbbf085307ccfa476"><div class="ttname"><a href="namespacepeconv.html#a50340048ed7d755cbbf085307ccfa476">peconv::get_file_characteristics</a></div><div class="ttdeci">WORD get_file_characteristics(IN const BYTE *payload)</div><div class="ttdef"><b>Definition</b> <a href="#l00370">pe_hdrs_helper.cpp:370</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a5a85dd002830f2044ccfa27ddf997cfb"><div class="ttname"><a href="namespacepeconv.html#a5a85dd002830f2044ccfa27ddf997cfb">peconv::is_valid_sections_alignment</a></div><div class="ttdeci">bool is_valid_sections_alignment(IN const BYTE *buffer, IN const SIZE_T buffer_size, IN bool is_raw)</div><div class="ttdef"><b>Definition</b> <a href="#l00601">pe_hdrs_helper.cpp:601</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a5a85dd002830f2044ccfa27ddf997cfb"><div class="ttname"><a href="namespacepeconv.html#a5a85dd002830f2044ccfa27ddf997cfb">peconv::is_valid_sections_alignment</a></div><div class="ttdeci">bool is_valid_sections_alignment(IN const BYTE *buffer, IN const SIZE_T buffer_size, IN bool is_raw)</div><div class="ttdef"><b>Definition</b> <a href="#l00607">pe_hdrs_helper.cpp:607</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a60041cfbfa7fda6a21d76d1ae9a3a8d5"><div class="ttname"><a href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">peconv::validate_ptr</a></div><div class="ttdeci">bool validate_ptr(IN const void *buffer_bgn, IN size_t buffer_size, IN const void *field_bgn, IN size_t field_size)</div><div class="ttdef"><b>Definition</b> <a href="buffer__util_8cpp_source.html#l00009">buffer_util.cpp:9</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a63cc4b1dadd9eb341c2d453e65d1ef4c"><div class="ttname"><a href="namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c">peconv::get_section_hdr</a></div><div class="ttdeci">PIMAGE_SECTION_HEADER get_section_hdr(IN const BYTE *pe_buffer, IN const size_t buffer_size, IN size_t section_num)</div><div class="ttdef"><b>Definition</b> <a href="#l00339">pe_hdrs_helper.cpp:339</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a63e10a24ceb5a1348031ab6a6742a4ad"><div class="ttname"><a href="namespacepeconv.html#a63e10a24ceb5a1348031ab6a6742a4ad">peconv::get_type_directory</a></div><div class="ttdeci">IMAGE_TYPE_DIRECTORY * get_type_directory(IN HMODULE modulePtr, IN DWORD dir_id)</div><div class="ttdef"><b>Definition</b> <a href="pe__hdrs__helper_8h_source.html#l00098">pe_hdrs_helper.h:98</a></div></div>
@@ -827,7 +834,7 @@ $(function() {
 <div class="ttc" id="anamespacepeconv_html_ad9d1f4e8f4f50ef4ece40147212ff9e0"><div class="ttname"><a href="namespacepeconv.html#ad9d1f4e8f4f50ef4ece40147212ff9e0">peconv::get_dll_characteristics</a></div><div class="ttdeci">WORD get_dll_characteristics(IN const BYTE *payload)</div><div class="ttdef"><b>Definition</b> <a href="#l00411">pe_hdrs_helper.cpp:411</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ade9f80c0751d090dd6212d1f74241bf0"><div class="ttname"><a href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0">peconv::get_export_directory</a></div><div class="ttdeci">IMAGE_EXPORT_DIRECTORY * get_export_directory(IN HMODULE modulePtr)</div><div class="ttdef"><b>Definition</b> <a href="#l00478">pe_hdrs_helper.cpp:478</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ae064b93af2489f2ba43b42fdfff2f2a3"><div class="ttname"><a href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3">peconv::get_nt_hdrs</a></div><div class="ttdeci">BYTE * get_nt_hdrs(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_size=0)</div><div class="ttdef"><b>Definition</b> <a href="#l00008">pe_hdrs_helper.cpp:8</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_ae868d124a8e0597ca7fa27adf77e2255"><div class="ttname"><a href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">peconv::calc_pe_size</a></div><div class="ttdeci">DWORD calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)</div><div class="ttdef"><b>Definition</b> <a href="#l00583">pe_hdrs_helper.cpp:583</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_ae868d124a8e0597ca7fa27adf77e2255"><div class="ttname"><a href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">peconv::calc_pe_size</a></div><div class="ttdeci">DWORD calc_pe_size(IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)</div><div class="ttdef"><b>Definition</b> <a href="#l00589">pe_hdrs_helper.cpp:589</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_aea672840faf6e644ffb82a493f1344a3"><div class="ttname"><a href="namespacepeconv.html#aea672840faf6e644ffb82a493f1344a3">peconv::is_module_dll</a></div><div class="ttdeci">bool is_module_dll(IN const BYTE *payload)</div><div class="ttdef"><b>Definition</b> <a href="#l00391">pe_hdrs_helper.cpp:391</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_aeafb7e52c8601e080c7852fdaa6eb904"><div class="ttname"><a href="namespacepeconv.html#aeafb7e52c8601e080c7852fdaa6eb904">peconv::get_subsystem</a></div><div class="ttdeci">WORD get_subsystem(IN const BYTE *payload)</div><div class="ttdef"><b>Definition</b> <a href="#l00451">pe_hdrs_helper.cpp:451</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_aebb9e5b6f3cdb3a82532e5dda130e6de"><div class="ttname"><a href="namespacepeconv.html#aebb9e5b6f3cdb3a82532e5dda130e6de">peconv::get_optional_hdr</a></div><div class="ttdeci">LPVOID get_optional_hdr(IN const BYTE *payload, IN const size_t buffer_size)</div><div class="ttdef"><b>Definition</b> <a href="#l00284">pe_hdrs_helper.cpp:284</a></div></div>
