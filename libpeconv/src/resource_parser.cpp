@@ -69,7 +69,10 @@ namespace {
             if (!root_dir) {
                 root_dir = entry;
             }
-            parse_resource_entry(modulePtr, moduleSize, root_dir, upper_dir, entry, on_entry, depth + 1);
+            if (!parse_resource_entry(modulePtr, moduleSize, root_dir, upper_dir, entry, on_entry, depth + 1)) {
+                LOG_ERROR("Parsing resource entry failed.");
+                return false;
+            }
         }
         return true;
     }
