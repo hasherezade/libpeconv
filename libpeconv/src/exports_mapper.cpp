@@ -56,13 +56,13 @@ size_t ExportsMapper::make_ord_lookup_tables(
     //go through names:
     for (DWORD i = 0; i < functCount; i++) {
         DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*) modulePtr + i * sizeof(DWORD));
+        if (!peconv::validate_ptr(modulePtr, moduleSize, recordRVA, sizeof(DWORD))) {
+            break;
+        }
         if (*recordRVA == 0) {
             LOG_INFO("Skipping 0 function address at RVA: 0x%llx (ord).", (unsigned long long)((BYTE*)recordRVA - (BYTE*)modulePtr));
             //skip if the function RVA is 0 (empty export)
             continue;
-        }
-        if (!peconv::validate_ptr(modulePtr, moduleSize, recordRVA, sizeof(DWORD))) {
-            break;
         }
         DWORD ordinal = ordBase + i;
         va_to_ord[recordRVA] = ordinal;
