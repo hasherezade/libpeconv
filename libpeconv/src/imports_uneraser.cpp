@@ -4,20 +4,19 @@
 
 using namespace peconv;
 
-LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
-{
-    const char* namec = name.c_str();
-    const size_t searched_len =  name.length() + 1; // with terminating NULL
-    const char* found_ptr = std::search(modulePtr, modulePtr + moduleSize, namec, namec + searched_len);
-    if (!found_ptr) {
+namespace {
+    LPVOID search_name(std::string name, const char* modulePtr, size_t moduleSize)
+    {
+        const char* namec = name.c_str();
+        const size_t searched_len = name.length() + 1; // with terminating NULL
+        const char* found_ptr = std::search(modulePtr, modulePtr + moduleSize, namec, namec + searched_len);
+        const size_t o = found_ptr - modulePtr;
+        if (o < moduleSize) {
+            return (LPVOID)(found_ptr);
+        }
         return nullptr;
     }
-    size_t o = found_ptr - modulePtr;
-    if (o < moduleSize) {
-       return (LPVOID)(found_ptr);
-    }
-    return nullptr;
-}
+};
 
 bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const std::string &found_name)
 {
