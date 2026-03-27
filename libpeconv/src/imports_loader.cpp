@@ -94,7 +94,7 @@ public:
         if (va < module_base) {
             return false; // not this module
         }
-        if (va > module_base + this->vBufSize) {
+        if (va >= module_base + this->vBufSize) {
             return false; // not this module
         }
         DWORD thunk_rva = MASK_TO_DWORD(va - module_base);
