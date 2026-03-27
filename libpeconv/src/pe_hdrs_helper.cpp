@@ -571,7 +571,13 @@ PIMAGE_SECTION_HEADER peconv::get_last_section(IN const PBYTE pe_buffer, IN size
         PIMAGE_SECTION_HEADER sec = peconv::get_section_hdr(pe_buffer, pe_size, i);
         if (!sec) break;
 
-        size_t new_end = is_raw ? (sec->PointerToRawData + sec->SizeOfRawData) : (sec->VirtualAddress + sec->Misc.VirtualSize);
+        const size_t raw_end = sec->PointerToRawData + sec->SizeOfRawData;
+        const size_t virt_end = sec->VirtualAddress + sec->Misc.VirtualSize;
+        if (raw_end < sec->PointerToRawData || virt_end < sec->VirtualAddress) {
+            LOG_WARNING("Wrap on section [%lld] size: exceeding DWORD value", (unsigned long long)i);
+            continue;
+        }
+        const size_t new_end = is_raw ? raw_end : virt_end;
         if (new_end > module_end) {
             module_end = new_end;
             last_sec = sec;

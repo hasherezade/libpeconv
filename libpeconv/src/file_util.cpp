@@ -104,6 +104,9 @@ bool peconv::dump_to_file(IN LPCTSTR out_path, IN PBYTE dump_data, IN size_t dum
         LOG_ERROR("Cannot open the file for writing.");
         return false;
     }
+    if (dump_size > MAX_DWORD) {
+        LOG_WARNING("Dump size exceeds DWORD range and will be truncated.");
+    }
     DWORD written_size = 0;
     bool is_dumped = false;
     if (WriteFile(file, dump_data, (DWORD) dump_size, &written_size, nullptr)) {
