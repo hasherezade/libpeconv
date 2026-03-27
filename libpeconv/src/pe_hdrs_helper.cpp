@@ -168,13 +168,12 @@ ULONGLONG peconv::get_image_base(IN const BYTE *pe_buffer)
 
 DWORD peconv::get_entry_point_rva(IN const BYTE *pe_buffer)
 {
-    //update image base in the written content:
     BYTE* payload_nt_hdr = get_nt_hdrs(pe_buffer);
     if (!payload_nt_hdr) {
         return 0;
     }
-    const bool is64b = is64bit(pe_buffer);
     DWORD value = 0;
+    const bool is64b = is64bit(pe_buffer);
     if (is64b) {
         IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
         value = payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint;
@@ -187,12 +186,11 @@ DWORD peconv::get_entry_point_rva(IN const BYTE *pe_buffer)
 
 bool peconv::update_entry_point_rva(IN OUT BYTE *pe_buffer, IN DWORD value)
 {
-    bool is64b = is64bit(pe_buffer);
-    //update image base in the written content:
     BYTE* payload_nt_hdr = get_nt_hdrs(pe_buffer);
     if (!payload_nt_hdr) {
         return false;
     }
+    const bool is64b = is64bit(pe_buffer);
     if (is64b) {
         IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
         payload_nt_hdr64->OptionalHeader.AddressOfEntryPoint = value;
@@ -205,11 +203,11 @@ bool peconv::update_entry_point_rva(IN OUT BYTE *pe_buffer, IN DWORD value)
 
 DWORD peconv::get_hdrs_size(IN const BYTE *pe_buffer)
 {
-    bool is64b = is64bit(pe_buffer);
     BYTE* payload_nt_hdr = get_nt_hdrs(pe_buffer);
     if (!payload_nt_hdr) {
         return 0;
     }
+    const bool is64b = is64bit(pe_buffer);
     DWORD hdrs_size = 0;
     if (is64b) {
         IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
@@ -223,11 +221,11 @@ DWORD peconv::get_hdrs_size(IN const BYTE *pe_buffer)
 
 bool peconv::update_image_base(IN OUT BYTE* payload, IN ULONGLONG destImageBase)
 {
-    bool is64b = is64bit(payload);
     BYTE* payload_nt_hdr = get_nt_hdrs(payload);
     if (!payload_nt_hdr) {
         return false;
     }
+    const bool is64b = is64bit(payload);
     if (is64b) {
         IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
         payload_nt_hdr64->OptionalHeader.ImageBase = (ULONGLONG)destImageBase;
@@ -631,7 +629,7 @@ bool peconv::is_valid_sections_alignment(IN const BYTE* payload, IN const SIZE_T
         }
 
         //check only if raw_align is non-zero
-        if (my_align && next_sec_addr % my_align != 0) {
+        if (next_sec_addr % my_align != 0) {
             LOG_DEBUG("Section is misaligned.");
             return false; //misaligned
         }
