@@ -26,7 +26,7 @@ var searchData=
   ['is_5fvalid_5fimport_5fname_23',['is_valid_import_name',['../namespacepeconv.html#ac67dbb3e437d06f60e0eb3cfcf567e90',1,'peconv']]],
   ['is_5fvalid_5fsections_5falignment_24',['is_valid_sections_alignment',['../namespacepeconv.html#a5a85dd002830f2044ccfa27ddf997cfb',1,'peconv']]],
   ['is_5fvalid_5fsections_5fhdr_5foffset_25',['is_valid_sections_hdr_offset',['../namespacepeconv.html#a3fa674b54bb5428890869defc92564e6',1,'peconv']]],
-  ['is_5fvalid_5fstring_26',['is_valid_string',['../namespacepeconv.html#a7e6e170ce3a3137848d7cb5d791205d8',1,'peconv']]],
+  ['is_5fvalid_5fstring_26',['is_valid_string',['../namespacepeconv.html#a17fd26d06cc5316ff004b1e5caa03cf0',1,'peconv']]],
   ['is_5fvirtual_5fpadding_27',['is_virtual_padding',['../pe__mode__detector_8cpp.html#a8c2532fe49ea494f668a64bbf327cf6d',1,'pe_mode_detector.cpp']]],
   ['is_5fwanted_5fmodule_28',['is_wanted_module',['../peb__lookup_8cpp.html#a3cb1a384046ad80f9c877466aa1ccbe7',1,'peb_lookup.cpp']]],
   ['isbackup_29',['isBackup',['../classpeconv_1_1_patch_backup.html#af1d324a838c4de3201a1cd3dac36eb98',1,'peconv::PatchBackup']]],

@@ -421,9 +421,9 @@ Functions</h2></td></tr>
 <tr class="separator:a1c5650dbaaff41bf24cb94bd2ed60dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad22870e562a1bf1a8972c0f1ba88056"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">is_bad_read_ptr</a> (LPCVOID areaStart, SIZE_T areaSize)</td></tr>
 <tr class="separator:aad22870e562a1bf1a8972c0f1ba88056"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e6e170ce3a3137848d7cb5d791205d8"><td class="memTemplParams" colspan="2">template&lt;typename CHAR_T &gt; </td></tr>
-<tr class="memitem:a7e6e170ce3a3137848d7cb5d791205d8"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a7e6e170ce3a3137848d7cb5d791205d8">is_valid_string</a> (LPVOID modulePtr, const size_t moduleSize, const CHAR_T *name_ptr)</td></tr>
-<tr class="separator:a7e6e170ce3a3137848d7cb5d791205d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17fd26d06cc5316ff004b1e5caa03cf0"><td class="memTemplParams" colspan="2">template&lt;typename CHAR_T &gt; </td></tr>
+<tr class="memitem:a17fd26d06cc5316ff004b1e5caa03cf0"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a17fd26d06cc5316ff004b1e5caa03cf0">is_valid_string</a> (LPVOID modulePtr, const size_t moduleSize, const CHAR_T *name_ptr, const size_t max_len=260)</td></tr>
+<tr class="separator:a17fd26d06cc5316ff004b1e5caa03cf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d3bc9bbb499d00f44e357050910116d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a7d3bc9bbb499d00f44e357050910116d">is_pointer_in_ntdll</a> (LPVOID lpAddress)</td></tr>
 <tr class="separator:a7d3bc9bbb499d00f44e357050910116d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a498ab6676d1cac055878ab0be6cbcbb8"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a498ab6676d1cac055878ab0be6cbcbb8">nt_protect</a> (LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpflOldProtect)</td></tr>
@@ -2556,7 +2556,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="namespacepeconv.html#ade9f80c0751d090dd6212d1f74241bf0" title=" " alt="" coords="212,81,343,121"/>
 <area shape="rect" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb" title=" " alt="" coords="197,146,357,171"/>
 <area shape="rect" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="1185,222,1322,247"/>
-<area shape="rect" href="namespacepeconv.html#a7e6e170ce3a3137848d7cb5d791205d8" title=" " alt="" coords="605,273,759,298"/>
+<area shape="rect" href="namespacepeconv.html#a17fd26d06cc5316ff004b1e5caa03cf0" title=" " alt="" coords="605,273,759,298"/>
 <area shape="rect" href="namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3" title=" " alt="" coords="985,106,1124,131"/>
 <area shape="rect" href="namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87" title=" " alt="" coords="405,121,557,146"/>
 <area shape="rect" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f" title=" " alt="" coords="628,19,736,45"/>
@@ -4643,8 +4643,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a7e6e170ce3a3137848d7cb5d791205d8" name="a7e6e170ce3a3137848d7cb5d791205d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e6e170ce3a3137848d7cb5d791205d8">&#9670;&#160;</a></span>is_valid_string()</h2>
+<a id="a17fd26d06cc5316ff004b1e5caa03cf0" name="a17fd26d06cc5316ff004b1e5caa03cf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17fd26d06cc5316ff004b1e5caa03cf0">&#9670;&#160;</a></span>is_valid_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4667,7 +4667,13 @@ template&lt;typename CHAR_T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const CHAR_T *&#160;</td>
-          <td class="paramname"><em>name_ptr</em>&#160;</td>
+          <td class="paramname"><em>name_ptr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>max_len</em> = <code>260</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -4682,8 +4688,8 @@ template&lt;typename CHAR_T &gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacepeconv_a7e6e170ce3a3137848d7cb5d791205d8_cgraph.png" border="0" usemap="#anamespacepeconv_a7e6e170ce3a3137848d7cb5d791205d8_cgraph" alt=""/></div>
-<map name="anamespacepeconv_a7e6e170ce3a3137848d7cb5d791205d8_cgraph" id="anamespacepeconv_a7e6e170ce3a3137848d7cb5d791205d8_cgraph">
+<div class="center"><img src="namespacepeconv_a17fd26d06cc5316ff004b1e5caa03cf0_cgraph.png" border="0" usemap="#anamespacepeconv_a17fd26d06cc5316ff004b1e5caa03cf0_cgraph" alt=""/></div>
+<map name="anamespacepeconv_a17fd26d06cc5316ff004b1e5caa03cf0_cgraph" id="anamespacepeconv_a17fd26d06cc5316ff004b1e5caa03cf0_cgraph">
 <area shape="rect" title=" " alt="" coords="5,5,159,31"/>
 <area shape="rect" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5" title=" " alt="" coords="207,5,344,31"/>
 </map>
@@ -7264,7 +7270,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 27 2026 16:53:47 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Fri Mar 27 2026 16:56:46 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
