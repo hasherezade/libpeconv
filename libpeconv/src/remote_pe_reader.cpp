@@ -20,7 +20,7 @@ bool peconv::fetch_region_info(HANDLE processHandle, LPVOID moduleBase, MEMORY_B
 size_t _fetch_region_size(MEMORY_BASIC_INFORMATION &page_info, LPVOID moduleBase)
 {
     if (page_info.Type == 0) {
-        return false; //invalid type, skip it
+        return 0; //invalid type, skip it
     }
     if ((BYTE*)page_info.BaseAddress > moduleBase) {
         return 0; //should never happen
