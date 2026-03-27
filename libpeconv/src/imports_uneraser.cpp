@@ -189,7 +189,6 @@ bool ImportsUneraser::fillImportNames(
         call_via_ptr += sizeof(FIELD_T), thunk_ptr += sizeof(FIELD_T)
         )
     {
-        FIELD_T *thunk_val = (FIELD_T*)thunk_ptr;
         FIELD_T *call_via_val = (FIELD_T*)call_via_ptr;
         if (*call_via_val == 0) {
             //nothing to fill, probably the last record
