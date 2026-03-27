@@ -55,6 +55,10 @@ protected:
         }
         else {
             PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
+            if (!validate_ptr(modulePtr, moduleSize, by_name, sizeof(IMAGE_IMPORT_BY_NAME))) {
+                LOG_ERROR("Invalid pointer to IMAGE_IMPORT_BY_NAME.");
+                return false;
+            }
             LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
             LOG_DEBUG("name: %s.", func_name);
             hProc = this->funcResolver->resolve_func(lib_name, func_name);
