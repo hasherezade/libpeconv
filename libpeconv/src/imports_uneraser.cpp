@@ -98,7 +98,9 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
     {
             const ExportedFunc& found_func = *funcname_itr;
             lastOrdinal = found_func.funcOrdinal;
-
+            if (found_func.funcName.empty()) {
+                continue;
+            }
             const char* names_start = ((const char*)modulePtr + impAddr);
             const size_t remaining_size = moduleSize - (names_start - (const char*)modulePtr);
             BYTE* found_ptr = (BYTE*)search_name(found_func.funcName, names_start, remaining_size);
