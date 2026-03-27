@@ -7,19 +7,26 @@ namespace peconv {
     HMODULE g_kernel32Hndl = nullptr;
     HMODULE g_ntdllHndl = nullptr;
 
+    bool fetch_or_load_dll(IN const char *mod_name, IN OUT HMODULE &mod)
+    {
+        if (!mod) {
+            mod = GetModuleHandleA(mod_name);
+            if (!mod) {
+                mod = LoadLibraryA(mod_name);
+            }
+        }
+        return mod ? true : false;
+    }
+
     HMODULE get_kernel32_hndl()
     {
-        if (g_kernel32Hndl == nullptr) {
-            g_kernel32Hndl = LoadLibraryA("kernel32.dll");
-        }
+        fetch_or_load_dll("kernel32.dll", g_kernel32Hndl);
         return g_kernel32Hndl;
     }
 
     HMODULE get_ntdll_hndl()
     {
-        if (g_ntdllHndl == nullptr) {
-            g_ntdllHndl = LoadLibraryA("ntdll.dll");
-        }
+        fetch_or_load_dll("ntdll.dll", g_ntdllHndl);
         return g_ntdllHndl;
     }
 };
