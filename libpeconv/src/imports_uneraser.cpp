@@ -31,7 +31,7 @@ bool ImportsUneraser::writeFoundDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const
             return false; //invalid pointer, cannot save
         }
     }
-    memcpy(name_ptr, found_name.c_str(), full_name_len);
+    ::memcpy(name_ptr, found_name.c_str(), full_name_len);
     return true;
 }
 
@@ -41,15 +41,15 @@ bool ImportsUneraser::uneraseDllName(IMAGE_IMPORT_DESCRIPTOR* lib_desc, const st
     if (lib_desc->Name != 0) {
         name_ptr = (LPSTR)((ULONGLONG) modulePtr + lib_desc->Name);
     }
-    if (name_ptr == nullptr || !validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
+    if (!name_ptr || !validate_ptr(modulePtr, moduleSize, name_ptr, sizeof(char) * MIN_DLL_LEN)) {
         //try to get the cave:
-        DWORD cave_size = DWORD(dll_name.length() + 1 + 5); //ending null + padding
-        PBYTE ptr = find_ending_cave(modulePtr, moduleSize, cave_size);
-        if (ptr == nullptr) {
+        const DWORD cave_size = DWORD(dll_name.length() + 1 + 5); //ending null + padding
+        const PBYTE ptr = find_ending_cave(modulePtr, moduleSize, cave_size);
+        if (!ptr) {
             LOG_ERROR("Cannot save the DLL name: %s.", dll_name.c_str());
             return false;
         }
-        DWORD cave_rva = static_cast<DWORD>(ptr - modulePtr);
+        const DWORD cave_rva = static_cast<DWORD>(ptr - modulePtr);
         lib_desc->Name = cave_rva;
     }
 
@@ -120,7 +120,7 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
     if (!is_name_saved && lastOrdinal != 0) {
         LOG_DEBUG("Filling ordinal: 0x%llx.", (unsigned long long)lastOrdinal);
         FIELD_T ord_thunk = lastOrdinal | ordinal_flag;
-        memcpy(thunk_ptr, &ord_thunk, sizeof(FIELD_T)); 
+        ::memcpy(thunk_ptr, &ord_thunk, sizeof(FIELD_T)); 
         is_name_saved = true;
     }
     return is_name_saved;
@@ -132,24 +132,23 @@ bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T
     if (foundFunc.isByOrdinal) {
         FIELD_T ordinal = foundFunc.funcOrdinal | ordinal_flag;
         FIELD_T* by_ord = (FIELD_T*) desc;
-        *by_ord = ordinal;
-        LOG_DEBUG("Saved ordinal.");
+        (*by_ord) = ordinal;
+        LOG_DEBUG("Saved ordinal: %ld", (unsigned long) ordinal);
         return true;
     }
-
     PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME) ((ULONGLONG) modulePtr + desc->u1.AddressOfData);
-
     LPSTR func_name_ptr = reinterpret_cast<LPSTR>(by_name->Name);
     std::string found_name = foundFunc.funcName;
-    bool is_nameptr_valid = validate_ptr(modulePtr, moduleSize, func_name_ptr, found_name.length());
     // try to save the found name under the pointer:
-    if (is_nameptr_valid) {
-        by_name->Hint = MASK_TO_WORD(foundFunc.funcOrdinal);
-        memcpy(func_name_ptr, found_name.c_str(), found_name.length() + 1); // with the ending '\0'
-        LOG_DEBUG("Saved name.");
-        return true;
+    const size_t full_name_len = found_name.length() + 1; // with the ending '\0'
+    if (validate_ptr(modulePtr, moduleSize, func_name_ptr, full_name_len)) {
+        LOG_ERROR("Cannot save the name: not enough space.");
+        return false;
     }
-    return false;
+    by_name->Hint = MASK_TO_WORD(foundFunc.funcOrdinal);
+    ::memcpy(func_name_ptr, found_name.c_str(), full_name_len);
+    LOG_DEBUG("Saved name: %s", found_name.c_str());
+    return true;
 }
 
 template <typename FIELD_T, typename IMAGE_THUNK_DATA_T>
