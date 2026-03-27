@@ -140,7 +140,7 @@ bool ImportsUneraser::writeFoundFunction(IMAGE_THUNK_DATA_T* desc, const FIELD_T
     std::string found_name = foundFunc.funcName;
     // try to save the found name under the pointer:
     const size_t full_name_len = found_name.length() + 1; // with the ending '\0'
-    if (validate_ptr(modulePtr, moduleSize, func_name_ptr, full_name_len)) {
+    if (!validate_ptr(modulePtr, moduleSize, func_name_ptr, full_name_len)) {
         LOG_ERROR("Cannot save the name: not enough space.");
         return false;
     }
