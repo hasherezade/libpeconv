@@ -38,7 +38,6 @@ namespace {
 
         virtual bool processRelocField(ULONG_PTR relocField)
         {
-            ULONGLONG reloc_addr = (relocField - (ULONGLONG)peBuffer);
             ULONGLONG rva = 0;
             if (is64bit) {
                 ULONGLONG* relocateAddr = (ULONGLONG*)((ULONG_PTR)relocField);
