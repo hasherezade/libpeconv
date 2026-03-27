@@ -184,7 +184,7 @@ $(function() {
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">if</span> (va &lt; module_base) {</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// not this module</span></div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        }</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">if</span> (va &gt; module_base + this-&gt;<a class="code hl_variable" href="class_collect_thunks_callback.html#a60da3ef27cdcb29bb2c2d7bbcbd3750f">vBufSize</a>) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">if</span> (va &gt;= module_base + this-&gt;<a class="code hl_variable" href="class_collect_thunks_callback.html#a60da3ef27cdcb29bb2c2d7bbcbd3750f">vBufSize</a>) {</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// not this module</span></div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        }</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        DWORD thunk_rva = <a class="code hl_define" href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a>(va - module_base);</div>
