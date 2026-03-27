@@ -66,18 +66,14 @@ bool parse_delayed_desc(
     LPSTR lib_name,
     const T_FIELD ordinal_flag,
     IMAGE_DELAYLOAD_DESCRIPTOR* desc,
-    peconv::t_function_resolver* func_resolver
+    peconv::t_function_resolver* func_resolver,
+    const std::unordered_set<ULONGLONG> &reloc_values
 )
 {
     if (!peconv::validate_ptr(modulePtr, moduleSize, desc, sizeof(IMAGE_DELAYLOAD_DESCRIPTOR))) {
         LOG_ERROR("Invalid IMAGE_DELAYLOAD_DESCRIPTOR");
         return false;
     }
-
-    // Collect relocations for VA detection
-    std::unordered_set<ULONGLONG> reloc_values;
-    CollectRelocs callback(modulePtr, moduleSize, peconv::is64bit(modulePtr), reloc_values);
-    process_relocation_table(modulePtr, moduleSize, &callback);
 
     // Helper to convert VA -> RVA if the address is in relocation table
     auto convert_va_to_rva = [&](ULONGLONG& addr) -> bool {
@@ -89,7 +85,7 @@ bool parse_delayed_desc(
             addr -= img_base;
         }
         return true;
-        };
+    };
 
     ULONGLONG iat_addr = desc->ImportAddressTableRVA; // may be VA or RVA
     ULONGLONG thunk_addr = desc->ImportNameTableRVA;  // may be VA or RVA
@@ -192,6 +188,12 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
     if (!first_desc) {
         return false;
     }
+
+    // Collect relocations for VA detection
+    std::unordered_set<ULONGLONG> reloc_values;
+    CollectRelocs callback(modulePtr, module_size, peconv::is64bit(modulePtr), reloc_values);
+    process_relocation_table(modulePtr, module_size, &callback);
+
     LOG_DEBUG("Delay-import table found, table_size = %zu bytes.", table_size);
     bool is_ok = true;
     size_t max_count = table_size / sizeof(IMAGE_DELAYLOAD_DESCRIPTOR);
@@ -210,14 +212,14 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
         LOG_DEBUG("Processing delayed imports for: %s", dll_name);
         if (is_64bit) {
 #ifdef _WIN64
-            is_ok = parse_delayed_desc<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver);
+            is_ok = parse_delayed_desc<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver, reloc_values);
 #else
             return false;
 #endif
         }
         else {
 #ifndef _WIN64
-            is_ok = parse_delayed_desc<DWORD, IMAGE_THUNK_DATA32>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver);
+            is_ok = parse_delayed_desc<DWORD, IMAGE_THUNK_DATA32>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver, reloc_values);
 #else
             return false;
 #endif
