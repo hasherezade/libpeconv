@@ -133,40 +133,42 @@ bool ExportsMapper::add_to_maps(ULONGLONG va, ExportedFunc &currFunc)
     return true;
 }
 
-bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const size_t module_size)
-{
-    if (exp == nullptr) return false;
+namespace {
+    bool is_valid_export_table(IMAGE_EXPORT_DIRECTORY* exp, HMODULE modulePtr, const size_t module_size)
+    {
+        if (exp == nullptr) return false;
 
-    const SIZE_T namesCount = exp->NumberOfNames;
-    const SIZE_T funcCount = exp->NumberOfFunctions;
+        const SIZE_T namesCount = exp->NumberOfNames;
+        const SIZE_T funcCount = exp->NumberOfFunctions;
 
-    const DWORD funcsListRVA = exp->AddressOfFunctions;
-    const DWORD funcNamesListRVA = exp->AddressOfNames;
-    const DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
+        const DWORD funcsListRVA = exp->AddressOfFunctions;
+        const DWORD funcNamesListRVA = exp->AddressOfNames;
+        const DWORD namesOrdsListRVA = exp->AddressOfNameOrdinals;
 
-    for (DWORD i = 0; i < funcCount; i++) {
-        DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + i * sizeof(DWORD));
-        if (!peconv::validate_ptr(modulePtr, module_size, recordRVA, sizeof(DWORD))) {
-            return false;
+        for (DWORD i = 0; i < funcCount; i++) {
+            DWORD* recordRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + i * sizeof(DWORD));
+            if (!peconv::validate_ptr(modulePtr, module_size, recordRVA, sizeof(DWORD))) {
+                return false;
+            }
         }
+
+        for (SIZE_T i = 0; i < namesCount; i++) {
+            DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*)modulePtr + i * sizeof(DWORD));
+            WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*)modulePtr + i * sizeof(WORD));
+            if ((!peconv::validate_ptr(modulePtr, module_size, nameRVA, sizeof(DWORD)))
+                || (!peconv::validate_ptr(modulePtr, module_size, nameIndex, sizeof(WORD))))
+            {
+                return false;
+            }
+            DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + (*nameIndex) * sizeof(DWORD));
+            if (!peconv::validate_ptr(modulePtr, module_size, funcRVA, sizeof(DWORD)))
+            {
+                return false;
+            }
+        }
+        return true;
     }
-
-    for (SIZE_T i = 0; i < namesCount; i++) {
-        DWORD* nameRVA = (DWORD*)(funcNamesListRVA + (BYTE*)modulePtr + i * sizeof(DWORD));
-        WORD* nameIndex = (WORD*)(namesOrdsListRVA + (BYTE*)modulePtr + i * sizeof(WORD));
-        if ((!peconv::validate_ptr(modulePtr, module_size, nameRVA, sizeof(DWORD)))
-            || (!peconv::validate_ptr(modulePtr, module_size, nameIndex, sizeof(WORD))))
-        {
-            return false;
-        }
-        DWORD* funcRVA = (DWORD*)(funcsListRVA + (BYTE*)modulePtr + (*nameIndex) * sizeof(DWORD));
-        if (!peconv::validate_ptr(modulePtr, module_size, funcRVA, sizeof(DWORD)))
-        {
-            return false;
-        }
-    }
-    return true;
-}
+};
 
 ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE modulePtr, ULONGLONG moduleBase, size_t moduleSize, ExportedFunc &currFunc, DWORD callRVA)
 {
@@ -187,7 +189,7 @@ ExportsMapper::ADD_FUNC_RES ExportsMapper::add_function_to_lookup(HMODULE module
 }
 
 
-size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t module_size, ULONGLONG moduleBase)
+size_t ExportsMapper::add_to_lookup(const std::string& moduleName, HMODULE modulePtr, size_t module_size, ULONGLONG moduleBase)
 {
     IMAGE_EXPORT_DIRECTORY* exp = get_export_directory(modulePtr);
     if (exp == NULL) {
@@ -232,8 +234,9 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, s
         }
 
         LPSTR name = (LPSTR)(*nameRVA + (BYTE*) modulePtr);
-        if (!peconv::validate_ptr(modulePtr, module_size, name, sizeof(char))) break;
-
+        if (!peconv::validate_ptr(modulePtr, module_size, name, sizeof(char))) {
+            break;
+        }
         DWORD funcOrd = get_ordinal(funcRVA, va_to_ord);
         DWORD callRVA = *funcRVA;
         ExportedFunc currFunc(dllName, name, funcOrd);
@@ -258,7 +261,7 @@ size_t ExportsMapper::add_to_lookup(std::string moduleName, HMODULE modulePtr, s
     return mapped_ctr;
 }
 
-size_t ExportsMapper::get_dll_paths(IN std::string short_name, OUT std::set<std::string>& paths) const
+size_t ExportsMapper::get_dll_paths(IN const std::string& short_name, OUT std::set<std::string>& paths) const
 {
     std::map<std::string, std::set<ULONGLONG>>::const_iterator itr = this->dll_shortname_to_base.find(short_name);
     if (itr == this->dll_shortname_to_base.end()) {
@@ -276,7 +279,7 @@ size_t ExportsMapper::get_dll_paths(IN std::string short_name, OUT std::set<std:
     return added;
 }
 
-std::string ExportsMapper::get_dll_path(std::string short_name) const
+std::string ExportsMapper::get_dll_path(const std::string& short_name) const
 {
     std::map<std::string, std::set<ULONGLONG>>::const_iterator itr = this->dll_shortname_to_base.find(short_name);
     if (itr == this->dll_shortname_to_base.end()) {

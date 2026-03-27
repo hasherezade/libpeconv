@@ -25,7 +25,7 @@ namespace peconv {
         {
         }
 
-        DllInfo(ULONGLONG _moduleBase, size_t _moduelSize, bool _is64b, std::string _moduleName)
+        DllInfo(ULONGLONG _moduleBase, size_t _moduelSize, bool _is64b, const std::string& _moduleName)
         {
             moduleBase = _moduleBase;
             moduleSize = _moduelSize;
@@ -69,7 +69,7 @@ namespace peconv {
         \param moduleSize : size of the DLL buffer. If moduleSize == 0, the ImageSize from the PE headers will be used.
         \param moduleBase : a base address to which the given DLL was relocated
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, size_t moduleSize, ULONGLONG moduleBase);
+        size_t add_to_lookup(const std::string& moduleName, HMODULE modulePtr, size_t moduleSize, ULONGLONG moduleBase);
 
         /**
         Appends the given DLL to the lookup table of exported functions. Returns the number of functions exported from this DLL (not forwarded).
@@ -77,7 +77,7 @@ namespace peconv {
         \param modulePtr : buffer containing the DLL in a Virtual format
         \param moduleBase : a base address to which the given DLL was relocated
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
+        size_t add_to_lookup(const std::string& moduleName, HMODULE modulePtr, ULONGLONG moduleBase)
         {
             return add_to_lookup(moduleName, modulePtr, 0, moduleBase);
         }
@@ -89,7 +89,7 @@ namespace peconv {
         \param moduleName : name of the DLL
         \param modulePtr : buffer containing the DLL in a Virtual format. 
         */
-        size_t add_to_lookup(std::string moduleName, HMODULE modulePtr) 
+        size_t add_to_lookup(const std::string& moduleName, HMODULE modulePtr) 
         {
             return add_to_lookup(moduleName, modulePtr, reinterpret_cast<ULONGLONG>(modulePtr));
         }
@@ -110,7 +110,7 @@ namespace peconv {
         /**
         Retrieve the base of the DLL containing the given function. If not found, returns 0.
         */
-        ULONGLONG find_dll_base_by_func_va(ULONGLONG func_rva) const
+        ULONGLONG find_dll_base_by_func_va(const ULONGLONG func_rva) const
         {
             // the first element that is greater than the start address
             std::map<ULONGLONG, DllInfo>::const_iterator firstGreater = dll_base_to_info.upper_bound(func_rva);
@@ -130,7 +130,7 @@ namespace peconv {
         /**
         Retrieve the full path of the DLL with the given module base.
         */
-        std::string get_dll_path(ULONGLONG base) const
+        std::string get_dll_path(const ULONGLONG base) const
         {
             std::map<ULONGLONG, DllInfo>::const_iterator found =  this->dll_base_to_info.find(base);
             if (found == this->dll_base_to_info.end()) { // no DLL found at this base
@@ -143,12 +143,12 @@ namespace peconv {
         /**
         Retrieve the path of the DLL with the given short name. If multiple paths are mapped to the same short name, it retrieves the first one.
         */
-        std::string get_dll_path(std::string short_name) const;
+        std::string get_dll_path(const std::string& short_name) const;
 
         /**
         Retrieve the paths of the DLL with the given short name.
         */
-        size_t get_dll_paths(IN std::string short_name, OUT std::set<std::string>& paths) const;
+        size_t get_dll_paths(IN const std::string& short_name, OUT std::set<std::string>& paths) const;
 
         /**
         Retrieve the full name of the DLL (including the extension) using its short name (without the extension).
@@ -164,7 +164,7 @@ namespace peconv {
         /**
         Find an Exported Function that can be mapped to the given VA,
         */
-        const ExportedFunc* find_export_by_va(ULONGLONG va) const
+        const ExportedFunc* find_export_by_va(const ULONGLONG va) const
         {
             const std::set<ExportedFunc>* exp_set = find_exports_by_va(va);
             if (exp_set == NULL) return NULL;
