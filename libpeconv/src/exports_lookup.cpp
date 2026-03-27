@@ -143,7 +143,7 @@ FARPROC peconv::get_exported_func(LPVOID modulePtr, LPCSTR wanted_name)
         const DWORD ordinal = MASK_TO_DWORD((ULONG_PTR)wanted_name);
         return get_export_by_ord(modulePtr, exp, ordinal);
     }
-    if (!is_valid_string(modulePtr, modSize, wanted_name)) {
+    if (peconv::is_bad_read_ptr(wanted_name, 1)) { // wanted_name is not in supplied module, so we can't check it against the module bounds
         LOG_ERROR("Invalid pointer to the name.");
         return nullptr;
     }
