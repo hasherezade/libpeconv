@@ -87,7 +87,7 @@ bool ImportsUneraser::findNameInBinaryAndFill(IMAGE_IMPORT_DESCRIPTOR* lib_desc,
         LOG_WARNING("No mapped export mapped to the given address: 0x%llx.", (unsigned long long)searchedAddr);
         return false;
     }
-    auto exportsWithAddr = found->second;
+    const auto &exportsWithAddr = found->second;
     bool is_name_saved = false;
     FIELD_T lastOrdinal = 0; //store also ordinal of the matching function
 
