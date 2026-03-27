@@ -13,10 +13,12 @@
 #endif
 
 namespace peconv {
-#define RTL_VERIFY_FLAGS_MAJOR_VERSION	0
-#define RTL_VERIFY_FLAGS_MINOR_VERSION	1
-#define RTL_VERIFY_FLAGS_BUILD_NUMBERS	2
-#define RTL_VERIFY_FLAGS_DEFAULT		RTL_VERIFY_FLAGS_MAJOR_VERSION|RTL_VERIFY_FLAGS_MINOR_VERSION|RTL_VERIFY_FLAGS_BUILD_NUMBERS
+
+    #define RTL_VERIFY_FLAGS_MAJOR_VERSION	0
+    #define RTL_VERIFY_FLAGS_MINOR_VERSION	1
+    #define RTL_VERIFY_FLAGS_BUILD_NUMBERS	2
+    #define RTL_VERIFY_FLAGS_DEFAULT		RTL_VERIFY_FLAGS_MAJOR_VERSION|RTL_VERIFY_FLAGS_MINOR_VERSION|RTL_VERIFY_FLAGS_BUILD_NUMBERS
+
     typedef struct _SEARCH_CONTEXT {
 
         IN LPBYTE SearchPattern;
@@ -246,7 +248,7 @@ namespace peconv {
 
         LOG_DEBUG("Searching in section %s in module %p.", SectionName, ModuleHandle);
 
-        PECONV_TRY_EXCEPT_BLOCK_START
+        PECONV_TRY_EXCEPT_BLOCK_START {
 
             //
             // checks if no search pattern and length are provided
@@ -319,7 +321,7 @@ namespace peconv {
             SearchContext->MemoryBlockSize = 0;
             status = STATUS_NOT_FOUND;
         }
-        PECONV_TRY_EXCEPT_BLOCK_END
+        PECONV_TRY_EXCEPT_BLOCK_END {
             status = GetExceptionCode();
         }
 
@@ -420,7 +422,7 @@ namespace peconv {
 
         return nullptr;
 #else
-        // _RTL_INVERTED_FUNCTION_TABLE						x86
+// _RTL_INVERTED_FUNCTION_TABLE						x86
 //		Count										+0x0	????????
 //		MaxCount									+0x4	0x00000200
 //		Overflow									+0x8	0x00000000(Win7) ????????(Win10)
@@ -613,7 +615,7 @@ namespace peconv {
         return (RtlIsWindowsVersionOrGreater(6, 2, 0) ? PRTL_INVERTED_FUNCTION_TABLE_64(table)->Overflow : PRTL_INVERTED_FUNCTION_TABLE_WIN7_32(table)->Overflow) ?
             STATUS_NO_MEMORY : STATUS_SUCCESS;
     }
-}
+}; // namespace peconv
 
 bool peconv::setup_exceptions(IN BYTE* modulePtr, IN size_t moduleSize)
 {
