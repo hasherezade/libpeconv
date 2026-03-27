@@ -1,12 +1,68 @@
 #include "patch_ntdll.h"
 #include <peconv.h>
 
+class MemoryProtectRange
+{
+public:
+    MemoryProtectRange(HANDLE _hProcess, LPVOID _buf_ptr, SIZE_T _buf_size)
+        : hProcess(_hProcess), buf_ptr(_buf_ptr), buf_size(_buf_size), oldProtect(0), is_applied(false)
+    {
+    }
+
+    bool protect(DWORD access)
+    {
+        if (is_applied) {
+            if (!revert()) {
+                return false;
+            }
+        }
+        is_applied = VirtualProtectEx(hProcess, buf_ptr, buf_size, access, &oldProtect);
+        if (is_applied) {
+            return true;
+        }
+        LOG_ERROR("Failed protecting memory at: %p", buf_ptr);
+        return false;
+    }
+
+    bool revert()
+    {
+        if (!is_applied) {
+            return true;
+        }
+        if (VirtualProtectEx(hProcess, buf_ptr, buf_size, oldProtect, &oldProtect)) {
+            is_applied = false;
+            return true;
+        }
+        LOG_ERROR("Failed protecting memory at: %p", buf_ptr);
+        return false;
+    }
+
+    ~MemoryProtectRange()
+    {
+        if (!is_applied) {
+            return;
+        }
+        revert();
+    }
+
+    BOOL isApplied()
+    {
+        return is_applied;
+    }
+
+private:
+    HANDLE hProcess;
+    LPVOID buf_ptr;
+    SIZE_T buf_size;
+    DWORD oldProtect;
+    BOOL is_applied;
+};
+
 bool patch_NtManageHotPatch32(HANDLE hProcess)
 {
     HMODULE hNtdll = GetModuleHandleA("ntdll");
     if (!hNtdll) return false; // should never happen
 
-    DWORD oldProtect = 0;
     const SIZE_T stub_size = 0x20;
 
     const BYTE hotpatch_patch[] = {
@@ -19,7 +75,8 @@ bool patch_NtManageHotPatch32(HANDLE hProcess)
     }
     LPVOID stub_ptr = (LPVOID)_NtManageHotPatch;
 
-    if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, PAGE_READWRITE, &oldProtect)) {
+    MemoryProtectRange stub_protect(hProcess, stub_ptr, stub_size);
+    if (!stub_protect.protect(PAGE_READWRITE)) {
         return false;
     }
     BYTE stub_buffer_orig[stub_size] = { 0 };
@@ -34,9 +91,10 @@ bool patch_NtManageHotPatch32(HANDLE hProcess)
     if (!WriteProcessMemory(hProcess, stub_ptr, hotpatch_patch, sizeof(hotpatch_patch), &out_bytes) || out_bytes != sizeof(hotpatch_patch)) {
         return false;
     }
-    if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, oldProtect, &oldProtect)) {
+    if (!stub_protect.revert()) {
         return false;
     }
+
     FlushInstructionCache(hProcess, stub_ptr, sizeof(hotpatch_patch));
     return true;
 }
@@ -46,7 +104,6 @@ bool patch_NtManageHotPatch64(HANDLE hProcess)
     HMODULE hNtdll = GetModuleHandleA("ntdll");
     if (!hNtdll) return false; // should never happen
 
-    DWORD oldProtect = 0;
     const SIZE_T stub_size = 0x20;
 
     const BYTE hotpatch_patch[] = {
@@ -68,7 +125,8 @@ bool patch_NtManageHotPatch64(HANDLE hProcess)
     }
     LPVOID stub_ptr = (LPVOID)_NtManageHotPatch;
 
-    if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, PAGE_READWRITE, &oldProtect)) {
+    MemoryProtectRange stub_protect(hProcess, stub_ptr, stub_size);
+    if (!stub_protect.protect(PAGE_READWRITE)) {
         return false;
     }
     BYTE stub_buffer_orig[stub_size] = { 0 };
@@ -83,9 +141,10 @@ bool patch_NtManageHotPatch64(HANDLE hProcess)
     if (!WriteProcessMemory(hProcess, stub_ptr, hotpatch_patch, sizeof(hotpatch_patch), &out_bytes) || out_bytes != sizeof(hotpatch_patch)) {
         return false;
     }
-    if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, oldProtect, &oldProtect)) {
+    if (!stub_protect.revert()) {
         return false;
     }
+
     FlushInstructionCache(hProcess, stub_ptr, sizeof(hotpatch_patch));
     return true;
 }
@@ -99,7 +158,6 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
     if (!hNtdll) return false; // should never happen
 
     ULONGLONG pos = 8;
-    DWORD oldProtect = 0;
     const SIZE_T stub_size = 0x20;
 
     ULONG_PTR _ZwQueryVirtualMemory = (ULONG_PTR)GetProcAddress(hNtdll, "ZwQueryVirtualMemory");
@@ -108,8 +166,8 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
     }
     LPVOID stub_ptr = (LPVOID)((ULONG_PTR)_ZwQueryVirtualMemory - pos);
 
-    if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, PAGE_READWRITE, &oldProtect)) {
-        LOG_ERROR("Failed protecting memory at: %p", stub_ptr);
+    MemoryProtectRange stub_protect(hProcess, stub_ptr, stub_size);
+    if (!stub_protect.protect(PAGE_READWRITE)) {
         return false;
     }
 
@@ -120,12 +178,12 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
     BYTE stub_buffer_orig[stub_size] = { 0 };
     SIZE_T out_bytes = 0;
     if (!ReadProcessMemory(hProcess, stub_ptr, stub_buffer_orig, stub_size, &out_bytes) || out_bytes != stub_size) {
-        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE); // free memory allocated for the patch
         return false;
     }
-    const BYTE nop_pattern[] = {0x0F, 0x1F, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00};
+    const BYTE nop_pattern[] = { 0x0F, 0x1F, 0x84, 0x00, 0x00, 0x00, 0x00, 0x00 };
     if (::memcmp(stub_buffer_orig, nop_pattern, sizeof(nop_pattern)) != 0) {
-        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE); // free memory allocated for the patch
         return false;
     }
 
@@ -142,7 +200,6 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
     }
 
     // prepare the patch to be applied on ZwQueryVirtualMemory:
-
     BYTE stub_buffer_patched[stub_size] = { 0 };
     ::memcpy(stub_buffer_patched, stub_buffer_orig, stub_size);
 
@@ -177,19 +234,21 @@ bool patch_ZwQueryVirtualMemory(HANDLE hProcess, LPVOID module_ptr)
     const SIZE_T trampoline_full_size = stub_size + pos + syscall_pattern_full + sizeof(jump_to_contnue);
 
     if (!WriteProcessMemory(hProcess, stub_ptr, stub_buffer_patched, stub_size, &out_bytes) || out_bytes != stub_size) {
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);// free memory allocated for the patch
+        return false;
+    }
+    if (!stub_protect.revert()) {
         VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
         return false;
     }
-    if (!VirtualProtectEx(hProcess, stub_ptr, stub_size, oldProtect, &oldProtect)) {
-        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
-        return false;
-    }
+
     if (!WriteProcessMemory(hProcess, patch_space, stub_buffer_trampoline, trampoline_full_size, &out_bytes) || out_bytes != trampoline_full_size) {
-        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE); // free memory allocated for the patch
         return false;
     }
+    DWORD oldProtect = 0;
     if (!VirtualProtectEx(hProcess, patch_space, stub_size, PAGE_EXECUTE_READ, &oldProtect)) {
-        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE);
+        VirtualFreeEx(hProcess, patch_space, 0, MEM_RELEASE); // free memory allocated for the patch
         return false;
     }
     FlushInstructionCache(hProcess, stub_ptr, stub_size);
