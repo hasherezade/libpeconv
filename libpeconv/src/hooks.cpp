@@ -58,7 +58,7 @@ bool PatchBackup::makeBackup(BYTE *patch_ptr, size_t patch_size)
     this->buffer = new BYTE[patch_size];
     this->bufferSize = patch_size;
 
-    memcpy(buffer, patch_ptr, patch_size);
+    ::memcpy(buffer, patch_ptr, patch_size);
     return true;
 }
 
@@ -71,8 +71,10 @@ bool PatchBackup::applyBackup()
     if (!nt_protect((LPVOID)sourcePtr, bufferSize, PAGE_EXECUTE_READWRITE, &oldProtect)) {
         return false;
     }
-    memcpy(sourcePtr, buffer, bufferSize);
-    nt_protect((LPVOID)sourcePtr, bufferSize, oldProtect, &oldProtect);
+    ::memcpy(sourcePtr, buffer, bufferSize);
+    if (!nt_protect((LPVOID)sourcePtr, bufferSize, oldProtect, &oldProtect)) {
+        LOG_WARNING("Failed to restore protection of region: %p", sourcePtr);
+    }
 
     //flush cache:
     FlushInstructionCache(GetCurrentProcess(), sourcePtr, bufferSize);
@@ -163,8 +165,8 @@ size_t peconv::redirect_to_local32(void *ptr, DWORD new_offset, PatchBackup* bac
     if (backup != nullptr) {
         backup->makeBackup((BYTE*)ptr, hook32_size);
     }
-    memcpy(hook_32 + 1, &new_offset, sizeof(DWORD));
-    memcpy(ptr, hook_32, hook32_size);
+    ::memcpy(hook_32 + 1, &new_offset, sizeof(DWORD));
+    ::memcpy(ptr, hook_32, hook32_size);
 
     if (!nt_protect((LPVOID)ptr, hook32_size, oldProtect, &oldProtect)) {
         LOG_WARNING("Failed to restore protection of region: %p", ptr);
@@ -223,7 +225,7 @@ bool peconv::replace_target(BYTE *patch_ptr, ULONGLONG dest_addr)
             return false;
         }
         DWORD delta_dw = DWORD(delta);
-        memcpy(patch_ptr + 1, &delta_dw, sizeof(DWORD));
+        ::memcpy(patch_ptr + 1, &delta_dw, sizeof(DWORD));
 
         //flush cache:
         FlushInstructionCache(GetCurrentProcess(), patch_ptr + 1, sizeof(DWORD));
