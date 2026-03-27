@@ -90,7 +90,7 @@ bool process_reloc_block(BASE_RELOCATION_ENTRY *block, SIZE_T entriesNum, DWORD 
             return false;
         }
         const DWORD reloc_field = page + offset;
-        if (validate_reloc_field(modulePtr, moduleSize, is64bit, reloc_field)) {
+        if (!validate_reloc_field(modulePtr, moduleSize, is64bit, reloc_field)) {
             if (callback) { //print debug messages only if the callback function was set
                 LOG_ERROR("Malformed reloc field: 0x%lx.", reloc_field);
             }
