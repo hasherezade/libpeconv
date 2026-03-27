@@ -53,11 +53,11 @@ namespace peconv {
     Verifies if the string of specific type is within the given buffer and NULL terminated.
     */
     template <typename CHAR_T>
-    bool is_valid_string(LPVOID modulePtr, const size_t moduleSize, const CHAR_T* name_ptr)
+    bool is_valid_string(LPVOID modulePtr, const size_t moduleSize, const CHAR_T* name_ptr, const size_t max_len = 260)
     {
         bool is_terminated = false;
         size_t i = 0;
-        for (; i < MAX_PATH; i++) {
+        for (; i < max_len; i++) {
             if (!peconv::validate_ptr(modulePtr, moduleSize, &name_ptr[i], sizeof(CHAR_T))) {
                 return false;
             }
