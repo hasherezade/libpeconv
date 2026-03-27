@@ -18,4 +18,3 @@ namespace peconv {
     bool setup_exceptions(IN BYTE* modulePtr, IN size_t moduleSize);
 
 };
-

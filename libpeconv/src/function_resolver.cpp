@@ -3,7 +3,7 @@
 #include "peconv/logger.h"
 #include <cctype>
 
-namespace util {
+namespace {
     std::string toLowercase(std::string str)
     {
         for (char& ch : str) {
@@ -11,14 +11,14 @@ namespace util {
         }
         return str;
     }
-}; //namespace util
+};
 
 HMODULE peconv::default_func_resolver::load_library(LPCSTR lib_name)
 {
     if (!lib_name) {
         return nullptr;
     }
-    const std::string modName = util::toLowercase(lib_name);
+    const std::string modName = toLowercase(lib_name);
     auto found = this->nameToModule.find(modName);
     if (found != this->nameToModule.end()) {
         return found->second;

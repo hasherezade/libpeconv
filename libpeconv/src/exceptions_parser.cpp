@@ -12,7 +12,7 @@
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #endif
 
-namespace details {
+namespace peconv {
 #define RTL_VERIFY_FLAGS_MAJOR_VERSION	0
 #define RTL_VERIFY_FLAGS_MINOR_VERSION	1
 #define RTL_VERIFY_FLAGS_BUILD_NUMBERS	2
@@ -624,5 +624,5 @@ bool peconv::setup_exceptions(IN BYTE* modulePtr, IN size_t moduleSize)
         }
         moduleSize = img_size;
     }
-    return NT_SUCCESS(details::RtlInsertInvertedFunctionTable(modulePtr, (ULONG)moduleSize)) ? true : false;
+    return NT_SUCCESS(peconv::RtlInsertInvertedFunctionTable(modulePtr, (ULONG)moduleSize)) ? true : false;
 }
