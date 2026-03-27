@@ -1,5 +1,4 @@
 <map id="peconv::alloc_pe_buffer" name="peconv::alloc_pe_buffer">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,162,31"/>
-<area shape="rect" id="Node000002" href="$namespacepeconv.html#aa4310a0701987f6873228d20524f4ef5" title=" " alt="" coords="210,5,354,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,16,194,16,194,21,162,21"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,163,31"/>
+<area shape="rect" id="node2" href="$namespacepeconv.html#aa4310a0701987f6873228d20524f4ef5" title=" " alt="" coords="211,5,356,31"/>
 </map>
