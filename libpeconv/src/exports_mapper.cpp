@@ -106,8 +106,9 @@ bool ExportsMapper::add_forwarded(ExportedFunc &currFunc, DWORD callRVA, PBYTE m
     }
     forwarders_lookup[forwarder].insert(currFunc);
 
-    if (func_to_va[forwarder] != 0) {
-        ULONGLONG va = func_to_va[forwarder];
+    const auto found = func_to_va.find(forwarder);
+    if (found != func_to_va.end() && found->second != 0) {
+        const ULONGLONG va = found->second;
         associateVaAndFunc(va, currFunc);
     }
     return true;
