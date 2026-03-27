@@ -13,11 +13,10 @@ var searchData=
   ['redirect_5fto_5flocal64_10',['redirect_to_local64',['../namespacepeconv.html#ad2db9ff90abb684282d89b6e22c6b39a',1,'peconv']]],
   ['relocate_5fmodule_11',['relocate_module',['../namespacepeconv.html#ab35521cbdafa0310a0d7e9d1525beed8',1,'peconv']]],
   ['relocblockcallback_12',['RelocBlockCallback',['../classpeconv_1_1_reloc_block_callback.html#a660477672175a10f6650b41af345124d',1,'peconv::RelocBlockCallback']]],
-  ['remove_5fmodule_5fextension_13',['remove_module_extension',['../namespacepeconv.html#ad5c3e28a7fe44a96e52fb9e1252e5349',1,'peconv']]],
-  ['replace_5fdll_14',['replace_dll',['../classpeconv_1_1hooking__func__resolver.html#a900eb7e40b1fafdcaf44599856b9cc39',1,'peconv::hooking_func_resolver']]],
-  ['replace_5ftarget_15',['replace_target',['../namespacepeconv.html#ab5141d4b76a42b9e0498381c2f29bfee',1,'peconv']]],
-  ['resolve_5ffunc_16',['resolve_func',['../classpeconv_1_1hooking__func__resolver.html#a4cb032fb05921aaad82490af691096b6',1,'peconv::hooking_func_resolver::resolve_func()'],['../classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03',1,'peconv::default_func_resolver::resolve_func()'],['../classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a',1,'peconv::t_function_resolver::resolve_func()'],['../classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1',1,'peconv::export_based_resolver::resolve_func()']]],
-  ['round_5fup_5fto_5funit_17',['round_up_to_unit',['../namespacepeconv.html#aa23826a6fbe891dc3ee7fec6671d5cce',1,'peconv']]],
-  ['roundup_5fto_5funit_18',['roundup_to_unit',['../namespacepeconv.html#a948c3b100c0f089152fe09a870769215',1,'peconv']]],
-  ['run_5ftls_5fcallbacks_19',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]]
+  ['replace_5fdll_13',['replace_dll',['../classpeconv_1_1hooking__func__resolver.html#a900eb7e40b1fafdcaf44599856b9cc39',1,'peconv::hooking_func_resolver']]],
+  ['replace_5ftarget_14',['replace_target',['../namespacepeconv.html#ab5141d4b76a42b9e0498381c2f29bfee',1,'peconv']]],
+  ['resolve_5ffunc_15',['resolve_func',['../classpeconv_1_1hooking__func__resolver.html#a4cb032fb05921aaad82490af691096b6',1,'peconv::hooking_func_resolver::resolve_func()'],['../classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03',1,'peconv::default_func_resolver::resolve_func()'],['../classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a',1,'peconv::t_function_resolver::resolve_func()'],['../classpeconv_1_1export__based__resolver.html#a755d6ec00caf462bcd084a32d33e64f1',1,'peconv::export_based_resolver::resolve_func()']]],
+  ['round_5fup_5fto_5funit_16',['round_up_to_unit',['../namespacepeconv.html#aa23826a6fbe891dc3ee7fec6671d5cce',1,'peconv']]],
+  ['roundup_5fto_5funit_17',['roundup_to_unit',['../namespacepeconv.html#a948c3b100c0f089152fe09a870769215',1,'peconv']]],
+  ['run_5ftls_5fcallbacks_18',['run_tls_callbacks',['../namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b',1,'peconv']]]
 ];
