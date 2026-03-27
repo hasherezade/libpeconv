@@ -169,7 +169,12 @@ size_t map_addresses_to_functions(std::set<ULONGLONG> &addresses,
         if (addr_to_func.find(searchedAddr) == addr_to_func.end()) {
             const ExportedFunc* func = exportsMap.find_export_by_va(searchedAddr);
             not_found.insert(searchedAddr);
-            LOG_WARNING("Function %s not found in the covering DLL: %s.", func->toString().c_str(), chosenDll.c_str());
+            if (func) {
+                LOG_WARNING("Function '%s' not found in the covering DLL: %s.", func->toString().c_str(), chosenDll.c_str());
+            }
+            else {
+                LOG_WARNING("Function at [0x%llx] not found in the covering DLL: %s.", (unsigned long long)searchedAddr, chosenDll.c_str());
+            }
         }
     }
     return coveredAddresses.size();

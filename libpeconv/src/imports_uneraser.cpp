@@ -176,7 +176,7 @@ bool ImportsUneraser::fillImportNames(
     BYTE* call_via_ptr = (BYTE*)((ULONGLONG)modulePtr + call_via);
     BYTE* thunk_ptr = (BYTE*)((ULONGLONG)modulePtr + thunk_addr);
     for (;
-        call_via_ptr && thunk_ptr;
+        validate_ptr(modulePtr, moduleSize, call_via_ptr, sizeof(FIELD_T)) && validate_ptr(modulePtr, moduleSize, thunk_ptr, sizeof(FIELD_T));
         call_via_ptr += sizeof(FIELD_T), thunk_ptr += sizeof(FIELD_T)
         )
     {
@@ -187,6 +187,10 @@ bool ImportsUneraser::fillImportNames(
             break;
         }
         IMAGE_THUNK_DATA_T* desc = (IMAGE_THUNK_DATA_T*)thunk_ptr;
+        if (!validate_ptr(modulePtr, moduleSize, desc, sizeof(IMAGE_THUNK_DATA_T))) {
+            LOG_WARNING("Invalid descriptor pointer: [0x%llx].", (unsigned long long)desc);
+            break;
+        }
         if (!desc->u1.Function) {
             break;
         }

@@ -132,11 +132,12 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
             LOG_ERROR("Invalid address of relocations.");
             return false;
         }
-        if (reloc->SizeOfBlock == 0) {
-            break;
+        if (reloc->SizeOfBlock < (2 * sizeof(DWORD))) {
+            LOG_ERROR("Malformed relocation block: SizeOfBlock too small.");
+            return false;
         }
-        size_t entriesNum = (reloc->SizeOfBlock - 2 * sizeof(DWORD)) / sizeof(WORD);
-        DWORD page = reloc->VirtualAddress;
+        const size_t entriesNum = (reloc->SizeOfBlock - 2 * sizeof(DWORD)) / sizeof(WORD);
+        const DWORD page = reloc->VirtualAddress;
 
         BASE_RELOCATION_ENTRY* block = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)reloc + sizeof(DWORD) + sizeof(DWORD));
         if (!validate_ptr(modulePtr, moduleSize, block, sizeof(BASE_RELOCATION_ENTRY))) {
