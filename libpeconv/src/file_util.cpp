@@ -29,6 +29,8 @@ peconv::UNALIGNED_BUF peconv::load_file(IN LPCTSTR filename, OUT size_t &read_si
     size_t r_size = GetFileSize(file, 0);
     if (r_size == INVALID_FILE_SIZE) {
         LOG_ERROR("Cannot retrieve file size.");
+        UnmapViewOfFile(dllRawData);
+        CloseHandle(mapping);
         CloseHandle(file);
         return nullptr;
     }
