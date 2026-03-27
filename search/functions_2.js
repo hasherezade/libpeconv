@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['calc_5fpe_5fsize_0',['calc_pe_size',['../namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255',1,'peconv']]],
+  ['calc_5fpe_5fsize_0',['calc_pe_size',['../namespacepeconv.html#ab0581f42127df54b50708e9e1dcc33ed',1,'peconv']]],
   ['collect_5fimports_1',['collect_imports',['../namespacepeconv.html#aeb2b5bd101b42677d1455d9c567ce447',1,'peconv']]],
   ['collect_5fthunks_2',['collect_thunks',['../namespacepeconv.html#a8cd71ea9bdeb9fbfd04a0a75037034dc',1,'peconv']]],
   ['collectimportscallback_3',['CollectImportsCallback',['../class_collect_imports_callback.html#a0069b38fe8b2d34344ec638e34b29e55',1,'CollectImportsCallback']]],

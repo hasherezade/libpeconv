@@ -164,16 +164,16 @@ Functions</h2></td></tr>
 <tr class="separator:a7839c42de0eb9d745d1ba40c60f90de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa040616c6dec10cb9d9f3dc9ffbcb68c"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c">peconv::get_sec_alignment</a> (IN const BYTE *modulePtr, IN bool is_raw)</td></tr>
 <tr class="separator:aa040616c6dec10cb9d9f3dc9ffbcb68c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02b851a59c1ad626a8b737b9c3d7e89c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a02b851a59c1ad626a8b737b9c3d7e89c">peconv::set_sec_alignment</a> (IN OUT BYTE *pe_buffer, IN bool is_raw, IN DWORD new_alignment)</td></tr>
-<tr class="separator:a02b851a59c1ad626a8b737b9c3d7e89c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a130706cc71f44b9870104858c63b1caa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a130706cc71f44b9870104858c63b1caa">peconv::set_sec_alignment</a> (IN OUT BYTE *pe_buffer, IN const bool is_raw, IN const DWORD new_alignment)</td></tr>
+<tr class="separator:a130706cc71f44b9870104858c63b1caa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e208adcdf6990b44a9f5a09b831b554"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554">peconv::get_virtual_sec_size</a> (IN const BYTE *pe_hdr, IN const PIMAGE_SECTION_HEADER sec_hdr, IN bool rounded)</td></tr>
 <tr class="separator:a2e208adcdf6990b44a9f5a09b831b554"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7bc9517bad540eec401af74db0ab99a"><td class="memItemLeft" align="right" valign="top">PIMAGE_SECTION_HEADER&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ad7bc9517bad540eec401af74db0ab99a">peconv::get_last_section</a> (IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)</td></tr>
-<tr class="separator:ad7bc9517bad540eec401af74db0ab99a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae868d124a8e0597ca7fa27adf77e2255"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae868d124a8e0597ca7fa27adf77e2255">peconv::calc_pe_size</a> (IN const PBYTE pe_buffer, IN size_t pe_size, IN bool is_raw)</td></tr>
-<tr class="separator:ae868d124a8e0597ca7fa27adf77e2255"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a85dd002830f2044ccfa27ddf997cfb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a5a85dd002830f2044ccfa27ddf997cfb">peconv::is_valid_sections_alignment</a> (IN const BYTE *buffer, IN const SIZE_T buffer_size, IN bool is_raw)</td></tr>
-<tr class="separator:a5a85dd002830f2044ccfa27ddf997cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2de12b158082b0c091b805829361d2ee"><td class="memItemLeft" align="right" valign="top">PIMAGE_SECTION_HEADER&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a2de12b158082b0c091b805829361d2ee">peconv::get_last_section</a> (IN const PBYTE pe_buffer, IN const size_t pe_size, IN const bool is_raw)</td></tr>
+<tr class="separator:a2de12b158082b0c091b805829361d2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0581f42127df54b50708e9e1dcc33ed"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab0581f42127df54b50708e9e1dcc33ed">peconv::calc_pe_size</a> (IN const PBYTE pe_buffer, IN const size_t pe_size, IN const bool is_raw)</td></tr>
+<tr class="separator:ab0581f42127df54b50708e9e1dcc33ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59426ab4612f5f2077d53807257873f7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a59426ab4612f5f2077d53807257873f7">peconv::is_valid_sections_alignment</a> (IN const BYTE *buffer, IN const SIZE_T buffer_size, IN const bool is_raw)</td></tr>
+<tr class="separator:a59426ab4612f5f2077d53807257873f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -204,7 +204,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 27 2026 21:46:04 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Fri Mar 27 2026 22:07:48 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
