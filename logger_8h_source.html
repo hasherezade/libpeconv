@@ -77,67 +77,68 @@ $(function() {
   <div class="headertitle"><div class="title">logger.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="logger_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">// Verbosity levels</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="logger_8h.html#a43dece650f96e7cf2a4e535c9bd4804a">    5</a></span><span class="preprocessor">#define LOG_LEVEL_NONE    0 </span><span class="comment">// silent</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="logger_8h.html#a742fc70e331d7e568bd893c514756a29">    6</a></span><span class="preprocessor">#define LOG_LEVEL_ERROR   1 </span><span class="comment">// something broke</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="logger_8h.html#af539a66abed2a7a15e3443d70a3cf1e1">    7</a></span><span class="preprocessor">#define LOG_LEVEL_WARNING 2 </span><span class="comment">// something looks wrong</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="logger_8h.html#a2e25fe130cf710da4ad800747fdd51f3">    8</a></span><span class="preprocessor">#define LOG_LEVEL_INFO    3 </span><span class="comment">// notable operational events</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="logger_8h.html#a130224df8c6bf22a688e3cb74a45689a">    9</a></span><span class="preprocessor">#define LOG_LEVEL_DEBUG   4 </span><span class="comment">// detailed tracing, noisy</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#ifndef LOG_VERBOSITY</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="logger_8h.html#a65533daa2b934c9fb36258439bdbcc4f">   12</a></span><span class="preprocessor">#  define LOG_VERBOSITY LOG_LEVEL_ERROR</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">// Output sink selection</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#ifdef LOG_USE_DEBUGOUT</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#  include &lt;windows.h&gt;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#  include &lt;stdio.h&gt;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>   <span class="comment">// Format into a local buffer, then hand off to OutputDebugStringA</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#  define _LOG(tag, fmt, ...)                                          \</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">       do {                                                            \</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">           char _log_buf[512];                                         \</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">           snprintf(_log_buf, sizeof(_log_buf),                        \</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">                    &quot;[&quot;</span> tag &quot;] %s:%d: &quot; fmt &quot;\n&quot;,                      \</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                    __FILE__, __LINE__, ##__VA_ARGS__);                 \</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>           OutputDebugStringA(_log_buf);                               \</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>       } while(0)</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="logger_8h.html#a17958bbbb7b0260e605245a0ea5a6134">   29</a></span><span class="preprocessor">#  define _LOG(tag, fmt, ...)                                          \</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">       fprintf(stderr, &quot;[&quot;</span> tag &quot;] %s:%d: &quot; fmt &quot;\n&quot;,                  \</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>               __FILE__, __LINE__, ##__VA_ARGS__)</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">// Public macros</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#if LOG_VERBOSITY &gt;= LOG_LEVEL_ERROR</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">   36</a></span><span class="preprocessor">#  define LOG_ERROR(fmt, ...)   _LOG(&quot;ERROR&quot;</span>,   fmt, ##__VA_ARGS__)</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#  define LOG_ERROR(fmt, ...)   do {} while(0)</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#if LOG_VERBOSITY &gt;= LOG_LEVEL_WARNING</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#  define LOG_WARNING(fmt, ...) _LOG(&quot;WARNING&quot;</span>, fmt, ##__VA_ARGS__)</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">   44</a></span><span class="preprocessor">#  define LOG_WARNING(fmt, ...) do {} while(0)</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#if LOG_VERBOSITY &gt;= LOG_LEVEL_INFO</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#  define LOG_INFO(fmt, ...)    _LOG(&quot;INFO&quot;</span>,    fmt, ##__VA_ARGS__)</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">   50</a></span><span class="preprocessor">#  define LOG_INFO(fmt, ...)    do {} while(0)</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#if LOG_VERBOSITY &gt;= LOG_LEVEL_DEBUG</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#  define LOG_DEBUG(fmt, ...)   _LOG(&quot;DEBUG&quot;</span>,   fmt, ##__VA_ARGS__)</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">   56</a></span><span class="preprocessor">#  define LOG_DEBUG(fmt, ...)   do {} while(0)</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#endif</span></div>
+<a href="logger_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">// Verbosity levels</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="logger_8h.html#a43dece650f96e7cf2a4e535c9bd4804a">   29</a></span><span class="preprocessor">#define LOG_LEVEL_NONE    0 </span><span class="comment">// silent</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="logger_8h.html#a742fc70e331d7e568bd893c514756a29">   30</a></span><span class="preprocessor">#define LOG_LEVEL_ERROR   1 </span><span class="comment">// something broke</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="logger_8h.html#af539a66abed2a7a15e3443d70a3cf1e1">   31</a></span><span class="preprocessor">#define LOG_LEVEL_WARNING 2 </span><span class="comment">// something looks wrong</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="logger_8h.html#a2e25fe130cf710da4ad800747fdd51f3">   32</a></span><span class="preprocessor">#define LOG_LEVEL_INFO    3 </span><span class="comment">// notable operational events</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="logger_8h.html#a130224df8c6bf22a688e3cb74a45689a">   33</a></span><span class="preprocessor">#define LOG_LEVEL_DEBUG   4 </span><span class="comment">// detailed tracing, noisy</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#ifndef LOG_VERBOSITY</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="logger_8h.html#a65533daa2b934c9fb36258439bdbcc4f">   36</a></span><span class="preprocessor">#  define LOG_VERBOSITY LOG_LEVEL_ERROR</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">// Output sink selection</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#ifdef LOG_USE_DEBUGOUT</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#  include &lt;windows.h&gt;</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#  include &lt;stdio.h&gt;</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>   <span class="comment">// Format into a local buffer, then hand off to OutputDebugStringA</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#  define _LOG(tag, fmt, ...)                                          \</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">       do {                                                            \</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">           char _log_buf[512];                                         \</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">           snprintf(_log_buf, sizeof(_log_buf),                        \</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">                    &quot;[&quot;</span> tag &quot;] %s:%d: &quot; fmt &quot;\n&quot;,                      \</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                    __FILE__, __LINE__, ##__VA_ARGS__);                 \</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>           OutputDebugStringA(_log_buf);                               \</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>       } while(0)</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="logger_8h.html#a17958bbbb7b0260e605245a0ea5a6134">   53</a></span><span class="preprocessor">#  define _LOG(tag, fmt, ...)                                          \</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">       fprintf(stderr, &quot;[&quot;</span> tag &quot;] %s:%d: &quot; fmt &quot;\n&quot;,                  \</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>               __FILE__, __LINE__, ##__VA_ARGS__)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">// Public macros</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#if LOG_VERBOSITY &gt;= LOG_LEVEL_ERROR</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">   60</a></span><span class="preprocessor">#  define LOG_ERROR(fmt, ...)   _LOG(&quot;ERROR&quot;</span>,   fmt, ##__VA_ARGS__)</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#  define LOG_ERROR(fmt, ...)   do {} while(0)</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#if LOG_VERBOSITY &gt;= LOG_LEVEL_WARNING</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#  define LOG_WARNING(fmt, ...) _LOG(&quot;WARNING&quot;</span>, fmt, ##__VA_ARGS__)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">   68</a></span><span class="preprocessor">#  define LOG_WARNING(fmt, ...) do {} while(0)</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#if LOG_VERBOSITY &gt;= LOG_LEVEL_INFO</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#  define LOG_INFO(fmt, ...)    _LOG(&quot;INFO&quot;</span>,    fmt, ##__VA_ARGS__)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">   74</a></span><span class="preprocessor">#  define LOG_INFO(fmt, ...)    do {} while(0)</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#if LOG_VERBOSITY &gt;= LOG_LEVEL_DEBUG</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#  define LOG_DEBUG(fmt, ...)   _LOG(&quot;DEBUG&quot;</span>,   fmt, ##__VA_ARGS__)</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">   80</a></span><span class="preprocessor">#  define LOG_DEBUG(fmt, ...)   do {} while(0)</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 27 2026 22:14:36 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Fri Mar 27 2026 22:35:48 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
