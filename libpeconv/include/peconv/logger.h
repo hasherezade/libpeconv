@@ -1,3 +1,27 @@
+/**
+ * @file logger.h
+ * @brief Compile-time configurable logging macros for peconv.
+ *
+ * Verbosity is controlled at compile time via the @c LOG_VERBOSITY preprocessor
+ * symbol. Any message whose level exceeds @c LOG_VERBOSITY is compiled out
+ * entirely — no runtime overhead, no branch, no string literal in the binary.
+ *
+ * By default messages are written to @c stderr. Define @c LOG_USE_DEBUGOUT
+ * before including this header (or via the build system) to redirect output
+ * to the Windows debugger via @c OutputDebugStringA instead.
+ *
+ * **Typical build-system usage:**
+ * @code
+ * // Errors only (default):
+ * #define LOG_VERBOSITY LOG_LEVEL_ERROR
+ *
+ * // Full tracing:
+ * #define LOG_VERBOSITY LOG_LEVEL_DEBUG
+ *
+ * // Redirect to debugger output:
+ * #define LOG_USE_DEBUGOUT
+ * @endcode
+ */
 #pragma once
 #include <stdio.h>
 
