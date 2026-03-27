@@ -66,6 +66,6 @@ namespace peconv {
                 break;
             }
         }
-        return is_terminated && (i > 1) ? true : false;
+        return is_terminated && (i != 0);
     }
 };
