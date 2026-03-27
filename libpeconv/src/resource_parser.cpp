@@ -52,6 +52,10 @@ bool parse_resource_dir(BYTE* modulePtr, const size_t moduleSize,
     IMAGE_RESOURCE_DIRECTORY_ENTRY* first_entry = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)((ULONGLONG)&curr_dir->NumberOfIdEntries + sizeof(WORD));
     for (size_t i = 0; i < total_entries; i++) {
         IMAGE_RESOURCE_DIRECTORY_ENTRY* entry = &first_entry[i];
+        if (!peconv::validate_ptr(modulePtr, moduleSize, entry, sizeof(IMAGE_RESOURCE_DIRECTORY_ENTRY))) {
+            LOG_ERROR("Invalid resource entry pointer");
+            return false;
+        }
         LOG_DEBUG("Entry: 0x%zx ; Id: %u ; dataOffset: %lu.", i, entry->Id, entry->OffsetToData);
         if (root_dir == nullptr) {
             root_dir = entry;
