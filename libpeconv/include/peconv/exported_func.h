@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <set>
 
+#define INVALID_ORD_VALUE (-1)
+
 namespace peconv {
 
     /**
@@ -73,7 +75,7 @@ namespace peconv {
         bool isByOrdinal;
 
         //default constructor:
-        ExportedFunc() : funcOrdinal(0), isByOrdinal(false) {}
+        ExportedFunc() : funcOrdinal(INVALID_ORD_VALUE), isByOrdinal(false) {}
 
         ExportedFunc(const ExportedFunc& other);
         ExportedFunc(std::string libName, std::string funcName, DWORD funcOrdinal);
@@ -124,7 +126,7 @@ namespace peconv {
 
         bool isValid() const
         {
-            return (funcName != "" || funcOrdinal != -1);
+            return (funcName != "" || funcOrdinal != INVALID_ORD_VALUE);
         }
     };
 
