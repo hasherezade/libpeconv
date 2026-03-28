@@ -298,7 +298,7 @@ bool peconv::load_imports(BYTE* modulePtr, t_function_resolver* func_resolver)
 
     default_func_resolver default_res;
     if (!func_resolver) {
-        func_resolver = (t_function_resolver*)&default_res;
+        func_resolver = &default_res;
     }
 
     FillImportThunks callback(modulePtr, moduleSize, func_resolver);

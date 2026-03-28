@@ -182,7 +182,7 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
     const size_t module_size = peconv::get_image_size(modulePtr);
     default_func_resolver default_res;
     if (!func_resolver) {
-        func_resolver = (t_function_resolver*)&default_res;
+        func_resolver = &default_res;
     }
     size_t table_size = 0;
     IMAGE_DELAYLOAD_DESCRIPTOR *first_desc = get_delayed_imps(modulePtr, module_size, table_size);

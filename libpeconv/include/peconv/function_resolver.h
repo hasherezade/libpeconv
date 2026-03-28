@@ -22,12 +22,14 @@ namespace peconv {
         \return Virtual Address of the exported function
         */
         virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name) = 0;
+
+        virtual ~t_function_resolver() { }
     };
 
     /**
     A default functions resolver, using LoadLibraryA and GetProcAddress.
     */
-    class default_func_resolver : t_function_resolver {
+    class default_func_resolver : public t_function_resolver {
         public:
         /**
         Get the address (VA) of the function with the given name, from the given DLL, using LoadLibraryA and GetProcAddress.
