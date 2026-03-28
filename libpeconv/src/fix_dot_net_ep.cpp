@@ -33,6 +33,10 @@ protected:
         const bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
         if (!is_by_ord) {
             const PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
+            if (!peconv::validate_ptr(modulePtr, moduleSize, by_name, sizeof(IMAGE_IMPORT_BY_NAME))) {
+                LOG_ERROR("Invalid pointer to IMAGE_IMPORT_BY_NAME");
+                return false;
+            }
             const LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
             if (!peconv::is_valid_string(modulePtr, moduleSize, func_name)) {
                 LOG_ERROR("Invalid pointer to function name");
