@@ -43,29 +43,39 @@ namespace peconv {
         bool is64b;
     };
 
-
-    struct ImportsCollection
-    {
+    //--
+    class ImportsCollection {
     public:
-        ImportsCollection() {};
+        ImportsCollection() {}
+
         virtual ~ImportsCollection()
         {
-            std::map<DWORD, peconv::ExportedFunc*>::iterator itr;
-            for (itr = thunkToFunc.begin(); itr != thunkToFunc.end(); ++itr) {
-                peconv::ExportedFunc* exp = itr->second;
-                if (!exp) continue;
-                delete exp;
+            clear();
+        }
+
+        void clear()
+        {
+            std::map<DWORD, peconv::ExportedFunc*>::iterator it;
+            for (it = thunkToFunc.begin(); it != thunkToFunc.end(); ++it) {
+                delete it->second;
             }
             thunkToFunc.clear();
         }
 
-        size_t size()
+        size_t size() const
         {
             return thunkToFunc.size();
         }
 
+    public:
         std::map<DWORD, peconv::ExportedFunc*> thunkToFunc;
+
+    private:
+        // not implemented: no copying of the structure allowed
+        ImportsCollection(const ImportsCollection&);
+        ImportsCollection& operator=(const ImportsCollection&);
     };
+
 
     /**
     Process the given PE's import table and execute the callback each time when the new imported function was found

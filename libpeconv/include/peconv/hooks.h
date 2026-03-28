@@ -28,7 +28,8 @@ namespace peconv {
         {
         }
 
-        ~PatchBackup() {
+        virtual ~PatchBackup()
+        {
             deleteBackup();
         }
 
@@ -66,8 +67,12 @@ namespace peconv {
     protected:
         BYTE *buffer;
         size_t bufferSize;
-
         BYTE *sourcePtr;
+
+    private:
+        // not implemented: no copying of the structure allowed
+        PatchBackup(const PatchBackup&);
+        PatchBackup& operator=(const PatchBackup&);
     };
 
 
