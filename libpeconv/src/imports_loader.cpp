@@ -1,5 +1,6 @@
 #include "peconv/imports_loader.h"
 
+#include "peconv/util.h"
 #include "peconv/logger.h"
 
 using namespace peconv;
@@ -44,7 +45,7 @@ protected:
             return false;
         }
 
-        bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
+        const bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
 
         FARPROC hProc = nullptr;
         if (is_by_ord) {
@@ -59,7 +60,11 @@ protected:
                 LOG_ERROR("Invalid pointer to IMAGE_IMPORT_BY_NAME.");
                 return false;
             }
-            LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
+            const LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
+            if (!is_valid_string(modulePtr, moduleSize, func_name)) {
+                LOG_ERROR("Invalid pointer to function name.");
+                return false;
+            }
             LOG_DEBUG("name: %s.", func_name);
             hProc = this->funcResolver->resolve_func(lib_name, func_name);
         }
@@ -159,8 +164,12 @@ protected:
                 LOG_ERROR("Invalid pointer to IMAGE_IMPORT_BY_NAME.");
                 return false;
             }
-            LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
-            WORD ordinal = by_name->Hint;
+            const LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
+            if (!is_valid_string(modulePtr, moduleSize, func_name)) {
+                LOG_ERROR("Invalid pointer to function name.");
+                return false;
+            }
+            const WORD ordinal = by_name->Hint;
             func = new ExportedFunc(short_name, func_name, ordinal);
         }
         if (!func) {
