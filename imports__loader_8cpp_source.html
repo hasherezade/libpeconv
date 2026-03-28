@@ -374,7 +374,7 @@ $(function() {
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <a class="code hl_class" href="classpeconv_1_1default__func__resolver.html">default_func_resolver</a> default_res;</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    <span class="keywordflow">if</span> (!func_resolver) {</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        func_resolver = (<a class="code hl_class" href="classpeconv_1_1t__function__resolver.html">t_function_resolver</a>*)&amp;default_res;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        func_resolver = &amp;default_res;</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    }</div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <a class="code hl_class" href="class_fill_import_thunks.html">FillImportThunks</a> callback(modulePtr, moduleSize, func_resolver);</div>
@@ -494,7 +494,7 @@ $(function() {
 <div class="ttc" id="aclasspeconv_1_1_import_thunks_callback_html_a24c7bd6867753f01d3c66fd0e4192251"><div class="ttname"><a href="classpeconv_1_1_import_thunks_callback.html#a24c7bd6867753f01d3c66fd0e4192251">peconv::ImportThunksCallback::is64b</a></div><div class="ttdeci">bool is64b</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8h_source.html#l00041">imports_loader.h:41</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1_import_thunks_callback_html_a757fffb4a19309ab49bbb3f3c64369f0"><div class="ttname"><a href="classpeconv_1_1_import_thunks_callback.html#a757fffb4a19309ab49bbb3f3c64369f0">peconv::ImportThunksCallback::modulePtr</a></div><div class="ttdeci">BYTE * modulePtr</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8h_source.html#l00039">imports_loader.h:39</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1_import_thunks_callback_html_aa8c2b504afe9f02b2b712053e979749d"><div class="ttname"><a href="classpeconv_1_1_import_thunks_callback.html#aa8c2b504afe9f02b2b712053e979749d">peconv::ImportThunksCallback::moduleSize</a></div><div class="ttdeci">size_t moduleSize</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8h_source.html#l00040">imports_loader.h:40</a></div></div>
-<div class="ttc" id="aclasspeconv_1_1default__func__resolver_html"><div class="ttname"><a href="classpeconv_1_1default__func__resolver.html">peconv::default_func_resolver</a></div><div class="ttdef"><b>Definition:</b> <a href="function__resolver_8h_source.html#l00030">function_resolver.h:30</a></div></div>
+<div class="ttc" id="aclasspeconv_1_1default__func__resolver_html"><div class="ttname"><a href="classpeconv_1_1default__func__resolver.html">peconv::default_func_resolver</a></div><div class="ttdef"><b>Definition:</b> <a href="function__resolver_8h_source.html#l00032">function_resolver.h:32</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1t__function__resolver_html"><div class="ttname"><a href="classpeconv_1_1t__function__resolver.html">peconv::t_function_resolver</a></div><div class="ttdef"><b>Definition:</b> <a href="function__resolver_8h_source.html#l00016">function_resolver.h:16</a></div></div>
 <div class="ttc" id="aclasspeconv_1_1t__function__resolver_html_a0dcc8b13e870d2d3789c77db543b7e1a"><div class="ttname"><a href="classpeconv_1_1t__function__resolver.html#a0dcc8b13e870d2d3789c77db543b7e1a">peconv::t_function_resolver::resolve_func</a></div><div class="ttdeci">virtual FARPROC resolve_func(LPCSTR lib_name, LPCSTR func_name)=0</div></div>
 <div class="ttc" id="aimports__loader_8cpp_html_a5d800d31ea01e77114afee0804cdef68"><div class="ttname"><a href="imports__loader_8cpp.html#a5d800d31ea01e77114afee0804cdef68">process_dlls</a></div><div class="ttdeci">bool process_dlls(BYTE *modulePtr, size_t module_size, IMAGE_IMPORT_DESCRIPTOR *first_desc, IN ImportThunksCallback *callback)</div><div class="ttdef"><b>Definition:</b> <a href="imports__loader_8cpp_source.html#l00224">imports_loader.cpp:224</a></div></div>
@@ -519,7 +519,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 28 2026 15:12:14 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Sat Mar 28 2026 15:19:44 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
