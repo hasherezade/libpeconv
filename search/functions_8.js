@@ -1,7 +1,7 @@
 var searchData=
 [
   ['importeddllcoverage_0',['ImportedDllCoverage',['../classpeconv_1_1_imported_dll_coverage.html#a421654da84ac1375451e7df9751efe0f',1,'peconv::ImportedDllCoverage']]],
-  ['importscollection_1',['ImportsCollection',['../structpeconv_1_1_imports_collection.html#a710e73df267539d0f6187619735c1af2',1,'peconv::ImportsCollection']]],
+  ['importscollection_1',['ImportsCollection',['../classpeconv_1_1_imports_collection.html#a710e73df267539d0f6187619735c1af2',1,'peconv::ImportsCollection']]],
   ['importsuneraser_2',['ImportsUneraser',['../classpeconv_1_1_imports_uneraser.html#a407d30983cdf6d92701a79a2258966b2',1,'peconv::ImportsUneraser']]],
   ['importthunkscallback_3',['ImportThunksCallback',['../classpeconv_1_1_import_thunks_callback.html#aed2b499a0dff6531e498f6d2093bfcde',1,'peconv::ImportThunksCallback']]],
   ['impsnotcovered_4',['ImpsNotCovered',['../classpeconv_1_1_imps_not_covered.html#abe850516b0b3fa9079be76ed718bb797',1,'peconv::ImpsNotCovered']]],

@@ -8,5 +8,5 @@ var searchData=
   ['set_5fsec_5falignment_5',['set_sec_alignment',['../namespacepeconv.html#a130706cc71f44b9870104858c63b1caa',1,'peconv']]],
   ['set_5fsubsystem_6',['set_subsystem',['../namespacepeconv.html#a18923adb0587b6bedb07c773962ffa18',1,'peconv']]],
   ['setup_5fexceptions_7',['setup_exceptions',['../namespacepeconv.html#a7db1dbecb3ece690697e6172045baab4',1,'peconv']]],
-  ['size_8',['size',['../structpeconv_1_1_imports_collection.html#a16967f44c474ec465f5619b476e64f34',1,'peconv::ImportsCollection']]]
+  ['size_8',['size',['../classpeconv_1_1_imports_collection.html#a405181b55c6c0399b942925a9f4b06dd',1,'peconv::ImportsCollection']]]
 ];

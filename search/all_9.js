@@ -18,7 +18,7 @@ var searchData=
   ['imports_5floader_2eh_15',['imports_loader.h',['../imports__loader_8h.html',1,'']]],
   ['imports_5funeraser_2ecpp_16',['imports_uneraser.cpp',['../imports__uneraser_8cpp.html',1,'']]],
   ['imports_5funeraser_2eh_17',['imports_uneraser.h',['../imports__uneraser_8h.html',1,'']]],
-  ['importscollection_18',['ImportsCollection',['../structpeconv_1_1_imports_collection.html#a710e73df267539d0f6187619735c1af2',1,'peconv::ImportsCollection::ImportsCollection()'],['../structpeconv_1_1_imports_collection.html',1,'peconv::ImportsCollection']]],
+  ['importscollection_18',['ImportsCollection',['../classpeconv_1_1_imports_collection.html#a710e73df267539d0f6187619735c1af2',1,'peconv::ImportsCollection::ImportsCollection()'],['../classpeconv_1_1_imports_collection.html',1,'peconv::ImportsCollection']]],
   ['importsuneraser_19',['ImportsUneraser',['../classpeconv_1_1_imports_uneraser.html#a407d30983cdf6d92701a79a2258966b2',1,'peconv::ImportsUneraser::ImportsUneraser()'],['../classpeconv_1_1_imports_uneraser.html',1,'peconv::ImportsUneraser']]],
   ['importthunkscallback_20',['ImportThunksCallback',['../classpeconv_1_1_import_thunks_callback.html#aed2b499a0dff6531e498f6d2093bfcde',1,'peconv::ImportThunksCallback::ImportThunksCallback()'],['../classpeconv_1_1_import_thunks_callback.html',1,'peconv::ImportThunksCallback']]],
   ['impsnotcovered_21',['ImpsNotCovered',['../classpeconv_1_1_imps_not_covered.html#abe850516b0b3fa9079be76ed718bb797',1,'peconv::ImpsNotCovered::ImpsNotCovered()'],['../classpeconv_1_1_imps_not_covered.html',1,'peconv::ImpsNotCovered']]],
