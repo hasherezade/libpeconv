@@ -94,7 +94,6 @@ peconv::UNALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &
     return buffer;
 }
 
-//save the given buffer into a file
 bool peconv::dump_to_file(IN LPCTSTR out_path, IN PBYTE dump_data, IN size_t dump_size)
 {
     if (!out_path || !dump_data || !dump_size) return false;

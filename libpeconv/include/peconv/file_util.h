@@ -33,7 +33,7 @@ namespace peconv {
     \param path : the path to the output file
     \param dump_data : the buffer to be dumped
     \param dump_size : the size of data to be dumped (in bytes)
-    \return true if succeeded, false if failed
+    \return true if the written file has non-zero value, false if writing failed
     */
     bool dump_to_file(IN LPCTSTR path, IN PBYTE dump_data, IN size_t dump_size);
 
