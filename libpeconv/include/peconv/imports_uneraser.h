@@ -30,6 +30,8 @@ namespace peconv {
             is64 = peconv::is64bit((BYTE*)modulePtr);
         }
 
+        virtual ~ImportsUneraser() {}
+
         /**
         Fill the imported functions' names in the given Import Descriptor, using the given coverage.
         Collect addressees of functions that couldn't be filled with the given mapping.

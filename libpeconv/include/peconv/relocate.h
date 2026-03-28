@@ -22,6 +22,8 @@ namespace peconv {
         {
         }
 
+        virtual ~RelocBlockCallback() {}
+
         virtual bool processRelocField(ULONG_PTR relocField) = 0;
 
     protected:

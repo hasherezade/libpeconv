@@ -26,6 +26,8 @@ namespace peconv {
             this->is64b = is64bit((BYTE*)modulePtr);
         }
 
+        virtual ~ImportThunksCallback() {}
+
         /**
         A callback that will be executed by process_import_table when the next imported function was found
         \param libName : the pointer to the DLL name
@@ -46,7 +48,7 @@ namespace peconv {
     {
     public:
         ImportsCollection() {};
-        ~ImportsCollection()
+        virtual ~ImportsCollection()
         {
             std::map<DWORD, peconv::ExportedFunc*>::iterator itr;
             for (itr = thunkToFunc.begin(); itr != thunkToFunc.end(); ++itr) {
