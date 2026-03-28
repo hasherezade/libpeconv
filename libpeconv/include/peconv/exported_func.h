@@ -10,9 +10,9 @@
 #include <algorithm>
 #include <set>
 
-#define INVALID_ORD_VALUE (-1)
-
 namespace peconv {
+
+    const DWORD INVALID_ORD_VALUE = DWORD(-1);
 
     /**
     Check if the pointer redirects to a forwarder - if so, return the length, otherwise return 0.
