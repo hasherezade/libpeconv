@@ -32,8 +32,7 @@ namespace {
             if (!peconv::validate_ptr(modulePtr, moduleSize, data_ptr, data_entry->Size)) {
                 return false;
             }
-            on_entry(modulePtr, root_dir, data_entry);
-            return true;
+            return on_entry(modulePtr, root_dir, data_entry);
         }
         LOG_DEBUG("Entry is a directory.");
         //else: it is a next level directory
