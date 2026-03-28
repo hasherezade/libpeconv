@@ -48,7 +48,7 @@ namespace peconv {
     public:
         ImportsCollection() {}
 
-        virtual ~ImportsCollection()
+        ~ImportsCollection()
         {
             clear();
         }

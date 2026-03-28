@@ -28,7 +28,7 @@ namespace peconv {
         {
         }
 
-        virtual ~PatchBackup()
+        ~PatchBackup()
         {
             deleteBackup();
         }
