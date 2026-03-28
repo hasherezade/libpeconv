@@ -50,7 +50,7 @@ int tests::replace_delayed_imps(LPCTSTR path)
     if (!loaded_pe) {
         return -1;
     }
-    if (!peconv::load_delayed_imports(loaded_pe, (ULONGLONG)loaded_pe, (peconv::t_function_resolver*) &my_res)) {
+    if (!peconv::load_delayed_imports(loaded_pe, (ULONGLONG)loaded_pe, &my_res)) {
         std::cout << "Failed loading delayed functions!" << std::endl;
         peconv::free_pe_buffer(loaded_pe, v_size);
         return -1;

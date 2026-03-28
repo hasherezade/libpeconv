@@ -29,7 +29,7 @@ int make_test(int test_id, LPCTSTR test_arg)
         case 4: 
             {
             peconv::export_based_resolver *exp_res = new peconv::export_based_resolver();
-            int res = tests::deploy_self_ex((peconv::t_function_resolver*)exp_res);
+            int res = tests::deploy_self_ex(exp_res);
             delete exp_res;
             return res;
             }

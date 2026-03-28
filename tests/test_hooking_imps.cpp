@@ -45,7 +45,7 @@ int tests::hook_testcase(LPCTSTR path)
     peconv::hooking_func_resolver my_res;
     my_res.add_hook("MessageBoxA", (FARPROC) &test5::my_MessageBoxA);
     my_res.add_hook("MessageBoxW", (FARPROC) &test5::my_MessageBoxW);
-    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
+    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, &my_res);
 
     if (!loaded_pe) {
         return -1;

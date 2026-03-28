@@ -30,7 +30,7 @@ namespace peconv {
     /**
     Function resolver using Export Table lookup.
     */
-    class export_based_resolver : default_func_resolver {
+    class export_based_resolver : public default_func_resolver {
         public:
         /**
         Get the address (VA) of the function with the given name, from the given DLL.

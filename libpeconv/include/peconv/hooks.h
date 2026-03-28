@@ -79,7 +79,7 @@ namespace peconv {
     /**
     A functions resolver that can be used for hooking IAT. Allows for defining functions that are supposed to be replaced.
     */
-    class hooking_func_resolver : peconv::default_func_resolver {
+    class hooking_func_resolver : public default_func_resolver {
     public:
         /**
         Define a function that will be replaced.

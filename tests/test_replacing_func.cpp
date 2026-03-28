@@ -62,7 +62,7 @@ int tests::replace_func_testcase(LPCTSTR path)
     my_res.add_hook("MessageBoxA", (FARPROC) &test8::my_MessageBoxA);
     my_res.add_hook("Sleep", (FARPROC) &test8::my_Sleep);
     my_res.add_hook("ExitProcess", (FARPROC)&test8::my_ExitProcess);
-    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
+    BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, &my_res);
 
     if (!loaded_pe) {
         return -1;

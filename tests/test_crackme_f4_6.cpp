@@ -69,7 +69,7 @@ namespace test6 {
             size_t v_size = 0;
             peconv::hooking_func_resolver my_res;
             my_res.add_hook("MessageBoxA", (FARPROC)&test6::my_MessageBoxA);
-            BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, (peconv::t_function_resolver*) &my_res);
+            BYTE* loaded_pe = peconv::load_pe_executable(path, v_size, &my_res);
             if (!loaded_pe) {
                 printf("Cannot load PE\n");
                 return false;
@@ -125,7 +125,7 @@ namespace test6 {
             size_t v_size = 0;
             BYTE* loaded_pe = peconv::load_pe_executable(
                 path, v_size,
-                (peconv::t_function_resolver*) &my_res
+                &my_res
             );
 
             if (!loaded_pe) {
