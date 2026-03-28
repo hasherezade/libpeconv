@@ -88,7 +88,7 @@ peconv::UNALIGNED_BUF peconv::read_from_file(IN LPCTSTR in_path, IN OUT size_t &
         buffer = nullptr;
         read_size = 0;
     } else {
-        read_size = r_size;
+        read_size = out_size;
     }
     CloseHandle(file);
     return buffer;
@@ -110,7 +110,12 @@ bool peconv::dump_to_file(IN LPCTSTR out_path, IN PBYTE dump_data, IN size_t dum
     DWORD written_size = 0;
     bool is_dumped = false;
     if (WriteFile(file, dump_data, (DWORD) dump_size, &written_size, nullptr)) {
-        is_dumped = true;
+        if (written_size != dump_size) {
+            LOG_WARNING("The written size %llu is different than the requested size: %llu.", (unsigned long long)written_size, (unsigned long long)dump_size);
+        }
+        if (written_size) {
+            is_dumped = true;
+        }
     }
     else {
         LOG_ERROR("Failed to write to the file.");
