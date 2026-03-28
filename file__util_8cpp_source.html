@@ -173,74 +173,73 @@ $(function() {
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">return</span> buffer;</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>}</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="comment">//save the given buffer into a file</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a0a81fabc3be65a8b23b97a20a5496484">   98</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacepeconv.html#a0a81fabc3be65a8b23b97a20a5496484">peconv::dump_to_file</a>(IN LPCTSTR out_path, IN PBYTE dump_data, IN <span class="keywordtype">size_t</span> dump_size)</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>{</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">if</span> (!out_path || !dump_data || !dump_size) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    HANDLE file = CreateFile(out_path, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">if</span> (file == INVALID_HANDLE_VALUE) {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Cannot open the file for writing.&quot;</span>);</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    }</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordflow">if</span> (dump_size &gt; <a class="code hl_define" href="buffer__util_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>) {</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;Dump size exceeds DWORD range and will be truncated.&quot;</span>);</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    DWORD written_size = 0;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordtype">bool</span> is_dumped = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">if</span> (WriteFile(file, dump_data, (DWORD) dump_size, &amp;written_size, <span class="keyword">nullptr</span>)) {</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordflow">if</span> (written_size != dump_size) {</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;The written size %llu is different than the requested size: %llu.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)written_size, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)dump_size);</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        }</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="keywordflow">if</span> (written_size) {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            is_dumped = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        }</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    }</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to write to the file.&quot;</span>);</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    }</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    CloseHandle(file);</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">return</span> is_dumped;</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment">//free the buffer allocated by load_file/read_from_file</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842">  128</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842">peconv::free_file</a>(IN <a class="code hl_typedef" href="namespacepeconv.html#ad8fbac05bb7872b5680e1fcd7cea04bf">peconv::UNALIGNED_BUF</a> buffer)</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>{</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <a class="code hl_function" href="namespacepeconv.html#afdb790b678572d608be3675ced9b777a">peconv::free_unaligned</a>(buffer);</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc">  133</a></span>std::string <a class="code hl_function" href="namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc">peconv::get_file_name</a>(IN <span class="keyword">const</span> std::string str)</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>{</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordtype">size_t</span> found = str.find_last_of(<span class="stringliteral">&quot;/\\&quot;</span>);</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordflow">if</span> (found == std::string::npos) {</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keywordflow">return</span> str;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    }</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">return</span> str.substr(found + 1);</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>}</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a791341c79814efbdbdd70244e6a7f306">  142</a></span>std::string <a class="code hl_function" href="namespacepeconv.html#a791341c79814efbdbdd70244e6a7f306">peconv::get_directory_name</a>(IN <span class="keyword">const</span> std::string str)</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>{</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keywordtype">size_t</span> found = str.find_last_of(<span class="stringliteral">&quot;/\\&quot;</span>);</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordflow">if</span> (found == std::string::npos) {</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    }</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordflow">return</span> str.substr(0, found);</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>}</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e">  151</a></span><span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e">peconv::find_extension_pos</a>(IN <span class="keyword">const</span> std::string str)</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>{</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordtype">size_t</span> len = str.length();</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordtype">size_t</span> ext_pos = len;</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> k = len; k != 0; k--) {</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordtype">size_t</span> i = k - 1;</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        <span class="keywordtype">char</span> c = str[i];</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;.&#39;</span>) {</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            ext_pos = i;</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        }</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    }</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">return</span> ext_pos;</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>}</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a0a81fabc3be65a8b23b97a20a5496484">   97</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacepeconv.html#a0a81fabc3be65a8b23b97a20a5496484">peconv::dump_to_file</a>(IN LPCTSTR out_path, IN PBYTE dump_data, IN <span class="keywordtype">size_t</span> dump_size)</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>{</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">if</span> (!out_path || !dump_data || !dump_size) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    HANDLE file = CreateFile(out_path, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">if</span> (file == INVALID_HANDLE_VALUE) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Cannot open the file for writing.&quot;</span>);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordflow">if</span> (dump_size &gt; <a class="code hl_define" href="buffer__util_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a>) {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;Dump size exceeds DWORD range and will be truncated.&quot;</span>);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    DWORD written_size = 0;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordtype">bool</span> is_dumped = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">if</span> (WriteFile(file, dump_data, (DWORD) dump_size, &amp;written_size, <span class="keyword">nullptr</span>)) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordflow">if</span> (written_size != dump_size) {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;The written size %llu is different than the requested size: %llu.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)written_size, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)dump_size);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        }</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">if</span> (written_size) {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            is_dumped = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        }</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    }</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to write to the file.&quot;</span>);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    }</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    CloseHandle(file);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordflow">return</span> is_dumped;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>}</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="comment">//free the buffer allocated by load_file/read_from_file</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842">  127</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842">peconv::free_file</a>(IN <a class="code hl_typedef" href="namespacepeconv.html#ad8fbac05bb7872b5680e1fcd7cea04bf">peconv::UNALIGNED_BUF</a> buffer)</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>{</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <a class="code hl_function" href="namespacepeconv.html#afdb790b678572d608be3675ced9b777a">peconv::free_unaligned</a>(buffer);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>}</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc">  132</a></span>std::string <a class="code hl_function" href="namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc">peconv::get_file_name</a>(IN <span class="keyword">const</span> std::string str)</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>{</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordtype">size_t</span> found = str.find_last_of(<span class="stringliteral">&quot;/\\&quot;</span>);</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">if</span> (found == std::string::npos) {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        <span class="keywordflow">return</span> str;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    }</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordflow">return</span> str.substr(found + 1);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>}</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a791341c79814efbdbdd70244e6a7f306">  141</a></span>std::string <a class="code hl_function" href="namespacepeconv.html#a791341c79814efbdbdd70244e6a7f306">peconv::get_directory_name</a>(IN <span class="keyword">const</span> std::string str)</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>{</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordtype">size_t</span> found = str.find_last_of(<span class="stringliteral">&quot;/\\&quot;</span>);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keywordflow">if</span> (found == std::string::npos) {</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    }</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">return</span> str.substr(0, found);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>}</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e">  150</a></span><span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e">peconv::find_extension_pos</a>(IN <span class="keyword">const</span> std::string str)</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>{</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keywordtype">size_t</span> len = str.length();</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordtype">size_t</span> ext_pos = len;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> k = len; k != 0; k--) {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keywordtype">size_t</span> i = k - 1;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordtype">char</span> c = str[i];</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;.&#39;</span>) {</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            ext_pos = i;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        }</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    }</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordflow">return</span> ext_pos;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>}</div>
 <div class="ttc" id="abuffer__util_8h_html"><div class="ttname"><a href="buffer__util_8h.html">buffer_util.h</a></div><div class="ttdoc">Definitions of the used buffer types. Functions for their allocation and deallocation.</div></div>
 <div class="ttc" id="abuffer__util_8h_html_a6966065b527fa9cd37c73ac00255590f"><div class="ttname"><a href="buffer__util_8h.html#a6966065b527fa9cd37c73ac00255590f">MAX_DWORD</a></div><div class="ttdeci">#define MAX_DWORD</div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8h_source.html#l00010">buffer_util.h:10</a></div></div>
 <div class="ttc" id="abuffer__util_8h_html_aaa26768a6583c35dd045af63f9207edd"><div class="ttname"><a href="buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd">MASK_TO_DWORD</a></div><div class="ttdeci">#define MASK_TO_DWORD(val)</div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8h_source.html#l00012">buffer_util.h:12</a></div></div>
@@ -248,22 +247,22 @@ $(function() {
 <div class="ttc" id="alogger_8h_html"><div class="ttname"><a href="logger_8h.html">logger.h</a></div><div class="ttdoc">Compile-time configurable logging macros for peconv.</div></div>
 <div class="ttc" id="alogger_8h_html_ae6fc70e87e424e7083c63696b8fb9e78"><div class="ttname"><a href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a></div><div class="ttdeci">#define LOG_ERROR(fmt,...)</div><div class="ttdef"><b>Definition:</b> <a href="logger_8h_source.html#l00060">logger.h:60</a></div></div>
 <div class="ttc" id="alogger_8h_html_afde44945335adc0c0ae2986fea13438f"><div class="ttname"><a href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a></div><div class="ttdeci">#define LOG_WARNING(fmt,...)</div><div class="ttdef"><b>Definition:</b> <a href="logger_8h_source.html#l00068">logger.h:68</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a0a81fabc3be65a8b23b97a20a5496484"><div class="ttname"><a href="namespacepeconv.html#a0a81fabc3be65a8b23b97a20a5496484">peconv::dump_to_file</a></div><div class="ttdeci">bool dump_to_file(IN LPCTSTR path, IN PBYTE dump_data, IN size_t dump_size)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00098">file_util.cpp:98</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a0a81fabc3be65a8b23b97a20a5496484"><div class="ttname"><a href="namespacepeconv.html#a0a81fabc3be65a8b23b97a20a5496484">peconv::dump_to_file</a></div><div class="ttdeci">bool dump_to_file(IN LPCTSTR path, IN PBYTE dump_data, IN size_t dump_size)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00097">file_util.cpp:97</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a4d50b95546cf5fa78ce185ce1acbb8ec"><div class="ttname"><a href="namespacepeconv.html#a4d50b95546cf5fa78ce185ce1acbb8ec">peconv::alloc_unaligned</a></div><div class="ttdeci">UNALIGNED_BUF alloc_unaligned(size_t buf_size)</div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8cpp_source.html#l00037">buffer_util.cpp:37</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a73465d79fad7d27eca05cedc4613ff99"><div class="ttname"><a href="namespacepeconv.html#a73465d79fad7d27eca05cedc4613ff99">peconv::load_file</a></div><div class="ttdeci">peconv::UNALIGNED_BUF load_file(IN LPCTSTR filename, OUT size_t &amp;r_size)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00009">file_util.cpp:9</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a791341c79814efbdbdd70244e6a7f306"><div class="ttname"><a href="namespacepeconv.html#a791341c79814efbdbdd70244e6a7f306">peconv::get_directory_name</a></div><div class="ttdeci">std::string get_directory_name(IN const std::string full_path)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00142">file_util.cpp:142</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a791341c79814efbdbdd70244e6a7f306"><div class="ttname"><a href="namespacepeconv.html#a791341c79814efbdbdd70244e6a7f306">peconv::get_directory_name</a></div><div class="ttdeci">std::string get_directory_name(IN const std::string full_path)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00141">file_util.cpp:141</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_aad22870e562a1bf1a8972c0f1ba88056"><div class="ttname"><a href="namespacepeconv.html#aad22870e562a1bf1a8972c0f1ba88056">peconv::is_bad_read_ptr</a></div><div class="ttdeci">bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize)</div><div class="ttdef"><b>Definition:</b> <a href="util_8cpp_source.html#l00156">util.cpp:156</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_abdf4bfaa719b25cf37816fabdf548842"><div class="ttname"><a href="namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842">peconv::free_file</a></div><div class="ttdeci">void free_file(IN peconv::UNALIGNED_BUF buffer)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00128">file_util.cpp:128</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_abdf4bfaa719b25cf37816fabdf548842"><div class="ttname"><a href="namespacepeconv.html#abdf4bfaa719b25cf37816fabdf548842">peconv::free_file</a></div><div class="ttdeci">void free_file(IN peconv::UNALIGNED_BUF buffer)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00127">file_util.cpp:127</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ad8fbac05bb7872b5680e1fcd7cea04bf"><div class="ttname"><a href="namespacepeconv.html#ad8fbac05bb7872b5680e1fcd7cea04bf">peconv::UNALIGNED_BUF</a></div><div class="ttdeci">PBYTE UNALIGNED_BUF</div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8h_source.html#l00041">buffer_util.h:41</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_aecabdab99c950ec3b3f90588edc1dd9e"><div class="ttname"><a href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e">peconv::find_extension_pos</a></div><div class="ttdeci">size_t find_extension_pos(IN const std::string str)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00151">file_util.cpp:151</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_aecabdab99c950ec3b3f90588edc1dd9e"><div class="ttname"><a href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e">peconv::find_extension_pos</a></div><div class="ttdeci">size_t find_extension_pos(IN const std::string str)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00150">file_util.cpp:150</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_afc2823ac657b4a305d412dbc9ddcf6bb"><div class="ttname"><a href="namespacepeconv.html#afc2823ac657b4a305d412dbc9ddcf6bb">peconv::read_from_file</a></div><div class="ttdeci">peconv::UNALIGNED_BUF read_from_file(IN LPCTSTR path, IN OUT size_t &amp;read_size)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00062">file_util.cpp:62</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_afd4f0bd8a2cc5b9628be7ebca88a76cc"><div class="ttname"><a href="namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc">peconv::get_file_name</a></div><div class="ttdeci">std::string get_file_name(IN const std::string full_path)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00133">file_util.cpp:133</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_afd4f0bd8a2cc5b9628be7ebca88a76cc"><div class="ttname"><a href="namespacepeconv.html#afd4f0bd8a2cc5b9628be7ebca88a76cc">peconv::get_file_name</a></div><div class="ttdeci">std::string get_file_name(IN const std::string full_path)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00132">file_util.cpp:132</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_afdb790b678572d608be3675ced9b777a"><div class="ttname"><a href="namespacepeconv.html#afdb790b678572d608be3675ced9b777a">peconv::free_unaligned</a></div><div class="ttdeci">void free_unaligned(UNALIGNED_BUF section_buffer)</div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8cpp_source.html#l00045">buffer_util.cpp:45</a></div></div>
 <div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Miscellaneous utility functions.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 28 2026 16:55:22 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Sat Mar 28 2026 17:12:33 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
