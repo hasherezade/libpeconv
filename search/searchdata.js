@@ -10,7 +10,7 @@ var indexSectionsWithContent =
   7: "t",
   8: "lp",
   9: "e",
-  10: "_ilmprtu",
+  10: "_lmprtu",
   11: "l"
 };
 

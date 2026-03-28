@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['log_5fdebug_0',['LOG_DEBUG',['../logger_8h.html#ac06cfc686322558f590c50eab8622ebd',1,'logger.h']]],
-  ['log_5ferror_1',['LOG_ERROR',['../logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78',1,'logger.h']]],
-  ['log_5finfo_2',['LOG_INFO',['../logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3',1,'logger.h']]],
-  ['log_5flevel_5fdebug_3',['LOG_LEVEL_DEBUG',['../logger_8h.html#a130224df8c6bf22a688e3cb74a45689a',1,'logger.h']]],
-  ['log_5flevel_5ferror_4',['LOG_LEVEL_ERROR',['../logger_8h.html#a742fc70e331d7e568bd893c514756a29',1,'logger.h']]],
-  ['log_5flevel_5finfo_5',['LOG_LEVEL_INFO',['../logger_8h.html#a2e25fe130cf710da4ad800747fdd51f3',1,'logger.h']]],
-  ['log_5flevel_5fnone_6',['LOG_LEVEL_NONE',['../logger_8h.html#a43dece650f96e7cf2a4e535c9bd4804a',1,'logger.h']]],
-  ['log_5flevel_5fwarning_7',['LOG_LEVEL_WARNING',['../logger_8h.html#af539a66abed2a7a15e3443d70a3cf1e1',1,'logger.h']]],
-  ['log_5fverbosity_8',['LOG_VERBOSITY',['../logger_8h.html#a65533daa2b934c9fb36258439bdbcc4f',1,'logger.h']]],
-  ['log_5fwarning_9',['LOG_WARNING',['../logger_8h.html#afde44945335adc0c0ae2986fea13438f',1,'logger.h']]]
+  ['mask_5fto_5fdword_0',['MASK_TO_DWORD',['../buffer__util_8h.html#aaa26768a6583c35dd045af63f9207edd',1,'buffer_util.h']]],
+  ['mask_5fto_5fword_1',['MASK_TO_WORD',['../buffer__util_8h.html#a0b697bc33c89771cfb9813059957b230',1,'buffer_util.h']]],
+  ['max_5fdword_2',['MAX_DWORD',['../buffer__util_8h.html#a6966065b527fa9cd37c73ac00255590f',1,'buffer_util.h']]],
+  ['max_5fword_3',['MAX_WORD',['../buffer__util_8h.html#a95b015e2f596dc86ea9220be04427e1a',1,'buffer_util.h']]],
+  ['min_4',['min',['../exceptions__parser_8cpp.html#ac6afabdc09a49a433ee19d8a9486056d',1,'exceptions_parser.cpp']]],
+  ['min_5fdll_5flen_5',['MIN_DLL_LEN',['../fix__imports_8h.html#af0e2f31bb97b6213d7dfa6511915f4d7',1,'fix_imports.h']]]
 ];
