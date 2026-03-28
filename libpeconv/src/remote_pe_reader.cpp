@@ -267,7 +267,7 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID
 {
     BYTE header_buffer[MAX_HEADER_SIZE] = { 0 };
 
-    if (!read_remote_pe_header(processHandle, start_addr, header_buffer, MAX_HEADER_SIZE)) {
+    if (!read_remote_pe_header(processHandle, start_addr, header_buffer, MAX_HEADER_SIZE, force_access)) {
         return NULL;
     }
     PIMAGE_SECTION_HEADER section_hdr = get_section_hdr(header_buffer, MAX_HEADER_SIZE, section_num);
