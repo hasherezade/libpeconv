@@ -34,7 +34,7 @@ var searchData=
   ['get_5fmodule_5fsize_5fvia_5fpeb_31',['get_module_size_via_peb',['../namespacepeconv.html#aa1fda7041e960e41247f5861abcffd7a',1,'peconv']]],
   ['get_5fmodule_5fvia_5fpeb_32',['get_module_via_peb',['../namespacepeconv.html#a08bdcab9a1b9ec7607f19cb51b89424e',1,'peconv']]],
   ['get_5fnt_5fhdr_5farchitecture_33',['get_nt_hdr_architecture',['../namespacepeconv.html#a1621d9ae5ce1a3a0be6a9fa77c7bf59b',1,'peconv']]],
-  ['get_5fnt_5fhdrs_34',['get_nt_hdrs',['../namespacepeconv.html#ae064b93af2489f2ba43b42fdfff2f2a3',1,'peconv']]],
+  ['get_5fnt_5fhdrs_34',['get_nt_hdrs',['../namespacepeconv.html#ac5cf57e877f4a56e53b9cf1a807ea0fb',1,'peconv']]],
   ['get_5fnt_5fhdrs32_35',['get_nt_hdrs32',['../namespacepeconv.html#ab292a30cfc2b59faa96b2c266fa88a87',1,'peconv']]],
   ['get_5fnt_5fhdrs64_36',['get_nt_hdrs64',['../namespacepeconv.html#a72becdae00f88e7627ee820b464e4127',1,'peconv']]],
   ['get_5fntdll_5fhndl_37',['get_ntdll_hndl',['../namespacepeconv.html#afd0370b87e95a0755199897a7fb79067',1,'peconv']]],
