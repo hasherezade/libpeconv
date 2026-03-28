@@ -1,6 +1,5 @@
 #include "fix_dot_net_ep.h"
 #include <peconv.h>
-#include "peconv/logger.h"
 
 #include <string>
 #include <map>
@@ -27,14 +26,18 @@ public:
 
 protected:
     template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
-    bool processThunks_tpl(LPSTR lib_name, T_IMAGE_THUNK_DATA* desc, T_FIELD* call_via, T_FIELD ordinal_flag)
+    bool processThunks_tpl(LPSTR lib_name, const T_IMAGE_THUNK_DATA* desc, const T_FIELD* call_via, const T_FIELD ordinal_flag)
     {
-        DWORD call_via_rva = static_cast<DWORD>((ULONG_PTR)call_via - (ULONG_PTR)this->modulePtr);
+        const DWORD call_via_rva = static_cast<DWORD>((ULONG_PTR)call_via - (ULONG_PTR)this->modulePtr);
         LOG_DEBUG("via RVA: 0x%lx", call_via_rva);
-        bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
+        const bool is_by_ord = (desc->u1.Ordinal & ordinal_flag) != 0;
         if (!is_by_ord) {
-            PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
-            LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
+            const PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
+            const LPSTR func_name = reinterpret_cast<LPSTR>(by_name->Name);
+            if (!peconv::is_valid_string(modulePtr, moduleSize, func_name)) {
+                LOG_ERROR("Invalid pointer to function name");
+                return false;
+            }
             LOG_DEBUG("name: %s", func_name);
             nameToAddr[func_name] = call_via_rva;
         }
@@ -97,8 +100,7 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
 
     if (peconv::is64bit(pe_buffer)) {
         //64bit .NET files have EP=0
-        peconv::update_entry_point_rva(pe_buffer, 0);
-        return true;
+        return peconv::update_entry_point_rva(pe_buffer, 0);
     }
 
     DWORD ep_rva = peconv::get_entry_point_rva(pe_buffer);
@@ -121,8 +123,8 @@ bool fix_dot_net_ep(BYTE *pe_buffer, size_t pe_buffer_size)
         return false;
     }
     size_t offset = (ULONG_PTR)jump_ptr - (ULONG_PTR)pe_buffer;
-    peconv::update_entry_point_rva(pe_buffer, static_cast<DWORD>(offset));
+    const bool is_updated = peconv::update_entry_point_rva(pe_buffer, static_cast<DWORD>(offset));
     LOG_INFO("Found possible Entry Point: 0x%lx", (unsigned long)offset);
-    return true;
+    return is_updated;
 }
 
