@@ -12,27 +12,25 @@ using namespace peconv;
 template <typename FIELD_T>
 size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modulePtr, size_t moduleSize, IN const peconv::ExportsMapper& exportsMap, OUT std::set<ULONGLONG> &addresses)
 {
+    if (!modulePtr || call_via == 0) return 0;
+
     size_t addrCounter = 0;
     do {
-        LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
-        if (call_via_ptr == nullptr) break;
-
-        LPVOID thunk_ptr = (LPVOID)((ULONGLONG)modulePtr + thunk_addr);
-        if (thunk_ptr == nullptr) break;
-
-        if (!validate_ptr(modulePtr, moduleSize, thunk_ptr, sizeof(FIELD_T))) {
-            break;
+        if (thunk_addr) { // use it for validation, only if it is non-zero
+            LPVOID thunk_ptr = (LPVOID)((ULONGLONG)modulePtr + thunk_addr);
+            if (!validate_ptr(modulePtr, moduleSize, thunk_ptr, sizeof(FIELD_T))) {
+                break;
+            }
         }
+        LPVOID call_via_ptr = (LPVOID)((ULONGLONG)modulePtr + call_via);
         if (!validate_ptr(modulePtr, moduleSize, call_via_ptr, sizeof(FIELD_T))) {
             break;
         }
-        FIELD_T *thunk_val = reinterpret_cast<FIELD_T*>(thunk_ptr);
         FIELD_T *call_via_val = reinterpret_cast<FIELD_T*>(call_via_ptr);
         if ((*call_via_val) == 0) {
             //nothing to fill, probably the last record
             break;
         }
-       
         ULONGLONG searchedAddr = ULONGLONG(*call_via_val);
         if (exportsMap.find_export_by_va(searchedAddr) != nullptr) {
             addresses.insert(searchedAddr);
@@ -40,7 +38,9 @@ size_t find_addresses_to_fill(FIELD_T call_via, FIELD_T thunk_addr, LPVOID modul
         }
         //---
         call_via += sizeof(FIELD_T);
-        thunk_addr += sizeof(FIELD_T);
+        if (thunk_addr) { // increment only if the initial value was not 0
+            thunk_addr += sizeof(FIELD_T);
+        }
     } while (true);
 
     return addrCounter;
@@ -247,8 +247,8 @@ bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const 
             }
         }
 
-        DWORD call_via = lib_desc->FirstThunk;
-        DWORD thunk_addr = lib_desc->OriginalFirstThunk; // warning: it can be NULL!
+        const DWORD call_via = lib_desc->FirstThunk;
+        const DWORD thunk_addr = lib_desc->OriginalFirstThunk; // warning: it can be NULL!
         std::set<ULONGLONG> addresses;
         if (!is64) {
             find_addresses_to_fill<DWORD>(call_via, thunk_addr, modulePtr, moduleSize, exportsMap, addresses);
