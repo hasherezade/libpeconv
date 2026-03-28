@@ -19,12 +19,15 @@ namespace {
             desired_base = get_image_base(dllRawData);
             out_size = peconv::get_image_size(dllRawData);
         }
-        DWORD protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
+        if (out_size < r_size) {
+            out_size = r_size;
+        }
+        const DWORD protect = (executable) ? PAGE_EXECUTE_READWRITE : PAGE_READWRITE;
         BYTE* mappedPE = peconv::alloc_pe_buffer(out_size, protect, reinterpret_cast<void*>(desired_base));
         if (!mappedPE) {
             return nullptr;
         }
-        memcpy(mappedPE, dllRawData, r_size);
+        ::memcpy(mappedPE, dllRawData, r_size);
         v_size = out_size;
         return mappedPE;
     }
