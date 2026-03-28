@@ -5,7 +5,7 @@ using namespace peconv;
 
 #include "peconv/logger.h"
 
-BYTE* peconv::get_nt_hdrs(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_size)
+BYTE* peconv::get_nt_hdrs(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_size, IN OPTIONAL const LONG max_pe_offset)
 {
     if (!pe_buffer) return nullptr;
 
@@ -23,14 +23,12 @@ BYTE* peconv::get_nt_hdrs(IN const BYTE *pe_buffer, IN OPTIONAL size_t buffer_si
     if (idh->e_magic != IMAGE_DOS_SIGNATURE) {
         return nullptr;
     }
-    const LONG kMaxOffset = 1024;
-    LONG pe_offset = idh->e_lfanew;
-
-    if (pe_offset < 0 || pe_offset > kMaxOffset) return nullptr;
+    const LONG pe_offset = idh->e_lfanew;
+    if (pe_offset < 0 || pe_offset > max_pe_offset) return nullptr;
 
     IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32 *)(pe_buffer + pe_offset);
     if (buffer_size != 0) {
-        if (!peconv::validate_ptr((LPVOID)pe_buffer, buffer_size, (LPVOID)inh, sizeof(IMAGE_NT_HEADERS32))) {
+        if (!peconv::validate_ptr(pe_buffer, buffer_size, inh, sizeof(IMAGE_NT_HEADERS32))) {
             return nullptr;
         }
     }

@@ -55,7 +55,8 @@ namespace peconv {
     */
     BYTE* get_nt_hdrs(
         IN const BYTE *pe_buffer, 
-        IN OPTIONAL size_t buffer_size=0 //if buffer_size=0 means size unknown
+        IN OPTIONAL size_t buffer_size=0, //if buffer_size=0 means size unknown
+        IN OPTIONAL const LONG max_pe_offset=MAX_HEADER_SIZE //max offset past which `e_lfanew` is not allowed
     );
 
     /**
