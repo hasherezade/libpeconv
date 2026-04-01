@@ -1,7 +1,9 @@
 cmake_minimum_required ( VERSION 3.12 )
 project (run_pe)
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+if (MSVC)
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+endif()
 
 message (STATUS "parser_dir='${PECONV_DIR}'")
 message (STATUS "parser_lib='${PECONV_LIB}'")
