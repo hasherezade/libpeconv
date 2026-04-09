@@ -84,11 +84,11 @@ namespace {
 bool peconv::parse_resources(BYTE* modulePtr, t_on_res_entry_found on_entry)
 {
     const size_t module_size = peconv::get_image_size(modulePtr);
-    IMAGE_DATA_DIRECTORY *dir = peconv::get_directory_entry(modulePtr, IMAGE_DIRECTORY_ENTRY_RESOURCE);
+    IMAGE_DATA_DIRECTORY* dir = peconv::get_directory_entry(modulePtr, IMAGE_DIRECTORY_ENTRY_RESOURCE);
     if (!dir || dir->VirtualAddress == 0 || dir->Size == 0) {
         return false;
     }
-    IMAGE_RESOURCE_DIRECTORY *res_dir = (IMAGE_RESOURCE_DIRECTORY*)(dir->VirtualAddress + (ULONGLONG)modulePtr);
+    IMAGE_RESOURCE_DIRECTORY* res_dir = (IMAGE_RESOURCE_DIRECTORY*)(dir->VirtualAddress + (ULONGLONG)modulePtr);
     if (!peconv::validate_ptr(modulePtr, module_size, res_dir, sizeof(IMAGE_RESOURCE_DIRECTORY))) {
         return false;
     }
