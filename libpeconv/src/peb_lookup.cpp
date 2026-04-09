@@ -132,7 +132,7 @@ HMODULE peconv::get_module_via_peb(IN OPTIONAL LPCWSTR module_name)
 size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
 {
     PPEB peb = get_peb();
-    if (!peb) {
+    if (!peb || !peb->Ldr || !peb->LoaderLock) {
         return 0;
     }
     SectionLocker locker(*peb->LoaderLock);
