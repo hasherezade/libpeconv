@@ -80,21 +80,23 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
             LOG_WARNING("Section %u: destination out of bounds, skipping.", i);
             continue;
         }
-        memcpy(section_mapped, section_raw_ptr, sec_size);
+        ::memcpy(section_mapped, section_raw_ptr, sec_size);
         if (first_raw == 0 || (next_sec->PointerToRawData < first_raw)) {
             first_raw = next_sec->PointerToRawData;
         }
     }
 
     //copy payload's headers:
-    if (hdrsSize == 0) {
-        hdrsSize= first_raw;
-        LOG_INFO("SizeOfHeaders not set, using first section raw offset as fallback: 0x%lx.", hdrsSize);
+    if (hdrsSize == 0 || hdrsSize > payloadSize) {
+        hdrsSize = first_raw;
+        if (hdrsSize == 0) hdrsSize = PAGE_SIZE;
+        if (hdrsSize > payloadSize) hdrsSize = payloadSize;
+        LOG_INFO("SizeOfHeaders invalid, using a fallback value: 0x%lx.", hdrsSize);
     }
-    if (!validate_ptr((const LPVOID)payload, destBufferSize, (const LPVOID)payload, hdrsSize)) {
+    if (hdrsSize > destBufferSize) {
         return false;
     }
-    memcpy(destBuffer, payload, hdrsSize);
+    ::memcpy(destBuffer, payload, hdrsSize);
     return true;
 }
 
