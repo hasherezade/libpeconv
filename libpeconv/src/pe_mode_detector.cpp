@@ -10,12 +10,13 @@
 bool is_virtual_padding(const BYTE* pe_buffer, size_t pe_size)
 {
     const size_t r_align = peconv::get_sec_alignment((PBYTE)pe_buffer, true);
+    if (r_align == 0) return false;
 
     size_t sections_count = peconv::get_sections_count(pe_buffer, pe_size);
     if (sections_count < 2) return false;
 
     bool is_valid_padding = false;
-    for (size_t i = 1; i < sections_count; i += 2) {
+    for (size_t i = 1; i < sections_count; i++) {
         PIMAGE_SECTION_HEADER sec1 = peconv::get_section_hdr(pe_buffer, pe_size, i-1);
         PIMAGE_SECTION_HEADER sec2 = peconv::get_section_hdr(pe_buffer, pe_size, i);
         if (!sec1 || !sec2) continue; //skip if fetching any of the sections failed
@@ -26,7 +27,7 @@ bool is_virtual_padding(const BYTE* pe_buffer, size_t pe_size)
         if (sec2->VirtualAddress == sec1_end_offset) continue;
 
         if (sec2->VirtualAddress < sec1_end_offset) {
-            //std::cout << "Invalid size of the section: " << std::hex << sec2->VirtualAddress << " vs "<< sec1_end_offset << std::endl;
+            LOG_ERROR("Invalid size of the section: 0x%llx vs 0x%llx", (unsigned long long)sec2->VirtualAddress, (unsigned long long)sec1_end_offset);
             return false;
         }
         const size_t diff = sec2->VirtualAddress - sec1_end_offset;
@@ -34,7 +35,7 @@ bool is_virtual_padding(const BYTE* pe_buffer, size_t pe_size)
 
         BYTE* sec1_end_ptr = (BYTE*)((ULONGLONG)pe_buffer + sec1_end_offset);
         if (!peconv::validate_ptr((const LPVOID)pe_buffer, pe_size, sec1_end_ptr, diff)) {
-            //std::cout << "Invalid pointer to the section\n";
+            LOG_ERROR("Invalid pointer to the section at offset: 0x%llx", (unsigned long long)sec1_end_offset);
             return false;
         }
         if (peconv::is_padding(sec1_end_ptr, diff, 0)) {
