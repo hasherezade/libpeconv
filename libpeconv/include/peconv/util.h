@@ -38,6 +38,17 @@ namespace peconv {
     */
     bool is_bad_read_ptr(LPCVOID areaStart, SIZE_T areaSize);
 
+    template <typename INT_TYPE>
+    INT_TYPE round_up_to_unit(const INT_TYPE size, const INT_TYPE unit)
+    {
+        if (unit == 0) return size;
+
+        INT_TYPE rem = size % unit;
+        if (rem == 0) return size;
+
+        return size + (unit - rem);
+    }
+
     /**
     Verifies if the string of specific type is within the given buffer and NULL terminated.
     */

@@ -55,8 +55,7 @@ PBYTE peconv::find_alignment_cave(BYTE* modulePtr, size_t moduleSize, const DWOR
         DWORD rem = section_hdr->SizeOfRawData % alignment;
         if (rem == 0) continue;
 
-        DWORD div = (section_hdr->SizeOfRawData / alignment) + 1;
-        DWORD new_size = div * alignment;
+        DWORD new_size = peconv::round_up_to_unit(section_hdr->SizeOfRawData, alignment);
         DWORD cave_size = new_size - section_hdr->SizeOfRawData;
         if (cave_size < minimal_size) {
             LOG_INFO("Cave is too small.");

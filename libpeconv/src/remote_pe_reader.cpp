@@ -251,18 +251,6 @@ bool peconv::read_remote_pe_header(HANDLE processHandle, LPVOID start_addr, OUT 
     return true;
 }
 
-namespace peconv {
-    inline size_t roundup_to_unit(size_t size, size_t unit)
-    {
-        if (unit == 0) {
-            return size;
-        }
-        size_t parts = size / unit;
-        if (size % unit) parts++;
-        return parts * unit;
-    }
-};
-
 peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID start_addr, const size_t section_num, OUT size_t &section_size, bool roundup, bool force_access)
 {
     BYTE header_buffer[MAX_HEADER_SIZE] = { 0 };
@@ -278,7 +266,7 @@ peconv::UNALIGNED_BUF peconv::get_remote_pe_section(HANDLE processHandle, LPVOID
     if (roundup) {
         DWORD va = peconv::get_sec_alignment(header_buffer, false);
         if (va == 0) va = PAGE_SIZE;
-        buffer_size = roundup_to_unit(section_hdr->Misc.VirtualSize, va);
+        buffer_size = peconv::round_up_to_unit(section_hdr->Misc.VirtualSize, va);
     }
     UNALIGNED_BUF module_code = peconv::alloc_unaligned(buffer_size);
     if (module_code == NULL) {
