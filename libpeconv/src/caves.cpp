@@ -5,29 +5,31 @@
 
 using namespace peconv;
 
-PBYTE peconv::find_ending_cave(BYTE*modulePtr, size_t moduleSize, const DWORD minimal_size, const DWORD req_charact, bool reserve)
+PBYTE peconv::find_ending_cave(BYTE* modulePtr, size_t moduleSize, const DWORD minimal_size, const DWORD req_charact, bool reserve)
 {
+    if (!modulePtr || !moduleSize) return nullptr;
+
     size_t sec_count = peconv::get_sections_count(modulePtr, moduleSize);
     if (sec_count == 0) return nullptr;
 
-    size_t last_sec = sec_count - 1;
-    PIMAGE_SECTION_HEADER section_hdr = peconv::get_section_hdr(modulePtr, moduleSize, last_sec);
-    if (section_hdr == nullptr) return nullptr;
+    const size_t last_sec = sec_count - 1;
+    const PIMAGE_SECTION_HEADER section_hdr = peconv::get_section_hdr(modulePtr, moduleSize, last_sec);
+    if (!section_hdr) return nullptr;
     if (!(section_hdr->Characteristics & req_charact)) return nullptr;
 
-    DWORD raw_size = section_hdr->SizeOfRawData;
-    DWORD virtual_size = (DWORD)moduleSize - section_hdr->VirtualAddress;
+    const DWORD raw_size = section_hdr->SizeOfRawData;
+    const DWORD virtual_size = static_cast<DWORD>(moduleSize - section_hdr->VirtualAddress);
 
     if (raw_size >= virtual_size) {
         LOG_INFO("Last section's raw_size: 0x%lx >= virtual_size: 0x%lx", raw_size, virtual_size);
         return nullptr;
     }
-    DWORD cave_size = virtual_size - raw_size;
+    const DWORD cave_size = virtual_size - raw_size;
     if (cave_size < minimal_size) {
         LOG_INFO("Cave is too small.");
         return nullptr;
     }
-    PBYTE cave_ptr = modulePtr + section_hdr->VirtualAddress + section_hdr->SizeOfRawData;
+    const PBYTE cave_ptr = modulePtr + section_hdr->VirtualAddress + section_hdr->SizeOfRawData;
     if (!validate_ptr(modulePtr, moduleSize, cave_ptr, minimal_size)) {
         LOG_INFO("Invalid cave pointer.");
         return nullptr;
