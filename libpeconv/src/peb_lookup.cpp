@@ -101,7 +101,7 @@ bool is_wanted_module(LPCWSTR curr_name, LPCWSTR wanted_name)
 HMODULE peconv::get_module_via_peb(IN OPTIONAL LPCWSTR module_name)
 {
     PPEB peb = get_peb();
-    if (!peb) {
+    if (!peb || !peb->Ldr || !peb->LoaderLock) {
         return NULL;
     }
     SectionLocker locker(*peb->LoaderLock);
