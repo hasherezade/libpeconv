@@ -102,6 +102,6 @@ namespace peconv {
     \param relocs : cached list of relocations (optional). If nullptr is passed, the function will try to collect the set internally (if reloc table exists).
     \return true if the conversion was successful, false otherwise
     */
-    bool virtual_addr_to_rva(IN const PBYTE imgBase, IN const DWORD imgSize, IN ULONGLONG virtualAddr, OUT DWORD& outRVA, IN std::unordered_set<ULONGLONG>* relocs=nullptr);
+    bool virtual_addr_to_rva(IN const PBYTE imgBase, IN const size_t imgSize, IN ULONGLONG virtualAddr, OUT DWORD& outRVA, IN std::unordered_set<ULONGLONG>* relocs=nullptr);
 
 };//namespace peconv

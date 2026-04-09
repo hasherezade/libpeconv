@@ -210,7 +210,7 @@ namespace {
     }
 }
 
-bool peconv::virtual_addr_to_rva(IN const PBYTE modulePtr, IN const DWORD module_size, IN ULONGLONG callback_addr, OUT DWORD& callback_rva, IN std::unordered_set<ULONGLONG>* _relocs)
+bool peconv::virtual_addr_to_rva(IN const PBYTE modulePtr, IN const size_t module_size, IN ULONGLONG callback_addr, OUT DWORD& callback_rva, IN std::unordered_set<ULONGLONG>* _relocs)
 {
     if (!module_size || !callback_addr) return false;
 
