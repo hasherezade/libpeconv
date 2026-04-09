@@ -16,13 +16,13 @@ bool peconv::validate_ptr(IN const void* buffer_bgn, IN size_t buffer_size, IN c
     if (_field_start < _start) {
         return false;
     }
-    size_t start_delta =  (ULONG_PTR)_field_start - (ULONG_PTR)_start;
-    size_t area_size = start_delta + field_size;
-    if (area_size > buffer_size) {
-        return false;
-    }
+    const size_t start_delta =  (ULONG_PTR)_field_start - (ULONG_PTR)_start;
+    const size_t area_size = start_delta + field_size;
     if (area_size < field_size || area_size < start_delta) {
         LOG_WARNING("Integer Overflow, limit exceeded! start_delta: %zu field_size: %zu area_size: %zu", start_delta, field_size, area_size);
+        return false;
+    }
+    if (area_size > buffer_size) {
         return false;
     }
     return true;
