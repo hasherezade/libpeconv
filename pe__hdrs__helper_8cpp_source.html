@@ -633,11 +633,11 @@ $(function() {
 <div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>    <span class="keywordflow">if</span> (!rounded) {</div>
 <div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>        <span class="keywordflow">return</span> sec_hdr-&gt;Misc.VirtualSize;</div>
 <div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>    }</div>
-<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>    <span class="comment">//TODO: calculate real size, round up to Virtual Alignment</span></div>
-<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>    DWORD alignment = <a class="code hl_function" href="namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c">peconv::get_sec_alignment</a>((<span class="keyword">const</span> PBYTE)pe_hdr, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>    <span class="comment">// calculate real size, round up to Virtual Alignment</span></div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>    <span class="keyword">const</span> DWORD alignment = <a class="code hl_function" href="namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c">peconv::get_sec_alignment</a>((<span class="keyword">const</span> PBYTE)pe_hdr, <span class="keyword">false</span>);</div>
 <div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>    DWORD vsize = <a class="code hl_function" href="namespacepeconv.html#aa23826a6fbe891dc3ee7fec6671d5cce">peconv::round_up_to_unit</a>(sec_hdr-&gt;Misc.VirtualSize, alignment);</div>
-<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>    DWORD image_size = <a class="code hl_function" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a>(pe_hdr);</div>
-<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>    <span class="comment">//if it is bigger than the image size, use the size from the headers</span></div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>    <span class="keyword">const</span> DWORD image_size = <a class="code hl_function" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a>(pe_hdr);</div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>    <span class="comment">// if it is bigger than the image size, use the size from the headers</span></div>
 <div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>    <span class="keywordflow">if</span> ((sec_hdr-&gt;VirtualAddress + vsize) &gt; image_size) {</div>
 <div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>        vsize = sec_hdr-&gt;Misc.VirtualSize;</div>
 <div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>    }</div>
@@ -781,7 +781,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 9 2026 19:54:39 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Thu Apr 9 2026 22:12:45 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>

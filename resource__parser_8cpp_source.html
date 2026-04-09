@@ -163,11 +163,11 @@ $(function() {
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a54589cd2372630c0c29ac743d868abaa">   84</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespacepeconv.html#a54589cd2372630c0c29ac743d868abaa">peconv::parse_resources</a>(BYTE* modulePtr, t_on_res_entry_found on_entry)</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>{</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">const</span> <span class="keywordtype">size_t</span> module_size = <a class="code hl_function" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a>(modulePtr);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    IMAGE_DATA_DIRECTORY *dir = <a class="code hl_function" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68">peconv::get_directory_entry</a>(modulePtr, IMAGE_DIRECTORY_ENTRY_RESOURCE);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    IMAGE_DATA_DIRECTORY* dir = <a class="code hl_function" href="namespacepeconv.html#ad22e135ef3600e6ebc35b809804f5b68">peconv::get_directory_entry</a>(modulePtr, IMAGE_DIRECTORY_ENTRY_RESOURCE);</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">if</span> (!dir || dir-&gt;VirtualAddress == 0 || dir-&gt;Size == 0) {</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    IMAGE_RESOURCE_DIRECTORY *res_dir = (IMAGE_RESOURCE_DIRECTORY*)(dir-&gt;VirtualAddress + (ULONGLONG)modulePtr);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    IMAGE_RESOURCE_DIRECTORY* res_dir = (IMAGE_RESOURCE_DIRECTORY*)(dir-&gt;VirtualAddress + (ULONGLONG)modulePtr);</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">peconv::validate_ptr</a>(modulePtr, module_size, res_dir, <span class="keyword">sizeof</span>(IMAGE_RESOURCE_DIRECTORY))) {</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    }</div>
@@ -187,7 +187,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 9 2026 19:54:39 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Thu Apr 9 2026 22:12:45 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
