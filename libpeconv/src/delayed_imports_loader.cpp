@@ -4,8 +4,6 @@
 #include "peconv/logger.h"
 #include "peconv/util.h"
 
-#include <unordered_set>
-
 IMAGE_DELAYLOAD_DESCRIPTOR* peconv::get_delayed_imps(IN const BYTE* modulePtr, IN const size_t moduleSize, OUT size_t &dir_size)
 {
     dir_size = 0;
@@ -24,40 +22,6 @@ IMAGE_DELAYLOAD_DESCRIPTOR* peconv::get_delayed_imps(IN const BYTE* modulePtr, I
     dir_size = d_imps_dir->Size;
     return reinterpret_cast<IMAGE_DELAYLOAD_DESCRIPTOR*> (dimps_table);
 }
-
-namespace {
-
-    class CollectRelocs : public peconv::RelocBlockCallback
-    {
-    public:
-        CollectRelocs(BYTE* pe_buffer, size_t buffer_size, IN bool _is64bit, OUT std::unordered_set<ULONGLONG>& _relocs)
-            : RelocBlockCallback(_is64bit), relocs(_relocs),
-            peBuffer(pe_buffer), bufferSize(buffer_size)
-        {
-        }
-
-        virtual bool processRelocField(ULONG_PTR relocField)
-        {
-            ULONGLONG rva = 0;
-            if (is64bit) {
-                ULONGLONG* relocateAddr = (ULONGLONG*)((ULONG_PTR)relocField);
-                rva = (*relocateAddr);
-            }
-            else {
-                DWORD* relocateAddr = (DWORD*)((ULONG_PTR)relocField);
-                rva = ULONGLONG(*relocateAddr);
-            }
-            relocs.insert(rva);
-            return true;
-        }
-
-    protected:
-        std::unordered_set<ULONGLONG>& relocs;
-
-        BYTE* peBuffer;
-        size_t bufferSize;
-    };
-};
 
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
 bool parse_delayed_desc(

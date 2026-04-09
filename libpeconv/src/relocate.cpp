@@ -167,9 +167,9 @@ bool apply_relocations(PVOID modulePtr, SIZE_T moduleSize, ULONGLONG newBase, UL
     return process_relocation_table(modulePtr, moduleSize, &callback);
 }
 
-bool peconv::relocate_module(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase)
+bool peconv::relocate_module(IN PBYTE modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase)
 {
-    if (modulePtr == NULL) {
+    if (!modulePtr || !moduleSize) {
         return false;
     }
     if (oldBase == 0) {
@@ -190,5 +190,64 @@ bool peconv::relocate_module(IN BYTE* modulePtr, IN SIZE_T moduleSize, IN ULONGL
 bool peconv::has_valid_relocation_table(IN const PBYTE modulePtr, IN const size_t moduleSize)
 {
     return process_relocation_table(modulePtr, moduleSize, nullptr);
+}
+
+namespace {
+    bool virtual_addr_to_rva_no_relocs(IN const BYTE* modulePtr, IN const DWORD module_size, IN ULONGLONG callback_addr, OUT DWORD& callback_rva)
+    {
+        const ULONGLONG img_base = (ULONGLONG)modulePtr;
+        //check if VA:
+        if (callback_addr >= img_base && callback_addr < (img_base + module_size)) {
+            callback_rva = MASK_TO_DWORD(callback_addr - img_base);
+            return true;
+        }
+        if (callback_addr < module_size) {
+            callback_rva = MASK_TO_DWORD(callback_addr);
+            return true;
+        }
+        // out of scope address
+        return false;
+    }
+}
+
+bool peconv::virtual_addr_to_rva(IN const PBYTE modulePtr, IN const DWORD module_size, IN ULONGLONG callback_addr, OUT DWORD& callback_rva, IN std::unordered_set<ULONGLONG>* _relocs)
+{
+    if (!module_size || !callback_addr) return false;
+
+    const ULONGLONG img_base = (ULONGLONG)modulePtr;
+
+    std::unordered_set<ULONGLONG> local_relocs;
+    std::unordered_set<ULONGLONG>& reloc_values = _relocs ? (*_relocs) : local_relocs;
+    if (!_relocs && peconv::has_relocations(modulePtr)) {
+        // Collect relocations for VA detection
+        CollectRelocs callback(modulePtr, module_size, peconv::is64bit(modulePtr), reloc_values);
+        process_relocation_table(modulePtr, module_size, &callback);
+    }
+    
+    // for files with no relocation table use simple heuristics:
+    if (reloc_values.empty()) {
+        return virtual_addr_to_rva_no_relocs(modulePtr, module_size, callback_addr, callback_rva);
+    }
+    // Helper to convert VA -> RVA if the address is in relocation table
+    auto _convert_va_to_rva = [&](ULONGLONG& addr, DWORD &rva) -> bool
+        {
+            if (reloc_values.find(addr) != reloc_values.end()) {
+                // found: input is a VA
+                if (addr < img_base) {
+                    LOG_ERROR("Invalid VA: 0x%llx cannot convert safely", addr);
+                    return false;
+                }
+                rva = addr - img_base;
+            }
+            else {
+                // not found: input is a RVA
+                if (addr > module_size) {
+                    return false;
+                }
+                rva = static_cast<DWORD>(addr);
+            }
+            return true;
+        };
+    return _convert_va_to_rva(callback_addr, callback_rva);
 }
 

@@ -2,6 +2,7 @@
 
 #include "peconv/pe_hdrs_helper.h"
 #include "peconv/logger.h"
+#include "peconv/relocate.h"
 
 namespace peconv {
 
@@ -28,25 +29,7 @@ namespace peconv {
     }
 };
 
-
-bool peconv::virtual_addr_to_rva(IN const ULONGLONG img_base, IN const DWORD img_size, IN ULONGLONG callback_addr, OUT DWORD &callback_rva)
-{
-    if (!img_size || !callback_addr) return false;
-
-    //check if VA:
-    if (callback_addr >= img_base && callback_addr < (img_base + img_size)) {
-        callback_rva = MASK_TO_DWORD(callback_addr - img_base);
-        return true;
-    }
-    if (callback_addr < img_size) {
-        callback_rva = MASK_TO_DWORD(callback_addr);
-        return true;
-    }
-    // out of scope address
-    return false;
-}
-
-size_t peconv::list_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, OUT std::vector<ULONGLONG> &tls_callbacks)
+size_t peconv::list_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize, OUT std::vector<ULONGLONG> &tls_callbacks, IN std::unordered_set<ULONGLONG>* _relocs)
 {
     const ULONGLONG img_base = (ULONGLONG)modulePtr;
     const DWORD img_size = peconv::get_image_size((BYTE*)modulePtr);
@@ -62,7 +45,7 @@ size_t peconv::list_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, OUT 
     if (!callbacks_addr) return 0;
     LOG_DEBUG("TLS Callbacks Table: 0x%llx.", (unsigned long long)callbacks_addr);
     DWORD callbacks_rva = 0;
-    if (!virtual_addr_to_rva(img_base, img_size, callbacks_addr, callbacks_rva)) return 0;
+    if (!virtual_addr_to_rva((PBYTE)modulePtr, img_size, callbacks_addr, callbacks_rva, _relocs)) return 0;
     LOG_DEBUG("TLS Callbacks RVA: 0x%llx.", (unsigned long long)callbacks_rva);
     size_t counter = 0;
     if (peconv::is64bit((BYTE*)modulePtr)) {
@@ -74,22 +57,28 @@ size_t peconv::list_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, OUT 
     return counter;
 }
 
-size_t peconv::run_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD dwReason)
+size_t peconv::run_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize, IN DWORD dwReason)
 {
     const DWORD img_size = peconv::get_image_size((BYTE*)modulePtr);
     if (moduleSize == 0) {
         moduleSize = img_size;
     }
+    // Collect relocations for VA detection
+    std::unordered_set<ULONGLONG> reloc_values;
+    CollectRelocs callback(modulePtr, moduleSize, peconv::is64bit(modulePtr), reloc_values);
+    process_relocation_table(modulePtr, moduleSize, &callback);
+
     std::vector<ULONGLONG> tls_callbacks;
-    if (!peconv::list_tls_callbacks(modulePtr, moduleSize, tls_callbacks)) {
+    if (!peconv::list_tls_callbacks(modulePtr, moduleSize, tls_callbacks, &reloc_values)) {
         return 0;
     }
+
     std::vector<ULONGLONG>::iterator itr;
     size_t i = 0;
     for (itr = tls_callbacks.begin(); itr != tls_callbacks.end(); ++itr, i++) {
         ULONGLONG callback_addr = *itr;
         DWORD rva = 0; //TLS callback can be defined as RVA or VA, so make sure it is in a consistent format...
-        if (!peconv::virtual_addr_to_rva((ULONG_PTR)modulePtr, img_size, callback_addr, rva)) {
+        if (!peconv::virtual_addr_to_rva((PBYTE)modulePtr, img_size, callback_addr, rva, &reloc_values)) {
             // in some cases, TLS callbacks can lead to functions in other modules: we want to skip those,
             // keeping only addresses that are in the current PE scope
             continue;
