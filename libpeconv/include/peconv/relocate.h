@@ -4,9 +4,10 @@
 */
 
 #pragma once
-
 #include <windows.h>
 #include <unordered_set>
+
+#include "peconv/buffer_util.h"
 
 namespace peconv {
 
@@ -46,11 +47,18 @@ namespace peconv {
         {
             ULONGLONG rva = 0;
             if (is64bit) {
+                
                 ULONGLONG* relocateAddr = (ULONGLONG*)((ULONG_PTR)relocField);
+                if (!validate_ptr(peBuffer, bufferSize, relocateAddr, sizeof(ULONGLONG))) {
+                    return false;
+                }
                 rva = (*relocateAddr);
             }
             else {
                 DWORD* relocateAddr = (DWORD*)((ULONG_PTR)relocField);
+                if (!validate_ptr(peBuffer, bufferSize, relocateAddr, sizeof(DWORD))) {
+                    return false;
+                }
                 rva = ULONGLONG(*relocateAddr);
             }
             relocs.insert(rva);
