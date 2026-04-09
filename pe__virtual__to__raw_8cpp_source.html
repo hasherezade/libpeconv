@@ -135,7 +135,7 @@ $(function() {
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            sec_size = (payload_size &gt; next_sec-&gt;VirtualAddress) ? SIZE_T(payload_size - next_sec-&gt;VirtualAddress) : 0;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <a class="code hl_define" href="logger_8h.html#afde44945335adc0c0ae2986fea13438f">LOG_WARNING</a>(<span class="stringliteral">&quot;Section %u: virtual size exceeds buffer, truncating to 0x%zx.&quot;</span>, i, sec_size);</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        }</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordflow">if</span> (next_sec-&gt;VirtualAddress &gt; payload_size &amp;&amp; sec_size != 0) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordflow">if</span> (next_sec-&gt;VirtualAddress &gt;= payload_size &amp;&amp; sec_size != 0) {</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Section %u: VirtualAddress 0x%lx is out of bounds.&quot;</span>, i, next_sec-&gt;VirtualAddress);</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
@@ -306,7 +306,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 1 2026 16:01:18 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Thu Apr 9 2026 17:39:09 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
