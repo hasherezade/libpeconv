@@ -56,7 +56,7 @@ bool sections_virtual_to_raw(BYTE* payload, SIZE_T payload_size, OUT BYTE* destA
             sec_size = (payload_size > next_sec->VirtualAddress) ? SIZE_T(payload_size - next_sec->VirtualAddress) : 0;
             LOG_WARNING("Section %u: virtual size exceeds buffer, truncating to 0x%zx.", i, sec_size);
         }
-        if (next_sec->VirtualAddress > payload_size && sec_size != 0) {
+        if (next_sec->VirtualAddress >= payload_size && sec_size != 0) {
             LOG_ERROR("Section %u: VirtualAddress 0x%lx is out of bounds.", i, next_sec->VirtualAddress);
             return false;
         }
