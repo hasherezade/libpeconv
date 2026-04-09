@@ -18,6 +18,7 @@ PBYTE peconv::find_ending_cave(BYTE* modulePtr, size_t moduleSize, const DWORD m
     if (!(section_hdr->Characteristics & req_charact)) return nullptr;
 
     const DWORD raw_size = section_hdr->SizeOfRawData;
+    if (section_hdr->VirtualAddress > moduleSize) return nullptr;
     const DWORD virtual_size = static_cast<DWORD>(moduleSize - section_hdr->VirtualAddress);
 
     if (raw_size >= virtual_size) {
