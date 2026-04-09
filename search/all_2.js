@@ -9,6 +9,6 @@ var searchData=
   ['buffer_6',['buffer',['../classpeconv_1_1_patch_backup.html#a8f69c14488288dfec69ede5710e75d8d',1,'peconv::PatchBackup']]],
   ['buffer_5futil_2ecpp_7',['buffer_util.cpp',['../buffer__util_8cpp.html',1,'']]],
   ['buffer_5futil_2eh_8',['buffer_util.h',['../buffer__util_8h.html',1,'']]],
-  ['buffersize_9',['bufferSize',['../classpeconv_1_1_patch_backup.html#a1a63258222234db221ae0190b463cff1',1,'peconv::PatchBackup']]],
+  ['buffersize_9',['bufferSize',['../classpeconv_1_1_patch_backup.html#a1a63258222234db221ae0190b463cff1',1,'peconv::PatchBackup::bufferSize()'],['../classpeconv_1_1_collect_relocs.html#aecb7b8443f18c33178856ff2dc1ae8aa',1,'peconv::CollectRelocs::bufferSize()']]],
   ['buildnumber_10',['BuildNumber',['../structpeconv_1_1___nt_version.html#a4904a9b253a48643d1376dcb504584e3',1,'peconv::_NtVersion']]]
 ];

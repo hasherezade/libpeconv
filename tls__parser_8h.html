@@ -85,6 +85,7 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;windows.h&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
 </div>
 <p><a href="tls__parser_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -95,12 +96,10 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a62ffc65b115ea04d0405b9789abdae8b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a62ffc65b115ea04d0405b9789abdae8b">peconv::virtual_addr_to_rva</a> (IN const ULONGLONG imgBase, IN const DWORD imgSize, IN ULONGLONG virtualAddr, OUT DWORD &amp;outRVA)</td></tr>
-<tr class="separator:a62ffc65b115ea04d0405b9789abdae8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0b5f4877627bc9a2dd939016d543212"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae0b5f4877627bc9a2dd939016d543212">peconv::list_tls_callbacks</a> (IN PVOID modulePtr, IN size_t moduleSize, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks)</td></tr>
-<tr class="separator:ae0b5f4877627bc9a2dd939016d543212"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e2ff10a8a87a03dcdb0e2e029406c6b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b">peconv::run_tls_callbacks</a> (IN PVOID modulePtr, IN size_t moduleSize=0, IN DWORD dwReason=DLL_PROCESS_ATTACH)</td></tr>
-<tr class="separator:a0e2ff10a8a87a03dcdb0e2e029406c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a1d57a5f9286ed0aa477377c3e7d5a5"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">peconv::list_tls_callbacks</a> (IN PBYTE modulePtr, IN size_t moduleSize, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks, IN std::unordered_set&lt; ULONGLONG &gt; *relocs)</td></tr>
+<tr class="separator:a5a1d57a5f9286ed0aa477377c3e7d5a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5eb68a6679e27647732d5b171482897"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">peconv::run_tls_callbacks</a> (IN PBYTE modulePtr, IN size_t moduleSize=0, IN DWORD dwReason=DLL_PROCESS_ATTACH)</td></tr>
+<tr class="separator:ae5eb68a6679e27647732d5b171482897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Functions related to TLS Callbacks. </p>
@@ -109,7 +108,7 @@ Functions</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 9 2026 18:20:55 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Thu Apr 9 2026 18:42:09 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>

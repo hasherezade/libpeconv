@@ -86,6 +86,7 @@ $(function() {
 <p>Operating on PE file's relocations table.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;windows.h&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
 </div>
 <p><a href="relocate_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -94,6 +95,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpeconv_1_1___b_a_s_e___r_e_l_o_c_a_t_i_o_n___e_n_t_r_y.html">peconv::_BASE_RELOCATION_ENTRY</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_reloc_block_callback.html">peconv::RelocBlockCallback</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1_collect_relocs.html">peconv::CollectRelocs</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -110,10 +113,12 @@ Typedefs</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a7e87560c87993545d9e1ece20e756bfb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb">peconv::process_relocation_table</a> (IN PVOID modulePtr, IN SIZE_T moduleSize, IN <a class="el" href="classpeconv_1_1_reloc_block_callback.html">RelocBlockCallback</a> *callback)</td></tr>
 <tr class="separator:a7e87560c87993545d9e1ece20e756bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab35521cbdafa0310a0d7e9d1525beed8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ab35521cbdafa0310a0d7e9d1525beed8">peconv::relocate_module</a> (IN BYTE *modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase=0)</td></tr>
-<tr class="separator:ab35521cbdafa0310a0d7e9d1525beed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad322fd0b3ff966e39be3365e9e5a9d23"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ad322fd0b3ff966e39be3365e9e5a9d23">peconv::relocate_module</a> (IN PBYTE modulePtr, IN SIZE_T moduleSize, IN ULONGLONG newBase, IN ULONGLONG oldBase=0)</td></tr>
+<tr class="separator:ad322fd0b3ff966e39be3365e9e5a9d23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2bb52d5cf4b94ee5db2e3003f8b0d1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#ae2bb52d5cf4b94ee5db2e3003f8b0d1b">peconv::has_valid_relocation_table</a> (IN const PBYTE modulePtr, IN const size_t moduleSize)</td></tr>
 <tr class="separator:ae2bb52d5cf4b94ee5db2e3003f8b0d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb69bad922a342f4fa417eedbfff5345"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepeconv.html#afb69bad922a342f4fa417eedbfff5345">peconv::virtual_addr_to_rva</a> (IN const PBYTE imgBase, IN const DWORD imgSize, IN ULONGLONG virtualAddr, OUT DWORD &amp;outRVA, IN std::unordered_set&lt; ULONGLONG &gt; *relocs=nullptr)</td></tr>
+<tr class="separator:afb69bad922a342f4fa417eedbfff5345"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Operating on PE file's relocations table. </p>
@@ -122,7 +127,7 @@ Functions</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 9 2026 18:20:55 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Thu Apr 9 2026 18:42:09 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>

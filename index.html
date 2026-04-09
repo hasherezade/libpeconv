@@ -121,7 +121,7 @@ $(function() {
 <div class="line">    <a class="code hl_function" href="namespacepeconv.html#a160928436b4c34309ed3c2da10f8dc53">peconv::load_delayed_imports</a>(my_pe, load_base);</div>
 <div class="line">  </div>
 <div class="line">    <span class="comment">// if needed, you can run TLS callbacks before the Entry Point:</span></div>
-<div class="line">    <a class="code hl_function" href="namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b">peconv::run_tls_callbacks</a>(my_pe, v_size);</div>
+<div class="line">    <a class="code hl_function" href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">peconv::run_tls_callbacks</a>(my_pe, v_size);</div>
 <div class="line">    </div>
 <div class="line">    <span class="comment">//calculate the Entry Point of the manually loaded module</span></div>
 <div class="line">    DWORD ep_rva = <a class="code hl_function" href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a>(my_pe);</div>
@@ -135,11 +135,11 @@ $(function() {
 <div class="line">    <span class="comment">//call the Entry Point of the manually loaded PE:</span></div>
 <div class="line">    <span class="keywordflow">return</span> new_main();</div>
 <div class="line">}</div>
-<div class="ttc" id="anamespacepeconv_html_a0e2ff10a8a87a03dcdb0e2e029406c6b"><div class="ttname"><a href="namespacepeconv.html#a0e2ff10a8a87a03dcdb0e2e029406c6b">peconv::run_tls_callbacks</a></div><div class="ttdeci">size_t run_tls_callbacks(IN PVOID modulePtr, IN size_t moduleSize=0, IN DWORD dwReason=DLL_PROCESS_ATTACH)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00077">tls_parser.cpp:77</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a12d3fa7eccb95cafc6d2be997965e97c"><div class="ttname"><a href="namespacepeconv.html#a12d3fa7eccb95cafc6d2be997965e97c">peconv::get_entry_point_rva</a></div><div class="ttdeci">DWORD get_entry_point_rva(IN const BYTE *pe_buffer)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00167">pe_hdrs_helper.cpp:167</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a160928436b4c34309ed3c2da10f8dc53"><div class="ttname"><a href="namespacepeconv.html#a160928436b4c34309ed3c2da10f8dc53">peconv::load_delayed_imports</a></div><div class="ttdeci">bool load_delayed_imports(BYTE *modulePtr, const ULONGLONG moduleBase, t_function_resolver *func_resolver=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="delayed__imports__loader_8cpp_source.html#l00167">delayed_imports_loader.cpp:167</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a160928436b4c34309ed3c2da10f8dc53"><div class="ttname"><a href="namespacepeconv.html#a160928436b4c34309ed3c2da10f8dc53">peconv::load_delayed_imports</a></div><div class="ttdeci">bool load_delayed_imports(BYTE *modulePtr, const ULONGLONG moduleBase, t_function_resolver *func_resolver=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="delayed__imports__loader_8cpp_source.html#l00131">delayed_imports_loader.cpp:131</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a1b2f6b38a8631d42d6a7919f41de7e01"><div class="ttname"><a href="namespacepeconv.html#a1b2f6b38a8631d42d6a7919f41de7e01">peconv::set_main_module_in_peb</a></div><div class="ttdeci">bool set_main_module_in_peb(HMODULE hModule)</div><div class="ttdef"><b>Definition:</b> <a href="peb__lookup_8cpp_source.html#l00163">peb_lookup.cpp:163</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a73465d79fad7d27eca05cedc4613ff99"><div class="ttname"><a href="namespacepeconv.html#a73465d79fad7d27eca05cedc4613ff99">peconv::load_file</a></div><div class="ttdeci">peconv::UNALIGNED_BUF load_file(IN LPCTSTR filename, OUT size_t &amp;r_size)</div><div class="ttdef"><b>Definition:</b> <a href="file__util_8cpp_source.html#l00009">file_util.cpp:9</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_ae5eb68a6679e27647732d5b171482897"><div class="ttname"><a href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">peconv::run_tls_callbacks</a></div><div class="ttdeci">size_t run_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize=0, IN DWORD dwReason=DLL_PROCESS_ATTACH)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00060">tls_parser.cpp:60</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_ae8a6d6ea0644694b6a43b65c733cfb50"><div class="ttname"><a href="namespacepeconv.html#ae8a6d6ea0644694b6a43b65c733cfb50">peconv::load_pe_executable</a></div><div class="ttdeci">BYTE * load_pe_executable(BYTE *payload_raw, size_t r_size, OUT size_t &amp;v_size, t_function_resolver *import_resolver=nullptr, ULONG_PTR desired_base=0)</div><div class="ttdef"><b>Definition:</b> <a href="pe__loader_8cpp_source.html#l00095">pe_loader.cpp:95</a></div></div>
 <div class="ttc" id="apeconv_8h_html"><div class="ttname"><a href="peconv_8h.html">peconv.h</a></div><div class="ttdoc">Master include for LibPEConv.</div></div>
 </div><!-- fragment --><p> <em>See also: <a href="https://github.com/hasherezade/libpeconv_tpl/blob/master/project_template/main.cpp">https://github.com/hasherezade/libpeconv_tpl/blob/master/project_template/main.cpp</a></em></p>
@@ -155,7 +155,7 @@ $(function() {
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 9 2026 18:20:55 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Thu Apr 9 2026 18:42:09 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
