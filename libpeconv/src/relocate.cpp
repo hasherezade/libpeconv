@@ -193,7 +193,7 @@ bool peconv::has_valid_relocation_table(IN const PBYTE modulePtr, IN const size_
 }
 
 namespace {
-    bool virtual_addr_to_rva_no_relocs(IN const BYTE* modulePtr, IN const DWORD module_size, IN ULONGLONG callback_addr, OUT DWORD& callback_rva)
+    bool virtual_addr_to_rva_no_relocs(IN const BYTE* modulePtr, IN const size_t module_size, IN ULONGLONG callback_addr, OUT DWORD& callback_rva)
     {
         const ULONGLONG img_base = (ULONGLONG)modulePtr;
         //check if VA:
@@ -201,7 +201,7 @@ namespace {
             callback_rva = MASK_TO_DWORD(callback_addr - img_base);
             return true;
         }
-        if (callback_addr < module_size) {
+        if (callback_addr < (ULONGLONG)module_size) {
             callback_rva = MASK_TO_DWORD(callback_addr);
             return true;
         }
