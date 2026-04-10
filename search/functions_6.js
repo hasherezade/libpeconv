@@ -38,14 +38,13 @@ var searchData=
   ['get_5fntdll_5fhndl_35',['get_ntdll_hndl',['../namespacepeconv.html#afd0370b87e95a0755199897a7fb79067',1,'peconv']]],
   ['get_5foptional_5fhdr_36',['get_optional_hdr',['../namespacepeconv.html#aebb9e5b6f3cdb3a82532e5dda130e6de',1,'peconv']]],
   ['get_5fordinal_37',['get_ordinal',['../exports__mapper_8cpp.html#a7c3c7da5858665b6fe9a69bf18d05280',1,'exports_mapper.cpp']]],
-  ['get_5fpeb_38',['get_peb',['../peb__lookup_8cpp.html#a7f86e7558b841ac9e5a6374758a3f71c',1,'peb_lookup.cpp']]],
-  ['get_5fprocess_5fid_39',['get_process_id',['../namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8',1,'peconv']]],
-  ['get_5fremote_5fimage_5fsize_40',['get_remote_image_size',['../namespacepeconv.html#afeeccff87d7eb9e791519cedb70c3626',1,'peconv']]],
-  ['get_5fremote_5fpe_5fsection_41',['get_remote_pe_section',['../namespacepeconv.html#a0a89659d1d02f1ef3dd315ef869da312',1,'peconv']]],
-  ['get_5fsec_5falignment_42',['get_sec_alignment',['../namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c',1,'peconv']]],
-  ['get_5fsection_5fhdr_43',['get_section_hdr',['../namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c',1,'peconv']]],
-  ['get_5fsections_5fcount_44',['get_sections_count',['../namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f',1,'peconv']]],
-  ['get_5fsubsystem_45',['get_subsystem',['../namespacepeconv.html#aeafb7e52c8601e080c7852fdaa6eb904',1,'peconv']]],
-  ['get_5ftype_5fdirectory_46',['get_type_directory',['../namespacepeconv.html#a63e10a24ceb5a1348031ab6a6742a4ad',1,'peconv']]],
-  ['get_5fvirtual_5fsec_5fsize_47',['get_virtual_sec_size',['../namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554',1,'peconv']]]
+  ['get_5fprocess_5fid_38',['get_process_id',['../namespacepeconv.html#a022bad7e1913b31319ae23d5644aaaa8',1,'peconv']]],
+  ['get_5fremote_5fimage_5fsize_39',['get_remote_image_size',['../namespacepeconv.html#afeeccff87d7eb9e791519cedb70c3626',1,'peconv']]],
+  ['get_5fremote_5fpe_5fsection_40',['get_remote_pe_section',['../namespacepeconv.html#a0a89659d1d02f1ef3dd315ef869da312',1,'peconv']]],
+  ['get_5fsec_5falignment_41',['get_sec_alignment',['../namespacepeconv.html#aa040616c6dec10cb9d9f3dc9ffbcb68c',1,'peconv']]],
+  ['get_5fsection_5fhdr_42',['get_section_hdr',['../namespacepeconv.html#a63cc4b1dadd9eb341c2d453e65d1ef4c',1,'peconv']]],
+  ['get_5fsections_5fcount_43',['get_sections_count',['../namespacepeconv.html#ab2271a167be8077d8ca0ab9b9bf9483f',1,'peconv']]],
+  ['get_5fsubsystem_44',['get_subsystem',['../namespacepeconv.html#aeafb7e52c8601e080c7852fdaa6eb904',1,'peconv']]],
+  ['get_5ftype_5fdirectory_45',['get_type_directory',['../namespacepeconv.html#a63e10a24ceb5a1348031ab6a6742a4ad',1,'peconv']]],
+  ['get_5fvirtual_5fsec_5fsize_46',['get_virtual_sec_size',['../namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554',1,'peconv']]]
 ];
