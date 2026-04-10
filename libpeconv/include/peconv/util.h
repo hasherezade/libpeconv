@@ -4,6 +4,7 @@
 */
 
 #pragma once
+#include <limits>
 
 #include "file_util.h"
 #include "resource_util.h"
@@ -46,7 +47,11 @@ namespace peconv {
         INT_TYPE rem = size % unit;
         if (rem == 0) return size;
 
-        return size + (unit - rem);
+        const INT_TYPE addend = unit - rem;
+        if (size > (std::numeric_limits<INT_TYPE>::max)() - addend) {
+            return size;
+        }
+        return size + addend;
     }
 
     /**
