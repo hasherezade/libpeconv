@@ -20,25 +20,23 @@ protected:
 };
 
 //here we don't want to use any functions imported form extenal modules
-
-typedef struct _LDR_MODULE { 
-    LIST_ENTRY  InLoadOrderModuleList;//   +0x00 
-    LIST_ENTRY  InMemoryOrderModuleList;// +0x08   
-    LIST_ENTRY  InInitializationOrderModuleList;// +0x10 
-    void*   BaseAddress; // +0x18 
-    void*   EntryPoint;  // +0x1c 
-    ULONG   SizeOfImage; 
-    UNICODE_STRING FullDllName; 
-    UNICODE_STRING BaseDllName; 
-    ULONG   Flags; 
-    SHORT   LoadCount; 
-    SHORT   TlsIndex; 
-    HANDLE  SectionHandle; 
-    ULONG   CheckSum; 
-    ULONG   TimeDateStamp; 
-} LDR_MODULE, *PLDR_MODULE;
-
 namespace {
+    typedef struct _LDR_MODULE { 
+        LIST_ENTRY  InLoadOrderModuleList;//   +0x00 
+        LIST_ENTRY  InMemoryOrderModuleList;// +0x08   
+        LIST_ENTRY  InInitializationOrderModuleList;// +0x10 
+        void*   BaseAddress; // +0x18 
+        void*   EntryPoint;  // +0x1c 
+        ULONG   SizeOfImage; 
+        UNICODE_STRING FullDllName; 
+        UNICODE_STRING BaseDllName; 
+        ULONG   Flags; 
+        SHORT   LoadCount; 
+        SHORT   TlsIndex; 
+        HANDLE  SectionHandle; 
+        ULONG   CheckSum; 
+        ULONG   TimeDateStamp; 
+    } LDR_MODULE, *PLDR_MODULE;
 
     inline PPEB get_peb()
     {
@@ -118,15 +116,14 @@ bool is_wanted_module(LPCWSTR curr_name, LPCWSTR wanted_name)
 
 HMODULE peconv::get_module_via_peb(IN OPTIONAL LPCWSTR module_name)
 {
-    PPEB peb = get_peb();
+    const PPEB peb = get_peb();
     if (!peb || !peb->Ldr || !peb->LoaderLock) {
         return NULL;
     }
     SectionLocker locker(*peb->LoaderLock);
-    LIST_ENTRY head = peb->Ldr->InLoadOrderModuleList;
 
-    const PLDR_MODULE first_module = *((PLDR_MODULE *)(&head));
-    PLDR_MODULE curr_module = first_module;
+    const PLIST_ENTRY list_head = &peb->Ldr->InLoadOrderModuleList;
+    PLDR_MODULE curr_module = (PLDR_MODULE)list_head->Flink;
     if (!module_name) {
         return (HMODULE)(curr_module->BaseAddress);
     }
@@ -142,22 +139,20 @@ HMODULE peconv::get_module_via_peb(IN OPTIONAL LPCWSTR module_name)
         }
         curr_module = (PLDR_MODULE)curr_module->InLoadOrderModuleList.Flink;
 
-    } while (curr_module != first_module);
+    } while ((PLIST_ENTRY)curr_module != list_head);
 
     return NULL;
 }
 
 size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
 {
-    PPEB peb = get_peb();
+    const PPEB peb = get_peb();
     if (!peb || !peb->Ldr || !peb->LoaderLock) {
         return 0;
     }
     SectionLocker locker(*peb->LoaderLock);
-    LIST_ENTRY head = peb->Ldr->InLoadOrderModuleList;
-
-    const PLDR_MODULE first_module = *((PLDR_MODULE *)(&head));
-    PLDR_MODULE curr_module = first_module;
+    const PLIST_ENTRY list_head = &peb->Ldr->InLoadOrderModuleList;
+    PLDR_MODULE curr_module = (PLDR_MODULE)list_head->Flink;
     if (!hModule) {
         return (size_t)(curr_module->SizeOfImage);
     }
@@ -173,7 +168,7 @@ size_t peconv::get_module_size_via_peb(IN OPTIONAL HMODULE hModule)
         }
         curr_module = (PLDR_MODULE)curr_module->InLoadOrderModuleList.Flink;
 
-    } while (curr_module != first_module);
+    } while ((PLIST_ENTRY)curr_module != list_head);
 
     return 0;
 }
