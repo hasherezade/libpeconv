@@ -209,7 +209,7 @@ void ImpsNotCovered::insert(DWORD thunkRVA, ULONGLONG searchedAddr)
 
 bool peconv::fix_imports(IN OUT PVOID modulePtr, IN size_t moduleSize, IN const peconv::ExportsMapper& exportsMap, OUT OPTIONAL peconv::ImpsNotCovered* notCovered)
 {
-    bool skip_bound = false; // skip boud imports?
+    const bool skip_bound = false; // skip bound imports?
     IMAGE_DATA_DIRECTORY *importsDir = peconv::get_directory_entry((const BYTE*) modulePtr, IMAGE_DIRECTORY_ENTRY_IMPORT);
     if (!importsDir) {
         return true; // done! no imports -> nothing to fix
