@@ -191,14 +191,14 @@ bool peconv::load_delayed_imports(BYTE* modulePtr, ULONGLONG moduleBase, t_funct
         LOG_DEBUG("Processing delayed imports for: %s", dll_name);
         if (is_64bit) {
 #ifdef _WIN64
-            is_ok = parse_delayed_desc<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver, reloc_values);
+            is_ok &= parse_delayed_desc<ULONGLONG,IMAGE_THUNK_DATA64>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver, reloc_values);
 #else
             return false;
 #endif
         }
         else {
 #ifndef _WIN64
-            is_ok = parse_delayed_desc<DWORD, IMAGE_THUNK_DATA32>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver, reloc_values);
+            is_ok &= parse_delayed_desc<DWORD, IMAGE_THUNK_DATA32>(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver, reloc_values);
 #else
             return false;
 #endif
