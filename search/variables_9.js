@@ -1,7 +1,7 @@
 var searchData=
 [
   ['libname_0',['libName',['../classpeconv_1_1_exported_func.html#af1d0cc6562b7ee535ad0f77c590638f3',1,'peconv::ExportedFunc']]],
-  ['loadcount_1',['LoadCount',['../structpeconv_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#ab3c2136d4da954977ffa9efb625662c1',1,'peconv::_LDR_DDAG_NODE_WIN8::LoadCount()'],['../struct___l_d_r___m_o_d_u_l_e.html#aca0ffd55c95c4efcf419690a32abd6e6',1,'_LDR_MODULE::LoadCount()']]],
+  ['loadcount_1',['LoadCount',['../structpeconv_1_1___l_d_r___d_d_a_g___n_o_d_e___w_i_n8.html#ab3c2136d4da954977ffa9efb625662c1',1,'peconv::_LDR_DDAG_NODE_WIN8']]],
   ['loadinprogress_2',['LoadInProgress',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a0a3e3606f98d251d6277989d97139fbe',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['loadnotificationssent_3',['LoadNotificationsSent',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a5e3ef9fb1dc5e58341e8cd4a4b2e6df2',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['loadreason_4',['LoadReason',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a894d555f6a30f5aa016c5dc08b25f4c9',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],

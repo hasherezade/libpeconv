@@ -270,14 +270,14 @@ $(function() {
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;Processing delayed imports for: %s&quot;</span>, dll_name);</div>
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="keywordflow">if</span> (is_64bit) {</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="preprocessor">#ifdef _WIN64</span></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            is_ok = parse_delayed_desc&lt;ULONGLONG,IMAGE_THUNK_DATA64&gt;(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver, reloc_values);</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            is_ok &amp;= parse_delayed_desc&lt;ULONGLONG,IMAGE_THUNK_DATA64&gt;(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG64, desc, func_resolver, reloc_values);</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        }</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        <span class="keywordflow">else</span> {</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="preprocessor">#ifndef _WIN64</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            is_ok = parse_delayed_desc&lt;DWORD, IMAGE_THUNK_DATA32&gt;(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver, reloc_values);</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            is_ok &amp;= parse_delayed_desc&lt;DWORD, IMAGE_THUNK_DATA32&gt;(modulePtr, module_size, moduleBase, dll_name, IMAGE_ORDINAL_FLAG32, desc, func_resolver, reloc_values);</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="preprocessor">#endif</span></div>
@@ -315,7 +315,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 10 2026 20:47:10 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Fri Apr 10 2026 21:00:51 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
