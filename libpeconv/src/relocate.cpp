@@ -127,13 +127,14 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
 
     DWORD parsedSize = 0;
     while (parsedSize < maxSize) {
-        reloc = (IMAGE_BASE_RELOCATION*)(relocAddr + parsedSize + (ULONG_PTR)modulePtr);
+        const ULONGLONG curr_reloc_addr = relocAddr + parsedSize;
+        reloc = (IMAGE_BASE_RELOCATION*)(curr_reloc_addr + (ULONG_PTR)modulePtr);
         if (!validate_ptr(modulePtr, moduleSize, reloc, sizeof(IMAGE_BASE_RELOCATION))) {
-            LOG_ERROR("Invalid address of relocations.");
+            LOG_WARNING("Invalid address of relocations, RVA: 0x%llx when moduleSize is: 0x%llx", curr_reloc_addr, (ULONGLONG)moduleSize);
             return false;
         }
         if (reloc->SizeOfBlock < (2 * sizeof(DWORD))) {
-            LOG_ERROR("Malformed relocation block: SizeOfBlock too small.");
+            LOG_WARNING("Malformed relocation block: SizeOfBlock too small.");
             return false;
         }
         const size_t entriesNum = (reloc->SizeOfBlock - 2 * sizeof(DWORD)) / sizeof(WORD);
@@ -141,12 +142,13 @@ bool peconv::process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, 
 
         BASE_RELOCATION_ENTRY* block = (BASE_RELOCATION_ENTRY*)((ULONG_PTR)reloc + sizeof(DWORD) + sizeof(DWORD));
         if (!validate_ptr(modulePtr, moduleSize, block, sizeof(BASE_RELOCATION_ENTRY))) {
-            LOG_ERROR("Invalid address of relocations block.");
+            LOG_WARNING("Invalid address of relocations block.");
             return false;
         }
         if (!is_empty_reloc_block(block, entriesNum, page, modulePtr, moduleSize)) {
             if (!process_reloc_block(block, entriesNum, page, modulePtr, moduleSize, is64b, callback)) {
                 // the block was malformed
+                LOG_WARNING("Malformed relocation block.");
                 return false;
             }
         }
@@ -237,7 +239,7 @@ bool peconv::virtual_addr_to_rva(IN const PBYTE modulePtr, IN const size_t modul
                     LOG_ERROR("Invalid VA: 0x%llx cannot convert safely", addr);
                     return false;
                 }
-                rva = addr - img_base;
+                rva = static_cast<DWORD>(addr - img_base);
             }
             else {
                 // not found: input is a RVA
