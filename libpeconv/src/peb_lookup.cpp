@@ -38,64 +38,82 @@ typedef struct _LDR_MODULE {
     ULONG   TimeDateStamp; 
 } LDR_MODULE, *PLDR_MODULE;
 
-inline PPEB get_peb()
-{
+namespace {
+
+    inline PPEB get_peb()
+    {
 #if defined(_M_AMD64)
-    return (PPEB)__readgsqword(0x60);
+        return (PPEB)__readgsqword(0x60);
 #elif defined(_M_ARM64)
-    PPEB peb = (PPEB)(*(__getReg(18) + 0x60));
-    LOG_DEBUG("ARM64 TEB: %p PEB: %p.", (void*)__getReg(18), peb);
-    return peb;
+        PPEB peb = (PPEB)(*(__getReg(18) + 0x60));
+        LOG_DEBUG("ARM64 TEB: %p PEB: %p.", (void*)__getReg(18), peb);
+        return peb;
 #else
-    return (PPEB)__readfsdword(0x30);
-/*
-//alternative way to fetch it:
-    LPVOID PEB = NULL;
-    __asm {
-        mov eax, fs:[30h]
-        mov PEB, eax
-    };
-    return (PPEB)PEB;
+        return (PPEB)__readfsdword(0x30);
+    /*
+    //alternative way to fetch it:
+        LPVOID PEB = NULL;
+        __asm {
+            mov eax, fs:[30h]
+            mov PEB, eax
+        };
+        return (PPEB)PEB;
 
-    or:
-    LPVOID PEB = RtlGetCurrentPeb();
-*/
+        or:
+        LPVOID PEB = RtlGetCurrentPeb();
+    */
 #endif
-}
-
-inline WCHAR to_lowercase(WCHAR c1)
-{
-    if (c1 <= L'Z' && c1 >= L'A') {
-        c1 = (c1 - L'A') + L'a';
     }
-    return c1;
-}
+
+    inline WCHAR to_lowercase(WCHAR c1)
+    {
+        if (c1 <= L'Z' && c1 >= L'A') {
+            c1 = (c1 - L'A') + L'a';
+        }
+        return c1;
+    }
+
+    inline LPCWSTR find_string_end(LPCWSTR str)
+    {
+        if (!str) return nullptr;
+
+        LPCWSTR curr_end_ptr = str;
+        while (*curr_end_ptr != L'\0') {
+            curr_end_ptr++;
+        }
+        return curr_end_ptr;
+    }
+};
 
 bool is_wanted_module(LPCWSTR curr_name, LPCWSTR wanted_name)
 {
     if (wanted_name == NULL || curr_name == NULL) return false;
 
-    LPCWSTR curr_end_ptr = curr_name;
-    while (*curr_end_ptr != L'\0') {
-        curr_end_ptr++;
-    }
+    LPCWSTR curr_end_ptr = find_string_end(curr_name);
     if (curr_end_ptr == curr_name) return false;
 
-    LPCWSTR wanted_end_ptr = wanted_name;
-    while (*wanted_end_ptr != L'\0') {
-        wanted_end_ptr++;
-    }
+    LPCWSTR wanted_end_ptr = find_string_end(wanted_name);
     if (wanted_end_ptr == wanted_name) return false;
 
-    while ((curr_end_ptr != curr_name) && (wanted_end_ptr != wanted_name)) {
-
+    // iterate from the last character towards the beginning
+    while (true) {
         if (to_lowercase(*wanted_end_ptr) != to_lowercase(*curr_end_ptr)) {
             return false;
+        }
+        // if any of the string reached its beginning:
+        if (wanted_end_ptr == wanted_name || curr_end_ptr == curr_name) {
+            break;
         }
         wanted_end_ptr--;
         curr_end_ptr--;
     }
-    return true;
+    // can be true only if the entire wanted_name was consumed
+    if (wanted_end_ptr == wanted_name) {
+        if (curr_end_ptr == curr_name) return true;
+        curr_end_ptr--;
+        if ((*curr_end_ptr) == L'\\' || (*curr_end_ptr) == L'/') return true;
+    }
+    return false;
 }
 
 HMODULE peconv::get_module_via_peb(IN OPTIONAL LPCWSTR module_name)
