@@ -34,7 +34,7 @@ int tests::check_pe_format(LPCTSTR my_path)
         isRaw2 = peconv::is_pe_raw(virtual_pe, v_size);
         peconv::free_pe_buffer(virtual_pe);
     }
-    peconv::free_pe_buffer(loaded_pe);
+    peconv::free_file(loaded_pe);
 
     std::cout << "Test 1:\n\t";
     printFromat(isRaw);
