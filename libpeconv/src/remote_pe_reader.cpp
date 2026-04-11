@@ -316,8 +316,8 @@ size_t peconv::read_remote_pe(const HANDLE processHandle, LPVOID start_addr, con
             LOG_ERROR("Failed to read the header of section: %zu.", i);
             break;
         }
-        const DWORD sec_va = hdr->VirtualAddress;
-        const DWORD sec_vsize = get_virtual_sec_size(hdr_buffer, hdr, true);
+        const size_t sec_va = hdr->VirtualAddress;
+        const size_t sec_vsize = get_virtual_sec_size(hdr_buffer, hdr, true);
         if (sec_va + sec_vsize > bufferSize) {
             LOG_ERROR("No more space in the buffer.");
             break;

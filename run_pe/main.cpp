@@ -51,8 +51,12 @@ int _tmain(int argc, LPTSTR argv[])
     payload_path = argv[1];
     target_path = argv[2];
 
-    std::tstring cmdLine = GetCommandLine();
+    const std::tstring cmdLine = GetCommandLine();
     size_t found = cmdLine.find(target_path);
+    if (found == cmdLine.npos) {
+        std::cerr << "Failed parsing commandline!\n";
+        return (-1);
+    }
 
     // cut out the parameters that are dedicated to the run_pe app only
     std::tstring trimmedCmdLine = cmdLine.substr(found, cmdLine.length());
