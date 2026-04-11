@@ -390,8 +390,8 @@ $(function() {
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>            <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;Failed to read the header of section: %zu.&quot;</span>, i);</div>
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>        }</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        <span class="keyword">const</span> DWORD sec_va = hdr-&gt;VirtualAddress;</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>        <span class="keyword">const</span> DWORD sec_vsize = <a class="code hl_function" href="namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554">get_virtual_sec_size</a>(hdr_buffer, hdr, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> sec_va = hdr-&gt;VirtualAddress;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> sec_vsize = <a class="code hl_function" href="namespacepeconv.html#a2e208adcdf6990b44a9f5a09b831b554">get_virtual_sec_size</a>(hdr_buffer, hdr, <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>        <span class="keywordflow">if</span> (sec_va + sec_vsize &gt; bufferSize) {</div>
 <div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>            <a class="code hl_define" href="logger_8h.html#ae6fc70e87e424e7083c63696b8fb9e78">LOG_ERROR</a>(<span class="stringliteral">&quot;No more space in the buffer.&quot;</span>);</div>
 <div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>            <span class="keywordflow">break</span>;</div>
@@ -497,7 +497,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 11 2026 23:27:33 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Sat Apr 11 2026 23:35:49 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
