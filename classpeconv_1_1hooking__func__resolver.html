@@ -97,8 +97,8 @@ Inheritance diagram for peconv::hooking_func_resolver:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3ddedbef125aab53b2d0115bd952eff6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1hooking__func__resolver.html#a3ddedbef125aab53b2d0115bd952eff6">add_hook</a> (const std::string &amp;name, FARPROC function)</td></tr>
 <tr class="separator:a3ddedbef125aab53b2d0115bd952eff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a900eb7e40b1fafdcaf44599856b9cc39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1hooking__func__resolver.html#a900eb7e40b1fafdcaf44599856b9cc39">replace_dll</a> (std::string dll_name, const std::string &amp;new_dll)</td></tr>
-<tr class="separator:a900eb7e40b1fafdcaf44599856b9cc39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2afdd0b3888e2f8b37589c9f164a8c15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1hooking__func__resolver.html#a2afdd0b3888e2f8b37589c9f164a8c15">replace_dll</a> (std::string dll_name, std::string new_dll)</td></tr>
+<tr class="separator:a2afdd0b3888e2f8b37589c9f164a8c15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cb032fb05921aaad82490af691096b6"><td class="memItemLeft" align="right" valign="top">virtual FARPROC&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpeconv_1_1hooking__func__resolver.html#a4cb032fb05921aaad82490af691096b6">resolve_func</a> (LPCSTR lib_name, LPCSTR func_name)</td></tr>
 <tr class="separator:a4cb032fb05921aaad82490af691096b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classpeconv_1_1default__func__resolver"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classpeconv_1_1default__func__resolver')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classpeconv_1_1default__func__resolver.html">peconv::default_func_resolver</a></td></tr>
@@ -168,14 +168,11 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a900eb7e40b1fafdcaf44599856b9cc39" name="a900eb7e40b1fafdcaf44599856b9cc39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a900eb7e40b1fafdcaf44599856b9cc39">&#9670;&#160;</a></span>replace_dll()</h2>
+<a id="a2afdd0b3888e2f8b37589c9f164a8c15" name="a2afdd0b3888e2f8b37589c9f164a8c15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2afdd0b3888e2f8b37589c9f164a8c15">&#9670;&#160;</a></span>replace_dll()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void peconv::hooking_func_resolver::replace_dll </td>
@@ -186,7 +183,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>new_dll</em>&#160;</td>
         </tr>
         <tr>
@@ -195,11 +192,6 @@ Additional Inherited Members</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 <p >Define a DLL that will be replaced. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -209,7 +201,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hooks_8h_source.html#l00099">99</a> of file <a class="el" href="hooks_8h_source.html">hooks.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hooks_8cpp_source.html#l00089">89</a> of file <a class="el" href="hooks_8cpp_source.html">hooks.cpp</a>.</p>
 
 </div>
 </div>
@@ -257,7 +249,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classpeconv_1_1default__func__resolver.html#a066a70803ac85bb73123dab8ed29ec03">peconv::default_func_resolver</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="hooks_8cpp_source.html#l00084">84</a> of file <a class="el" href="hooks_8cpp_source.html">hooks.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hooks_8cpp_source.html#l00096">96</a> of file <a class="el" href="hooks_8cpp_source.html">hooks.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -279,7 +271,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 10 2026 22:28:20 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Sat Apr 11 2026 23:27:33 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>

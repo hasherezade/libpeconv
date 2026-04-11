@@ -14,7 +14,8 @@ var searchData=
   ['tls_5fparser_2eh_11',['tls_parser.h',['../tls__parser_8h.html',1,'']]],
   ['tlsindex_12',['TlsIndex',['../structpeconv_1_1___l_d_r___d_a_t_a___t_a_b_l_e___e_n_t_r_y___w_i_n8.html#a37bd3c183fde6dc41255ef4fbf551a02',1,'peconv::_LDR_DATA_TABLE_ENTRY_WIN8']]],
   ['to_5flowercase_13',['TO_LOWERCASE',['../exports__lookup_8cpp.html#ad0142b6414aae6a74f5507da6dc85718',1,'exports_lookup.cpp']]],
-  ['tostring_14',['toString',['../classpeconv_1_1_exported_func.html#af723125e547c1e1459dbcd0a4ac02d0a',1,'peconv::ExportedFunc']]],
-  ['tstring_15',['tstring',['../unicode_8h.html#ae5d59c80151fb6bca8c486086a1ed05b',1,'unicode.h']]],
-  ['type_16',['Type',['../structpeconv_1_1___b_a_s_e___r_e_l_o_c_a_t_i_o_n___e_n_t_r_y.html#a8d8be9926fc9d07ff03b50413d2a2624',1,'peconv::_BASE_RELOCATION_ENTRY']]]
+  ['to_5flowercase_14',['to_lowercase',['../namespacepeconv.html#a468333347085fd3066d4dc421062cfb1',1,'peconv']]],
+  ['tostring_15',['toString',['../classpeconv_1_1_exported_func.html#af723125e547c1e1459dbcd0a4ac02d0a',1,'peconv::ExportedFunc']]],
+  ['tstring_16',['tstring',['../unicode_8h.html#ae5d59c80151fb6bca8c486086a1ed05b',1,'unicode.h']]],
+  ['type_17',['Type',['../structpeconv_1_1___b_a_s_e___r_e_l_o_c_a_t_i_o_n___e_n_t_r_y.html#a8d8be9926fc9d07ff03b50413d2a2624',1,'peconv::_BASE_RELOCATION_ENTRY']]]
 ];

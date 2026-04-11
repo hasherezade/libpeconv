@@ -22,7 +22,7 @@ var searchData=
   ['relocs_19',['relocs',['../classpeconv_1_1_collect_relocs.html#ad7a3c00be2dd5951a64cf6fcdb72a836',1,'peconv::CollectRelocs']]],
   ['remote_5fpe_5freader_2ecpp_20',['remote_pe_reader.cpp',['../remote__pe__reader_8cpp.html',1,'']]],
   ['remote_5fpe_5freader_2eh_21',['remote_pe_reader.h',['../remote__pe__reader_8h.html',1,'']]],
-  ['replace_5fdll_22',['replace_dll',['../classpeconv_1_1hooking__func__resolver.html#a900eb7e40b1fafdcaf44599856b9cc39',1,'peconv::hooking_func_resolver']]],
+  ['replace_5fdll_22',['replace_dll',['../classpeconv_1_1hooking__func__resolver.html#a2afdd0b3888e2f8b37589c9f164a8c15',1,'peconv::hooking_func_resolver']]],
   ['replace_5ftarget_23',['replace_target',['../namespacepeconv.html#ab5141d4b76a42b9e0498381c2f29bfee',1,'peconv']]],
   ['reserved_24',['Reserved',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___c_o_d_e___i_n_t_e_g_r_i_t_y___w10.html#a96a89f97dc8596b855d4ee986f23e97c',1,'peconv::_IMAGE_LOAD_CONFIG_CODE_INTEGRITY_W10']]],
   ['reserved2_25',['Reserved2',['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r32___w10.html#aeb6106eeb8bf2e7bb3b59e5981773e7a',1,'peconv::_IMAGE_LOAD_CONFIG_DIR32_W10::Reserved2()'],['../structpeconv_1_1___i_m_a_g_e___l_o_a_d___c_o_n_f_i_g___d_i_r64___w10.html#a356962fd89ee6d725dd02735d3682aed',1,'peconv::_IMAGE_LOAD_CONFIG_DIR64_W10::Reserved2()']]],
