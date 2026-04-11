@@ -1,7 +1,12 @@
 #include "peconv/hooks.h"
+
 #include "peconv/logger.h"
-#include "peconv.h"
+#include "peconv/exports_lookup.h"
 #include "peconv/peb_lookup.h"
+#include "peconv/util.h"
+
+#include <algorithm>
+#include <cctype>
 
 using namespace peconv;
 
@@ -81,6 +86,13 @@ bool PatchBackup::applyBackup()
     return true;
 }
 
+void peconv::hooking_func_resolver::replace_dll(std::string dll_name, std::string new_dll)
+{
+    std::transform(new_dll.begin(), new_dll.end(), new_dll.begin(), ::tolower);
+    std::transform(dll_name.begin(), dll_name.end(), dll_name.begin(), ::tolower);
+    dll_replacements_map[dll_name] = new_dll;
+}
+
 FARPROC peconv::hooking_func_resolver::resolve_func(LPCSTR lib_name, LPCSTR func_name)
 {
     //the name may be ordinal rather than string, so check if it is a valid pointer:
@@ -92,8 +104,9 @@ FARPROC peconv::hooking_func_resolver::resolve_func(LPCSTR lib_name, LPCSTR func
             return hook;
         }
     }
-    // resolve eventual replacement DLLs
+    // resolve replacement DLLs
     std::string lib_name_str = peconv::is_bad_read_ptr(lib_name, 1) ? "": lib_name;
+    std::transform(lib_name_str.begin(), lib_name_str.end(), lib_name_str.begin(), ::tolower);
     std::map<std::string, std::string>::const_iterator itr2 = this->dll_replacements_map.find(lib_name_str);
     if (itr2 != dll_replacements_map.end()) {
         const std::string &name = itr2->second;

@@ -1,5 +1,6 @@
 #include "ntddk.h"
-#include "peconv/logger.h"
+#include <peconv/logger.h>
+#include <peconv/util.h>
 #include <peconv/peb_lookup.h>
 
 class SectionLocker {
@@ -63,14 +64,6 @@ namespace {
 #endif
     }
 
-    inline WCHAR to_lowercase(WCHAR c1)
-    {
-        if (c1 <= L'Z' && c1 >= L'A') {
-            c1 = (c1 - L'A') + L'a';
-        }
-        return c1;
-    }
-
     inline LPCWSTR find_string_end(LPCWSTR str)
     {
         if (!str) return nullptr;
@@ -95,7 +88,7 @@ bool is_wanted_module(LPCWSTR curr_name, LPCWSTR wanted_name)
 
     // iterate from the last character towards the beginning
     while (true) {
-        if (to_lowercase(*wanted_end_ptr) != to_lowercase(*curr_end_ptr)) {
+        if (peconv::to_lowercase(*wanted_end_ptr) != peconv::to_lowercase(*curr_end_ptr)) {
             return false;
         }
         // if any of the string reached its beginning:

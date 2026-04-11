@@ -73,4 +73,13 @@ namespace peconv {
         }
         return is_terminated && (i != 0);
     }
+
+    template <typename CHAR_T>
+    inline CHAR_T to_lowercase(CHAR_T c1)
+    {
+        if (c1 <= CHAR_T('Z') && c1 >= CHAR_T('A')) {
+            c1 = (c1 - CHAR_T('A')) + CHAR_T('a');
+        }
+        return c1;
+    }
 };
