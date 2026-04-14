@@ -1,5 +1,4 @@
 #include "ntddk.h"
-#include <peconv/logger.h>
 #include <peconv/util.h>
 #include <peconv/peb_lookup.h>
 
@@ -44,8 +43,7 @@ namespace {
 #if defined(_M_AMD64)
         return (PPEB)__readgsqword(0x60);
 #elif defined(_M_ARM64)
-        PPEB peb = (PPEB)(*(__getReg(18) + 0x60));
-        LOG_DEBUG("ARM64 TEB: %p PEB: %p.", (void*)__getReg(18), peb);
+        const PPEB peb = (PPEB)(*(__getReg(18) + 0x60));
         return peb;
 #else
         return (PPEB)__readfsdword(0x30);
