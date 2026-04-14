@@ -455,15 +455,6 @@ extern "C" {
 
     NTSYSAPI
         ULONG
-        _cdecl
-        DbgPrint(
-            PCH Format,
-            ...
-        );
-
-
-    NTSYSAPI
-        ULONG
         NTAPI
         RtlRandom(
             IN OUT PULONG Seed
