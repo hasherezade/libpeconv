@@ -6,7 +6,6 @@
 
 namespace peconv {
 
-
     template <typename FIELD_T>
     size_t fetch_callbacks_list(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector<ULONGLONG> &tls_callbacks)
     {
@@ -27,32 +26,39 @@ namespace peconv {
         }
         return counter;
     }
+
+    template <typename T_IMAGE_TLS_DIRECTORY, typename T_FIELD>
+    size_t _list_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize, OUT std::vector<ULONGLONG>& tls_callbacks, IN std::unordered_set<ULONGLONG>* _relocs)
+    {
+        T_IMAGE_TLS_DIRECTORY* tls_dir = peconv::get_type_directory<T_IMAGE_TLS_DIRECTORY>((HMODULE)modulePtr, IMAGE_DIRECTORY_ENTRY_TLS);
+        if (!tls_dir) return 0;
+
+        ULONGLONG callbacks_addr = tls_dir->AddressOfCallBacks;
+        if (!callbacks_addr) return 0;
+        LOG_DEBUG("TLS Callbacks Table: 0x%llx.", (unsigned long long)callbacks_addr);
+        DWORD callbacks_rva = 0;
+        if (!virtual_addr_to_rva((PBYTE)modulePtr, moduleSize, callbacks_addr, callbacks_rva, _relocs)) {
+            return 0;
+        }
+        LOG_DEBUG("TLS Callbacks RVA: 0x%llx.", (unsigned long long)callbacks_rva);
+        return fetch_callbacks_list<T_FIELD>(modulePtr, moduleSize, callbacks_rva, tls_callbacks);
+    }
 };
 
 size_t peconv::list_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize, OUT std::vector<ULONGLONG> &tls_callbacks, IN std::unordered_set<ULONGLONG>* _relocs)
 {
-    const ULONGLONG img_base = (ULONGLONG)modulePtr;
     const DWORD img_size = peconv::get_image_size((BYTE*)modulePtr);
     if (!img_size) return 0; // invalid image
 
     if (moduleSize == 0) {
         moduleSize = img_size;
     }
-    IMAGE_TLS_DIRECTORY* tls_dir = peconv::get_type_directory<IMAGE_TLS_DIRECTORY>((HMODULE)modulePtr, IMAGE_DIRECTORY_ENTRY_TLS);
-    if (!tls_dir) return 0;
-
-    ULONGLONG callbacks_addr = tls_dir->AddressOfCallBacks;
-    if (!callbacks_addr) return 0;
-    LOG_DEBUG("TLS Callbacks Table: 0x%llx.", (unsigned long long)callbacks_addr);
-    DWORD callbacks_rva = 0;
-    if (!virtual_addr_to_rva((PBYTE)modulePtr, img_size, callbacks_addr, callbacks_rva, _relocs)) return 0;
-    LOG_DEBUG("TLS Callbacks RVA: 0x%llx.", (unsigned long long)callbacks_rva);
     size_t counter = 0;
     if (peconv::is64bit((BYTE*)modulePtr)) {
-        counter = fetch_callbacks_list<ULONGLONG>(modulePtr, moduleSize, callbacks_rva, tls_callbacks);
+        counter = _list_tls_callbacks<IMAGE_TLS_DIRECTORY64, ULONGLONG>(modulePtr, moduleSize, tls_callbacks, _relocs);
     }
     else {
-        counter = fetch_callbacks_list<DWORD>(modulePtr, moduleSize, callbacks_rva, tls_callbacks);
+        counter = _list_tls_callbacks<IMAGE_TLS_DIRECTORY32, DWORD>(modulePtr, moduleSize, tls_callbacks, _relocs);
     }
     return counter;
 }
