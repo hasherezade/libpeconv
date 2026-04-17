@@ -85,115 +85,122 @@ $(function() {
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacepeconv.html">peconv</a> {</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FIELD_T&gt;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598">   11</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598">fetch_callbacks_list</a>(IN PVOID modulePtr, IN <span class="keywordtype">size_t</span> moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt;ULONGLONG&gt; &amp;tls_callbacks)</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        FIELD_T* callbacks_list_ptr = (FIELD_T*)(callbacks_rva + (BYTE*)modulePtr);</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, callbacks_list_ptr, <span class="keyword">sizeof</span>(FIELD_T))) {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        }</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordtype">size_t</span> counter = 0;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordflow">for</span> (FIELD_T *next_callback = callbacks_list_ptr; </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            <a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, next_callback, <span class="keyword">sizeof</span>(FIELD_T));</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            next_callback++)</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            FIELD_T value = *next_callback;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <span class="keywordflow">if</span> (value == 0) <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            tls_callbacks.push_back(value);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            counter++;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        }</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">return</span> counter;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    }</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>};</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">   32</a></span><span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">peconv::list_tls_callbacks</a>(IN PBYTE modulePtr, IN <span class="keywordtype">size_t</span> moduleSize, OUT std::vector&lt;ULONGLONG&gt; &amp;tls_callbacks, IN std::unordered_set&lt;ULONGLONG&gt;* _relocs)</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>{</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">const</span> ULONGLONG img_base = (ULONGLONG)modulePtr;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">const</span> DWORD img_size = <a class="code hl_function" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a>((BYTE*)modulePtr);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (!img_size) <span class="keywordflow">return</span> 0; <span class="comment">// invalid image</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">if</span> (moduleSize == 0) {</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        moduleSize = img_size;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    IMAGE_TLS_DIRECTORY* tls_dir = peconv::get_type_directory&lt;IMAGE_TLS_DIRECTORY&gt;((HMODULE)modulePtr, IMAGE_DIRECTORY_ENTRY_TLS);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (!tls_dir) <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    ULONGLONG callbacks_addr = tls_dir-&gt;AddressOfCallBacks;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">if</span> (!callbacks_addr) <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;TLS Callbacks Table: 0x%llx.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)callbacks_addr);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    DWORD callbacks_rva = 0;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a44506ca347e5a418728828d74a85fbfb">virtual_addr_to_rva</a>((PBYTE)modulePtr, img_size, callbacks_addr, callbacks_rva, _relocs)) <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;TLS Callbacks RVA: 0x%llx.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)callbacks_rva);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">size_t</span> counter = 0;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f">peconv::is64bit</a>((BYTE*)modulePtr)) {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        counter = fetch_callbacks_list&lt;ULONGLONG&gt;(modulePtr, moduleSize, callbacks_rva, tls_callbacks);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        counter = fetch_callbacks_list&lt;DWORD&gt;(modulePtr, moduleSize, callbacks_rva, tls_callbacks);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">return</span> counter;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">   60</a></span><span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">peconv::run_tls_callbacks</a>(IN PBYTE modulePtr, IN <span class="keywordtype">size_t</span> moduleSize, IN DWORD dwReason)</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>{</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">const</span> DWORD img_size = <a class="code hl_function" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a>((BYTE*)modulePtr);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">if</span> (moduleSize == 0) {</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        moduleSize = img_size;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// Collect relocations for VA detection</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    std::unordered_set&lt;ULONGLONG&gt; reloc_values;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_class" href="classpeconv_1_1_collect_relocs.html">CollectRelocs</a> callback(modulePtr, moduleSize, <a class="code hl_function" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f">peconv::is64bit</a>(modulePtr), reloc_values);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <a class="code hl_function" href="namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb">process_relocation_table</a>(modulePtr, moduleSize, &amp;callback);</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    std::vector&lt;ULONGLONG&gt; tls_callbacks;</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">peconv::list_tls_callbacks</a>(modulePtr, moduleSize, tls_callbacks, &amp;reloc_values)) {</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    std::vector&lt;ULONGLONG&gt;::iterator itr;</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">size_t</span> i = 0;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">for</span> (itr = tls_callbacks.begin(); itr != tls_callbacks.end(); ++itr, i++) {</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        ULONGLONG callback_addr = *itr;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        DWORD rva = 0; <span class="comment">//TLS callback can be defined as RVA or VA, so make sure it is in a consistent format...</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a44506ca347e5a418728828d74a85fbfb">peconv::virtual_addr_to_rva</a>((PBYTE)modulePtr, img_size, callback_addr, rva, &amp;reloc_values)) {</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            <span class="comment">// in some cases, TLS callbacks can lead to functions in other modules: we want to skip those,</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="comment">// keeping only addresses that are in the current PE scope</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        }</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;TLS RVA: 0x%llx.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)rva);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        ULONG_PTR callback_va = rva + (ULONG_PTR)modulePtr;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, (BYTE*)callback_va, <span class="keyword">sizeof</span>(BYTE))) {</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            <span class="comment">// make sure that the address is valid</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FIELD_T&gt;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598">   10</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598">fetch_callbacks_list</a>(IN PVOID modulePtr, IN <span class="keywordtype">size_t</span> moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt;ULONGLONG&gt; &amp;tls_callbacks)</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        FIELD_T* callbacks_list_ptr = (FIELD_T*)(callbacks_rva + (BYTE*)modulePtr);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, callbacks_list_ptr, <span class="keyword">sizeof</span>(FIELD_T))) {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        }</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordtype">size_t</span> counter = 0;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordflow">for</span> (FIELD_T *next_callback = callbacks_list_ptr; </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            <a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, next_callback, <span class="keyword">sizeof</span>(FIELD_T));</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            next_callback++)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            FIELD_T value = *next_callback;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keywordflow">if</span> (value == 0) <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            tls_callbacks.push_back(value);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            counter++;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordflow">return</span> counter;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T_IMAGE_TLS_DIRECTORY, <span class="keyword">typename</span> T_FIELD&gt;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ac2c5524542e03df1babb356414145e2e">   31</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#ac2c5524542e03df1babb356414145e2e">_list_tls_callbacks</a>(IN PBYTE modulePtr, IN <span class="keywordtype">size_t</span> moduleSize, OUT std::vector&lt;ULONGLONG&gt;&amp; tls_callbacks, IN std::unordered_set&lt;ULONGLONG&gt;* _relocs)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        T_IMAGE_TLS_DIRECTORY* tls_dir = peconv::get_type_directory&lt;T_IMAGE_TLS_DIRECTORY&gt;((HMODULE)modulePtr, IMAGE_DIRECTORY_ENTRY_TLS);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordflow">if</span> (!tls_dir) <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        ULONGLONG callbacks_addr = tls_dir-&gt;AddressOfCallBacks;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">if</span> (!callbacks_addr) <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;TLS Callbacks Table: 0x%llx.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)callbacks_addr);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        DWORD callbacks_rva = 0;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a44506ca347e5a418728828d74a85fbfb">virtual_addr_to_rva</a>((PBYTE)modulePtr, moduleSize, callbacks_addr, callbacks_rva, _relocs)) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;TLS Callbacks RVA: 0x%llx.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)callbacks_rva);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">return</span> fetch_callbacks_list&lt;T_FIELD&gt;(modulePtr, moduleSize, callbacks_rva, tls_callbacks);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>};</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">   48</a></span><span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">peconv::list_tls_callbacks</a>(IN PBYTE modulePtr, IN <span class="keywordtype">size_t</span> moduleSize, OUT std::vector&lt;ULONGLONG&gt; &amp;tls_callbacks, IN std::unordered_set&lt;ULONGLONG&gt;* _relocs)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keyword">const</span> DWORD img_size = <a class="code hl_function" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a>((BYTE*)modulePtr);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">if</span> (!img_size) <span class="keywordflow">return</span> 0; <span class="comment">// invalid image</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">if</span> (moduleSize == 0) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        moduleSize = img_size;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">size_t</span> counter = 0;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f">peconv::is64bit</a>((BYTE*)modulePtr)) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        counter = _list_tls_callbacks&lt;IMAGE_TLS_DIRECTORY64, ULONGLONG&gt;(modulePtr, moduleSize, tls_callbacks, _relocs);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        counter = _list_tls_callbacks&lt;IMAGE_TLS_DIRECTORY32, DWORD&gt;(modulePtr, moduleSize, tls_callbacks, _relocs);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">return</span> counter;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">   66</a></span><span class="keywordtype">size_t</span> <a class="code hl_function" href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">peconv::run_tls_callbacks</a>(IN PBYTE modulePtr, IN <span class="keywordtype">size_t</span> moduleSize, IN DWORD dwReason)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>{</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">const</span> DWORD img_size = <a class="code hl_function" href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a>((BYTE*)modulePtr);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">if</span> (moduleSize == 0) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        moduleSize = img_size;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="comment">// Collect relocations for VA detection</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    std::unordered_set&lt;ULONGLONG&gt; reloc_values;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <a class="code hl_class" href="classpeconv_1_1_collect_relocs.html">CollectRelocs</a> callback(modulePtr, moduleSize, <a class="code hl_function" href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f">peconv::is64bit</a>(modulePtr), reloc_values);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <a class="code hl_function" href="namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb">process_relocation_table</a>(modulePtr, moduleSize, &amp;callback);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    std::vector&lt;ULONGLONG&gt; tls_callbacks;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">peconv::list_tls_callbacks</a>(modulePtr, moduleSize, tls_callbacks, &amp;reloc_values)) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    std::vector&lt;ULONGLONG&gt;::iterator itr;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">size_t</span> i = 0;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordflow">for</span> (itr = tls_callbacks.begin(); itr != tls_callbacks.end(); ++itr, i++) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        ULONGLONG callback_addr = *itr;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        DWORD rva = 0; <span class="comment">//TLS callback can be defined as RVA or VA, so make sure it is in a consistent format...</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a44506ca347e5a418728828d74a85fbfb">peconv::virtual_addr_to_rva</a>((PBYTE)modulePtr, img_size, callback_addr, rva, &amp;reloc_values)) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <span class="comment">// in some cases, TLS callbacks can lead to functions in other modules: we want to skip those,</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            <span class="comment">// keeping only addresses that are in the current PE scope</span></div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        }</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        void(NTAPI *callback_func)(PVOID DllHandle, DWORD dwReason, PVOID) = (<span class="keywordtype">void</span>(NTAPI *)(PVOID, DWORD, PVOID)) (callback_va);</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Calling TLS callback[%zu].&quot;</span>, i);</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        callback_func(modulePtr, dwReason, NULL);</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">return</span> i;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <a class="code hl_define" href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a>(<span class="stringliteral">&quot;TLS RVA: 0x%llx.&quot;</span>, (<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> <span class="keywordtype">long</span>)rva);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        ULONG_PTR callback_va = rva + (ULONG_PTR)modulePtr;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">validate_ptr</a>(modulePtr, moduleSize, (BYTE*)callback_va, <span class="keyword">sizeof</span>(BYTE))) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="comment">// make sure that the address is valid</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        void(NTAPI *callback_func)(PVOID DllHandle, DWORD dwReason, PVOID) = (<span class="keywordtype">void</span>(NTAPI *)(PVOID, DWORD, PVOID)) (callback_va);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <a class="code hl_define" href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a>(<span class="stringliteral">&quot;Calling TLS callback[%zu].&quot;</span>, i);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        callback_func(modulePtr, dwReason, NULL);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">return</span> i;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
 <div class="ttc" id="aclasspeconv_1_1_collect_relocs_html"><div class="ttname"><a href="classpeconv_1_1_collect_relocs.html">peconv::CollectRelocs</a></div><div class="ttdef"><b>Definition:</b> <a href="relocate_8h_source.html#l00037">relocate.h:38</a></div></div>
 <div class="ttc" id="alogger_8h_html"><div class="ttname"><a href="logger_8h.html">logger.h</a></div><div class="ttdoc">Compile-time configurable logging macros for peconv.</div></div>
 <div class="ttc" id="alogger_8h_html_ac06cfc686322558f590c50eab8622ebd"><div class="ttname"><a href="logger_8h.html#ac06cfc686322558f590c50eab8622ebd">LOG_DEBUG</a></div><div class="ttdeci">#define LOG_DEBUG(fmt,...)</div><div class="ttdef"><b>Definition:</b> <a href="logger_8h_source.html#l00080">logger.h:80</a></div></div>
 <div class="ttc" id="alogger_8h_html_ae69d735f8291bd2aff230fe6ffb4d4b3"><div class="ttname"><a href="logger_8h.html#ae69d735f8291bd2aff230fe6ffb4d4b3">LOG_INFO</a></div><div class="ttdeci">#define LOG_INFO(fmt,...)</div><div class="ttdef"><b>Definition:</b> <a href="logger_8h_source.html#l00074">logger.h:74</a></div></div>
 <div class="ttc" id="anamespacepeconv_html"><div class="ttname"><a href="namespacepeconv.html">peconv</a></div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8h_source.html#l00015">buffer_util.h:15</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a44506ca347e5a418728828d74a85fbfb"><div class="ttname"><a href="namespacepeconv.html#a44506ca347e5a418728828d74a85fbfb">peconv::virtual_addr_to_rva</a></div><div class="ttdeci">bool virtual_addr_to_rva(IN const PBYTE imgBase, IN const size_t imgSize, IN ULONGLONG virtualAddr, OUT DWORD &amp;outRVA, IN std::unordered_set&lt; ULONGLONG &gt; *relocs=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="relocate_8cpp_source.html#l00215">relocate.cpp:215</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a5a1d57a5f9286ed0aa477377c3e7d5a5"><div class="ttname"><a href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">peconv::list_tls_callbacks</a></div><div class="ttdeci">size_t list_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks, IN std::unordered_set&lt; ULONGLONG &gt; *relocs)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00032">tls_parser.cpp:32</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a5a1d57a5f9286ed0aa477377c3e7d5a5"><div class="ttname"><a href="namespacepeconv.html#a5a1d57a5f9286ed0aa477377c3e7d5a5">peconv::list_tls_callbacks</a></div><div class="ttdeci">size_t list_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks, IN std::unordered_set&lt; ULONGLONG &gt; *relocs)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00048">tls_parser.cpp:48</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a60041cfbfa7fda6a21d76d1ae9a3a8d5"><div class="ttname"><a href="namespacepeconv.html#a60041cfbfa7fda6a21d76d1ae9a3a8d5">peconv::validate_ptr</a></div><div class="ttdeci">bool validate_ptr(IN const void *buffer_bgn, IN size_t buffer_size, IN const void *field_bgn, IN size_t field_size)</div><div class="ttdef"><b>Definition:</b> <a href="buffer__util_8cpp_source.html#l00009">buffer_util.cpp:9</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a7d79bda8907a18a81aa6bd8e1c1626cb"><div class="ttname"><a href="namespacepeconv.html#a7d79bda8907a18a81aa6bd8e1c1626cb">peconv::get_image_size</a></div><div class="ttdeci">DWORD get_image_size(IN const BYTE *payload)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00073">pe_hdrs_helper.cpp:73</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_a7e87560c87993545d9e1ece20e756bfb"><div class="ttname"><a href="namespacepeconv.html#a7e87560c87993545d9e1ece20e756bfb">peconv::process_relocation_table</a></div><div class="ttdeci">bool process_relocation_table(IN PVOID modulePtr, IN SIZE_T moduleSize, IN RelocBlockCallback *callback)</div><div class="ttdef"><b>Definition:</b> <a href="relocate_8cpp_source.html#l00111">relocate.cpp:111</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_a8ba8cc2acd9a550de489ad87337dd598"><div class="ttname"><a href="namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598">peconv::fetch_callbacks_list</a></div><div class="ttdeci">size_t fetch_callbacks_list(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00011">tls_parser.cpp:11</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_a8ba8cc2acd9a550de489ad87337dd598"><div class="ttname"><a href="namespacepeconv.html#a8ba8cc2acd9a550de489ad87337dd598">peconv::fetch_callbacks_list</a></div><div class="ttdeci">size_t fetch_callbacks_list(IN PVOID modulePtr, IN size_t moduleSize, IN DWORD callbacks_rva, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00010">tls_parser.cpp:10</a></div></div>
 <div class="ttc" id="anamespacepeconv_html_aa66eb25442292a01f9fcd0f1e4da899f"><div class="ttname"><a href="namespacepeconv.html#aa66eb25442292a01f9fcd0f1e4da899f">peconv::is64bit</a></div><div class="ttdeci">bool is64bit(IN const BYTE *pe_buffer)</div><div class="ttdef"><b>Definition:</b> <a href="pe__hdrs__helper_8cpp_source.html#l00117">pe_hdrs_helper.cpp:117</a></div></div>
-<div class="ttc" id="anamespacepeconv_html_ae5eb68a6679e27647732d5b171482897"><div class="ttname"><a href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">peconv::run_tls_callbacks</a></div><div class="ttdeci">size_t run_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize=0, IN DWORD dwReason=DLL_PROCESS_ATTACH)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00060">tls_parser.cpp:60</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_ac2c5524542e03df1babb356414145e2e"><div class="ttname"><a href="namespacepeconv.html#ac2c5524542e03df1babb356414145e2e">peconv::_list_tls_callbacks</a></div><div class="ttdeci">size_t _list_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize, OUT std::vector&lt; ULONGLONG &gt; &amp;tls_callbacks, IN std::unordered_set&lt; ULONGLONG &gt; *_relocs)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00031">tls_parser.cpp:31</a></div></div>
+<div class="ttc" id="anamespacepeconv_html_ae5eb68a6679e27647732d5b171482897"><div class="ttname"><a href="namespacepeconv.html#ae5eb68a6679e27647732d5b171482897">peconv::run_tls_callbacks</a></div><div class="ttdeci">size_t run_tls_callbacks(IN PBYTE modulePtr, IN size_t moduleSize=0, IN DWORD dwReason=DLL_PROCESS_ATTACH)</div><div class="ttdef"><b>Definition:</b> <a href="tls__parser_8cpp_source.html#l00066">tls_parser.cpp:66</a></div></div>
 <div class="ttc" id="ape__hdrs__helper_8h_html"><div class="ttname"><a href="pe__hdrs__helper_8h.html">pe_hdrs_helper.h</a></div><div class="ttdoc">Wrappers over various fields in the PE header. Read, write, parse PE headers.</div></div>
 <div class="ttc" id="arelocate_8h_html"><div class="ttname"><a href="relocate_8h.html">relocate.h</a></div><div class="ttdoc">Operating on PE file's relocations table.</div></div>
 <div class="ttc" id="atls__parser_8h_html"><div class="ttname"><a href="tls__parser_8h.html">tls_parser.h</a></div><div class="ttdoc">Functions related to TLS Callbacks.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 17 2026 22:34:45 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Fri Apr 17 2026 23:12:54 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
