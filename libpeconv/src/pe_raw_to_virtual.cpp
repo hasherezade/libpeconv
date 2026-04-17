@@ -21,7 +21,7 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
     const bool is64b = is64bit(payload);
 
     IMAGE_FILE_HEADER *fileHdr = nullptr;
-    DWORD hdrsSize = 0;
+    SIZE_T hdrsSize = 0;
     void* secptr = nullptr;
     if (is64b) {
         IMAGE_NT_HEADERS64* payload_nt_hdr64 = (IMAGE_NT_HEADERS64*)payload_nt_hdr;
@@ -91,7 +91,7 @@ bool sections_raw_to_virtual(IN const BYTE* payload, IN SIZE_T payloadSize, OUT 
         hdrsSize = first_raw;
         if (hdrsSize == 0) hdrsSize = PAGE_SIZE;
         if (hdrsSize > payloadSize) hdrsSize = payloadSize;
-        LOG_INFO("SizeOfHeaders invalid, using a fallback value: 0x%lx.", hdrsSize);
+        LOG_INFO("SizeOfHeaders invalid, using a fallback value: 0x%lx.", (long unsigned)hdrsSize);
     }
     if (hdrsSize > destBufferSize) {
         return false;
