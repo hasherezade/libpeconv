@@ -41,6 +41,8 @@ protected:
     template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
     bool processThunks_tpl(LPSTR lib_name, T_IMAGE_THUNK_DATA* desc, T_FIELD* call_via, T_FIELD ordinal_flag)
     {
+        static_assert(sizeof(T_FIELD) >= sizeof(ULONG_PTR), "T_FIELD must be wide enough to hold a function pointer");
+        
         if (!this->funcResolver) {
             return false;
         }
@@ -51,7 +53,7 @@ protected:
         if (is_by_ord) {
             T_FIELD raw_ordinal = desc->u1.Ordinal & (~ordinal_flag);
             LOG_DEBUG("raw ordinal: 0x%llx.", (unsigned long long)raw_ordinal);
-            hProc = funcResolver->resolve_func(lib_name, MAKEINTRESOURCEA(raw_ordinal));
+            hProc = funcResolver->resolve_func(lib_name, MAKEINTRESOURCEA(static_cast<WORD>(raw_ordinal)));
 
         }
         else {
@@ -72,6 +74,7 @@ protected:
             LOG_ERROR("Could not resolve the function.");
             return false;
         }
+
         (*call_via) = reinterpret_cast<T_FIELD>(hProc);
         return true;
     }
@@ -189,28 +192,26 @@ protected:
 template <typename T_FIELD, typename T_IMAGE_THUNK_DATA>
 bool process_imp_functions_tpl(BYTE* modulePtr, size_t module_size, LPSTR lib_name, DWORD call_via, DWORD thunk_addr, IN ImportThunksCallback *callback)
 {
+    static_assert(sizeof(T_FIELD) == sizeof(T_IMAGE_THUNK_DATA),"T_FIELD and T_IMAGE_THUNK_DATA must have the same size");
+
     bool is_ok = true;
 
     T_FIELD *thunks = (T_FIELD*)((ULONGLONG)modulePtr + thunk_addr);
     T_FIELD *callers = (T_FIELD*)((ULONGLONG)modulePtr + call_via);
 
     for (size_t index = 0; true; index++) {
-        if (!validate_ptr(modulePtr, module_size, &callers[index], sizeof(T_FIELD))) {
-            break;
-        }
-        if (!validate_ptr(modulePtr, module_size, &thunks[index], sizeof(T_FIELD))) {
-            break;
-        }
-        if (callers[index] == 0) {
-            //nothing to fill, probably the last record
-            return true;
-        }
-        LPVOID thunk_ptr = &thunks[index];
-        T_IMAGE_THUNK_DATA* desc = reinterpret_cast<T_IMAGE_THUNK_DATA*>(thunk_ptr);
+        T_IMAGE_THUNK_DATA* desc = reinterpret_cast<T_IMAGE_THUNK_DATA*>((LPVOID) &thunks[index]);
         if (!validate_ptr(modulePtr, module_size, desc, sizeof(T_IMAGE_THUNK_DATA))) {
+            is_ok = false;
             break;
         }
-        if (!desc->u1.Function) {
+        if (desc->u1.Function == 0) {
+            LOG_DEBUG("Desc[%d], RVA = 0x%llx is empty. Finishing.", (int)index, (unsigned long long)((ULONG_PTR)&desc->u1.Function - (ULONG_PTR)modulePtr) );
+            // Probably the last record
+            break;
+        }
+        if (!validate_ptr(modulePtr, module_size, &callers[index], sizeof(T_FIELD))) {
+            is_ok = false;
             break;
         }
         T_FIELD ordinal_flag = (sizeof(T_FIELD) == sizeof(ULONGLONG)) ? IMAGE_ORDINAL_FLAG64 : IMAGE_ORDINAL_FLAG32;
@@ -218,11 +219,13 @@ bool process_imp_functions_tpl(BYTE* modulePtr, size_t module_size, LPSTR lib_na
         if (!is_by_ord) {
             PIMAGE_IMPORT_BY_NAME by_name = (PIMAGE_IMPORT_BY_NAME)((ULONGLONG)modulePtr + desc->u1.AddressOfData);
             if (!validate_ptr(modulePtr, module_size, by_name, sizeof(IMAGE_IMPORT_BY_NAME))) {
+                is_ok = false;
                 break;
             }
         }
-        //when the callback is called, all the pointers should be already verified
-        if (!callback->processThunks(lib_name, (ULONG_PTR)&thunks[index], (ULONG_PTR)&callers[index])) {
+        // Basic thunk/caller pointers are verified here.
+        // Callback may perform deeper validation of import-specific data such as names.
+        if (callback && !callback->processThunks(lib_name, (ULONG_PTR)&thunks[index], (ULONG_PTR)&callers[index])) {
             is_ok = false;
         }
     }
