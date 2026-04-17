@@ -32,27 +32,25 @@ peconv::t_load_config_ver peconv::get_load_config_version(BYTE* buffer, size_t b
     const size_t curr_size = smallest->Size;
 
     if (is64b) {
-        switch (curr_size) {
-        case sizeof(peconv::IMAGE_LOAD_CONFIG_DIR64_W7) :
-            return peconv::LOAD_CONFIG_W7_VER;
-        case sizeof(peconv::IMAGE_LOAD_CONFIG_DIR64_W8) :
-            return peconv::LOAD_CONFIG_W8_VER;
-        case sizeof(peconv::IMAGE_LOAD_CONFIG_DIR64_W10) :
+        if (curr_size >= sizeof(peconv::IMAGE_LOAD_CONFIG_DIR64_W10)) {
             return peconv::LOAD_CONFIG_W10_VER;
-        default:
-            return LOAD_CONFIG_UNK_VER;
+        }
+        if (curr_size >= sizeof(peconv::IMAGE_LOAD_CONFIG_DIR64_W8)) {
+            return peconv::LOAD_CONFIG_W8_VER;
+        }
+        if (curr_size >= sizeof(peconv::IMAGE_LOAD_CONFIG_DIR64_W7)) {
+            return peconv::LOAD_CONFIG_W7_VER;
         }
     }
     else {
-        switch (curr_size) {
-        case sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W7) :
-            return peconv::LOAD_CONFIG_W7_VER;
-        case sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W8) :
-            return peconv::LOAD_CONFIG_W8_VER;
-        case sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W10) :
+        if (curr_size >= sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W10)) {
             return peconv::LOAD_CONFIG_W10_VER;
-        default:
-            return LOAD_CONFIG_UNK_VER;
+        }
+        if (curr_size >= sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W8)) {
+            return peconv::LOAD_CONFIG_W8_VER;
+        }
+        if (curr_size >= sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W7)) {
+            return peconv::LOAD_CONFIG_W7_VER;
         }
     }
     return LOAD_CONFIG_UNK_VER;
