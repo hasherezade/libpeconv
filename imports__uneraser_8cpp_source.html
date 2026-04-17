@@ -84,7 +84,7 @@ $(function() {
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespacepeconv.html">peconv</a>;</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>{</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    LPVOID search_name(std::string name, <span class="keyword">const</span> <span class="keywordtype">char</span>* modulePtr, <span class="keywordtype">size_t</span> moduleSize)</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    LPVOID search_name(<span class="keyword">const</span> std::string &amp;name, <span class="keyword">const</span> <span class="keywordtype">char</span>* modulePtr, <span class="keywordtype">size_t</span> moduleSize)</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="keyword">const</span> <span class="keywordtype">char</span>* namec = name.c_str();</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keyword">const</span> <span class="keywordtype">size_t</span> searched_len = name.length() + 1; <span class="comment">// with terminating NULL</span></div>
@@ -353,7 +353,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 17 2026 23:12:54 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Fri Apr 17 2026 23:35:59 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>

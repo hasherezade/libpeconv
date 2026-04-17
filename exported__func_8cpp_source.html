@@ -182,7 +182,7 @@ $(function() {
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">return</span> dllName + <span class="stringliteral">&quot;.&quot;</span> + funcName;</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classpeconv_1_1_exported_func.html#a724ed892b96845fafe44c9899accf4da">  106</a></span><a class="code hl_function" href="classpeconv_1_1_exported_func.html#a7fa8590b8f89aa3330f307d85d6cb71a">ExportedFunc::ExportedFunc</a>(std::string libName, std::string funcName, DWORD funcOrdinal)</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classpeconv_1_1_exported_func.html#ac8bb2f7d779a032b49e0b791f4dc6d5b">  106</a></span><a class="code hl_function" href="classpeconv_1_1_exported_func.html#a7fa8590b8f89aa3330f307d85d6cb71a">ExportedFunc::ExportedFunc</a>(<span class="keyword">const</span> std::string &amp;libName, std::string funcName, DWORD funcOrdinal)</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>{</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    this-&gt;libName = <a class="code hl_function" href="classpeconv_1_1_exported_func.html#adb7ea698345ad68032fd15dc038dad26">ExportedFunc::formatName</a>(<a class="code hl_variable" href="classpeconv_1_1_exported_func.html#af1d0cc6562b7ee535ad0f77c590638f3">libName</a>);</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    this-&gt;funcName = <a class="code hl_variable" href="classpeconv_1_1_exported_func.html#a503c9c17aeeeb8134f4d489730ffd0e1">funcName</a>;</div>
@@ -190,7 +190,7 @@ $(function() {
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    this-&gt;<a class="code hl_variable" href="classpeconv_1_1_exported_func.html#acdf2023a9e4c12283c29b6e9d7e52cef">isByOrdinal</a> = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classpeconv_1_1_exported_func.html#a3c06e7a2f6e300c2be7212b026853fc2">  114</a></span><a class="code hl_function" href="classpeconv_1_1_exported_func.html#a7fa8590b8f89aa3330f307d85d6cb71a">ExportedFunc::ExportedFunc</a>(std::string libName, DWORD funcOrdinal)</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classpeconv_1_1_exported_func.html#af972885a33f348ce930739dc7fff89fa">  114</a></span><a class="code hl_function" href="classpeconv_1_1_exported_func.html#a7fa8590b8f89aa3330f307d85d6cb71a">ExportedFunc::ExportedFunc</a>(<span class="keyword">const</span> std::string &amp;libName, DWORD funcOrdinal)</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>{</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    this-&gt;libName = <a class="code hl_function" href="classpeconv_1_1_exported_func.html#adb7ea698345ad68032fd15dc038dad26">ExportedFunc::formatName</a>(<a class="code hl_variable" href="classpeconv_1_1_exported_func.html#af1d0cc6562b7ee535ad0f77c590638f3">libName</a>);</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    this-&gt;funcOrdinal = <a class="code hl_variable" href="classpeconv_1_1_exported_func.html#ad26b14347e42b01def98fe7f9ec3599c">funcOrdinal</a>;</div>
@@ -268,7 +268,7 @@ $(function() {
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    }</div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    std::string remove_module_extension(IN <span class="keyword">const</span> std::string str)</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    std::string remove_module_extension(IN <span class="keyword">const</span> std::string&amp; str)</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    {</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keywordtype">size_t</span> len = str.length();</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <span class="keywordtype">size_t</span> ext_pos = <a class="code hl_function" href="namespacepeconv.html#aecabdab99c950ec3b3f90588edc1dd9e">find_extension_pos</a>(str);</div>
@@ -367,7 +367,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Apr 17 2026 23:12:54 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
+Generated on Fri Apr 17 2026 23:35:59 for libPeConv by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5
 </small></address>
 </body>
 </html>
