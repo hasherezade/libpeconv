@@ -78,8 +78,8 @@ namespace peconv {
         ExportedFunc() : funcOrdinal(INVALID_ORD_VALUE), isByOrdinal(false) {}
 
         ExportedFunc(const ExportedFunc& other);
-        ExportedFunc(std::string libName, std::string funcName, DWORD funcOrdinal);
-        ExportedFunc(std::string libName, DWORD funcOrdinal);
+        ExportedFunc(const std::string& libName, std::string funcName, DWORD funcOrdinal);
+        ExportedFunc(const std::string& libName, DWORD funcOrdinal);
         ExportedFunc(const std::string &forwarderName);
 
         /**

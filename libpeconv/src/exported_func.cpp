@@ -103,7 +103,7 @@ std::string peconv::format_dll_func(const std::string& str)
     return dllName + "." + funcName;
 }
 
-ExportedFunc::ExportedFunc(std::string libName, std::string funcName, DWORD funcOrdinal)
+ExportedFunc::ExportedFunc(const std::string &libName, std::string funcName, DWORD funcOrdinal)
 {
     this->libName = ExportedFunc::formatName(libName);
     this->funcName = funcName;
@@ -111,7 +111,7 @@ ExportedFunc::ExportedFunc(std::string libName, std::string funcName, DWORD func
     this->isByOrdinal = false;
 }
 
-ExportedFunc::ExportedFunc(std::string libName, DWORD funcOrdinal)
+ExportedFunc::ExportedFunc(const std::string &libName, DWORD funcOrdinal)
 {
     this->libName = ExportedFunc::formatName(libName);
     this->funcOrdinal = funcOrdinal;
@@ -189,7 +189,7 @@ namespace
         return true;
     }
 
-    std::string remove_module_extension(IN const std::string str)
+    std::string remove_module_extension(IN const std::string& str)
     {
         size_t len = str.length();
         size_t ext_pos = find_extension_pos(str);
