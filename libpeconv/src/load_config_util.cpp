@@ -17,7 +17,7 @@ BYTE* peconv::get_load_config_ptr(BYTE* buffer, size_t buf_size)
     return reinterpret_cast<BYTE*>(ldc);
 }
 
-peconv::t_load_config_ver peconv::get_load_config_version(BYTE* buffer, size_t buf_size, BYTE* ld_config_ptr)
+peconv::t_load_config_ver peconv::get_load_config_version(BYTE* buffer, size_t buf_size, void* ld_config_ptr)
 {
     if (!buffer || !buf_size || !ld_config_ptr) {
         return peconv::LOAD_CONFIG_NONE;
@@ -26,7 +26,7 @@ peconv::t_load_config_ver peconv::get_load_config_version(BYTE* buffer, size_t b
         return peconv::LOAD_CONFIG_NONE;
     }
 
-    DWORD* size_ptr = (DWORD*)ld_config_ptr;
+    DWORD* size_ptr = static_cast<DWORD*>(ld_config_ptr);
     const size_t curr_size = (*size_ptr);
     if (curr_size == 0) {
         return peconv::LOAD_CONFIG_NONE;

@@ -37,6 +37,6 @@ namespace peconv {
     \param ld_config_ptr : pointer to the Load Config Directory within the given PE
     \return detected version of Load Config Directory
     */
-    t_load_config_ver get_load_config_version(BYTE* buffer, size_t buf_size, BYTE* ld_config_ptr);
+    t_load_config_ver get_load_config_version(BYTE* buffer, size_t buf_size, void* ld_config_ptr);
 
 }; // namespace peconv
