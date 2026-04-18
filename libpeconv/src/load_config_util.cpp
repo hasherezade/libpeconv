@@ -22,15 +22,19 @@ peconv::t_load_config_ver peconv::get_load_config_version(BYTE* buffer, size_t b
     if (!buffer || !buf_size || !ld_config_ptr) {
         return peconv::LOAD_CONFIG_NONE;
     }
-    bool is64b = peconv::is64bit(buffer);
-
-    if (!peconv::validate_ptr(buffer, buf_size, ld_config_ptr, sizeof(peconv::IMAGE_LOAD_CONFIG_DIR32_W7))) {
+    if (!peconv::validate_ptr(buffer, buf_size, ld_config_ptr, sizeof(DWORD))) {
         return peconv::LOAD_CONFIG_NONE;
     }
 
-    peconv::IMAGE_LOAD_CONFIG_DIR32_W7* smallest = (peconv::IMAGE_LOAD_CONFIG_DIR32_W7*)ld_config_ptr;
-    const size_t curr_size = smallest->Size;
-
+    DWORD* size_ptr = (DWORD*)ld_config_ptr;
+    const size_t curr_size = (*size_ptr);
+    if (curr_size == 0) {
+        return peconv::LOAD_CONFIG_NONE;
+    }
+    if (!peconv::validate_ptr(buffer, buf_size, ld_config_ptr, curr_size)) {
+        return LOAD_CONFIG_UNK_VER;
+    }
+    const bool is64b = peconv::is64bit(buffer);
     if (is64b) {
         if (curr_size >= sizeof(peconv::IMAGE_LOAD_CONFIG_DIR64_W10)) {
             return peconv::LOAD_CONFIG_W10_VER;
